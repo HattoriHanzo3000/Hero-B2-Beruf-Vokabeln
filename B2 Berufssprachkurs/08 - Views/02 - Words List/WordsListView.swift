@@ -12,6 +12,7 @@ struct WordsListView: View {
     @EnvironmentObject var dataService: DataService
     @State private var translations: [String: String] = [:]
     @State private var selectedButtonType: ToolbarButtonType = .explanation
+    @State private var navigateToStudy = false
     @FocusState private var focusedWordId: String?
     
     var words: [Word] {
@@ -112,11 +113,10 @@ struct WordsListView: View {
                 
                 Spacer()
                 
-                // ÜBEN button at the bottom - fixed position
                 UbenButton(
                     action: {
                         HapticManager.shared.mediumImpact()
-                        // Handle ÜBEN tap
+                        navigateToStudy = true
                     },
                     accentColor: selectedButtonType.color,
                     buttonText: selectedButtonType.buttonText
@@ -126,6 +126,15 @@ struct WordsListView: View {
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .navigationDestination(isPresented: $navigateToStudy) {
+            StudyView(
+                mode: StudyMode(from: selectedButtonType),
+                dataService: dataService,
+                filterBySectionId: sectionId, // From section view: only this section
+                studyAllMode: allWordsChecked // Study all if all words are checked
+            )
+            .environmentObject(dataService)
+        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {

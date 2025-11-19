@@ -21,6 +21,9 @@ class DataService: ObservableObject {
     private var previousCompletedSections: Set<String>?
     private var previousCheckedWords: [String: Set<String>]? // sectionId: Set<wordId>
     
+    // Store previous section states per lection to restore when unchecking a lection
+    private var previousSectionStatesByLection: [Int: Set<String>] = [:]
+    
     private let userDefaults = UserDefaults.standard
     private let completedLectionsKey = "completedLections"
     private let completedSectionsKey = "completedSections"
@@ -140,10 +143,46 @@ class DataService: ObservableObject {
     }
     
     func toggleLectionCompleted(lectionId: Int) {
+        // Find the lection
+        guard let lection = lections.first(where: { $0.id == lectionId }) else { return }
+        
+        let sectionIds = Set(lection.sections.map { $0.id })
+        
         if completedLections.contains(lectionId) {
+            // Unchecking: restore previous section states
             completedLections.remove(lectionId)
+            
+            if let previousSections = previousSectionStatesByLection[lectionId] {
+                // Restore previous state
+                for sectionId in sectionIds {
+                    if previousSections.contains(sectionId) {
+                        completedSections.insert(sectionId)
+                    } else {
+                        completedSections.remove(sectionId)
+                    }
+                }
+            } else {
+                // No previous state saved, remove all sections
+                for sectionId in sectionIds {
+                    completedSections.remove(sectionId)
+                }
+            }
+            
+            // Clear saved state for this lection
+            previousSectionStatesByLection.removeValue(forKey: lectionId)
         } else {
+            // Checking: save current section states and mark all sections as completed
+            // Save current state of sections in this lection
+            let currentSectionStates = Set(completedSections.filter { sectionIds.contains($0) })
+            previousSectionStatesByLection[lectionId] = currentSectionStates
+            
+            // Mark lection as completed
             completedLections.insert(lectionId)
+            
+            // Mark all sections in this lection as completed
+            for sectionId in sectionIds {
+                completedSections.insert(sectionId)
+            }
         }
         saveCompletedStates()
     }

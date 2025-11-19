@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var dataService = DataService()
     @State private var selectedButtonType: ToolbarButtonType = .explanation
+    @State private var navigateToStudy = false
     
     var body: some View {
         ZStack {
@@ -23,15 +24,15 @@ struct HomeView: View {
                 ActionButtonsHeaderView(
                     onExplanationTap: {
                         HapticManager.shared.selection()
-                        // Handle explanation tap
+                        selectedButtonType = .explanation
                     },
                     onSynonymTap: {
                         HapticManager.shared.selection()
-                        // Handle synonym tap
+                        selectedButtonType = .synonym
                     },
                     onTranslationTap: {
                         HapticManager.shared.selection()
-                        // Handle translation tap
+                        selectedButtonType = .translation
                     },
                     onCheckmarkTap: {
                         HapticManager.shared.mediumImpact()
@@ -53,11 +54,10 @@ struct HomeView: View {
                 
                 Spacer()
                 
-                // ÜBEN button at the bottom
                 UbenButton(
                     action: {
                         HapticManager.shared.mediumImpact()
-                        // Handle ÜBEN tap
+                        navigateToStudy = true
                     },
                     accentColor: selectedButtonType.color,
                     buttonText: selectedButtonType.buttonText
@@ -67,11 +67,20 @@ struct HomeView: View {
             }
         }
         .environmentObject(dataService)
+        .navigationDestination(isPresented: $navigateToStudy) {
+            StudyView(
+                mode: StudyMode(from: selectedButtonType),
+                dataService: dataService,
+                filterBySectionId: nil, // Home view: process all sections
+                studyAllMode: dataService.areAllLectionsCompleted() // Study all if all lections are checked
+            )
+            .environmentObject(dataService)
+        }
     }
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         HomeView()
     }
 }

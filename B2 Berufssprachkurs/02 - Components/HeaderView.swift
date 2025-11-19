@@ -36,17 +36,16 @@ struct HeaderView: View {
                     
                     // Row 2: Explanation
                     if let explanation = word.explanation, !explanation.isEmpty {
-                        Text(explanation)
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(Color("AppOrange"))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                    .fill(Color("AppOrangeLight"))
-                            )
-                            .lineLimit(2)
+                        HStack(alignment: .top, spacing: 4) {
+                            Text("erkl.:")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                            Text(explanation)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                        }
+                        .foregroundColor(.primary)
+                        .lineLimit(2)
                     }
                     
                     // Row 3: Synonym
@@ -59,27 +58,20 @@ struct HeaderView: View {
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                         }
-                        .foregroundColor(Color("AppGreen"))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                .fill(Color("AppGreenLight"))
-                        )
+                        .foregroundColor(.primary)
                     }
                     
                     // Row 4: Translation
                     if !word.translation.isEmpty && word.translation.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-                        Text(word.translation)
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(Color("AppBlue"))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                    .fill(Color("AppBlueLight"))
-                            )
+                        HStack(spacing: 4) {
+                            Text("übers.:")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                            Text(word.translation)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                        }
+                        .foregroundColor(.primary)
                     }
                 } else {
                     // Empty state
@@ -251,6 +243,39 @@ struct HeaderView: View {
                 RoundedRectangle(cornerRadius: 38, style: .continuous)
                     .fill(Color.white.opacity(0.05))
             )
+    }
+    
+    private var liquidGlassRoundedRectangle: some View {
+        RoundedRectangle(cornerRadius: 8, style: .continuous)
+            .fill(.regularMaterial)
+            .overlay {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .stroke(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.4),
+                                .white.opacity(0.1)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 0.8
+                    )
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.15),
+                                .white.opacity(0.05)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            }
+            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
     }
 }
 

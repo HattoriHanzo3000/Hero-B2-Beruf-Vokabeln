@@ -134,7 +134,7 @@ struct SectionRowView: View {
                     
                     Spacer()
                 }
-                .padding(.vertical, 10)
+                .padding(.vertical, 4)
                 .padding(.leading, 8)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }

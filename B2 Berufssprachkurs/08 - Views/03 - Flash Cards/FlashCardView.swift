@@ -11,25 +11,39 @@ struct FlashCardView: View {
     let frontText: String
     let backText: String
     let cardColor: Color
+    let cardId: String?
     @State private var isFlipped = false
+    
+    init(frontText: String, backText: String, cardColor: Color, cardId: String? = nil) {
+        self.frontText = frontText
+        self.backText = backText
+        self.cardColor = cardColor
+        self.cardId = cardId
+    }
+    
+    private let grayColor = Color(.systemGray5)
     
     var body: some View {
         ZStack {
-            if isFlipped {
-                backCard
-            } else {
-                frontCard
-            }
+            frontCard
+                .opacity(isFlipped ? 0 : 1)
+                .animation(nil, value: isFlipped)
+                .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
+            
+            backCard
+                .opacity(isFlipped ? 1 : 0)
+                .animation(nil, value: isFlipped)
+                .rotation3DEffect(.degrees(isFlipped ? 0 : -180), axis: (x: 0, y: 1, z: 0))
         }
-        .rotation3DEffect(
-            .degrees(isFlipped ? 180 : 0),
-            axis: (x: 0, y: 1, z: 0)
-        )
         .onTapGesture {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                 isFlipped.toggle()
             }
         }
+        .onChange(of: cardId) { _, _ in
+            isFlipped = false
+        }
+        .id(cardId)
     }
     
     private var frontCard: some View {
@@ -46,7 +60,7 @@ struct FlashCardView: View {
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
-                        lineWidth: 1
+                        lineWidth: 0.8
                     )
             }
             .overlay {
@@ -54,8 +68,21 @@ struct FlashCardView: View {
                     .fill(
                         LinearGradient(
                             colors: [
-                                cardColor.opacity(0.1),
-                                cardColor.opacity(0.05)
+                                cardColor.opacity(0.3),
+                                cardColor.opacity(0.15)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.15),
+                                .white.opacity(0.05)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -71,6 +98,9 @@ struct FlashCardView: View {
             }
             .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
             .frame(height: 400)
+            .transaction { transaction in
+                transaction.animation = nil
+            }
     }
     
     private var backCard: some View {
@@ -87,7 +117,7 @@ struct FlashCardView: View {
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
-                        lineWidth: 1
+                        lineWidth: 0.8
                     )
             }
             .overlay {
@@ -95,8 +125,21 @@ struct FlashCardView: View {
                     .fill(
                         LinearGradient(
                             colors: [
-                                cardColor.opacity(0.1),
-                                cardColor.opacity(0.05)
+                                grayColor.opacity(0.3),
+                                grayColor.opacity(0.15)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.15),
+                                .white.opacity(0.05)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -112,7 +155,9 @@ struct FlashCardView: View {
             }
             .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
             .frame(height: 400)
-            .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+            .transaction { transaction in
+                transaction.animation = nil
+            }
     }
 }
 
