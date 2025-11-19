@@ -1,0 +1,86 @@
+{
+  "lections": [
+    {
+      "id": 1,
+      "title": "Berufsorientierung",
+      "sections": [
+        {
+          "id": "1A",
+          "title": "Berufliche Einstiege"
+        },
+        {
+          "id": "1B",
+          "title": "Bei der Berufsberatung"
+        },
+        {
+          "id": "1C",
+          "title": "Eine Unternehmensbesichtigung"
+        },
+        {
+          "id": "1D",
+          "title": "Die Organisation eines Unternehmens"
+        },
+        {
+          "id": "1E",
+          "title": "Du oder Sie?"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Arbeitsorte und -welten",
+      "sections": []
+    },
+    {
+      "id": 3,
+      "title": "Im Bewerbungsprozess",
+      "sections": []
+    },
+    {
+      "id": 4,
+      "title": "Eine neue Arbeit",
+      "sections": []
+    },
+    {
+      "id": 5,
+      "title": "Im Arbeitsalltag",
+      "sections": []
+    },
+    {
+      "id": 6,
+      "title": "Aktivitäten im Autohaus",
+      "sections": []
+    },
+    {
+      "id": 7,
+      "title": "Qualitätssicherung",
+      "sections": []
+    },
+    {
+      "id": 8,
+      "title": "Auftragsabwicklung",
+      "sections": []
+    },
+    {
+      "id": 9,
+      "title": "Beschwerdemanagement",
+      "sections": []
+    },
+    {
+      "id": 10,
+      "title": "Auf einer Messe",
+      "sections": []
+    },
+    {
+      "id": 11,
+      "title": "Arbeitsrecht",
+      "sections": []
+    },
+    {
+      "id": 12,
+      "title": "Sozialrecht im Beruf",
+      "sections": []
+    }
+  ]
+}
+

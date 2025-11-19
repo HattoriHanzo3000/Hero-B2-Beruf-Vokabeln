@@ -1,0 +1,438 @@
+{
+  "words": [
+    {
+      "sectionId": "1A",
+      "words": [
+        {
+          "id": "1A-1",
+          "german": "der Absolvent, -en",
+          "translation": "",
+          "synonyms": ["der Abschlussstudent", "der Studienabgänger"],
+          "explanation": "Person, die ein Studium abgeschlossen hat"
+        },
+        {
+          "id": "1A-2",
+          "german": "die Absolventin, -nen",
+          "translation": "",
+          "synonyms": ["die Abschlussstudentin", "die Studienabgängerin"],
+          "explanation": "weibliche Person, die ein Studium abgeschlossen hat"
+        },
+        {
+          "id": "1A-3",
+          "german": "sich an passen an (+ Akk.)",
+          "translation": "",
+          "synonyms": ["sich einstellen auf", "sich orientieren an"],
+          "explanation": "sich auf neue Situationen oder Umstände einstellen"
+        },
+        {
+          "id": "1A-4",
+          "german": "der Arbeitsberater, –",
+          "translation": "",
+          "synonyms": ["der Berufsberater", "der Karriereberater"],
+          "explanation": "Person, die bei der Berufswahl und Karriereplanung hilft"
+        },
+        {
+          "id": "1A-5",
+          "german": "die Arbeitsberaterin, -nen",
+          "translation": "",
+          "synonyms": ["die Berufsberaterin", "die Karriereberaterin"],
+          "explanation": "weibliche Person, die bei der Berufswahl hilft"
+        },
+        {
+          "id": "1A-6",
+          "german": "die Arbeitsteilung (Sg.)",
+          "translation": "",
+          "synonyms": ["die Aufgabenteilung", "die Verteilung der Aufgaben"],
+          "explanation": "Aufteilung von Aufgaben auf verschiedene Personen"
+        },
+        {
+          "id": "1A-7",
+          "german": "die Arbeitswelt (Sg.)",
+          "translation": "",
+          "synonyms": ["die Berufswelt", "die Arbeitsumgebung"],
+          "explanation": "Gesamtheit der beruflichen Tätigkeiten und Umgebungen"
+        },
+        {
+          "id": "1A-8",
+          "german": "aufgrund von (+ Dat.)",
+          "translation": "",
+          "synonyms": ["wegen", "durch"],
+          "explanation": "wegen, wegen etwas"
+        },
+        {
+          "id": "1A-9",
+          "german": "die Bedeutung, -en",
+          "translation": "",
+          "synonyms": ["die Wichtigkeit", "der Sinn"],
+          "explanation": "Wichtigkeit oder Sinn von etwas"
+        },
+        {
+          "id": "1A-10",
+          "german": "sich behaupten",
+          "translation": "",
+          "synonyms": ["sich durchsetzen", "erfolgreich sein"],
+          "explanation": "sich erfolgreich durchsetzen, bestehen bleiben"
+        },
+        {
+          "id": "1A-11",
+          "german": "der Berufsweg, -e",
+          "translation": "",
+          "synonyms": ["die Karriere", "der Werdegang"],
+          "explanation": "Entwicklung der beruflichen Laufbahn"
+        },
+        {
+          "id": "1A-12",
+          "german": "die Digitalisierung (Sg.)",
+          "translation": "",
+          "synonyms": ["die Computerisierung", "die Technologisierung"],
+          "explanation": "Umstellung auf digitale Technologien und Prozesse"
+        },
+        {
+          "id": "1A-13",
+          "german": "sich ein stellen auf (+ Akk.)",
+          "translation": "",
+          "synonyms": ["sich anpassen an", "sich vorbereiten auf"],
+          "explanation": "sich auf etwas vorbereiten und anpassen"
+        },
+        {
+          "id": "1A-14",
+          "german": "erforderlich",
+          "translation": "",
+          "synonyms": ["notwendig", "nötig"],
+          "explanation": "notwendig, unbedingt nötig"
+        },
+        {
+          "id": "1A-15",
+          "german": "erwerben",
+          "translation": "",
+          "synonyms": ["lernen", "sich aneignen"],
+          "explanation": "lernen, sich Wissen oder Fähigkeiten aneignen"
+        },
+        {
+          "id": "1A-16",
+          "german": "der Erwerbstätige, -n",
+          "translation": "",
+          "synonyms": ["der Arbeitnehmer", "der Beschäftigte"],
+          "explanation": "Person, die einer bezahlten Arbeit nachgeht"
+        },
+        {
+          "id": "1A-17",
+          "german": "die Erwerbstätige, -n",
+          "translation": "",
+          "synonyms": ["die Arbeitnehmerin", "die Beschäftigte"],
+          "explanation": "weibliche Person, die einer bezahlten Arbeit nachgeht"
+        },
+        {
+          "id": "1A-18",
+          "german": "der Freiberufler, –",
+          "translation": "",
+          "synonyms": ["der Selbstständige", "der Freelancer"],
+          "explanation": "selbstständig arbeitende Person ohne Angestelltenverhältnis"
+        },
+        {
+          "id": "1A-19",
+          "german": "die Freiberuflerin, -nen",
+          "translation": "",
+          "synonyms": ["die Selbstständige", "die Freelancerin"],
+          "explanation": "selbstständig arbeitende weibliche Person"
+        },
+        {
+          "id": "1A-20",
+          "german": "die Globalisierung (Sg.)",
+          "translation": "",
+          "synonyms": ["die Internationalisierung", "die weltweite Vernetzung"],
+          "explanation": "weltweite Vernetzung von Wirtschaft und Gesellschaft"
+        },
+        {
+          "id": "1A-21",
+          "german": "die Herausforderung, -en",
+          "translation": "",
+          "synonyms": ["die Aufgabe", "die Schwierigkeit"],
+          "explanation": "schwierige Aufgabe, die Anstrengung erfordert"
+        },
+        {
+          "id": "1A-22",
+          "german": "interkulturelle Kompetenz",
+          "translation": "",
+          "synonyms": ["interkulturelle Fähigkeit", "kulturelle Kompetenz"],
+          "explanation": "Fähigkeit, mit Menschen aus verschiedenen Kulturen zu arbeiten"
+        },
+        {
+          "id": "1A-23",
+          "german": "der Klimawandel (Sg.)",
+          "translation": "",
+          "synonyms": ["die Klimaveränderung", "die Erderwärmung"],
+          "explanation": "langfristige Veränderung des Klimas auf der Erde"
+        },
+        {
+          "id": "1A-24",
+          "german": "die Kompetenz, -en",
+          "translation": "",
+          "synonyms": ["die Fähigkeit", "das Können"],
+          "explanation": "Fähigkeit, Wissen und Können in einem Bereich"
+        },
+        {
+          "id": "1A-25",
+          "german": "modernisieren",
+          "translation": "",
+          "synonyms": ["aktualisieren", "erneuern"],
+          "explanation": "etwas auf den neuesten Stand bringen, erneuern"
+        },
+        {
+          "id": "1A-26",
+          "german": "die Neuorientierung, -en",
+          "translation": "",
+          "synonyms": ["die Umorientierung", "der Neuanfang"],
+          "explanation": "neue Ausrichtung, Veränderung der beruflichen Richtung"
+        },
+        {
+          "id": "1A-27",
+          "german": "sich nieder lassen",
+          "translation": "",
+          "synonyms": ["sich ansiedeln", "sich etablieren"],
+          "explanation": "sich an einem Ort ansiedeln und etablieren"
+        },
+        {
+          "id": "1A-28",
+          "german": "ökologisch",
+          "translation": "",
+          "synonyms": ["umweltfreundlich", "umweltbewusst"],
+          "explanation": "umweltfreundlich, die Umwelt schonend"
+        },
+        {
+          "id": "1A-29",
+          "german": "das Pausengespräch, -e",
+          "translation": "",
+          "synonyms": ["das Gespräch in der Pause", "die Unterhaltung in der Pause"],
+          "explanation": "Gespräch während der Arbeitspause"
+        },
+        {
+          "id": "1A-30",
+          "german": "die Technologie, -n",
+          "translation": "",
+          "synonyms": ["die Technik", "das technische Verfahren"],
+          "explanation": "technische Verfahren und Methoden"
+        },
+        {
+          "id": "1A-31",
+          "german": "die Unterbrechung, -en",
+          "translation": "",
+          "synonyms": ["die Pause", "die Störung"],
+          "explanation": "Pause oder Störung einer Tätigkeit"
+        },
+        {
+          "id": "1A-32",
+          "german": "das Unternehmen, –",
+          "translation": "",
+          "synonyms": ["die Firma", "die Organisation"],
+          "explanation": "Firma, Organisation, die wirtschaftlich tätig ist"
+        },
+        {
+          "id": "1A-33",
+          "german": "veralten",
+          "translation": "",
+          "synonyms": ["alt werden", "überholt sein"],
+          "explanation": "alt werden, nicht mehr aktuell sein"
+        },
+        {
+          "id": "1A-34",
+          "german": "vertrauen auf (+ Akk.)",
+          "translation": "",
+          "synonyms": ["sich verlassen auf", "bauen auf"],
+          "explanation": "sich auf jemanden oder etwas verlassen können"
+        }
+      ]
+    },
+    {
+      "sectionId": "1B",
+      "words": [
+        {
+          "id": "1B-1",
+          "german": "ambulant",
+          "translation": "",
+          "synonyms": ["mobil", "zu Hause"]
+        },
+        {
+          "id": "1B-2",
+          "german": "der ambulante Pflegedienst",
+          "translation": "",
+          "synonyms": ["mobiler Pflegedienst", "häusliche Pflege"]
+        },
+        {
+          "id": "1B-3",
+          "german": "das Berufsleben (Sg.)",
+          "translation": "",
+          "synonyms": ["das Arbeitsleben", "die berufliche Tätigkeit"]
+        },
+        {
+          "id": "1B-4",
+          "german": "das Beschwerdemanagement (Sg.)",
+          "translation": "",
+          "synonyms": ["die Beschwerdeverwaltung", "die Reklamationsbearbeitung"]
+        },
+        {
+          "id": "1B-5",
+          "german": "der Betreuungsdienst, -e",
+          "translation": "",
+          "synonyms": ["die Betreuung", "der Versorgungsdienst"]
+        },
+        {
+          "id": "1B-6",
+          "german": "der Bildungsgutschein, -e",
+          "translation": "",
+          "synonyms": ["der Bildungsschein", "der Weiterbildungsgutschein"]
+        },
+        {
+          "id": "1B-7",
+          "german": "bisherig",
+          "translation": "",
+          "synonyms": ["bisher", "bis jetzt"]
+        },
+        {
+          "id": "1B-8",
+          "german": "eingehende Post",
+          "translation": "",
+          "synonyms": ["ankommende Post", "Eingangspost"]
+        },
+        {
+          "id": "1B-9",
+          "german": "etw. erwerben",
+          "translation": "",
+          "synonyms": ["etw. lernen", "etw. bekommen"]
+        },
+        {
+          "id": "1B-10",
+          "german": "die Fachkraft, \"-e",
+          "translation": "",
+          "synonyms": ["der Spezialist", "der Experte"]
+        },
+        {
+          "id": "1B-11",
+          "german": "die Fördermöglichkeit, -en",
+          "translation": "",
+          "synonyms": ["die Förderung", "die Unterstützungsmöglichkeit"]
+        },
+        {
+          "id": "1B-12",
+          "german": "geeignet für (+ Akk.)",
+          "translation": "",
+          "synonyms": ["passend für", "angemessen für"]
+        },
+        {
+          "id": "1B-13",
+          "german": "die Haushaltsführung, -en",
+          "translation": "",
+          "synonyms": ["der Haushalt", "das Haushaltsmanagement"]
+        },
+        {
+          "id": "1B-14",
+          "german": "die Hilfskraft, \"-e",
+          "translation": "",
+          "synonyms": ["der Assistent", "die Unterstützungskraft"]
+        },
+        {
+          "id": "1B-15",
+          "german": "die Kenntnis, -se",
+          "translation": "",
+          "synonyms": ["das Wissen", "die Fähigkeit"]
+        },
+        {
+          "id": "1B-16",
+          "german": "Kenntnisse erwerben",
+          "translation": "",
+          "synonyms": ["Wissen lernen", "Fähigkeiten erwerben"]
+        },
+        {
+          "id": "1B-17",
+          "german": "die Lagerliste, -n",
+          "translation": "",
+          "synonyms": ["die Bestandsliste", "die Inventarliste"]
+        },
+        {
+          "id": "1B-18",
+          "german": "der Lagerlogistiker, –",
+          "translation": "",
+          "synonyms": ["der Lagerarbeiter", "die Logistikfachkraft"]
+        },
+        {
+          "id": "1B-19",
+          "german": "die Lagerlogistikerin, -nen",
+          "translation": "",
+          "synonyms": ["die Lagerarbeiterin", "die Logistikfachkraft"]
+        },
+        {
+          "id": "1B-20",
+          "german": "der Lehrplan, \"-e",
+          "translation": "",
+          "synonyms": ["das Curriculum", "der Ausbildungsplan"]
+        },
+        {
+          "id": "1B-21",
+          "german": "der Pflegedienst, -e",
+          "translation": "",
+          "synonyms": ["die Pflege", "der Betreuungsdienst"]
+        },
+        {
+          "id": "1B-22",
+          "german": "die Pflegeeinrichtung, -en",
+          "translation": "",
+          "synonyms": ["das Pflegeheim", "die Pflegestätte"]
+        },
+        {
+          "id": "1B-23",
+          "german": "die Pflegekraft, \"-e",
+          "translation": "",
+          "synonyms": ["der Pfleger", "die Betreuungskraft"]
+        },
+        {
+          "id": "1B-24",
+          "german": "das Pflegezertifikat, -e",
+          "translation": "",
+          "synonyms": ["die Pflegebescheinigung", "der Qualifikationsnachweis"]
+        },
+        {
+          "id": "1B-25",
+          "german": "das Präsenzseminar, -e",
+          "translation": "",
+          "synonyms": ["das Vor-Ort-Seminar", "die Präsenzveranstaltung"]
+        },
+        {
+          "id": "1B-26",
+          "german": "der Produktionshelfer, –",
+          "translation": "",
+          "synonyms": ["der Produktionsmitarbeiter", "der Fertigungshelfer"]
+        },
+        {
+          "id": "1B-27",
+          "german": "die Produktionshelferin, -nen",
+          "translation": "",
+          "synonyms": ["die Produktionsmitarbeiterin", "die Fertigungshelferin"]
+        },
+        {
+          "id": "1B-28",
+          "german": "sich qualifizieren",
+          "translation": "",
+          "synonyms": ["sich weiterbilden", "sich spezialisieren"]
+        },
+        {
+          "id": "1B-29",
+          "german": "die Sachkenntnis, -se",
+          "translation": "",
+          "synonyms": ["das Fachwissen", "die Expertise"]
+        },
+        {
+          "id": "1B-30",
+          "german": "etw. vermitteln",
+          "translation": "",
+          "synonyms": ["etw. weitergeben", "etw. erklären"]
+        },
+        {
+          "id": "1B-31",
+          "german": "zur Verfügung stehen",
+          "translation": "",
+          "synonyms": ["verfügbar sein", "bereitstehen"]
+        }
+      ]
+    }
+  ]
+}

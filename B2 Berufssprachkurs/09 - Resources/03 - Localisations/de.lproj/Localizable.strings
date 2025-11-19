@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  B2 Berufssprachkurs
+  
+  German localization
+*/
+
+"practise_with_explanation" = "Mit Erklärung üben";
+"practise_with_synonym" = "Mit Synonym üben";
+"practise_with_translation" = "Mit Übersetzung üben";
+

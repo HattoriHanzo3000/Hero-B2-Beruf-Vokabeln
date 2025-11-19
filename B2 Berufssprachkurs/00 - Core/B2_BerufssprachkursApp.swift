@@ -11,7 +11,11 @@ import SwiftUI
 struct B2_BerufssprachkursApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                HomeView()
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
         }
     }
 }
