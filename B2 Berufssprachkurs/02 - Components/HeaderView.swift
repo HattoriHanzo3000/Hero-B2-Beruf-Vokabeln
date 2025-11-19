@@ -30,7 +30,7 @@ struct HeaderView: View {
                 // Row 1: Word of the day
                 if let word = wordOfTheDay {
                     Text(word.german)
-                        .font(.system(.title, design: .default))
+                        .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                     
@@ -84,7 +84,7 @@ struct HeaderView: View {
                 } else {
                     // Empty state
                     Text("Wort des Tages")
-                        .font(.system(.title, design: .default))
+                        .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundColor(.primary.opacity(0.5))
                 }

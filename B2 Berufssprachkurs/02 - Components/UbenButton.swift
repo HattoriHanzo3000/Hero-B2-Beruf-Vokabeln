@@ -15,7 +15,8 @@ struct UbenButton: View {
     var body: some View {
         Button(action: action) {
             Text(buttonText)
-                .font(.headline)
+                .font(.system(.headline, design: .rounded))
+                .fontWeight(.bold)
                 .foregroundColor(.primary)
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)

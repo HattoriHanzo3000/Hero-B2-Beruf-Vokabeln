@@ -19,6 +19,7 @@ class DataService: ObservableObject {
     // Store previous state before "select all" to restore when unchecking
     private var previousCompletedLections: Set<Int>?
     private var previousCompletedSections: Set<String>?
+    private var previousCheckedWords: [String: Set<String>]? // sectionId: Set<wordId>
     
     private let userDefaults = UserDefaults.standard
     private let completedLectionsKey = "completedLections"
@@ -51,6 +52,21 @@ class DataService: ObservableObject {
         return wordsBySection[sectionId] ?? []
     }
     
+    func getLectionAndSection(for sectionId: String) -> (lectionTitle: String, sectionTitle: String, lectionNumber: String, sectionLetter: String)? {
+        for lection in lections {
+            if let section = lection.sections.first(where: { $0.id == sectionId }) {
+                // Extract lection number (first character(s) before letter)
+                let lectionNumber = String(lection.id)
+                
+                // Extract section letter (last character)
+                let sectionLetter = sectionId.last?.uppercased() ?? ""
+                
+                return (lectionTitle: lection.title, sectionTitle: section.title, lectionNumber: lectionNumber, sectionLetter: sectionLetter)
+            }
+        }
+        return nil
+    }
+    
     func updateTranslation(for wordId: String, in sectionId: String, translation: String) {
         guard var words = wordsBySection[sectionId] else { return }
         if let index = words.firstIndex(where: { $0.id == wordId }) {
@@ -73,6 +89,37 @@ class DataService: ObservableObject {
             checkedWords[sectionId] = checked
             updateSectionCompletion(sectionId: sectionId)
         }
+    }
+    
+    func toggleAllWords(in sectionId: String) {
+        let words = getWords(for: sectionId)
+        let allWordIds = Set(words.map { $0.id })
+        let currentChecked = checkedWords[sectionId] ?? Set<String>()
+        
+        if allWordIds.isSubset(of: currentChecked) {
+            // All are selected, restore previous state
+            if let previousWords = previousCheckedWords?[sectionId] {
+                checkedWords[sectionId] = previousWords
+            } else {
+                checkedWords[sectionId] = Set<String>()
+            }
+            
+            // Clear saved state for this section
+            if var previous = previousCheckedWords {
+                previous.removeValue(forKey: sectionId)
+                previousCheckedWords = previous.isEmpty ? nil : previous
+            }
+        } else {
+            // Save current state before selecting all
+            if previousCheckedWords == nil {
+                previousCheckedWords = [:]
+            }
+            previousCheckedWords?[sectionId] = currentChecked
+            
+            // Select all words
+            checkedWords[sectionId] = allWordIds
+        }
+        updateSectionCompletion(sectionId: sectionId)
     }
     
     func isWordChecked(wordId: String, in sectionId: String) -> Bool {

@@ -119,10 +119,10 @@ struct SectionRowView: View {
             NavigationLink(destination: WordsListView(sectionId: section.id)
                 .environmentObject(dataService)) {
                 HStack(spacing: 12) {
-                    // Letter square icon (a.square through e.square)
+                    // Section letter
                     if !sectionLetter.isEmpty {
-                        Image(systemName: "\(sectionLetter).square")
-                            .font(.body)
+                        Text(sectionLetter.uppercased())
+                            .font(.system(.body, design: .rounded))
                             .fontWeight(.medium)
                             .foregroundColor(.primary)
                     }
@@ -139,6 +139,7 @@ struct SectionRowView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
+        .padding(.leading, 16)
         .background(Color("AppGreenExtraLight"))
         .listRowBackground(Color("AppGreenExtraLight"))
     }
