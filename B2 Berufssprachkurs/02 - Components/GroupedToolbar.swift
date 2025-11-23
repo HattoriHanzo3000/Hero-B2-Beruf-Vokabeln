@@ -31,7 +31,7 @@ enum ToolbarButtonType {
     var buttonText: String {
         switch self {
         case .explanation: return "MIT ERKLÄRUNG ÜBEN"
-        case .synonym: return "MIT SYNONYM ÜBEN"
+        case .synonym: return "MIT SYNONYMEN ÜBEN"
         case .translation: return "MIT ÜBERSETZUNG ÜBEN"
         }
     }
@@ -46,7 +46,7 @@ struct GroupedToolbar: View {
     let isCheckmarkSelected: Bool
     @Binding var selectedButtonType: ToolbarButtonType
     
-    @State private var selectedButton: ToolbarButtonType = .explanation
+    @State private var selectedButton: ToolbarButtonType = .translation
     
     init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onCheckmarkTap: @escaping () -> Void, onSettingsTap: @escaping () -> Void, isCheckmarkSelected: Bool, selectedButtonType: Binding<ToolbarButtonType>) {
         self.onExplanationTap = onExplanationTap
@@ -82,61 +82,9 @@ struct GroupedToolbar: View {
             
             Spacer()
             
-            // Grouped action buttons (explanation, synonym, translation)
+            // Grouped action buttons (translation, explanation, synonym)
             HStack(spacing: 0) {
-                // Explanation button
-                Button(action: {
-                    updateSelectedButton(.explanation)
-                    onExplanationTap()
-                }) {
-                    Image(systemName: "info")
-                        .font(.body)
-                        .fontWeight(.medium)
-                        .foregroundColor(selectedButton == .explanation ? ToolbarButtonType.explanation.color : .primary)
-                        .frame(width: 44, height: 44)
-                        .animation(.easeInOut(duration: 0.2), value: selectedButton)
-                }
-                .buttonStyle(GroupedToolbarButtonStyle(
-                    isSelected: selectedButton == .explanation,
-                    accentColor: ToolbarButtonType.explanation.color,
-                    position: .leading
-                ))
-                .accessibilityLabel("Erklärung")
-                .accessibilityHint("Zeigt Erklärungen an")
-                .accessibilityAddTraits(selectedButton == .explanation ? .isSelected : [])
-                
-                // Divider
-                Rectangle()
-                    .fill(Color.primary.opacity(0.15))
-                    .frame(width: 0.5, height: 24)
-                
-                // Synonym button
-                Button(action: {
-                    updateSelectedButton(.synonym)
-                    onSynonymTap()
-                }) {
-                    Image(systemName: "figure.2")
-                        .font(.body)
-                        .fontWeight(.medium)
-                        .foregroundColor(selectedButton == .synonym ? ToolbarButtonType.synonym.color : .primary)
-                        .frame(width: 44, height: 44)
-                        .animation(.easeInOut(duration: 0.2), value: selectedButton)
-                }
-                .buttonStyle(GroupedToolbarButtonStyle(
-                    isSelected: selectedButton == .synonym,
-                    accentColor: ToolbarButtonType.synonym.color,
-                    position: .middle
-                ))
-                .accessibilityLabel("Synonym")
-                .accessibilityHint("Zeigt Synonyme an")
-                .accessibilityAddTraits(selectedButton == .synonym ? .isSelected : [])
-                
-                // Divider
-                Rectangle()
-                    .fill(Color.primary.opacity(0.15))
-                    .frame(width: 0.5, height: 24)
-                
-                // Translation button
+                // Translation button (first)
                 Button(action: {
                     updateSelectedButton(.translation)
                     onTranslationTap()
@@ -151,11 +99,63 @@ struct GroupedToolbar: View {
                 .buttonStyle(GroupedToolbarButtonStyle(
                     isSelected: selectedButton == .translation,
                     accentColor: ToolbarButtonType.translation.color,
-                    position: .trailing
+                    position: .leading
                 ))
                 .accessibilityLabel("Übersetzung")
                 .accessibilityHint("Zeigt Übersetzungen an")
                 .accessibilityAddTraits(selectedButton == .translation ? .isSelected : [])
+                
+                // Divider
+                Rectangle()
+                    .fill(Color.primary.opacity(0.15))
+                    .frame(width: 0.5, height: 24)
+                
+                // Explanation button (second)
+                Button(action: {
+                    updateSelectedButton(.explanation)
+                    onExplanationTap()
+                }) {
+                    Image(systemName: "info")
+                        .font(.body)
+                        .fontWeight(.medium)
+                        .foregroundColor(selectedButton == .explanation ? ToolbarButtonType.explanation.color : .primary)
+                        .frame(width: 44, height: 44)
+                        .animation(.easeInOut(duration: 0.2), value: selectedButton)
+                }
+                .buttonStyle(GroupedToolbarButtonStyle(
+                    isSelected: selectedButton == .explanation,
+                    accentColor: ToolbarButtonType.explanation.color,
+                    position: .middle
+                ))
+                .accessibilityLabel("Erklärung")
+                .accessibilityHint("Zeigt Erklärungen an")
+                .accessibilityAddTraits(selectedButton == .explanation ? .isSelected : [])
+                
+                // Divider
+                Rectangle()
+                    .fill(Color.primary.opacity(0.15))
+                    .frame(width: 0.5, height: 24)
+                
+                // Synonym button (third)
+                Button(action: {
+                    updateSelectedButton(.synonym)
+                    onSynonymTap()
+                }) {
+                    Image(systemName: "figure.2")
+                        .font(.body)
+                        .fontWeight(.medium)
+                        .foregroundColor(selectedButton == .synonym ? ToolbarButtonType.synonym.color : .primary)
+                        .frame(width: 44, height: 44)
+                        .animation(.easeInOut(duration: 0.2), value: selectedButton)
+                }
+                .buttonStyle(GroupedToolbarButtonStyle(
+                    isSelected: selectedButton == .synonym,
+                    accentColor: ToolbarButtonType.synonym.color,
+                    position: .trailing
+                ))
+                .accessibilityLabel("Synonym")
+                .accessibilityHint("Zeigt Synonyme an")
+                .accessibilityAddTraits(selectedButton == .synonym ? .isSelected : [])
             }
             .frame(height: 44)
             .background(liquidGlassCapsule)
@@ -294,7 +294,7 @@ struct CircularLiquidGlassButtonStyle: ButtonStyle {
         onCheckmarkTap: {},
         onSettingsTap: {},
         isCheckmarkSelected: false,
-        selectedButtonType: .constant(.explanation)
+        selectedButtonType: .constant(.translation)
     )
     .padding()
     .background(Color("AppGreenLight"))

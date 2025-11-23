@@ -25,16 +25,22 @@ struct HeaderView: View {
             mascotView
                 .padding(.top, 4)
             
-            // 4 rows of text content
+            // 5 rows of text content
             VStack(alignment: .leading, spacing: 8) {
-                // Row 1: Word of the day
+                // Row 1: "Das Wort des Tages" label
+                Text("Das Wort des Tages")
+                    .font(.body)
+                    .fontWeight(.regular)
+                    .foregroundColor(.primary .opacity(0.5))
+                
+                // Row 2: Word of the day
                 if let word = wordOfTheDay {
                     Text(word.german)
-                        .font(.system(.title, design: .rounded))
+                        .font(.system(.title2, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                     
-                    // Row 2: Explanation
+                    // Row 3: Explanation
                     if let explanation = word.explanation, !explanation.isEmpty {
                         HStack(alignment: .top, spacing: 4) {
                             Text("erkl.:")
@@ -48,10 +54,10 @@ struct HeaderView: View {
                         .lineLimit(2)
                     }
                     
-                    // Row 3: Synonym
+                    // Row 4: Synonym
                     if let firstSynonym = word.synonyms.first {
                         HStack(spacing: 4) {
-                            Text("syn:")
+                            Text("syn.:")
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                             Text(firstSynonym)
@@ -61,7 +67,7 @@ struct HeaderView: View {
                         .foregroundColor(.primary)
                     }
                     
-                    // Row 4: Translation
+                    // Row 5: Translation
                     if !word.translation.isEmpty && word.translation.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
                         HStack(spacing: 4) {
                             Text("übers.:")

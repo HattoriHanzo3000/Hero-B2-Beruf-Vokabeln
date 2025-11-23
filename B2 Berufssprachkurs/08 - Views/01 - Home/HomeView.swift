@@ -9,8 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var dataService = DataService()
-    @State private var selectedButtonType: ToolbarButtonType = .explanation
+    @State private var selectedButtonType: ToolbarButtonType = .translation
     @State private var navigateToStudy = false
+    @State private var navigateToSettings = false
     
     var body: some View {
         ZStack {
@@ -40,7 +41,7 @@ struct HomeView: View {
                     },
                     onSettingsTap: {
                         HapticManager.shared.lightImpact()
-                        // Handle settings tap
+                        navigateToSettings = true
                     },
                     isCheckmarkSelected: dataService.areAllLectionsCompleted(),
                     selectedButtonType: $selectedButtonType
@@ -75,6 +76,10 @@ struct HomeView: View {
                 studyAllMode: dataService.areAllLectionsCompleted() // Study all if all lections are checked
             )
             .environmentObject(dataService)
+        }
+        .navigationDestination(isPresented: $navigateToSettings) {
+            SettingsView()
+                .environmentObject(dataService)
         }
     }
 }

@@ -161,7 +161,15 @@ struct StudyView: View {
                 .ignoresSafeArea()
             
             if studyItems.isEmpty {
-                emptyStateView
+                StudyEmptyStateView(
+                    title: emptyStateTitle,
+                    message: emptyStateMessage,
+                    iconName: emptyStateIcon,
+                    modeTitle: mode.title,
+                    onBack: {
+                        dismiss()
+                    }
+                )
             } else if currentIndex < studyItems.count {
                 VStack(spacing: 0) {
                     // Header with back button, title, and restart button
@@ -177,7 +185,13 @@ struct StudyView: View {
                         backText: studyItems[currentIndex].back,   // Word (gray)
                         cardColor: mode.accentColor,
                         cardId: studyItems[currentIndex].wordId,
-                        initialFlipped: cardFlipped // true when reversed (shows Word first)
+                        initialFlipped: cardFlipped, // true when reversed (shows Word first)
+                        onSwipeCorrect: {
+                            handleCorrect()
+                        },
+                        onSwipeWrong: {
+                            handleWrong()
+                        }
                     )
                     .id("card-\(currentIndex)")
                     .transition(.asymmetric(
@@ -185,6 +199,8 @@ struct StudyView: View {
                         removal: .scale(scale: 1.2).combined(with: .opacity)
                     ))
                     .padding(.horizontal, 20)
+                    .accessibilityLabel("Flashcard \(currentIndex + 1) of \(studyItems.count)")
+                    .accessibilityHint("Tap to flip card, swipe left for wrong, swipe right for correct")
                     
                     // Wrong and Correct buttons - directly under flashcard
                     HStack(spacing: 24) {
@@ -193,24 +209,30 @@ struct StudyView: View {
                             handleWrong()
                         }) {
                             Image(systemName: "xmark")
-                                .font(.system(size: 20, weight: .semibold))
+                                .font(.title3)
+                                .fontWeight(.semibold)
                                 .foregroundColor(.red)
                                 .frame(width: 64, height: 64)
                                 .background(liquidGlassCircle)
                         }
                         .buttonStyle(ScaleButtonStyle())
+                        .accessibilityLabel("Mark as incorrect")
+                        .accessibilityHint("Swipe left or tap to mark this answer as wrong")
                         
                         Button(action: {
                             HapticManager.shared.mediumImpact()
                             handleCorrect()
                         }) {
                             Image(systemName: "checkmark")
-                                .font(.system(size: 20, weight: .semibold))
+                                .font(.title3)
+                                .fontWeight(.semibold)
                                 .foregroundColor(.green)
                                 .frame(width: 64, height: 64)
                                 .background(liquidGlassCircle)
                         }
                         .buttonStyle(ScaleButtonStyle())
+                        .accessibilityLabel("Mark as correct")
+                        .accessibilityHint("Swipe right or tap to mark this answer as correct")
                     }
                     .padding(.top, 24)
                     .padding(.bottom, 32)
@@ -255,19 +277,24 @@ struct StudyView: View {
                 dismiss()
             }) {
                 Image(systemName: "chevron.left")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.callout)
+                    .fontWeight(.semibold)
                     .foregroundColor(.primary)
                     .frame(width: 44, height: 44)
                     .background(liquidGlassCircle)
             }
             .buttonStyle(ScaleButtonStyle())
+            .accessibilityLabel("Back")
+            .accessibilityHint("Return to previous screen")
             
             Spacer()
             
             // Title
             Text(mode.title)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.headline)
+                .fontWeight(.semibold)
                 .foregroundColor(.primary)
+                .accessibilityAddTraits(.isHeader)
             
             Spacer()
             
@@ -277,12 +304,16 @@ struct StudyView: View {
                 reverseCard()
             }) {
                 Image(systemName: "arrow.trianglehead.2.clockwise")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.callout)
+                    .fontWeight(.semibold)
                     .foregroundColor(isReversed ? .green : .primary)
                     .frame(width: 44, height: 44)
                     .background(liquidGlassCircle)
             }
             .buttonStyle(ScaleButtonStyle())
+            .accessibilityLabel(isReversed ? "Reverse mode active" : "Reverse mode inactive")
+            .accessibilityHint("Toggle to show word on front or back of card")
+            .accessibilityValue(isReversed ? "Active" : "Inactive")
         }
         .padding(.horizontal, 20)
     }
@@ -320,63 +351,39 @@ struct StudyView: View {
             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
     }
     
-    private var emptyStateView: some View {
-        VStack(spacing: 0) {
-            // Header with back button
-            HStack {
-                // Back button with liquid glass style
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.primary)
-                        .frame(width: 44, height: 44)
-                        .background(liquidGlassCircle)
+    private var hasSelectedWordsOrSections: Bool {
+        if studyAllMode {
+            return true // If study all mode, we have selections
+        }
+        
+        if let sectionId = filterBySectionId {
+            // Check if any words are selected in this section
+            let checkedWordIds = dataService.checkedWords[sectionId] ?? Set<String>()
+            return !checkedWordIds.isEmpty || dataService.isSectionCompleted(sectionId: sectionId)
+        } else {
+            // From home view: check if any sections or lections are selected
+            for lection in dataService.lections {
+                if dataService.isLectionCompleted(lectionId: lection.id) {
+                    return true
                 }
-                .buttonStyle(ScaleButtonStyle())
-                
-                Spacer()
-                
-                // Title
-                Text(mode.title)
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(.primary)
-                
-                Spacer()
-                
-                // Empty space to balance the layout
-                Color.clear
-                    .frame(width: 44, height: 44)
+                for section in lection.sections {
+                    if dataService.isSectionCompleted(sectionId: section.id) {
+                        return true
+                    }
+                    let checkedWordIds = dataService.checkedWords[section.id] ?? Set<String>()
+                    if !checkedWordIds.isEmpty {
+                        return true
+                    }
+                }
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 8)
-            
-            Spacer()
-            
-            // Empty state content
-            VStack(spacing: 20) {
-                Image(systemName: emptyStateIcon)
-                    .font(.system(size: 60))
-                    .foregroundColor(.secondary)
-                
-                Text(emptyStateTitle)
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundColor(.primary)
-                
-                Text(emptyStateMessage)
-                    .font(.system(size: 16))
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 40)
-            }
-            
-            Spacer()
+            return false
         }
     }
     
     var emptyStateIcon: String {
+        if !hasSelectedWordsOrSections {
+            return "checkmark.circle"
+        }
         switch mode {
         case .synonyms, .explanation:
             return "book.closed"
@@ -386,6 +393,9 @@ struct StudyView: View {
     }
     
     var emptyStateTitle: String {
+        if !hasSelectedWordsOrSections {
+            return "Keine Wörter ausgewählt"
+        }
         switch mode {
         case .synonyms:
             return "Keine Synonyme verfügbar"
@@ -397,6 +407,9 @@ struct StudyView: View {
     }
     
     var emptyStateMessage: String {
+        if !hasSelectedWordsOrSections {
+            return "Wähle die Wörter mit dem Häkchen aus"
+        }
         switch mode {
         case .synonyms:
             return "Bitte füge Synonyme zu den Wörtern hinzu"
@@ -526,35 +539,138 @@ struct FlashCardView2: View {
     let cardColor: Color
     let cardId: String?
     let initialFlipped: Bool
-    @State private var isFlipped = false
+    let onSwipeCorrect: (() -> Void)?
+    let onSwipeWrong: (() -> Void)?
     
-    init(frontText: String, backText: String, cardColor: Color, cardId: String? = nil, initialFlipped: Bool = false) {
+    @State private var isFlipped = false
+    @State private var dragOffset: CGSize = .zero
+    @State private var dragRotation: Double = 0
+    @State private var thresholdReached = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    
+    init(
+        frontText: String,
+        backText: String,
+        cardColor: Color,
+        cardId: String? = nil,
+        initialFlipped: Bool = false,
+        onSwipeCorrect: (() -> Void)? = nil,
+        onSwipeWrong: (() -> Void)? = nil
+    ) {
         self.frontText = frontText
         self.backText = backText
         self.cardColor = cardColor
         self.cardId = cardId
         self.initialFlipped = initialFlipped
+        self.onSwipeCorrect = onSwipeCorrect
+        self.onSwipeWrong = onSwipeWrong
     }
     
     private let grayColor = Color(.systemGray5)
+    private let swipeThreshold: CGFloat = 120
+    private let rotationAmount: Double = 15
     
     var body: some View {
         ZStack {
             frontCard
                 .opacity(isFlipped ? 0 : 1)
                 .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
+                .accessibilityHidden(isFlipped)
             
             backCard
                 .opacity(isFlipped ? 1 : 0)
                 .rotation3DEffect(.degrees(isFlipped ? 0 : -180), axis: (x: 0, y: 1, z: 0))
+                .accessibilityHidden(!isFlipped)
         }
-        .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.5)) {
-                isFlipped.toggle()
+        .accessibilityElement(children: .contain)
+        .accessibilityValue(isFlipped ? "Showing back" : "Showing front")
+        .offset(dragOffset)
+        .rotationEffect(.degrees(reduceMotion ? 0 : dragRotation))
+        .opacity(1 - min(abs(dragOffset.width) / 600.0, 0.3))
+        .overlay {
+            // Color tint overlay based on swipe direction
+            if abs(dragOffset.width) > 50 {
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(
+                        dragOffset.width > 0 ?
+                            Color.green.opacity(min(abs(dragOffset.width) / swipeThreshold * 0.3, 0.3)) :
+                            Color.red.opacity(min(abs(dragOffset.width) / swipeThreshold * 0.3, 0.3))
+                    )
+                    .allowsHitTesting(false)
             }
         }
+        .gesture(
+            DragGesture(minimumDistance: 10)
+                .onChanged { value in
+                    // Only allow horizontal swipes
+                    let horizontalDrag = value.translation.width
+                    dragOffset = CGSize(width: horizontalDrag, height: value.translation.height * 0.3)
+                    
+                    if !reduceMotion {
+                        dragRotation = Double(horizontalDrag / 20)
+                    }
+                    
+                    // Haptic feedback when threshold is reached
+                    if abs(horizontalDrag) > swipeThreshold && !thresholdReached {
+                        HapticManager.shared.mediumImpact()
+                        thresholdReached = true
+                    } else if abs(horizontalDrag) <= swipeThreshold && thresholdReached {
+                        thresholdReached = false
+                    }
+                }
+                .onEnded { value in
+                    let horizontalDrag = value.translation.width
+                    
+                    if horizontalDrag > swipeThreshold {
+                        // Swipe right = correct
+                        HapticManager.shared.mediumImpact()
+                        // Animate card off-screen to the right
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            dragOffset = CGSize(width: 1000, height: 0)
+                            dragRotation = 30
+                        }
+                        // Trigger callback after animation starts
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            onSwipeCorrect?()
+                        }
+                    } else if horizontalDrag < -swipeThreshold {
+                        // Swipe left = wrong
+                        HapticManager.shared.lightImpact()
+                        // Animate card off-screen to the left
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            dragOffset = CGSize(width: -1000, height: 0)
+                            dragRotation = -30
+                        }
+                        // Trigger callback after animation starts
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            onSwipeWrong?()
+                        }
+                    } else {
+                        // Snap back to center
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                            dragOffset = .zero
+                            dragRotation = 0
+                        }
+                        thresholdReached = false
+                    }
+                }
+        )
+        .simultaneousGesture(
+            TapGesture()
+                .onEnded { _ in
+                    // Only flip if not dragging
+                    if dragOffset == .zero {
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            isFlipped.toggle()
+                        }
+                    }
+                }
+        )
         .onChange(of: cardId) { _, _ in
             isFlipped = initialFlipped
+            dragOffset = .zero
+            dragRotation = 0
+            thresholdReached = false
         }
         .onChange(of: initialFlipped) { _, newValue in
             withAnimation(.easeInOut(duration: 0.5)) {
@@ -612,11 +728,14 @@ struct FlashCardView2: View {
             }
             .overlay {
                 Text(frontText)
-                    .font(.system(size: 24, weight: .semibold))
+                    .font(.title2)
+                    .fontWeight(.semibold)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
             }
+            .accessibilityLabel("Card front: \(frontText)")
+            .accessibilityHint("Tap to flip card")
             .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
             .frame(height: 400)
             .transaction { transaction in
@@ -669,11 +788,14 @@ struct FlashCardView2: View {
             }
             .overlay {
                 Text(backText)
-                    .font(.system(size: 24, weight: .semibold))
+                    .font(.title2)
+                    .fontWeight(.semibold)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
             }
+            .accessibilityLabel("Card back: \(backText)")
+            .accessibilityHint("Tap to flip card")
             .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
             .frame(height: 400)
             .transaction { transaction in

@@ -16,14 +16,6 @@ class DataService: ObservableObject {
     @Published var completedLections: Set<Int> = []
     @Published var checkedWords: [String: Set<String>] = [:] // sectionId: Set<wordId>
     
-    // Store previous state before "select all" to restore when unchecking
-    private var previousCompletedLections: Set<Int>?
-    private var previousCompletedSections: Set<String>?
-    private var previousCheckedWords: [String: Set<String>]? // sectionId: Set<wordId>
-    
-    // Store previous section states per lection to restore when unchecking a lection
-    private var previousSectionStatesByLection: [Int: Set<String>] = [:]
-    
     private let userDefaults = UserDefaults.standard
     private let completedLectionsKey = "completedLections"
     private let completedSectionsKey = "completedSections"
@@ -100,25 +92,9 @@ class DataService: ObservableObject {
         let currentChecked = checkedWords[sectionId] ?? Set<String>()
         
         if allWordIds.isSubset(of: currentChecked) {
-            // All are selected, restore previous state
-            if let previousWords = previousCheckedWords?[sectionId] {
-                checkedWords[sectionId] = previousWords
-            } else {
-                checkedWords[sectionId] = Set<String>()
-            }
-            
-            // Clear saved state for this section
-            if var previous = previousCheckedWords {
-                previous.removeValue(forKey: sectionId)
-                previousCheckedWords = previous.isEmpty ? nil : previous
-            }
+            // All are selected, unselect all
+            checkedWords[sectionId] = Set<String>()
         } else {
-            // Save current state before selecting all
-            if previousCheckedWords == nil {
-                previousCheckedWords = [:]
-            }
-            previousCheckedWords?[sectionId] = currentChecked
-            
             // Select all words
             checkedWords[sectionId] = allWordIds
         }
@@ -149,37 +125,14 @@ class DataService: ObservableObject {
         let sectionIds = Set(lection.sections.map { $0.id })
         
         if completedLections.contains(lectionId) {
-            // Unchecking: restore previous section states
+            // Unchecking: unselect all sections in this lection
             completedLections.remove(lectionId)
-            
-            if let previousSections = previousSectionStatesByLection[lectionId] {
-                // Restore previous state
-                for sectionId in sectionIds {
-                    if previousSections.contains(sectionId) {
-                        completedSections.insert(sectionId)
-                    } else {
-                        completedSections.remove(sectionId)
-                    }
-                }
-            } else {
-                // No previous state saved, remove all sections
-                for sectionId in sectionIds {
-                    completedSections.remove(sectionId)
-                }
+            for sectionId in sectionIds {
+                completedSections.remove(sectionId)
             }
-            
-            // Clear saved state for this lection
-            previousSectionStatesByLection.removeValue(forKey: lectionId)
         } else {
-            // Checking: save current section states and mark all sections as completed
-            // Save current state of sections in this lection
-            let currentSectionStates = Set(completedSections.filter { sectionIds.contains($0) })
-            previousSectionStatesByLection[lectionId] = currentSectionStates
-            
-            // Mark lection as completed
+            // Checking: mark lection and all sections as completed
             completedLections.insert(lectionId)
-            
-            // Mark all sections in this lection as completed
             for sectionId in sectionIds {
                 completedSections.insert(sectionId)
             }
@@ -196,27 +149,10 @@ class DataService: ObservableObject {
         let allSectionIds = Set(lections.flatMap { $0.sections.map { $0.id } })
         
         if allLectionIds.isSubset(of: completedLections) {
-            // All are selected, restore previous state
-            if let previousLections = previousCompletedLections {
-                completedLections = previousLections
-            } else {
-                completedLections.removeAll()
-            }
-            
-            if let previousSections = previousCompletedSections {
-                completedSections = previousSections
-            } else {
-                completedSections.removeAll()
-            }
-            
-            // Clear saved state
-            previousCompletedLections = nil
-            previousCompletedSections = nil
+            // All are selected, unselect all
+            completedLections.removeAll()
+            completedSections.removeAll()
         } else {
-            // Save current state before selecting all
-            previousCompletedLections = completedLections
-            previousCompletedSections = completedSections
-            
             // Select all lections and sections
             completedLections = allLectionIds
             completedSections = allSectionIds

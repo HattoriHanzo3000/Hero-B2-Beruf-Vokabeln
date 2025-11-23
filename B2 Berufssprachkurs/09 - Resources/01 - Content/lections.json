@@ -29,57 +29,288 @@
     {
       "id": 2,
       "title": "Arbeitsorte und -welten",
-      "sections": []
+      "sections": [
+        {
+          "id": "2A",
+          "title": "Berufe und Branchen"
+        },
+        {
+          "id": "2B",
+          "title": "Berufe am Flughafen"
+        },
+        {
+          "id": "2C",
+          "title": "Sicherheit in Unternehmen"
+        },
+        {
+          "id": "2D",
+          "title": "Arbeitsunfälle"
+        },
+        {
+          "id": "2E",
+          "title": "Zufrieden leben in Deutschland"
+        }
+      ]
     },
     {
       "id": 3,
       "title": "Im Bewerbungsprozess",
-      "sections": []
+      "sections": [
+        {
+          "id": "3A",
+          "title": "Eine Stelle suchen"
+        },
+        {
+          "id": "3B",
+          "title": "Der Lebenslauf"
+        },
+        {
+          "id": "3C",
+          "title": "Das Bewerbungsschreiben"
+        },
+        {
+          "id": "3D",
+          "title": "Vor dem Vorstellungsgespräch"
+        },
+        {
+          "id": "3E",
+          "title": "Eine Wohnung suchen und finden"
+        }
+      ]
     },
     {
       "id": 4,
       "title": "Eine neue Arbeit",
-      "sections": []
+      "sections": [
+        {
+          "id": "4A",
+          "title": "Das Vorstellungsgespräch"
+        },
+        {
+          "id": "4B",
+          "title": "Nach dem Vorstellungsgespräch"
+        },
+        {
+          "id": "4C",
+          "title": "Der erste Arbeitstag"
+        },
+        {
+          "id": "4D",
+          "title": "Die Willkommensmappe"
+        },
+        {
+          "id": "4E",
+          "title": "Distanzzonen"
+        }
+      ]
     },
     {
       "id": 5,
       "title": "Im Arbeitsalltag",
-      "sections": []
+      "sections": [
+        {
+          "id": "5A",
+          "title": "Gespräche im Beruf"
+        },
+        {
+          "id": "5B",
+          "title": "Protokolle im Beruf"
+        },
+        {
+          "id": "5C",
+          "title": "Konflikte am Arbeitsplatz"
+        },
+        {
+          "id": "5D",
+          "title": "Arbeitsfreie Zeit"
+        },
+        {
+          "id": "5E",
+          "title": "Freizeitbeschäftigungen"
+        }
+      ]
     },
     {
       "id": 6,
       "title": "Aktivitäten im Autohaus",
-      "sections": []
+      "sections": [
+        {
+          "id": "6A",
+          "title": "Im Kundenservice"
+        },
+        {
+          "id": "6B",
+          "title": "Betriebliche Neuanschaffungen"
+        },
+        {
+          "id": "6C",
+          "title": "Die Bedienung eines Geräts"
+        },
+        {
+          "id": "6D",
+          "title": "In der Werkstatt"
+        },
+        {
+          "id": "6E",
+          "title": "Die Mobilität der Zukunft"
+        }
+      ]
     },
     {
       "id": 7,
       "title": "Qualitätssicherung",
-      "sections": []
+      "sections": [
+        {
+          "id": "7A",
+          "title": "Probleme identifizieren und lösen"
+        },
+        {
+          "id": "7B",
+          "title": "Hygienemanagement in der Pflege"
+        },
+        {
+          "id": "7C",
+          "title": "Mitarbeitergespräche"
+        },
+        {
+          "id": "7D",
+          "title": "Konstruktiv Kritik üben"
+        },
+        {
+          "id": "7E",
+          "title": "Konflikte und Streit im Alltag"
+        }
+      ]
     },
     {
       "id": 8,
       "title": "Auftragsabwicklung",
-      "sections": []
+      "sections": [
+        {
+          "id": "8A",
+          "title": "Materialien beschaffen"
+        },
+        {
+          "id": "8B",
+          "title": "Anfragen von Unternehmen"
+        },
+        {
+          "id": "8C",
+          "title": "Vom Angebot zum Auftrag"
+        },
+        {
+          "id": "8D",
+          "title": "Bei der Auftragsabnahme"
+        },
+        {
+          "id": "8E",
+          "title": "Pünktlichkeit"
+        }
+      ]
     },
     {
       "id": 9,
       "title": "Beschwerdemanagement",
-      "sections": []
+      "sections": [
+        {
+          "id": "9A",
+          "title": "Fehler und Mängel bei Waren"
+        },
+        {
+          "id": "9B",
+          "title": "Lieferungen an das Hotel Weserblick"
+        },
+        {
+          "id": "9C",
+          "title": "Richtig reklamieren"
+        },
+        {
+          "id": "9D",
+          "title": "Terminvereinbarungen"
+        },
+        {
+          "id": "9E",
+          "title": "Meckerei oder Reklamation?"
+        }
+      ]
     },
     {
       "id": 10,
       "title": "Auf einer Messe",
-      "sections": []
+      "sections": [
+        {
+          "id": "10A",
+          "title": "Messen und Messegespräche"
+        },
+        {
+          "id": "10B",
+          "title": "Eine Messepräsentation"
+        },
+        {
+          "id": "10C",
+          "title": "Wege in die Selbstständigkeit"
+        },
+        {
+          "id": "10D",
+          "title": "Ein Businessplan"
+        },
+        {
+          "id": "10E",
+          "title": "Small Talk"
+        }
+      ]
     },
     {
       "id": 11,
       "title": "Arbeitsrecht",
-      "sections": []
+      "sections": [
+        {
+          "id": "11A",
+          "title": "Verträge im Beruf"
+        },
+        {
+          "id": "11B",
+          "title": "Der Betriebsrat"
+        },
+        {
+          "id": "11C",
+          "title": "Berufliche Umbrüche"
+        },
+        {
+          "id": "11D",
+          "title": "Der Arbeitsvertrag"
+        },
+        {
+          "id": "11E",
+          "title": "Was die Hausordnung regelt"
+        }
+      ]
     },
     {
       "id": 12,
       "title": "Sozialrecht im Beruf",
-      "sections": []
+      "sections": [
+        {
+          "id": "12A",
+          "title": "Soziale Absicherung"
+        },
+        {
+          "id": "12B",
+          "title": "Gehaltsabrechnung und Abgaben"
+        },
+        {
+          "id": "12C",
+          "title": "Wenn Arbeitnehmer erkranken"
+        },
+        {
+          "id": "12D",
+          "title": "Familie und Beruf"
+        },
+        {
+          "id": "12E",
+          "title": "Über Geld spricht man nicht (??)"
+        }
+      ]
     }
   ]
 }

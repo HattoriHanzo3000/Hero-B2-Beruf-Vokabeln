@@ -11,8 +11,9 @@ struct WordsListView: View {
     let sectionId: String
     @EnvironmentObject var dataService: DataService
     @State private var translations: [String: String] = [:]
-    @State private var selectedButtonType: ToolbarButtonType = .explanation
+    @State private var selectedButtonType: ToolbarButtonType = .translation
     @State private var navigateToStudy = false
+    @State private var navigateToSettings = false
     @FocusState private var focusedWordId: String?
     
     var words: [Word] {
@@ -63,7 +64,7 @@ struct WordsListView: View {
                     },
                     onSettingsTap: {
                         HapticManager.shared.lightImpact()
-                        // Handle settings tap
+                        navigateToSettings = true
                     },
                     isCheckmarkSelected: allWordsChecked,
                     selectedButtonType: $selectedButtonType
@@ -102,6 +103,8 @@ struct WordsListView: View {
                     .contentMargins(.top, 0, for: .scrollContent)
                     .contentMargins(.bottom, 70, for: .scrollContent)
                     .padding(.top, 12)
+                    .accessibilityLabel("Words list")
+                    .accessibilityHint("List of German words with translations, explanations, and synonyms")
                     .onChange(of: focusedWordId) { oldValue, newValue in
                         if let wordId = newValue {
                             withAnimation(.easeInOut(duration: 0.3)) {
@@ -123,6 +126,8 @@ struct WordsListView: View {
                 )
                 .padding(.horizontal)
                 .padding(.bottom, 12)
+                .accessibilityLabel(selectedButtonType.buttonText)
+                .accessibilityHint("Start practicing with \(selectedButtonType.buttonText.lowercased())")
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
@@ -135,6 +140,10 @@ struct WordsListView: View {
             )
             .environmentObject(dataService)
         }
+        .navigationDestination(isPresented: $navigateToSettings) {
+            SettingsView()
+                .environmentObject(dataService)
+        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -146,18 +155,24 @@ struct WordsListView: View {
                     navigateToPreviousField()
                 }) {
                     Image(systemName: "chevron.up")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.callout)
+                        .fontWeight(.semibold)
                 }
                 .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0)
+                .accessibilityLabel("Previous word")
+                .accessibilityHint("Navigate to the previous word in the list")
                 
                 Button(action: {
                     HapticManager.shared.lightImpact()
                     navigateToNextField()
                 }) {
                     Image(systemName: "chevron.down")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.callout)
+                        .fontWeight(.semibold)
                 }
                 .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= words.count - 1)
+                .accessibilityLabel("Next word")
+                .accessibilityHint("Navigate to the next word in the list")
             }
         }
         .onAppear {
@@ -217,6 +232,10 @@ struct WordRow: View {
                     .foregroundColor(isChecked ? Color("AppGreen") : .secondary)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel(isChecked ? "Uncheck word" : "Check word")
+            .accessibilityValue(isChecked ? "Checked" : "Unchecked")
+            .accessibilityHint("Toggle selection for \(word.german)")
+            .accessibilityAddTraits(isChecked ? .isSelected : [])
             
             // German word
             VStack(alignment: .leading, spacing: 4) {
@@ -226,32 +245,72 @@ struct WordRow: View {
                     .foregroundColor(.primary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("German word: \(word.german)")
             
-            // Translation input field on the right
-            TextField("Übersetzung", text: $localTranslation)
-                .font(.subheadline)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .fill(Color(.systemBackground))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                                .stroke(Color(.separator), lineWidth: 0.5)
-                        )
-                )
-                .frame(width: 150)
-                .focused($focusedWordId, equals: word.id)
-                .onAppear {
-                    localTranslation = translation
+            // Translation column on the right with explanation, synonyms, and translation
+            VStack(alignment: .leading, spacing: 6) {
+                // Row 1: Explanation
+                if let explanation = word.explanation, !explanation.isEmpty {
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("erkl.:")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                        Text(explanation)
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Explanation: \(explanation)")
                 }
-                .onChange(of: localTranslation) { oldValue, newValue in
-                    onTranslationChange(newValue)
+                
+                // Row 2: Synonyms
+                if !word.synonyms.isEmpty {
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("syn.:")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                        Text(word.synonyms.joined(separator: ", "))
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Synonyms: \(word.synonyms.joined(separator: ", "))")
                 }
+                
+                // Row 3: Translation input field
+                TextField("Übersetzung", text: $localTranslation)
+                    .font(.subheadline)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
+                            .fill(Color(.systemBackground))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                    .stroke(Color(.separator), lineWidth: 0.5)
+                            )
+                    )
+                    .focused($focusedWordId, equals: word.id)
+                    .accessibilityLabel("Translation for \(word.german)")
+                    .accessibilityHint("Enter the translation for this German word")
+                    .accessibilityValue(localTranslation.isEmpty ? "Empty" : localTranslation)
+                    .onAppear {
+                        localTranslation = translation
+                    }
+                    .onChange(of: localTranslation) { oldValue, newValue in
+                        onTranslationChange(newValue)
+                    }
+            }
+            .frame(width: 150, alignment: .leading)
         }
         .padding(.vertical, 10)
         .padding(.leading, -8)
         .padding(.trailing, -8)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Word row for \(word.german)")
     }
 }
 
