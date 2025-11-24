@@ -60,6 +60,8 @@ struct B2_BerufssprachkursApp: App {
             .dynamicTypeSize(dynamicTypeSize)
             // Apply appearance preference (Light/Dark/System)
             .preferredColorScheme(colorScheme)
+            // Lock orientation to portrait only
+            .supportedOrientations(.portrait)
             .environmentObject(LanguageManager.shared)
             .environmentObject(TextSizeManager.shared)
             .environmentObject(AppearanceManager.shared)
