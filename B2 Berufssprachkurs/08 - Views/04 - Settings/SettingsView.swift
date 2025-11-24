@@ -6,524 +6,516 @@
 //
 
 import SwiftUI
+import MessageUI
 
 struct SettingsView: View {
-    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var dataService: DataService
+    @ObservedObject private var languageManager = LanguageManager.shared
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
+    @AppStorage("appearancePreference") private var appearancePreference = "System" // Stores key: "Light" | "Dark" | "System"
+    @AppStorage("textSizePreference") private var textSizePreference = "Large" // Stores key: "Extra Small" | "Small" | etc.
     @AppStorage("wordOfTheDayEnabled") private var wordOfTheDayEnabled = true
-    @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24 hours" // "12 hours" or "24 hours"
+    @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours" // Stores key: "12_hours" | "24_hours"
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = "" // Comma-separated section IDs, empty means all
+    @AppStorage("appLanguage") private var appLanguage = "English" { // Stores key: "English" | "Deutsch"
+        didSet {
+            languageManager.setLanguage(appLanguage)
+        }
+    }
+    @State private var showMailComposer = false
+    @State private var showMailUnavailableAlert = false
     @State private var showResetAlert = false
-    @State private var showSectionSelection = false
+    @State private var presentingLegalURL: URL? = nil
     
-    var appVersion: String {
+    // Sync with language manager
+    private var languageBinding: Binding<String> {
+        Binding(
+            get: { self.appLanguage },
+            set: { newValue in
+                self.appLanguage = newValue
+                self.languageManager.setLanguage(newValue)
+            }
+        )
+    }
+    
+    // App metadata
+    private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
     
-    var buildNumber: String {
+    private var buildNumber: String {
         Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
     }
     
     var body: some View {
-        ZStack {
-            Color(.systemGroupedBackground)
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                // Header
-                HStack {
-                    Button(action: {
-                        HapticManager.shared.lightImpact()
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .font(.body)
-                            .fontWeight(.medium)
-                            .foregroundColor(.blue)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Back")
-                    .accessibilityHint("Return to previous screen")
-                    
-                    Spacer()
-                    
-                    Text("Settings")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-                        .accessibilityAddTraits(.isHeader)
-                    
-                    Spacer()
-                    
-                    Color.clear
-                        .frame(width: 44, height: 44)
+        List {
+            SwiftUI.Section {
+                NavigationIconRow(
+                    icon: "info.circle.fill",
+                    iconColor: .gray,
+                    title: Localizable.string(Localizable.about)
+                ) {
+                    AboutView()
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 12)
-                .background(Color(.systemBackground))
                 
-                // Settings content
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // Section 1: Version
-                        settingsSection {
-                            SettingsRow(
-                                icon: "info.circle.fill",
-                                iconColor: .blue,
-                                title: "Version",
-                                subtitle: "\(appVersion) (\(buildNumber))",
-                                action: {
-                                    openAppStore()
-                                }
-                            )
+                NavigationIconRow(
+                    icon: "gear.badge",
+                    iconColor: .gray,
+                    title: Localizable.string(Localizable.update)
+                ) {
+                    UpdateView()
+                }
+            }
+            
+            // Premium section - temporarily disabled, will be added in next update
+            /*
+            SwiftUI.Section {
+                NavigationIconRow(
+                    icon: "crown.fill",
+                    iconColor: .yellow,
+                    title: Localizable.string(Localizable.premium)
+                ) {
+                    Text(Localizable.string(Localizable.premium))
+                        .navigationTitle(Localizable.string(Localizable.premium))
+                }
+            }
+            */
+            
+            SwiftUI.Section {
+                ToggleIconRow(
+                    icon: "calendar",
+                    iconColor: Color("AppGreen"),
+                    title: Localizable.string(Localizable.wordOfTheDay),
+                    isOn: $wordOfTheDayEnabled
+                )
+                
+                if wordOfTheDayEnabled {
+                    MenuIconRow(
+                        icon: "clock.fill",
+                        iconColor: Color("AppGreen"),
+                        title: Localizable.string(Localizable.periodicity),
+                        options: localizedPeriodicityOptions,
+                        selection: $wordOfTheDayPeriodicity,
+                        displayMapping: { key in
+                            key == "12_hours" ? Localizable.string(Localizable.hours12) : Localizable.string(Localizable.hours24)
                         }
-                        
-                        // Section 2: Premium
-                        settingsSection {
-                            SettingsRow(
-                                icon: "crown.fill",
-                                iconColor: .yellow,
-                                title: "Premium",
-                                showChevron: true,
-                                action: {
-                                    // Handle premium tap
-                                }
-                            )
-                        }
-                        
-                        // Section 3: Word of the Day
-                        settingsSection {
-                            SettingsRow(
-                                icon: "calendar",
-                                iconColor: .orange,
-                                title: "Word of the Day",
-                                showToggle: true,
-                                toggleValue: $wordOfTheDayEnabled
-                            )
-                            
-                            if wordOfTheDayEnabled {
-                                Divider()
-                                    .padding(.leading, 56)
-                                
-                                // Periodicity row
-                                PeriodicityRow(
-                                    periodicity: $wordOfTheDayPeriodicity
-                                )
-                                
-                                Divider()
-                                    .padding(.leading, 56)
-                                
-                                // Source Sections row
-                                SourceSectionsRow(
-                                    selectedSections: $wordOfTheDaySelectedSections,
-                                    dataService: dataService,
-                                    onTap: {
-                                        showSectionSelection = true
-                                    }
-                                )
-                            }
-                        }
-                        
-                        // Section 4: Preferences
-                        settingsSection {
-                            SettingsRow(
-                                icon: "hand.tap.fill",
-                                iconColor: .purple,
-                                title: "Haptic Feedback",
-                                showToggle: true,
-                                toggleValue: $hapticFeedbackEnabled
-                            )
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            SettingsRow(
-                                icon: "paintbrush.fill",
-                                iconColor: .pink,
-                                title: "Appearance",
-                                subtitle: "System",
-                                showChevron: true,
-                                action: {
-                                    // Handle appearance tap
-                                }
-                            )
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            SettingsRow(
-                                icon: "textformat.size",
-                                iconColor: .indigo,
-                                title: "Display and Text Size",
-                                showChevron: true,
-                                action: {
-                                    // Handle display settings tap
-                                }
-                            )
-                        }
-                        
-                        // Section 5: Support
-                        settingsSection {
-                            SettingsRow(
-                                icon: "questionmark.circle.fill",
-                                iconColor: .blue,
-                                title: "FAQ",
-                                showChevron: true,
-                                action: {
-                                    // Handle FAQ tap
-                                }
-                            )
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            SettingsRow(
-                                icon: "envelope.fill",
-                                iconColor: .blue,
-                                title: "Contact Us",
-                                showChevron: true,
-                                action: {
-                                    openContactUs()
-                                }
-                            )
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            SettingsRow(
-                                icon: "exclamationmark.triangle.fill",
-                                iconColor: .orange,
-                                title: "Report a Bug",
-                                showChevron: true,
-                                action: {
-                                    openReportBug()
-                                }
-                            )
-                        }
-                        
-                        // Section 6: Legal
-                        settingsSection {
-                            SettingsRow(
-                                icon: "doc.text.fill",
-                                iconColor: .gray,
-                                title: "Impressum",
-                                showChevron: true,
-                                action: {
-                                    // Handle impressum tap
-                                }
-                            )
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            SettingsRow(
-                                icon: "doc.text.fill",
-                                iconColor: .gray,
-                                title: "Terms of Use",
-                                showChevron: true,
-                                action: {
-                                    // Handle terms tap
-                                }
-                            )
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            SettingsRow(
-                                icon: "lock.shield.fill",
-                                iconColor: .gray,
-                                title: "Privacy Policy",
-                                showChevron: true,
-                                action: {
-                                    // Handle privacy policy tap
-                                }
-                            )
-                        }
-                        
-                        // Section 7: Reset
-                        settingsSection {
-                            SettingsRow(
-                                icon: "arrow.counterclockwise",
-                                iconColor: .red,
-                                title: "Reset App",
-                                showChevron: true,
-                                action: {
-                                    showResetAlert = true
-                                }
-                            )
+                    )
+                    
+                    NavigationLink {
+                        SectionSelectionView(
+                            selectedSections: $wordOfTheDaySelectedSections,
+                            dataService: dataService
+                        )
+                    } label: {
+                        SettingsIconRow(
+                            icon: "checklist",
+                            iconColor: Color("AppGreen"),
+                            title: Localizable.string(Localizable.sourceSections),
+                            subtitle: getSelectedSectionsCount() == 0 ? Localizable.string(Localizable.allSections) : String(format: Localizable.string(Localizable.selectedSections), getSelectedSectionsCount())
+                        )
+                    }
+                }
+            }
+            
+            SwiftUI.Section {
+                MenuIconRow(
+                    icon: "globe",
+                    iconColor: .blue,
+                    title: Localizable.string(Localizable.appLanguage),
+                    options: localizedLanguageOptions,
+                    selection: languageBinding,
+                    displayMapping: { key in
+                        key == "English" ? Localizable.string(Localizable.english) : Localizable.string(Localizable.deutsch)
+                    }
+                )
+                
+                ToggleIconRow(
+                    icon: "hand.tap.fill",
+                    iconColor: .purple,
+                    title: Localizable.string(Localizable.hapticFeedback),
+                    isOn: $hapticFeedbackEnabled
+                )
+                
+                MenuIconRow(
+                    icon: "paintbrush.fill",
+                    iconColor: .pink,
+                    title: Localizable.string(Localizable.appearance),
+                    options: localizedAppearanceOptions,
+                    selection: $appearancePreference,
+                    displayMapping: { key in
+                        switch key {
+                        case "Light": return Localizable.string(Localizable.light)
+                        case "Dark": return Localizable.string(Localizable.dark)
+                        default: return Localizable.string(Localizable.system)
                         }
                     }
-                    .padding(.horizontal)
-                    .padding(.top, 24)
-                    .padding(.bottom, 32)
+                )
+                
+                MenuIconRow(
+                    icon: "textformat.size",
+                    iconColor: .indigo,
+                    title: Localizable.string(Localizable.displayAndTextSize),
+                    options: localizedTextSizeOptions,
+                    selection: $textSizePreference,
+                    displayMapping: { key in
+                        switch key {
+                        case "Extra Small": return Localizable.string(Localizable.extraSmall)
+                        case "Small": return Localizable.string(Localizable.small)
+                        case "Medium": return Localizable.string(Localizable.medium)
+                        case "Large": return Localizable.string(Localizable.large)
+                        case "Extra Large": return Localizable.string(Localizable.extraLarge)
+                        case "XX Large": return Localizable.string(Localizable.xxLarge)
+                        case "XXX Large": return Localizable.string(Localizable.xxxLarge)
+                        default: return Localizable.string(Localizable.large)
+                        }
+                    }
+                )
+            }
+            
+            SwiftUI.Section {
+                // FAQ section - temporarily disabled, will be added in next update
+                /*
+                NavigationIconRow(
+                    icon: "questionmark.circle.fill",
+                    iconColor: .blue,
+                    title: Localizable.string(Localizable.faq)
+                ) {
+                    FAQView()
+                }
+                */
+                
+                Button {
+                    HapticManager.shared.lightImpact()
+                    if MFMailComposeViewController.canSendMail() {
+                        showMailComposer = true
+                    } else {
+                        showMailUnavailableAlert = true
+                    }
+                } label: {
+                    SettingsIconRow(
+                        icon: "envelope.fill",
+                        iconColor: .blue,
+                        title: Localizable.string(Localizable.contactUs)
+                    )
+                }
+                
+                // Report a Bug - temporarily disabled, will be added in next update
+                /*
+                NavigationIconRow(
+                    icon: "flag.fill",
+                    iconColor: .orange,
+                    title: Localizable.string(Localizable.reportABug)
+                ) {
+                    Text(Localizable.string(Localizable.reportABug))
+                        .navigationTitle(Localizable.string(Localizable.reportABug))
+                }
+                */
+            }
+            
+            SwiftUI.Section {
+                Button {
+                    HapticManager.shared.lightImpact()
+                    presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/impressum")
+                } label: {
+                    SettingsIconRow(
+                        icon: "building.2.fill",
+                        iconColor: .gray,
+                        title: Localizable.string(Localizable.impressum)
+                    )
+                }
+                .buttonStyle(.plain)
+                
+                Button {
+                    HapticManager.shared.lightImpact()
+                    presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
+                } label: {
+                    SettingsIconRow(
+                        icon: "doc.text.fill",
+                        iconColor: .gray,
+                        title: Localizable.string(Localizable.termsOfUse)
+                    )
+                }
+                .buttonStyle(.plain)
+                
+                Button {
+                    HapticManager.shared.lightImpact()
+                    presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
+                } label: {
+                    SettingsIconRow(
+                        icon: "lock.shield.fill",
+                        iconColor: .gray,
+                        title: Localizable.string(Localizable.privacyPolicy)
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+            
+            SwiftUI.Section {
+                DestructiveIconRow(
+                    icon: "arrow.counterclockwise",
+                    title: Localizable.string(Localizable.resetApp)
+                ) {
+                    HapticManager.shared.lightImpact()
+                    showResetAlert = true
                 }
             }
         }
+        .listStyle(.insetGrouped)
+        .navigationTitle(Localizable.string(Localizable.settings))
+        .navigationBarTitleDisplayMode(.large)
         .navigationBarBackButtonHidden(true)
-        .sheet(isPresented: $showSectionSelection) {
-            SectionSelectionView(
-                selectedSections: $wordOfTheDaySelectedSections,
-                dataService: dataService
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
+        .id(languageManager.currentLanguage) // Force refresh when language changes
+        .sheet(isPresented: $showMailComposer) {
+            MailComposeView(
+                subject: "Contact - Hero. B2 - Berufsprachkurs",
+                messageBody: getContactEmailBody(),
+                toRecipients: ["info@gizatech.de"],
+                onDismiss: {
+                    showMailComposer = false
+                }
             )
         }
-        .alert("Reset App", isPresented: $showResetAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Reset", role: .destructive) {
+        .alert(Localizable.string(Localizable.mailUnavailable), isPresented: $showMailUnavailableAlert) {
+            Button(Localizable.string(Localizable.ok), role: .cancel) { }
+        } message: {
+            Text(Localizable.string(Localizable.mailUnavailableMessage))
+        }
+        .alert(Localizable.string(Localizable.resetAppTitle), isPresented: $showResetAlert) {
+            Button(Localizable.string(Localizable.cancel), role: .cancel) { }
+            Button(Localizable.string(Localizable.reset), role: .destructive) {
                 resetApp()
             }
         } message: {
-            Text("This will reset all your progress and settings. This action cannot be undone.")
+            Text(Localizable.string(Localizable.resetAppMessage))
+        }
+        .sheet(item: Binding(
+            get: { presentingLegalURL.map { LegalDocument(url: $0) } },
+            set: { presentingLegalURL = $0?.url }
+        )) { document in
+            SettingsLegalWebSheetView(url: document.url)
         }
     }
     
-    @ViewBuilder
-    private func settingsSection<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        VStack(spacing: 0) {
-            content()
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
-        )
-    }
-    
-    private func openAppStore() {
-        // Replace with your actual App Store URL
-        if let url = URL(string: "https://apps.apple.com/app/id1234567890") {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    private func openContactUs() {
-        if let url = URL(string: "mailto:support@example.com?subject=B2%20Berufssprachkurs%20Support") {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    private func openReportBug() {
-        if let url = URL(string: "mailto:support@example.com?subject=Bug%20Report%20-%20B2%20Berufssprachkurs") {
-            UIApplication.shared.open(url)
-        }
+    // Legal document identifier for sheet presentation
+    struct LegalDocument: Identifiable {
+        let url: URL
+        var id: URL { url }
     }
     
     private func resetApp() {
-        // Reset all app data
-        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-        UserDefaults.standard.synchronize()
-        
-        // You may want to reset DataService here as well
-        // dataService.resetAllData()
+        HapticManager.shared.mediumImpact()
+        dataService.resetAllData()
     }
     
-    private func getSelectedSectionsCount() -> Int {
-        if wordOfTheDaySelectedSections.isEmpty {
-            return 0 // 0 means "all"
-        }
-        return wordOfTheDaySelectedSections.split(separator: ",").count
+    private func getContactEmailBody() -> String {
+        let deviceModel = UIDevice.current.model
+        let systemVersion = UIDevice.current.systemVersion
+        
+        return """
+        If you need help, please do not remove this info as it will help us to provide fast and quality support:
+        
+        ---
+        
+        App version: \(appVersion) (\(buildNumber))
+        Device: \(deviceModel)
+        iOS Version: \(systemVersion)
+        
+        Please describe your issue below this line.
+        
+        ---
+        
+        
+        """
     }
 }
 
-// Periodicity Row Component
-struct PeriodicityRow: View {
-    @Binding var periodicity: String
+// MARK: - Reusable Row Components
+
+private struct SettingsIconRow: View {
+    let icon: String
+    let iconColor: Color
+    let title: String
+    let subtitle: String?
+    
+    init(icon: String, iconColor: Color, title: String, subtitle: String? = nil) {
+        self.icon = icon
+        self.iconColor = iconColor
+        self.title = title
+        self.subtitle = subtitle
+    }
     
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: "clock.fill")
+            Image(systemName: icon)
                 .font(.body)
                 .fontWeight(.medium)
                 .foregroundColor(.white)
                 .frame(width: 28, height: 28)
                 .background(
                     RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .fill(Color.orange)
+                        .fill(iconColor)
                 )
             
-            Text("Periodicity")
-                .font(.body)
-                .foregroundColor(.primary)
-            
-            Spacer()
-            
-            Menu {
-                Button(action: {
-                    periodicity = "12 hours"
-                }) {
-                    HStack {
-                        Text("12 hours")
-                        if periodicity == "12 hours" {
-                            Image(systemName: "checkmark")
-                        }
-                    }
+            if let subtitle = subtitle {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .foregroundColor(.primary)
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
-                
-                Button(action: {
-                    periodicity = "24 hours"
-                }) {
-                    HStack {
-                        Text("24 hours")
-                        if periodicity == "24 hours" {
-                            Image(systemName: "checkmark")
+            } else {
+                Text(title)
+                    .foregroundColor(.primary)
+            }
+        }
+    }
+}
+
+private struct NavigationIconRow<Destination: View>: View {
+    let icon: String
+    let iconColor: Color
+    let title: String
+    let subtitle: String?
+    let destination: () -> Destination
+    
+    init(icon: String, iconColor: Color, title: String, subtitle: String? = nil, @ViewBuilder destination: @escaping () -> Destination) {
+        self.icon = icon
+        self.iconColor = iconColor
+        self.title = title
+        self.subtitle = subtitle
+        self.destination = destination
+    }
+    
+    var body: some View {
+        NavigationLink(destination: destination()) {
+            SettingsIconRow(icon: icon, iconColor: iconColor, title: title, subtitle: subtitle)
+        }
+    }
+}
+
+private struct ToggleIconRow: View {
+    let icon: String
+    let iconColor: Color
+    let title: String
+    @Binding var isOn: Bool
+    var tintColor: Color = .green
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            SettingsIconRow(icon: icon, iconColor: iconColor, title: title)
+            Spacer()
+            Toggle("", isOn: $isOn)
+                .labelsHidden()
+                .tint(tintColor)
+        }
+    }
+}
+
+private struct MenuIconRow: View {
+    let icon: String
+    let iconColor: Color
+    let title: String
+    let options: [String]
+    @Binding var selection: String
+    var displayMapping: ((String) -> String)?
+    
+    init(icon: String, iconColor: Color, title: String, options: [String], selection: Binding<String>, displayMapping: ((String) -> String)? = nil) {
+        self.icon = icon
+        self.iconColor = iconColor
+        self.title = title
+        self.options = options
+        self._selection = selection
+        self.displayMapping = displayMapping
+    }
+    
+    private func displayText(for key: String) -> String {
+        displayMapping?(key) ?? key
+    }
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            SettingsIconRow(icon: icon, iconColor: iconColor, title: title)
+            Spacer()
+            Menu {
+                ForEach(options, id: \.self) { option in
+                    Button {
+                        selection = option
+                    } label: {
+                        HStack {
+                            Text(displayText(for: option))
+                            if selection == option {
+                                Image(systemName: "checkmark")
+                            }
                         }
                     }
                 }
             } label: {
                 HStack(spacing: 4) {
-                    Text(periodicity)
-                        .font(.body)
-                        .foregroundColor(.blue)
+                    Text(displayText(for: selection))
+                        .foregroundColor(.secondary)
                     Image(systemName: "chevron.up.chevron.down")
                         .font(.caption2)
-                        .foregroundColor(.blue)
+                        .foregroundColor(.secondary)
                 }
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
-        .accessibilityLabel("Periodicity")
-        .accessibilityValue(periodicity)
-        .accessibilityHint("Select how often to show a new word")
     }
 }
 
-// Source Sections Row Component
-struct SourceSectionsRow: View {
-    @Binding var selectedSections: String
-    @ObservedObject var dataService: DataService
-    let onTap: () -> Void
+private struct DestructiveIconRow: View {
+    let icon: String
+    let title: String
+    let action: () -> Void
     
     var body: some View {
-        Button(action: {
-            HapticManager.shared.lightImpact()
-            onTap()
-        }) {
-            HStack(spacing: 12) {
-                Image(systemName: "list.bullet.rectangle.fill")
-                    .font(.body)
-                    .fontWeight(.medium)
-                    .foregroundColor(.white)
-                    .frame(width: 28, height: 28)
-                    .background(
-                        RoundedRectangle(cornerRadius: 6, style: .continuous)
-                            .fill(Color.orange)
-                    )
-                
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Source Sections")
-                        .font(.body)
-                        .foregroundColor(.primary)
-                    
-                    let selectedCount = getSelectedSectionsCount()
-                    Text(selectedCount == 0 ? "All sections" : "\(selectedCount) section\(selectedCount == 1 ? "" : "s") selected")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                
-                Spacer()
-                
-                Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.secondary)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+        Button(role: .destructive, action: action) {
+            SettingsIconRow(icon: icon, iconColor: .red, title: title)
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Source Sections")
-        .accessibilityHint("Choose which sections and lections to include")
     }
+}
+
+private struct AboutRow: View {
+    let title: String
+    let value: String
     
-    private func getSelectedSectionsCount() -> Int {
-        if selectedSections.isEmpty {
+    var body: some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(title)
+                .foregroundColor(.primary)
+            Spacer()
+            Text(value)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.trailing)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(title): \(value)")
+    }
+}
+
+private extension SettingsView {
+    func getSelectedSectionsCount() -> Int {
+        if wordOfTheDaySelectedSections.isEmpty {
             return 0 // 0 means "all"
         }
-        return selectedSections.split(separator: ",").count
-    }
-}
-
-struct SettingsRow: View {
-    let icon: String
-    let iconColor: Color
-    let title: String
-    var subtitle: String? = nil
-    var showToggle: Bool = false
-    var showChevron: Bool = false
-    var toggleValue: Binding<Bool>? = nil
-    var action: (() -> Void)? = nil
-    
-    init(
-        icon: String,
-        iconColor: Color,
-        title: String,
-        subtitle: String? = nil,
-        showToggle: Bool = false,
-        showChevron: Bool = false,
-        toggleValue: Binding<Bool>? = nil,
-        action: (() -> Void)? = nil
-    ) {
-        self.icon = icon
-        self.iconColor = iconColor
-        self.title = title
-        self.subtitle = subtitle
-        self.showToggle = showToggle
-        self.showChevron = showChevron
-        self.toggleValue = toggleValue
-        self.action = action
+        return wordOfTheDaySelectedSections.split(separator: ",").count
     }
     
-    var body: some View {
-        Button(action: {
-            HapticManager.shared.lightImpact()
-            action?()
-        }) {
-            HStack(spacing: 12) {
-                // Icon
-                Image(systemName: icon)
-                    .font(.body)
-                    .fontWeight(.medium)
-                    .foregroundColor(.white)
-                    .frame(width: 28, height: 28)
-                    .background(
-                        RoundedRectangle(cornerRadius: 6, style: .continuous)
-                            .fill(iconColor)
-                    )
-                
-                // Title and subtitle
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .font(.body)
-                        .foregroundColor(.primary)
-                    
-                    if let subtitle = subtitle {
-                        Text(subtitle)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                
-                Spacer()
-                
-                // Toggle or Chevron
-                if showToggle, let toggleBinding = toggleValue {
-                    Toggle("", isOn: toggleBinding)
-                        .labelsHidden()
-                        .tint(iconColor)
-                } else if showChevron {
-                    Image(systemName: "chevron.right")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.secondary)
-                }
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(title)
-        .accessibilityHint(subtitle ?? "")
-        .accessibilityAddTraits(showToggle ? [] : .isButton)
+    var localizedLanguageOptions: [String] {
+        ["English", "Deutsch"] // Keys
+    }
+    
+    var localizedAppearanceOptions: [String] {
+        ["Light", "Dark", "System"] // Keys
+    }
+    
+    var localizedTextSizeOptions: [String] {
+        ["Extra Small", "Small", "Medium", "Large", "Extra Large", "XX Large", "XXX Large"] // Keys
+    }
+    
+    var localizedPeriodicityOptions: [String] {
+        ["12_hours", "24_hours"] // Keys
     }
 }
 
@@ -533,3 +525,4 @@ struct SettingsRow: View {
             .environmentObject(DataService())
     }
 }
+

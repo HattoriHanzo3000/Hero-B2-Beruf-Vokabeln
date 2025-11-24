@@ -11,6 +11,7 @@ enum StudyMode {
     case synonyms
     case explanation
     case translations
+    case example // For VERBEN sections with quiz sentences
     
     init(from buttonType: ToolbarButtonType) {
         switch buttonType {
@@ -20,6 +21,8 @@ enum StudyMode {
             self = .synonyms
         case .translation:
             self = .translations
+        case .example:
+            self = .example
         }
     }
     
@@ -31,6 +34,8 @@ enum StudyMode {
             return Color("AppOrangeLight")
         case .translations:
             return Color("AppBlueLight")
+        case .example:
+            return Color("AppOrangeLight") // Same as explanation
         }
     }
     
@@ -42,6 +47,8 @@ enum StudyMode {
             return Color("AppOrange")
         case .translations:
             return Color("AppBlue")
+        case .example:
+            return Color("AppOrange") // Same as explanation
         }
     }
     
@@ -53,6 +60,8 @@ enum StudyMode {
             return "Erklärung"
         case .translations:
             return "Übersetzung"
+        case .example:
+            return Localizable.string(Localizable.practiseWithExample)
         }
     }
 }

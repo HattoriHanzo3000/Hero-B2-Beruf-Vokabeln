@@ -11,12 +11,14 @@ enum ToolbarButtonType {
     case explanation
     case synonym
     case translation
+    case example // For VERBEN sections
     
     var message: String {
         switch self {
         case .explanation: return "Erklärung"
         case .synonym: return "Synonym"
         case .translation: return "Übersetzung"
+        case .example: return Localizable.string(Localizable.practiseWithExample)
         }
     }
     
@@ -25,6 +27,7 @@ enum ToolbarButtonType {
         case .explanation: return Color("AppOrange")
         case .synonym: return Color("AppGreen")
         case .translation: return Color("AppBlue")
+        case .example: return Color("AppOrange") // Same as explanation
         }
     }
     
@@ -33,6 +36,16 @@ enum ToolbarButtonType {
         case .explanation: return "MIT ERKLÄRUNG ÜBEN"
         case .synonym: return "MIT SYNONYMEN ÜBEN"
         case .translation: return "MIT ÜBERSETZUNG ÜBEN"
+        case .example: return Localizable.string(Localizable.practiseWithExample).uppercased()
+        }
+    }
+    
+    var icon: String {
+        switch self {
+        case .explanation: return "info"
+        case .synonym: return "figure.2"
+        case .translation: return "globe"
+        case .example: return "ellipsis"
         }
     }
 }
@@ -41,21 +54,37 @@ struct GroupedToolbar: View {
     let onExplanationTap: () -> Void
     let onSynonymTap: () -> Void
     let onTranslationTap: () -> Void
+    let onExampleTap: (() -> Void)?
     let onCheckmarkTap: () -> Void
-    let onSettingsTap: () -> Void
+    let onSettingsTap: (() -> Void)?
     let isCheckmarkSelected: Bool
     @Binding var selectedButtonType: ToolbarButtonType
+    let isVerbenMode: Bool // If true, show only translation and example buttons
     
     @State private var selectedButton: ToolbarButtonType = .translation
     
-    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onCheckmarkTap: @escaping () -> Void, onSettingsTap: @escaping () -> Void, isCheckmarkSelected: Bool, selectedButtonType: Binding<ToolbarButtonType>) {
+    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onExampleTap: (() -> Void)? = nil, onCheckmarkTap: @escaping () -> Void, onSettingsTap: (() -> Void)? = nil, isCheckmarkSelected: Bool, selectedButtonType: Binding<ToolbarButtonType>, isVerbenMode: Bool = false) {
         self.onExplanationTap = onExplanationTap
         self.onSynonymTap = onSynonymTap
         self.onTranslationTap = onTranslationTap
+        self.onExampleTap = onExampleTap
         self.onCheckmarkTap = onCheckmarkTap
         self.onSettingsTap = onSettingsTap
         self.isCheckmarkSelected = isCheckmarkSelected
         self._selectedButtonType = selectedButtonType
+        self.isVerbenMode = isVerbenMode
+    }
+    
+    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onCheckmarkTap: @escaping () -> Void, onSettingsTap: (() -> Void)? = nil, isCheckmarkSelected: Bool, selectedButtonType: Binding<ToolbarButtonType>) {
+        self.onExplanationTap = onExplanationTap
+        self.onSynonymTap = onSynonymTap
+        self.onTranslationTap = onTranslationTap
+        self.onExampleTap = nil
+        self.onCheckmarkTap = onCheckmarkTap
+        self.onSettingsTap = onSettingsTap
+        self.isCheckmarkSelected = isCheckmarkSelected
+        self._selectedButtonType = selectedButtonType
+        self.isVerbenMode = false
     }
     
     private func updateSelectedButton(_ newValue: ToolbarButtonType) {
@@ -82,99 +111,140 @@ struct GroupedToolbar: View {
             
             Spacer()
             
-            // Grouped action buttons (translation, explanation, synonym)
-            HStack(spacing: 0) {
-                // Translation button (first)
-                Button(action: {
-                    updateSelectedButton(.translation)
-                    onTranslationTap()
-                }) {
-                    Image(systemName: "globe")
-                        .font(.body)
-                        .fontWeight(.medium)
-                        .foregroundColor(selectedButton == .translation ? ToolbarButtonType.translation.color : .primary)
-                        .frame(width: 44, height: 44)
-                        .animation(.easeInOut(duration: 0.2), value: selectedButton)
+            // Grouped action buttons
+            if isVerbenMode {
+                // VERBEN mode: Translation and Example only
+                HStack(spacing: 0) {
+                    // Translation button (first)
+                    Button(action: {
+                        updateSelectedButton(.translation)
+                        onTranslationTap()
+                    }) {
+                        Image(systemName: ToolbarButtonType.translation.icon)
+                            .font(.body)
+                            .fontWeight(.medium)
+                            .foregroundColor(selectedButton == .translation ? ToolbarButtonType.translation.color : .primary)
+                            .frame(width: 44, height: 44)
+                            .animation(.easeInOut(duration: 0.2), value: selectedButton)
+                    }
+                    .buttonStyle(GroupedToolbarButtonStyle(
+                        isSelected: selectedButton == .translation,
+                        accentColor: ToolbarButtonType.translation.color,
+                        position: .leading
+                    ))
+                    .accessibilityLabel("Übersetzung")
+                    .accessibilityHint("Zeigt Übersetzungen an")
+                    .accessibilityAddTraits(selectedButton == .translation ? .isSelected : [])
+                    
+                    // Divider
+                    Rectangle()
+                        .fill(Color.primary.opacity(0.15))
+                        .frame(width: 0.5, height: 24)
+                    
+                    // Example button (second)
+                    Button(action: {
+                        updateSelectedButton(.example)
+                        onExampleTap?()
+                    }) {
+                        Image(systemName: ToolbarButtonType.example.icon)
+                            .font(.body)
+                            .fontWeight(.medium)
+                            .foregroundColor(selectedButton == .example ? ToolbarButtonType.example.color : .primary)
+                            .frame(width: 44, height: 44)
+                            .animation(.easeInOut(duration: 0.2), value: selectedButton)
+                    }
+                    .buttonStyle(GroupedToolbarButtonStyle(
+                        isSelected: selectedButton == .example,
+                        accentColor: ToolbarButtonType.example.color,
+                        position: .trailing
+                    ))
+                    .accessibilityLabel(Localizable.string(Localizable.practiseWithExample))
+                    .accessibilityHint("Zeigt Beispiele an")
+                    .accessibilityAddTraits(selectedButton == .example ? .isSelected : [])
                 }
-                .buttonStyle(GroupedToolbarButtonStyle(
-                    isSelected: selectedButton == .translation,
-                    accentColor: ToolbarButtonType.translation.color,
-                    position: .leading
-                ))
-                .accessibilityLabel("Übersetzung")
-                .accessibilityHint("Zeigt Übersetzungen an")
-                .accessibilityAddTraits(selectedButton == .translation ? .isSelected : [])
-                
-                // Divider
-                Rectangle()
-                    .fill(Color.primary.opacity(0.15))
-                    .frame(width: 0.5, height: 24)
-                
-                // Explanation button (second)
-                Button(action: {
-                    updateSelectedButton(.explanation)
-                    onExplanationTap()
-                }) {
-                    Image(systemName: "info")
-                        .font(.body)
-                        .fontWeight(.medium)
-                        .foregroundColor(selectedButton == .explanation ? ToolbarButtonType.explanation.color : .primary)
-                        .frame(width: 44, height: 44)
-                        .animation(.easeInOut(duration: 0.2), value: selectedButton)
+                .frame(height: 44)
+                .background(liquidGlassCapsule)
+            } else {
+                // Regular mode: Translation, Explanation, Synonym
+                HStack(spacing: 0) {
+                    // Translation button (first)
+                    Button(action: {
+                        updateSelectedButton(.translation)
+                        onTranslationTap()
+                    }) {
+                        Image(systemName: ToolbarButtonType.translation.icon)
+                            .font(.body)
+                            .fontWeight(.medium)
+                            .foregroundColor(selectedButton == .translation ? ToolbarButtonType.translation.color : .primary)
+                            .frame(width: 44, height: 44)
+                            .animation(.easeInOut(duration: 0.2), value: selectedButton)
+                    }
+                    .buttonStyle(GroupedToolbarButtonStyle(
+                        isSelected: selectedButton == .translation,
+                        accentColor: ToolbarButtonType.translation.color,
+                        position: .leading
+                    ))
+                    .accessibilityLabel("Übersetzung")
+                    .accessibilityHint("Zeigt Übersetzungen an")
+                    .accessibilityAddTraits(selectedButton == .translation ? .isSelected : [])
+                    
+                    // Divider
+                    Rectangle()
+                        .fill(Color.primary.opacity(0.15))
+                        .frame(width: 0.5, height: 24)
+                    
+                    // Explanation button (second)
+                    Button(action: {
+                        updateSelectedButton(.explanation)
+                        onExplanationTap()
+                    }) {
+                        Image(systemName: ToolbarButtonType.explanation.icon)
+                            .font(.body)
+                            .fontWeight(.medium)
+                            .foregroundColor(selectedButton == .explanation ? ToolbarButtonType.explanation.color : .primary)
+                            .frame(width: 44, height: 44)
+                            .animation(.easeInOut(duration: 0.2), value: selectedButton)
+                    }
+                    .buttonStyle(GroupedToolbarButtonStyle(
+                        isSelected: selectedButton == .explanation,
+                        accentColor: ToolbarButtonType.explanation.color,
+                        position: .middle
+                    ))
+                    .accessibilityLabel("Erklärung")
+                    .accessibilityHint("Zeigt Erklärungen an")
+                    .accessibilityAddTraits(selectedButton == .explanation ? .isSelected : [])
+                    
+                    // Divider
+                    Rectangle()
+                        .fill(Color.primary.opacity(0.15))
+                        .frame(width: 0.5, height: 24)
+                    
+                    // Synonym button (third)
+                    Button(action: {
+                        updateSelectedButton(.synonym)
+                        onSynonymTap()
+                    }) {
+                        Image(systemName: ToolbarButtonType.synonym.icon)
+                            .font(.body)
+                            .fontWeight(.medium)
+                            .foregroundColor(selectedButton == .synonym ? ToolbarButtonType.synonym.color : .primary)
+                            .frame(width: 44, height: 44)
+                            .animation(.easeInOut(duration: 0.2), value: selectedButton)
+                    }
+                    .buttonStyle(GroupedToolbarButtonStyle(
+                        isSelected: selectedButton == .synonym,
+                        accentColor: ToolbarButtonType.synonym.color,
+                        position: .trailing
+                    ))
+                    .accessibilityLabel("Synonym")
+                    .accessibilityHint("Zeigt Synonyme an")
+                    .accessibilityAddTraits(selectedButton == .synonym ? .isSelected : [])
                 }
-                .buttonStyle(GroupedToolbarButtonStyle(
-                    isSelected: selectedButton == .explanation,
-                    accentColor: ToolbarButtonType.explanation.color,
-                    position: .middle
-                ))
-                .accessibilityLabel("Erklärung")
-                .accessibilityHint("Zeigt Erklärungen an")
-                .accessibilityAddTraits(selectedButton == .explanation ? .isSelected : [])
-                
-                // Divider
-                Rectangle()
-                    .fill(Color.primary.opacity(0.15))
-                    .frame(width: 0.5, height: 24)
-                
-                // Synonym button (third)
-                Button(action: {
-                    updateSelectedButton(.synonym)
-                    onSynonymTap()
-                }) {
-                    Image(systemName: "figure.2")
-                        .font(.body)
-                        .fontWeight(.medium)
-                        .foregroundColor(selectedButton == .synonym ? ToolbarButtonType.synonym.color : .primary)
-                        .frame(width: 44, height: 44)
-                        .animation(.easeInOut(duration: 0.2), value: selectedButton)
-                }
-                .buttonStyle(GroupedToolbarButtonStyle(
-                    isSelected: selectedButton == .synonym,
-                    accentColor: ToolbarButtonType.synonym.color,
-                    position: .trailing
-                ))
-                .accessibilityLabel("Synonym")
-                .accessibilityHint("Zeigt Synonyme an")
-                .accessibilityAddTraits(selectedButton == .synonym ? .isSelected : [])
+                .frame(height: 44)
+                .background(liquidGlassCapsule)
             }
-            .frame(height: 44)
-            .background(liquidGlassCapsule)
             
             Spacer()
-            
-            // Settings button
-            Button(action: {
-                onSettingsTap()
-            }) {
-                Image(systemName: "gearshape")
-                    .font(.body)
-                    .fontWeight(.medium)
-                    .foregroundColor(.primary)
-                    .frame(width: 44, height: 44)
-            }
-            .buttonStyle(CircularLiquidGlassButtonStyle(isSelected: false, accentColor: .secondary))
-            .accessibilityLabel("Settings")
-            .accessibilityHint("Opens settings")
         }
         .onChange(of: selectedButtonType) { oldValue, newValue in
             selectedButton = newValue

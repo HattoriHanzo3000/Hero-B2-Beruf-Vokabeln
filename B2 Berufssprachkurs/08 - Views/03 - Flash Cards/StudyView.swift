@@ -9,9 +9,10 @@ import SwiftUI
 
 struct StudyItem {
     let front: String  // Variation (synonym, explanation, or translation)
-    let back: String   // Word (German word)
+    let back: String   // Word (German word) or example sentence
     let wordId: String
     let sectionId: String
+    let germanWord: String? // For example mode: verb with preposition and case
 }
 
 struct StudyView: View {
@@ -42,21 +43,37 @@ struct StudyView: View {
         var items: [StudyItem] = []
         
         // Determine which sections to process
-        var sectionsToProcess: [(section: Section, lection: Lection)] = []
+        var sectionsToProcess: [(section: Section, lection: Lection?)] = []
         
         if let sectionId = filterBySectionId {
             // From section view: only process the specified section
+            // Try regular sections first
             for lection in dataService.lections {
                 if let section = lection.sections.first(where: { $0.id == sectionId }) {
                     sectionsToProcess.append((section: section, lection: lection))
                     break
                 }
             }
+            // If not found in regular sections, check VERBEN sections
+            if sectionsToProcess.isEmpty && sectionId.hasPrefix("VERBEN_") {
+                if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
+                    let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "VERBEN_", with: ""))
+                    sectionsToProcess.append((section: section, lection: nil))
+                }
+            }
         } else {
-            // From home view: process all sections
+            // From home/verbs view: process all sections
+            // Process regular sections from lections
             for lection in dataService.lections {
                 for section in lection.sections {
                     sectionsToProcess.append((section: section, lection: lection))
+                }
+            }
+            // Also process VERBEN sections from wordsBySection
+            for (sectionId, words) in dataService.wordsBySection where sectionId.hasPrefix("VERBEN_") {
+                if !words.isEmpty {
+                    let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "VERBEN_", with: ""))
+                    sectionsToProcess.append((section: section, lection: nil))
                 }
             }
         }
@@ -67,7 +84,7 @@ struct StudyView: View {
             if !studyAllMode && filterBySectionId == nil {
                 // From home view: only include checked sections or sections in checked lections
                 let isSectionCompleted = dataService.isSectionCompleted(sectionId: section.id)
-                let isLectionCompleted = dataService.isLectionCompleted(lectionId: lection.id)
+                let isLectionCompleted = lection != nil ? dataService.isLectionCompleted(lectionId: lection!.id) : false
                 
                 // Only include if section is checked OR lection is checked
                 if !isSectionCompleted && !isLectionCompleted {
@@ -88,19 +105,23 @@ struct StudyView: View {
                 wordsToProcess = allWords.filter { checkedWordIds.contains($0.id) }
             }
             
+            // Check if this is a VERBEN section
+            let isVerbenSection = section.id.hasPrefix("VERBEN_")
+            
             // Process words based on study mode
             for word in wordsToProcess {
                 switch mode {
                 case .synonyms:
                     // For synonyms: show all words that have synonyms
-                    if !word.synonyms.isEmpty {
+                    if let synonyms = word.synonyms, !synonyms.isEmpty {
                         // Randomly pick a synonym or use the first one
-                        let synonym = word.synonyms.randomElement() ?? word.synonyms.first ?? ""
+                        let synonym = synonyms.randomElement() ?? synonyms.first ?? ""
                         items.append(StudyItem(
                             front: synonym,
                             back: word.german,
                             wordId: word.id,
-                            sectionId: section.id
+                            sectionId: section.id,
+                            germanWord: nil
                         ))
                     }
                 case .explanation:
@@ -110,7 +131,8 @@ struct StudyView: View {
                             front: explanation,
                             back: word.german,
                             wordId: word.id,
-                            sectionId: section.id
+                            sectionId: section.id,
+                            germanWord: nil
                         ))
                     }
                 case .translations:
@@ -121,7 +143,19 @@ struct StudyView: View {
                             front: translation,
                             back: word.german,
                             wordId: word.id,
-                            sectionId: section.id
+                            sectionId: section.id,
+                            germanWord: nil
+                        ))
+                    }
+                case .example:
+                    // For example mode (VERBEN sections): show quiz sentence on front, example on back
+                    if isVerbenSection, let quiz = word.quiz, !quiz.isEmpty, let example = word.example, !example.isEmpty {
+                        items.append(StudyItem(
+                            front: quiz,
+                            back: example,
+                            wordId: word.id,
+                            sectionId: section.id,
+                            germanWord: word.german // Store German word to show below example
                         ))
                     }
                 }
@@ -182,7 +216,8 @@ struct StudyView: View {
                     // Variation always on frontCard (colored), Word always on backCard (gray)
                     FlashCardView2(
                         frontText: studyItems[currentIndex].front, // Variation (colored)
-                        backText: studyItems[currentIndex].back,   // Word (gray)
+                        backText: studyItems[currentIndex].back,   // Word (gray) or example
+                        germanWord: studyItems[currentIndex].germanWord, // For example mode: verb with prep
                         cardColor: mode.accentColor,
                         cardId: studyItems[currentIndex].wordId,
                         initialFlipped: cardFlipped, // true when reversed (shows Word first)
@@ -255,6 +290,7 @@ struct StudyView: View {
                 EmptyView()
             }
         }
+        .toolbar(.hidden, for: .tabBar)
         .onAppear {
             loadStudyItems()
             // Set initial flip state based on reverse mode
@@ -270,50 +306,59 @@ struct StudyView: View {
     }
     
     private var headerView: some View {
-        HStack {
-            // Back button with liquid glass style
-            Button(action: {
-                HapticManager.shared.lightImpact()
-                dismiss()
-            }) {
-                Image(systemName: "chevron.left")
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-                    .frame(width: 44, height: 44)
-                    .background(liquidGlassCircle)
+        VStack(spacing: 4) {
+            HStack {
+                // Back button with liquid glass style
+                Button(action: {
+                    HapticManager.shared.lightImpact()
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
+                        .frame(width: 44, height: 44)
+                        .background(liquidGlassCircle)
+                }
+                .buttonStyle(ScaleButtonStyle())
+                .accessibilityLabel("Back")
+                .accessibilityHint("Return to previous screen")
+                
+                Spacer()
+                
+                // Title
+                VStack(spacing: 2) {
+                    Text(mode.title)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
+                        .accessibilityAddTraits(.isHeader)
+                    
+                    // Card count
+                    Text("\(studyItems.count) \(Localizable.string(Localizable.cards))")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+                
+                // Reverse button with liquid glass style
+                Button(action: {
+                    HapticManager.shared.lightImpact()
+                    reverseCard()
+                }) {
+                    Image(systemName: "arrow.trianglehead.2.clockwise")
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .foregroundColor(isReversed ? .green : .primary)
+                        .frame(width: 44, height: 44)
+                        .background(liquidGlassCircle)
+                }
+                .buttonStyle(ScaleButtonStyle())
+                .accessibilityLabel(isReversed ? "Reverse mode active" : "Reverse mode inactive")
+                .accessibilityHint("Toggle to show word on front or back of card")
+                .accessibilityValue(isReversed ? "Active" : "Inactive")
             }
-            .buttonStyle(ScaleButtonStyle())
-            .accessibilityLabel("Back")
-            .accessibilityHint("Return to previous screen")
-            
-            Spacer()
-            
-            // Title
-            Text(mode.title)
-                .font(.headline)
-                .fontWeight(.semibold)
-                .foregroundColor(.primary)
-                .accessibilityAddTraits(.isHeader)
-            
-            Spacer()
-            
-            // Reverse button with liquid glass style
-            Button(action: {
-                HapticManager.shared.lightImpact()
-                reverseCard()
-            }) {
-                Image(systemName: "arrow.trianglehead.2.clockwise")
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    .foregroundColor(isReversed ? .green : .primary)
-                    .frame(width: 44, height: 44)
-                    .background(liquidGlassCircle)
-            }
-            .buttonStyle(ScaleButtonStyle())
-            .accessibilityLabel(isReversed ? "Reverse mode active" : "Reverse mode inactive")
-            .accessibilityHint("Toggle to show word on front or back of card")
-            .accessibilityValue(isReversed ? "Active" : "Inactive")
         }
         .padding(.horizontal, 20)
     }
@@ -385,7 +430,7 @@ struct StudyView: View {
             return "checkmark.circle"
         }
         switch mode {
-        case .synonyms, .explanation:
+        case .synonyms, .explanation, .example:
             return "book.closed"
         case .translations:
             return "text.book.closed"
@@ -401,6 +446,8 @@ struct StudyView: View {
             return "Keine Synonyme verfügbar"
         case .explanation:
             return "Keine Erklärungen verfügbar"
+        case .example:
+            return "Keine Beispiele verfügbar"
         case .translations:
             return "Keine Übersetzungen gefunden"
         }
@@ -415,6 +462,8 @@ struct StudyView: View {
             return "Bitte füge Synonyme zu den Wörtern hinzu"
         case .explanation:
             return "Bitte füge Erklärungen zu den Wörtern hinzu"
+        case .example:
+            return "Bitte füge Beispiele zu den Wörtern hinzu"
         case .translations:
             return "Bitte füge Übersetzungen zu den Wörtern hinzu"
         }
@@ -536,6 +585,7 @@ struct ScaleButtonStyle: ButtonStyle {
 struct FlashCardView2: View {
     let frontText: String
     let backText: String
+    let germanWord: String? // For example mode: verb with preposition and case
     let cardColor: Color
     let cardId: String?
     let initialFlipped: Bool
@@ -551,6 +601,7 @@ struct FlashCardView2: View {
     init(
         frontText: String,
         backText: String,
+        germanWord: String? = nil,
         cardColor: Color,
         cardId: String? = nil,
         initialFlipped: Bool = false,
@@ -559,6 +610,7 @@ struct FlashCardView2: View {
     ) {
         self.frontText = frontText
         self.backText = backText
+        self.germanWord = germanWord
         self.cardColor = cardColor
         self.cardId = cardId
         self.initialFlipped = initialFlipped
@@ -787,14 +839,25 @@ struct FlashCardView2: View {
                     )
             }
             .overlay {
-                Text(backText)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
+                VStack(spacing: 16) {
+                    Text(backText)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
+                        .multilineTextAlignment(.center)
+                    
+                    // Show German word below example for example mode
+                    if let germanWord = germanWord {
+                        Text(germanWord)
+                            .font(.headline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                }
+                .padding(.horizontal, 32)
             }
-            .accessibilityLabel("Card back: \(backText)")
+            .accessibilityLabel("Card back: \(backText)\(germanWord != nil ? ". German word: \(germanWord!)" : "")")
             .accessibilityHint("Tap to flip card")
             .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
             .frame(height: 400)

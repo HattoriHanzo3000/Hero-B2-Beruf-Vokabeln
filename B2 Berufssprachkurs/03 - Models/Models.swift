@@ -35,7 +35,9 @@ struct Word: Codable, Identifiable, Equatable {
     let id: String
     let german: String
     var translation: String
-    var synonyms: [String]
+    var synonyms: [String]?
     var explanation: String?
+    var example: String?
+    var quiz: String?
 }
 

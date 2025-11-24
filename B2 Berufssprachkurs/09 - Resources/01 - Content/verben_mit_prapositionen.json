@@ -1,0 +1,1307 @@
+{
+  "words": [
+    {
+      "sectionId": "VERBEN_an",
+      "words": [
+        {
+          "id": "VERBEN_an-1",
+          "german": "ändern an (+ Dat.)",
+          "translation": "",
+          "example": "An dieser Situation kann man noch etwas ändern.",
+          "quiz": "... dieser Situation kann man noch etwas ändern."
+        },
+        {
+          "id": "VERBEN_an-2",
+          "german": "denken an (+ Akk.)",
+          "translation": "",
+          "example": "Ich denke oft an meine berufliche Zukunft.",
+          "quiz": "Ich denke oft ... meine berufliche Zukunft."
+        },
+        {
+          "id": "VERBEN_an-3",
+          "german": "sich erinnern an (+ Akk.)",
+          "translation": "",
+          "example": "Franziska kann sich recht gut an das Projekt erinnern.",
+          "quiz": "Franziska kann sich recht gut ... das Projekt erinnern."
+        },
+        {
+          "id": "VERBEN_an-4",
+          "german": "sich gewöhnen an (+ Akk.)",
+          "translation": "",
+          "example": "Ich habe mich an das Essen gewöhnt.",
+          "quiz": "Ich habe mich ... das Essen gewöhnt."
+        },
+        {
+          "id": "VERBEN_an-5",
+          "german": "glauben an (+ Akk.)",
+          "translation": "",
+          "example": "Er glaubt an den Erfolg der Marketingmaßnahme.",
+          "quiz": "Er glaubt ... den Erfolg der Marketingmaßnahme."
+        },
+        {
+          "id": "VERBEN_an-6",
+          "german": "es liegt an (+ Dat.)",
+          "translation": "",
+          "example": "Dass ich Kopfschmerzen habe, liegt am Wetter.",
+          "quiz": "Dass ich Kopfschmerzen habe, liegt ... Wetter."
+        },
+        {
+          "id": "VERBEN_an-7",
+          "german": "richten an (+ Akk.)",
+          "translation": "",
+          "example": "Sie richtete die Bitte an ihre Kollegen.",
+          "quiz": "Sie richtete die Bitte ... ihre Kollegen."
+        },
+        {
+          "id": "VERBEN_an-8",
+          "german": "teilnehmen an (+ Dat.)",
+          "translation": "",
+          "example": "Ich nehme an dem Projekt teil.",
+          "quiz": "Ich nehme ... dem Projekt teil."
+        },
+        {
+          "id": "VERBEN_an-9",
+          "german": "sich wenden an (+ Akk.)",
+          "translation": "",
+          "example": "Er hat sich an den Betriebsrat gewendet.",
+          "quiz": "Er hat sich ... den Betriebsrat gewendet."
+        },
+        {
+          "id": "VERBEN_an-10",
+          "german": "zweifeln an (+ Dat.)",
+          "translation": "",
+          "example": "Sie hat nie am Erfolg des Projekts gezweifelt.",
+          "quiz": "Sie hat nie ... Erfolg des Projekts gezweifelt."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_auf",
+      "words": [
+        {
+          "id": "VERBEN_auf-1",
+          "german": "abwälzen auf (+ Akk.)",
+          "translation": "",
+          "example": "Klaus wälzt die ganze Arbeit auf seinen Kollegen ab.",
+          "quiz": "Klaus wälzt die ganze Arbeit ... seinen Kollegen ab."
+        },
+        {
+          "id": "VERBEN_auf-2",
+          "german": "achten auf (+ Akk.)",
+          "translation": "",
+          "example": "Sebastian achtet sehr auf sein Aussehen.",
+          "quiz": "Sebastian achtet sehr ... sein Aussehen."
+        },
+        {
+          "id": "VERBEN_auf-3",
+          "german": "ankommen auf (+ Akk.)",
+          "translation": "",
+          "example": "Das kommt darauf an.",
+          "quiz": "Das kommt dar... an."
+        },
+        {
+          "id": "VERBEN_auf-4",
+          "german": "antworten auf (+ Akk.)",
+          "translation": "",
+          "example": "Antworten Sie bitte auf meine Frage.",
+          "quiz": "Antworten Sie bitte ... meine Frage."
+        },
+        {
+          "id": "VERBEN_auf-5",
+          "german": "aufpassen auf (+ Akk.)",
+          "translation": "",
+          "example": "Sie sollten besser auf Ihren Schlüssel aufpassen. Hier wird oft geklaut.",
+          "quiz": "Sie sollten besser ... Ihren Schlüssel aufpassen. Hier wird oft geklaut."
+        },
+        {
+          "id": "VERBEN_auf-6",
+          "german": "sich auswirken auf (+ Akk.)",
+          "translation": "",
+          "example": "Seine Müdigkeit hat sich auf seine Leistung ausgewirkt.",
+          "quiz": "Seine Müdigkeit hat sich ... seine Leistung ausgewirkt."
+        },
+        {
+          "id": "VERBEN_auf-7",
+          "german": "sich beziehen auf (+ Akk.)",
+          "translation": "",
+          "example": "Ich beziehe mich auf Ihren Brief vom 23. Mai.",
+          "quiz": "Ich beziehe mich ... Ihren Brief vom 23. Mai."
+        },
+        {
+          "id": "VERBEN_auf-8",
+          "german": "sich einigen auf (+ Akk.)",
+          "translation": "",
+          "example": "Sie haben sich auf die Projektmeilensteine geeinigt.",
+          "quiz": "Sie haben sich ... die Projektmeilensteine geeinigt."
+        },
+        {
+          "id": "VERBEN_auf-9",
+          "german": "sich einlassen auf (+ Akk.)",
+          "translation": "",
+          "example": "Er hat sich nicht auf das Angebot eingelassen.",
+          "quiz": "Er hat sich nicht ... das Angebot eingelassen."
+        },
+        {
+          "id": "VERBEN_auf-10",
+          "german": "sich einstellen auf (+ Akk.)",
+          "translation": "",
+          "example": "Wir müssen uns auf die neue Situation einstellen.",
+          "quiz": "Wir müssen uns ... die neue Situation einstellen."
+        },
+        {
+          "id": "VERBEN_auf-11",
+          "german": "sich einstimmen auf (+ Akk.)",
+          "translation": "",
+          "example": "Wir können uns jetzt auf den Urlaub einstimmen.",
+          "quiz": "Wir können uns jetzt ... den Urlaub einstimmen."
+        },
+        {
+          "id": "VERBEN_auf-12",
+          "german": "sich freuen auf (+ Akk.)",
+          "translation": "",
+          "example": "Wir freuen uns auf den Urlaub.",
+          "quiz": "Wir freuen uns ... den Urlaub."
+        },
+        {
+          "id": "VERBEN_auf-13",
+          "german": "hinweisen auf (+ Akk.)",
+          "translation": "",
+          "example": "Sie hat ihn auf die Projektrisiken hingewiesen.",
+          "quiz": "Sie hat ihn ... die Projektrisiken hingewiesen."
+        },
+        {
+          "id": "VERBEN_auf-14",
+          "german": "hoffen auf (+ Akk.)",
+          "translation": "",
+          "example": "Sie hofft auf eine schnelle Antwort.",
+          "quiz": "Sie hofft ... eine schnelle Antwort."
+        },
+        {
+          "id": "VERBEN_auf-15",
+          "german": "kommen auf (+ Akk.)",
+          "translation": "",
+          "example": "Wie sind Sie auf diesen Vorschlag gekommen?",
+          "quiz": "Wie sind Sie ... diesen Vorschlag gekommen?"
+        },
+        {
+          "id": "VERBEN_auf-16",
+          "german": "sich konzentrieren auf (+ Akk.)",
+          "translation": "",
+          "example": "Ich will mich ganz auf die Prüfung konzentrieren.",
+          "quiz": "Ich will mich ganz ... die Prüfung konzentrieren."
+        },
+        {
+          "id": "VERBEN_auf-17",
+          "german": "reagieren auf (+ Akk.)",
+          "translation": "",
+          "example": "Wir müssen schnell auf seine Frage reagieren.",
+          "quiz": "Wir müssen schnell ... seine Frage reagieren."
+        },
+        {
+          "id": "VERBEN_auf-18",
+          "german": "stellen auf (+ Akk.)",
+          "translation": "",
+          "example": "Stell den Schalter auf Stufe 3.",
+          "quiz": "Stell den Schalter ... Stufe 3."
+        },
+        {
+          "id": "VERBEN_auf-19",
+          "german": "sich verlassen auf (+ Akk.)",
+          "translation": "",
+          "example": "Sie können sich auf mich verlassen.",
+          "quiz": "Sie können sich ... mich verlassen."
+        },
+        {
+          "id": "VERBEN_auf-20",
+          "german": "verzichten auf (+ Akk.)",
+          "translation": "",
+          "example": "Er kann auf seine Kaffeepause heute nicht verzichten.",
+          "quiz": "Er kann ... seine Kaffeepause heute nicht verzichten."
+        },
+        {
+          "id": "VERBEN_auf-21",
+          "german": "sich vorbereiten auf (+ Akk.)",
+          "translation": "",
+          "example": "Wir müssen uns auf das Gespräch vorbereiten.",
+          "quiz": "Wir müssen uns ... das Gespräch vorbereiten."
+        },
+        {
+          "id": "VERBEN_auf-22",
+          "german": "warten auf (+ Akk.)",
+          "translation": "",
+          "example": "Fabian wartet auf seinen Vorgesetzten.",
+          "quiz": "Fabian wartet ... seinen Vorgesetzten."
+        },
+        {
+          "id": "VERBEN_auf-23",
+          "german": "wirken auf (+ Akk.)",
+          "translation": "",
+          "example": "Er wirkt auf mich sympathisch und kompetent.",
+          "quiz": "Er wirkt ... mich sympathisch und kompetent."
+        },
+        {
+          "id": "VERBEN_auf-24",
+          "german": "zukommen auf (+ Akk.)",
+          "translation": "",
+          "example": "Ich sehe einige Probleme auf uns zukommen.",
+          "quiz": "Ich sehe einige Probleme ... uns zukommen."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_aus",
+      "words": [
+        {
+          "id": "VERBEN_aus-1",
+          "german": "bestehen aus (+ Dat.)",
+          "translation": "",
+          "example": "Mein Vortrag besteht aus drei Teilen.",
+          "quiz": "Mein Vortrag besteht ... drei Teilen."
+        },
+        {
+          "id": "VERBEN_aus-2",
+          "german": "herauskommen aus (+ Dat.)",
+          "translation": "",
+          "example": "Die Mitarbeiter sind aus ihren Büros herausgekommen.",
+          "quiz": "Die Mitarbeiter sind ... ihren Büros herausgekommen."
+        },
+        {
+          "id": "VERBEN_aus-3",
+          "german": "sich zurückziehen aus (+ Dat.)",
+          "translation": "",
+          "example": "Sie hat sich aus der Geschäftsführung zurückgezogen.",
+          "quiz": "Sie hat sich ... der Geschäftsführung zurückgezogen."
+        },
+        {
+          "id": "VERBEN_aus-4",
+          "german": "sich zusammensetzen aus (+ Dat.)",
+          "translation": "",
+          "example": "Die Luft setzt sich aus verschiedenen Gasen zusammen.",
+          "quiz": "Die Luft setzt sich ... verschiedenen Gasen zusammen."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_bei",
+      "words": [
+        {
+          "id": "VERBEN_bei-1",
+          "german": "verweilen bei (+ Dat.)",
+          "translation": "",
+          "example": "Er verweilte ein paar Tage bei seinen Freunden.",
+          "quiz": "Er verweilte ein paar Tage ... seinen Freunden."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_bis",
+      "words": [
+        {
+          "id": "VERBEN_bis-1",
+          "german": "sich erstrecken bis (+ Dat.)",
+          "translation": "",
+          "example": "Die Alpen erstrecken sich von Frankreich bis (nach) Slowenien.",
+          "quiz": "Die Alpen erstrecken sich von Frankreich ... (nach) Slowenien."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_durch",
+      "words": [
+        {
+          "id": "VERBEN_durch-1",
+          "german": "sich auszeichnen durch (+ Akk.)",
+          "translation": "",
+          "example": "Sie zeichnet sich durch Genauigkeit aus.",
+          "quiz": "Sie zeichnet sich ... Genauigkeit aus."
+        },
+        {
+          "id": "VERBEN_durch-2",
+          "german": "beeindrucken durch (+ Akk.)",
+          "translation": "",
+          "example": "Sie beeindruckte ihre Chefin durch ihr Können.",
+          "quiz": "Sie beeindruckte ihre Chefin ... ihr Können."
+        },
+        {
+          "id": "VERBEN_durch-3",
+          "german": "ersetzen durch (+ Akk.)",
+          "translation": "",
+          "example": "Alle Laptops wurden durch neue Tablets ersetzt.",
+          "quiz": "Alle Laptops wurden ... neue Tablets ersetzt."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_für",
+      "words": [
+        {
+          "id": "VERBEN_für-1",
+          "german": "ausgeben für (+ Akk.)",
+          "translation": "",
+          "example": "Die Firma gibt viel Geld für Weiterbildung aus.",
+          "quiz": "Die Firma gibt viel Geld ... Weiterbildung aus."
+        },
+        {
+          "id": "VERBEN_für-2",
+          "german": "sich begeistern für (+ Akk.)",
+          "translation": "",
+          "example": "Er hat sich für die neue Technik begeistert.",
+          "quiz": "Er hat sich ... die neue Technik begeistert."
+        },
+        {
+          "id": "VERBEN_für-3",
+          "german": "sich einsetzen für (+ Akk.)",
+          "translation": "",
+          "example": "Sie hat sich aktiv für ihren Kollegen eingesetzt.",
+          "quiz": "Sie hat sich aktiv ... ihren Kollegen eingesetzt."
+        },
+        {
+          "id": "VERBEN_für-4",
+          "german": "sich engagieren für (+ Akk.)",
+          "translation": "",
+          "example": "Ich engagiere mich für das Jugendtheater in unserer Stadt.",
+          "quiz": "Ich engagiere mich ... das Jugendtheater in unserer Stadt."
+        },
+        {
+          "id": "VERBEN_für-5",
+          "german": "sich entscheiden für (+ Akk.)",
+          "translation": "",
+          "example": "Sie hat sich für das billigere Angebot entschieden.",
+          "quiz": "Sie hat sich ... das billigere Angebot entschieden."
+        },
+        {
+          "id": "VERBEN_für-6",
+          "german": "sich entschuldigen für (+ Akk.)",
+          "translation": "",
+          "example": "Ich entschuldige mich für diesen Fehler.",
+          "quiz": "Ich entschuldige mich ... diesen Fehler."
+        },
+        {
+          "id": "VERBEN_für-7",
+          "german": "erwärmen für (+ Akk.)",
+          "translation": "",
+          "example": "Er konnte sich nicht für seinen neuen Chef erwärmen.",
+          "quiz": "Er konnte sich nicht ... seinen neuen Chef erwärmen."
+        },
+        {
+          "id": "VERBEN_für-8",
+          "german": "halten für (+ Akk.)",
+          "translation": "",
+          "example": "Wir halten Innovationen für ein wichtiges Thema.",
+          "quiz": "Wir halten Innovationen ... ein wichtiges Thema."
+        },
+        {
+          "id": "VERBEN_für-9",
+          "german": "sich interessieren für (+ Akk.)",
+          "translation": "",
+          "example": "Sie interessiert sich sehr für die Weiterbildung.",
+          "quiz": "Sie interessiert sich sehr ... die Weiterbildung."
+        },
+        {
+          "id": "VERBEN_für-10",
+          "german": "kämpfen für (+ Akk.)",
+          "translation": "",
+          "example": "Sie kämpft für die Anerkennung ihres Schulabschlusses.",
+          "quiz": "Sie kämpft ... die Anerkennung ihres Schulabschlusses."
+        },
+        {
+          "id": "VERBEN_für-11",
+          "german": "plädieren für (+ Akk.)",
+          "translation": "",
+          "example": "Er plädierte für die Anmietung neuer Büros.",
+          "quiz": "Er plädierte ... die Anmietung neuer Büros."
+        },
+        {
+          "id": "VERBEN_für-12",
+          "german": "sorgen für (+ Akk.)",
+          "translation": "",
+          "example": "Ihr Auftritt sorgte für eine Überraschung.",
+          "quiz": "Ihr Auftritt sorgte ... eine Überraschung."
+        },
+        {
+          "id": "VERBEN_für-13",
+          "german": "stimmen für (+ Akk.)",
+          "translation": "",
+          "example": "Viele stimmten für den neuen Plan.",
+          "quiz": "Viele stimmten ... den neuen Plan."
+        },
+        {
+          "id": "VERBEN_für-14",
+          "german": "tun für (+ Akk.)",
+          "translation": "",
+          "example": "Wir tun alles für die Einhaltung des Terminplans.",
+          "quiz": "Wir tun alles ... die Einhaltung des Terminplans."
+        },
+        {
+          "id": "VERBEN_für-15",
+          "german": "votieren für (+ Akk.)",
+          "translation": "",
+          "example": "Sie votierte für eine Ausweitung der Produktion.",
+          "quiz": "Sie votierte ... eine Ausweitung der Produktion."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_gegen",
+      "words": [
+        {
+          "id": "VERBEN_gegen-1",
+          "german": "sich durchsetzen gegen (+ Akk.)",
+          "translation": "",
+          "example": "Warum setzen Sie sich nicht einfach gegen Ihre Kollegen durch?",
+          "quiz": "Warum setzen Sie sich nicht einfach ... Ihre Kollegen durch?"
+        },
+        {
+          "id": "VERBEN_gegen-2",
+          "german": "kämpfen gegen (+ Akk.)",
+          "translation": "",
+          "example": "Wir müssen gegen Intoleranz kämpfen.",
+          "quiz": "Wir müssen ... Intoleranz kämpfen."
+        },
+        {
+          "id": "VERBEN_gegen-3",
+          "german": "protestieren gegen (+ Akk.)",
+          "translation": "",
+          "example": "Die Mitarbeitenden protestierten gegen die Entlassungen.",
+          "quiz": "Die Mitarbeitenden protestierten ... die Entlassungen."
+        },
+        {
+          "id": "VERBEN_gegen-4",
+          "german": "stimmen gegen (+ Akk.)",
+          "translation": "",
+          "example": "Einige stimmten gegen den Plan.",
+          "quiz": "Einige stimmten ... den Plan."
+        },
+        {
+          "id": "VERBEN_gegen-5",
+          "german": "tun gegen (+ Akk.)",
+          "translation": "",
+          "example": "Sie sollten etwas gegen Ihre Erkältung tun.",
+          "quiz": "Sie sollten etwas ... Ihre Erkältung tun."
+        },
+        {
+          "id": "VERBEN_gegen-6",
+          "german": "sich verteidigen gegen (+ Akk.)",
+          "translation": "",
+          "example": "Er hat sich gegen die Vorwürfe verteidigt.",
+          "quiz": "Er hat sich ... die Vorwürfe verteidigt."
+        },
+        {
+          "id": "VERBEN_gegen-7",
+          "german": "verstoßen gegen (+ Akk.)",
+          "translation": "",
+          "example": "Sie haben gegen die Sicherheitsvorschriften verstoßen.",
+          "quiz": "Sie haben ... die Sicherheitsvorschriften verstoßen."
+        },
+        {
+          "id": "VERBEN_gegen-8",
+          "german": "votieren gegen (+ Akk.)",
+          "translation": "",
+          "example": "Er votierte gegen die Betriebsschließung.",
+          "quiz": "Er votierte ... die Betriebsschließung."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_in",
+      "words": [
+        {
+          "id": "VERBEN_in-1",
+          "german": "sich halten in (+ Dat.)",
+          "translation": "",
+          "example": "Sie hat sich in der Prüfung sehr gut gehalten.",
+          "quiz": "Sie hat sich ... der Prüfung sehr gut gehalten."
+        },
+        {
+          "id": "VERBEN_in-2",
+          "german": "sich hineinversetzen in (+ Akk.)",
+          "translation": "",
+          "example": "Ich kann mich gut in den Chef hineinversetzen.",
+          "quiz": "Ich kann mich gut ... den Chef hineinversetzen."
+        },
+        {
+          "id": "VERBEN_in-3",
+          "german": "sich integrieren in (+ Akk.)",
+          "translation": "",
+          "example": "Er hat sich gut in das neue Team integriert.",
+          "quiz": "Er hat sich gut ... das neue Team integriert."
+        },
+        {
+          "id": "VERBEN_in-4",
+          "german": "investieren in (+ Akk.)",
+          "translation": "",
+          "example": "Der Staat sollte mehr in Elektroautos investieren.",
+          "quiz": "Der Staat sollte mehr ... Elektroautos investieren."
+        },
+        {
+          "id": "VERBEN_in-5",
+          "german": "nachlassen in (+ Dat.)",
+          "translation": "",
+          "example": "Er hat in seinen Leistungen leider sehr nachgelassen.",
+          "quiz": "Er hat ... seinen Leistungen leider sehr nachgelassen."
+        },
+        {
+          "id": "VERBEN_in-6",
+          "german": "übereinstimmen in (+ Dat.)",
+          "translation": "",
+          "example": "Die Mitarbeitenden stimmten in diesem Punkt überein.",
+          "quiz": "Die Mitarbeitenden stimmten ... diesem Punkt überein."
+        },
+        {
+          "id": "VERBEN_in-7",
+          "german": "umrechnen in (+ Akk.)",
+          "translation": "",
+          "example": "Die Bank hat die Dollar in Euro umgerechnet.",
+          "quiz": "Die Bank hat die Dollar ... Euro umgerechnet."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_mit",
+      "words": [
+        {
+          "id": "VERBEN_mit-1",
+          "german": "sich abfinden mit (+ Dat.)",
+          "translation": "",
+          "example": "Wir fanden uns mit der Situation ab.",
+          "quiz": "Wir fanden uns ... der Situation ab."
+        },
+        {
+          "id": "VERBEN_mit-2",
+          "german": "sich abmühen mit (+ Dat.)",
+          "translation": "",
+          "example": "Mit Informatik habe ich mich immer sehr abgemüht.",
+          "quiz": "... Informatik habe ich mich immer sehr abgemüht."
+        },
+        {
+          "id": "VERBEN_mit-3",
+          "german": "anfangen mit (+ Dat.)",
+          "translation": "",
+          "example": "Wann fangen Sie mit der Arbeit an?",
+          "quiz": "Wann fangen Sie ... der Arbeit an?"
+        },
+        {
+          "id": "VERBEN_mit-4",
+          "german": "assoziieren mit (+ Dat.)",
+          "translation": "",
+          "example": "Mit diesem Projekt assoziiert sie ungute Gefühle.",
+          "quiz": "... diesem Projekt assoziiert sie ungute Gefühle."
+        },
+        {
+          "id": "VERBEN_mit-5",
+          "german": "aufhören mit (+ Dat.)",
+          "translation": "",
+          "example": "Hör endlich mit dem Gejammer auf!",
+          "quiz": "Hör endlich ... dem Gejammer auf!"
+        },
+        {
+          "id": "VERBEN_mit-6",
+          "german": "sich auseinandersetzen mit (+ Dat.)",
+          "translation": "",
+          "example": "Wir müssen uns mit dem Thema auseinandersetzen.",
+          "quiz": "Wir müssen uns ... dem Thema auseinandersetzen."
+        },
+        {
+          "id": "VERBEN_mit-7",
+          "german": "sich auskennen mit (+ Dat.)",
+          "translation": "",
+          "example": "Sie kennt sich mit der neuen Software gut aus.",
+          "quiz": "Sie kennt sich ... der neuen Software gut aus."
+        },
+        {
+          "id": "VERBEN_mit-8",
+          "german": "ausstatten mit (+ Dat.)",
+          "translation": "",
+          "example": "Das Auto ist mit vielen Extras ausgestattet.",
+          "quiz": "Das Auto ist ... vielen Extras ausgestattet."
+        },
+        {
+          "id": "VERBEN_mit-9",
+          "german": "sich austauschen mit (+ Dat.)",
+          "translation": "",
+          "example": "Sie tauschten sich mit den anderen Lernenden über ihre Erfahrungen aus.",
+          "quiz": "Sie tauschten sich ... den anderen Lernenden über ihre Erfahrungen aus."
+        },
+        {
+          "id": "VERBEN_mit-10",
+          "german": "beauftragen mit (+ Dat.)",
+          "translation": "",
+          "example": "Er wurde mit der Durchführung des Projekts beauftragt.",
+          "quiz": "Er wurde ... der Durchführung des Projekts beauftragt."
+        },
+        {
+          "id": "VERBEN_mit-11",
+          "german": "beeindrucken mit (+ Dat.)",
+          "translation": "",
+          "example": "Sie beeindruckten ihre Kollegen mit ihrem fundierten Wissen.",
+          "quiz": "Sie beeindruckten ihre Kollegen ... ihrem fundierten Wissen."
+        },
+        {
+          "id": "VERBEN_mit-12",
+          "german": "sich befassen mit (+ Dat.)",
+          "translation": "",
+          "example": "Mit diesem Problem müssen wir uns bald befassen.",
+          "quiz": "... diesem Problem müssen wir uns bald befassen."
+        },
+        {
+          "id": "VERBEN_mit-13",
+          "german": "beginnen mit (+ Dat.)",
+          "translation": "",
+          "example": "Wann beginnen Sie mit der Arbeit?",
+          "quiz": "Wann beginnen Sie ... der Arbeit?"
+        },
+        {
+          "id": "VERBEN_mit-14",
+          "german": "belohnen mit (+ Dat.)",
+          "translation": "",
+          "example": "Sie belohnt sich für die vielen Überstunden mit einer Reise.",
+          "quiz": "Sie belohnt sich für die vielen Überstunden ... einer Reise."
+        },
+        {
+          "id": "VERBEN_mit-15",
+          "german": "sich beschäftigen mit (+ Dat.)",
+          "translation": "",
+          "example": "Sie beschäftigte sich mit dem neuen Investitionsplan.",
+          "quiz": "Sie beschäftigte sich ... dem neuen Investitionsplan."
+        },
+        {
+          "id": "VERBEN_mit-16",
+          "german": "besprechen mit (+ Dat.)",
+          "translation": "",
+          "example": "Georg bespricht das Problem mit seiner Chefin.",
+          "quiz": "Georg bespricht das Problem ... seiner Chefin."
+        },
+        {
+          "id": "VERBEN_mit-17",
+          "german": "konkurrieren mit (+ Dat.)",
+          "translation": "",
+          "example": "Wir konkurrieren mit Produzenten aus dem Ausland.",
+          "quiz": "Wir konkurrieren ... Produzenten aus dem Ausland."
+        },
+        {
+          "id": "VERBEN_mit-18",
+          "german": "rechnen mit (+ Dat.)",
+          "translation": "",
+          "example": "Wir haben schon nicht mehr mit Ihnen gerechnet.",
+          "quiz": "Wir haben schon nicht mehr ... Ihnen gerechnet."
+        },
+        {
+          "id": "VERBEN_mit-19",
+          "german": "reden mit (+ Dat.)",
+          "translation": "",
+          "example": "Herr Ohm redet mit der Chefin.",
+          "quiz": "Herr Ohm redet ... der Chefin."
+        },
+        {
+          "id": "VERBEN_mit-20",
+          "german": "schimpfen mit (+ Dat.)",
+          "translation": "",
+          "example": "Bitte schimpf nicht mit mir! Ich kann nichts dafür!",
+          "quiz": "Bitte schimpf nicht ... mir! Ich kann nichts dafür!"
+        },
+        {
+          "id": "VERBEN_mit-21",
+          "german": "sprechen mit (+ Dat.)",
+          "translation": "",
+          "example": "Mit wem sprechen Sie?",
+          "quiz": "... wem sprechen Sie?"
+        },
+        {
+          "id": "VERBEN_mit-22",
+          "german": "sich streiten mit (+ Dat.)",
+          "translation": "",
+          "example": "Er streitet sich oft mit seinen Kollegen.",
+          "quiz": "Er streitet sich oft ... seinen Kollegen."
+        },
+        {
+          "id": "VERBEN_mit-23",
+          "german": "telefonieren mit (+ Dat.)",
+          "translation": "",
+          "example": "Fred telefoniert oft mit Marina.",
+          "quiz": "Fred telefoniert oft ... Marina."
+        },
+        {
+          "id": "VERBEN_mit-24",
+          "german": "sich treffen mit (+ Dat.)",
+          "translation": "",
+          "example": "Heute treffen wir uns mit guten Freunden.",
+          "quiz": "Heute treffen wir uns ... guten Freunden."
+        },
+        {
+          "id": "VERBEN_mit-25",
+          "german": "verbinden mit (+ Dat.)",
+          "translation": "",
+          "example": "Können Sie mich bitte mit dem Sekretariat verbinden?",
+          "quiz": "Können Sie mich bitte ... dem Sekretariat verbinden?"
+        },
+        {
+          "id": "VERBEN_mit-26",
+          "german": "vergleichen mit (+ Dat.)",
+          "translation": "",
+          "example": "Vergleichen Sie Ihr Land mit Deutschland.",
+          "quiz": "Vergleichen Sie Ihr Land ... Deutschland."
+        },
+        {
+          "id": "VERBEN_mit-27",
+          "german": "sich verstehen mit (+ Dat.)",
+          "translation": "",
+          "example": "Sie versteht sich gut mit ihm.",
+          "quiz": "Sie versteht sich gut ... ihm."
+        },
+        {
+          "id": "VERBEN_mit-28",
+          "german": "zusammenarbeiten mit (+ Dat.)",
+          "translation": "",
+          "example": "Er arbeitet mit Ärzten und Pflegern zusammen.",
+          "quiz": "Er arbeitet ... Ärzten und Pflegern zusammen."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_nach",
+      "words": [
+        {
+          "id": "VERBEN_nach-1",
+          "german": "fragen nach (+ Dat.)",
+          "translation": "",
+          "example": "Yvonne hat mich nach meinen Plänen für die Zukunft gefragt.",
+          "quiz": "Yvonne hat mich ... meinen Plänen für die Zukunft gefragt."
+        },
+        {
+          "id": "VERBEN_nach-2",
+          "german": "riechen nach (+ Dat.)",
+          "translation": "",
+          "example": "Hier riecht es nach Farbe.",
+          "quiz": "Hier riecht es ... Farbe."
+        },
+        {
+          "id": "VERBEN_nach-3",
+          "german": "rufen nach (+ Dat.)",
+          "translation": "",
+          "example": "Er rief nach dem Kellner, aber der kam nicht.",
+          "quiz": "Er rief ... dem Kellner, aber der kam nicht."
+        },
+        {
+          "id": "VERBEN_nach-4",
+          "german": "schmecken nach (+ Dat.)",
+          "translation": "",
+          "example": "Dieses Eis schmeckt nach Apfel.",
+          "quiz": "Dieses Eis schmeckt ... Apfel."
+        },
+        {
+          "id": "VERBEN_nach-5",
+          "german": "sehen nach (+ Dat.)",
+          "translation": "",
+          "example": "Ich sehe mal schnell nach der noch fehlenden Kollegin.",
+          "quiz": "Ich sehe mal schnell ... der noch fehlenden Kollegin."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_über",
+      "words": [
+        {
+          "id": "VERBEN_über-1",
+          "german": "sich ärgern über (+ Akk.)",
+          "translation": "",
+          "example": "Ich ärgere mich über intolerante Menschen.",
+          "quiz": "Ich ärgere mich ... intolerante Menschen."
+        },
+        {
+          "id": "VERBEN_über-2",
+          "german": "sich austauschen über (+ Akk.)",
+          "translation": "",
+          "example": "Die Kollegen tauschten sich über ihre Erfahrungen aus.",
+          "quiz": "Die Kollegen tauschten sich ... ihre Erfahrungen aus."
+        },
+        {
+          "id": "VERBEN_über-3",
+          "german": "sich beklagen über (+ Akk.)",
+          "translation": "",
+          "example": "Sie hat sich über die schlechte Zusammenarbeit beklagt.",
+          "quiz": "Sie hat sich ... die schlechte Zusammenarbeit beklagt."
+        },
+        {
+          "id": "VERBEN_über-4",
+          "german": "belehren über (+ Akk.)",
+          "translation": "",
+          "example": "Er wurde über seine Pflichten belehrt.",
+          "quiz": "Er wurde ... seine Pflichten belehrt."
+        },
+        {
+          "id": "VERBEN_über-5",
+          "german": "beraten über (+ Akk.)",
+          "translation": "",
+          "example": "Wir müssen uns über den Plan noch beraten.",
+          "quiz": "Wir müssen uns ... den Plan noch beraten."
+        },
+        {
+          "id": "VERBEN_über-6",
+          "german": "berichten über (+ Akk.)",
+          "translation": "",
+          "example": "Er hat über den Projektverlauf berichtet.",
+          "quiz": "Er hat ... den Projektverlauf berichtet."
+        },
+        {
+          "id": "VERBEN_über-7",
+          "german": "sich beschweren über (+ Akk.)",
+          "translation": "",
+          "example": "Er beschwerte sich über seine schlechte Beurteilung.",
+          "quiz": "Er beschwerte sich ... seine schlechte Beurteilung."
+        },
+        {
+          "id": "VERBEN_über-8",
+          "german": "brüten über (+ Dat.)",
+          "translation": "",
+          "example": "Sie brütet seit Wochen über dem Bericht.",
+          "quiz": "Sie brütet seit Wochen ... dem Bericht."
+        },
+        {
+          "id": "VERBEN_über-9",
+          "german": "diskutieren über (+ Akk.)",
+          "translation": "",
+          "example": "Sie diskutieren immer über dasselbe Problem.",
+          "quiz": "Sie diskutieren immer ... dasselbe Problem."
+        },
+        {
+          "id": "VERBEN_über-10",
+          "german": "sich freuen über (+ Akk.)",
+          "translation": "",
+          "example": "Fredo freut sich über jeden Sieg vom 1. FC Köln.",
+          "quiz": "Fredo freut sich ... jeden Sieg vom 1. FC Köln."
+        },
+        {
+          "id": "VERBEN_über-11",
+          "german": "hinauskommen über (+ Akk.)",
+          "translation": "",
+          "example": "Die Partei ist nicht über 20% hinausgekommen.",
+          "quiz": "Die Partei ist nicht ... 20% hinausgekommen."
+        },
+        {
+          "id": "VERBEN_über-12",
+          "german": "sich informieren über (+ Akk.)",
+          "translation": "",
+          "example": "Ich lese Zeitung, um mich über die Politik zu informieren.",
+          "quiz": "Ich lese Zeitung, um mich ... die Politik zu informieren."
+        },
+        {
+          "id": "VERBEN_über-13",
+          "german": "lächeln über (+ Akk.)",
+          "translation": "",
+          "example": "Über die neue Kollegin kann sie nur lächeln.",
+          "quiz": "... die neue Kollegin kann sie nur lächeln."
+        },
+        {
+          "id": "VERBEN_über-14",
+          "german": "lachen über (+ Akk.)",
+          "translation": "",
+          "example": "Sie konnte über den Witz nicht lachen.",
+          "quiz": "Sie konnte ... den Witz nicht lachen."
+        },
+        {
+          "id": "VERBEN_über-15",
+          "german": "nachdenken über (+ Akk.)",
+          "translation": "",
+          "example": "Ich habe lange über den Vorschlag nachgedacht.",
+          "quiz": "Ich habe lange ... den Vorschlag nachgedacht."
+        },
+        {
+          "id": "VERBEN_über-16",
+          "german": "reden über (+ Akk.)",
+          "translation": "",
+          "example": "Wir haben über den Chef geredet.",
+          "quiz": "Wir haben ... den Chef geredet."
+        },
+        {
+          "id": "VERBEN_über-17",
+          "german": "referieren über (+ Akk.)",
+          "translation": "",
+          "example": "Sie referierte über den neuen Werbeplan.",
+          "quiz": "Sie referierte ... den neuen Werbeplan."
+        },
+        {
+          "id": "VERBEN_über-18",
+          "german": "schimpfen über (+ Akk.)",
+          "translation": "",
+          "example": "Sie schimpfte über den Lärm.",
+          "quiz": "Sie schimpfte ... den Lärm."
+        },
+        {
+          "id": "VERBEN_über-19",
+          "german": "sprechen über (+ Akk.)",
+          "translation": "",
+          "example": "Ich spreche fast nie über Politik.",
+          "quiz": "Ich spreche fast nie ... Politik."
+        },
+        {
+          "id": "VERBEN_über-20",
+          "german": "sich streiten über (+ Akk.)",
+          "translation": "",
+          "example": "Wir streiten im Team oft über Kleinigkeiten.",
+          "quiz": "Wir streiten im Team oft ... Kleinigkeiten."
+        },
+        {
+          "id": "VERBEN_über-21",
+          "german": "verfügen über (+ Akk.)",
+          "translation": "",
+          "example": "Am Jahresende verfügte die Firma über 20 Mio. Euro Gewinn.",
+          "quiz": "Am Jahresende verfügte die Firma ... 20 Mio. Euro Gewinn."
+        },
+        {
+          "id": "VERBEN_über-22",
+          "german": "sich wundern über (+ Akk.)",
+          "translation": "",
+          "example": "Sie wunderten sich nicht über seine guten Leistungen.",
+          "quiz": "Sie wunderten sich nicht ... seine guten Leistungen."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_um",
+      "words": [
+        {
+          "id": "VERBEN_um-1",
+          "german": "sich bemühen um (+ Akk.)",
+          "translation": "",
+          "example": "Sie hat sich um einen neuen Job bemüht.",
+          "quiz": "Sie hat sich ... einen neuen Job bemüht."
+        },
+        {
+          "id": "VERBEN_um-2",
+          "german": "sich bewerben um (+ Akk.)",
+          "translation": "",
+          "example": "Ich habe mich um einen neuen Job beworben.",
+          "quiz": "Ich habe mich ... einen neuen Job beworben."
+        },
+        {
+          "id": "VERBEN_um-3",
+          "german": "bitten um (+ Akk.)",
+          "translation": "",
+          "example": "Sophie bittet ihre Freundin um einen Tipp.",
+          "quiz": "Sophie bittet ihre Freundin ... einen Tipp."
+        },
+        {
+          "id": "VERBEN_um-4",
+          "german": "gehen um (+ Akk.)",
+          "translation": "",
+          "example": "In dem Bericht geht es um die Marketingaktivitäten.",
+          "quiz": "In dem Bericht geht es ... die Marketingaktivitäten."
+        },
+        {
+          "id": "VERBEN_um-5",
+          "german": "handeln um (+ Akk.)",
+          "translation": "",
+          "example": "Ich möchte Sie sprechen. Es handelt sich um den Bericht.",
+          "quiz": "Ich möchte Sie sprechen. Es handelt sich ... den Bericht."
+        },
+        {
+          "id": "VERBEN_um-6",
+          "german": "konkurrieren um (+ Akk.)",
+          "translation": "",
+          "example": "Viele Firmen konkurrieren um Marktanteile.",
+          "quiz": "Viele Firmen konkurrieren ... Marktanteile."
+        },
+        {
+          "id": "VERBEN_um-7",
+          "german": "sich kümmern um (+ Akk.)",
+          "translation": "",
+          "example": "In vielen Familien kümmern sich die Frauen um den Haushalt.",
+          "quiz": "In vielen Familien kümmern sich die Frauen ... den Haushalt."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_unter",
+      "words": [
+        {
+          "id": "VERBEN_unter-1",
+          "german": "leiden unter (+ Dat.)",
+          "translation": "",
+          "example": "Unter dem hohen Energieverbrauch leidet auch die Umwelt.",
+          "quiz": "... dem hohen Energieverbrauch leidet auch die Umwelt."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_von",
+      "words": [
+        {
+          "id": "VERBEN_von-1",
+          "german": "abweichen von (+ Dat.)",
+          "translation": "",
+          "example": "Bitte weichen Sie nicht vom Thema ab.",
+          "quiz": "Bitte weichen Sie nicht ... Thema ab."
+        },
+        {
+          "id": "VERBEN_von-2",
+          "german": "berichten von (+ Dat.)",
+          "translation": "",
+          "example": "Der Kollege berichtet von seiner letzten Dienstreise nach Wien.",
+          "quiz": "Der Kollege berichtet ... seiner letzten Dienstreise nach Wien."
+        },
+        {
+          "id": "VERBEN_von-3",
+          "german": "sich entfernen von (+ Dat.)",
+          "translation": "",
+          "example": "Er entfernte sich vom Tatort.",
+          "quiz": "Er entfernte sich ... Tatort."
+        },
+        {
+          "id": "VERBEN_von-4",
+          "german": "sich erholen von (+ Dat.)",
+          "translation": "",
+          "example": "Sie hat sich gut von dem Unfall erholt.",
+          "quiz": "Sie hat sich gut ... dem Unfall erholt."
+        },
+        {
+          "id": "VERBEN_von-5",
+          "german": "sich erstrecken von (+ Dat.)",
+          "translation": "",
+          "example": "Die Alpen erstrecken sich von Frankreich bis (nach) Slowenien.",
+          "quiz": "Die Alpen erstrecken sich ... Frankreich bis (nach) Slowenien."
+        },
+        {
+          "id": "VERBEN_von-6",
+          "german": "erzählen von (+ Dat.)",
+          "translation": "",
+          "example": "Eine Wissenschaftlerin hat mir von ihrem Beruf erzählt.",
+          "quiz": "Eine Wissenschaftlerin hat mir ... ihrem Beruf erzählt."
+        },
+        {
+          "id": "VERBEN_von-7",
+          "german": "halten von (+ Dat.)",
+          "translation": "",
+          "example": "Was halten Sie von der Idee?",
+          "quiz": "Was halten Sie ... der Idee?"
+        },
+        {
+          "id": "VERBEN_von-8",
+          "german": "handeln von (+ Dat.)",
+          "translation": "",
+          "example": "Der Film handelt von einem Migranten in Deutschland.",
+          "quiz": "Der Film handelt ... einem Migranten in Deutschland."
+        },
+        {
+          "id": "VERBEN_von-9",
+          "german": "hören von (+ Dat.)",
+          "translation": "",
+          "example": "Ich habe schon viel von Ihnen gehört.",
+          "quiz": "Ich habe schon viel ... Ihnen gehört."
+        },
+        {
+          "id": "VERBEN_von-10",
+          "german": "sich losreißen von (+ Dat.)",
+          "translation": "",
+          "example": "Ich konnte mich von der Arbeit nicht losreißen.",
+          "quiz": "Ich konnte mich ... der Arbeit nicht losreißen."
+        },
+        {
+          "id": "VERBEN_von-11",
+          "german": "profitieren von (+ Dat.)",
+          "translation": "",
+          "example": "Wir alle haben von ihren Ideen profitiert.",
+          "quiz": "Wir alle haben ... ihren Ideen profitiert."
+        },
+        {
+          "id": "VERBEN_von-12",
+          "german": "reden von (+ Dat.)",
+          "translation": "",
+          "example": "Alle reden nur noch von diesem Film.",
+          "quiz": "Alle reden nur noch ... diesem Film."
+        },
+        {
+          "id": "VERBEN_von-13",
+          "german": "schwärmen von (+ Dat.)",
+          "translation": "",
+          "example": "Sie schwärmen von ihrem letzten Urlaub.",
+          "quiz": "Sie schwärmen ... ihrem letzten Urlaub."
+        },
+        {
+          "id": "VERBEN_von-14",
+          "german": "sprechen von (+ Dat.)",
+          "translation": "",
+          "example": "In der Mittagspause sprachen alle vom Wetter.",
+          "quiz": "In der Mittagspause sprachen alle ... Wetter."
+        },
+        {
+          "id": "VERBEN_von-15",
+          "german": "träumen von (+ Dat.)",
+          "translation": "",
+          "example": "Ich träume von der Zukunft.",
+          "quiz": "Ich träume ... der Zukunft."
+        },
+        {
+          "id": "VERBEN_von-16",
+          "german": "sich trennen von (+ Dat.)",
+          "translation": "",
+          "example": "Wir sollten uns von diesem Mitarbeiter trennen.",
+          "quiz": "Wir sollten uns ... diesem Mitarbeiter trennen."
+        },
+        {
+          "id": "VERBEN_von-17",
+          "german": "sich unterscheiden von (+ Dat.)",
+          "translation": "",
+          "example": "Die neue Chefin unterscheidet sich stark von dem alten Chef.",
+          "quiz": "Die neue Chefin unterscheidet sich stark ... dem alten Chef."
+        },
+        {
+          "id": "VERBEN_von-18",
+          "german": "sich verabschieden von (+ Dat.)",
+          "translation": "",
+          "example": "So, jetzt muss ich mich von Ihnen verabschieden.",
+          "quiz": "So, jetzt muss ich mich ... Ihnen verabschieden."
+        },
+        {
+          "id": "VERBEN_von-19",
+          "german": "wissen von (+ Dat.)",
+          "translation": "",
+          "example": "Wissen Sie schon von unserem neuesten Projekt?",
+          "quiz": "Wissen Sie schon ... unserem neuesten Projekt?"
+        },
+        {
+          "id": "VERBEN_von-20",
+          "german": "sich zurückziehen von (+ Dat.)",
+          "translation": "",
+          "example": "Sie hat sich von dem Projekt zurückgezogen.",
+          "quiz": "Sie hat sich ... dem Projekt zurückgezogen."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_vor",
+      "words": [
+        {
+          "id": "VERBEN_vor-1",
+          "german": "sich ekeln vor (+ Dat.)",
+          "translation": "",
+          "example": "Karla ekelt sich vor Spinnen.",
+          "quiz": "Karla ekelt sich ... Spinnen."
+        },
+        {
+          "id": "VERBEN_vor-2",
+          "german": "flüchten vor (+ Dat.)",
+          "translation": "",
+          "example": "Sie flüchteten vor Unterdrückung.",
+          "quiz": "Sie flüchteten ... Unterdrückung."
+        },
+        {
+          "id": "VERBEN_vor-3",
+          "german": "sich fürchten vor (+ Dat.)",
+          "translation": "",
+          "example": "Viele Menschen fürchten sich vor der Klimaerwärmung.",
+          "quiz": "Viele Menschen fürchten sich ... der Klimaerwärmung."
+        },
+        {
+          "id": "VERBEN_vor-4",
+          "german": "sich rechtfertigen vor (+ Dat.)",
+          "translation": "",
+          "example": "Er musste sich vor seinem Chef rechtfertigen.",
+          "quiz": "Er musste sich ... seinem Chef rechtfertigen."
+        },
+        {
+          "id": "VERBEN_vor-5",
+          "german": "schützen vor (+ Dat.)",
+          "translation": "",
+          "example": "Diese Jacke schützt vor Regen.",
+          "quiz": "Diese Jacke schützt ... Regen."
+        },
+        {
+          "id": "VERBEN_vor-6",
+          "german": "warnen vor (+ Dat.)",
+          "translation": "",
+          "example": "Er warnte sie vor einer Zusammenarbeit mit dieser Firma.",
+          "quiz": "Er warnte sie ... einer Zusammenarbeit mit dieser Firma."
+        }
+      ]
+    },
+    {
+      "sectionId": "VERBEN_zu",
+      "words": [
+        {
+          "id": "VERBEN_zu-1",
+          "german": "sich aufraffen zu (+ Dat.)",
+          "translation": "",
+          "example": "Er raffte sich dazu auf, etwas für das Projekt zu tun.",
+          "quiz": "Er raffte sich da... auf, etwas für das Projekt zu tun."
+        },
+        {
+          "id": "VERBEN_zu-2",
+          "german": "beitragen zu (+ Dat.)",
+          "translation": "",
+          "example": "Sie hat viel zum Erfolg des Teams beigetragen.",
+          "quiz": "Sie hat viel ... Erfolg des Teams beigetragen."
+        },
+        {
+          "id": "VERBEN_zu-3",
+          "german": "drängen zu (+ Dat.)",
+          "translation": "",
+          "example": "Sie drängte ihn zum Einverständnis.",
+          "quiz": "Sie drängte ihn ... Einverständnis."
+        },
+        {
+          "id": "VERBEN_zu-4",
+          "german": "einladen zu (+ Dat.)",
+          "translation": "",
+          "example": "Die Geschäftsführung hat Journalisten zum Pressefest eingeladen.",
+          "quiz": "Die Geschäftsführung hat Journalisten ... Pressefest eingeladen."
+        },
+        {
+          "id": "VERBEN_zu-5",
+          "german": "sich entwickeln zu (+ Dat.)",
+          "translation": "",
+          "example": "Er hat sich zu einem guten Mitarbeiter entwickelt.",
+          "quiz": "Er hat sich ... einem guten Mitarbeiter entwickelt."
+        },
+        {
+          "id": "VERBEN_zu-6",
+          "german": "führen zu (+ Dat.)",
+          "translation": "",
+          "example": "Diese Diskussion führt zu keinem Ergebnis.",
+          "quiz": "Diese Diskussion führt ... keinem Ergebnis."
+        },
+        {
+          "id": "VERBEN_zu-7",
+          "german": "gehören zu (+ Dat.)",
+          "translation": "",
+          "example": "Gehören Sie auch zu dieser Firma?",
+          "quiz": "Gehören Sie auch ... dieser Firma?"
+        },
+        {
+          "id": "VERBEN_zu-8",
+          "german": "gratulieren zu (+ Dat.)",
+          "translation": "",
+          "example": "Ich gratuliere dir zum Geburtstag.",
+          "quiz": "Ich gratuliere dir ... Geburtstag."
+        },
+        {
+          "id": "VERBEN_zu-9",
+          "german": "kommen zu (+ Dat.)",
+          "translation": "",
+          "example": "Wegen des Nebels kam es zu vielen Unfällen.",
+          "quiz": "Wegen des Nebels kam es ... vielen Unfällen."
+        },
+        {
+          "id": "VERBEN_zu-10",
+          "german": "meinen zu (+ Dat.)",
+          "translation": "",
+          "example": "Was meinen Sie zu meinem Vorschlag?",
+          "quiz": "Was meinen Sie ... meinem Vorschlag?"
+        },
+        {
+          "id": "VERBEN_zu-11",
+          "german": "passen zu (+ Dat.)",
+          "translation": "",
+          "example": "Welche Fähigkeiten von Ihnen passen zu diesem Beruf?",
+          "quiz": "Welche Fähigkeiten von Ihnen passen ... diesem Beruf?"
+        },
+        {
+          "id": "VERBEN_zu-12",
+          "german": "wählen zu (+ Dat.)",
+          "translation": "",
+          "example": "Michaela König wurde gestern zur Betriebsrätin gewählt.",
+          "quiz": "Michaela König wurde gestern ... Betriebsrätin gewählt."
+        }
+      ]
+    }
+  ]
+}

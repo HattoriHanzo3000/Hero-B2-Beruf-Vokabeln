@@ -39,10 +39,7 @@ struct HomeView: View {
                         HapticManager.shared.mediumImpact()
                         dataService.toggleAllLections()
                     },
-                    onSettingsTap: {
-                        HapticManager.shared.lightImpact()
-                        navigateToSettings = true
-                    },
+                    onSettingsTap: nil,
                     isCheckmarkSelected: dataService.areAllLectionsCompleted(),
                     selectedButtonType: $selectedButtonType
                 )

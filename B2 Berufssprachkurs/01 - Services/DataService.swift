@@ -41,6 +41,15 @@ class DataService: ObservableObject {
                 wordsBySection[sectionWords.sectionId] = sectionWords.words
             }
         }
+        
+        // Load Verben mit Präpositionen
+        if let url = Bundle.main.url(forResource: "verben_mit_prapositionen", withExtension: "json"),
+           let data = try? Data(contentsOf: url),
+           let verbenData = try? JSONDecoder().decode(WordsData.self, from: data) {
+            for sectionWords in verbenData.words {
+                wordsBySection[sectionWords.sectionId] = sectionWords.words
+            }
+        }
     }
     
     func getWords(for sectionId: String) -> [Word] {
@@ -48,6 +57,13 @@ class DataService: ObservableObject {
     }
     
     func getLectionAndSection(for sectionId: String) -> (lectionTitle: String, sectionTitle: String, lectionNumber: String, sectionLetter: String)? {
+        // Handle VERBEN sections
+        if sectionId.hasPrefix("VERBEN_") {
+            let preposition = String(sectionId.dropFirst(7)) // Remove "VERBEN_" prefix
+            return (lectionTitle: "Verben mit Präpositionen", sectionTitle: preposition, lectionNumber: "", sectionLetter: "")
+        }
+        
+        // Handle regular lection sections
         for lection in lections {
             if let section = lection.sections.first(where: { $0.id == sectionId }) {
                 // Extract lection number (first character(s) before letter)
@@ -147,15 +163,19 @@ class DataService: ObservableObject {
     func toggleAllLections() {
         let allLectionIds = Set(lections.map { $0.id })
         let allSectionIds = Set(lections.flatMap { $0.sections.map { $0.id } })
+        let allSectionsIncludingVerben = allSectionIds.union(verbenSectionIds)
         
-        if allLectionIds.isSubset(of: completedLections) {
+        let allLectionsCompleted = allLectionIds.isSubset(of: completedLections)
+        let allVerbenCompleted = verbenSectionIds.isSubset(of: completedSections)
+        
+        if allLectionsCompleted && allVerbenCompleted {
             // All are selected, unselect all
             completedLections.removeAll()
             completedSections.removeAll()
         } else {
-            // Select all lections and sections
+            // Select all lections, sections, and VERBEN sections
             completedLections = allLectionIds
-            completedSections = allSectionIds
+            completedSections = allSectionsIncludingVerben
         }
         saveCompletedStates()
     }
@@ -163,23 +183,91 @@ class DataService: ObservableObject {
     func areAllLectionsCompleted() -> Bool {
         guard !lections.isEmpty else { return false }
         let allLectionIds = Set(lections.map { $0.id })
-        return allLectionIds.isSubset(of: completedLections)
+        let allLectionsCompleted = allLectionIds.isSubset(of: completedLections)
+        let allVerbenCompleted = verbenSectionIds.isSubset(of: completedSections)
+        return allLectionsCompleted && allVerbenCompleted
+    }
+    
+    // VERBEN sections IDs
+    private var verbenSectionIds: Set<String> {
+        return [
+            "VERBEN_an", "VERBEN_auf", "VERBEN_aus", "VERBEN_bei", "VERBEN_bis",
+            "VERBEN_durch", "VERBEN_für", "VERBEN_gegen", "VERBEN_in", "VERBEN_mit",
+            "VERBEN_nach", "VERBEN_über", "VERBEN_um", "VERBEN_unter", "VERBEN_von",
+            "VERBEN_vor", "VERBEN_zu"
+        ]
+    }
+    
+    func toggleVerbenCompleted() {
+        let allCompleted = verbenSectionIds.isSubset(of: completedSections)
+        
+        if allCompleted {
+            // Unchecking: unselect all VERBEN sections
+            for sectionId in verbenSectionIds {
+                completedSections.remove(sectionId)
+            }
+        } else {
+            // Checking: mark all VERBEN sections as completed
+            for sectionId in verbenSectionIds {
+                completedSections.insert(sectionId)
+            }
+        }
+        saveCompletedStates()
+    }
+    
+    func isVerbenCompleted() -> Bool {
+        return verbenSectionIds.isSubset(of: completedSections)
     }
     
     func getWordOfTheDay() -> Word? {
-        var allWords: [Word] = []
-        for sectionWords in wordsBySection.values {
-            allWords.append(contentsOf: sectionWords)
+        let userDefaults = UserDefaults.standard
+        
+        // Check if word of the day is enabled
+        guard userDefaults.bool(forKey: "wordOfTheDayEnabled") else {
+            return nil
         }
         
-        guard !allWords.isEmpty else { return nil }
+        // Get selected sections
+        let selectedSectionsString = userDefaults.string(forKey: "wordOfTheDaySelectedSections") ?? ""
+        let selectedSectionIds: Set<String>
         
-        // Use day of year as index for consistent daily word
+        if selectedSectionsString.isEmpty {
+            // Empty means all sections
+            selectedSectionIds = Set(wordsBySection.keys)
+        } else {
+            // Parse comma-separated section IDs
+            selectedSectionIds = Set(selectedSectionsString.split(separator: ",").map { String($0) })
+        }
+        
+        // Filter words from selected sections only
+        var eligibleWords: [Word] = []
+        for (sectionId, words) in wordsBySection {
+            if selectedSectionIds.contains(sectionId) {
+                eligibleWords.append(contentsOf: words)
+            }
+        }
+        
+        guard !eligibleWords.isEmpty else { return nil }
+        
+        // Get periodicity setting
+        let periodicity = userDefaults.string(forKey: "wordOfTheDayPeriodicity") ?? "24_hours"
+        let hoursPerPeriod: Int = periodicity == "12_hours" ? 12 : 24
+        
+        // Calculate period index based on periodicity
         let calendar = Calendar.current
-        let dayOfYear = calendar.ordinality(of: .day, in: .year, for: Date()) ?? 0
-        let index = dayOfYear % allWords.count
+        let now = Date()
         
-        return allWords[index]
+        // Calculate hours since start of year
+        let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now)) ?? now
+        let hoursSinceStartOfYear = calendar.dateComponents([.hour], from: startOfYear, to: now).hour ?? 0
+        
+        // Calculate period index (e.g., for 24 hours: period 0 = day 1, period 1 = day 2, etc.)
+        let periodIndex = hoursSinceStartOfYear / hoursPerPeriod
+        
+        // Use period index to select word deterministically
+        let wordIndex = periodIndex % eligibleWords.count
+        
+        return eligibleWords[wordIndex]
     }
     
     private func updateSectionCompletion(sectionId: String) {
@@ -220,6 +308,47 @@ class DataService: ObservableObject {
         if let sectionsArray = userDefaults.array(forKey: completedSectionsKey) as? [String] {
             completedSections = Set(sectionsArray)
         }
+    }
+    
+    // MARK: - Reset Functions
+    
+    func resetAllData() {
+        // Clear checked words
+        checkedWords.removeAll()
+        
+        // Clear completed sections and lections
+        completedSections.removeAll()
+        completedLections.removeAll()
+        
+        // Reload words data to reset translations to original values
+        wordsBySection.removeAll()
+        
+        // Reload regular words
+        if let url = Bundle.main.url(forResource: "words", withExtension: "json"),
+           let data = try? Data(contentsOf: url),
+           let wordsData = try? JSONDecoder().decode(WordsData.self, from: data) {
+            for sectionWords in wordsData.words {
+                wordsBySection[sectionWords.sectionId] = sectionWords.words
+            }
+        }
+        
+        // Reload Verben mit Präpositionen
+        if let url = Bundle.main.url(forResource: "verben_mit_prapositionen", withExtension: "json"),
+           let data = try? Data(contentsOf: url),
+           let verbenData = try? JSONDecoder().decode(WordsData.self, from: data) {
+            for sectionWords in verbenData.words {
+                wordsBySection[sectionWords.sectionId] = sectionWords.words
+            }
+        }
+        
+        // Reset spaced repetition data
+        SpacedRepetitionService.shared.resetAllStudyData()
+        
+        // Save cleared states
+        saveCompletedStates()
+        
+        // Reset welcome video flag to show welcome screen again
+        userDefaults.set(false, forKey: "hasSeenWelcomeVideo")
     }
 }
 

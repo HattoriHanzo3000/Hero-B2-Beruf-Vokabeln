@@ -13,6 +13,9 @@ struct HeaderView: View {
     @State private var showMascotGif = false
     @State private var gifPlayToken: UUID = UUID()
     @State private var autoPlayTask: Task<Void, Never>? = nil
+    @AppStorage("wordOfTheDayEnabled") private var wordOfTheDayEnabled = true
+    @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
+    @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     
@@ -55,7 +58,7 @@ struct HeaderView: View {
                     }
                     
                     // Row 4: Synonym
-                    if let firstSynonym = word.synonyms.first {
+                    if let synonyms = word.synonyms, let firstSynonym = synonyms.first {
                         HStack(spacing: 4) {
                             Text("syn.:")
                                 .font(.subheadline)
@@ -120,11 +123,20 @@ struct HeaderView: View {
         .padding(.horizontal)
         .padding(.top, 8)
         .onAppear {
-            wordOfTheDay = dataService.getWordOfTheDay()
+            updateWordOfTheDay()
             startAutoPlay()
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
-            wordOfTheDay = dataService.getWordOfTheDay()
+            updateWordOfTheDay()
+        }
+        .onChange(of: wordOfTheDayEnabled) { _, _ in
+            updateWordOfTheDay()
+        }
+        .onChange(of: wordOfTheDayPeriodicity) { _, _ in
+            updateWordOfTheDay()
+        }
+        .onChange(of: wordOfTheDaySelectedSections) { _, _ in
+            updateWordOfTheDay()
         }
         .onDisappear {
             autoPlayTask?.cancel()
@@ -191,6 +203,10 @@ struct HeaderView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + gifAnimationDuration) {
             showMascotGif = false
         }
+    }
+    
+    private func updateWordOfTheDay() {
+        wordOfTheDay = dataService.getWordOfTheDay()
     }
     
     private func startAutoPlay() {

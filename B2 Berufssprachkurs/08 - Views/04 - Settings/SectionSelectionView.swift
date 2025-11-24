@@ -24,17 +24,21 @@ struct SectionSelectionView: View {
                     ForEach(dataService.lections) { lection in
                         SwiftUI.Section {
                             ForEach(lection.sections) { section in
-                                HStack {
+                                HStack(spacing: 12) {
+                                    Text(getSectionLetter(sectionId: section.id))
+                                        .font(.body)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.secondary)
+                                        .frame(width: 24, alignment: .leading)
+                                    
                                     Text(section.title)
                                         .font(.body)
                                     
                                     Spacer()
                                     
-                                    if selectedSectionIds.contains(section.id) {
-                                        Image(systemName: "checkmark")
-                                            .foregroundColor(.blue)
-                                            .fontWeight(.semibold)
-                                    }
+                                    Image(systemName: selectedSectionIds.contains(section.id) ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(selectedSectionIds.contains(section.id) ? Color("AppGreen") : .secondary)
+                                        .fontWeight(.semibold)
                                 }
                                 .contentShape(Rectangle())
                                 .onTapGesture {
@@ -47,40 +51,47 @@ struct SectionSelectionView: View {
                                 }
                             }
                         } header: {
-                            Text(lection.title)
-                                .font(.headline)
+                            HStack(spacing: 12) {
+                                Text("\(lection.id)")
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.secondary)
+                                    .frame(width: 24, alignment: .leading)
+                                
+                                Text(lection.title)
+                                    .font(.headline)
+                                
+                                Spacer()
+                                
+                                Image(systemName: isLectionFullySelected(lection: lection) ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(isLectionFullySelected(lection: lection) ? Color("AppGreen") : .secondary)
+                                    .fontWeight(.semibold)
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                HapticManager.shared.lightImpact()
+                                toggleLectionSelection(lection: lection)
+                            }
                         }
                     }
                 }
                 .listStyle(.insetGrouped)
             }
-            .navigationTitle("Select Sections")
+            .navigationTitle(Localizable.string(Localizable.sourceSections))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                }
-                
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
-                        saveSelection()
-                        dismiss()
-                    }
-                    .fontWeight(.semibold)
-                }
-            }
         }
         .onAppear {
             loadSelection()
+        }
+        .onDisappear {
+            saveSelection()
         }
     }
     
     private func loadSelection() {
         if selectedSections.isEmpty {
-            // If empty, select all sections by default
-            selectedSectionIds = Set(dataService.lections.flatMap { $0.sections.map { $0.id } })
+            // If empty, select only section 1A by default
+            selectedSectionIds = Set(["1A"])
         } else {
             selectedSectionIds = Set(selectedSections.split(separator: ",").map { String($0) })
         }
@@ -95,6 +106,30 @@ struct SectionSelectionView: View {
         } else {
             selectedSections = selectedSectionIds.joined(separator: ",")
         }
+    }
+    
+    private func isLectionFullySelected(lection: Lection) -> Bool {
+        let lectionSectionIds = Set(lection.sections.map { $0.id })
+        return lectionSectionIds.isSubset(of: selectedSectionIds)
+    }
+    
+    private func toggleLectionSelection(lection: Lection) {
+        let lectionSectionIds = Set(lection.sections.map { $0.id })
+        let isFullySelected = lectionSectionIds.isSubset(of: selectedSectionIds)
+        
+        if isFullySelected {
+            // Deselect all sections in this lection
+            selectedSectionIds.subtract(lectionSectionIds)
+        } else {
+            // Select all sections in this lection
+            selectedSectionIds.formUnion(lectionSectionIds)
+        }
+    }
+    
+    private func getSectionLetter(sectionId: String) -> String {
+        // Extract letter part from section ID (e.g., "1A" -> "A", "12B" -> "B")
+        let letterPart = sectionId.replacingOccurrences(of: "^\\d+", with: "", options: .regularExpression)
+        return letterPart.isEmpty ? sectionId : letterPart
     }
 }
 

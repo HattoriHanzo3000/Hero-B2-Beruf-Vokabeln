@@ -30,11 +30,13 @@ struct WordsHeaderView: View {
             
             // Row 1: Lection title with number
             HStack(spacing: 12) {
-                // Lection number
-                Text(lectionNumber)
-                    .font(.system(.title, design: .rounded))
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
+                // Lection number (only show if not empty)
+                if !lectionNumber.isEmpty {
+                    Text(lectionNumber)
+                        .font(.system(.title, design: .rounded))
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                }
                 
                 Text(lectionTitle)
                     .font(.system(.title, design: .rounded))
@@ -44,11 +46,13 @@ struct WordsHeaderView: View {
             
             // Row 2: Section title with letter
             HStack(spacing: 8) {
-                // Section letter
-                Text(sectionLetter)
-                    .font(.system(.subheadline, design: .rounded))
-                    .fontWeight(.medium)
-                    .foregroundColor(.primary)
+                // Section letter (only show if not empty)
+                if !sectionLetter.isEmpty {
+                    Text(sectionLetter)
+                        .font(.system(.subheadline, design: .rounded))
+                        .fontWeight(.medium)
+                        .foregroundColor(.primary)
+                }
                 
                 Text(sectionTitle)
                     .font(.system(.subheadline, design: .rounded))

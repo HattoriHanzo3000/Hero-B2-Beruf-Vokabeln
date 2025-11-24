@@ -28,6 +28,10 @@ struct WordsListView: View {
         !words.isEmpty && words.allSatisfy { dataService.isWordChecked(wordId: $0.id, in: sectionId) }
     }
     
+    var isVerbenSection: Bool {
+        sectionId.hasPrefix("VERBEN_")
+    }
+    
     var body: some View {
         ZStack {
             Color("AppGreenLight")
@@ -58,16 +62,18 @@ struct WordsListView: View {
                         HapticManager.shared.selection()
                         selectedButtonType = .translation
                     },
+                    onExampleTap: {
+                        HapticManager.shared.selection()
+                        selectedButtonType = .example
+                    },
                     onCheckmarkTap: {
                         HapticManager.shared.mediumImpact()
                         dataService.toggleAllWords(in: sectionId)
                     },
-                    onSettingsTap: {
-                        HapticManager.shared.lightImpact()
-                        navigateToSettings = true
-                    },
+                    onSettingsTap: nil,
                     isCheckmarkSelected: allWordsChecked,
-                    selectedButtonType: $selectedButtonType
+                    selectedButtonType: $selectedButtonType,
+                    isVerbenMode: isVerbenSection
                 )
                 
                 // Words list
@@ -237,16 +243,23 @@ struct WordRow: View {
             .accessibilityHint("Toggle selection for \(word.german)")
             .accessibilityAddTraits(isChecked ? .isSelected : [])
             
-            // German word
+            // German word with example sentence
             VStack(alignment: .leading, spacing: 4) {
                 Text(word.german)
                     .font(.body)
                     .fontWeight(.medium)
                     .foregroundColor(.primary)
+                
+                if let example = word.example, !example.isEmpty {
+                    Text(example)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .italic()
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("German word: \(word.german)")
+            .accessibilityLabel("German word: \(word.german)\(word.example != nil && !word.example!.isEmpty ? ". Example: \(word.example!)" : "")")
             
             // Translation column on the right with explanation, synonyms, and translation
             VStack(alignment: .leading, spacing: 6) {
@@ -266,18 +279,18 @@ struct WordRow: View {
                 }
                 
                 // Row 2: Synonyms
-                if !word.synonyms.isEmpty {
+                if let synonyms = word.synonyms, !synonyms.isEmpty {
                     HStack(alignment: .top, spacing: 4) {
                         Text("syn.:")
                             .font(.caption)
                             .fontWeight(.semibold)
                             .foregroundColor(.secondary)
-                        Text(word.synonyms.joined(separator: ", "))
+                        Text(synonyms.joined(separator: ", "))
                             .font(.caption)
                             .foregroundColor(.primary)
                     }
                     .accessibilityElement(children: .combine)
-                    .accessibilityLabel("Synonyms: \(word.synonyms.joined(separator: ", "))")
+                    .accessibilityLabel("Synonyms: \(synonyms.joined(separator: ", "))")
                 }
                 
                 // Row 3: Translation input field

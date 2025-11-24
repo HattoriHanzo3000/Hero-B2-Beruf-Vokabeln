@@ -11,20 +11,36 @@ struct ActionButtonsHeaderView: View {
     let onExplanationTap: () -> Void
     let onSynonymTap: () -> Void
     let onTranslationTap: () -> Void
+    let onExampleTap: (() -> Void)?
     let onCheckmarkTap: () -> Void
-    let onSettingsTap: () -> Void
+    let onSettingsTap: (() -> Void)?
     let isCheckmarkSelected: Bool
     @Binding var selectedButtonType: ToolbarButtonType
+    let isVerbenMode: Bool
+    
+    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onExampleTap: (() -> Void)? = nil, onCheckmarkTap: @escaping () -> Void, onSettingsTap: (() -> Void)? = nil, isCheckmarkSelected: Bool, selectedButtonType: Binding<ToolbarButtonType>, isVerbenMode: Bool = false) {
+        self.onExplanationTap = onExplanationTap
+        self.onSynonymTap = onSynonymTap
+        self.onTranslationTap = onTranslationTap
+        self.onExampleTap = onExampleTap
+        self.onCheckmarkTap = onCheckmarkTap
+        self.onSettingsTap = onSettingsTap
+        self.isCheckmarkSelected = isCheckmarkSelected
+        self._selectedButtonType = selectedButtonType
+        self.isVerbenMode = isVerbenMode
+    }
     
     var body: some View {
         GroupedToolbar(
             onExplanationTap: onExplanationTap,
             onSynonymTap: onSynonymTap,
             onTranslationTap: onTranslationTap,
+            onExampleTap: onExampleTap,
             onCheckmarkTap: onCheckmarkTap,
             onSettingsTap: onSettingsTap,
             isCheckmarkSelected: isCheckmarkSelected,
-            selectedButtonType: $selectedButtonType
+            selectedButtonType: $selectedButtonType,
+            isVerbenMode: isVerbenMode
         )
         .padding(.vertical, 18)
         .padding(.horizontal, 20)
@@ -107,10 +123,12 @@ struct ActionButtonsHeaderView: View {
         onExplanationTap: {},
         onSynonymTap: {},
         onTranslationTap: {},
+        onExampleTap: nil,
         onCheckmarkTap: {},
-        onSettingsTap: {},
+        onSettingsTap: nil,
         isCheckmarkSelected: false,
-        selectedButtonType: .constant(.explanation)
+        selectedButtonType: .constant(.explanation),
+        isVerbenMode: false
     )
     .background(Color("AppGreenLight"))
 }

@@ -5,7 +5,85 @@
   German localization
 */
 
+// Existing strings
 "practise_with_explanation" = "Mit Erklärung üben";
 "practise_with_synonym" = "Mit Synonym üben";
 "practise_with_translation" = "Mit Übersetzung üben";
+
+// Tab Bar
+"words" = "Wörter";
+"verbs" = "Verben";
+
+// Practice buttons
+"practise_with_example" = "Mit Beispiel üben";
+
+// Study view
+"cards" = "Karten";
+
+// Settings
+"settings" = "Einstellungen";
+"about" = "Über";
+"update" = "Aktualisierung";
+"premium" = "Premium";
+"word_of_the_day" = "Wort des Tages";
+"periodicity" = "Häufigkeit";
+"source_sections" = "Quellabschnitte";
+"all_sections" = "Alle Abschnitte";
+"selected_sections" = "%d ausgewählt";
+"app_language" = "App-Sprache";
+"english" = "Englisch";
+"deutsch" = "Deutsch";
+"haptic_feedback" = "Haptisches Feedback";
+"appearance" = "Erscheinungsbild";
+"light" = "Hell";
+"dark" = "Dunkel";
+"system" = "System";
+"display_and_text_size" = "Anzeige und Textgröße";
+"extra_small" = "Extra klein";
+"small" = "Klein";
+"medium" = "Mittel";
+"large" = "Groß";
+"extra_large" = "Extra groß";
+"xx_large" = "XX groß";
+"xxx_large" = "XXX groß";
+"faq" = "FAQ";
+"faq_description" = "Häufig gestellte Fragen\n\nWenn Sie Fragen zur Verwendung der App haben, lesen Sie bitte Folgendes:\n\n• Wort des Tages: Sie können diese Funktion aktivieren/deaktivieren und anpassen, welche Abschnitte einbezogen werden sollen.\n• Lernmodi: Üben Sie mit Übersetzungen, Synonymen oder Erklärungen.\n• Einstellungen: Passen Sie Erscheinungsbild, Textgröße, Sprache und mehr an.\n\nFür zusätzlichen Support verwenden Sie bitte die Option Kontakt.";
+"contact_us" = "Kontakt";
+"send_email" = "E-Mail senden";
+"contact_us_email_subject" = "B2 Berufssprachkurs - Support-Anfrage";
+"contact_us_email_body" = "Hallo,\n\nIch benötige Hilfe bei der B2 Berufssprachkurs App.\n\nApp-Version: %@ (%@)\nGerät: %@\niOS-Version: %@\n\nBitte beschreiben Sie Ihre Frage oder Ihr Problem:\n\n";
+"mail_unavailable" = "E-Mail nicht verfügbar";
+"mail_unavailable_message" = "E-Mail-Dienste sind nicht verfügbar. Bitte konfigurieren Sie ein E-Mail-Konto in den Einstellungen oder senden Sie eine E-Mail an info@gizatech.de";
+"ok" = "OK";
+"report_a_bug" = "Fehler melden";
+"impressum" = "Impressum";
+"terms_of_use" = "Nutzungsbedingungen";
+"privacy_policy" = "Datenschutzerklärung";
+"reset_app" = "App zurücksetzen";
+"reset_app_title" = "App zurücksetzen";
+"reset_app_message" = "Dies setzt alle Ihre Fortschritte zurück, einschließlich markierter Wörter, Übersetzungen und kumulativer Wiederholungsdaten. Diese Aktion kann nicht rückgängig gemacht werden.";
+"reset" = "Zurücksetzen";
+"cancel" = "Abbrechen";
+
+// About page
+"about_this_app" = "Über diese App";
+"about_app_description" = "Diese App hilft Ihnen, den deutschen Wortschatz auf B2-Niveau für Alltag und Beruf zu beherrschen und unterstützt Ihre Vorbereitung auf die telc B2 Berufssprachkurs-Prüfung. Sie bietet eine interaktive Möglichkeit, Wörter durch Karteikarten und kumulative Wiederholung zu lernen und zu üben.";
+"device_information" = "Geräteinformationen";
+"name" = "Name";
+"version" = "Version";
+"model" = "Modell";
+"system_version" = "Systemversion";
+"app_version" = "App-Version";
+
+// Periodicity options
+"12_hours" = "12 Stunden";
+"24_hours" = "24 Stunden";
+
+// Update page
+"current_version" = "Aktuelle Version";
+"update_available" = "Update verfügbar";
+"version_updates" = "Sie verwenden die neueste Version der App.";
+"version_updates_placeholder" = "Eine neue Version mit Verbesserungen und Fehlerbehebungen ist verfügbar.";
+"update_now" = "Jetzt aktualisieren";
+"update_button_hint" = "Öffnet den App Store, um die App zu aktualisieren";
 

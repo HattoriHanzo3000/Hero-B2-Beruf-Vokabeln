@@ -164,6 +164,7 @@ class SpacedRepetitionService {
         switch mode {
         case .synonyms: return "synonyms"
         case .explanation: return "explanation"
+        case .example: return "example"
         case .translations: return "translations"
         }
     }

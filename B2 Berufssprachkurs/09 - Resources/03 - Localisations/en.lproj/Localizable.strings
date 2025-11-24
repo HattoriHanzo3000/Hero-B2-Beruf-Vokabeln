@@ -1,0 +1,89 @@
+/* 
+  Localizable.strings
+  B2 Berufssprachkurs
+  
+  English localization
+*/
+
+// Existing strings
+"practise_with_explanation" = "Practice with Explanation";
+"practise_with_synonym" = "Practice with Synonym";
+"practise_with_translation" = "Practice with Translation";
+
+// Tab Bar
+"words" = "Words";
+"verbs" = "Verbs";
+
+// Practice buttons
+"practise_with_example" = "Practice with Example";
+
+// Study view
+"cards" = "cards";
+
+// Settings
+"settings" = "Settings";
+"about" = "About";
+"update" = "Update";
+"premium" = "Premium";
+"word_of_the_day" = "Word of the Day";
+"periodicity" = "Periodicity";
+"source_sections" = "Source Sections";
+"all_sections" = "All sections";
+"selected_sections" = "%d selected";
+"app_language" = "App Language";
+"english" = "English";
+"deutsch" = "Deutsch";
+"haptic_feedback" = "Haptic Feedback";
+"appearance" = "Appearance";
+"light" = "Light";
+"dark" = "Dark";
+"system" = "System";
+"display_and_text_size" = "Display and Text Size";
+"extra_small" = "Extra Small";
+"small" = "Small";
+"medium" = "Medium";
+"large" = "Large";
+"extra_large" = "Extra Large";
+"xx_large" = "XX Large";
+"xxx_large" = "XXX Large";
+"faq" = "FAQ";
+"faq_description" = "Frequently Asked Questions\n\nIf you have questions about using the app, please check the following:\n\n• Word of the Day: You can enable/disable this feature and customize which sections to include.\n• Study Modes: Practice with translations, synonyms, or explanations.\n• Settings: Customize appearance, text size, language, and more.\n\nFor additional support, please use the Contact Us option.";
+"contact_us" = "Contact Us";
+"send_email" = "Send Email";
+"contact_us_email_subject" = "B2 Berufssprachkurs - Support Request";
+"contact_us_email_body" = "Hello,\n\nI need assistance with the B2 Berufssprachkurs app.\n\nApp Version: %@ (%@)\nDevice: %@\niOS Version: %@\n\nPlease describe your question or issue:\n\n";
+"mail_unavailable" = "Mail Unavailable";
+"mail_unavailable_message" = "Mail services are not available. Please configure a mail account in Settings or send an email to info@gizatech.de";
+"ok" = "OK";
+"report_a_bug" = "Report a Bug";
+"impressum" = "Impressum";
+"terms_of_use" = "Terms of Use";
+"privacy_policy" = "Privacy Policy";
+"reset_app" = "Reset App";
+"reset_app_title" = "Reset App";
+"reset_app_message" = "This will reset all your progress, including checked words, translations, and spaced repetition data. This action cannot be undone.";
+"reset" = "Reset";
+"cancel" = "Cancel";
+
+// About page
+"about_this_app" = "About This App";
+"about_app_description" = "This app helps you master German vocabulary at the B2 level for everyday and professional contexts and supports your preparation for the telc B2 Berufssprachkurs exam. It provides an interactive way to study and practice words through flashcards and spaced repetition.";
+"device_information" = "Device Information";
+"name" = "Name";
+"version" = "Version";
+"model" = "Model";
+"system_version" = "System Version";
+"app_version" = "App Version";
+
+// Periodicity options
+"12_hours" = "12 hours";
+"24_hours" = "24 hours";
+
+// Update page
+"current_version" = "Current Version";
+"update_available" = "Update Available";
+"version_updates" = "You are using the latest version of the app.";
+"version_updates_placeholder" = "A new version is available with improvements and bug fixes.";
+"update_now" = "Update Now";
+"update_button_hint" = "Opens the App Store to update the app";
+

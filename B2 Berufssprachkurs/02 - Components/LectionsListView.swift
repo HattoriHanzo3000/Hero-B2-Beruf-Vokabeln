@@ -10,6 +10,28 @@ import SwiftUI
 struct LectionsListView: View {
     @ObservedObject var dataService: DataService
     @State private var expandedLections: Set<Int> = []
+    @State private var isVerbenExpanded = false
+    
+    // Prepositions for Verben mit Präpositionen
+    private let verbenPrepositions: [Section] = [
+        Section(id: "VERBEN_an", title: "an"),
+        Section(id: "VERBEN_auf", title: "auf"),
+        Section(id: "VERBEN_aus", title: "aus"),
+        Section(id: "VERBEN_bei", title: "bei"),
+        Section(id: "VERBEN_bis", title: "bis"),
+        Section(id: "VERBEN_durch", title: "durch"),
+        Section(id: "VERBEN_für", title: "für"),
+        Section(id: "VERBEN_gegen", title: "gegen"),
+        Section(id: "VERBEN_in", title: "in"),
+        Section(id: "VERBEN_mit", title: "mit"),
+        Section(id: "VERBEN_nach", title: "nach"),
+        Section(id: "VERBEN_über", title: "über"),
+        Section(id: "VERBEN_um", title: "um"),
+        Section(id: "VERBEN_unter", title: "unter"),
+        Section(id: "VERBEN_von", title: "von"),
+        Section(id: "VERBEN_vor", title: "vor"),
+        Section(id: "VERBEN_zu", title: "zu")
+    ]
     
     var body: some View {
         List {
@@ -36,6 +58,60 @@ struct LectionsListView: View {
                         },
                         dataService: dataService
                     )
+                }
+            }
+            
+            // Special section: Verben mit Präpositionen
+            SwiftUI.Section {
+                if isVerbenExpanded {
+                    ForEach(verbenPrepositions, id: \.id) { preposition in
+                        SectionRowView(
+                            section: preposition,
+                            dataService: dataService
+                        )
+                        .listRowBackground(Color("AppGreenExtraLight"))
+                    }
+                }
+            } header: {
+                HStack(spacing: 12) {
+                    // Checkmark button
+                    Button(action: {
+                        HapticManager.shared.lightImpact()
+                        dataService.toggleVerbenCompleted()
+                    }) {
+                        Image(systemName: dataService.isVerbenCompleted() ? "checkmark.circle.fill" : "circle")
+                            .font(.title3)
+                            .fontWeight(.medium)
+                            .foregroundColor(dataService.isVerbenCompleted() ? Color("AppGreen") : .secondary)
+                    }
+                    .buttonStyle(.plain)
+                    
+                    // Expand/collapse button
+                    Button(action: {
+                        HapticManager.shared.selection()
+                        isVerbenExpanded.toggle()
+                    }) {
+                        HStack {
+                            Image(systemName: "book.circle")
+                                .font(.body)
+                                .fontWeight(.medium)
+                                .foregroundColor(.primary)
+                            
+                            Text("Verben mit Präpositionen")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.secondary)
+                                .rotationEffect(.degrees(isVerbenExpanded ? 90 : 0))
+                                .animation(.easeInOut(duration: 0.2), value: isVerbenExpanded)
+                        }
+                    }
+                    .buttonStyle(.plain)
                 }
             }
         }
@@ -102,6 +178,11 @@ struct SectionRowView: View {
         return lastChar
     }
     
+    // Check if this is a VERBEN section (should not show letter indicator)
+    private var isVerbenSection: Bool {
+        section.id.hasPrefix("VERBEN_")
+    }
+    
     var body: some View {
         HStack(spacing: 12) {
             // Checkmark button
@@ -119,8 +200,8 @@ struct SectionRowView: View {
             NavigationLink(destination: WordsListView(sectionId: section.id)
                 .environmentObject(dataService)) {
                 HStack(spacing: 12) {
-                    // Section letter
-                    if !sectionLetter.isEmpty {
+                    // Section letter (only show for non-VERBEN sections)
+                    if !sectionLetter.isEmpty && !isVerbenSection {
                         Text(sectionLetter.uppercased())
                             .font(.system(.body, design: .rounded))
                             .fontWeight(.medium)

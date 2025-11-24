@@ -11,11 +11,23 @@ import UIKit
 class HapticManager {
     static let shared = HapticManager()
     
+    private let userDefaults = UserDefaults.standard
+    private let hapticFeedbackEnabledKey = "hapticFeedbackEnabled"
+    
     private init() {}
+    
+    private var isHapticFeedbackEnabled: Bool {
+        // Default to true if the key doesn't exist
+        if userDefaults.object(forKey: hapticFeedbackEnabledKey) == nil {
+            return true
+        }
+        return userDefaults.bool(forKey: hapticFeedbackEnabledKey)
+    }
     
     // MARK: - Impact Feedback
     
     func impact(style: UIImpactFeedbackGenerator.FeedbackStyle = .medium) {
+        guard isHapticFeedbackEnabled else { return }
         let generator = UIImpactFeedbackGenerator(style: style)
         generator.impactOccurred()
     }
@@ -51,6 +63,7 @@ class HapticManager {
     // MARK: - Notification Feedback
     
     func notification(type: UINotificationFeedbackGenerator.FeedbackType) {
+        guard isHapticFeedbackEnabled else { return }
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(type)
     }
@@ -70,6 +83,7 @@ class HapticManager {
     // MARK: - Selection Feedback
     
     func selection() {
+        guard isHapticFeedbackEnabled else { return }
         let generator = UISelectionFeedbackGenerator()
         generator.selectionChanged()
     }
