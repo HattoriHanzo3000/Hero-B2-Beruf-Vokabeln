@@ -170,9 +170,51 @@ Available now on the App Store with a bilingual interface supporting both Englis
 
 ---
 
+## App Store Connect Keywords
+
+**Primary Keywords (100 character limit):**
+```
+German,B2,vocabulary,telc,Berufssprachkurs,flashcards,spaced repetition,verbs,prepositions,exam prep
+```
+
+**Alternative Keyword Sets (choose based on focus):**
+
+**Set 1 - Exam Focus (99 characters):**
+```
+German B2,telc,Berufssprachkurs,exam prep,vocabulary,flashcards,spaced repetition,verbs,prepositions
+```
+
+**Set 2 - Learning Focus (100 characters):**
+```
+German vocabulary,B2,flashcards,spaced repetition,learn German,verbs,prepositions,telc,exam preparation
+```
+
+**Set 3 - Professional Focus (100 characters):**
+```
+German B2,professional vocabulary,Berufssprachkurs,telc exam,flashcards,spaced repetition,verbs,prepositions
+```
+
+**Set 4 - Comprehensive (100 characters):**
+```
+German B2,vocabulary,flashcards,telc,Berufssprachkurs,spaced repetition,verbs,prepositions,exam prep,learn
+```
+
+**Recommended: Set 1** - Focuses on exam preparation which is your primary use case.
+
+**Keyword Strategy:**
+- Include "German B2" and "telc" - your primary differentiators
+- "Berufssprachkurs" - specific exam name (high intent)
+- "vocabulary", "flashcards", "spaced repetition" - core features
+- "verbs", "prepositions" - unique feature
+- "exam prep" - target audience
+
+**Note:** App Store Connect keywords field has a 100-character limit. Use commas to separate keywords (no spaces after commas). Avoid repeating words already in your app name or subtitle.
+
+---
+
 ## Key Selling Points (Bullet Format)
 
-**For App Store Keywords:**
+**For Marketing Materials:**
 - German B2 vocabulary
 - telc B2 Berufssprachkurs
 - German flashcards
