@@ -1,5 +1,56 @@
 # Promotional Text for "Hero - Deutsch B2 Beruf"
 
+## App Store Subtitle (30 characters maximum)
+
+**Recommended Options:**
+
+**Option 1 - Exam Focus (26 characters):**
+```
+telc B2 Exam Preparation
+```
+
+**Option 2 - Learning Focus (27 characters):**
+```
+Master B2 German Vocabulary
+```
+
+**Option 3 - Professional Focus (28 characters):**
+```
+B2 German for Professionals
+```
+
+**Option 4 - Simple & Direct (25 characters):**
+```
+B2 German Vocabulary Master
+```
+
+**Option 5 - Comprehensive (30 characters):**
+```
+German B2 Vocabulary Learning
+```
+
+**Option 6 - Action-Oriented (27 characters):**
+```
+Learn German B2 Vocabulary
+```
+
+**Option 7 - Exam Prep (25 characters):**
+```
+B2 German Exam Prep Tool
+```
+
+**Recommended: Option 1** - "telc B2 Exam Preparation" (26 characters)
+- Highlights the specific exam (telc)
+- Clear and professional
+- Under character limit with room to spare
+
+**Alternative: Option 2** - "Master B2 German Vocabulary" (27 characters)
+- Action-oriented and aspirational
+- Clear about what the app does
+- Appeals to learners
+
+---
+
 ## App Store Description (Short - 170 characters)
 
 Master German B2 vocabulary with 1,800+ words! Interactive flashcards, spaced repetition, and verbs with prepositions. Perfect for telc B2 Berufssprachkurs exam prep.
