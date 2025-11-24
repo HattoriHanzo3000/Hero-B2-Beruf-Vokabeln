@@ -69,9 +69,9 @@ iOS 18.1
   - [ ] Subtitle
   - [ ] Description
   - [ ] Keywords
-  - [ ] Support URL
-  - [ ] Marketing URL (optional)
-  - [ ] Privacy Policy URL
+  - [ ] Support URL (REQUIRED)
+  - [ ] Marketing URL (optional but recommended)
+  - [ ] Privacy Policy URL (REQUIRED if app collects data)
 - [ ] Pricing and availability set
 - [ ] App Store listing screenshots uploaded
 - [ ] App preview video uploaded (if applicable)
@@ -90,6 +90,48 @@ iOS 18.1
 - [ ] Privacy Policy URL added to App Store Connect
 - [ ] App Privacy details completed in App Store Connect
 - [ ] Age rating questionnaire completed
+
+### URLs Required for App Store Connect
+
+**Support URL (REQUIRED):**
+- Must be a valid, publicly accessible URL
+- Should contain contact information, FAQ, or support resources
+- Example: `https://www.gizatech.de/support` or `https://www.gizatech.de/contact`
+- Can be a simple page with email contact: `info@gizatech.de`
+- **Current email from app:** `info@gizatech.de`
+
+**Marketing URL (OPTIONAL but recommended):**
+- Website promoting your app
+- Landing page with app features, screenshots, benefits
+- Can be same as support URL if you don't have a separate marketing site
+- Example: `https://www.gizatech.de/hero-deutsch-b2-beruf`
+- **If you don't have a website:** You can use the support URL or create a simple landing page
+
+**Privacy Policy URL (REQUIRED if app collects user data):**
+- Must be a valid, publicly accessible URL
+- Required if app collects any user data (even if just analytics)
+- Should explain what data is collected and how it's used
+- Example: `https://www.gizatech.de/privacy-policy`
+- **Note:** Even if app doesn't collect data, Apple recommends having a privacy policy
+
+**Quick Setup Options:**
+
+1. **If you have a website:**
+   - Support URL: `https://www.gizatech.de/support` or `/contact`
+   - Marketing URL: `https://www.gizatech.de/hero-deutsch-b2-beruf` or `/apps`
+   - Privacy Policy: `https://www.gizatech.de/privacy-policy`
+
+2. **If you don't have a website yet:**
+   - Create a simple GitHub Pages site, or
+   - Use a free hosting service (GitHub Pages, Netlify, etc.), or
+   - Use a simple contact form service
+   - Support URL: Can be a simple page with email: `info@gizatech.de`
+   - Marketing URL: Can be same as support URL or omitted
+   - Privacy Policy: Create a simple page explaining no data collection
+
+**Minimum Required:**
+- Support URL: Must provide a way for users to contact you (email or contact form)
+- Privacy Policy URL: Required for App Store submission
 
 ### Testing
 - [ ] Tested on physical devices (iPhone and iPad)
