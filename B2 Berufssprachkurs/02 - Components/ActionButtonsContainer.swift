@@ -11,9 +11,7 @@ struct ActionButtonsContainer: View {
     let onExplanationTap: () -> Void
     let onSynonymTap: () -> Void
     let onTranslationTap: () -> Void
-    let onCheckmarkTap: () -> Void
     let onSettingsTap: () -> Void
-    let isCheckmarkSelected: Bool
     @Binding var selectedButtonType: ToolbarButtonType
     
     var body: some View {
@@ -104,9 +102,7 @@ struct ActionButtonsContainer: View {
         onExplanationTap: {},
         onSynonymTap: {},
         onTranslationTap: {},
-        onCheckmarkTap: {},
         onSettingsTap: {},
-        isCheckmarkSelected: false,
         selectedButtonType: .constant(.explanation)
     )
     .background(Color("AppGreenLight"))
