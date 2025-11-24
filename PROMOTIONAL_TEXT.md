@@ -2,52 +2,107 @@
 
 ## App Store Subtitle (30 characters maximum)
 
-**Recommended Options:**
+**English Subtitle Options (emphasizing "Beruf" / Professional):**
 
-**Option 1 - Exam Focus (26 characters):**
-```
-telc B2 Exam Preparation
-```
-
-**Option 2 - Learning Focus (27 characters):**
-```
-Master B2 German Vocabulary
-```
-
-**Option 3 - Professional Focus (28 characters):**
+**Option 1 - Professional Focus (28 characters):**
 ```
 B2 German for Professionals
 ```
 
-**Option 4 - Simple & Direct (25 characters):**
+**Option 2 - Beruf Explicit (29 characters):**
 ```
-B2 German Vocabulary Master
-```
-
-**Option 5 - Comprehensive (30 characters):**
-```
-German B2 Vocabulary Learning
+B2 Berufssprachkurs Prep
 ```
 
-**Option 6 - Action-Oriented (27 characters):**
+**Option 3 - Professional Vocabulary (30 characters):**
 ```
-Learn German B2 Vocabulary
-```
-
-**Option 7 - Exam Prep (25 characters):**
-```
-B2 German Exam Prep Tool
+B2 Professional German Vocab
 ```
 
-**Recommended: Option 1** - "telc B2 Exam Preparation" (26 characters)
-- Highlights the specific exam (telc)
-- Clear and professional
-- Under character limit with room to spare
+**Option 4 - Work Context (27 characters):**
+```
+B2 German for Work & Career
+```
 
-**Alternative: Option 2** - "Master B2 German Vocabulary" (27 characters)
-- Action-oriented and aspirational
-- Clear about what the app does
-- Appeals to learners
+**Option 5 - Professional Exam (30 characters):**
+```
+telc B2 Professional Exam Prep
+```
+
+**Option 6 - Career Focus (26 characters):**
+```
+B2 German for Your Career
+```
+
+**Option 7 - Business German (24 characters):**
+```
+B2 Business German Vocab
+```
+
+**German Subtitle Options (emphasizing "Beruf"):**
+
+**Option 1 - Beruf Explicit (29 characters):**
+```
+B2 Berufssprachkurs Vorbereitung
+```
+
+**Option 2 - Professional Focus (30 characters):**
+```
+B2 Deutsch für den Beruf
+```
+
+**Option 3 - Professional Vocabulary (30 characters):**
+```
+B2 Berufsvokabular lernen
+```
+
+**Option 4 - Work Context (28 characters):**
+```
+B2 Deutsch für Beruf & Karriere
+```
+
+**Option 5 - Career Focus (26 characters):**
+```
+B2 Deutsch für Ihre Karriere
+```
+
+**Option 6 - Business German (24 characters):**
+```
+B2 Geschäftsdeutsch lernen
+```
+
+**Option 7 - Professional Exam (30 characters):**
+```
+telc B2 Berufsexamen Vorbereitung
+```
+
+---
+
+### Recommended Choices:
+
+**English (Recommended):**
+```
+B2 German for Professionals
+```
+(28 characters) - Clear, professional, emphasizes Beruf context
+
+**German (Recommended):**
+```
+B2 Deutsch für den Beruf
+```
+(30 characters) - Direct translation, emphasizes "Beruf" explicitly
+
+**Alternative English:**
+```
+B2 Berufssprachkurs Prep
+```
+(29 characters) - Uses the actual exam name "Berufssprachkurs"
+
+**Alternative German:**
+```
+B2 Berufssprachkurs Vorbereitung
+```
+(29 characters) - Uses the actual exam name "Berufssprachkurs"
 
 ---
 
