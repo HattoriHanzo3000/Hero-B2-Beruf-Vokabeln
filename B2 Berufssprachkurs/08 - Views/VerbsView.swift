@@ -42,30 +42,45 @@ struct VerbsView: View {
                 // Header with Word of the Day
                 HeaderView(dataService: dataService)
                 
-                // Action buttons header (VERBEN mode: Translation and Example only)
-                ActionButtonsHeaderView(
-                    onExplanationTap: {},
-                    onSynonymTap: {},
-                    onTranslationTap: {
-                        HapticManager.shared.selection()
-                        selectedButtonType = .translation
-                    },
-                    onExampleTap: {
-                        HapticManager.shared.selection()
-                        selectedButtonType = .example
-                    },
-                    onCheckmarkTap: {
-                        HapticManager.shared.mediumImpact()
-                        dataService.toggleVerbenCompleted()
-                    },
-                    onSettingsTap: nil,
-                    isCheckmarkSelected: dataService.isVerbenCompleted(),
+                // Üben button group
+                UbenButtonGroupVerben(
                     selectedButtonType: $selectedButtonType,
-                    isVerbenMode: true
+                    onButtonTap: { buttonType in
+                        navigateToStudy = true
+                    }
                 )
                 
                 // Prepositions list
                 List {
+                    // Check all button header
+                    SwiftUI.Section {
+                        EmptyView()
+                    } header: {
+                        HStack {
+                            Button(action: {
+                                HapticManager.shared.mediumImpact()
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    dataService.toggleVerbenCompleted()
+                                }
+                            }) {
+                                HStack(spacing: 6) {
+                                    Image(systemName: dataService.isVerbenCompleted() ? "checkmark.circle.fill" : "circle")
+                                        .font(.system(size: 15, weight: .semibold))
+                                        .foregroundColor(dataService.isVerbenCompleted() ? Color("AppGreen") : .secondary)
+                                        .symbolEffect(.bounce, value: dataService.isVerbenCompleted())
+                                    
+                                    Text(dataService.isVerbenCompleted() ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
+                                        .font(.caption)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                    Spacer()
+                }
+                .padding(.vertical, 0)
+            }
+                    
                     ForEach(verbenPrepositions, id: \.id) { preposition in
                         NavigationLink(destination: WordsListView(sectionId: preposition.id)
                             .environmentObject(dataService)) {
@@ -97,20 +112,7 @@ struct VerbsView: View {
                 .listStyle(.insetGrouped)
                 .scrollContentBackground(.hidden)
                 .contentMargins(.top, 12, for: .scrollContent)
-                .contentMargins(.bottom, 70, for: .scrollContent)
-                
-                Spacer()
-                
-                UbenButton(
-                    action: {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    },
-                    accentColor: selectedButtonType.color,
-                    buttonText: selectedButtonType.buttonText
-                )
-                .padding(.horizontal)
-                .padding(.bottom, 12)
+                .contentMargins(.bottom, 12, for: .scrollContent)
             }
         }
         .navigationBarTitleDisplayMode(.inline)

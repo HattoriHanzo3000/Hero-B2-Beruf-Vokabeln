@@ -21,9 +21,7 @@ struct ActionButtonsContainer: View {
             onExplanationTap: onExplanationTap,
             onSynonymTap: onSynonymTap,
             onTranslationTap: onTranslationTap,
-            onCheckmarkTap: onCheckmarkTap,
             onSettingsTap: onSettingsTap,
-            isCheckmarkSelected: isCheckmarkSelected,
             selectedButtonType: $selectedButtonType
         )
         .padding(.vertical, 16)

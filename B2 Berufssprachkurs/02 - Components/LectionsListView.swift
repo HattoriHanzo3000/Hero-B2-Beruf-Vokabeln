@@ -35,6 +35,35 @@ struct LectionsListView: View {
     
     var body: some View {
         List {
+            // Check all button header
+            SwiftUI.Section {
+                EmptyView()
+            } header: {
+                HStack {
+                    Button(action: {
+                        HapticManager.shared.mediumImpact()
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            dataService.toggleAllLections()
+                        }
+                    }) {
+                        HStack(spacing: 6) {
+                            Image(systemName: dataService.areAllLectionsCompleted() ? "checkmark.circle.fill" : "circle")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundColor(dataService.areAllLectionsCompleted() ? Color("AppGreen") : .secondary)
+                                .symbolEffect(.bounce, value: dataService.areAllLectionsCompleted())
+                            
+                            Text(dataService.areAllLectionsCompleted() ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    Spacer()
+                }
+                .padding(.vertical, 0)
+            }
+            
             // Lections
             ForEach(dataService.lections) { lection in
                 SwiftUI.Section {

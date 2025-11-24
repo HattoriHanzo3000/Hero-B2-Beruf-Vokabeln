@@ -48,37 +48,55 @@ struct WordsListView: View {
                     )
                 }
                 
-                // Action buttons header
-                ActionButtonsHeaderView(
-                    onExplanationTap: {
-                        HapticManager.shared.selection()
-                        selectedButtonType = .explanation
-                    },
-                    onSynonymTap: {
-                        HapticManager.shared.selection()
-                        selectedButtonType = .synonym
-                    },
-                    onTranslationTap: {
-                        HapticManager.shared.selection()
-                        selectedButtonType = .translation
-                    },
-                    onExampleTap: {
-                        HapticManager.shared.selection()
-                        selectedButtonType = .example
-                    },
-                    onCheckmarkTap: {
-                        HapticManager.shared.mediumImpact()
-                        dataService.toggleAllWords(in: sectionId)
-                    },
-                    onSettingsTap: nil,
-                    isCheckmarkSelected: allWordsChecked,
-                    selectedButtonType: $selectedButtonType,
-                    isVerbenMode: isVerbenSection
-                )
+                // Üben button group
+                if isVerbenSection {
+                    UbenButtonGroupVerben(
+                        selectedButtonType: $selectedButtonType,
+                        onButtonTap: { buttonType in
+                            navigateToStudy = true
+                        }
+                    )
+                } else {
+                    UbenButtonGroup(
+                        selectedButtonType: $selectedButtonType,
+                        onButtonTap: { buttonType in
+                            navigateToStudy = true
+                        }
+                    )
+                }
                 
                 // Words list
                 ScrollViewReader { proxy in
                     List {
+                        // Check all button header
+                        SwiftUI.Section {
+                            EmptyView()
+                        } header: {
+                            HStack {
+                                Button(action: {
+                                    HapticManager.shared.mediumImpact()
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                        dataService.toggleAllWords(in: sectionId)
+                                    }
+                                }) {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: allWordsChecked ? "checkmark.circle.fill" : "circle")
+                                            .font(.system(size: 15, weight: .semibold))
+                                            .foregroundColor(allWordsChecked ? Color("AppGreen") : .secondary)
+                                            .symbolEffect(.bounce, value: allWordsChecked)
+                                        
+                                        Text(allWordsChecked ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
+                                            .font(.caption)
+                                            .fontWeight(.medium)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                    Spacer()
+                }
+                .padding(.vertical, 0)
+            }
+                        
                         ForEach(words) { word in
                             WordRow(
                                 word: word,
@@ -107,7 +125,7 @@ struct WordsListView: View {
                     .listStyle(.insetGrouped)
                     .scrollContentBackground(.hidden)
                     .contentMargins(.top, 0, for: .scrollContent)
-                    .contentMargins(.bottom, 70, for: .scrollContent)
+                    .contentMargins(.bottom, 12, for: .scrollContent)
                     .padding(.top, 12)
                     .accessibilityLabel("Words list")
                     .accessibilityHint("List of German words with translations, explanations, and synonyms")
@@ -119,21 +137,6 @@ struct WordsListView: View {
                         }
                     }
                 }
-                
-                Spacer()
-                
-                UbenButton(
-                    action: {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    },
-                    accentColor: selectedButtonType.color,
-                    buttonText: selectedButtonType.buttonText
-                )
-                .padding(.horizontal)
-                .padding(.bottom, 12)
-                .accessibilityLabel(selectedButtonType.buttonText)
-                .accessibilityHint("Start practicing with \(selectedButtonType.buttonText.lowercased())")
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)

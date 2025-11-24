@@ -35,6 +35,9 @@ extension Localizable {
     // Study view
     static let cards = "cards"
     
+    // Check all button
+    static let allSelected = "all_selected"
+    
     // Settings
     static let settings = "settings"
     static let about = "about"

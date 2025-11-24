@@ -31,6 +31,7 @@ enum TabItem: String, CaseIterable {
 
 struct MainTabView: View {
     @StateObject private var dataService = DataService()
+    @EnvironmentObject private var languageManager: LanguageManager
     @State private var selectedTab: TabItem = .words
     
     var body: some View {
@@ -67,6 +68,7 @@ struct MainTabView: View {
         .onAppear {
             setupLiquidGlassTabBar()
         }
+        .id(languageManager.currentLanguage) // Force refresh when language changes
     }
     
     private func setupLiquidGlassTabBar() {
@@ -102,9 +104,8 @@ struct MainTabView: View {
         // Enable translucency for liquid glass effect
         UITabBar.appearance().isTranslucent = true
         
-        // Add AppGreenLight background tint
-        let appGreenLight = UIColor(named: "AppGreenLight") ?? UIColor.systemBackground
-        UITabBar.appearance().backgroundColor = appGreenLight.withAlphaComponent(0.8)
+        // Transparent background
+        UITabBar.appearance().backgroundColor = .clear
         
         // Remove top border
         UITabBar.appearance().clipsToBounds = true

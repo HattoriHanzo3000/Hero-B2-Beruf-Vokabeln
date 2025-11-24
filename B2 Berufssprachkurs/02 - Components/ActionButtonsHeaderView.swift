@@ -12,20 +12,16 @@ struct ActionButtonsHeaderView: View {
     let onSynonymTap: () -> Void
     let onTranslationTap: () -> Void
     let onExampleTap: (() -> Void)?
-    let onCheckmarkTap: () -> Void
     let onSettingsTap: (() -> Void)?
-    let isCheckmarkSelected: Bool
     @Binding var selectedButtonType: ToolbarButtonType
     let isVerbenMode: Bool
     
-    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onExampleTap: (() -> Void)? = nil, onCheckmarkTap: @escaping () -> Void, onSettingsTap: (() -> Void)? = nil, isCheckmarkSelected: Bool, selectedButtonType: Binding<ToolbarButtonType>, isVerbenMode: Bool = false) {
+    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onExampleTap: (() -> Void)? = nil, onSettingsTap: (() -> Void)? = nil, selectedButtonType: Binding<ToolbarButtonType>, isVerbenMode: Bool = false) {
         self.onExplanationTap = onExplanationTap
         self.onSynonymTap = onSynonymTap
         self.onTranslationTap = onTranslationTap
         self.onExampleTap = onExampleTap
-        self.onCheckmarkTap = onCheckmarkTap
         self.onSettingsTap = onSettingsTap
-        self.isCheckmarkSelected = isCheckmarkSelected
         self._selectedButtonType = selectedButtonType
         self.isVerbenMode = isVerbenMode
     }
@@ -36,9 +32,7 @@ struct ActionButtonsHeaderView: View {
             onSynonymTap: onSynonymTap,
             onTranslationTap: onTranslationTap,
             onExampleTap: onExampleTap,
-            onCheckmarkTap: onCheckmarkTap,
             onSettingsTap: onSettingsTap,
-            isCheckmarkSelected: isCheckmarkSelected,
             selectedButtonType: $selectedButtonType,
             isVerbenMode: isVerbenMode
         )
@@ -124,9 +118,7 @@ struct ActionButtonsHeaderView: View {
         onSynonymTap: {},
         onTranslationTap: {},
         onExampleTap: nil,
-        onCheckmarkTap: {},
         onSettingsTap: nil,
-        isCheckmarkSelected: false,
         selectedButtonType: .constant(.explanation),
         isVerbenMode: false
     )

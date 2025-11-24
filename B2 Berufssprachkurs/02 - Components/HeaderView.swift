@@ -30,8 +30,8 @@ struct HeaderView: View {
             
             // 5 rows of text content
             VStack(alignment: .leading, spacing: 8) {
-                // Row 1: "Das Wort des Tages" label
-                Text("Das Wort des Tages")
+                // Row 1: "Word of the Day" label
+                Text(Localizable.string(Localizable.wordOfTheDay))
                     .font(.body)
                     .fontWeight(.regular)
                     .foregroundColor(.primary .opacity(0.5))
@@ -84,7 +84,7 @@ struct HeaderView: View {
                     }
                 } else {
                     // Empty state
-                    Text("Wort des Tages")
+                    Text(Localizable.string(Localizable.wordOfTheDay))
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundColor(.primary.opacity(0.5))

@@ -33,10 +33,10 @@ enum ToolbarButtonType {
     
     var buttonText: String {
         switch self {
-        case .explanation: return "MIT ERKLÄRUNG ÜBEN"
-        case .synonym: return "MIT SYNONYMEN ÜBEN"
-        case .translation: return "MIT ÜBERSETZUNG ÜBEN"
-        case .example: return Localizable.string(Localizable.practiseWithExample).uppercased()
+        case .explanation: return Localizable.string(Localizable.practiseWithExplanation)
+        case .synonym: return Localizable.string(Localizable.practiseWithSynonym)
+        case .translation: return Localizable.string(Localizable.practiseWithTranslation)
+        case .example: return Localizable.string(Localizable.practiseWithExample)
         }
     }
     
@@ -55,34 +55,28 @@ struct GroupedToolbar: View {
     let onSynonymTap: () -> Void
     let onTranslationTap: () -> Void
     let onExampleTap: (() -> Void)?
-    let onCheckmarkTap: () -> Void
     let onSettingsTap: (() -> Void)?
-    let isCheckmarkSelected: Bool
     @Binding var selectedButtonType: ToolbarButtonType
     let isVerbenMode: Bool // If true, show only translation and example buttons
     
     @State private var selectedButton: ToolbarButtonType = .translation
     
-    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onExampleTap: (() -> Void)? = nil, onCheckmarkTap: @escaping () -> Void, onSettingsTap: (() -> Void)? = nil, isCheckmarkSelected: Bool, selectedButtonType: Binding<ToolbarButtonType>, isVerbenMode: Bool = false) {
+    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onExampleTap: (() -> Void)? = nil, onSettingsTap: (() -> Void)? = nil, selectedButtonType: Binding<ToolbarButtonType>, isVerbenMode: Bool = false) {
         self.onExplanationTap = onExplanationTap
         self.onSynonymTap = onSynonymTap
         self.onTranslationTap = onTranslationTap
         self.onExampleTap = onExampleTap
-        self.onCheckmarkTap = onCheckmarkTap
         self.onSettingsTap = onSettingsTap
-        self.isCheckmarkSelected = isCheckmarkSelected
         self._selectedButtonType = selectedButtonType
         self.isVerbenMode = isVerbenMode
     }
     
-    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onCheckmarkTap: @escaping () -> Void, onSettingsTap: (() -> Void)? = nil, isCheckmarkSelected: Bool, selectedButtonType: Binding<ToolbarButtonType>) {
+    init(onExplanationTap: @escaping () -> Void, onSynonymTap: @escaping () -> Void, onTranslationTap: @escaping () -> Void, onSettingsTap: (() -> Void)? = nil, selectedButtonType: Binding<ToolbarButtonType>) {
         self.onExplanationTap = onExplanationTap
         self.onSynonymTap = onSynonymTap
         self.onTranslationTap = onTranslationTap
         self.onExampleTap = nil
-        self.onCheckmarkTap = onCheckmarkTap
         self.onSettingsTap = onSettingsTap
-        self.isCheckmarkSelected = isCheckmarkSelected
         self._selectedButtonType = selectedButtonType
         self.isVerbenMode = false
     }
@@ -94,21 +88,6 @@ struct GroupedToolbar: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            // Checkmark button
-            Button(action: {
-                onCheckmarkTap()
-            }) {
-                Image(systemName: "checkmark")
-                    .font(.body)
-                    .fontWeight(.medium)
-                    .foregroundColor(isCheckmarkSelected ? Color("AppGreen") : .primary)
-                    .frame(width: 44, height: 44)
-            }
-            .buttonStyle(CircularLiquidGlassButtonStyle(isSelected: false, accentColor: Color("AppGreen")))
-            .accessibilityLabel("Checkmark")
-            .accessibilityHint("Markiert als erledigt")
-            .accessibilityAddTraits(isCheckmarkSelected ? .isSelected : [])
-            
             Spacer()
             
             // Grouped action buttons
@@ -361,9 +340,7 @@ struct CircularLiquidGlassButtonStyle: ButtonStyle {
         onExplanationTap: {},
         onSynonymTap: {},
         onTranslationTap: {},
-        onCheckmarkTap: {},
         onSettingsTap: {},
-        isCheckmarkSelected: false,
         selectedButtonType: .constant(.translation)
     )
     .padding()

@@ -20,6 +20,10 @@
 // Study view
 "cards" = "Karten";
 
+// Check all button
+"all_selected" = "Alle ausgewählt";
+"select_all" = "Alle auswählen";
+
 // Settings
 "settings" = "Einstellungen";
 "about" = "Über";

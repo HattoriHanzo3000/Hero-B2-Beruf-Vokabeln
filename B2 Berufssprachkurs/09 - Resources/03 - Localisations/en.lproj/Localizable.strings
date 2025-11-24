@@ -20,6 +20,10 @@
 // Study view
 "cards" = "cards";
 
+// Check all button
+"all_selected" = "All selected";
+"select_all" = "Select all";
+
 // Settings
 "settings" = "Settings";
 "about" = "About";

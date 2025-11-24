@@ -21,47 +21,18 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HeaderView(dataService: dataService)
                 
-                // Action buttons header
-                ActionButtonsHeaderView(
-                    onExplanationTap: {
-                        HapticManager.shared.selection()
-                        selectedButtonType = .explanation
-                    },
-                    onSynonymTap: {
-                        HapticManager.shared.selection()
-                        selectedButtonType = .synonym
-                    },
-                    onTranslationTap: {
-                        HapticManager.shared.selection()
-                        selectedButtonType = .translation
-                    },
-                    onCheckmarkTap: {
-                        HapticManager.shared.mediumImpact()
-                        dataService.toggleAllLections()
-                    },
-                    onSettingsTap: nil,
-                    isCheckmarkSelected: dataService.areAllLectionsCompleted(),
-                    selectedButtonType: $selectedButtonType
+                // Üben button group
+                UbenButtonGroup(
+                    selectedButtonType: $selectedButtonType,
+                    onButtonTap: { buttonType in
+                        navigateToStudy = true
+                    }
                 )
                 
                 // Lections list
                 LectionsListView(dataService: dataService)
                     .frame(maxHeight: .infinity)
                     .padding(.top, 12)
-
-                
-                Spacer()
-                
-                UbenButton(
-                    action: {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    },
-                    accentColor: selectedButtonType.color,
-                    buttonText: selectedButtonType.buttonText
-                )
-                .padding(.horizontal)
-                .padding(.bottom, 12)
             }
         }
         .environmentObject(dataService)
