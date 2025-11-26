@@ -30,7 +30,17 @@ struct StudyView: View {
     @State private var isReversed = false // When true, word is on front
     @State private var cardFlipped = false // Track if card should start flipped
     @State private var flashColor: Color? = nil // Track flash color for screen flash
+    @State private var cardsAnswered = 0 // Track number of cards answered in this session
     @Namespace private var cardNamespace
+    
+    // Track study sessions for interstitial ads
+    @AppStorage("studySessionCount") private var studySessionCount = 0
+    @AppStorage("adsDisabledUntil") private var adsDisabledUntil: TimeInterval = 0
+    
+    private var isPremiumActive: Bool {
+        let now = Date().timeIntervalSince1970
+        return adsDisabledUntil > now
+    }
     
     init(mode: StudyMode, dataService: DataService, filterBySectionId: String? = nil, studyAllMode: Bool = false) {
         self.mode = mode
@@ -201,7 +211,7 @@ struct StudyView: View {
                     iconName: emptyStateIcon,
                     modeTitle: mode.title,
                     onBack: {
-                        dismiss()
+                        handleDismiss()
                     }
                 )
             } else if currentIndex < studyItems.count {
@@ -311,7 +321,7 @@ struct StudyView: View {
                 // Back button with liquid glass style
                 Button(action: {
                     HapticManager.shared.lightImpact()
-                    dismiss()
+                    handleDismiss()
                 }) {
                     Image(systemName: "chevron.left")
                         .font(.callout)
@@ -474,6 +484,9 @@ struct StudyView: View {
         let currentItem = studyItems[currentIndex]
         spacedRepetition.recordStudyResult(wordId: currentItem.wordId, mode: mode, quality: 0)
         
+        // Track that user answered a card
+        cardsAnswered += 1
+        
         // Flash screen red
         flashScreen(color: .red)
         
@@ -496,6 +509,9 @@ struct StudyView: View {
         // Record spaced repetition result (quality 4-5 for correct answers)
         let currentItem = studyItems[currentIndex]
         spacedRepetition.recordStudyResult(wordId: currentItem.wordId, mode: mode, quality: 4)
+        
+        // Track that user answered a card
+        cardsAnswered += 1
         
         // Flash screen green
         flashScreen(color: .green)
@@ -553,6 +569,25 @@ struct StudyView: View {
                 flashColor = nil
             }
         }
+    }
+    
+    private func handleDismiss() {
+        // Only count as a session if user answered at least 3 cards
+        // This prevents counting sessions where user just opened and closed
+        if cardsAnswered >= 3 {
+            studySessionCount += 1
+            
+            // Show interstitial ad every 2-3 sessions (only if premium is not active)
+            // This gives a good balance between revenue and user experience
+            if !isPremiumActive && studySessionCount % 3 == 0 {
+                // Show ad after a short delay to allow view to start dismissing
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    InterstitialAdHelper.showInterstitialAd()
+                }
+            }
+        }
+        
+        dismiss()
     }
     
     private func reverseCard() {

@@ -23,9 +23,20 @@ extension View {
     }
 }
 
-// AppDelegate to handle orientation
+// AppDelegate to handle orientation and AdMob initialization
 class AppDelegate: NSObject, UIApplicationDelegate {
     static var orientationLock = UIInterfaceOrientationMask.portrait
+    
+    func application(_ application: UIApplication, 
+                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        // Initialize AdMob
+        AdManager.shared.initialize()
+        
+        // Request tracking permission (after a short delay to ensure app is fully loaded)
+        TrackingManager.requestTrackingPermission()
+        
+        return true
+    }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return AppDelegate.orientationLock

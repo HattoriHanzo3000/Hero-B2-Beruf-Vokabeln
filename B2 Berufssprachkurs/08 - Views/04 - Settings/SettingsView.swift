@@ -26,6 +26,12 @@ struct SettingsView: View {
     @State private var showMailUnavailableAlert = false
     @State private var showResetAlert = false
     @State private var presentingLegalURL: URL? = nil
+    @State private var showRewardedAdAlert = false
+    @State private var rewardedAdMessage = ""
+    
+    // Premium status tracking
+    @AppStorage("premiumUnlockedUntil") private var premiumUnlockedUntil: TimeInterval = 0
+    @AppStorage("adsDisabledUntil") private var adsDisabledUntil: TimeInterval = 0
     
     // Sync with language manager
     private var languageBinding: Binding<String> {
@@ -67,19 +73,26 @@ struct SettingsView: View {
                 }
             }
             
-            // Premium section - temporarily disabled, will be added in next update
-            /*
+            // Premium Features Section
             SwiftUI.Section {
-                NavigationIconRow(
-                    icon: "crown.fill",
-                    iconColor: .yellow,
-                    title: Localizable.string(Localizable.premium)
-                ) {
-                    Text(Localizable.string(Localizable.premium))
-                        .navigationTitle(Localizable.string(Localizable.premium))
+                Button {
+                    HapticManager.shared.mediumImpact()
+                    showRewardedAd()
+                } label: {
+                    SettingsIconRow(
+                        icon: "play.circle.fill",
+                        iconColor: Color("AppGreen"),
+                        title: "Watch Ad for Premium Features",
+                        subtitle: isPremiumActive ? "Premium active until \(premiumExpiryText)" : "Unlock premium features for 1 hour"
+                    )
                 }
+                .disabled(!AdManager.shared.canShowRewarded)
+                .opacity(AdManager.shared.canShowRewarded ? 1.0 : 0.6)
+            } header: {
+                Text("Premium Features")
+            } footer: {
+                Text(isPremiumActive ? "Enjoy ad-free experience and all premium features!" : "Watch a short ad to unlock premium features for 1 hour. No ads, all features unlocked.")
             }
-            */
             
             SwiftUI.Section {
                 ToggleIconRow(
@@ -288,6 +301,11 @@ struct SettingsView: View {
             }
         } message: {
             Text(Localizable.string(Localizable.resetAppMessage))
+        }
+        .alert("Premium Unlocked!", isPresented: $showRewardedAdAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(rewardedAdMessage)
         }
         .sheet(item: Binding(
             get: { presentingLegalURL.map { LegalDocument(url: $0) } },
@@ -516,6 +534,35 @@ private extension SettingsView {
     
     var localizedPeriodicityOptions: [String] {
         ["12_hours", "24_hours"] // Keys
+    }
+    
+    // Premium features helpers
+    var isPremiumActive: Bool {
+        let now = Date().timeIntervalSince1970
+        return premiumUnlockedUntil > now || adsDisabledUntil > now
+    }
+    
+    var premiumExpiryText: String {
+        let expiryDate = Date(timeIntervalSince1970: max(premiumUnlockedUntil, adsDisabledUntil))
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .none
+        return formatter.string(from: expiryDate)
+    }
+    
+    func showRewardedAd() {
+        RewardedAdHelper.showRewardedAd {
+            // User watched the ad - grant premium features for 1 hour
+            let oneHourFromNow = Date().timeIntervalSince1970 + 3600 // 1 hour = 3600 seconds
+            premiumUnlockedUntil = oneHourFromNow
+            adsDisabledUntil = oneHourFromNow
+            
+            // Show success message
+            rewardedAdMessage = "Premium features unlocked for 1 hour! Enjoy ad-free experience."
+            showRewardedAdAlert = true
+            
+            HapticManager.shared.success()
+        }
     }
 }
 

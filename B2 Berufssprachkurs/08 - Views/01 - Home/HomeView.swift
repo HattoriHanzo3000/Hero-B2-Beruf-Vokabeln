@@ -33,6 +33,10 @@ struct HomeView: View {
                 LectionsListView(dataService: dataService)
                     .frame(maxHeight: .infinity)
                     .padding(.top, 12)
+                
+                // Banner Ad at the bottom
+                BannerAd()
+                    .padding(.bottom, 8)
             }
         }
         .environmentObject(dataService)
