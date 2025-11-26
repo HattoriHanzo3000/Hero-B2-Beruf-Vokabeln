@@ -1,5 +1,5 @@
 //
-//  LectionsListView.swift
+//  GeneralWordsListView.swift
 //  B2 Berufssprachkurs
 //
 //  Created by Ildar on 18.11.25.
@@ -7,31 +7,9 @@
 
 import SwiftUI
 
-struct LectionsListView: View {
+struct GeneralWordsListView: View {
     @ObservedObject var dataService: DataService
     @State private var expandedLections: Set<Int> = []
-    @State private var isVerbenExpanded = false
-    
-    // Prepositions for Verben mit Präpositionen
-    private let verbenPrepositions: [Section] = [
-        Section(id: "VERBEN_an", title: "an"),
-        Section(id: "VERBEN_auf", title: "auf"),
-        Section(id: "VERBEN_aus", title: "aus"),
-        Section(id: "VERBEN_bei", title: "bei"),
-        Section(id: "VERBEN_bis", title: "bis"),
-        Section(id: "VERBEN_durch", title: "durch"),
-        Section(id: "VERBEN_für", title: "für"),
-        Section(id: "VERBEN_gegen", title: "gegen"),
-        Section(id: "VERBEN_in", title: "in"),
-        Section(id: "VERBEN_mit", title: "mit"),
-        Section(id: "VERBEN_nach", title: "nach"),
-        Section(id: "VERBEN_über", title: "über"),
-        Section(id: "VERBEN_um", title: "um"),
-        Section(id: "VERBEN_unter", title: "unter"),
-        Section(id: "VERBEN_von", title: "von"),
-        Section(id: "VERBEN_vor", title: "vor"),
-        Section(id: "VERBEN_zu", title: "zu")
-    ]
     
     var body: some View {
         List {
@@ -64,13 +42,13 @@ struct LectionsListView: View {
                 .padding(.vertical, 0)
             }
             
-            // Lections
-            ForEach(dataService.lections) { lection in
+            // Lections (only first 12)
+            ForEach(Array(dataService.lections.prefix(12))) { lection in
                 SwiftUI.Section {
                     if expandedLections.contains(lection.id) {
                         ForEach(lection.sections) { section in
                             SectionRowView(section: section, dataService: dataService)
-                                .listRowBackground(Color("AppGreenExtraLight"))
+                                .listRowBackground(Color.clear)
                         }
                     }
                 } header: {
@@ -87,60 +65,6 @@ struct LectionsListView: View {
                         },
                         dataService: dataService
                     )
-                }
-            }
-            
-            // Special section: Verben mit Präpositionen
-            SwiftUI.Section {
-                if isVerbenExpanded {
-                    ForEach(verbenPrepositions, id: \.id) { preposition in
-                        SectionRowView(
-                            section: preposition,
-                            dataService: dataService
-                        )
-                        .listRowBackground(Color("AppGreenExtraLight"))
-                    }
-                }
-            } header: {
-                HStack(spacing: 12) {
-                    // Checkmark button
-                    Button(action: {
-                        HapticManager.shared.lightImpact()
-                        dataService.toggleVerbenCompleted()
-                    }) {
-                        Image(systemName: dataService.isVerbenCompleted() ? "checkmark.circle.fill" : "circle")
-                            .font(.title3)
-                            .fontWeight(.medium)
-                            .foregroundColor(dataService.isVerbenCompleted() ? Color("AppGreen") : .secondary)
-                    }
-                    .buttonStyle(.plain)
-                    
-                    // Expand/collapse button
-                    Button(action: {
-                        HapticManager.shared.selection()
-                        isVerbenExpanded.toggle()
-                    }) {
-                        HStack {
-                            Image(systemName: "book.circle")
-                                .font(.body)
-                                .fontWeight(.medium)
-                                .foregroundColor(.primary)
-                            
-                            Text("Verben mit Präpositionen")
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            
-                            Spacer()
-                            
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.secondary)
-                                .rotationEffect(.degrees(isVerbenExpanded ? 90 : 0))
-                                .animation(.easeInOut(duration: 0.2), value: isVerbenExpanded)
-                        }
-                    }
-                    .buttonStyle(.plain)
                 }
             }
         }
@@ -161,12 +85,15 @@ struct LectionHeaderView: View {
             // Checkmark button
             Button(action: {
                 HapticManager.shared.lightImpact()
-                dataService.toggleLectionCompleted(lectionId: lection.id)
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                    dataService.toggleLectionCompleted(lectionId: lection.id)
+                }
             }) {
                 Image(systemName: dataService.isLectionCompleted(lectionId: lection.id) ? "checkmark.circle.fill" : "circle")
-                    .font(.title3)
+                    .font(.body)
                     .fontWeight(.medium)
                     .foregroundColor(dataService.isLectionCompleted(lectionId: lection.id) ? Color("AppGreen") : .secondary)
+                    .symbolEffect(.bounce, value: dataService.isLectionCompleted(lectionId: lection.id))
             }
             .buttonStyle(.plain)
             
@@ -217,11 +144,14 @@ struct SectionRowView: View {
             // Checkmark button
             Button(action: {
                 HapticManager.shared.lightImpact()
-                dataService.toggleSectionCompleted(sectionId: section.id)
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                    dataService.toggleSectionCompleted(sectionId: section.id)
+                }
             }) {
                 Image(systemName: dataService.isSectionCompleted(sectionId: section.id) ? "checkmark.circle.fill" : "circle")
                     .font(.body)
                     .foregroundColor(dataService.isSectionCompleted(sectionId: section.id) ? Color("AppGreen") : .secondary)
+                    .symbolEffect(.bounce, value: dataService.isSectionCompleted(sectionId: section.id))
             }
             .buttonStyle(.plain)
             
@@ -250,13 +180,11 @@ struct SectionRowView: View {
             }
         }
         .padding(.leading, 16)
-        .background(Color("AppGreenExtraLight"))
-        .listRowBackground(Color("AppGreenExtraLight"))
     }
 }
 
 #Preview {
-    LectionsListView(dataService: DataService())
+    GeneralWordsListView(dataService: DataService())
         .background(Color("AppGreenLight"))
 }
 

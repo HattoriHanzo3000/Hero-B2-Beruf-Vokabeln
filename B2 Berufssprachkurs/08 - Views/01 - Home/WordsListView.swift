@@ -1,0 +1,434 @@
+//
+//  WordsListView.swift
+//  B2 Berufssprachkurs
+//
+//  Created by Ildar on 18.11.25.
+//
+
+import SwiftUI
+
+struct WordsListView: View {
+    let sectionId: String
+    @EnvironmentObject var dataService: DataService
+    @State private var translations: [String: String] = [:]
+    @State private var navigateToStudy = false
+    @State private var navigateToSettings = false
+    @FocusState private var focusedWordId: String?
+    
+    var words: [Word] {
+        dataService.getWords(for: sectionId)
+    }
+    
+    var headerInfo: (lectionTitle: String, sectionTitle: String, lectionNumber: String, sectionLetter: String)? {
+        dataService.getLectionAndSection(for: sectionId)
+    }
+    
+    var hasAnyWordFavorited: Bool {
+        !words.isEmpty && words.contains { dataService.isFavorite(wordId: $0.id) }
+    }
+    
+    var isVerbenSection: Bool {
+        sectionId.hasPrefix("VERBEN_")
+    }
+    
+    // Determine which stack this belongs to and get appropriate styling
+    var stackInfo: (color: Color, icon: String, title: String) {
+        if isVerbenSection {
+            return (Color("AppBlue"), "square.stack.3d.up.fill", Localizable.string(Localizable.verbsWithPrepositions))
+        }
+        // For general words sections (default)
+        return (Color("AppGreen"), "square.stack.3d.up.fill", Localizable.string(Localizable.generalWords))
+    }
+    
+    // Get preposition title for verben sections
+    var prepositionTitle: String {
+        if isVerbenSection {
+            // Extract preposition from sectionId (e.g., "VERBEN_an" -> "an")
+            let parts = sectionId.split(separator: "_")
+            if parts.count > 1 {
+                return String(parts[1])
+            }
+        }
+        return ""
+    }
+    
+    var body: some View {
+        ZStack {
+            stackInfo.color.opacity(0.08)
+                .ignoresSafeArea()
+            
+            // Scrollable content including header with Üben button at bottom
+            ZStack(alignment: .bottom) {
+                ScrollViewReader { proxy in
+                    List {
+                    // Header matching GeneralWordsView style (now scrollable)
+                    if isVerbenSection {
+                        // For verben sections, show stack title and preposition
+                        SwiftUI.Section {
+                            EmptyView()
+                        } header: {
+                            WordsListHeaderView(
+                                stackColor: stackInfo.color,
+                                stackIcon: stackInfo.icon,
+                                stackTitle: stackInfo.title,
+                                lectionTitle: "",
+                                sectionTitle: prepositionTitle,
+                                lectionNumber: "",
+                                sectionLetter: ""
+                            )
+                        }
+                    } else if let info = headerInfo {
+                        // For general words sections, show both titles
+                        SwiftUI.Section {
+                            EmptyView()
+                        } header: {
+                            WordsListHeaderView(
+                                stackColor: stackInfo.color,
+                                stackIcon: stackInfo.icon,
+                                stackTitle: stackInfo.title,
+                                lectionTitle: info.lectionTitle,
+                                sectionTitle: info.sectionTitle,
+                                lectionNumber: info.lectionNumber,
+                                sectionLetter: info.sectionLetter
+                            )
+                        }
+                    }
+                    
+                    // Words list directly in scrollable area
+                    ForEach(words) { word in
+                        WordRow(
+                            word: word,
+                            sectionId: sectionId,
+                            isFavorite: dataService.isFavorite(wordId: word.id),
+                            translation: translations[word.id] ?? word.translation,
+                            dataService: dataService,
+                            focusedWordId: $focusedWordId,
+                            onFavoriteToggle: {
+                                HapticManager.shared.lightImpact()
+                                dataService.toggleFavorite(wordId: word.id)
+                            },
+                            onTranslationChange: { newTranslation in
+                                translations[word.id] = newTranslation
+                                dataService.updateTranslation(
+                                    for: word.id,
+                                    in: sectionId,
+                                    translation: newTranslation
+                                )
+                            }
+                        )
+                        .id(word.id)
+                        .listRowBackground(Color.clear)
+                    }
+                }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .contentMargins(.top, 8, for: .scrollContent)
+                    .contentMargins(.bottom, 90, for: .scrollContent)
+                    .accessibilityLabel("Words list")
+                    .accessibilityHint("List of German words with translations, explanations, and synonyms")
+                    .onChange(of: focusedWordId) { oldValue, newValue in
+                        if let wordId = newValue {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                proxy.scrollTo(wordId, anchor: .center)
+                            }
+                        }
+                    }
+                }
+                
+                // Üben button at the bottom (always active)
+                Button {
+                    HapticManager.shared.mediumImpact()
+                    navigateToStudy = true
+                } label: {
+                    Text(Localizable.string(Localizable.practice))
+                        .font(.headline.weight(.semibold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(
+                            Capsule(style: .continuous)
+                                .fill(stackInfo.color)
+                        )
+                        .shadow(color: stackInfo.color.opacity(0.3), radius: 8, x: 0, y: 4)
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
+            }
+        }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .navigationDestination(isPresented: $navigateToStudy) {
+            StudyView(
+                dataService: dataService,
+                filterBySectionId: sectionId, // From section view: only this section
+                studyAllMode: true // Always study all words in section
+            )
+            .environmentObject(dataService)
+        }
+        .navigationDestination(isPresented: $navigateToSettings) {
+            SettingsView()
+                .environmentObject(dataService)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                
+                Button(action: {
+                    HapticManager.shared.lightImpact()
+                    navigateToPreviousField()
+                }) {
+                    Image(systemName: "chevron.up")
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                }
+                .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0)
+                .accessibilityLabel("Previous word")
+                .accessibilityHint("Navigate to the previous word in the list")
+                
+                Button(action: {
+                    HapticManager.shared.lightImpact()
+                    navigateToNextField()
+                }) {
+                    Image(systemName: "chevron.down")
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                }
+                .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= words.count - 1)
+                .accessibilityLabel("Next word")
+                .accessibilityHint("Navigate to the next word in the list")
+                
+                Button(action: {
+                    HapticManager.shared.lightImpact()
+                    focusedWordId = nil
+                }) {
+                    Text("Done")
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                }
+                .accessibilityLabel("Done")
+                .accessibilityHint("Hide keyboard and finish input")
+            }
+        }
+        .onAppear {
+            // Initialize translations from dataService
+            for word in words {
+                if !word.translation.isEmpty {
+                    translations[word.id] = word.translation
+                }
+            }
+        }
+    }
+    
+    private func getCurrentWordIndex() -> Int? {
+        guard let focusedId = focusedWordId,
+              let index = words.firstIndex(where: { $0.id == focusedId }) else {
+            return nil
+        }
+        return index
+    }
+    
+    private func navigateToPreviousField() {
+        guard let currentIndex = getCurrentWordIndex(),
+              currentIndex > 0 else { return }
+        let previousWordId = words[currentIndex - 1].id
+        focusedWordId = previousWordId
+        // Scrolling is handled by onChange(of: focusedWordId)
+    }
+    
+    private func navigateToNextField() {
+        guard let currentIndex = getCurrentWordIndex(),
+              currentIndex < words.count - 1 else { return }
+        let nextWordId = words[currentIndex + 1].id
+        focusedWordId = nextWordId
+        // Scrolling is handled by onChange(of: focusedWordId)
+    }
+    
+}
+
+struct WordRow: View {
+    let word: Word
+    let sectionId: String
+    let isFavorite: Bool
+    let translation: String
+    @ObservedObject var dataService: DataService
+    @FocusState.Binding var focusedWordId: String?
+    let onFavoriteToggle: () -> Void
+    let onTranslationChange: (String) -> Void
+    
+    @State private var localTranslation: String = ""
+    
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            // Star on the left (yellow when favorited)
+            Button(action: onFavoriteToggle) {
+                Image(systemName: isFavorite ? "star.fill" : "star")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(isFavorite ? Color.yellow : .secondary)
+                    .symbolEffect(.bounce, value: isFavorite)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
+            .accessibilityValue(isFavorite ? "Favorited" : "Not favorited")
+            .accessibilityHint("Toggle favorite for \(word.german)")
+            .accessibilityAddTraits(isFavorite ? .isSelected : [])
+            
+            // German word with example sentence
+            VStack(alignment: .leading, spacing: 4) {
+                Text(word.german)
+                    .font(.body)
+                    .fontWeight(.medium)
+                    .foregroundColor(.primary)
+                
+                if let example = word.example, !example.isEmpty {
+                    Text(example)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .italic()
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("German word: \(word.german)\(word.example != nil && !word.example!.isEmpty ? ". Example: \(word.example!)" : "")")
+            
+            // Translation column on the right with explanation, synonyms, and translation
+            VStack(alignment: .leading, spacing: 6) {
+                // Row 1: Explanation
+                if let explanation = word.explanation, !explanation.isEmpty {
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("erkl.:")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                        Text(explanation)
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Explanation: \(explanation)")
+                }
+                
+                // Row 2: Synonyms
+                if let synonyms = word.synonyms, !synonyms.isEmpty {
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("syn.:")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                        Text(synonyms.joined(separator: ", "))
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Synonyms: \(synonyms.joined(separator: ", "))")
+                }
+                
+                // Row 3: Translation input field
+                TextField("Übersetzung", text: $localTranslation, axis: .vertical)
+                    .font(.subheadline)
+                    .lineLimit(1...10)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
+                            .fill(Color(.systemBackground))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                    .stroke(Color(.separator), lineWidth: 0.5)
+                            )
+                    )
+                    .focused($focusedWordId, equals: word.id)
+                    .accessibilityLabel("Translation for \(word.german)")
+                    .accessibilityHint("Enter the translation for this German word")
+                    .accessibilityValue(localTranslation.isEmpty ? "Empty" : localTranslation)
+                    .onAppear {
+                        localTranslation = translation
+                    }
+                    .onChange(of: localTranslation) { oldValue, newValue in
+                        onTranslationChange(newValue)
+                    }
+            }
+            .frame(width: 150, alignment: .leading)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 10)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Word row for \(word.german)")
+    }
+}
+
+// MARK: - Words List Header View
+struct WordsListHeaderView: View {
+    let stackColor: Color
+    let stackIcon: String
+    let stackTitle: String
+    let lectionTitle: String
+    let sectionTitle: String
+    let lectionNumber: String
+    let sectionLetter: String
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(stackColor)
+                    .frame(width: 48, height: 48)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .stroke(.white.opacity(0.25), lineWidth: 0.6)
+                    )
+                Image(systemName: stackIcon)
+                    .foregroundColor(.white)
+                    .font(.system(size: 22, weight: .semibold))
+                    .symbolRenderingMode(.hierarchical)
+            }
+            
+            VStack(alignment: .leading, spacing: 6) {
+                Text(stackTitle)
+                    .font(.title2.weight(.semibold))
+                    .foregroundColor(.primary)
+                
+                // Show titles: for verben show only section (preposition), for general show both
+                if !lectionTitle.isEmpty && !sectionTitle.isEmpty {
+                    // Show both lection and section for general words with numbers/letters
+                    HStack(spacing: 8) {
+                        if !lectionNumber.isEmpty {
+                            Text(lectionNumber)
+                                .font(.title3.weight(.semibold))
+                                .foregroundColor(.primary)
+                        }
+                        Text(lectionTitle)
+                            .font(.title3.weight(.medium))
+                            .foregroundColor(.primary)
+                    }
+                    
+                    HStack(spacing: 8) {
+                        if !sectionLetter.isEmpty {
+                            Text(sectionLetter.uppercased())
+                                .font(.headline.weight(.semibold))
+                                .foregroundColor(.primary)
+                        }
+                        Text(sectionTitle)
+                            .font(.headline.weight(.medium))
+                            .foregroundColor(.primary)
+                    }
+                } else if !sectionTitle.isEmpty {
+                    // Show only section/preposition title
+                    Text(sectionTitle)
+                        .font(.headline.weight(.medium))
+                        .foregroundColor(.primary)
+                }
+            }
+            
+            Spacer()
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 16)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        WordsListView(sectionId: "1A")
+            .environmentObject(DataService())
+    }
+}

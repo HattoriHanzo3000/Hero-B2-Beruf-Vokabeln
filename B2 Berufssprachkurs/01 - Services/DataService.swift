@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 @MainActor
 class DataService: ObservableObject {
@@ -15,14 +16,17 @@ class DataService: ObservableObject {
     @Published var completedSections: Set<String> = []
     @Published var completedLections: Set<Int> = []
     @Published var checkedWords: [String: Set<String>] = [:] // sectionId: Set<wordId>
+    @Published var favoriteWords: Set<String> = [] // Set of wordIds that are favorited
     
     private let userDefaults = UserDefaults.standard
     private let completedLectionsKey = "completedLections"
     private let completedSectionsKey = "completedSections"
+    private let favoriteWordsKey = "favoriteWords"
     
     init() {
         loadData()
         loadCompletedStates()
+        loadFavoriteWords()
     }
     
     func loadData() {
@@ -219,6 +223,16 @@ class DataService: ObservableObject {
         return verbenSectionIds.isSubset(of: completedSections)
     }
     
+    func hasAnyLectionCompleted() -> Bool {
+        guard !lections.isEmpty else { return false }
+        return lections.contains { isLectionCompleted(lectionId: $0.id) } ||
+               lections.flatMap { $0.sections }.contains { isSectionCompleted(sectionId: $0.id) }
+    }
+    
+    func hasAnyVerbenCompleted() -> Bool {
+        return verbenSectionIds.contains { completedSections.contains($0) }
+    }
+    
     func getWordOfTheDay() -> Word? {
         let userDefaults = UserDefaults.standard
         
@@ -306,6 +320,108 @@ class DataService: ObservableObject {
         }
     }
     
+    private func loadFavoriteWords() {
+        if let favoriteWordsArray = userDefaults.array(forKey: favoriteWordsKey) as? [String] {
+            favoriteWords = Set(favoriteWordsArray)
+        }
+    }
+    
+    private func saveFavoriteWords() {
+        let favoriteWordsArray = Array(favoriteWords)
+        userDefaults.set(favoriteWordsArray, forKey: favoriteWordsKey)
+    }
+    
+    // MARK: - Favorites Functions
+    
+    func toggleFavorite(wordId: String) {
+        if favoriteWords.contains(wordId) {
+            favoriteWords.remove(wordId)
+        } else {
+            favoriteWords.insert(wordId)
+        }
+        saveFavoriteWords()
+    }
+    
+    func isFavorite(wordId: String) -> Bool {
+        return favoriteWords.contains(wordId)
+    }
+    
+    func getFavoriteWords() -> [Word] {
+        var favoriteWordsList: [Word] = []
+        for (_, words) in wordsBySection {
+            for word in words {
+                if favoriteWords.contains(word.id) {
+                    favoriteWordsList.append(word)
+                }
+            }
+        }
+        return favoriteWordsList
+    }
+    
+    func getSectionId(for wordId: String) -> String? {
+        for (sectionId, words) in wordsBySection {
+            if words.contains(where: { $0.id == wordId }) {
+                return sectionId
+            }
+        }
+        return nil
+    }
+    
+    func getGroupType(for sectionId: String) -> FavoriteGroupType {
+        if sectionId.hasPrefix("VERBEN_") {
+            return .verbs
+        }
+        // Check if it's an adjective section (you may need to adjust this based on your data structure)
+        // For now, assume regular lection sections are general words
+        return .generalWords
+    }
+    
+    enum FavoriteGroupType {
+        case generalWords // Green
+        case verbs // Blue
+        case adjectives // Purple
+        
+        var color: Color {
+            switch self {
+            case .generalWords:
+                return Color("AppGreen")
+            case .verbs:
+                return Color("AppBlue")
+            case .adjectives:
+                return Color.purple
+            }
+        }
+        
+        var backgroundColor: Color {
+            switch self {
+            case .generalWords:
+                return Color("AppGreen").opacity(0.08)
+            case .verbs:
+                return Color("AppBlue").opacity(0.08)
+            case .adjectives:
+                return Color.purple.opacity(0.08)
+            }
+        }
+    }
+    
+    func getDominantGroupType(for favoriteWords: [Word]) -> FavoriteGroupType {
+        var groupCounts: [FavoriteGroupType: Int] = [:]
+        
+        for word in favoriteWords {
+            if let sectionId = getSectionId(for: word.id) {
+                let groupType = getGroupType(for: sectionId)
+                groupCounts[groupType, default: 0] += 1
+            }
+        }
+        
+        // Return the most common group type, or default to generalWords
+        if let dominantGroup = groupCounts.max(by: { $0.value < $1.value })?.key {
+            return dominantGroup
+        }
+        
+        return .generalWords
+    }
+    
     // MARK: - Reset Functions
     
     func resetAllData() {
@@ -315,6 +431,10 @@ class DataService: ObservableObject {
         // Clear completed sections and lections
         completedSections.removeAll()
         completedLections.removeAll()
+        
+        // Clear favorite words
+        favoriteWords.removeAll()
+        saveFavoriteWords()
         
         // Reload words data to reset translations to original values
         wordsBySection.removeAll()

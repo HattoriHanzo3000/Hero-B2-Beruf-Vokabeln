@@ -9,21 +9,15 @@ import SwiftUI
 import UIKit
 
 enum TabItem: String, CaseIterable {
-    case words = "words"
-    case verbs = "verbs"
+    case home = "home"
     case cockpit = "cockpit"
-    case settings = "settings"
     
     var icon: String {
         switch self {
-        case .words:
-            return "book.fill"
-        case .verbs:
-            return "figure.run"
+        case .home:
+            return "house.fill"
         case .cockpit:
             return "gauge"
-        case .settings:
-            return "gearshape.fill"
         }
     }
     
@@ -35,27 +29,17 @@ enum TabItem: String, CaseIterable {
 struct MainTabView: View {
     @StateObject private var dataService = DataService()
     @EnvironmentObject private var languageManager: LanguageManager
-    @State private var selectedTab: TabItem = .words
+    @State private var selectedTab: TabItem = .home
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            // Words Tab - Shows LectionsListView
+            // Home Tab - Shows learning stack cards
             NavigationStack {
-                HomeView()
-                    .navigationBarTitleDisplayMode(.inline)
+                HomeTabView()
             }
-            .tag(TabItem.words)
+            .tag(TabItem.home)
             .tabItem {
-                Label(TabItem.words.localizedTitle, systemImage: TabItem.words.icon)
-            }
-            
-            // Verbs Tab - Shows Verbs with Prepositions
-            NavigationStack {
-                VerbsView(dataService: dataService)
-            }
-            .tag(TabItem.verbs)
-            .tabItem {
-                Label(TabItem.verbs.localizedTitle, systemImage: TabItem.verbs.icon)
+                Label(TabItem.home.localizedTitle, systemImage: TabItem.home.icon)
             }
             
             // Cockpit Tab

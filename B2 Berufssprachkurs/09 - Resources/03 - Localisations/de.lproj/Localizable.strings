@@ -11,6 +11,7 @@
 "practise_with_translation" = "Mit Übersetzung üben";
 
 // Tab Bar
+"home" = "Home";
 "words" = "Wörter";
 "verbs" = "Verben";
 "cockpit" = "Cockpit";
@@ -20,6 +21,11 @@
 
 // Study view
 "cards" = "Karten";
+"study" = "Lernen";
+"synonym" = "Synonym";
+"explanation" = "Erklärung";
+"translation" = "Übersetzung";
+"add_translation_to_word" = "Übersetzung zum Wort hinzufügen";
 
 // Check all button
 "all_selected" = "Alle ausgewählt";
@@ -97,4 +103,10 @@
 "progress" = "Fortschritt";
 "progress_subtitle" = "Dein Weg auf einen Blick";
 "cockpit_wotd_intro" = "Passe dein tägliches Lernen an deinen Rhythmus und deine Themen an.";
+
+"general_words" = "Allgemeine Wörter";
+"adjectives_with_prepositions" = "Adjektive mit Präpositionen";
+"favorites" = "Favoriten";
+
+"practice" = "ÜBEN";
 

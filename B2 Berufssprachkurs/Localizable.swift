@@ -23,9 +23,9 @@ extension Localizable {
     static let practiseWithSynonym = "practise_with_synonym"
     static let practiseWithTranslation = "practise_with_translation"
     static let selectAll = "select_all"
-    static let translation = "translation"
     
     // Tab Bar
+    static let home = "home"
     static let words = "words"
     static let verbs = "verbs"
     
@@ -34,6 +34,11 @@ extension Localizable {
     
     // Study view
     static let cards = "cards"
+    static let study = "study"
+    static let synonym = "synonym"
+    static let explanation = "explanation"
+    static let translation = "translation"
+    static let addTranslationToWord = "add_translation_to_word"
     
     // Check all button
     static let allSelected = "all_selected"
@@ -112,5 +117,13 @@ extension Localizable {
     static let progress = "progress"
     static let progressSubtitle = "progress_subtitle"
     static let cockpitWotdIntro = "cockpit_wotd_intro"
+    
+    // Home Cards
+    static let generalWords = "general_words"
+    static let adjectivesWithPrepositions = "adjectives_with_prepositions"
+    static let favorites = "favorites"
+    
+    // Practice button
+    static let practice = "practice"
 }
 
