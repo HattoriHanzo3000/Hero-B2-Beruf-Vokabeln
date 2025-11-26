@@ -10,13 +10,11 @@ import MessageUI
 
 struct SettingsView: View {
     @EnvironmentObject var dataService: DataService
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject private var languageManager = LanguageManager.shared
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
     @AppStorage("appearancePreference") private var appearancePreference = "System" // Stores key: "Light" | "Dark" | "System"
     @AppStorage("textSizePreference") private var textSizePreference = "Large" // Stores key: "Extra Small" | "Small" | etc.
-    @AppStorage("wordOfTheDayEnabled") private var wordOfTheDayEnabled = true
-    @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours" // Stores key: "12_hours" | "24_hours"
-    @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = "" // Comma-separated section IDs, empty means all
     @AppStorage("appLanguage") private var appLanguage = "English" { // Stores key: "English" | "Deutsch"
         didSet {
             languageManager.setLanguage(appLanguage)
@@ -92,42 +90,6 @@ struct SettingsView: View {
                 Text("Premium Features")
             } footer: {
                 Text(isPremiumActive ? "Enjoy ad-free experience and all premium features!" : "Watch a short ad to unlock premium features for 1 hour. No ads, all features unlocked.")
-            }
-            
-            SwiftUI.Section {
-                ToggleIconRow(
-                    icon: "calendar",
-                    iconColor: Color("AppGreen"),
-                    title: Localizable.string(Localizable.wordOfTheDay),
-                    isOn: $wordOfTheDayEnabled
-                )
-                
-                if wordOfTheDayEnabled {
-                    MenuIconRow(
-                        icon: "clock.fill",
-                        iconColor: Color("AppGreen"),
-                        title: Localizable.string(Localizable.periodicity),
-                        options: localizedPeriodicityOptions,
-                        selection: $wordOfTheDayPeriodicity,
-                        displayMapping: { key in
-                            key == "12_hours" ? Localizable.string(Localizable.hours12) : Localizable.string(Localizable.hours24)
-                        }
-                    )
-                    
-                    NavigationLink {
-                        SectionSelectionView(
-                            selectedSections: $wordOfTheDaySelectedSections,
-                            dataService: dataService
-                        )
-                    } label: {
-                        SettingsIconRow(
-                            icon: "checklist",
-                            iconColor: Color("AppGreen"),
-                            title: Localizable.string(Localizable.sourceSections),
-                            subtitle: getSelectedSectionsCount() == 0 ? Localizable.string(Localizable.allSections) : String(format: Localizable.string(Localizable.selectedSections), getSelectedSectionsCount())
-                        )
-                    }
-                }
             }
             
             SwiftUI.Section {
@@ -277,8 +239,17 @@ struct SettingsView: View {
         .navigationTitle(Localizable.string(Localizable.settings))
         .navigationBarTitleDisplayMode(.large)
         .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 17, weight: .semibold))
+                }
+            }
+        }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .id(languageManager.currentLanguage) // Force refresh when language changes
         .sheet(isPresented: $showMailComposer) {
             MailComposeView(
                 subject: "Contact - Hero. B2 - Berufsprachkurs",
@@ -513,13 +484,6 @@ private struct AboutRow: View {
 }
 
 private extension SettingsView {
-    func getSelectedSectionsCount() -> Int {
-        if wordOfTheDaySelectedSections.isEmpty {
-            return 0 // 0 means "all"
-        }
-        return wordOfTheDaySelectedSections.split(separator: ",").count
-    }
-    
     var localizedLanguageOptions: [String] {
         ["English", "Deutsch"] // Keys
     }

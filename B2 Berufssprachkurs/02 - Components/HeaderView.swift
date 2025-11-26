@@ -13,7 +13,6 @@ struct HeaderView: View {
     @State private var showMascotGif = false
     @State private var gifPlayToken: UUID = UUID()
     @State private var autoPlayTask: Task<Void, Never>? = nil
-    @AppStorage("wordOfTheDayEnabled") private var wordOfTheDayEnabled = true
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @Environment(\.colorScheme) private var colorScheme
@@ -127,9 +126,6 @@ struct HeaderView: View {
             startAutoPlay()
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
-            updateWordOfTheDay()
-        }
-        .onChange(of: wordOfTheDayEnabled) { _, _ in
             updateWordOfTheDay()
         }
         .onChange(of: wordOfTheDayPeriodicity) { _, _ in

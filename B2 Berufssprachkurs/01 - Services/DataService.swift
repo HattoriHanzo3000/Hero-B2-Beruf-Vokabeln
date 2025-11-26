@@ -222,18 +222,14 @@ class DataService: ObservableObject {
     func getWordOfTheDay() -> Word? {
         let userDefaults = UserDefaults.standard
         
-        // Check if word of the day is enabled
-        guard userDefaults.bool(forKey: "wordOfTheDayEnabled") else {
-            return nil
-        }
-        
+        // Word of the day is always enabled
         // Get selected sections
         let selectedSectionsString = userDefaults.string(forKey: "wordOfTheDaySelectedSections") ?? ""
         let selectedSectionIds: Set<String>
         
         if selectedSectionsString.isEmpty {
-            // Empty means all sections
-            selectedSectionIds = Set(wordsBySection.keys)
+            // Empty means default to section 1A
+            selectedSectionIds = Set(["1A"])
         } else {
             // Parse comma-separated section IDs
             selectedSectionIds = Set(selectedSectionsString.split(separator: ",").map { String($0) })

@@ -11,6 +11,7 @@ import UIKit
 enum TabItem: String, CaseIterable {
     case words = "words"
     case verbs = "verbs"
+    case cockpit = "cockpit"
     case settings = "settings"
     
     var icon: String {
@@ -19,6 +20,8 @@ enum TabItem: String, CaseIterable {
             return "book.fill"
         case .verbs:
             return "figure.run"
+        case .cockpit:
+            return "gauge"
         case .settings:
             return "gearshape.fill"
         }
@@ -55,20 +58,20 @@ struct MainTabView: View {
                 Label(TabItem.verbs.localizedTitle, systemImage: TabItem.verbs.icon)
             }
             
-            // Settings Tab
+            // Cockpit Tab
             NavigationStack {
-                SettingsView()
+                CockpitView()
+                    .navigationBarTitleDisplayMode(.inline)
             }
-            .tag(TabItem.settings)
+            .tag(TabItem.cockpit)
             .tabItem {
-                Label(TabItem.settings.localizedTitle, systemImage: TabItem.settings.icon)
+                Label(TabItem.cockpit.localizedTitle, systemImage: TabItem.cockpit.icon)
             }
         }
         .environmentObject(dataService)
         .onAppear {
             setupLiquidGlassTabBar()
         }
-        .id(languageManager.currentLanguage) // Force refresh when language changes
     }
     
     private func setupLiquidGlassTabBar() {

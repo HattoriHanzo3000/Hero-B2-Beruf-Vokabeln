@@ -13,6 +13,7 @@
 // Tab Bar
 "words" = "Words";
 "verbs" = "Verbs";
+"cockpit" = "Cockpit";
 
 // Practice buttons
 "practise_with_example" = "Practice with Example";
@@ -31,7 +32,7 @@
 "premium" = "Premium";
 "word_of_the_day" = "Word of the Day";
 "periodicity" = "Periodicity";
-"source_sections" = "Source Sections";
+"source_sections" = "Choose Sections";
 "all_sections" = "All sections";
 "selected_sections" = "%d selected";
 "app_language" = "App Language";
@@ -90,4 +91,10 @@
 "version_updates_placeholder" = "A new version is available with improvements and bug fixes.";
 "update_now" = "Update Now";
 "update_button_hint" = "Opens the App Store to update the app";
+
+"verbs_with_prepositions" = "Verbs with Prepositions";
+
+"progress" = "Progress";
+"progress_subtitle" = "Your journey at a glance";
+"cockpit_wotd_intro" = "Make your daily learning fit your rhythm and topics you care about.";
 

@@ -17,74 +17,220 @@ struct SectionSelectionView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.systemGroupedBackground)
+                Color("AppGreenLight")
                     .ignoresSafeArea()
                 
-                List {
-                    ForEach(dataService.lections) { lection in
-                        SwiftUI.Section {
-                            ForEach(lection.sections) { section in
+                ScrollView {
+                    VStack(spacing: 14) {
+                        ForEach(dataService.lections) { lection in
+                            SelectionCard {
+                                // Header - tap to toggle whole lection
                                 HStack(spacing: 12) {
-                                    Text(getSectionLetter(sectionId: section.id))
-                                        .font(.body)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.secondary)
-                                        .frame(width: 24, alignment: .leading)
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color("AppGreen"))
+                                            .frame(width: 34, height: 34)
+                                        Text("\(lection.id)")
+                                            .font(.title2.weight(.semibold)) // match title font
+                                            .foregroundColor(.white)
+                                    }
                                     
-                                    Text(section.title)
-                                        .font(.body)
+                                    Text(lection.title)
+                                        .font(.title2.weight(.semibold)) // match VERBEN title
+                                        .foregroundColor(.primary)
                                     
                                     Spacer()
                                     
-                                    Image(systemName: selectedSectionIds.contains(section.id) ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(selectedSectionIds.contains(section.id) ? Color("AppGreen") : .secondary)
+                                    Image(systemName: isLectionFullySelected(lection: lection) ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(isLectionFullySelected(lection: lection) ? Color("AppGreen") : .secondary)
                                         .fontWeight(.semibold)
                                 }
                                 .contentShape(Rectangle())
                                 .onTapGesture {
                                     HapticManager.shared.lightImpact()
-                                    if selectedSectionIds.contains(section.id) {
-                                        selectedSectionIds.remove(section.id)
-                                    } else {
-                                        selectedSectionIds.insert(section.id)
+                                    toggleLectionSelection(lection: lection)
+                                }
+                            } content: {
+                                VStack(spacing: 8) {
+                                    ForEach(lection.sections) { section in
+                                        HStack(spacing: 12) {
+                                            // Letter (no background)
+                                            Text(getSectionLetter(sectionId: section.id))
+                                                .font(.subheadline.weight(.semibold))
+                                                .foregroundColor(.secondary)
+                                            
+                                            Text(section.title)
+                                                .font(.body)
+                                                .foregroundColor(.primary)
+                                            
+                                            Spacer()
+                                            
+                                            Image(systemName: selectedSectionIds.contains(section.id) ? "checkmark.circle.fill" : "circle")
+                                                .foregroundColor(selectedSectionIds.contains(section.id) ? Color("AppGreen") : .secondary)
+                                                .fontWeight(.semibold)
+                                        }
+                                        .padding(.vertical, 8)
+                                        .contentShape(Rectangle())
+                                        .onTapGesture {
+                                            HapticManager.shared.lightImpact()
+                                            if selectedSectionIds.contains(section.id) {
+                                                selectedSectionIds.remove(section.id)
+                                            } else {
+                                                selectedSectionIds.insert(section.id)
+                                            }
+                                        }
+                                        
+                                        if section.id != lection.sections.last?.id {
+                                            Divider()
+                                                .overlay(Color.white.opacity(0.15))
+                                        }
                                     }
                                 }
                             }
-                        } header: {
+                            .padding(.horizontal)
+                        }
+                        
+                        // Verbs with Prepositions (VERBEN) Card
+                        SelectionCard {
+                            // Header - tap to toggle all VERBEN sections
                             HStack(spacing: 12) {
-                                Text("\(lection.id)")
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.secondary)
-                                    .frame(width: 24, alignment: .leading)
+                                ZStack {
+                                    Circle()
+                                        .fill(Color("AppGreen"))
+                                        .frame(width: 34, height: 34)
+                                    Text("13")
+                                        .font(.title2.weight(.semibold)) // same as title
+                                        .foregroundColor(.white)
+                                }
                                 
-                                Text(lection.title)
-                                    .font(.headline)
+                                Text(Localizable.string(Localizable.verbsWithPrepositions))
+                                    .font(.title2.weight(.semibold)) // bigger title
+                                    .foregroundColor(.primary)
                                 
                                 Spacer()
                                 
-                                Image(systemName: isLectionFullySelected(lection: lection) ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(isLectionFullySelected(lection: lection) ? Color("AppGreen") : .secondary)
+                                Image(systemName: isVerbenFullySelected() ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(isVerbenFullySelected() ? Color("AppGreen") : .secondary)
                                     .fontWeight(.semibold)
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 HapticManager.shared.lightImpact()
-                                toggleLectionSelection(lection: lection)
+                                toggleAllVerbenSelection()
+                            }
+                        } content: {
+                            VStack(spacing: 8) {
+                                ForEach(Array(verbenPrepositions.enumerated()), id: \.element.id) { index, item in
+                                    HStack(spacing: 12) {
+                                        Text(item.title)
+                                            .font(.body)
+                                            .foregroundColor(.primary)
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: selectedSectionIds.contains(item.id) ? "checkmark.circle.fill" : "circle")
+                                            .foregroundColor(selectedSectionIds.contains(item.id) ? Color("AppGreen") : .secondary)
+                                            .fontWeight(.semibold)
+                                    }
+                                    .padding(.vertical, 8)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        HapticManager.shared.lightImpact()
+                                        if selectedSectionIds.contains(item.id) {
+                                            selectedSectionIds.remove(item.id)
+                                        } else {
+                                            selectedSectionIds.insert(item.id)
+                                        }
+                                    }
+                                    
+                                    if item.id != verbenPrepositions.last?.id {
+                                        Divider()
+                                            .overlay(Color.white.opacity(0.15))
+                                    }
+                                }
                             }
                         }
+                        .padding(.horizontal)
                     }
+                    .padding(.vertical, 10)
                 }
-                .listStyle(.insetGrouped)
             }
             .navigationTitle(Localizable.string(Localizable.sourceSections))
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        HapticManager.shared.lightImpact()
+                        if isAllSelected() {
+                            selectedSectionIds.removeAll()
+                        } else {
+                            selectAllSections()
+                        }
+                    } label: {
+                        Image(systemName: isAllSelected() ? "checkmark.circle.fill" : "checkmark.circle")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(isAllSelected() ? Color("AppGreen") : .primary)
+                    }
+                    .accessibilityLabel(Text(Localizable.string(Localizable.selectAll)))
+                }
+            }
         }
         .onAppear {
             loadSelection()
         }
         .onDisappear {
             saveSelection()
+        }
+    }
+    
+    // MARK: - Selection Card (matches Cockpit style)
+    private struct SelectionCard<Header: View, Content: View>: View {
+        @ViewBuilder let header: Header
+        @ViewBuilder let content: Content
+        
+        init(@ViewBuilder header: () -> Header, @ViewBuilder content: () -> Content) {
+            self.header = header()
+            self.content = content()
+        }
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 12) {
+                header
+                content
+            }
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.22),
+                                Color.white.opacity(0.10)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .background(
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .fill(Color("AppGreenExtraLight"))
+                    )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .stroke(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.35),
+                                .white.opacity(0.08)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        ),
+                        lineWidth: 0.6
+                    )
+            )
+            .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 6)
         }
     }
     
@@ -98,14 +244,9 @@ struct SectionSelectionView: View {
     }
     
     private func saveSelection() {
-        let allSectionIds = Set(dataService.lections.flatMap { $0.sections.map { $0.id } })
-        
-        if selectedSectionIds == allSectionIds {
-            // All selected, save as empty to mean "all"
-            selectedSections = ""
-        } else {
-            selectedSections = selectedSectionIds.joined(separator: ",")
-        }
+        // Always save the actual selection list
+        // Empty string means "default/not set" (which is 1A), so we never save as empty
+        selectedSections = selectedSectionIds.joined(separator: ",")
     }
     
     private func isLectionFullySelected(lection: Lection) -> Bool {
@@ -124,6 +265,59 @@ struct SectionSelectionView: View {
             // Select all sections in this lection
             selectedSectionIds.formUnion(lectionSectionIds)
         }
+    }
+    
+    // MARK: - VERBEN support
+    private var verbenPrepositions: [(id: String, title: String)] {
+        [
+            ("VERBEN_an", "an"),
+            ("VERBEN_auf", "auf"),
+            ("VERBEN_aus", "aus"),
+            ("VERBEN_bei", "bei"),
+            ("VERBEN_bis", "bis"),
+            ("VERBEN_durch", "durch"),
+            ("VERBEN_für", "für"),
+            ("VERBEN_gegen", "gegen"),
+            ("VERBEN_in", "in"),
+            ("VERBEN_mit", "mit"),
+            ("VERBEN_nach", "nach"),
+            ("VERBEN_über", "über"),
+            ("VERBEN_um", "um"),
+            ("VERBEN_unter", "unter"),
+            ("VERBEN_von", "von"),
+            ("VERBEN_vor", "vor"),
+            ("VERBEN_zu", "zu")
+        ]
+    }
+    
+    private var verbenIdsSet: Set<String> {
+        Set(verbenPrepositions.map { $0.id })
+    }
+    
+    private func isVerbenFullySelected() -> Bool {
+        verbenIdsSet.isSubset(of: selectedSectionIds)
+    }
+    
+    private func toggleAllVerbenSelection() {
+        if isVerbenFullySelected() {
+            selectedSectionIds.subtract(verbenIdsSet)
+        } else {
+            selectedSectionIds.formUnion(verbenIdsSet)
+        }
+    }
+    
+    private func selectAllSections() {
+        let allRegularSectionIds = Set(dataService.lections.flatMap { $0.sections.map { $0.id } })
+        selectedSectionIds = allRegularSectionIds.union(verbenIdsSet)
+    }
+    
+    private var allSectionIds: Set<String> {
+        let regular = Set(dataService.lections.flatMap { $0.sections.map { $0.id } })
+        return regular.union(verbenIdsSet)
+    }
+    
+    private func isAllSelected() -> Bool {
+        allSectionIds.isSubset(of: selectedSectionIds)
     }
     
     private func getSectionLetter(sectionId: String) -> String {

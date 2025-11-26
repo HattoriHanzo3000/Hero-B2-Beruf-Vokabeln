@@ -104,5 +104,13 @@ extension Localizable {
     static let versionUpdatesPlaceholder = "version_updates_placeholder"
     static let updateNow = "update_now"
     static let updateButtonHint = "update_button_hint"
+    
+    // Cockpit / Sections
+    static let verbsWithPrepositions = "verbs_with_prepositions"
+    
+    // Cockpit
+    static let progress = "progress"
+    static let progressSubtitle = "progress_subtitle"
+    static let cockpitWotdIntro = "cockpit_wotd_intro"
 }
 

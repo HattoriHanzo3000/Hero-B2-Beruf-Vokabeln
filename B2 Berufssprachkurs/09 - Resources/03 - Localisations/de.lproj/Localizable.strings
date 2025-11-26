@@ -13,6 +13,7 @@
 // Tab Bar
 "words" = "Wörter";
 "verbs" = "Verben";
+"cockpit" = "Cockpit";
 
 // Practice buttons
 "practise_with_example" = "Mit Beispiel üben";
@@ -31,7 +32,7 @@
 "premium" = "Premium";
 "word_of_the_day" = "Wort des Tages";
 "periodicity" = "Häufigkeit";
-"source_sections" = "Quellabschnitte";
+"source_sections" = "Abschnitte auswählen";
 "all_sections" = "Alle Abschnitte";
 "selected_sections" = "%d ausgewählt";
 "app_language" = "App-Sprache";
@@ -90,4 +91,10 @@
 "version_updates_placeholder" = "Eine neue Version mit Verbesserungen und Fehlerbehebungen ist verfügbar.";
 "update_now" = "Jetzt aktualisieren";
 "update_button_hint" = "Öffnet den App Store, um die App zu aktualisieren";
+
+"verbs_with_prepositions" = "Verben mit Präpositionen";
+
+"progress" = "Fortschritt";
+"progress_subtitle" = "Dein Weg auf einen Blick";
+"cockpit_wotd_intro" = "Passe dein tägliches Lernen an deinen Rhythmus und deine Themen an.";
 
