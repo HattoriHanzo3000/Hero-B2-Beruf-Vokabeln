@@ -1,0 +1,594 @@
+{
+  "words": [
+    {
+      "sectionId": "ADJEKTIVE_an",
+      "words": [
+        {
+          "id": "ADJEKTIVE_an-1",
+          "german": "beteiligt an (+ Dat.)",
+          "translation": "",
+          "example": "Sie waren an der Umsetzung des Investitionsplans beteiligt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_an-2",
+          "german": "gewöhnt an (+ Akk.)",
+          "translation": "",
+          "example": "Die Sekretärin ist an das alte Betriebssystem gewöhnt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_an-3",
+          "german": "interessiert an (+ Dat.)",
+          "translation": "",
+          "example": "Sie war an der ausgeschriebenen Stelle interessiert.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_an-4",
+          "german": "reich an (+ Dat.)",
+          "translation": "",
+          "example": "Das Geschäftsjahr war reich an unangenehmen Überraschungen.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_an-5",
+          "german": "schuld an (+ Dat.)",
+          "translation": "",
+          "example": "Wer war an dem Betriebsunfall schuld?",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_an-6",
+          "german": "unschuldig an (+ Dat.)",
+          "translation": "",
+          "example": "Sie war an der Sache nicht ganz unschuldig.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_auf",
+      "words": [
+        {
+          "id": "ADJEKTIVE_auf-1",
+          "german": "angewiesen auf (+ Akk.)",
+          "translation": "",
+          "example": "Wir sind auf das Funktionieren der Software angewiesen.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_auf-2",
+          "german": "böse auf (+ Akk.)",
+          "translation": "",
+          "example": "Wegen des vergessenen Termins war sie auf ihren Kollegen böse.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_auf-3",
+          "german": "eifersüchtig auf (+ Akk.)",
+          "translation": "",
+          "example": "Das Kind war auf das Spielzeug eines anderen eifersüchtig.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_auf-4",
+          "german": "gespannt auf (+ Akk.)",
+          "translation": "",
+          "example": "Die Mitarbeitenden waren auf die Rede des Betriebsrats gespannt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_auf-5",
+          "german": "neidisch auf (+ Akk.)",
+          "translation": "",
+          "example": "Er war auf seinen Kollegen, der befördert wurde, neidisch.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_auf-6",
+          "german": "neugierig auf (+ Akk.)",
+          "translation": "",
+          "example": "Sie waren auf das Ergebnis der Gespräche neugierig.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_auf-7",
+          "german": "stolz auf (+ Akk.)",
+          "translation": "",
+          "example": "Sie war auf die guten Leistungen ihres Teams stolz.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_auf-8",
+          "german": "wütend auf (+ Akk.)",
+          "translation": "",
+          "example": "Nach dem Meeting war die Chefin auf das Team ziemlich wütend.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_bei",
+      "words": [
+        {
+          "id": "ADJEKTIVE_bei-1",
+          "german": "angesehen bei (+ Dat.)",
+          "translation": "",
+          "example": "Sie war bei ihren Geschäftspartnern hoch angesehen.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_bei-2",
+          "german": "behilflich bei (+ Dat.)",
+          "translation": "",
+          "example": "Kannst du mir bei der Installation des Programms behilflich sein?",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_bei-3",
+          "german": "beliebt bei (+ Dat.)",
+          "translation": "",
+          "example": "Die Internationale Funkausstellung ist bei den Besuchern sehr beliebt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_bei-4",
+          "german": "unbeliebt bei (+ Dat.)",
+          "translation": "",
+          "example": "Der Chef war bei einigen Mitarbeitenden ziemlich unbeliebt.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_für",
+      "words": [
+        {
+          "id": "ADJEKTIVE_für-1",
+          "german": "angenehm für (+ Akk.)",
+          "translation": "",
+          "example": "Das Arbeitsklima im Projekt war für die Mitarbeitenden sehr angenehm.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-2",
+          "german": "bekannt für (+ Akk.)",
+          "translation": "",
+          "example": "Sie ist in der Abteilung für ihre Genauigkeit bekannt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-3",
+          "german": "berühmt für (+ Akk.)",
+          "translation": "",
+          "example": "Die Firma ist für ihre Hebebühnen weltweit berühmt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-4",
+          "german": "dankbar für (+ Akk.)",
+          "translation": "",
+          "example": "Die Chefin ist immer für Verbesserungsvorschläge dankbar.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-5",
+          "german": "entscheidend für (+ Akk.)",
+          "translation": "",
+          "example": "Die gute Zusammenarbeit im Projekt war für den Erfolg entscheidend.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-6",
+          "german": "geeignet für (+ Akk.)",
+          "translation": "",
+          "example": "Die Buchhaltungssoftware ist insbesondere für kleine Unternehmen geeignet.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-7",
+          "german": "offen für (+ Akk.)",
+          "translation": "",
+          "example": "Wir sind für alle Verbesserungsvorschläge offen.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-8",
+          "german": "schädlich für (+ Akk.)",
+          "translation": "",
+          "example": "Das Produktionsverfahren ist für die Umwelt nicht schädlich.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-9",
+          "german": "schwierig für (+ Akk.)",
+          "translation": "",
+          "example": "Eine Umstrukturierung ist für die Mitarbeitenden immer schwierig.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-10",
+          "german": "typisch für (+ Akk.)",
+          "translation": "",
+          "example": "Das ist mal wieder typisch für Sie.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-11",
+          "german": "unangenehm für (+ Akk.)",
+          "translation": "",
+          "example": "Der Außendienstbericht war für den Verkaufsleiter sehr unangenehm.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-12",
+          "german": "ungeeignet für (+ Akk.)",
+          "translation": "",
+          "example": "Er ist für diese Arbeit gänzlich ungeeignet.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-13",
+          "german": "verantwortlich für (+ Akk.)",
+          "translation": "",
+          "example": "Frau Dr. Blum war für die Entwicklung des neuen Produkts verantwortlich.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-14",
+          "german": "wichtig für (+ Akk.)",
+          "translation": "",
+          "example": "Unser Engagement ist für den Erfolg des Projekts ziemlich wichtig.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_für-15",
+          "german": "zuständig für (+ Akk.)",
+          "translation": "",
+          "example": "Frau Duda ist für den Vertrieb zuständig.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_gegenüber",
+      "words": [
+        {
+          "id": "ADJEKTIVE_gegenüber-1",
+          "german": "misstrauisch gegenüber (+ Dat.)",
+          "translation": "",
+          "example": "Sie war gegenüber den Kollegen oft misstrauisch.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_in",
+      "words": [
+        {
+          "id": "ADJEKTIVE_in-1",
+          "german": "gut in (+ Dat.)",
+          "translation": "",
+          "example": "Sie war in der Analyse von komplexen Daten schon immer sehr gut.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_in-2",
+          "german": "unerfahren in (+ Dat.)",
+          "translation": "",
+          "example": "Er war im Umgang mit der neuen Software unerfahren.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_in-3",
+          "german": "verliebt in (+ Akk.)",
+          "translation": "",
+          "example": "Sie ist in ein kleines Hotel in den Allgäuer Alpen verliebt.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_mit",
+      "words": [
+        {
+          "id": "ADJEKTIVE_mit-1",
+          "german": "befreundet mit (+ Dat.)",
+          "translation": "",
+          "example": "Er ist mit allen Kollegen gut befreundet.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_mit-2",
+          "german": "bekannt mit (+ Dat.)",
+          "translation": "",
+          "example": "Sie ist mit allen Außendienstmitarbeitenden sehr gut bekannt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_mit-3",
+          "german": "beschäftigt mit (+ Dat.)",
+          "translation": "",
+          "example": "Frau Dr. Kurz ist noch mit dem Abschlussbericht beschäftigt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_mit-4",
+          "german": "einverstanden mit (+ Dat.)",
+          "translation": "",
+          "example": "Er ist mit seiner Versetzung in eine andere Abteilung einverstanden.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_mit-5",
+          "german": "fertig mit (+ Dat.)",
+          "translation": "",
+          "example": "Sind Sie mit dem Projektbericht schon fertig?",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_mit-6",
+          "german": "unzufrieden mit (+ Dat.)",
+          "translation": "",
+          "example": "Die GF war mit der Geschäftsentwicklung unzufrieden.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_mit-7",
+          "german": "verheiratet mit (+ Dat.)",
+          "translation": "",
+          "example": "Er ist eigentlich mit seiner Arbeit verheiratet.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_mit-8",
+          "german": "verwandt mit (+ Dat.)",
+          "translation": "",
+          "example": "Er ist mit seinem Chef verwandt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_mit-9",
+          "german": "zufrieden mit (+ Dat.)",
+          "translation": "",
+          "example": "Unsere Kunden sind mit unseren Dienstleistungen sehr zufrieden.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_nach",
+      "words": [
+        {
+          "id": "ADJEKTIVE_nach-1",
+          "german": "verrückt nach (+ Dat.)",
+          "translation": "",
+          "example": "Sie ist wirklich völlig verrückt nach Fußball.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_über",
+      "words": [
+        {
+          "id": "ADJEKTIVE_über-1",
+          "german": "besorgt über (+ Akk.)",
+          "translation": "",
+          "example": "Die GF ist über die sinkenden Absatzzahlen sehr besorgt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_über-2",
+          "german": "beunruhigt über (+ Akk.)",
+          "translation": "",
+          "example": "Die Mitarbeitenden sind über die Umstrukturierungspläne beunruhigt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_über-3",
+          "german": "entsetzt über (+ Akk.)",
+          "translation": "",
+          "example": "Sie war darüber, dass der Termin nicht eingehalten wird, entsetzt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_über-4",
+          "german": "erstaunt über (+ Akk.)",
+          "translation": "",
+          "example": "Die GF war über den Erfolg der Marketingkampagne erstaunt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_über-5",
+          "german": "froh über (+ Akk.)",
+          "translation": "",
+          "example": "Die GF war über das positive Jahresergebnis sehr froh.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_über-6",
+          "german": "glücklich über (+ Akk.)",
+          "translation": "",
+          "example": "Sie war über ihre Beförderung sehr glücklich.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_über-7",
+          "german": "unglücklich über (+ Akk.)",
+          "translation": "",
+          "example": "Sie waren über seinen Weggang unglücklich.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_über-8",
+          "german": "verärgert über (+ Akk.)",
+          "translation": "",
+          "example": "Er war über die Verzögerung im Projekt verärgert.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_über-9",
+          "german": "wütend über (+ Akk.)",
+          "translation": "",
+          "example": "Nach dem Meeting war die Chefin über das Team ziemlich wütend.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_um",
+      "words": [
+        {
+          "id": "ADJEKTIVE_um-1",
+          "german": "besorgt um (+ Akk.)",
+          "translation": "",
+          "example": "Sie sind stets um das Wohl ihrer Gäste besorgt.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_von",
+      "words": [
+        {
+          "id": "ADJEKTIVE_von-1",
+          "german": "abhängig von (+ Dat.)",
+          "translation": "",
+          "example": "Wir sind von unserem Auftraggeber abhängig.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_von-2",
+          "german": "begeistert von (+ Dat.)",
+          "translation": "",
+          "example": "Sie war von den Verkaufszahlen im letzten Quartal begeistert.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_von-3",
+          "german": "entfernt von (+ Dat.)",
+          "translation": "",
+          "example": "Wir sind von einer guten Bilanz noch meilenweit entfernt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_von-4",
+          "german": "enttäuscht von (+ Dat.)",
+          "translation": "",
+          "example": "Die GF war von der Entwicklung der Verkaufszahlen enttäuscht.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_von-5",
+          "german": "frei von (+ Dat.)",
+          "translation": "",
+          "example": "Frei von Schulden zu sein, ist das Ziel vieler Unternehmen.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_von-6",
+          "german": "müde von (+ Dat.)",
+          "translation": "",
+          "example": "Sie war von dem langen Meeting sehr müde.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_von-7",
+          "german": "überzeugt von (+ Dat.)",
+          "translation": "",
+          "example": "Sie sind von der Qualität der neuen Anlage überzeugt.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_von-8",
+          "german": "unabhängig von (+ Dat.)",
+          "translation": "",
+          "example": "Das Projekt wurde unabhängig von den Kostensteigerungen weitergeführt.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_vor",
+      "words": [
+        {
+          "id": "ADJEKTIVE_vor-1",
+          "german": "sicher vor (+ Dat.)",
+          "translation": "",
+          "example": "In dieser Abteilung sind alle vor betriebsbedingten Kündigungen sicher.",
+          "quiz": ""
+        }
+      ]
+    },
+    {
+      "sectionId": "ADJEKTIVE_zu",
+      "words": [
+        {
+          "id": "ADJEKTIVE_zu-1",
+          "german": "bereit zu (+ Dat.)",
+          "translation": "",
+          "example": "Sie ist zur Übernahme des Geschäftsfeldes bereit.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_zu-2",
+          "german": "entschlossen zu (+ Dat.)",
+          "translation": "",
+          "example": "Sie war zum Kauf der Immobilie entschlossen.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_zu-3",
+          "german": "fähig zu (+ Dat.)",
+          "translation": "",
+          "example": "Dieser Roboter ist zu Pflegeleistungen fähig.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_zu-4",
+          "german": "freundlich zu (+ Dat.)",
+          "translation": "",
+          "example": "Er ist stets zu allen Menschen sehr freundlich.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_zu-5",
+          "german": "gut zu (+ Dat.)",
+          "translation": "",
+          "example": "Er war zu seinen Schülern und Schülerinnen immer sehr gut.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_zu-6",
+          "german": "höflich zu (+ Dat.)",
+          "translation": "",
+          "example": "Sie sind zu den Gästen in ihrem Hotel immer sehr höflich.",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_zu-7",
+          "german": "lieb zu (+ Dat.)",
+          "translation": "",
+          "example": "Seid lieb zu euren Geschwistern!",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_zu-8",
+          "german": "nett zu (+ Dat.)",
+          "translation": "",
+          "example": "Bitte seid nett zueinander!",
+          "quiz": ""
+        },
+        {
+          "id": "ADJEKTIVE_zu-9",
+          "german": "unfreundlich zu (+ Dat.)",
+          "translation": "",
+          "example": "Der Lehrer war zu seinen Schülern und Schülerinnen oft unfreundlich.",
+          "quiz": ""
+        }
+      ]
+    }
+  ]
+}

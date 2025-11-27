@@ -26,6 +26,10 @@ struct SettingsView: View {
     @State private var presentingLegalURL: URL? = nil
     @State private var showRewardedAdAlert = false
     @State private var rewardedAdMessage = ""
+    @State private var promoCodeText: String = ""
+    @State private var showPromoCodeAlert = false
+    @State private var promoCodeAlertMessage = ""
+    @StateObject private var promoCodeManager = PromoCodeManager.shared
     
     // Premium status tracking
     @AppStorage("premiumUnlockedUntil") private var premiumUnlockedUntil: TimeInterval = 0
@@ -71,7 +75,8 @@ struct SettingsView: View {
                 }
             }
             
-            // Premium Features Section
+            // Premium Features Section - Temporarily deactivated
+            /*
             SwiftUI.Section {
                 Button {
                     HapticManager.shared.mediumImpact()
@@ -90,6 +95,41 @@ struct SettingsView: View {
                 Text("Premium Features")
             } footer: {
                 Text(isPremiumActive ? "Enjoy ad-free experience and all premium features!" : "Watch a short ad to unlock premium features for 1 hour. No ads, all features unlocked.")
+            }
+            */
+            
+            // Promo Code Section
+            SwiftUI.Section {
+                HStack(spacing: 12) {
+                    TextField(Localizable.string(Localizable.enterPromoCode), text: $promoCodeText)
+                        .textFieldStyle(.roundedBorder)
+                        .autocapitalization(.allCharacters)
+                        .autocorrectionDisabled()
+                    
+                    Button {
+                        HapticManager.shared.lightImpact()
+                        let result = promoCodeManager.redeemPromoCode(promoCodeText)
+                        promoCodeAlertMessage = result.message
+                        showPromoCodeAlert = true
+                        if result.success {
+                            promoCodeText = ""
+                        }
+                    } label: {
+                        Text(Localizable.string(Localizable.redeem))
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(
+                                Capsule()
+                                    .fill(Color("AppGreen"))
+                            )
+                    }
+                    .disabled(promoCodeText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            } footer: {
+                Text(promoCodeManager.isPremiumActive ? Localizable.string(Localizable.promoCodePremiumActive) : Localizable.string(Localizable.promoCodeFooter))
             }
             
             SwiftUI.Section {
@@ -238,14 +278,14 @@ struct SettingsView: View {
         .listStyle(.insetGrouped)
         .navigationTitle(Localizable.string(Localizable.settings))
         .navigationBarTitleDisplayMode(.large)
-        .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     dismiss()
                 }) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 17, weight: .semibold))
+                    Image(systemName: "xmark")
+                        .font(.body)
+                        .fontWeight(.medium)
                 }
             }
         }
@@ -277,6 +317,11 @@ struct SettingsView: View {
             Button("OK", role: .cancel) { }
         } message: {
             Text(rewardedAdMessage)
+        }
+        .alert(Localizable.string(Localizable.promoCode), isPresented: $showPromoCodeAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(promoCodeAlertMessage)
         }
         .sheet(item: Binding(
             get: { presentingLegalURL.map { LegalDocument(url: $0) } },
@@ -503,7 +548,7 @@ private extension SettingsView {
     // Premium features helpers
     var isPremiumActive: Bool {
         let now = Date().timeIntervalSince1970
-        return premiumUnlockedUntil > now || adsDisabledUntil > now
+        return premiumUnlockedUntil > now || adsDisabledUntil > now || PromoCodeManager.shared.isPremiumActive
     }
     
     var premiumExpiryText: String {

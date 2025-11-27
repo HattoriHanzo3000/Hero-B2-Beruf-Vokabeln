@@ -42,7 +42,7 @@ struct SectionSelectionView: View {
                                     Spacer()
                                     
                                     Image(systemName: isLectionFullySelected(lection: lection) ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(isLectionFullySelected(lection: lection) ? Color("AppGreen") : .secondary)
+                                        .foregroundColor(isLectionFullySelected(lection: lection) ? .primary : .secondary)
                                         .fontWeight(.semibold)
                                 }
                                 .contentShape(Rectangle())
@@ -66,7 +66,7 @@ struct SectionSelectionView: View {
                                             Spacer()
                                             
                                             Image(systemName: selectedSectionIds.contains(section.id) ? "checkmark.circle.fill" : "circle")
-                                                .foregroundColor(selectedSectionIds.contains(section.id) ? Color("AppGreen") : .secondary)
+                                                .foregroundColor(selectedSectionIds.contains(section.id) ? .primary : .secondary)
                                                 .fontWeight(.semibold)
                                         }
                                         .padding(.vertical, 8)
@@ -110,7 +110,7 @@ struct SectionSelectionView: View {
                                 Spacer()
                                 
                                 Image(systemName: isVerbenFullySelected() ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(isVerbenFullySelected() ? Color("AppGreen") : .secondary)
+                                    .foregroundColor(isVerbenFullySelected() ? .primary : .secondary)
                                     .fontWeight(.semibold)
                             }
                             .contentShape(Rectangle())
@@ -129,7 +129,7 @@ struct SectionSelectionView: View {
                                         Spacer()
                                         
                                         Image(systemName: selectedSectionIds.contains(item.id) ? "checkmark.circle.fill" : "circle")
-                                            .foregroundColor(selectedSectionIds.contains(item.id) ? Color("AppGreen") : .secondary)
+                                            .foregroundColor(selectedSectionIds.contains(item.id) ? .primary : .secondary)
                                             .fontWeight(.semibold)
                                     }
                                     .padding(.vertical, 8)
@@ -144,6 +144,68 @@ struct SectionSelectionView: View {
                                     }
                                     
                                     if item.id != verbenPrepositions.last?.id {
+                                        Divider()
+                                            .overlay(Color.white.opacity(0.15))
+                                    }
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                        
+                        // Adjectives with Prepositions (ADJEKTIVE) Card
+                        SelectionCard {
+                            // Header - tap to toggle all ADJEKTIVE sections
+                            HStack(spacing: 12) {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color("AppGreen"))
+                                        .frame(width: 34, height: 34)
+                                    Text("14")
+                                        .font(.title2.weight(.semibold)) // same as title
+                                        .foregroundColor(.white)
+                                }
+                                
+                                Text(Localizable.string(Localizable.adjectivesWithPrepositions))
+                                    .font(.title2.weight(.semibold)) // bigger title
+                                    .foregroundColor(.primary)
+                                
+                                Spacer()
+                                
+                                Image(systemName: isAdjektiveFullySelected() ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(isAdjektiveFullySelected() ? .primary : .secondary)
+                                    .fontWeight(.semibold)
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                HapticManager.shared.lightImpact()
+                                toggleAllAdjektiveSelection()
+                            }
+                        } content: {
+                            VStack(spacing: 8) {
+                                ForEach(Array(adjektivePrepositions.enumerated()), id: \.element.id) { index, item in
+                                    HStack(spacing: 12) {
+                                        Text(item.title)
+                                            .font(.body)
+                                            .foregroundColor(.primary)
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: selectedSectionIds.contains(item.id) ? "checkmark.circle.fill" : "circle")
+                                            .foregroundColor(selectedSectionIds.contains(item.id) ? .primary : .secondary)
+                                            .fontWeight(.semibold)
+                                    }
+                                    .padding(.vertical, 8)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        HapticManager.shared.lightImpact()
+                                        if selectedSectionIds.contains(item.id) {
+                                            selectedSectionIds.remove(item.id)
+                                        } else {
+                                            selectedSectionIds.insert(item.id)
+                                        }
+                                    }
+                                    
+                                    if item.id != adjektivePrepositions.last?.id {
                                         Divider()
                                             .overlay(Color.white.opacity(0.15))
                                     }
@@ -169,7 +231,7 @@ struct SectionSelectionView: View {
                     } label: {
                         Image(systemName: isAllSelected() ? "checkmark.circle.fill" : "checkmark.circle")
                             .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(isAllSelected() ? Color("AppGreen") : .primary)
+                            .foregroundColor(isAllSelected() ? .primary : .secondary)
                     }
                     .accessibilityLabel(Text(Localizable.string(Localizable.selectAll)))
                 }
@@ -306,14 +368,49 @@ struct SectionSelectionView: View {
         }
     }
     
+    // MARK: - ADJEKTIVE support
+    private var adjektivePrepositions: [(id: String, title: String)] {
+        [
+            ("ADJEKTIVE_an", "an"),
+            ("ADJEKTIVE_auf", "auf"),
+            ("ADJEKTIVE_bei", "bei"),
+            ("ADJEKTIVE_für", "für"),
+            ("ADJEKTIVE_gegenüber", "gegenüber"),
+            ("ADJEKTIVE_in", "in"),
+            ("ADJEKTIVE_mit", "mit"),
+            ("ADJEKTIVE_nach", "nach"),
+            ("ADJEKTIVE_über", "über"),
+            ("ADJEKTIVE_um", "um"),
+            ("ADJEKTIVE_von", "von"),
+            ("ADJEKTIVE_vor", "vor"),
+            ("ADJEKTIVE_zu", "zu")
+        ]
+    }
+    
+    private var adjektiveIdsSet: Set<String> {
+        Set(adjektivePrepositions.map { $0.id })
+    }
+    
+    private func isAdjektiveFullySelected() -> Bool {
+        adjektiveIdsSet.isSubset(of: selectedSectionIds)
+    }
+    
+    private func toggleAllAdjektiveSelection() {
+        if isAdjektiveFullySelected() {
+            selectedSectionIds.subtract(adjektiveIdsSet)
+        } else {
+            selectedSectionIds.formUnion(adjektiveIdsSet)
+        }
+    }
+    
     private func selectAllSections() {
         let allRegularSectionIds = Set(dataService.lections.flatMap { $0.sections.map { $0.id } })
-        selectedSectionIds = allRegularSectionIds.union(verbenIdsSet)
+        selectedSectionIds = allRegularSectionIds.union(verbenIdsSet).union(adjektiveIdsSet)
     }
     
     private var allSectionIds: Set<String> {
         let regular = Set(dataService.lections.flatMap { $0.sections.map { $0.id } })
-        return regular.union(verbenIdsSet)
+        return regular.union(verbenIdsSet).union(adjektiveIdsSet)
     }
     
     private func isAllSelected() -> Bool {

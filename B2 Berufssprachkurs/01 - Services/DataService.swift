@@ -54,6 +54,15 @@ class DataService: ObservableObject {
                 wordsBySection[sectionWords.sectionId] = sectionWords.words
             }
         }
+        
+        // Load Adjektive mit Präpositionen
+        if let url = Bundle.main.url(forResource: "adjektive_mit_prapositionen", withExtension: "json"),
+           let data = try? Data(contentsOf: url),
+           let adjektiveData = try? JSONDecoder().decode(WordsData.self, from: data) {
+            for sectionWords in adjektiveData.words {
+                wordsBySection[sectionWords.sectionId] = sectionWords.words
+            }
+        }
     }
     
     func getWords(for sectionId: String) -> [Word] {
@@ -65,6 +74,12 @@ class DataService: ObservableObject {
         if sectionId.hasPrefix("VERBEN_") {
             let preposition = String(sectionId.dropFirst(7)) // Remove "VERBEN_" prefix
             return (lectionTitle: "Verben mit Präpositionen", sectionTitle: preposition, lectionNumber: "", sectionLetter: "")
+        }
+        
+        // Handle ADJEKTIVE sections
+        if sectionId.hasPrefix("ADJEKTIVE_") {
+            let preposition = String(sectionId.dropFirst(10)) // Remove "ADJEKTIVE_" prefix
+            return (lectionTitle: "Adjektive mit Präpositionen", sectionTitle: preposition, lectionNumber: "", sectionLetter: "")
         }
         
         // Handle regular lection sections
@@ -86,7 +101,11 @@ class DataService: ObservableObject {
         guard var words = wordsBySection[sectionId] else { return }
         if let index = words.firstIndex(where: { $0.id == wordId }) {
             words[index].translation = translation
+            // Assign back to trigger @Published change notification
             wordsBySection[sectionId] = words
+            // Force a change notification by toggling the dictionary
+            // This ensures SwiftUI detects the change even if the dictionary reference is the same
+            objectWillChange.send()
         }
     }
     
@@ -231,6 +250,41 @@ class DataService: ObservableObject {
     
     func hasAnyVerbenCompleted() -> Bool {
         return verbenSectionIds.contains { completedSections.contains($0) }
+    }
+    
+    // ADJEKTIVE sections IDs
+    private var adjektiveSectionIds: Set<String> {
+        return [
+            "ADJEKTIVE_an", "ADJEKTIVE_auf", "ADJEKTIVE_bei", "ADJEKTIVE_für",
+            "ADJEKTIVE_gegenüber", "ADJEKTIVE_in", "ADJEKTIVE_mit", "ADJEKTIVE_nach",
+            "ADJEKTIVE_über", "ADJEKTIVE_um", "ADJEKTIVE_von", "ADJEKTIVE_vor",
+            "ADJEKTIVE_zu"
+        ]
+    }
+    
+    func toggleAdjektiveCompleted() {
+        let allCompleted = adjektiveSectionIds.isSubset(of: completedSections)
+        
+        if allCompleted {
+            // Unchecking: unselect all ADJEKTIVE sections
+            for sectionId in adjektiveSectionIds {
+                completedSections.remove(sectionId)
+            }
+        } else {
+            // Checking: mark all ADJEKTIVE sections as completed
+            for sectionId in adjektiveSectionIds {
+                completedSections.insert(sectionId)
+            }
+        }
+        saveCompletedStates()
+    }
+    
+    func isAdjektiveCompleted() -> Bool {
+        return adjektiveSectionIds.isSubset(of: completedSections)
+    }
+    
+    func hasAnyAdjektiveCompleted() -> Bool {
+        return adjektiveSectionIds.contains { completedSections.contains($0) }
     }
     
     func getWordOfTheDay() -> Word? {
@@ -453,6 +507,15 @@ class DataService: ObservableObject {
            let data = try? Data(contentsOf: url),
            let verbenData = try? JSONDecoder().decode(WordsData.self, from: data) {
             for sectionWords in verbenData.words {
+                wordsBySection[sectionWords.sectionId] = sectionWords.words
+            }
+        }
+        
+        // Reload Adjektive mit Präpositionen
+        if let url = Bundle.main.url(forResource: "adjektive_mit_prapositionen", withExtension: "json"),
+           let data = try? Data(contentsOf: url),
+           let adjektiveData = try? JSONDecoder().decode(WordsData.self, from: data) {
+            for sectionWords in adjektiveData.words {
                 wordsBySection[sectionWords.sectionId] = sectionWords.words
             }
         }

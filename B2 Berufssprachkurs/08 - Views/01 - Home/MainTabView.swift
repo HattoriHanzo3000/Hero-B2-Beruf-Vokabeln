@@ -10,12 +10,15 @@ import UIKit
 
 enum TabItem: String, CaseIterable {
     case home = "home"
+    case premium = "premium"
     case cockpit = "cockpit"
     
     var icon: String {
         switch self {
         case .home:
             return "house.fill"
+        case .premium:
+            return "crown.fill"
         case .cockpit:
             return "gauge"
         }
@@ -41,6 +44,18 @@ struct MainTabView: View {
             .tabItem {
                 Label(TabItem.home.localizedTitle, systemImage: TabItem.home.icon)
             }
+            
+            // Premium Tab - Temporarily deactivated
+            /*
+            NavigationStack {
+                PremiumView()
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tag(TabItem.premium)
+            .tabItem {
+                Label(TabItem.premium.localizedTitle, systemImage: TabItem.premium.icon)
+            }
+            */
             
             // Cockpit Tab
             NavigationStack {

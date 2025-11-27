@@ -110,3 +110,36 @@
 
 "practice" = "ÜBEN";
 
+// Progress - Under Construction
+"progress_under_construction" = "Dieser Bereich befindet sich im Aufbau";
+"progress_coming_soon" = "Bleib dran, neue Funktionen kommen bald";
+
+// Premium
+"premium_unlock_title" = "Erlebe die volle Hero-Erfahrung mit Premium";
+"benefits" = "Vorteile";
+"free" = "Kostenlos";
+"premium_column" = "Premium";
+"access_to_all_words" = "Zugang zu allen Wörtern";
+"no_ads" = "Keine Werbung";
+"detailed_progress" = "Detaillierter Fortschritt";
+"favorite_words" = "Lieblingswörter";
+"practice_modes" = "Übungsmodi";
+"subscribe_now" = "Jetzt abonnieren";
+
+// Promo Code
+"promo_code" = "Gutscheincode";
+"enter_promo_code" = "Gutscheincode eingeben";
+"redeem" = "Einlösen";
+"promo_code_premium_active" = "Premium aktiv über Gutscheincode. Werbung ist deaktiviert.";
+"promo_code_footer" = "Gib einen Gutscheincode ein, um Werbung dauerhaft zu deaktivieren.";
+
+// Study Empty State
+"no_words_selected" = "Keine Wörter ausgewählt";
+"no_words_selected_message" = "Wähle die Wörter mit dem Häkchen aus";
+"translation_not_found" = "Die Übersetzung wurde nicht gefunden";
+"translation_not_found_message" = "Schreibe zuerst die Übersetzung zu den Wörtern";
+
+// Favorites Empty State
+"no_favorites_found" = "Keine Favoriten gefunden";
+"no_favorites_found_message" = "Markiere zuerst Wörter als Favoriten mit dem Stern-Symbol";
+

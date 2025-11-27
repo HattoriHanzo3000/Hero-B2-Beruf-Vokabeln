@@ -31,19 +31,26 @@ struct WordsListView: View {
         sectionId.hasPrefix("VERBEN_")
     }
     
+    var isAdjektiveSection: Bool {
+        sectionId.hasPrefix("ADJEKTIVE_")
+    }
+    
     // Determine which stack this belongs to and get appropriate styling
     var stackInfo: (color: Color, icon: String, title: String) {
         if isVerbenSection {
             return (Color("AppBlue"), "square.stack.3d.up.fill", Localizable.string(Localizable.verbsWithPrepositions))
         }
+        if isAdjektiveSection {
+            return (Color.purple, "square.stack.3d.up.fill", Localizable.string(Localizable.adjectivesWithPrepositions))
+        }
         // For general words sections (default)
         return (Color("AppGreen"), "square.stack.3d.up.fill", Localizable.string(Localizable.generalWords))
     }
     
-    // Get preposition title for verben sections
+    // Get preposition title for verben and adjektive sections
     var prepositionTitle: String {
-        if isVerbenSection {
-            // Extract preposition from sectionId (e.g., "VERBEN_an" -> "an")
+        if isVerbenSection || isAdjektiveSection {
+            // Extract preposition from sectionId (e.g., "VERBEN_an" -> "an", "ADJEKTIVE_an" -> "an")
             let parts = sectionId.split(separator: "_")
             if parts.count > 1 {
                 return String(parts[1])
@@ -62,8 +69,8 @@ struct WordsListView: View {
                 ScrollViewReader { proxy in
                     List {
                     // Header matching GeneralWordsView style (now scrollable)
-                    if isVerbenSection {
-                        // For verben sections, show stack title and preposition
+                    if isVerbenSection || isAdjektiveSection {
+                        // For verben and adjektive sections, show stack title and preposition (no "general words" title)
                         SwiftUI.Section {
                             EmptyView()
                         } header: {
@@ -164,9 +171,11 @@ struct WordsListView: View {
             )
             .environmentObject(dataService)
         }
-        .navigationDestination(isPresented: $navigateToSettings) {
-            SettingsView()
-                .environmentObject(dataService)
+        .fullScreenCover(isPresented: $navigateToSettings) {
+            NavigationStack {
+                SettingsView()
+                    .environmentObject(dataService)
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

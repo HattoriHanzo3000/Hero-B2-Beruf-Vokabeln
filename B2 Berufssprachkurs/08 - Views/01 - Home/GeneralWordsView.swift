@@ -140,8 +140,9 @@ struct GeneralWordsView: View {
             .navigationDestination(isPresented: $navigateToStudy) {
                 StudyView(
                     dataService: dataService,
-                    filterBySectionId: nil, // General words: process all sections
-                    studyAllMode: dataService.areAllLectionsCompleted() // Study all if all lections are checked
+                    filterBySectionId: nil, // General words: process all general word sections
+                    studyAllMode: dataService.areAllLectionsCompleted(), // Study all if all lections are checked
+                    categoryFilter: nil // nil means only regular sections (no VERBEN_, no ADJEKTIVE_)
                 )
                 .environmentObject(dataService)
             }

@@ -26,8 +26,9 @@ struct GeneralWordsListView: View {
                     }) {
                         HStack(spacing: 6) {
                             Image(systemName: dataService.areAllLectionsCompleted() ? "checkmark.circle.fill" : "circle")
-                                .font(.system(size: 15, weight: .semibold))
-                                .foregroundColor(dataService.areAllLectionsCompleted() ? Color("AppGreen") : .secondary)
+                                .font(.body)
+                                .fontWeight(.medium)
+                                .foregroundColor(dataService.areAllLectionsCompleted() ? .primary : .secondary)
                                 .symbolEffect(.bounce, value: dataService.areAllLectionsCompleted())
                             
                             Text(dataService.areAllLectionsCompleted() ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
@@ -92,7 +93,7 @@ struct LectionHeaderView: View {
                 Image(systemName: dataService.isLectionCompleted(lectionId: lection.id) ? "checkmark.circle.fill" : "circle")
                     .font(.body)
                     .fontWeight(.medium)
-                    .foregroundColor(dataService.isLectionCompleted(lectionId: lection.id) ? Color("AppGreen") : .secondary)
+                    .foregroundColor(dataService.isLectionCompleted(lectionId: lection.id) ? .primary : .secondary)
                     .symbolEffect(.bounce, value: dataService.isLectionCompleted(lectionId: lection.id))
             }
             .buttonStyle(.plain)
@@ -100,10 +101,10 @@ struct LectionHeaderView: View {
             // Expand/collapse button
             Button(action: onToggle) {
                 HStack {
-                    Image(systemName: "\(lection.id).circle")
+                    Image(systemName: "\(lection.id).circle.fill")
                         .font(.body)
                         .fontWeight(.medium)
-                        .foregroundColor(.primary)
+                        .foregroundColor(Color("AppGreen"))
                     
                     Text(lection.title)
                         .font(.headline)
@@ -150,7 +151,7 @@ struct SectionRowView: View {
             }) {
                 Image(systemName: dataService.isSectionCompleted(sectionId: section.id) ? "checkmark.circle.fill" : "circle")
                     .font(.body)
-                    .foregroundColor(dataService.isSectionCompleted(sectionId: section.id) ? Color("AppGreen") : .secondary)
+                    .foregroundColor(dataService.isSectionCompleted(sectionId: section.id) ? .primary : .secondary)
                     .symbolEffect(.bounce, value: dataService.isSectionCompleted(sectionId: section.id))
             }
             .buttonStyle(.plain)
@@ -164,7 +165,7 @@ struct SectionRowView: View {
                         Text(sectionLetter.uppercased())
                             .font(.system(.body, design: .rounded))
                             .fontWeight(.medium)
-                            .foregroundColor(.primary)
+                            .foregroundColor(Color("AppGreen"))
                     }
                     
                     // Section title

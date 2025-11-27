@@ -33,14 +33,14 @@ struct HeaderView: View {
                 Text(Localizable.string(Localizable.wordOfTheDay))
                     .font(.body)
                     .fontWeight(.regular)
-                    .foregroundColor(.primary .opacity(0.5))
+                    .foregroundColor(.white.opacity(0.8))
                 
                 // Row 2: Word of the day
                 if let word = wordOfTheDay {
                     Text(word.german)
                         .font(.system(.title2, design: .rounded))
                         .fontWeight(.bold)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.white)
                     
                     // Row 3: Explanation
                     if let explanation = word.explanation, !explanation.isEmpty {
@@ -52,7 +52,7 @@ struct HeaderView: View {
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                         }
-                        .foregroundColor(.primary)
+                        .foregroundColor(.white.opacity(0.9))
                         .lineLimit(2)
                     }
                     
@@ -66,7 +66,7 @@ struct HeaderView: View {
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                         }
-                        .foregroundColor(.primary)
+                        .foregroundColor(.white.opacity(0.9))
                     }
                     
                     // Row 5: Translation
@@ -79,14 +79,14 @@ struct HeaderView: View {
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                         }
-                        .foregroundColor(.primary)
+                        .foregroundColor(.white.opacity(0.9))
                     }
                 } else {
                     // Empty state
                     Text(Localizable.string(Localizable.wordOfTheDay))
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
-                        .foregroundColor(.primary.opacity(0.5))
+                        .foregroundColor(.white.opacity(0.7))
                 }
             }
             
@@ -95,12 +95,18 @@ struct HeaderView: View {
         .padding(.vertical, 18)
         .padding(.horizontal, 5)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(liquidGlassBackground)
-        .clipShape(
-            RoundedRectangle(
-                cornerRadius: 32,
-                style: .continuous
-            )
+        .background(
+            // Solid gradient background
+            LinearGradient(
+                colors: [
+                    Color("AppGreen").opacity(0.9),
+                    Color("AppGreen").opacity(0.65),
+                    Color("AppBlue").opacity(0.45)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            ),
+            in: RoundedRectangle(cornerRadius: 32, style: .continuous)
         )
         .overlay(
             RoundedRectangle(
@@ -110,15 +116,16 @@ struct HeaderView: View {
             .stroke(
                 LinearGradient(
                     colors: [
-                        .white.opacity(0.4),
-                        .white.opacity(0.08)
+                        .white.opacity(0.3),
+                        .white.opacity(0.1)
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
-                lineWidth: 0.8
+                lineWidth: 1
             )
         )
+        .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
         .padding(.horizontal)
         .padding(.top, 8)
         .onAppear {
@@ -219,82 +226,6 @@ struct HeaderView: View {
         }
     }
     
-    private var liquidGlassBackground: some View {
-        RoundedRectangle(cornerRadius: 32, style: .continuous)
-            .fill(
-                LinearGradient(
-                    colors: [
-                        Color("AppGreen").opacity(0.9),
-                        Color("AppGreen").opacity(0.65),
-                        Color("AppBlue").opacity(0.45)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .overlay(
-                LinearGradient(
-                    colors: [
-                        Color.white.opacity(0.20),
-                        Color.white.opacity(0.05),
-                        Color.clear
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 38, style: .continuous)
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                Color.white.opacity(0.45),
-                                Color.white.opacity(0.12)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        ),
-                        lineWidth: 0.6
-                    )
-            )
-            .background(
-                RoundedRectangle(cornerRadius: 38, style: .continuous)
-                    .fill(Color.white.opacity(0.05))
-            )
-    }
-    
-    private var liquidGlassRoundedRectangle: some View {
-        RoundedRectangle(cornerRadius: 8, style: .continuous)
-            .fill(.regularMaterial)
-            .overlay {
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.4),
-                                .white.opacity(0.1)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 0.8
-                    )
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.15),
-                                .white.opacity(0.05)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-    }
 }
 
 #Preview {

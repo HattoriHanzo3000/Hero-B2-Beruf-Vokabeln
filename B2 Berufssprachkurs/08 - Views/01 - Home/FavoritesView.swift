@@ -47,96 +47,66 @@ struct FavoritesView: View {
                     .ignoresSafeArea()
                 
                 // Scrollable content including header with Üben button at bottom
-                ZStack(alignment: .bottom) {
-                    ScrollViewReader { proxy in
-                        List {
-                            // Header matching WordsListView style (scrollable)
-                            SwiftUI.Section {
-                                EmptyView()
-                            } header: {
-                                FavoritesHeaderView()
-                            }
+                if favoriteWords.isEmpty {
+                    // Empty state view
+                    VStack(spacing: 0) {
+                        // Header with close button
+                        HStack {
+                            Spacer()
                             
-                            // Favorites words list
-                            if favoriteWords.isEmpty {
-                                // Empty state
-                                SwiftUI.Section {
-                                    EmptyView()
-                                } header: {
-                                    HStack {
-                                        Text("No favorites yet")
-                                            .font(.caption)
-                                            .fontWeight(.medium)
-                                            .foregroundColor(.secondary)
-                                        Spacer()
-                                    }
-                                    .padding(.vertical, 0)
-                                }
-                            } else {
-                                ForEach(favoriteWords) { word in
-                                    FavoriteWordRow(
-                                        word: word,
-                                        isFavorite: dataService.isFavorite(wordId: word.id),
-                                        translation: translations[word.id] ?? word.translation,
-                                        dataService: dataService,
-                                        focusedWordId: $focusedWordId,
-                                        onFavoriteToggle: {
-                                            HapticManager.shared.lightImpact()
-                                            dataService.toggleFavorite(wordId: word.id)
-                                        },
-                                        onTranslationChange: { newTranslation in
-                                            translations[word.id] = newTranslation
-                                            // Find sectionId for this word
-                                            for (sectionId, words) in dataService.wordsBySection {
-                                                if words.contains(where: { $0.id == word.id }) {
-                                                    dataService.updateTranslation(
-                                                        for: word.id,
-                                                        in: sectionId,
-                                                        translation: newTranslation
-                                                    )
-                                                    break
-                                                }
-                                            }
-                                        }
-                                    )
-                                    .id(word.id)
-                                    .listRowBackground(Color.clear)
-                                }
+                            Text(Localizable.string(Localizable.favorites))
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.primary)
+                                .accessibilityAddTraits(.isHeader)
+                            
+                            Spacer()
+                            
+                            Button {
+                                HapticManager.shared.lightImpact()
+                                dismiss()
+                            } label: {
+                                Image(systemName: "xmark")
+                                    .font(.callout)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.primary)
+                                    .frame(width: 44, height: 44)
+                                    .background(liquidGlassCircle)
                             }
+                            .buttonStyle(ScaleButtonStyle())
+                            .accessibilityLabel("Close")
+                            .accessibilityHint("Close this view")
                         }
-                        .listStyle(.plain)
-                        .scrollContentBackground(.hidden)
-                        .contentMargins(.top, 8, for: .scrollContent)
-                        .contentMargins(.bottom, 90, for: .scrollContent)
-                        .accessibilityLabel("Favorites list")
-                        .accessibilityHint("List of favorite German words with translations, explanations, and synonyms")
-                        .onChange(of: focusedWordId) { oldValue, newValue in
-                            if let wordId = newValue {
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    proxy.scrollTo(wordId, anchor: .center)
-                                }
-                            }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 8)
+                        
+                        Spacer()
+                        
+                        // Empty state content
+                        VStack(spacing: 20) {
+                            Image(systemName: "star")
+                                .font(.system(size: 60))
+                                .foregroundColor(.secondary)
+                                .accessibilityHidden(true)
+                            
+                            Text(Localizable.string(Localizable.noFavoritesFound))
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.primary)
+                                .accessibilityAddTraits(.isHeader)
+                            
+                            Text(Localizable.string(Localizable.noFavoritesFoundMessage))
+                                .font(.body)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 40)
                         }
+                        .accessibilityElement(children: .combine)
+                        
+                        Spacer()
                     }
-                    
-                    // Üben button at the bottom (always active)
-                    Button {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    } label: {
-                        Text(Localizable.string(Localizable.practice))
-                            .font(.headline.weight(.semibold))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(
-                                Capsule(style: .continuous)
-                                    .fill(Color.yellow)
-                            )
-                            .shadow(color: Color.yellow.opacity(0.3), radius: 8, x: 0, y: 4)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+                } else {
+                    favoritesListView
                 }
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
@@ -208,6 +178,117 @@ struct FavoritesView: View {
             }
             .navigationBarHidden(true)
         }
+    }
+    
+    private var favoritesListView: some View {
+        ZStack(alignment: .bottom) {
+            ScrollViewReader { proxy in
+                List {
+                    // Header matching WordsListView style (scrollable)
+                    SwiftUI.Section {
+                        EmptyView()
+                    } header: {
+                        FavoritesHeaderView()
+                    }
+                    
+                    // Favorites words list
+                    ForEach(favoriteWords) { word in
+                        FavoriteWordRow(
+                            word: word,
+                            isFavorite: dataService.isFavorite(wordId: word.id),
+                            translation: translations[word.id] ?? word.translation,
+                            dataService: dataService,
+                            focusedWordId: $focusedWordId,
+                            onFavoriteToggle: {
+                                HapticManager.shared.lightImpact()
+                                dataService.toggleFavorite(wordId: word.id)
+                            },
+                            onTranslationChange: { newTranslation in
+                                translations[word.id] = newTranslation
+                                // Find sectionId for this word
+                                for (sectionId, words) in dataService.wordsBySection {
+                                    if words.contains(where: { $0.id == word.id }) {
+                                        dataService.updateTranslation(
+                                            for: word.id,
+                                            in: sectionId,
+                                            translation: newTranslation
+                                        )
+                                        break
+                                    }
+                                }
+                            }
+                        )
+                        .id(word.id)
+                        .listRowBackground(Color.clear)
+                    }
+                }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .contentMargins(.top, 8, for: .scrollContent)
+                .contentMargins(.bottom, 90, for: .scrollContent)
+                .accessibilityLabel("Favorites list")
+                .accessibilityHint("List of favorite German words with translations, explanations, and synonyms")
+                .onChange(of: focusedWordId) { oldValue, newValue in
+                    if let wordId = newValue {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            proxy.scrollTo(wordId, anchor: .center)
+                        }
+                    }
+                }
+            }
+            
+            // Üben button at the bottom (always active)
+            Button {
+                HapticManager.shared.mediumImpact()
+                navigateToStudy = true
+            } label: {
+                Text(Localizable.string(Localizable.practice))
+                    .font(.headline.weight(.semibold))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(
+                        Capsule(style: .continuous)
+                            .fill(Color.yellow)
+                    )
+                    .shadow(color: Color.yellow.opacity(0.3), radius: 8, x: 0, y: 4)
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
+        }
+    }
+    
+    private var liquidGlassCircle: some View {
+        Circle()
+            .fill(.regularMaterial)
+            .overlay {
+                Circle()
+                    .stroke(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.4),
+                                .white.opacity(0.1)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 0.8
+                    )
+            }
+            .overlay {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.15),
+                                .white.opacity(0.05)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            }
+            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
     }
 }
 

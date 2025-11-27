@@ -63,7 +63,7 @@ struct HomeTabView: View {
                             activeStack = .favorites
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 32)
                     .padding(.top, 8)
                     .padding(.bottom, 16)
                 }
@@ -119,26 +119,23 @@ struct LearningStackCard: View {
         ZStack {
             // Bottom layer (stack effect)
             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(accent.opacity(0.08))
+                .fill(accent.opacity(0.15))
                 .offset(x: 0, y: 14)
-                .shadow(color: .black.opacity(0.06), radius: 10, x: 0, y: 7)
+                .shadow(color: accent.opacity(0.2), radius: 10, x: 0, y: 7)
             
             // Middle layer
             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(accent.opacity(0.12))
+                .fill(accent.opacity(0.2))
                 .offset(x: 0, y: 8)
-                .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 5)
+                .shadow(color: accent.opacity(0.15), radius: 8, x: 0, y: 5)
             
-            // Top card
+            // Top card - light accent color background with transparency
             HStack(spacing: 12) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .fill(accent)
                         .frame(width: 52, height: 52)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .stroke(.white.opacity(0.25), lineWidth: 0.6)
-                        )
+                        .shadow(color: accent.opacity(0.3), radius: 4, x: 0, y: 2)
                     Image(systemName: icon)
                         .foregroundColor(.white)
                         .font(.system(size: 22, weight: .semibold))
@@ -147,7 +144,7 @@ struct LearningStackCard: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
-                        .font(.headline.weight(.semibold))
+                        .font(.system(.headline, design: .rounded).weight(.semibold))
                         .foregroundColor(.primary)
                 }
                 
@@ -160,25 +157,15 @@ struct LearningStackCard: View {
             .padding(22)
             .frame(minHeight: 120, alignment: .center)
             .background(
-                // Frosted glass effect
-                .ultraThinMaterial,
+                // Solid background - no transparency
+                Color(.systemBackground),
                 in: RoundedRectangle(cornerRadius: 20, style: .continuous)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.35),
-                                .white.opacity(0.08)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        ),
-                        lineWidth: 0.6
-                    )
+                    .stroke(accent.opacity(0.25), lineWidth: 1)
             )
-            .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 6)
+            .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 6)
         }
         .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
     }

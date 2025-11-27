@@ -21,12 +21,14 @@ struct StudyItem {
 
 struct StudyView: View {
     @ObservedObject var dataService: DataService
+    @ObservedObject private var languageManager = LanguageManager.shared
     @Environment(\.dismiss) private var dismiss
     
     // Filtering parameters
     let filterBySectionId: String? // If provided, only load from this section
     let studyAllMode: Bool // If true, load all words (ignore checked filters)
     let favoritesOnly: Bool // If true, only load favorite words
+    let categoryFilter: String? // If provided, only load sections with this prefix (e.g., "VERBEN_", "ADJEKTIVE_")
     
     private let spacedRepetition = SpacedRepetitionService.shared
     @State private var currentIndex = 0
@@ -35,8 +37,15 @@ struct StudyView: View {
     @State private var cardFlipped = false // Track if card should start flipped
     @State private var flashColor: Color? = nil // Track flash color for screen flash
     @State private var cardsAnswered = 0 // Track number of cards answered in this session
-    @State private var currentContentType: ContentType = .explanation // Current content type shown on card
+    @State private var currentContentType: ContentType = .translation // Current content type shown on card
+    @State private var buttonFeedback: ButtonFeedback? = nil // Track button press feedback for color indication
     @Namespace private var cardNamespace
+    
+    // Enum for button feedback
+    enum ButtonFeedback {
+        case correct
+        case wrong
+    }
     
     // Content type enum for switching between synonym, explanation, translation
     enum ContentType: String, CaseIterable {
@@ -91,18 +100,36 @@ struct StudyView: View {
             return .generalWords
         }
         
+        // Check if we're filtering by a specific section
+        if let sectionId = filterBySectionId {
+            if sectionId.hasPrefix("VERBEN_") {
+                return .verbs
+            }
+            if sectionId.hasPrefix("ADJEKTIVE_") {
+                return .adjectives
+            }
+        }
+        
+        // Check category filter
+        if let categoryFilter = categoryFilter {
+            if categoryFilter == "VERBEN_" {
+                return .verbs
+            }
+            if categoryFilter == "ADJEKTIVE_" {
+                return .adjectives
+            }
+        }
+        
         // Check if all items are VERBEN sections
         let allVerben = studyItems.allSatisfy { $0.isVerbenSection }
         if allVerben {
             return .verbs
         }
         
-        // Check if we're filtering by a specific section
-        if let sectionId = filterBySectionId {
-            if sectionId.hasPrefix("VERBEN_") {
-                return .verbs
-            }
-            // Could add check for adjectives or favorites here in the future
+        // Check if all items are from ADJEKTIVE sections
+        let allAdjektive = studyItems.allSatisfy { $0.sectionId.hasPrefix("ADJEKTIVE_") }
+        if allAdjektive {
+            return .adjectives
         }
         
         // Default to general words
@@ -115,14 +142,15 @@ struct StudyView: View {
     
     private var isPremiumActive: Bool {
         let now = Date().timeIntervalSince1970
-        return adsDisabledUntil > now
+        return adsDisabledUntil > now || PromoCodeManager.shared.isPremiumActive
     }
     
-    init(dataService: DataService, filterBySectionId: String? = nil, studyAllMode: Bool = false, favoritesOnly: Bool = false) {
+    init(dataService: DataService, filterBySectionId: String? = nil, studyAllMode: Bool = false, favoritesOnly: Bool = false, categoryFilter: String? = nil) {
         self.dataService = dataService
         self.filterBySectionId = filterBySectionId
         self.studyAllMode = studyAllMode
         self.favoritesOnly = favoritesOnly
+        self.categoryFilter = categoryFilter
     }
     
     private func loadStudyItems() {
@@ -147,19 +175,54 @@ struct StudyView: View {
                     sectionsToProcess.append((section: section, lection: nil))
                 }
             }
-        } else {
-            // From home/verbs view: process all sections
-            // Process regular sections from lections
-            for lection in dataService.lections {
-                for section in lection.sections {
-                    sectionsToProcess.append((section: section, lection: lection))
+            // Also check ADJEKTIVE sections
+            if sectionsToProcess.isEmpty && sectionId.hasPrefix("ADJEKTIVE_") {
+                if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
+                    let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "ADJEKTIVE_", with: ""))
+                    sectionsToProcess.append((section: section, lection: nil))
                 }
             }
-            // Also process VERBEN sections from wordsBySection
-            for (sectionId, words) in dataService.wordsBySection where sectionId.hasPrefix("VERBEN_") {
-                if !words.isEmpty {
-                    let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "VERBEN_", with: ""))
-                    sectionsToProcess.append((section: section, lection: nil))
+        } else {
+            // From home view: process sections based on category filter
+            if let categoryFilter = categoryFilter {
+                // Filter by category prefix (e.g., "VERBEN_", "ADJEKTIVE_")
+                if categoryFilter == "VERBEN_" || categoryFilter == "ADJEKTIVE_" {
+                    // Process only sections with this prefix
+                    for (sectionId, words) in dataService.wordsBySection where sectionId.hasPrefix(categoryFilter) {
+                        if !words.isEmpty {
+                            let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: categoryFilter, with: ""))
+                            sectionsToProcess.append((section: section, lection: nil))
+                        }
+                    }
+                }
+            } else if favoritesOnly {
+                // Favorites mode: process all sections (regular + VERBEN + ADJEKTIVE)
+                // Process regular sections from lections
+                for lection in dataService.lections {
+                    for section in lection.sections {
+                        sectionsToProcess.append((section: section, lection: lection))
+                    }
+                }
+                // Also process VERBEN sections from wordsBySection
+                for (sectionId, words) in dataService.wordsBySection where sectionId.hasPrefix("VERBEN_") {
+                    if !words.isEmpty {
+                        let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "VERBEN_", with: ""))
+                        sectionsToProcess.append((section: section, lection: nil))
+                    }
+                }
+                // Also process ADJEKTIVE sections from wordsBySection
+                for (sectionId, words) in dataService.wordsBySection where sectionId.hasPrefix("ADJEKTIVE_") {
+                    if !words.isEmpty {
+                        let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "ADJEKTIVE_", with: ""))
+                        sectionsToProcess.append((section: section, lection: nil))
+                    }
+                }
+            } else {
+                // General words mode: process only regular sections from lections (no VERBEN, no ADJEKTIVE)
+                for lection in dataService.lections {
+                    for section in lection.sections {
+                        sectionsToProcess.append((section: section, lection: lection))
+                    }
                 }
             }
         }
@@ -196,24 +259,52 @@ struct StudyView: View {
                 wordsToProcess = allWords.filter { checkedWordIds.contains($0.id) }
             }
             
-            // Check if this is a VERBEN section
+            // Check if this is a VERBEN or ADJEKTIVE section
             let isVerbenSection = section.id.hasPrefix("VERBEN_")
+            let isAdjektiveSection = section.id.hasPrefix("ADJEKTIVE_")
             
             // Process all words - include if they have at least one content type available
             for word in wordsToProcess {
-                // For VERBEN sections: include if they have quiz/example
+                // For VERBEN sections: include if they have quiz/example OR translation
                 if isVerbenSection {
-                    if let quiz = word.quiz, !quiz.isEmpty, let example = word.example, !example.isEmpty {
+                    let hasQuizExample = word.quiz?.isEmpty == false && word.example?.isEmpty == false
+                    let translation = word.translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : word.translation
+                    let hasTranslation = translation != nil
+                    
+                    // Include if has quiz/example (for quiz mode) OR has translation (for translation mode)
+                    if hasQuizExample || hasTranslation {
                         items.append(StudyItem(
                             wordId: word.id,
                             sectionId: section.id,
                             germanWord: word.german,
                             synonym: nil,
                             explanation: nil,
-                            translation: nil,
-                            quiz: quiz,
-                            example: example,
+                            translation: translation,
+                            quiz: word.quiz,
+                            example: word.example,
                             isVerbenSection: true
+                        ))
+                    }
+                } else if isAdjektiveSection {
+                    // For ADJEKTIVE sections: include if they have translation, synonym, or explanation (same as regular sections)
+                    let synonym = word.synonyms?.first
+                    let explanation = word.explanation?.isEmpty == false ? word.explanation : nil
+                    let translation = word.translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : word.translation
+                    let example = word.example?.isEmpty == false ? word.example : nil
+                    
+                    // Only include if at least one content type is available (translation, synonym, or explanation)
+                    // Example is shown on back but not required for inclusion
+                    if synonym != nil || explanation != nil || translation != nil {
+                        items.append(StudyItem(
+                            wordId: word.id,
+                            sectionId: section.id,
+                            germanWord: word.german,
+                            synonym: synonym,
+                            explanation: explanation,
+                            translation: translation,
+                            quiz: nil,
+                            example: example,
+                            isVerbenSection: false
                         ))
                     }
                 } else {
@@ -296,10 +387,20 @@ struct StudyView: View {
                         FlashCardView2(
                             studyItem: studyItems[currentIndex],
                             currentContentType: $currentContentType,
-                            cardColor: studyItems[currentIndex].isVerbenSection ? Color("AppBlue") : Color("AppGreen"),
+                            cardColor: {
+                                let item = studyItems[currentIndex]
+                                if item.isVerbenSection {
+                                    return Color("AppBlue")
+                                } else if item.sectionId.hasPrefix("ADJEKTIVE_") {
+                                    return Color.purple
+                                } else {
+                                    return Color("AppGreen")
+                                }
+                            }(),
                             cardId: studyItems[currentIndex].wordId,
                             initialFlipped: cardFlipped, // true when reversed (shows Word first)
                             dataService: dataService,
+                            buttonFeedback: $buttonFeedback,
                             onSwipeCorrect: {
                                 handleCorrect()
                             },
@@ -320,7 +421,13 @@ struct StudyView: View {
                         HStack(spacing: 24) {
                             Button(action: {
                                 HapticManager.shared.lightImpact()
-                                handleWrong()
+                                // Trigger color feedback
+                                buttonFeedback = .wrong
+                                // Small delay to show feedback before moving to next card
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    handleWrong()
+                                    buttonFeedback = nil
+                                }
                             }) {
                                 Image(systemName: "xmark")
                                     .font(.title3)
@@ -335,7 +442,13 @@ struct StudyView: View {
                             
                             Button(action: {
                                 HapticManager.shared.mediumImpact()
-                                handleCorrect()
+                                // Trigger color feedback
+                                buttonFeedback = .correct
+                                // Small delay to show feedback before moving to next card
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    handleCorrect()
+                                    buttonFeedback = nil
+                                }
                             }) {
                                 Image(systemName: "checkmark")
                                     .font(.title3)
@@ -373,14 +486,6 @@ struct StudyView: View {
                     .accessibilityHint("Toggle favorite for this word")
                 }
             }
-            
-            // Flash overlay
-            if let flashColor = flashColor {
-                flashColor
-                    .ignoresSafeArea()
-                    .opacity(0.3)
-                    .transition(.opacity)
-            }
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -393,9 +498,24 @@ struct StudyView: View {
             loadStudyItems()
             // Set initial flip state based on reverse mode
             cardFlipped = isReversed
-            // Only set default if not already set (preserve user's choice)
-            if currentContentType == .explanation && !studyItems.isEmpty && !studyItems[0].isVerbenSection {
-                // Keep default, but don't override if user already changed it
+            // Set default content type based on first item
+            if !studyItems.isEmpty {
+                let firstItem = studyItems[0]
+                if firstItem.isVerbenSection {
+                    // For VERBEN sections, default to translation if available
+                    if let translation = firstItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        currentContentType = .translation
+                    }
+                } else {
+                    // For regular sections, default to translation if available, otherwise use first available
+                    if let translation = firstItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        currentContentType = .translation
+                    } else if firstItem.explanation != nil {
+                        currentContentType = .explanation
+                    } else if firstItem.synonym != nil {
+                        currentContentType = .synonym
+                    }
+                }
             }
         }
         .onChange(of: currentIndex) { _, _ in
@@ -403,26 +523,54 @@ struct StudyView: View {
             // Only switch if current type is not available for the new card
             if currentIndex < studyItems.count {
                 let item = studyItems[currentIndex]
-                if !item.isVerbenSection {
-                    // Check if current content type is available
-                    if !isContentTypeAvailable(currentContentType, for: item) {
-                        // Find first available content type
-                        if item.explanation != nil {
+                // Check if current content type is available
+                if !isContentTypeAvailable(currentContentType, for: item) {
+                    // Find first available content type
+                    if item.isVerbenSection {
+                        // For VERBEN sections, check for translation first
+                        if let translation = item.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            currentContentType = .translation
+                        }
+                        // Otherwise, VERBEN sections use quiz/example mode (no content type buttons)
+                    } else {
+                        // For regular sections, prioritize translation
+                        if let translation = item.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            currentContentType = .translation
+                        } else if item.explanation != nil {
                             currentContentType = .explanation
                         } else if item.synonym != nil {
                             currentContentType = .synonym
-                        } else if let translation = item.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            currentContentType = .translation
                         } else {
                             // No content available, keep current but it won't show buttons
                             // This shouldn't happen if data is correct
                         }
                     }
-                    // Otherwise keep the current selection
                 }
+                // Otherwise keep the current selection
             }
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
+            loadStudyItems()
+            // Update current content type if translation becomes available
+            if currentIndex < studyItems.count {
+                let item = studyItems[currentIndex]
+                if !item.isVerbenSection && currentContentType == .translation {
+                    // If we're in translation mode, check if translation is now available
+                    if let translation = item.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        // Translation is available, keep it
+                    } else {
+                        // Translation not available, switch to first available
+                        if item.explanation != nil {
+                            currentContentType = .explanation
+                        } else if item.synonym != nil {
+                            currentContentType = .synonym
+                        }
+                    }
+                }
+            }
+        }
+        .onChange(of: languageManager.currentLanguage) { _, _ in
+            // Reload study items when language changes
             loadStudyItems()
         }
         .onChange(of: isReversed) { _, newValue in
@@ -482,37 +630,44 @@ struct StudyView: View {
             // Content type buttons row - only show buttons for available content types
             if currentIndex < studyItems.count {
                 let item = studyItems[currentIndex]
-                let currentCardColor = item.isVerbenSection ? Color("AppBlue") : Color("AppGreen")
-                if !item.isVerbenSection {
-                    // Filter to only show available content types
-                    let availableTypes = ContentType.displayOrder.filter { type in
-                        isContentTypeAvailable(type, for: item)
+                let currentCardColor: Color = {
+                    if item.isVerbenSection {
+                        return Color("AppBlue")
+                    } else if item.sectionId.hasPrefix("ADJEKTIVE_") {
+                        return Color.purple
+                    } else {
+                        return Color("AppGreen")
                     }
-                    
-                    if !availableTypes.isEmpty {
-                        HStack(spacing: 8) {
-                            ForEach(availableTypes, id: \.self) { type in
-                                let isSelected = currentContentType == type
-                                
-                                Button(action: {
-                                    HapticManager.shared.lightImpact()
-                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                        currentContentType = type
-                                    }
-                                }) {
-                                    Text(typeButtonTitle(for: type))
-                                        .font(.caption)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(isSelected ? .white : .primary)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 6)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                                .fill(isSelected ? currentCardColor : Color(.systemGray5))
-                                        )
+                }()
+                
+                // Filter to only show available content types (works for both VERBEN and regular sections)
+                let availableTypes = ContentType.displayOrder.filter { type in
+                    isContentTypeAvailable(type, for: item)
+                }
+                
+                if !availableTypes.isEmpty {
+                    HStack(spacing: 8) {
+                        ForEach(availableTypes, id: \.self) { type in
+                            let isSelected = currentContentType == type
+                            
+                            Button(action: {
+                                HapticManager.shared.lightImpact()
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    currentContentType = type
                                 }
-                                .buttonStyle(PlainButtonStyle())
+                            }) {
+                                Text(typeButtonTitle(for: type))
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(isSelected ? .white : .primary)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                            .fill(isSelected ? currentCardColor : Color(.systemGray5))
+                                    )
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
@@ -524,6 +679,12 @@ struct StudyView: View {
     // Helper function to check if a content type is available for a study item
     private func isContentTypeAvailable(_ type: ContentType, for item: StudyItem) -> Bool {
         if item.isVerbenSection {
+            // For VERBEN sections, only translation mode is available if translation exists
+            if type == .translation {
+                if let translation = item.translation {
+                    return !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                }
+            }
             return false
         }
         switch type {
@@ -618,21 +779,21 @@ struct StudyView: View {
         if !hasSelectedWordsOrSections {
             return "checkmark.circle"
         }
-        return "book.closed"
+        return "long.text.page.and.pencil"
     }
     
     var emptyStateTitle: String {
         if !hasSelectedWordsOrSections {
-            return "Keine Wörter ausgewählt"
+            return Localizable.string(Localizable.noWordsSelected)
         }
-        return "Keine Wörter verfügbar"
+        return Localizable.string(Localizable.translationNotFound)
     }
     
     var emptyStateMessage: String {
         if !hasSelectedWordsOrSections {
-            return "Wähle die Wörter mit dem Häkchen aus"
+            return Localizable.string(Localizable.noWordsSelectedMessage)
         }
-        return "Bitte füge Übersetzungen, Synonyme oder Erklärungen zu den Wörtern hinzu"
+        return Localizable.string(Localizable.translationNotFoundMessage)
     }
     
     private func handleWrong() {
@@ -653,9 +814,6 @@ struct StudyView: View {
         
         // Track that user answered a card
         cardsAnswered += 1
-        
-        // Flash screen red
-        flashScreen(color: .red)
         
         // Move to next card with different animation
         withAnimation(.easeInOut(duration: 0.4)) {
@@ -690,9 +848,6 @@ struct StudyView: View {
         
         // Track that user answered a card
         cardsAnswered += 1
-        
-        // Flash screen green
-        flashScreen(color: .green)
         
         // Move to next card with different animation
         withAnimation(.easeInOut(duration: 0.4)) {
@@ -803,6 +958,7 @@ struct FlashCardView2: View {
     let cardId: String?
     let initialFlipped: Bool
     @ObservedObject var dataService: DataService
+    @Binding var buttonFeedback: StudyView.ButtonFeedback?
     let onSwipeCorrect: (() -> Void)?
     let onSwipeWrong: (() -> Void)?
     
@@ -823,6 +979,7 @@ struct FlashCardView2: View {
         cardId: String? = nil,
         initialFlipped: Bool = false,
         dataService: DataService,
+        buttonFeedback: Binding<StudyView.ButtonFeedback?>,
         onSwipeCorrect: (() -> Void)? = nil,
         onSwipeWrong: (() -> Void)? = nil
     ) {
@@ -832,6 +989,7 @@ struct FlashCardView2: View {
         self.cardId = cardId
         self.initialFlipped = initialFlipped
         self.dataService = dataService
+        self._buttonFeedback = buttonFeedback
         self.onSwipeCorrect = onSwipeCorrect
         self.onSwipeWrong = onSwipeWrong
     }
@@ -843,6 +1001,10 @@ struct FlashCardView2: View {
     // Computed properties for front text and card color
     private var frontText: String {
         if studyItem.isVerbenSection {
+            // For VERBEN sections, show translation if in translation mode, otherwise show quiz
+            if currentContentType == .translation, let translation = studyItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return translation
+            }
             return studyItem.quiz ?? ""
         }
         
@@ -908,13 +1070,22 @@ struct FlashCardView2: View {
         .rotationEffect(.degrees(reduceMotion ? 0 : dragRotation))
         .opacity(1 - min(abs(dragOffset.width) / 600.0, 0.3))
         .overlay {
-            // Color tint overlay based on swipe direction
+            // Color tint overlay based on swipe direction or button feedback
             if abs(dragOffset.width) > 50 {
                 RoundedRectangle(cornerRadius: 24, style: .continuous)
                     .fill(
                         dragOffset.width > 0 ?
                             Color.green.opacity(min(abs(dragOffset.width) / swipeThreshold * 0.3, 0.3)) :
                             Color.red.opacity(min(abs(dragOffset.width) / swipeThreshold * 0.3, 0.3))
+                    )
+                    .allowsHitTesting(false)
+            } else if let feedback = buttonFeedback {
+                // Show color indication for button press
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(
+                        feedback == .correct ?
+                            Color.green.opacity(0.3) :
+                            Color.red.opacity(0.3)
                     )
                     .allowsHitTesting(false)
             }
@@ -995,7 +1166,16 @@ struct FlashCardView2: View {
         .onChange(of: studyItem.wordId) { _, _ in
             // Keep the user's selected content type when card changes
             // Only switch if current type is not available for the new card
-            if !studyItem.isVerbenSection {
+            if studyItem.isVerbenSection {
+                // For VERBEN sections, check if translation is available
+                if currentContentType == .translation {
+                    let translation = studyItem.translation ?? ""
+                    if translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        // Translation mode selected but no translation available, keep quiz mode
+                        // (no content type buttons will show)
+                    }
+                }
+            } else {
                 // Check if current content type is available
                 var isAvailable = false
                 switch currentContentType {
@@ -1149,18 +1329,28 @@ struct FlashCardView2: View {
             }
             .overlay {
                 VStack(spacing: 16) {
-                    Text(backText)
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-                        .multilineTextAlignment(.center)
-                    
-                    // Show German word below example for VERBEN sections
-                    if studyItem.isVerbenSection {
+                    // Show German word (verb/adjective with case) above in black and bold for VERBEN and ADJEKTIVE sections
+                    if studyItem.isVerbenSection || studyItem.sectionId.hasPrefix("ADJEKTIVE_") {
                         Text(studyItem.germanWord)
-                            .font(.headline)
-                            .fontWeight(.medium)
-                            .foregroundColor(.secondary)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                            .multilineTextAlignment(.center)
+                        
+                        // Show example sentence below in gray and smaller font
+                        if let example = studyItem.example, !example.isEmpty {
+                            Text(example)
+                                .font(.body)
+                                .fontWeight(.regular)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                        }
+                    } else {
+                        // For regular sections, show backText as before
+                        Text(backText)
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
                     }
                 }

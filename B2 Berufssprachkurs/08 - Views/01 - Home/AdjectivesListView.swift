@@ -1,5 +1,5 @@
 //
-//  VerbsListView.swift
+//  AdjectivesListView.swift
 //  B2 Berufssprachkurs
 //
 //  Created by Ildar on 18.11.25.
@@ -7,28 +7,24 @@
 
 import SwiftUI
 
-struct VerbsListView: View {
+struct AdjectivesListView: View {
     @ObservedObject var dataService: DataService
     
-    // Prepositions for Verben mit Präpositionen
-    private let verbenPrepositions: [Section] = [
-        Section(id: "VERBEN_an", title: "an"),
-        Section(id: "VERBEN_auf", title: "auf"),
-        Section(id: "VERBEN_aus", title: "aus"),
-        Section(id: "VERBEN_bei", title: "bei"),
-        Section(id: "VERBEN_bis", title: "bis"),
-        Section(id: "VERBEN_durch", title: "durch"),
-        Section(id: "VERBEN_für", title: "für"),
-        Section(id: "VERBEN_gegen", title: "gegen"),
-        Section(id: "VERBEN_in", title: "in"),
-        Section(id: "VERBEN_mit", title: "mit"),
-        Section(id: "VERBEN_nach", title: "nach"),
-        Section(id: "VERBEN_über", title: "über"),
-        Section(id: "VERBEN_um", title: "um"),
-        Section(id: "VERBEN_unter", title: "unter"),
-        Section(id: "VERBEN_von", title: "von"),
-        Section(id: "VERBEN_vor", title: "vor"),
-        Section(id: "VERBEN_zu", title: "zu")
+    // Prepositions for Adjektive mit Präpositionen
+    private let adjektivePrepositions: [Section] = [
+        Section(id: "ADJEKTIVE_an", title: "an"),
+        Section(id: "ADJEKTIVE_auf", title: "auf"),
+        Section(id: "ADJEKTIVE_bei", title: "bei"),
+        Section(id: "ADJEKTIVE_für", title: "für"),
+        Section(id: "ADJEKTIVE_gegenüber", title: "gegenüber"),
+        Section(id: "ADJEKTIVE_in", title: "in"),
+        Section(id: "ADJEKTIVE_mit", title: "mit"),
+        Section(id: "ADJEKTIVE_nach", title: "nach"),
+        Section(id: "ADJEKTIVE_über", title: "über"),
+        Section(id: "ADJEKTIVE_um", title: "um"),
+        Section(id: "ADJEKTIVE_von", title: "von"),
+        Section(id: "ADJEKTIVE_vor", title: "vor"),
+        Section(id: "ADJEKTIVE_zu", title: "zu")
     ]
     
     var body: some View {
@@ -43,17 +39,17 @@ struct VerbsListView: View {
                         Button(action: {
                             HapticManager.shared.mediumImpact()
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                dataService.toggleVerbenCompleted()
+                                dataService.toggleAdjektiveCompleted()
                             }
                         }) {
                             HStack(spacing: 6) {
-                                Image(systemName: dataService.isVerbenCompleted() ? "checkmark.circle.fill" : "circle")
+                                Image(systemName: dataService.isAdjektiveCompleted() ? "checkmark.circle.fill" : "circle")
                                     .font(.body)
                                     .fontWeight(.medium)
-                                    .foregroundColor(dataService.isVerbenCompleted() ? .primary : .secondary)
-                                    .symbolEffect(.bounce, value: dataService.isVerbenCompleted())
+                                    .foregroundColor(dataService.isAdjektiveCompleted() ? .primary : .secondary)
+                                    .symbolEffect(.bounce, value: dataService.isAdjektiveCompleted())
                                 
-                                Text(dataService.isVerbenCompleted() ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
+                                Text(dataService.isAdjektiveCompleted() ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
                                     .font(.caption)
                                     .fontWeight(.medium)
                                     .foregroundColor(.secondary)
@@ -66,8 +62,8 @@ struct VerbsListView: View {
                 }
                 
                 // Prepositions as list rows
-                ForEach(Array(verbenPrepositions.enumerated()), id: \.element.id) { index, preposition in
-                    VerbenRowView(
+                ForEach(Array(adjektivePrepositions.enumerated()), id: \.element.id) { index, preposition in
+                    AdjektiveRowView(
                         preposition: preposition,
                         dataService: dataService
                     )
@@ -83,7 +79,7 @@ struct VerbsListView: View {
     }
 }
 
-struct VerbenRowView: View {
+struct AdjektiveRowView: View {
     let preposition: Section
     @ObservedObject var dataService: DataService
     
@@ -124,7 +120,7 @@ struct VerbenRowView: View {
 
 #Preview {
     NavigationStack {
-        VerbsListView(dataService: DataService())
+        AdjectivesListView(dataService: DataService())
     }
 }
 

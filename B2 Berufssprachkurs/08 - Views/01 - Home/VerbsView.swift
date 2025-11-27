@@ -139,7 +139,8 @@ struct VerbsView: View {
                 StudyView(
                     dataService: dataService,
                     filterBySectionId: nil, // Verbs: process all verben sections
-                    studyAllMode: dataService.isVerbenCompleted() // Study all if all verben are checked
+                    studyAllMode: dataService.isVerbenCompleted(), // Study all if all verben are checked
+                    categoryFilter: "VERBEN_" // Only load VERBEN_ sections
                 )
                 .environmentObject(dataService)
             }

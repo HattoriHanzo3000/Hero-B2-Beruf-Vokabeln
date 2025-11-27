@@ -117,6 +117,8 @@ extension Localizable {
     static let progress = "progress"
     static let progressSubtitle = "progress_subtitle"
     static let cockpitWotdIntro = "cockpit_wotd_intro"
+    static let progressUnderConstruction = "progress_under_construction"
+    static let progressComingSoon = "progress_coming_soon"
     
     // Home Cards
     static let generalWords = "general_words"
@@ -125,5 +127,34 @@ extension Localizable {
     
     // Practice button
     static let practice = "practice"
+    
+    // Premium
+    static let premiumUnlockTitle = "premium_unlock_title"
+    static let benefits = "benefits"
+    static let free = "free"
+    static let premiumColumn = "premium_column"
+    static let accessToAllWords = "access_to_all_words"
+    static let noAds = "no_ads"
+    static let detailedProgress = "detailed_progress"
+    static let favoriteWords = "favorite_words"
+    static let practiceModes = "practice_modes"
+    static let subscribeNow = "subscribe_now"
+    
+    // Promo Code
+    static let promoCode = "promo_code"
+    static let enterPromoCode = "enter_promo_code"
+    static let redeem = "redeem"
+    static let promoCodePremiumActive = "promo_code_premium_active"
+    static let promoCodeFooter = "promo_code_footer"
+    
+    // Study Empty State
+    static let noWordsSelected = "no_words_selected"
+    static let noWordsSelectedMessage = "no_words_selected_message"
+    static let translationNotFound = "translation_not_found"
+    static let translationNotFoundMessage = "translation_not_found_message"
+    
+    // Favorites Empty State
+    static let noFavoritesFound = "no_favorites_found"
+    static let noFavoritesFoundMessage = "no_favorites_found_message"
 }
 

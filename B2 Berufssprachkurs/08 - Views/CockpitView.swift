@@ -93,26 +93,26 @@ struct CockpitView: View {
                     }
                     .padding(.horizontal)
                     
-                    // MARK: Progress - Friendly Card (Placeholder for now)
+                    // MARK: Progress - Under Construction
                     CockpitCard(
                         titleIcon: "chart.line.uptrend.xyaxis",
                         title: Localizable.string(Localizable.progress),
                         subtitle: Text(Localizable.string(Localizable.progressSubtitle))
                     ) {
                         VStack(alignment: .leading, spacing: 12) {
-                            // Placeholder friendly empty state
+                            // Under construction message
                             HStack(spacing: 12) {
-                                Image(systemName: "target")
+                                Image(systemName: "wrench.and.screwdriver.fill")
                                     .font(.title3.weight(.semibold))
                                     .foregroundColor(Color("AppGreen"))
                                     .frame(width: 34, height: 34)
                                     .background(Color("AppGreen").opacity(0.12), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Your progress will appear here")
+                                    Text(Localizable.string(Localizable.progressUnderConstruction))
                                         .font(.subheadline.weight(.semibold))
                                         .foregroundColor(.primary)
-                                    Text("Check back after your next practice session.")
+                                    Text(Localizable.string(Localizable.progressComingSoon))
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -138,9 +138,11 @@ struct CockpitView: View {
                 }
             }
         }
-        .navigationDestination(isPresented: $navigateToSettings) {
-            SettingsView()
-                .environmentObject(dataService)
+        .fullScreenCover(isPresented: $navigateToSettings) {
+            NavigationStack {
+                SettingsView()
+                    .environmentObject(dataService)
+            }
         }
         .onAppear {
             // Initialize to 1A if empty (first time use)
