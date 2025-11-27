@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 27.11.2025
+
+### Added
+- Adjectives with prepositions section (14th section) to Word of the Day selection
+- AdjectivesListView component for better organization
+- PremiumView for future premium features
+- PromoCodeManager service for promo code handling
+
+### Changed
+- Updated checkmark colors to system primary color across all word categories (General Words, Verbs, Adjectives)
+- Standardized checkmark sizes and styles for consistency
+- Improved translation update mechanism in DataService with proper change notifications
+- Enhanced study view to only load words with available content (translation/synonym/explanation) for adjectives
+
+### Fixed
+- Fixed adjectives cards not loading translations in study view
+- Fixed study view including empty adjective cards when only examples were available
+- Improved translation synchronization when adding or editing translations
+- Fixed translation updates not triggering study view refresh
+
+### Technical Updates
+- Enhanced DataService.updateTranslation() to properly trigger @Published change notifications
+- Improved study view logic to match adjectives behavior with other word categories
+- Better state management for translation updates
+
 ## [1.0.1] - 26.11.2025
 
 ### Added

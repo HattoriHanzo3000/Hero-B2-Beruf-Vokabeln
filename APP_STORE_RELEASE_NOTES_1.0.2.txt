@@ -1,0 +1,57 @@
+APP STORE CONNECT - RELEASE NOTES FOR VERSION 1.0.2
+====================================================
+
+Copy and paste these into App Store Connect when submitting version 1.0.2
+
+---
+
+ENGLISH (What's New):
+---------------------
+• Added adjectives study cards - Practice adjectives with prepositions using interactive flashcards
+• Enhanced Word of the Day - Now includes adjectives with prepositions as a selectable category
+• Improved UI consistency - Unified checkmark styling across all word categories for a cleaner look
+• Bug fixes - Fixed translation loading issues in adjectives study mode
+
+---
+
+GERMAN (Was ist neu):
+---------------------
+• Adjektive-Lernkarten hinzugefügt - Übe Adjektive mit Präpositionen mit interaktiven Lernkarten
+• Wort des Tages erweitert - Jetzt mit Adjektiven mit Präpositionen als wählbare Kategorie
+• Verbesserte UI-Konsistenz - Einheitliche Häkchen-Gestaltung in allen Wortkategorien für ein klareres Design
+• Fehlerbehebungen - Behebung von Problemen beim Laden von Übersetzungen im Adjektive-Lernmodus
+
+---
+
+KEYWORDS FOR APP STORE OPTIMIZATION:
+-------------------------------------
+- German language learning
+- B2 level German
+- Business German
+- Vocabulary flashcards
+- Prepositions
+- Adjectives
+- Verbs
+- Study mode
+- Word of the day
+
+---
+
+SUBMISSION CHECKLIST:
+----------------------
+[ ] Version number updated to 1.0.2 in Xcode
+[ ] Build number updated to 3 in Xcode
+[ ] Archive created successfully
+[ ] Archive validated
+[ ] Uploaded to App Store Connect
+[ ] Release notes added (English & German)
+[ ] Screenshots updated if needed
+[ ] App description reviewed
+[ ] Privacy policy URL verified
+[ ] Support URL verified
+[ ] Marketing URL verified (if applicable)
+[ ] Age rating reviewed
+[ ] App Store categories verified
+[ ] Keywords optimized
+[ ] Preview video updated if needed
+[ ] Submitted for review
