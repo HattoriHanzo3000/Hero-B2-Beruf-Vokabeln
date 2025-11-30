@@ -233,7 +233,12 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchScreen</key>
-	<dict/>
+	<dict>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+	</dict>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen.storyboard</string>
 	<key>UIStatusBarStyle</key>
 	<string></string>
 	<key>UISupportedInterfaceOrientations</key>
@@ -242,4 +247,3 @@
 	</array>
 </dict>
 </plist>
-
