@@ -13,6 +13,7 @@ struct WordsListView: View {
     @State private var translations: [String: String] = [:]
     @State private var navigateToStudy = false
     @State private var navigateToSettings = false
+    @State private var showShareSheet = false
     @FocusState private var focusedWordId: String?
     
     var words: [Word] {
@@ -179,6 +180,19 @@ struct WordsListView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    HapticManager.shared.lightImpact()
+                    showShareSheet = true
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.body)
+                        .foregroundColor(.primary)
+                }
+                .accessibilityLabel("Share")
+                .accessibilityHint("Share the words list")
+            }
+            
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
                 
@@ -218,6 +232,9 @@ struct WordsListView: View {
                 .accessibilityHint("Hide keyboard and finish input")
             }
         }
+        .sheet(isPresented: $showShareSheet) {
+            ShareSheet(activityItems: [generateShareText(), generatePDF()])
+        }
         .onAppear {
             // Initialize translations from dataService
             for word in words {
@@ -226,6 +243,77 @@ struct WordsListView: View {
                 }
             }
         }
+    }
+    
+    private func generateShareText() -> String {
+        var shareText = ""
+        
+        if let info = headerInfo {
+            shareText += "\(info.lectionTitle) - \(info.sectionTitle)\n\n"
+        } else if isVerbenSection || isAdjektiveSection {
+            shareText += "\(prepositionTitle)\n\n"
+        }
+        
+        for word in words {
+            shareText += "\(word.german)"
+            if let explanation = word.explanation, !explanation.isEmpty {
+                shareText += " (\(explanation))"
+            }
+            if let translation = translations[word.id], !translation.isEmpty {
+                shareText += " - \(translation)"
+            } else if !word.translation.isEmpty {
+                shareText += " - \(word.translation)"
+            }
+            shareText += "\n"
+        }
+        
+        return shareText
+    }
+    
+    private func generatePDF() -> URL {
+        let lectionTitle: String
+        let lectionNumber: String?
+        let sectionTitle: String
+        let sectionLetter: String?
+        
+        if let info = headerInfo {
+            lectionTitle = info.lectionTitle
+            lectionNumber = info.lectionNumber.isEmpty ? nil : info.lectionNumber
+            sectionTitle = info.sectionTitle
+            sectionLetter = info.sectionLetter.isEmpty ? nil : info.sectionLetter
+        } else if isVerbenSection || isAdjektiveSection {
+            lectionTitle = stackInfo.title
+            lectionNumber = nil
+            sectionTitle = prepositionTitle
+            sectionLetter = nil
+        } else {
+            lectionTitle = stackInfo.title
+            lectionNumber = nil
+            sectionTitle = ""
+            sectionLetter = nil
+        }
+        
+        let wordData = words.map { word in
+            PDFGenerationService.WordData(
+                german: word.german,
+                example: word.example,
+                explanation: word.explanation,
+                translation: translations[word.id] ?? word.translation,
+                synonyms: word.synonyms
+            )
+        }
+        
+        let pdfInfo = PDFGenerationService.PDFInfo(
+            lectionTitle: lectionTitle,
+            lectionNumber: lectionNumber,
+            sectionTitle: sectionTitle,
+            sectionLetter: sectionLetter,
+            headerColor: stackInfo.color,
+            words: wordData,
+            fileName: "WordsList_\(sectionId)"
+        )
+        
+        return PDFGenerationService.generateWordsListPDF(info: pdfInfo)
     }
     
     private func getCurrentWordIndex() -> Int? {
@@ -252,6 +340,18 @@ struct WordsListView: View {
         // Scrolling is handled by onChange(of: focusedWordId)
     }
     
+}
+
+// MARK: - Share Sheet
+struct ShareSheet: UIViewControllerRepresentable {
+    let activityItems: [Any]
+    
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        return controller
+    }
+    
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 struct WordRow: View {

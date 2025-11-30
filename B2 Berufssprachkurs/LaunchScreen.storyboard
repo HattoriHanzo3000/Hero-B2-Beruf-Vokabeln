@@ -16,13 +16,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="Mascot" translatesAutoresizingMaskIntoConstraints="NO" id="w0C-Pd-Jox">
-                                <rect key="frame" x="93" y="314" width="189" height="184"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="MascotLaunch" translatesAutoresizingMaskIntoConstraints="NO" id="w0C-Pd-Jox">
+                                <rect key="frame" x="37.5" y="256" width="300" height="300"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" secondItem="w0C-Pd-Jox" secondAttribute="width" id="aspect-constraint"/>
-                                    <constraint firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="efy-G1-1tL"/>
-                                    <constraint firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="hnt-Y3-l9x"/>
-                                    <constraint firstAttribute="width" constant="300" id="width-constraint"/>
+                                    <constraint firstItem="w0C-Pd-Jox" firstAttribute="width" constant="300" id="width-constraint"/>
+                                    <constraint firstItem="w0C-Pd-Jox" firstAttribute="height" secondItem="w0C-Pd-Jox" secondAttribute="width" multiplier="1:1" id="aspect-constraint"/>
+                                    <constraint firstItem="w0C-Pd-Jox" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="hDa-O4-9VM"/>
+                                    <constraint firstItem="w0C-Pd-Jox" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="3RR-32-fpZ"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -36,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Mascot" width="2000" height="2000"/>
+        <image name="MascotLaunch" width="2000" height="2000"/>
     </resources>
 </document>
