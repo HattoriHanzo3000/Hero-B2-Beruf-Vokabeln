@@ -11,7 +11,7 @@
 "practise_with_translation" = "Mit Übersetzung üben";
 
 // Tab Bar
-"home" = "Home";
+"home" = "Start";
 "words" = "Wörter";
 "verbs" = "Verben";
 "cockpit" = "Cockpit";
@@ -89,6 +89,8 @@
 // Periodicity options
 "12_hours" = "12 Stunden";
 "24_hours" = "24 Stunden";
+"12_hours_short" = "12 S";
+"24_hours_short" = "24 S";
 
 // Update page
 "current_version" = "Aktuelle Version";
@@ -102,6 +104,8 @@
 
 "progress" = "Fortschritt";
 "progress_subtitle" = "Dein Weg auf einen Blick";
+"word_of_the_day_description" = "Wähle die Themen aus, die in deinem täglichen Wort auf dem Hauptbildschirm erscheinen.";
+"progress_description" = "Verfolge deinen Lernfortschritt über alle %d Wörter in der App hinweg.";
 "cockpit_wotd_intro" = "Passe dein tägliches Lernen an deinen Rhythmus und deine Themen an.";
 
 "general_words" = "Allgemeine Wörter";
@@ -114,17 +118,34 @@
 "progress_under_construction" = "Dieser Bereich befindet sich im Aufbau";
 "progress_coming_soon" = "Bleib dran, neue Funktionen kommen bald";
 
+// Statistics
+"statistics_wrong_title" = "Falsch";
+"statistics_familiar_title" = "Bekannt";
+"statistics_reinforced_title" = "Gefestigt";
+"statistics_mastered_title" = "Beherrscht";
+"statistics_wrong_description" = "Falsch beantwortet";
+"statistics_familiar_description" = "1x richtig beantwortet";
+"statistics_reinforced_description" = "2x richtig beantwortet";
+"statistics_mastered_description" = "3x oder öfter richtig beantwortet";
+
 // Premium
 "premium_unlock_title" = "Erlebe die volle Hero-Erfahrung mit Premium";
+"unlock_full_hero_experience" = "Erlebe die volle Hero-Erfahrung";
+"pro_benefits_description" = "Premium gibt dir vollen Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und werbefreier Erfahrung";
+"monthly_subscription" = "Monatlich";
+"per_month" = "pro Monat";
 "benefits" = "Vorteile";
-"free" = "Kostenlos";
+"free" = "Basis";
 "premium_column" = "Premium";
 "access_to_all_words" = "Zugang zu allen Wörtern";
 "no_ads" = "Keine Werbung";
 "detailed_progress" = "Detaillierter Fortschritt";
 "favorite_words" = "Lieblingswörter";
 "practice_modes" = "Übungsmodi";
-"subscribe_now" = "Jetzt abonnieren";
+"subscribe_now" = "Abonnieren";
+"unlock_premium" = "Premium freischalten";
+"continue_button" = "Weiter";
+"subscription_terms" = "Bei Abonnement wird dein Apple-Konto mit 1,99€ belastet. Dein Hero Premium-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
 
 // Promo Code
 "promo_code" = "Gutscheincode";

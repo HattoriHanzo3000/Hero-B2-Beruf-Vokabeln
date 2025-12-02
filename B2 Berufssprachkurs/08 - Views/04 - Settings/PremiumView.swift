@@ -8,51 +8,59 @@
 import SwiftUI
 
 struct PremiumView: View {
+    @State private var showPaywall = false
+    
     var body: some View {
         ZStack {
             Color("AppGreenExtraLight")
                 .ignoresSafeArea()
             
-            ScrollView {
-                VStack(spacing: 32) {
-                    // Crown icon and title
-                    VStack(spacing: 20) {
-                        // Big crown icon
-                        Image(systemName: "crown.fill")
-                            .font(.system(size: 80, weight: .semibold))
-                            .foregroundStyle(
-                                LinearGradient(
-                                    colors: [
-                                        Color("AppGreen"),
-                                        Color("AppBlue")
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
+            VStack(spacing: 0) {
+                ScrollView {
+                    VStack(spacing: 32) {
+                        // Crown icon and title
+                        VStack(spacing: 20) {
+                            // Big crown icon
+                            Image(systemName: "crown.fill")
+                                .font(.system(size: 80, weight: .semibold))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [
+                                            Color("AppGreen"),
+                                            Color("AppBlue")
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
                                 )
-                            )
-                            .shadow(color: Color("AppGreen").opacity(0.3), radius: 20, x: 0, y: 10)
+                                .shadow(color: Color("AppGreen").opacity(0.3), radius: 20, x: 0, y: 10)
+                            
+                            // Title
+                            Text(Localizable.string(Localizable.premiumUnlockTitle))
+                                .font(.title2.weight(.bold))
+                                .foregroundColor(.primary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 24)
+                        }
+                        .padding(.top, 24)
+                        .padding(.bottom, 8)
                         
-                        // Title
-                        Text(Localizable.string(Localizable.premiumUnlockTitle))
-                            .font(.title2.weight(.bold))
-                            .foregroundColor(.primary)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 24)
+                        // Comparison table
+                        PremiumComparisonTable()
+                            .padding(.horizontal)
+                            .padding(.bottom, 100) // Space for fixed button
                     }
-                    .padding(.top, 24)
-                    .padding(.bottom, 8)
-                    
-                    // Comparison table
-                    PremiumComparisonTable()
-                        .padding(.horizontal)
-                    
-                    // Subscribe button
+                }
+                
+                // Fixed Subscribe button above tab bar
+                VStack(spacing: 0) {
                     Button(action: {
-                        // Action will be added later
+                        HapticManager.shared.mediumImpact()
+                        showPaywall = true
                     }) {
                         HStack {
                             Spacer()
-                            Text(Localizable.string(Localizable.subscribeNow))
+                            Text(Localizable.string(Localizable.unlockPremium))
                                 .font(.headline.weight(.semibold))
                                 .foregroundColor(.white)
                             Spacer()
@@ -72,11 +80,19 @@ struct PremiumView: View {
                         .shadow(color: Color("AppGreen").opacity(0.4), radius: 12, x: 0, y: 6)
                     }
                     .padding(.horizontal)
-                    .padding(.bottom, 32)
+                    .padding(.top, 12)
+                    .padding(.bottom, 8)
+                    .background(
+                        Color("AppGreenExtraLight")
+                            .ignoresSafeArea(edges: .bottom)
+                    )
                 }
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
+        }
     }
 }
 
@@ -85,10 +101,10 @@ private struct PremiumComparisonTable: View {
     var body: some View {
         VStack(spacing: 0) {
             // Header row
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 // Benefits column
                 Text(Localizable.string(Localizable.benefits))
-                    .font(.headline.weight(.semibold))
+                    .font(.subheadline.weight(.semibold))
                     .foregroundColor(.primary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 16)
@@ -98,103 +114,108 @@ private struct PremiumComparisonTable: View {
                     .frame(height: 20)
                 
                 // Free column
-                Text(Localizable.string(Localizable.free))
-                    .font(.subheadline.weight(.medium))
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
+                HStack {
+                    Spacer()
+                    Text(Localizable.string(Localizable.free))
+                        .font(.subheadline.weight(.medium))
+                        .foregroundColor(.primary)
+                    Spacer()
+                }
+                .frame(width: 80)
+                .padding(.vertical, 16)
                 
                 Divider()
                     .frame(height: 20)
                 
                 // Premium column
-                Text(Localizable.string(Localizable.premiumColumn))
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundColor(Color("AppGreen"))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
+                HStack {
+                    Spacer()
+                    Text(Localizable.string(Localizable.premiumColumn))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(Color("AppGreen"))
+                    Spacer()
+                }
+                .frame(width: 80)
+                .padding(.vertical, 16)
             }
-            .background(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(Color.white.opacity(0.5))
-            )
+            
+            Divider()
+                .padding(.horizontal, 16)
             
             // Table rows
-            VStack(spacing: 0) {
-                PremiumTableRow(
-                    benefit: Localizable.string(Localizable.accessToAllWords),
-                    freeAvailable: true,
-                    premiumAvailable: true
-                )
-                
-                Divider()
-                    .padding(.horizontal, 16)
-                
-                PremiumTableRow(
-                    benefit: Localizable.string(Localizable.noAds),
-                    freeAvailable: false,
-                    premiumAvailable: true
-                )
-                
-                Divider()
-                    .padding(.horizontal, 16)
-                
-                PremiumTableRow(
-                    benefit: Localizable.string(Localizable.detailedProgress),
-                    freeAvailable: false,
-                    premiumAvailable: true
-                )
-                
-                Divider()
-                    .padding(.horizontal, 16)
-                
-                PremiumTableRow(
-                    benefit: Localizable.string(Localizable.favoriteWords),
-                    freeAvailable: false,
-                    premiumAvailable: true
-                )
-                
-                Divider()
-                    .padding(.horizontal, 16)
-                
-                PremiumTableRow(
-                    benefit: Localizable.string(Localizable.practiceModes),
-                    freeAvailable: false,
-                    premiumAvailable: true
-                )
-            }
-            .background(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color.white.opacity(0.22),
-                                Color.white.opacity(0.10)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .background(
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .fill(Color("AppGreenExtraLight"))
-                    )
+            PremiumTableRow(
+                benefit: Localizable.string(Localizable.accessToAllWords),
+                freeAvailable: true,
+                premiumAvailable: true
             )
-            .overlay(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.35),
-                                .white.opacity(0.08)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        ),
-                        lineWidth: 0.6
-                    )
+            
+            Divider()
+                .padding(.horizontal, 16)
+            
+            PremiumTableRow(
+                benefit: Localizable.string(Localizable.noAds),
+                freeAvailable: false,
+                premiumAvailable: true
+            )
+            
+            Divider()
+                .padding(.horizontal, 16)
+            
+            PremiumTableRow(
+                benefit: Localizable.string(Localizable.detailedProgress),
+                freeAvailable: false,
+                premiumAvailable: true
+            )
+            
+            Divider()
+                .padding(.horizontal, 16)
+            
+            PremiumTableRow(
+                benefit: Localizable.string(Localizable.favoriteWords),
+                freeAvailable: false,
+                premiumAvailable: true
+            )
+            
+            Divider()
+                .padding(.horizontal, 16)
+            
+            PremiumTableRow(
+                benefit: Localizable.string(Localizable.practiceModes),
+                freeAvailable: false,
+                premiumAvailable: true
             )
         }
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color.white.opacity(0.22),
+                            Color.white.opacity(0.10)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .background(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(Color("AppGreenExtraLight"))
+                )
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        colors: [
+                            .white.opacity(0.35),
+                            .white.opacity(0.08)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    ),
+                    lineWidth: 0.6
+                )
+        )
         .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 6)
     }
 }
@@ -206,11 +227,13 @@ private struct PremiumTableRow: View {
     let premiumAvailable: Bool
     
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(alignment: .center, spacing: 0) {
             // Benefits column
             Text(benefit)
                 .font(.subheadline)
                 .foregroundColor(.primary)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 16)
@@ -219,33 +242,39 @@ private struct PremiumTableRow: View {
                 .frame(height: 20)
             
             // Free column
-            if freeAvailable {
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.title3)
-                    .foregroundColor(Color("AppGreen"))
-                    .frame(maxWidth: .infinity)
-            } else {
-                Image(systemName: "minus")
-                    .font(.title3)
-                    .foregroundColor(.secondary.opacity(0.5))
-                    .frame(maxWidth: .infinity)
+            HStack {
+                Spacer()
+                if freeAvailable {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.title3)
+                        .foregroundColor(Color("AppGreen"))
+                } else {
+                    Image(systemName: "minus")
+                        .font(.title3)
+                        .foregroundColor(.secondary.opacity(0.5))
+                }
+                Spacer()
             }
+            .frame(width: 80)
             
             Divider()
                 .frame(height: 20)
             
             // Premium column
-            if premiumAvailable {
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.title3)
-                    .foregroundColor(Color("AppGreen"))
-                    .frame(maxWidth: .infinity)
-            } else {
-                Image(systemName: "minus")
-                    .font(.title3)
-                    .foregroundColor(.secondary.opacity(0.5))
-                    .frame(maxWidth: .infinity)
+            HStack {
+                Spacer()
+                if premiumAvailable {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.title3)
+                        .foregroundColor(Color("AppGreen"))
+                } else {
+                    Image(systemName: "minus")
+                        .font(.title3)
+                        .foregroundColor(.secondary.opacity(0.5))
+                }
+                Spacer()
             }
+            .frame(width: 80)
         }
     }
 }

@@ -89,6 +89,8 @@
 // Periodicity options
 "12_hours" = "12 hours";
 "24_hours" = "24 hours";
+"12_hours_short" = "12h";
+"24_hours_short" = "24h";
 
 // Update page
 "current_version" = "Current Version";
@@ -102,6 +104,8 @@
 
 "progress" = "Progress";
 "progress_subtitle" = "Your journey at a glance";
+"word_of_the_day_description" = "Customize which topics appear in your daily word on the main screen.";
+"progress_description" = "Track your learning progress across all %d words in the app.";
 "cockpit_wotd_intro" = "Make your daily learning fit your rhythm and topics you care about.";
 
 "general_words" = "General Words";
@@ -114,8 +118,22 @@
 "progress_under_construction" = "This section is under construction";
 "progress_coming_soon" = "Keep updating, new features are coming soon";
 
+// Statistics
+"statistics_wrong_title" = "Wrong";
+"statistics_familiar_title" = "Familiar";
+"statistics_reinforced_title" = "Reinforced";
+"statistics_mastered_title" = "Mastered";
+"statistics_wrong_description" = "Answered wrong";
+"statistics_familiar_description" = "Answered correctly 1 time";
+"statistics_reinforced_description" = "Answered correctly 2 times";
+"statistics_mastered_description" = "Answered correctly 3+ times";
+
 // Premium
 "premium_unlock_title" = "Unlock the full Hero experience with Premium";
+"unlock_full_hero_experience" = "Unlock the full Hero experience";
+"pro_benefits_description" = "Premium gives you full access to all study materials, progress tracking and ad-free experience";
+"monthly_subscription" = "Monthly";
+"per_month" = "per month";
 "benefits" = "Benefits";
 "free" = "Free";
 "premium_column" = "Premium";
@@ -124,7 +142,10 @@
 "detailed_progress" = "Detailed progress";
 "favorite_words" = "Favorite words";
 "practice_modes" = "Practice Modes";
-"subscribe_now" = "Subscribe Now";
+"subscribe_now" = "Subscribe";
+"unlock_premium" = "Unlock Premium";
+"continue_button" = "Continue";
+"subscription_terms" = "Upon subscribing, your Apple account will be charged 1,99€. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
 
 // Promo Code
 "promo_code" = "Promo Code";

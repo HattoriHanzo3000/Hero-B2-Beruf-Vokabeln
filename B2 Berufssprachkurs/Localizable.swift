@@ -101,6 +101,8 @@ extension Localizable {
     // Periodicity
     static let hours12 = "12_hours"
     static let hours24 = "24_hours"
+    static let hours12Short = "12_hours_short"
+    static let hours24Short = "24_hours_short"
     
     // Update page
     static let currentVersion = "current_version"
@@ -117,8 +119,20 @@ extension Localizable {
     static let progress = "progress"
     static let progressSubtitle = "progress_subtitle"
     static let cockpitWotdIntro = "cockpit_wotd_intro"
+    static let wordOfTheDayDescription = "word_of_the_day_description"
+    static let progressDescription = "progress_description"
     static let progressUnderConstruction = "progress_under_construction"
     static let progressComingSoon = "progress_coming_soon"
+    
+    // Statistics
+    static let statisticsWrongTitle = "statistics_wrong_title"
+    static let statisticsFamiliarTitle = "statistics_familiar_title"
+    static let statisticsReinforcedTitle = "statistics_reinforced_title"
+    static let statisticsMasteredTitle = "statistics_mastered_title"
+    static let statisticsWrongDescription = "statistics_wrong_description"
+    static let statisticsFamiliarDescription = "statistics_familiar_description"
+    static let statisticsReinforcedDescription = "statistics_reinforced_description"
+    static let statisticsMasteredDescription = "statistics_mastered_description"
     
     // Home Cards
     static let generalWords = "general_words"
@@ -130,6 +144,10 @@ extension Localizable {
     
     // Premium
     static let premiumUnlockTitle = "premium_unlock_title"
+    static let unlockFullHeroExperience = "unlock_full_hero_experience"
+    static let proBenefitsDescription = "pro_benefits_description"
+    static let monthlySubscription = "monthly_subscription"
+    static let perMonth = "per_month"
     static let benefits = "benefits"
     static let free = "free"
     static let premiumColumn = "premium_column"
@@ -139,6 +157,9 @@ extension Localizable {
     static let favoriteWords = "favorite_words"
     static let practiceModes = "practice_modes"
     static let subscribeNow = "subscribe_now"
+    static let unlockPremium = "unlock_premium"
+    static let continueButton = "continue_button"
+    static let subscriptionTerms = "subscription_terms"
     
     // Promo Code
     static let promoCode = "promo_code"

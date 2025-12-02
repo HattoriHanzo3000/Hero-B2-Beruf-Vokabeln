@@ -31,7 +31,7 @@ enum TabItem: String, CaseIterable {
 
 struct MainTabView: View {
     @StateObject private var dataService = DataService()
-    @EnvironmentObject private var languageManager: LanguageManager
+    @ObservedObject private var languageManager = LanguageManager.shared
     @State private var selectedTab: TabItem = .home
     
     var body: some View {
@@ -44,9 +44,9 @@ struct MainTabView: View {
             .tabItem {
                 Label(TabItem.home.localizedTitle, systemImage: TabItem.home.icon)
             }
+            .id("homeTab_\(languageManager.currentLanguage)")
             
-            // Premium Tab - Temporarily deactivated
-            /*
+            // Premium Tab
             NavigationStack {
                 PremiumView()
                     .navigationBarTitleDisplayMode(.inline)
@@ -55,7 +55,7 @@ struct MainTabView: View {
             .tabItem {
                 Label(TabItem.premium.localizedTitle, systemImage: TabItem.premium.icon)
             }
-            */
+            .id("premiumTab_\(languageManager.currentLanguage)")
             
             // Cockpit Tab
             NavigationStack {
@@ -66,7 +66,9 @@ struct MainTabView: View {
             .tabItem {
                 Label(TabItem.cockpit.localizedTitle, systemImage: TabItem.cockpit.icon)
             }
+            .id("cockpitTab_\(languageManager.currentLanguage)")
         }
+        .id("tabView_\(languageManager.currentLanguage)")
         .environmentObject(dataService)
         .onAppear {
             setupLiquidGlassTabBar()
