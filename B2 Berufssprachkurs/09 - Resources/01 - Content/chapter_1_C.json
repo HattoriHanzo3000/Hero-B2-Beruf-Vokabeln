@@ -1,0 +1,264 @@
+{
+  "sectionId": "1C",
+  "words": [
+    {
+      "id": "1C-1",
+      "german": "die Abfallvermeidung (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-2",
+      "german": "der Anschluss, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-3",
+      "german": "der Bereich, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-4",
+      "german": "die Betriebsbesichtigung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-5",
+      "german": "das Betriebsgelände (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-6",
+      "german": "etw. einführen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-7",
+      "german": "die Energieeinsparung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-8",
+      "german": "der Entscheidungsspielraum, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-9",
+      "german": "etw. eröffnen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-10",
+      "german": "die Eröffnung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-11",
+      "german": "die Erschließung (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-12",
+      "german": "etw. erweitern",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-13",
+      "german": "die Fertigstellung (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-14",
+      "german": "die Filiale, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-15",
+      "german": "eine flache Hierarchie",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-16",
+      "german": "das Geschäftsjahr, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-17",
+      "german": "das Gründungsdatum, -daten",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-18",
+      "german": "die Hierarchie, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-19",
+      "german": "im Anschluss an (+ Akk.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-20",
+      "german": "das Mitspracherecht, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-21",
+      "german": "nachhaltig",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-22",
+      "german": "etw. präsentieren",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-23",
+      "german": "der Pressesprecher, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-24",
+      "german": "die Pressesprecherin, -nen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-25",
+      "german": "Produkte einführen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-26",
+      "german": "die Produktionsstätte, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-27",
+      "german": "der Rundgang, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-28",
+      "german": "das Sortiment, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-29",
+      "german": "der Standort, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-30",
+      "german": "die Terminbestätigung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-31",
+      "german": "etw. übernehmen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-32",
+      "german": "der Umsatz, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-33",
+      "german": "die Unternehmensgeschichte, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-34",
+      "german": "die Verkaufsfläche, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-35",
+      "german": "das Verkaufsgespräch, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-36",
+      "german": "das Zentrallager, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "1C-37",
+      "german": "das Zweigwerk, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    }
+  ]
+}

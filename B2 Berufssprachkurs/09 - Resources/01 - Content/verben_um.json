@@ -1,0 +1,47 @@
+{
+  "sectionId": "VERBEN_um",
+  "words": [
+    {
+      "id": "VERBEN_um-1",
+      "german": "sich bemühen um (+ Akk.)",
+      "example": "Sie hat sich um einen neuen Job bemüht.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_um-2",
+      "german": "sich bewerben um (+ Akk.)",
+      "example": "Ich habe mich um einen neuen Job beworben.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_um-3",
+      "german": "bitten um (+ Akk.)",
+      "example": "Sophie bittet ihre Freundin um einen Tipp.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_um-4",
+      "german": "gehen um (+ Akk.)",
+      "example": "In dem Bericht geht es um die Marketingaktivitäten.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_um-5",
+      "german": "handeln um (+ Akk.)",
+      "example": "Ich möchte Sie sprechen. Es handelt sich um den Bericht.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_um-6",
+      "german": "konkurrieren um (+ Akk.)",
+      "example": "Viele Firmen konkurrieren um Marktanteile.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_um-7",
+      "german": "sich kümmern um (+ Akk.)",
+      "example": "In vielen Familien kümmern sich die Frauen um den Haushalt.",
+      "quiz": ""
+    }
+  ]
+}

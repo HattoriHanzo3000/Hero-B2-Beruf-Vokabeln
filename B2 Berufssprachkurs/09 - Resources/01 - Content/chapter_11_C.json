@@ -1,0 +1,285 @@
+{
+  "sectionId": "11C",
+  "words": [
+    {
+      "id": "11C-1",
+      "german": "die Abfindung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-2",
+      "german": "der Abfindungsanspruch, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-3",
+      "german": "die Alternative, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-4",
+      "german": "etw./jdn. an hören",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-5",
+      "german": "die Anstellung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-6",
+      "german": "die Arbeitsagentur, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-7",
+      "german": "das Arbeitsgericht, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-8",
+      "german": "das Arbeitslosengeld, -er (ALG)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-9",
+      "german": "der Arbeitsplatzverlust (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-10",
+      "german": "arbeitssuchend",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-11",
+      "german": "das Arbeitsverhältnis, -se",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-12",
+      "german": "aus gehen von (+ Dat.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-13",
+      "german": "etw. aus lagern",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-14",
+      "german": "etw. beanspruchen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-15",
+      "german": "die Berechnung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-16",
+      "german": "betriebsbedingt",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-17",
+      "german": "etw. ein bringen (z.B. Kenntnisse)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-18",
+      "german": "die Eingliederung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-19",
+      "german": "die Einhaltung (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-20",
+      "german": "endgültig",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-21",
+      "german": "führen zu (+ Dat.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-22",
+      "german": "die Klage, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-23",
+      "german": "die Klagefrist, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-24",
+      "german": "eine Klage ein reichen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-25",
+      "german": "eine Klage erheben",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-26",
+      "german": "die Kündigungsfrist, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-27",
+      "german": "das Kündigungsschreiben, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-28",
+      "german": "möglicherweise",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-29",
+      "german": "die Schließung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-30",
+      "german": "die Sperrzeit, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-31",
+      "german": "der Umbruch, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-32",
+      "german": "sich verbessern",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-33",
+      "german": "vermutlich",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-34",
+      "german": "der Verstoß, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-35",
+      "german": "verstreichen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-36",
+      "german": "wahrscheinlich",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-37",
+      "german": "weg fallen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-38",
+      "german": "sich wehren gegen (+ Akk.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-39",
+      "german": "weiterhin",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "11C-40",
+      "german": "jdn. zwingen (sich gezwungen sehen)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    }
+  ]
+}

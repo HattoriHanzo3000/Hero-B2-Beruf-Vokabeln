@@ -1,0 +1,292 @@
+{
+  "sectionId": "12A",
+  "words": [
+    {
+      "id": "12A-1",
+      "german": "etw./jdn. ab sichern",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-2",
+      "german": "die Absicherung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-3",
+      "german": "angewiesen auf (+ Akk.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-4",
+      "german": "der Anspruch, \"e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-5",
+      "german": "das Arbeitslosengeld (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-6",
+      "german": "die Arbeitslosenversicherung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-7",
+      "german": "der Ausgleich (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-8",
+      "german": "der Beamte, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-9",
+      "german": "die Beamtin, -nen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-10",
+      "german": "etw. beantragen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-11",
+      "german": "sich begeben",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-12",
+      "german": "die Beihilfe, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-13",
+      "german": "die Betriebsrente, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-14",
+      "german": "etw. bewilligen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-15",
+      "german": "der Bürger, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-16",
+      "german": "die Bürgerin, -nen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-17",
+      "german": "das Elterngeld (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-18",
+      "german": "das Existenzminimum (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-19",
+      "german": "die Grundsicherung (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-20",
+      "german": "der Jahresverdienst, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-21",
+      "german": "das Kindergeld (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-22",
+      "german": "das Krankengeld (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-23",
+      "german": "die Krankenversicherung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-24",
+      "german": "die Leistung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-25",
+      "german": "das Nettoeinkommen, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-26",
+      "german": "oberhalb (+ Gen.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-27",
+      "german": "die Pension, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-28",
+      "german": "das Pflegegeld (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-29",
+      "german": "die Pflegeversicherung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-30",
+      "german": "die Pflichtversicherung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-31",
+      "german": "die Rente, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-32",
+      "german": "das Rentenalter (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-33",
+      "german": "die Rentenversicherung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-34",
+      "german": "der Sonderstatus (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-35",
+      "german": "sozial",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-36",
+      "german": "die Sozialhilfe (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-37",
+      "german": "der Sozialstaat, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-38",
+      "german": "die Sozialversicherung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-39",
+      "german": "unterhalb (+ Gen.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-40",
+      "german": "(etw.) vor legen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "12A-41",
+      "german": "das Wohngeld (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "sectionId": "VERBEN_an",
+  "words": [
+    {
+      "id": "VERBEN_an-1",
+      "german": "ändern an (+ Dat.)",
+      "example": "An dieser Situation kann man noch etwas ändern.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_an-2",
+      "german": "denken an (+ Akk.)",
+      "example": "Ich denke oft an meine berufliche Zukunft.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_an-3",
+      "german": "sich erinnern an (+ Akk.)",
+      "example": "Franziska kann sich recht gut an das Projekt erinnern.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_an-4",
+      "german": "sich gewöhnen an (+ Akk.)",
+      "example": "Ich habe mich an das Essen gewöhnt.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_an-5",
+      "german": "glauben an (+ Akk.)",
+      "example": "Er glaubt an den Erfolg der Marketingmaßnahme.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_an-6",
+      "german": "es liegt an (+ Dat.)",
+      "example": "Dass ich Kopfschmerzen habe, liegt am Wetter.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_an-7",
+      "german": "richten an (+ Akk.)",
+      "example": "Sie richtete die Bitte an ihre Kollegen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_an-8",
+      "german": "teilnehmen an (+ Dat.)",
+      "example": "Ich nehme an dem Projekt teil.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_an-9",
+      "german": "sich wenden an (+ Akk.)",
+      "example": "Er hat sich an den Betriebsrat gewendet.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_an-10",
+      "german": "zweifeln an (+ Dat.)",
+      "example": "Sie hat nie am Erfolg des Projekts gezweifelt.",
+      "quiz": ""
+    }
+  ]
+}

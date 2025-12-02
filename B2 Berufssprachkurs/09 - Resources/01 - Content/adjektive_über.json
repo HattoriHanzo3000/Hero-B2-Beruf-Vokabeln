@@ -1,0 +1,59 @@
+{
+  "sectionId": "ADJEKTIVE_über",
+  "words": [
+    {
+      "id": "ADJEKTIVE_über-1",
+      "german": "besorgt über (+ Akk.)",
+      "example": "Die GF ist über die sinkenden Absatzzahlen sehr besorgt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_über-2",
+      "german": "beunruhigt über (+ Akk.)",
+      "example": "Die Mitarbeitenden sind über die Umstrukturierungspläne beunruhigt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_über-3",
+      "german": "entsetzt über (+ Akk.)",
+      "example": "Sie war darüber, dass der Termin nicht eingehalten wird, entsetzt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_über-4",
+      "german": "erstaunt über (+ Akk.)",
+      "example": "Die GF war über den Erfolg der Marketingkampagne erstaunt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_über-5",
+      "german": "froh über (+ Akk.)",
+      "example": "Die GF war über das positive Jahresergebnis sehr froh.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_über-6",
+      "german": "glücklich über (+ Akk.)",
+      "example": "Sie war über ihre Beförderung sehr glücklich.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_über-7",
+      "german": "unglücklich über (+ Akk.)",
+      "example": "Sie waren über seinen Weggang unglücklich.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_über-8",
+      "german": "verärgert über (+ Akk.)",
+      "example": "Er war über die Verzögerung im Projekt verärgert.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_über-9",
+      "german": "wütend über (+ Akk.)",
+      "example": "Nach dem Meeting war die Chefin über das Team ziemlich wütend.",
+      "quiz": ""
+    }
+  ]
+}

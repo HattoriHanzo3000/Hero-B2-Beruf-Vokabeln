@@ -1,0 +1,59 @@
+{
+  "sectionId": "ADJEKTIVE_mit",
+  "words": [
+    {
+      "id": "ADJEKTIVE_mit-1",
+      "german": "befreundet mit (+ Dat.)",
+      "example": "Er ist mit allen Kollegen gut befreundet.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-2",
+      "german": "bekannt mit (+ Dat.)",
+      "example": "Sie ist mit allen Außendienstmitarbeitenden sehr gut bekannt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-3",
+      "german": "beschäftigt mit (+ Dat.)",
+      "example": "Frau Dr. Kurz ist noch mit dem Abschlussbericht beschäftigt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-4",
+      "german": "einverstanden mit (+ Dat.)",
+      "example": "Er ist mit seiner Versetzung in eine andere Abteilung einverstanden.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-5",
+      "german": "fertig mit (+ Dat.)",
+      "example": "Sind Sie mit dem Projektbericht schon fertig?",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-6",
+      "german": "unzufrieden mit (+ Dat.)",
+      "example": "Die GF war mit der Geschäftsentwicklung unzufrieden.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-7",
+      "german": "verheiratet mit (+ Dat.)",
+      "example": "Er ist eigentlich mit seiner Arbeit verheiratet.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-8",
+      "german": "verwandt mit (+ Dat.)",
+      "example": "Er ist mit seinem Chef verwandt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-9",
+      "german": "zufrieden mit (+ Dat.)",
+      "example": "Unsere Kunden sind mit unseren Dienstleistungen sehr zufrieden.",
+      "quiz": ""
+    }
+  ]
+}

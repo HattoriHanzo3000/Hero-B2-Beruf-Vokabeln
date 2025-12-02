@@ -1,0 +1,47 @@
+{
+  "sectionId": "VERBEN_in",
+  "words": [
+    {
+      "id": "VERBEN_in-1",
+      "german": "sich halten in (+ Dat.)",
+      "example": "Sie hat sich in der Prüfung sehr gut gehalten.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-2",
+      "german": "sich hineinversetzen in (+ Akk.)",
+      "example": "Ich kann mich gut in den Chef hineinversetzen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-3",
+      "german": "sich integrieren in (+ Akk.)",
+      "example": "Er hat sich gut in das neue Team integriert.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-4",
+      "german": "investieren in (+ Akk.)",
+      "example": "Der Staat sollte mehr in Elektroautos investieren.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-5",
+      "german": "nachlassen in (+ Dat.)",
+      "example": "Er hat in seinen Leistungen leider sehr nachgelassen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-6",
+      "german": "übereinstimmen in (+ Dat.)",
+      "example": "Die Mitarbeitenden stimmten in diesem Punkt überein.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-7",
+      "german": "umrechnen in (+ Akk.)",
+      "example": "Die Bank hat die Dollar in Euro umgerechnet.",
+      "quiz": ""
+    }
+  ]
+}

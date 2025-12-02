@@ -1,0 +1,243 @@
+{
+  "sectionId": "1A",
+  "words": [
+    {
+      "id": "1A-1",
+      "german": "der Absolvent, -en",
+      "explanation": "Eine Person, die eine Schule oder eine Ausbildung erfolgreich beendet hat.",
+      "synonyms": [],
+      "example": "Der Absolvent sucht jetzt einen Job in seinem Fachbereich."
+    },
+    {
+      "id": "1A-2",
+      "german": "die Absolventin, -nen",
+      "explanation": "Eine Frau, die eine Schule oder eine Ausbildung erfolgreich beendet hat. Sie hat ihre Prüfungen bestanden.",
+      "synonyms": [],
+      "example": "Die Absolventin hat ihre Ausbildung mit sehr guten Noten abgeschlossen."
+    },
+    {
+      "id": "1A-3",
+      "german": "sich an passen an (+ Akk.)",
+      "explanation": "Sich an neue Situationen oder Bedingungen gewöhnen. Man ändert sein Verhalten, damit es zu etwas passt.",
+      "synonyms": [],
+      "example": "Er muss sich an die neuen Arbeitszeiten anpassen."
+    },
+    {
+      "id": "1A-4",
+      "german": "der Arbeitsberater, –",
+      "explanation": "Ein Mann, der Menschen hilft, den richtigen Beruf zu finden. Er gibt Tipps und Informationen über verschiedene Jobs.",
+      "synonyms": [],
+      "example": "Der Arbeitsberater hat mir bei der Berufswahl geholfen."
+    },
+    {
+      "id": "1A-5",
+      "german": "die Arbeitsberaterin, -nen",
+      "explanation": "Eine Frau, die Menschen hilft, den richtigen Beruf zu finden. Sie berät bei der Berufswahl.",
+      "synonyms": [],
+      "example": "Die Arbeitsberaterin erklärt verschiedene Berufsmöglichkeiten."
+    },
+    {
+      "id": "1A-6",
+      "german": "die Arbeitsteilung (Sg.)",
+      "explanation": "Wenn verschiedene Menschen verschiedene Aufgaben in einem Unternehmen machen. Jeder hat seine eigene Aufgabe.",
+      "synonyms": [],
+      "example": "Durch die Arbeitsteilung wird die Arbeit effizienter."
+    },
+    {
+      "id": "1A-7",
+      "german": "die Arbeitswelt (Sg.)",
+      "explanation": "Alles, was mit Arbeit und Beruf zu tun hat. Die Welt der Arbeit, in der Menschen ihren Job machen.",
+      "synonyms": [],
+      "example": "Die Arbeitswelt verändert sich durch die Digitalisierung."
+    },
+    {
+      "id": "1A-8",
+      "german": "aufgrund von (+ Dat.)",
+      "explanation": "Wegen etwas, aus einem bestimmten Grund.",
+      "synonyms": [],
+      "example": "Aufgrund der Digitalisierung müssen sich viele Arbeitnehmer weiterbilden."
+    },
+    {
+      "id": "1A-9",
+      "german": "die Bedeutung, -en",
+      "explanation": "Was etwas bedeutet oder wie wichtig etwas ist. Die Wichtigkeit von etwas.",
+      "synonyms": [],
+      "example": "Die Bedeutung von Fremdsprachen im Beruf wächst."
+    },
+    {
+      "id": "1A-10",
+      "german": "sich behaupten",
+      "explanation": "Sich durchsetzen und zeigen, dass man gut ist. Man beweist, dass man etwas kann, auch wenn es schwierig ist.",
+      "synonyms": [],
+      "example": "Im neuen Job muss er sich erst einmal behaupten."
+    },
+    {
+      "id": "1A-11",
+      "german": "der Berufsweg, -e",
+      "explanation": "Der Weg, den man im Beruf geht. Alle Jobs und Stationen, die man in seinem Arbeitsleben hat.",
+      "synonyms": [],
+      "example": "Sein Berufsweg führte ihn durch verschiedene Unternehmen."
+    },
+    {
+      "id": "1A-12",
+      "german": "die Digitalisierung (Sg.)",
+      "explanation": "Wenn immer mehr Dinge mit Computern und Technik gemacht werden. Die Arbeit wird digital, nicht mehr mit Papier.",
+      "synonyms": [],
+      "example": "Die Digitalisierung verändert viele Arbeitsplätze."
+    },
+    {
+      "id": "1A-13",
+      "german": "sich ein stellen auf (+ Akk.)",
+      "explanation": "Sich auf etwas Neues vorbereiten und darauf einstellen. Man bereitet sich auf eine neue Situation vor.",
+      "synonyms": [],
+      "example": "Sie muss sich auf die neue Arbeitsstelle einstellen."
+    },
+    {
+      "id": "1A-14",
+      "german": "erforderlich",
+      "explanation": "Notwendig, etwas, das man braucht. Etwas, das unbedingt nötig ist.",
+      "synonyms": [],
+      "example": "Für diese Stelle sind gute Deutschkenntnisse erforderlich."
+    },
+    {
+      "id": "1A-15",
+      "german": "erwerben",
+      "explanation": "Etwas bekommen oder lernen.",
+      "synonyms": [],
+      "example": "In der Ausbildung erwirbt man wichtige Fähigkeiten."
+    },
+    {
+      "id": "1A-16",
+      "german": "der Erwerbstätige, -n",
+      "explanation": "Ein Mann, der arbeitet und Geld verdient. Jemand, der einen Job hat.",
+      "synonyms": [],
+      "example": "Der Erwerbstätige arbeitet seit fünf Jahren in derselben Firma."
+    },
+    {
+      "id": "1A-17",
+      "german": "die Erwerbstätige, -n",
+      "explanation": "Eine Frau, die arbeitet und Geld verdient. Jemand, der einen Job hat.",
+      "synonyms": [],
+      "example": "Die Erwerbstätige hat einen guten Job gefunden."
+    },
+    {
+      "id": "1A-18",
+      "german": "der Freiberufler, –",
+      "explanation": "Ein Mann, der selbstständig arbeitet. Er hat keinen Chef und arbeitet für verschiedene Kunden.",
+      "synonyms": [],
+      "example": "Der Freiberufler arbeitet für verschiedene Unternehmen."
+    },
+    {
+      "id": "1A-19",
+      "german": "die Freiberuflerin, -nen",
+      "explanation": "Eine Frau, die selbstständig arbeitet. Sie hat keinen Chef und arbeitet für verschiedene Kunden.",
+      "synonyms": [],
+      "example": "Die Freiberuflerin hat viele verschiedene Projekte."
+    },
+    {
+      "id": "1A-20",
+      "german": "die Globalisierung (Sg.)",
+      "explanation": "Wenn die Welt immer mehr zusammenwächst. Unternehmen arbeiten mit Menschen aus vielen Ländern zusammen.",
+      "synonyms": [],
+      "example": "Die Globalisierung schafft neue Arbeitsmöglichkeiten."
+    },
+    {
+      "id": "1A-21",
+      "german": "die Herausforderung, -en",
+      "explanation": "Etwas Schwieriges, das man machen muss. Eine Aufgabe, die nicht einfach ist, aber wichtig.",
+      "synonyms": [],
+      "example": "Der neue Job ist eine große Herausforderung für sie."
+    },
+    {
+      "id": "1A-22",
+      "german": "interkulturelle Kompetenz",
+      "explanation": "Die Fähigkeit, gut mit Menschen aus verschiedenen Ländern und Kulturen zu arbeiten. Man versteht andere Kulturen.",
+      "synonyms": [],
+      "example": "Interkulturelle Kompetenz ist in vielen Berufen wichtig."
+    },
+    {
+      "id": "1A-23",
+      "german": "der Klimawandel (Sg.)",
+      "explanation": "Wenn sich das Wetter auf der Erde ändert. Es wird wärmer, und das ist ein Problem für die Umwelt.",
+      "synonyms": [],
+      "example": "Der Klimawandel beeinflusst auch die Arbeitswelt."
+    },
+    {
+      "id": "1A-24",
+      "german": "die Kompetenz, -en",
+      "explanation": "Die Fähigkeit, etwas gut zu können. Das Wissen und die Fertigkeiten, die man hat.",
+      "synonyms": [],
+      "example": "Für diese Stelle braucht man spezielle Kompetenzen."
+    },
+    {
+      "id": "1A-25",
+      "german": "modernisieren",
+      "explanation": "Etwas neu und modern machen. Man verbessert etwas und nutzt neue Technik.",
+      "synonyms": [],
+      "example": "Das Unternehmen möchte seine Arbeitsprozesse modernisieren."
+    },
+    {
+      "id": "1A-26",
+      "german": "die Neuorientierung, -en",
+      "explanation": "Wenn man eine neue Richtung im Leben oder Beruf wählt. Man ändert seinen Weg und macht etwas Neues.",
+      "synonyms": [],
+      "example": "Nach der Kündigung sucht er eine berufliche Neuorientierung."
+    },
+    {
+      "id": "1A-27",
+      "german": "sich nieder lassen",
+      "explanation": "Sich an einem Ort ansiedeln und dort bleiben.",
+      "synonyms": [],
+      "example": "Der Arzt möchte sich in dieser Stadt niederlassen."
+    },
+    {
+      "id": "1A-28",
+      "german": "ökologisch",
+      "explanation": "Gut für die Umwelt. Etwas, das die Natur schont und nicht schädlich ist.",
+      "synonyms": [],
+      "example": "Viele Unternehmen achten auf ökologische Arbeitsweisen."
+    },
+    {
+      "id": "1A-29",
+      "german": "das Pausengespräch, -e",
+      "explanation": "Ein Gespräch, das man in der Pause führt. Wenn Kollegen in der Arbeitspause miteinander reden.",
+      "synonyms": [],
+      "example": "Im Pausengespräch tauschen sich die Kollegen aus."
+    },
+    {
+      "id": "1A-30",
+      "german": "die Technologie, -n",
+      "explanation": "Moderne Technik und Geräte. Computer, Maschinen und andere technische Dinge, die man für die Arbeit nutzt.",
+      "synonyms": [],
+      "example": "Neue Technologien verändern die Arbeitswelt."
+    },
+    {
+      "id": "1A-31",
+      "german": "die Unterbrechung, -en",
+      "explanation": "Wenn etwas gestoppt wird und dann weitergeht. Eine Pause oder Störung bei der Arbeit.",
+      "synonyms": [],
+      "example": "Die Unterbrechung durch das Telefon störte die Besprechung."
+    },
+    {
+      "id": "1A-32",
+      "german": "das Unternehmen, –",
+      "explanation": "Eine Firma oder Organisation, wo Menschen arbeiten. Ein Betrieb, der Produkte herstellt oder Dienstleistungen anbietet.",
+      "synonyms": [],
+      "example": "Das Unternehmen sucht neue Mitarbeiter."
+    },
+    {
+      "id": "1A-33",
+      "german": "veralten",
+      "explanation": "Alt werden und nicht mehr modern sein. Etwas wird überholt und nicht mehr gebraucht.",
+      "synonyms": [],
+      "example": "Viele Berufe veralten durch die Digitalisierung."
+    },
+    {
+      "id": "1A-34",
+      "german": "vertrauen auf (+ Akk.)",
+      "explanation": "Glauben, dass jemand oder etwas zuverlässig ist. Man verlässt sich auf jemanden oder etwas.",
+      "synonyms": [],
+      "example": "Er vertraut auf die Unterstützung seiner Kollegen."
+    }
+  ]
+}

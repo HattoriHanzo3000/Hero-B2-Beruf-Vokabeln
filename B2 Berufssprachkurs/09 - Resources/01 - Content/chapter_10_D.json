@@ -1,0 +1,285 @@
+{
+  "sectionId": "10D",
+  "words": [
+    {
+      "id": "10D-1",
+      "german": "die Anwendung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-2",
+      "german": "ausgeprägt",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-3",
+      "german": "das Bankdarlehen, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-4",
+      "german": "das Bedürfnis, -se",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-5",
+      "german": "Bedürfnisse erfüllen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-6",
+      "german": "benutzerfreundlich",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-7",
+      "german": "der Bildungsverlag, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-8",
+      "german": "die Branchenkenntnis, -se",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-9",
+      "german": "der Businessplan, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-10",
+      "german": "das Darlehen, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-11",
+      "german": "das Eigenkapital (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-12",
+      "german": "erfolgsversprechend",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-13",
+      "german": "der Finanzplan, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-14",
+      "german": "die Fixkosten (Pl.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-15",
+      "german": "geschäftsführend",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-16",
+      "german": "das Geschäftsprofil, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-17",
+      "german": "der Gesellschafter, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-18",
+      "german": "die Gesellschafterin, -nen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-19",
+      "german": "die GmbH, -s (Gesellschaft mit beschränkter Haftung)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-20",
+      "german": "die Investitionskosten (Pl.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-21",
+      "german": "etw. integrieren",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-22",
+      "german": "das Know-how (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-23",
+      "german": "kompetent",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-24",
+      "german": "das Konkurrenzunternehmen, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-25",
+      "german": "die Kredithöhe,-n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-26",
+      "german": "die Laufzeit, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-27",
+      "german": "die Ratenzahlung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-28",
+      "german": "etw. realisieren",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-29",
+      "german": "die Rechtsform, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-30",
+      "german": "die Schufa-Auskunft, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-31",
+      "german": "das Sprachtraining, -s",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-32",
+      "german": "der Support, -s",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-33",
+      "german": "die Tilgung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-34",
+      "german": "umfassend",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-35",
+      "german": "der Umsatz, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-36",
+      "german": "die Umsetzung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-37",
+      "german": "sich verschärfen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-38",
+      "german": "vielfältig",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-39",
+      "german": "der Wettbewerb (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "10D-40",
+      "german": "die Zielgruppe, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    }
+  ]
+}

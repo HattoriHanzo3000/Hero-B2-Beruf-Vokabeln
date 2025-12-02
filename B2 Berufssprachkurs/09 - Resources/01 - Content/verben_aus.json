@@ -1,0 +1,29 @@
+{
+  "sectionId": "VERBEN_aus",
+  "words": [
+    {
+      "id": "VERBEN_aus-1",
+      "german": "bestehen aus (+ Dat.)",
+      "example": "Mein Vortrag besteht aus drei Teilen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_aus-2",
+      "german": "herauskommen aus (+ Dat.)",
+      "example": "Die Mitarbeiter sind aus ihren Büros herausgekommen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_aus-3",
+      "german": "sich zurückziehen aus (+ Dat.)",
+      "example": "Sie hat sich aus der Geschäftsführung zurückgezogen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_aus-4",
+      "german": "sich zusammensetzen aus (+ Dat.)",
+      "example": "Die Luft setzt sich aus verschiedenen Gasen zusammen.",
+      "quiz": ""
+    }
+  ]
+}

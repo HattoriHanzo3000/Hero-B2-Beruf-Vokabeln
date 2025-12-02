@@ -1,0 +1,95 @@
+{
+  "sectionId": "ADJEKTIVE_für",
+  "words": [
+    {
+      "id": "ADJEKTIVE_für-1",
+      "german": "angenehm für (+ Akk.)",
+      "example": "Das Arbeitsklima im Projekt war für die Mitarbeitenden sehr angenehm.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-2",
+      "german": "bekannt für (+ Akk.)",
+      "example": "Sie ist in der Abteilung für ihre Genauigkeit bekannt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-3",
+      "german": "berühmt für (+ Akk.)",
+      "example": "Die Firma ist für ihre Hebebühnen weltweit berühmt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-4",
+      "german": "dankbar für (+ Akk.)",
+      "example": "Die Chefin ist immer für Verbesserungsvorschläge dankbar.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-5",
+      "german": "entscheidend für (+ Akk.)",
+      "example": "Die gute Zusammenarbeit im Projekt war für den Erfolg entscheidend.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-6",
+      "german": "geeignet für (+ Akk.)",
+      "example": "Die Buchhaltungssoftware ist insbesondere für kleine Unternehmen geeignet.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-7",
+      "german": "offen für (+ Akk.)",
+      "example": "Wir sind für alle Verbesserungsvorschläge offen.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-8",
+      "german": "schädlich für (+ Akk.)",
+      "example": "Das Produktionsverfahren ist für die Umwelt nicht schädlich.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-9",
+      "german": "schwierig für (+ Akk.)",
+      "example": "Eine Umstrukturierung ist für die Mitarbeitenden immer schwierig.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-10",
+      "german": "typisch für (+ Akk.)",
+      "example": "Das ist mal wieder typisch für Sie.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-11",
+      "german": "unangenehm für (+ Akk.)",
+      "example": "Der Außendienstbericht war für den Verkaufsleiter sehr unangenehm.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-12",
+      "german": "ungeeignet für (+ Akk.)",
+      "example": "Er ist für diese Arbeit gänzlich ungeeignet.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-13",
+      "german": "verantwortlich für (+ Akk.)",
+      "example": "Frau Dr. Blum war für die Entwicklung des neuen Produkts verantwortlich.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-14",
+      "german": "wichtig für (+ Akk.)",
+      "example": "Unser Engagement ist für den Erfolg des Projekts ziemlich wichtig.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_für-15",
+      "german": "zuständig für (+ Akk.)",
+      "example": "Frau Duda ist für den Vertrieb zuständig.",
+      "quiz": ""
+    }
+  ]
+}

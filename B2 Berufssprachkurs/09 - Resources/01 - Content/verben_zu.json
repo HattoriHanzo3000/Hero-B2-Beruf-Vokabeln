@@ -1,0 +1,77 @@
+{
+  "sectionId": "VERBEN_zu",
+  "words": [
+    {
+      "id": "VERBEN_zu-1",
+      "german": "sich aufraffen zu (+ Dat.)",
+      "example": "Er raffte sich dazu auf, etwas für das Projekt zu tun.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-2",
+      "german": "beitragen zu (+ Dat.)",
+      "example": "Sie hat viel zum Erfolg des Teams beigetragen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-3",
+      "german": "drängen zu (+ Dat.)",
+      "example": "Sie drängte ihn zum Einverständnis.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-4",
+      "german": "einladen zu (+ Dat.)",
+      "example": "Die Geschäftsführung hat Journalisten zum Pressefest eingeladen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-5",
+      "german": "sich entwickeln zu (+ Dat.)",
+      "example": "Er hat sich zu einem guten Mitarbeiter entwickelt.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-6",
+      "german": "führen zu (+ Dat.)",
+      "example": "Diese Diskussion führt zu keinem Ergebnis.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-7",
+      "german": "gehören zu (+ Dat.)",
+      "example": "Gehören Sie auch zu dieser Firma?",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-8",
+      "german": "gratulieren zu (+ Dat.)",
+      "example": "Ich gratuliere dir zum Geburtstag.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-9",
+      "german": "kommen zu (+ Dat.)",
+      "example": "Wegen des Nebels kam es zu vielen Unfällen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-10",
+      "german": "meinen zu (+ Dat.)",
+      "example": "Was meinen Sie zu meinem Vorschlag?",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-11",
+      "german": "passen zu (+ Dat.)",
+      "example": "Welche Fähigkeiten von Ihnen passen zu diesem Beruf?",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-12",
+      "german": "wählen zu (+ Dat.)",
+      "example": "Michaela König wurde gestern zur Betriebsrätin gewählt.",
+      "quiz": ""
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "sectionId": "VERBEN_von",
+  "words": [
+    {
+      "id": "VERBEN_von-1",
+      "german": "abweichen von (+ Dat.)",
+      "example": "Bitte weichen Sie nicht vom Thema ab.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-2",
+      "german": "berichten von (+ Dat.)",
+      "example": "Der Kollege berichtet von seiner letzten Dienstreise nach Wien.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-3",
+      "german": "sich entfernen von (+ Dat.)",
+      "example": "Er entfernte sich vom Tatort.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-4",
+      "german": "sich erholen von (+ Dat.)",
+      "example": "Sie hat sich gut von dem Unfall erholt.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-5",
+      "german": "sich erstrecken von (+ Dat.)",
+      "example": "Die Alpen erstrecken sich von Frankreich bis (nach) Slowenien.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-6",
+      "german": "erzählen von (+ Dat.)",
+      "example": "Eine Wissenschaftlerin hat mir von ihrem Beruf erzählt.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-7",
+      "german": "halten von (+ Dat.)",
+      "example": "Was halten Sie von der Idee?",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-8",
+      "german": "handeln von (+ Dat.)",
+      "example": "Der Film handelt von einem Migranten in Deutschland.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-9",
+      "german": "hören von (+ Dat.)",
+      "example": "Ich habe schon viel von Ihnen gehört.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-10",
+      "german": "sich losreißen von (+ Dat.)",
+      "example": "Ich konnte mich von der Arbeit nicht losreißen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-11",
+      "german": "profitieren von (+ Dat.)",
+      "example": "Wir alle haben von ihren Ideen profitiert.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-12",
+      "german": "reden von (+ Dat.)",
+      "example": "Alle reden nur noch von diesem Film.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-13",
+      "german": "schwärmen von (+ Dat.)",
+      "example": "Sie schwärmen von ihrem letzten Urlaub.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-14",
+      "german": "sprechen von (+ Dat.)",
+      "example": "In der Mittagspause sprachen alle vom Wetter.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-15",
+      "german": "träumen von (+ Dat.)",
+      "example": "Ich träume von der Zukunft.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-16",
+      "german": "sich trennen von (+ Dat.)",
+      "example": "Wir sollten uns von diesem Mitarbeiter trennen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-17",
+      "german": "sich unterscheiden von (+ Dat.)",
+      "example": "Die neue Chefin unterscheidet sich stark von dem alten Chef.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-18",
+      "german": "sich verabschieden von (+ Dat.)",
+      "example": "So, jetzt muss ich mich von Ihnen verabschieden.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-19",
+      "german": "wissen von (+ Dat.)",
+      "example": "Wissen Sie schon von unserem neuesten Projekt?",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_von-20",
+      "german": "sich zurückziehen von (+ Dat.)",
+      "example": "Sie hat sich von dem Projekt zurückgezogen.",
+      "quiz": ""
+    }
+  ]
+}

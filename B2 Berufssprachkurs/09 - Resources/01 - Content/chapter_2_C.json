@@ -1,0 +1,285 @@
+{
+  "sectionId": "2C",
+  "words": [
+    {
+      "id": "2C-1",
+      "german": "das Arbeitsmittel, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-2",
+      "german": "der Arbeitsschutz (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-3",
+      "german": "etw. befolgen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-4",
+      "german": "etw./jdn. behindern",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-5",
+      "german": "etw. betätigen (z.B. den Brandmelder)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-6",
+      "german": "der Brandmelder, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-7",
+      "german": "der Brandschutz (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-8",
+      "german": "das Brandschutzzeichen, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-9",
+      "german": "dreieckig",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-10",
+      "german": "etw. einschlagen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-11",
+      "german": "etw. entsorgen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-12",
+      "german": "der Feuerlöscher, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-13",
+      "german": "der Feuermelder, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-14",
+      "german": "der Flucht- und Rettungsweg, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-15",
+      "german": "etw. freihalten",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-16",
+      "german": "das Gebotszeichen, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-17",
+      "german": "die Glasscheibe, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-18",
+      "german": "hinweisen auf (+ Akk.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-19",
+      "german": "das Hinweisschild, -er",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-20",
+      "german": "etw. löschen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-21",
+      "german": "der Notausgang, \"-e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-22",
+      "german": "die Pflicht, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-23",
+      "german": "quadratisch",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-24",
+      "german": "das Rettungszeichen, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-25",
+      "german": "die Schutzausrüstung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-26",
+      "german": "die Schutzbrille, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-27",
+      "german": "etw./jdn. schützen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-28",
+      "german": "der Schutzhelm, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-29",
+      "german": "der Sicherheitshinweis, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-30",
+      "german": "der Sicherheitsschuh, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-31",
+      "german": "die Sicherheitsvorschrift, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-32",
+      "german": "die Stolpergefahr, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-33",
+      "german": "die Straßenverkehrsordnung (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-34",
+      "german": "das Verbotsschild, -er",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-35",
+      "german": "das Verbotszeichen, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-36",
+      "german": "etw. vermeiden",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-37",
+      "german": "die Verordnung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-38",
+      "german": "verpflichtet",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-39",
+      "german": "etw. verstauen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2C-40",
+      "german": "das Warnzeichen, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    }
+  ]
+}

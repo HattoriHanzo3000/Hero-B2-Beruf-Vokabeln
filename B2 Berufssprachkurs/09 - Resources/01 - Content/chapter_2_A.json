@@ -1,0 +1,320 @@
+{
+  "sectionId": "2A",
+  "words": [
+    {
+      "id": "2A-1",
+      "german": "die Arbeitslosenquote, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-2",
+      "german": "auffallen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-3",
+      "german": "das Baugewerbe (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-4",
+      "german": "etw. bearbeiten",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-5",
+      "german": "etw./jdn. beaufsichtigen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-6",
+      "german": "befristet",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-7",
+      "german": "der Beschäftigte, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-8",
+      "german": "die Beschäftigte, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-9",
+      "german": "etw./jdn. betreuen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-10",
+      "german": "die Branche, -n",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-11",
+      "german": "die Dienstleistung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-12",
+      "german": "die Finanzbranche (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-13",
+      "german": "der Fluggerätemechaniker, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-14",
+      "german": "die Fluggerätemechanikerin, -nen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-15",
+      "german": "das Gastgewerbe (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-16",
+      "german": "das Gesundheitswesen (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-17",
+      "german": "das Gewerbe (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-18",
+      "german": "die Gleitzeit (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-19",
+      "german": "der Handel (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-20",
+      "german": "das Handwerk (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-21",
+      "german": "hervorgehen aus (+ Dat.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-22",
+      "german": "das Homeoffice (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-23",
+      "german": "Hotel und Gastronomie (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-24",
+      "german": "die IT-Branche (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-25",
+      "german": "kaufmännisch",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-26",
+      "german": "die Konjunktur (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-27",
+      "german": "die Lagerlogistik (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-28",
+      "german": "die Land- und Forstwirtschaft (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-29",
+      "german": "(den Schluss) nahelegen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-30",
+      "german": "das Pflegeheim, -e",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-31",
+      "german": "produzierendes Gewerbe",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-32",
+      "german": "die Reservierung, -en",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-33",
+      "german": "die Schichtarbeit (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-34",
+      "german": "der Server, –",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-35",
+      "german": "sozialversicherungspflichtig",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-36",
+      "german": "stabil",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-37",
+      "german": "die Teilzeit (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-38",
+      "german": "etw. überwachen",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-39",
+      "german": "etw. verwalten",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-40",
+      "german": "die Vollzeit (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-41",
+      "german": "der Vollzeitjob, -s",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-42",
+      "german": "etw. warten (z.B. eine Maschine)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-43",
+      "german": "die Wirtschaftsbranche (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-44",
+      "german": "etw. zubereiten",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    },
+    {
+      "id": "2A-45",
+      "german": "die Zuverlässigkeit (Sg.)",
+      "explanation": "",
+      "synonyms": [],
+      "example": ""
+    }
+  ]
+}

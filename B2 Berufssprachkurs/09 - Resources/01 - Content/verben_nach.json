@@ -1,0 +1,35 @@
+{
+  "sectionId": "VERBEN_nach",
+  "words": [
+    {
+      "id": "VERBEN_nach-1",
+      "german": "fragen nach (+ Dat.)",
+      "example": "Yvonne hat mich nach meinen Plänen für die Zukunft gefragt.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_nach-2",
+      "german": "riechen nach (+ Dat.)",
+      "example": "Hier riecht es nach Farbe.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_nach-3",
+      "german": "rufen nach (+ Dat.)",
+      "example": "Er rief nach dem Kellner, aber der kam nicht.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_nach-4",
+      "german": "schmecken nach (+ Dat.)",
+      "example": "Dieses Eis schmeckt nach Apfel.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_nach-5",
+      "german": "sehen nach (+ Dat.)",
+      "example": "Ich sehe mal schnell nach der noch fehlenden Kollegin.",
+      "quiz": ""
+    }
+  ]
+}
