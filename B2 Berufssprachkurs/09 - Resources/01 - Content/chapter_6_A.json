@@ -4,191 +4,191 @@
     {
       "id": "6A-1",
       "german": "die Anweisung, -en",
-      "explanation": "",
+      "explanation": "Eine Anleitung oder ein Befehl, wie etwas gemacht werden soll.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie befolgt die Anweisungen des Vorgesetzten."
     },
     {
       "id": "6A-2",
       "german": "das Ersatzfahrzeug, -e",
-      "explanation": "",
+      "explanation": "Ein Fahrzeug, das man vorübergehend nutzt, wenn das eigene nicht verfügbar ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Ersatzfahrzeug steht bereit."
     },
     {
       "id": "6A-3",
       "german": "das Ersatzteil, -e",
-      "explanation": "",
+      "explanation": "Ein Teil, das ein defektes Teil ersetzt.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Ersatzteil wird nächste Woche geliefert."
     },
     {
       "id": "6A-4",
       "german": "das Fahrzeug, -e",
-      "explanation": "",
+      "explanation": "Ein Auto oder ein anderes Transportmittel.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Fahrzeug wird regelmäßig gewartet."
     },
     {
       "id": "6A-5",
       "german": "der Gebrauchtwagen, –",
-      "explanation": "",
+      "explanation": "Ein Auto, das bereits benutzt wurde.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Gebrauchtwagen wird vor dem Kauf geprüft."
     },
     {
       "id": "6A-6",
       "german": "die Gehaltsabrechnung, -en",
-      "explanation": "",
+      "explanation": "Ein Dokument, das zeigt, wie viel Gehalt man bekommt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Gehaltsabrechnung kommt monatlich per Post."
     },
     {
       "id": "6A-7",
       "german": "die Inspektion, -en",
-      "explanation": "",
+      "explanation": "Eine Überprüfung oder Wartung eines Fahrzeugs.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Inspektion des Fahrzeugs ist fällig."
     },
     {
       "id": "6A-8",
       "german": "jdn. kontaktieren",
-      "explanation": "",
+      "explanation": "Mit jemandem Kontakt aufnehmen oder sich melden.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie kontaktiert den Kundenservice bei Fragen."
     },
     {
       "id": "6A-9",
       "german": "der Kundenservice (Sg.)",
-      "explanation": "",
+      "explanation": "Die Abteilung, die Kunden bei Fragen und Problemen hilft.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Kundenservice ist telefonisch erreichbar."
     },
     {
       "id": "6A-10",
       "german": "etw. lackieren",
-      "explanation": "",
+      "explanation": "Etwas mit Lack streichen oder bemalen.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie lässt das Fahrzeug neu lackieren."
     },
     {
       "id": "6A-11",
       "german": "der Liefertermin, -e",
-      "explanation": "",
+      "explanation": "Der Termin, an dem etwas geliefert wird.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Liefertermin ist für nächste Woche vereinbart."
     },
     {
       "id": "6A-12",
       "german": "die Lieferverzögerung, -en",
-      "explanation": "",
+      "explanation": "Wenn eine Lieferung später kommt als geplant.",
       "synonyms": [],
-      "example": ""
+      "example": "Lieferverzögerungen können manchmal vorkommen."
     },
     {
       "id": "6A-13",
       "german": "der Montagetermin, -e",
-      "explanation": "",
+      "explanation": "Der Termin, an dem etwas montiert oder eingebaut wird.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Montagetermin ist für nächsten Montag geplant."
     },
     {
       "id": "6A-14",
       "german": "der Neuwagen, –",
-      "explanation": "",
+      "explanation": "Ein Auto, das noch nie benutzt wurde.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Neuwagen wird direkt vom Händler geliefert."
     },
     {
       "id": "6A-15",
       "german": "preisgünstig",
-      "explanation": "",
+      "explanation": "Zu einem guten Preis oder günstig.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Angebot ist sehr preisgünstig."
     },
     {
       "id": "6A-16",
       "german": "das Reifenlager, –",
-      "explanation": "",
+      "explanation": "Ein Lager, in dem Reifen aufbewahrt werden.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Reifenlager ist gut gefüllt."
     },
     {
       "id": "6A-17",
       "german": "der Reparaturauftrag, \"-e",
-      "explanation": "",
+      "explanation": "Ein Auftrag, etwas zu reparieren.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Reparaturauftrag wird sofort bearbeitet."
     },
     {
       "id": "6A-18",
       "german": "der Sommerreifen, –",
-      "explanation": "",
+      "explanation": "Ein Reifen, der für den Sommer geeignet ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Sommerreifen werden im Frühjahr montiert."
     },
     {
       "id": "6A-19",
       "german": "verhandeln",
-      "explanation": "",
+      "explanation": "Über etwas sprechen, um eine Einigung zu erreichen.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie verhandelt über den Preis des Fahrzeugs."
     },
     {
       "id": "6A-20",
       "german": "vermitteln",
-      "explanation": "",
+      "explanation": "Etwas weitergeben oder organisieren.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie vermittelt zwischen Kunde und Werkstatt."
     },
     {
       "id": "6A-21",
       "german": "der Vertriebsleiter, –",
-      "explanation": "",
+      "explanation": "Ein Mann, der den Vertrieb leitet.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Vertriebsleiter koordiniert alle Verkäufe."
     },
     {
       "id": "6A-22",
       "german": "die Vertriebsleiterin, -nen",
-      "explanation": "",
+      "explanation": "Eine Frau, die den Vertrieb leitet.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Vertriebsleiterin plant die Verkaufsstrategie."
     },
     {
       "id": "6A-23",
       "german": "vorgehen",
-      "explanation": "",
+      "explanation": "Etwas auf eine bestimmte Weise machen oder handeln.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie geht systematisch vor."
     },
     {
       "id": "6A-24",
       "german": "der Wagenpark, -s",
-      "explanation": "",
+      "explanation": "Alle Fahrzeuge, die ein Unternehmen besitzt.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Wagenpark wird regelmäßig gewartet."
     },
     {
       "id": "6A-25",
       "german": "das Werbegeschenk, -e",
-      "explanation": "",
+      "explanation": "Ein Geschenk, das zur Werbung verschenkt wird.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Werbegeschenk wird an Kunden verteilt."
     },
     {
       "id": "6A-26",
       "german": "den Wert schätzen",
-      "explanation": "",
+      "explanation": "Den Wert von etwas einschätzen oder bewerten.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie schätzt den Wert des Gebrauchtwagens."
     },
     {
       "id": "6A-27",
       "german": "der Winterreifen, –",
-      "explanation": "",
+      "explanation": "Ein Reifen, der für den Winter geeignet ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Winterreifen werden im Herbst montiert."
     }
   ]
 }

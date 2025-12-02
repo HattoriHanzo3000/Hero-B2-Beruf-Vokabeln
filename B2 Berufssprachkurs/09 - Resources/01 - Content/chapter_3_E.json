@@ -4,93 +4,93 @@
     {
       "id": "3E-1",
       "german": "angespannt",
-      "explanation": "",
+      "explanation": "Sehr gestresst oder nervös.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie ist wegen der Wohnungssuche sehr angespannt."
     },
     {
       "id": "3E-2",
       "german": "die Bescheinigung, -en",
-      "explanation": "",
+      "explanation": "Ein offizielles Dokument, das etwas bestätigt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Bescheinigung über das Einkommen ist erforderlich."
     },
     {
       "id": "3E-3",
       "german": "der Besichtigungstermin, -e",
-      "explanation": "",
+      "explanation": "Ein Termin, um eine Wohnung oder ein Haus anzuschauen.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Besichtigungstermin ist nächste Woche."
     },
     {
       "id": "3E-4",
       "german": "betragen",
-      "explanation": "",
+      "explanation": "Eine bestimmte Summe oder Menge haben.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Miete beträgt 800 Euro."
     },
     {
       "id": "3E-5",
       "german": "deprimierend",
-      "explanation": "",
+      "explanation": "Sehr traurig und entmutigend.",
       "synonyms": [],
-      "example": ""
+      "example": "Eine lange Ablehnung kann deprimierend sein."
     },
     {
       "id": "3E-6",
       "german": "das Familieneinkommen, –",
-      "explanation": "",
+      "explanation": "Das gesamte Einkommen einer Familie.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Familieneinkommen muss nachgewiesen werden."
     },
     {
       "id": "3E-7",
       "german": "der Gehaltsnachweis, -e",
-      "explanation": "",
+      "explanation": "Ein Dokument, das das Einkommen zeigt.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Gehaltsnachweis ist für die Wohnungsbewerbung nötig."
     },
     {
       "id": "3E-8",
       "german": "gemeinsam",
-      "explanation": "",
+      "explanation": "Zusammen mit anderen.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie suchen gemeinsam nach einer Wohnung."
     },
     {
       "id": "3E-9",
       "german": "die Immobilie, -n",
-      "explanation": "",
+      "explanation": "Ein Haus oder eine Wohnung, die man kaufen oder mieten kann.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Immobilie befindet sich in der Innenstadt."
     },
     {
       "id": "3E-10",
       "german": "der Makler, –",
-      "explanation": "",
+      "explanation": "Ein Mann, der beim Kauf oder Mieten von Immobilien hilft.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Makler zeigt ihr verschiedene Wohnungen."
     },
     {
       "id": "3E-11",
       "german": "die Maklerin, -nen",
-      "explanation": "",
+      "explanation": "Eine Frau, die beim Kauf oder Mieten von Immobilien hilft.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Maklerin berät sie bei der Wohnungssuche."
     },
     {
       "id": "3E-12",
       "german": "die Mietschulden (Pl.)",
-      "explanation": "",
+      "explanation": "Geld, das man für die Miete schuldet und noch nicht bezahlt hat.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Mietschulden müssen sofort beglichen werden."
     },
     {
       "id": "3E-13",
       "german": "mühsam",
-      "explanation": "",
+      "explanation": "Schwierig und anstrengend.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Wohnungssuche kann manchmal mühsam sein."
     }
   ]
 }
