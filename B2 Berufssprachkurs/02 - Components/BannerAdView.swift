@@ -37,10 +37,13 @@ struct BannerAdView: UIViewRepresentable {
 struct BannerAd: View {
     @AppStorage("adsDisabledUntil") private var adsDisabledUntil: TimeInterval = 0
     @ObservedObject private var promoCodeManager = PromoCodeManager.shared
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     
     private var isPremiumActive: Bool {
         let now = Date().timeIntervalSince1970
-        return adsDisabledUntil > now || promoCodeManager.isPremiumActive
+        return adsDisabledUntil > now || 
+               promoCodeManager.isPremiumActive || 
+               subscriptionManager.isPremiumActive
     }
     
     var body: some View {

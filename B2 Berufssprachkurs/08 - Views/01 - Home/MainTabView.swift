@@ -44,7 +44,6 @@ struct MainTabView: View {
             .tabItem {
                 Label(TabItem.home.localizedTitle, systemImage: TabItem.home.icon)
             }
-            .id("homeTab_\(languageManager.currentLanguage)")
             
             // Premium Tab
             NavigationStack {
@@ -55,7 +54,6 @@ struct MainTabView: View {
             .tabItem {
                 Label(TabItem.premium.localizedTitle, systemImage: TabItem.premium.icon)
             }
-            .id("premiumTab_\(languageManager.currentLanguage)")
             
             // Cockpit Tab
             NavigationStack {
@@ -66,9 +64,7 @@ struct MainTabView: View {
             .tabItem {
                 Label(TabItem.cockpit.localizedTitle, systemImage: TabItem.cockpit.icon)
             }
-            .id("cockpitTab_\(languageManager.currentLanguage)")
         }
-        .id("tabView_\(languageManager.currentLanguage)")
         .environmentObject(dataService)
         .onAppear {
             setupLiquidGlassTabBar()

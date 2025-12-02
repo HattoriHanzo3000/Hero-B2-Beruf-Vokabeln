@@ -312,6 +312,7 @@ struct StudyView: View {
                     let synonym = word.synonyms?.first
                     let explanation = word.explanation?.isEmpty == false ? word.explanation : nil
                     let translation = word.translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : word.translation
+                    let example = word.example?.isEmpty == false ? word.example : nil
                     
                     // Only include if at least one content type is available
                     if synonym != nil || explanation != nil || translation != nil {
@@ -323,7 +324,7 @@ struct StudyView: View {
                             explanation: explanation,
                             translation: translation,
                             quiz: nil,
-                            example: nil,
+                            example: example,
                             isVerbenSection: false
                         ))
                     }
@@ -1346,17 +1347,26 @@ struct FlashCardView2: View {
                                 .multilineTextAlignment(.center)
                         }
                     } else {
-                        // For regular sections, show backText as before
-                        Text(backText)
+                        // For regular sections, show German word in bold, then example
+                        Text(studyItem.germanWord)
                             .font(.title2)
-                            .fontWeight(.semibold)
+                            .fontWeight(.bold)
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
+                        
+                        // Show example sentence below in gray and smaller font (if available)
+                        if let example = studyItem.example, !example.isEmpty {
+                            Text(example)
+                                .font(.body)
+                                .fontWeight(.regular)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                        }
                     }
                 }
                 .padding(.horizontal, 32)
             }
-            .accessibilityLabel("Card back: \(backText)\(studyItem.isVerbenSection ? ". German word: \(studyItem.germanWord)" : "")")
+            .accessibilityLabel("Card back: \(studyItem.germanWord)\(studyItem.example != nil ? ". Example: \(studyItem.example ?? "")" : "")")
             .accessibilityHint("Tap to flip card")
             .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
             .frame(height: 400)

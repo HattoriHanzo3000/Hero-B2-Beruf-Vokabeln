@@ -177,5 +177,9 @@ extension Localizable {
     // Favorites Empty State
     static let noFavoritesFound = "no_favorites_found"
     static let noFavoritesFoundMessage = "no_favorites_found_message"
+    
+    // Premium Lock
+    static let premiumRequired = "premium_required"
+    static let unlockPremiumToUseFeature = "unlock_premium_to_use_feature"
 }
 

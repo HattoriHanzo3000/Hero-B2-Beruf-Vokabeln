@@ -1,6 +1,24 @@
 {
-  "originHash" : "3b9752ff554d5fdc91a7c01c2322a5d851b0979c36f02eb55188d9ab9e3d7e77",
+  "originHash" : "79fc713cf03fdd5d715c67991301099162f0f034a029321e7ee7d20c936036f6",
   "pins" : [
+    {
+      "identity" : "superscript-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/superwall/Superscript-iOS",
+      "state" : {
+        "revision" : "bde42f1c7652a69a469677978ed97cba92c4dd2c",
+        "version" : "1.0.10"
+      }
+    },
+    {
+      "identity" : "superwall-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/superwall/Superwall-iOS",
+      "state" : {
+        "revision" : "886c35c556bdac8f8fda6c765239aa908c16e4e5",
+        "version" : "4.10.6"
+      }
+    },
     {
       "identity" : "swift-package-manager-google-mobile-ads",
       "kind" : "remoteSourceControl",

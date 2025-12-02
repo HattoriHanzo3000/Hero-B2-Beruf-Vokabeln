@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HeaderView: View {
     @ObservedObject var dataService: DataService
+    @ObservedObject private var languageManager = LanguageManager.shared
     @State private var wordOfTheDay: Word? = nil
     @State private var showMascotGif = false
     @State private var gifPlayToken: UUID = UUID()
@@ -30,10 +31,16 @@ struct HeaderView: View {
             // 5 rows of text content
             VStack(alignment: .leading, spacing: 8) {
                 // Row 1: "Word of the Day" label
-                Text(Localizable.string(Localizable.wordOfTheDay))
-                    .font(.body)
-                    .fontWeight(.regular)
-                    .foregroundColor(.white.opacity(0.8))
+                HStack(spacing: 6) {
+                    Image(systemName: "calendar")
+                        .font(.body)
+                        .foregroundColor(.white.opacity(0.8))
+                    Text(Localizable.string(Localizable.wordOfTheDay))
+                        .font(.body)
+                        .fontWeight(.regular)
+                        .foregroundColor(.white.opacity(0.8))
+                        .id("wordOfTheDayLabel_\(languageManager.currentLanguage)")
+                }
                 
                 // Row 2: Word of the day
                 if let word = wordOfTheDay {
@@ -44,42 +51,23 @@ struct HeaderView: View {
                     
                     // Row 3: Explanation
                     if let explanation = word.explanation, !explanation.isEmpty {
-                        HStack(alignment: .top, spacing: 4) {
-                            Text("erkl.:")
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                            Text(explanation)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                        }
-                        .foregroundColor(.white.opacity(0.9))
-                        .lineLimit(2)
+                        Text(attributedText(label: "erkl: ", value: explanation))
+                            .foregroundColor(.white.opacity(0.9))
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                     
                     // Row 4: Synonym
                     if let synonyms = word.synonyms, let firstSynonym = synonyms.first {
-                        HStack(spacing: 4) {
-                            Text("syn.:")
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                            Text(firstSynonym)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                        }
-                        .foregroundColor(.white.opacity(0.9))
+                        Text(attributedText(label: "syn: ", value: firstSynonym))
+                            .foregroundColor(.white.opacity(0.9))
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                     
                     // Row 5: Translation
                     if !word.translation.isEmpty && word.translation.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-                        HStack(spacing: 4) {
-                            Text("übers.:")
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                            Text(word.translation)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                        }
-                        .foregroundColor(.white.opacity(0.9))
+                        Text(attributedText(label: "übers: ", value: word.translation))
+                            .foregroundColor(.white.opacity(0.9))
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 } else {
                     // Empty state
@@ -210,6 +198,17 @@ struct HeaderView: View {
     
     private func updateWordOfTheDay() {
         wordOfTheDay = dataService.getWordOfTheDay()
+    }
+    
+    private func attributedText(label: String, value: String, labelFont: Font = .caption.weight(.semibold), valueFont: Font = .caption.weight(.regular)) -> AttributedString {
+        var fullText = AttributedString("\(label)\(value)")
+        if let labelRange = fullText.range(of: label) {
+            fullText[labelRange].font = labelFont
+        }
+        if let valueRange = fullText.range(of: value) {
+            fullText[valueRange].font = valueFont
+        }
+        return fullText
     }
     
     private func startAutoPlay() {

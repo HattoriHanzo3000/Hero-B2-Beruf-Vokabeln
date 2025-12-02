@@ -40,6 +40,19 @@ struct FavoritesView: View {
         focusedWordId = nextWordId
     }
     
+    private func attributedText(label: String, value: String, labelFont: Font = .caption.weight(.semibold), valueFont: Font = .caption, labelColor: Color = .secondary, valueColor: Color = .primary) -> AttributedString {
+        var fullText = AttributedString("\(label)\(value)")
+        if let labelRange = fullText.range(of: label) {
+            fullText[labelRange].font = labelFont
+            fullText[labelRange].foregroundColor = labelColor
+        }
+        if let valueRange = fullText.range(of: value) {
+            fullText[valueRange].font = valueFont
+            fullText[valueRange].foregroundColor = valueColor
+        }
+        return fullText
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -237,24 +250,31 @@ struct FavoritesView: View {
                 }
             }
             
-            // Üben button at the bottom (always active)
-            Button {
-                HapticManager.shared.mediumImpact()
-                navigateToStudy = true
-            } label: {
-                Text(Localizable.string(Localizable.practice))
-                    .font(.headline.weight(.semibold))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(
-                        Capsule(style: .continuous)
-                            .fill(Color.yellow)
-                    )
-                    .shadow(color: Color.yellow.opacity(0.3), radius: 8, x: 0, y: 4)
+            // Üben button and Banner Ad at the bottom
+            VStack(spacing: 0) {
+                // Üben button (always active)
+                Button {
+                    HapticManager.shared.mediumImpact()
+                    navigateToStudy = true
+                } label: {
+                    Text(Localizable.string(Localizable.practice))
+                        .font(.headline.weight(.semibold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(
+                            Capsule(style: .continuous)
+                                .fill(Color.yellow)
+                        )
+                        .shadow(color: Color.yellow.opacity(0.3), radius: 8, x: 0, y: 4)
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 8)
+                
+                // Fixed Banner Ad at the bottom
+                BannerAd()
+                    .background(Color.yellow.opacity(0.08))
             }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 20)
         }
     }
     
@@ -383,6 +403,19 @@ struct FavoriteWordRow: View {
     
     @State private var localTranslation: String = ""
     
+    private func attributedText(label: String, value: String, labelFont: Font = .caption.weight(.semibold), valueFont: Font = .caption, labelColor: Color = .secondary, valueColor: Color = .primary) -> AttributedString {
+        var fullText = AttributedString("\(label)\(value)")
+        if let labelRange = fullText.range(of: label) {
+            fullText[labelRange].font = labelFont
+            fullText[labelRange].foregroundColor = labelColor
+        }
+        if let valueRange = fullText.range(of: value) {
+            fullText[valueRange].font = valueFont
+            fullText[valueRange].foregroundColor = valueColor
+        }
+        return fullText
+    }
+    
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             // Star on the left (yellow when favorited)
@@ -420,32 +453,16 @@ struct FavoriteWordRow: View {
             VStack(alignment: .leading, spacing: 6) {
                 // Row 1: Explanation
                 if let explanation = word.explanation, !explanation.isEmpty {
-                    HStack(alignment: .top, spacing: 4) {
-                        Text("erkl.:")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
-                        Text(explanation)
-                            .font(.caption)
-                            .foregroundColor(.primary)
-                    }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel("Explanation: \(explanation)")
+                    Text(attributedText(label: "erkl: ", value: explanation))
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityLabel("Explanation: \(explanation)")
                 }
                 
                 // Row 2: Synonyms
                 if let synonyms = word.synonyms, !synonyms.isEmpty {
-                    HStack(alignment: .top, spacing: 4) {
-                        Text("syn.:")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
-                        Text(synonyms.joined(separator: ", "))
-                            .font(.caption)
-                            .foregroundColor(.primary)
-                    }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel("Synonyms: \(synonyms.joined(separator: ", "))")
+                    let synonymsText = synonyms.joined(separator: ", ")
+                    Text(attributedText(label: "syn: ", value: synonymsText))
+                        .accessibilityLabel("Synonyms: \(synonymsText)")
                 }
                 
                 // Row 3: Translation input field

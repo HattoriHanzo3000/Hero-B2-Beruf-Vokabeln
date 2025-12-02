@@ -154,6 +154,74 @@ class SpacedRepetitionService {
         saveStudyData()
     }
     
+    // MARK: - Progress Statistics
+    
+    /// Get progress statistics by level for all words across all modes
+    /// - Parameter allWordIds: Array of all word IDs to calculate statistics for
+    /// - Returns: Tuple with counts for wrong, familiar, reinforced, mastered, and total
+    func getProgressByLevel(allWordIds: [String]) -> (wrong: Int, familiar: Int, reinforced: Int, mastered: Int, total: Int) {
+        var wrong = 0
+        var familiar = 0
+        var reinforced = 0
+        var mastered = 0
+        
+        // Count each word's highest achievement across all modes
+        var wordMaxRepetitions: [String: Int] = [:]
+        
+        for wordId in allWordIds {
+            var maxRepetitions = 0
+            var hasBeenReviewed = false
+            
+            // Check all modes for this word
+            for mode in [StudyMode.synonyms, StudyMode.explanation, StudyMode.translations, StudyMode.example] {
+                let data = getStudyData(wordId: wordId, mode: mode)
+                if data.lastReviewDate != nil {
+                    hasBeenReviewed = true
+                    maxRepetitions = max(maxRepetitions, data.repetitions)
+                }
+            }
+            
+            if hasBeenReviewed {
+                wordMaxRepetitions[wordId] = maxRepetitions
+            }
+        }
+        
+        // Categorize words based on their maximum repetitions
+        for (_, repetitions) in wordMaxRepetitions {
+            switch repetitions {
+            case 0:
+                wrong += 1
+            case 1:
+                familiar += 1
+            case 2:
+                reinforced += 1
+            default: // 3 or more
+                mastered += 1
+            }
+        }
+        
+        let total = allWordIds.count
+        return (wrong, familiar, reinforced, mastered, total)
+    }
+    
+    /// Calculate readiness percentage based on progress
+    /// - Parameter allWordIds: Array of all word IDs
+    /// - Returns: Readiness percentage (0-100)
+    func getReadinessPercentage(allWordIds: [String]) -> Int {
+        guard !allWordIds.isEmpty else { return 0 }
+        
+        let progress = getProgressByLevel(allWordIds: allWordIds)
+        
+        // Weighted calculation: wrong=0, familiar=1, reinforced=2, mastered=3
+        let totalPoints = progress.wrong * 0 + progress.familiar * 1 + progress.reinforced * 2 + progress.mastered * 3
+        let maxPossiblePoints = progress.total * 3
+        
+        guard maxPossiblePoints > 0 else { return 0 }
+        
+        let percentage = Int((Double(totalPoints) / Double(maxPossiblePoints)) * 100)
+        return min(percentage, 100)
+    }
+    
     // MARK: - Private Helpers
     
     private func makeKey(wordId: String, mode: StudyMode) -> String {
@@ -183,6 +251,9 @@ class SpacedRepetitionService {
             return
         }
         userDefaults.set(encoded, forKey: studyDataKey)
+        
+        // Notify that study data has been updated
+        NotificationCenter.default.post(name: NSNotification.Name("SpacedRepetitionUpdated"), object: nil)
     }
 }
 

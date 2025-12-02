@@ -10,7 +10,10 @@ import SwiftUI
 // MARK: - Home Tab View
 struct HomeTabView: View {
     @EnvironmentObject private var dataService: DataService
+    @ObservedObject private var languageManager = LanguageManager.shared
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var activeStack: LearningStackType?
+    @State private var showPremiumAlert = false
     
     var body: some View {
         ZStack {
@@ -19,6 +22,7 @@ struct HomeTabView: View {
             
             VStack(alignment: .leading, spacing: 8) {
                 HeaderView(dataService: dataService)
+                    .id("header_\(languageManager.currentLanguage)")
                 
                 // Scrollable block of learning stacks
                 ScrollView {
@@ -28,6 +32,7 @@ struct HomeTabView: View {
                             accent: Color("AppGreen"),
                             icon: "square.stack.3d.up.fill"
                         )
+                        .id("general_\(languageManager.currentLanguage)")
                         .onTapGesture {
                             HapticManager.shared.lightImpact()
                             activeStack = .general
@@ -38,6 +43,7 @@ struct HomeTabView: View {
                             accent: Color("AppBlue"),
                             icon: "square.stack.3d.up.fill"
                         )
+                        .id("verbs_\(languageManager.currentLanguage)")
                         .onTapGesture {
                             HapticManager.shared.lightImpact()
                             activeStack = .verbs
@@ -48,6 +54,7 @@ struct HomeTabView: View {
                             accent: Color.purple,
                             icon: "square.stack.3d.up.fill"
                         )
+                        .id("adjectives_\(languageManager.currentLanguage)")
                         .onTapGesture {
                             HapticManager.shared.lightImpact()
                             activeStack = .adjectives
@@ -56,11 +63,18 @@ struct HomeTabView: View {
                         LearningStackCard(
                             title: Localizable.string(Localizable.favorites),
                             accent: Color.yellow,
-                            icon: "star.fill"
+                            icon: "star.fill",
+                            isLocked: !subscriptionManager.isPremiumActive
                         )
+                        .id("favorites_\(languageManager.currentLanguage)")
                         .onTapGesture {
-                            HapticManager.shared.lightImpact()
-                            activeStack = .favorites
+                            if subscriptionManager.isPremiumActive {
+                                HapticManager.shared.lightImpact()
+                                activeStack = .favorites
+                            } else {
+                                HapticManager.shared.heavyImpact()
+                                showPremiumAlert = true
+                            }
                         }
                     }
                     .padding(.horizontal, 32)
@@ -89,6 +103,11 @@ struct HomeTabView: View {
                     .environmentObject(dataService)
             }
         }
+        .alert(Localizable.string(Localizable.premiumRequired), isPresented: $showPremiumAlert) {
+            Button(Localizable.string(Localizable.ok), role: .cancel) { }
+        } message: {
+            Text(Localizable.string(Localizable.unlockPremiumToUseFeature))
+        }
     }
 }
 
@@ -114,6 +133,7 @@ struct LearningStackCard: View {
     let title: String
     let accent: Color
     let icon: String
+    var isLocked: Bool = false
     
     var body: some View {
         ZStack {
@@ -150,9 +170,9 @@ struct LearningStackCard: View {
                 
                 Spacer()
                 
-                Image(systemName: "chevron.right")
+                Image(systemName: isLocked ? "lock.fill" : "chevron.right")
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(isLocked ? accent : .secondary)
             }
             .padding(22)
             .frame(minHeight: 120, alignment: .center)

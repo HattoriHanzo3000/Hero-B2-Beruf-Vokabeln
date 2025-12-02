@@ -37,36 +37,87 @@ class DataService: ObservableObject {
             self.lections = lectionsData.lections
         }
         
-        // Load words
-        if let url = Bundle.main.url(forResource: "words", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let wordsData = try? JSONDecoder().decode(WordsData.self, from: data) {
-            for sectionWords in wordsData.words {
-                wordsBySection[sectionWords.sectionId] = sectionWords.words
+        // Load user translations first
+        let userTranslations = loadUserTranslations()
+        
+        // Load chapter section files (chapter_1_A.json through chapter_12_E.json)
+        for chapter in 1...12 {
+            for letter in ["A", "B", "C", "D", "E"] {
+                let filename = "chapter_\(chapter)_\(letter)"
+                if let url = Bundle.main.url(forResource: filename, withExtension: "json"),
+                   let data = try? Data(contentsOf: url),
+                   let sectionFile = try? JSONDecoder().decode(SectionFile.self, from: data) {
+                    let words = sectionFile.words.map { wordWithoutTranslation -> Word in
+                        let translation = userTranslations[wordWithoutTranslation.id]?.translation ?? ""
+                        return Word(
+                            id: wordWithoutTranslation.id,
+                            german: wordWithoutTranslation.german,
+                            translation: translation,
+                            synonyms: wordWithoutTranslation.synonyms,
+                            explanation: wordWithoutTranslation.explanation,
+                            example: wordWithoutTranslation.example,
+                            quiz: wordWithoutTranslation.quiz
+                        )
+                    }
+                    wordsBySection[sectionFile.sectionId] = words
+                }
             }
         }
         
-        // Load Verben mit Präpositionen
-        if let url = Bundle.main.url(forResource: "verben_mit_prapositionen", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let verbenData = try? JSONDecoder().decode(WordsData.self, from: data) {
-            for sectionWords in verbenData.words {
-                wordsBySection[sectionWords.sectionId] = sectionWords.words
+        // Load Verben mit Präpositionen files
+        let verbenPrepositions = ["an", "auf", "aus", "bei", "bis", "durch", "für", "gegen", "in", "mit", "nach", "über", "um", "unter", "von", "vor", "zu"]
+        for preposition in verbenPrepositions {
+            let filename = "verben_\(preposition)"
+            if let url = Bundle.main.url(forResource: filename, withExtension: "json"),
+               let data = try? Data(contentsOf: url),
+               let sectionFile = try? JSONDecoder().decode(SectionFile.self, from: data) {
+                let words = sectionFile.words.map { wordWithoutTranslation -> Word in
+                    let translation = userTranslations[wordWithoutTranslation.id]?.translation ?? ""
+                    return Word(
+                        id: wordWithoutTranslation.id,
+                        german: wordWithoutTranslation.german,
+                        translation: translation,
+                        synonyms: wordWithoutTranslation.synonyms,
+                        explanation: wordWithoutTranslation.explanation,
+                        example: wordWithoutTranslation.example,
+                        quiz: wordWithoutTranslation.quiz
+                    )
+                }
+                wordsBySection[sectionFile.sectionId] = words
             }
         }
         
-        // Load Adjektive mit Präpositionen
-        if let url = Bundle.main.url(forResource: "adjektive_mit_prapositionen", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let adjektiveData = try? JSONDecoder().decode(WordsData.self, from: data) {
-            for sectionWords in adjektiveData.words {
-                wordsBySection[sectionWords.sectionId] = sectionWords.words
+        // Load Adjektive mit Präpositionen files
+        let adjektivePrepositions = ["an", "auf", "bei", "für", "gegenüber", "in", "mit", "nach", "über", "um", "von", "vor", "zu"]
+        for preposition in adjektivePrepositions {
+            let filename = "adjektive_\(preposition)"
+            if let url = Bundle.main.url(forResource: filename, withExtension: "json"),
+               let data = try? Data(contentsOf: url),
+               let sectionFile = try? JSONDecoder().decode(SectionFile.self, from: data) {
+                let words = sectionFile.words.map { wordWithoutTranslation -> Word in
+                    let translation = userTranslations[wordWithoutTranslation.id]?.translation ?? ""
+                    return Word(
+                        id: wordWithoutTranslation.id,
+                        german: wordWithoutTranslation.german,
+                        translation: translation,
+                        synonyms: wordWithoutTranslation.synonyms,
+                        explanation: wordWithoutTranslation.explanation,
+                        example: wordWithoutTranslation.example,
+                        quiz: wordWithoutTranslation.quiz
+                    )
+                }
+                wordsBySection[sectionFile.sectionId] = words
             }
         }
     }
     
     func getWords(for sectionId: String) -> [Word] {
         return wordsBySection[sectionId] ?? []
+    }
+    
+    /// Get all word IDs across all sections
+    func getAllWordIds() -> [String] {
+        return wordsBySection.values.flatMap { $0.map { $0.id } }
     }
     
     func getLectionAndSection(for sectionId: String) -> (lectionTitle: String, sectionTitle: String, lectionNumber: String, sectionLetter: String)? {
@@ -106,7 +157,48 @@ class DataService: ObservableObject {
             // Force a change notification by toggling the dictionary
             // This ensures SwiftUI detects the change even if the dictionary reference is the same
             objectWillChange.send()
+            
+            // Save translation to user_translations.json
+            saveUserTranslation(wordId: wordId, translation: translation)
         }
+    }
+    
+    private func saveUserTranslation(wordId: String, translation: String) {
+        // Load existing translations
+        var userTranslations = loadUserTranslations()
+        
+        // Update translation
+        userTranslations[wordId] = TranslationEntry(translation: translation)
+        
+        // Save to Documents directory (we can't write to Bundle, so save to app's Documents)
+        if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = documentsURL.appendingPathComponent("user_translations.json")
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+            if let encoded = try? encoder.encode(userTranslations) {
+                try? encoded.write(to: fileURL)
+            }
+        }
+    }
+    
+    private func loadUserTranslations() -> UserTranslations {
+        // First try to load from Documents (user's saved translations)
+        if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = documentsURL.appendingPathComponent("user_translations.json")
+            if let data = try? Data(contentsOf: fileURL),
+               let translations = try? JSONDecoder().decode(UserTranslations.self, from: data) {
+                return translations
+            }
+        }
+        
+        // Fallback to Bundle (default empty translations)
+        if let url = Bundle.main.url(forResource: "user_translations", withExtension: "json"),
+           let data = try? Data(contentsOf: url),
+           let translations = try? JSONDecoder().decode(UserTranslations.self, from: data) {
+            return translations
+        }
+        
+        return [:]
     }
     
     func toggleWordChecked(wordId: String, in sectionId: String) {
@@ -425,8 +517,10 @@ class DataService: ObservableObject {
         if sectionId.hasPrefix("VERBEN_") {
             return .verbs
         }
-        // Check if it's an adjective section (you may need to adjust this based on your data structure)
-        // For now, assume regular lection sections are general words
+        if sectionId.hasPrefix("ADJEKTIVE_") {
+            return .adjectives
+        }
+        // Regular lection sections are general words
         return .generalWords
     }
     
@@ -490,35 +584,15 @@ class DataService: ObservableObject {
         favoriteWords.removeAll()
         saveFavoriteWords()
         
+        // Clear user translations file in Documents directory
+        if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = documentsURL.appendingPathComponent("user_translations.json")
+            try? FileManager.default.removeItem(at: fileURL)
+        }
+        
         // Reload words data to reset translations to original values
         wordsBySection.removeAll()
-        
-        // Reload regular words
-        if let url = Bundle.main.url(forResource: "words", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let wordsData = try? JSONDecoder().decode(WordsData.self, from: data) {
-            for sectionWords in wordsData.words {
-                wordsBySection[sectionWords.sectionId] = sectionWords.words
-            }
-        }
-        
-        // Reload Verben mit Präpositionen
-        if let url = Bundle.main.url(forResource: "verben_mit_prapositionen", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let verbenData = try? JSONDecoder().decode(WordsData.self, from: data) {
-            for sectionWords in verbenData.words {
-                wordsBySection[sectionWords.sectionId] = sectionWords.words
-            }
-        }
-        
-        // Reload Adjektive mit Präpositionen
-        if let url = Bundle.main.url(forResource: "adjektive_mit_prapositionen", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let adjektiveData = try? JSONDecoder().decode(WordsData.self, from: data) {
-            for sectionWords in adjektiveData.words {
-                wordsBySection[sectionWords.sectionId] = sectionWords.words
-            }
-        }
+        loadData()
         
         // Reset spaced repetition data
         SpacedRepetitionService.shared.resetAllStudyData()

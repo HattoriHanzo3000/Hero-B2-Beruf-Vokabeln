@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		744F823F2ED605EC00B2F198 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 744F823E2ED605EC00B2F198 /* GoogleMobileAds */; };
 		744F83A32ED60C6600B2F198 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744F83A22ED60C6600B2F198 /* AppTrackingTransparency.framework */; };
+		74D0E43E2EDF748E00581890 /* SuperwallKit in Frameworks */ = {isa = PBXBuildFile; productRef = 74D0E43D2EDF748E00581890 /* SuperwallKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 			files = (
 				744F823F2ED605EC00B2F198 /* GoogleMobileAds in Frameworks */,
 				744F83A32ED60C6600B2F198 /* AppTrackingTransparency.framework in Frameworks */,
+				74D0E43E2EDF748E00581890 /* SuperwallKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +95,7 @@
 			name = "B2 Berufssprachkurs";
 			packageProductDependencies = (
 				744F823E2ED605EC00B2F198 /* GoogleMobileAds */,
+				74D0E43D2EDF748E00581890 /* SuperwallKit */,
 			);
 			productName = "B2 Berufssprachkurs";
 			productReference = 74D87BDE2ECD0E14004BCC24 /* B2 Berufssprachkurs.app */;
@@ -125,6 +128,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				744F823D2ED605EC00B2F198 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				74D0E43C2EDF748E00581890 /* XCRemoteSwiftPackageReference "Superwall-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 74D87BDF2ECD0E14004BCC24 /* Products */;
@@ -392,6 +396,14 @@
 				minimumVersion = 12.14.0;
 			};
 		};
+		74D0E43C2EDF748E00581890 /* XCRemoteSwiftPackageReference "Superwall-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/superwall/Superwall-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.10.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -399,6 +411,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 744F823D2ED605EC00B2F198 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		74D0E43D2EDF748E00581890 /* SuperwallKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 74D0E43C2EDF748E00581890 /* XCRemoteSwiftPackageReference "Superwall-iOS" */;
+			productName = SuperwallKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

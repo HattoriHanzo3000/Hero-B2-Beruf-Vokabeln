@@ -17,6 +17,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // Initialize AdMob
         AdManager.shared.initialize()
         
+        // Initialize SubscriptionManager to check subscription status early
+        Task { @MainActor in
+            await SubscriptionManager.shared.loadProducts()
+        }
+        
         // Request tracking permission (after a short delay to ensure app is fully loaded)
         TrackingManager.requestTrackingPermission()
         

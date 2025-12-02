@@ -30,6 +30,7 @@ struct SettingsView: View {
     @State private var showPromoCodeAlert = false
     @State private var promoCodeAlertMessage = ""
     @StateObject private var promoCodeManager = PromoCodeManager.shared
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     
     // Premium status tracking
     @AppStorage("premiumUnlockedUntil") private var premiumUnlockedUntil: TimeInterval = 0
@@ -237,6 +238,8 @@ struct SettingsView: View {
                         iconColor: .gray,
                         title: Localizable.string(Localizable.impressum)
                     )
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 
@@ -249,6 +252,8 @@ struct SettingsView: View {
                         iconColor: .gray,
                         title: Localizable.string(Localizable.termsOfUse)
                     )
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 
@@ -261,6 +266,8 @@ struct SettingsView: View {
                         iconColor: .gray,
                         title: Localizable.string(Localizable.privacyPolicy)
                     )
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
@@ -273,9 +280,28 @@ struct SettingsView: View {
                     HapticManager.shared.lightImpact()
                     showResetAlert = true
                 }
+                
+                // Debug: Deactivate Premium (Testing Only) - Hidden for production
+                /*
+                Button {
+                    HapticManager.shared.lightImpact()
+                    subscriptionManager.deactivatePremiumForTesting()
+                } label: {
+                    SettingsIconRow(
+                        icon: "lock.slash.fill",
+                        iconColor: .orange,
+                        title: "Basis"
+                    )
+                }
+                .buttonStyle(.plain)
+                */
             }
         }
         .listStyle(.insetGrouped)
+        .safeAreaInset(edge: .bottom) {
+            BannerAd()
+                .background(Color(.systemGroupedBackground))
+        }
         .navigationTitle(Localizable.string(Localizable.settings))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
@@ -403,6 +429,8 @@ private struct SettingsIconRow: View {
                 Text(title)
                     .foregroundColor(.primary)
             }
+            
+            Spacer()
         }
     }
 }
@@ -548,7 +576,10 @@ private extension SettingsView {
     // Premium features helpers
     var isPremiumActive: Bool {
         let now = Date().timeIntervalSince1970
-        return premiumUnlockedUntil > now || adsDisabledUntil > now || PromoCodeManager.shared.isPremiumActive
+        return premiumUnlockedUntil > now || 
+               adsDisabledUntil > now || 
+               PromoCodeManager.shared.isPremiumActive ||
+               subscriptionManager.isPremiumActive
     }
     
     var premiumExpiryText: String {

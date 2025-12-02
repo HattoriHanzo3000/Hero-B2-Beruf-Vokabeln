@@ -215,9 +215,14 @@ struct SectionSelectionView: View {
                         .padding(.horizontal)
                     }
                     .padding(.vertical, 10)
+                    .padding(.bottom, 60) // Space for fixed banner ad
                 }
             }
-            .navigationTitle(Localizable.string(Localizable.sourceSections))
+            .safeAreaInset(edge: .bottom) {
+                BannerAd()
+                    .background(Color("AppGreenLight"))
+            }
+            .navigationTitle(Localizable.string(Localizable.wordOfTheDay))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

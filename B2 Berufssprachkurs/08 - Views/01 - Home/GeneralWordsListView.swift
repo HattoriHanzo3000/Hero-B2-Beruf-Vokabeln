@@ -70,6 +70,10 @@ struct GeneralWordsListView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .safeAreaInset(edge: .bottom) {
+            BannerAd()
+                .background(Color("AppGreenLight"))
+        }
         .scrollContentBackground(.hidden)
         .contentMargins(.bottom, 70, for: .scrollContent)
     }

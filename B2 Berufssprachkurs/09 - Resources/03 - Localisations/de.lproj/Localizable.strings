@@ -164,3 +164,7 @@
 "no_favorites_found" = "Keine Favoriten gefunden";
 "no_favorites_found_message" = "Markiere zuerst Wörter als Favoriten mit dem Stern-Symbol";
 
+// Premium Lock
+"premium_required" = "Premium erforderlich";
+"unlock_premium_to_use_feature" = "Schalte Premium frei, um diese Funktion zu nutzen";
+

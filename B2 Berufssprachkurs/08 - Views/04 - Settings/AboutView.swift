@@ -30,7 +30,11 @@ struct AboutView: View {
             }
             .padding(.horizontal)
             .padding(.top, 8)
-            .padding(.bottom, 32)
+            .padding(.bottom, 60) // Space for fixed banner ad
+        }
+        .safeAreaInset(edge: .bottom) {
+            BannerAd()
+                .background(Color(.systemGroupedBackground))
         }
         .navigationTitle(Localizable.string(Localizable.about))
         .navigationBarTitleDisplayMode(.inline)

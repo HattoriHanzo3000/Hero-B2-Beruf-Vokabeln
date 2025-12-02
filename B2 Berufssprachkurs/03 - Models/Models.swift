@@ -41,3 +41,25 @@ struct Word: Codable, Identifiable, Equatable {
     var quiz: String?
 }
 
+// Model for section files (without translation)
+struct SectionFile: Codable {
+    let sectionId: String
+    let words: [WordWithoutTranslation]
+}
+
+struct WordWithoutTranslation: Codable {
+    let id: String
+    let german: String
+    let synonyms: [String]?
+    let explanation: String?
+    let example: String?
+    let quiz: String?
+}
+
+// Model for user translations file (flat dictionary: wordId -> { translation: "" })
+typealias UserTranslations = [String: TranslationEntry]
+
+struct TranslationEntry: Codable {
+    let translation: String
+}
+

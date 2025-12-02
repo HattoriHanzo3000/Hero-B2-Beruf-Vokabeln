@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var subscriptionManager = SubscriptionManager.shared
     @State private var isMonthlySelected = true
+    @State private var showingError = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -29,7 +32,7 @@ struct PaywallView: View {
                             )
                         )
                         .shadow(color: Color("AppGreen").opacity(0.3), radius: 15, x: 0, y: 8)
-                        .padding(.top, 8)
+                        .padding(.top, 32)
                     
                     // Title
                     Text(Localizable.string(Localizable.unlockFullHeroExperience))
@@ -56,7 +59,7 @@ struct PaywallView: View {
                                     .font(.headline)
                                     .foregroundColor(.primary)
                                 
-                                Text("1,99€ \(Localizable.string(Localizable.perMonth))")
+                                Text(priceText)
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                             }
@@ -102,18 +105,37 @@ struct PaywallView: View {
                 }
             }
             
+            // Restore Purchases button (outside white box)
+            Button(action: {
+                Task {
+                    await handleRestorePurchases()
+                }
+            }) {
+                Text("Restore Purchases")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .disabled(subscriptionManager.isLoading)
+            .padding(.top, 12)
+            
             // Subscribe button at bottom
             VStack(spacing: 0) {
                 Button(action: {
-                    HapticManager.shared.mediumImpact()
-                    // TODO: Implement subscription purchase
+                    Task {
+                        await handlePurchase()
+                    }
                 }) {
                     HStack {
-                        Spacer()
-                        Text(Localizable.string(Localizable.continueButton))
-                            .font(.headline.weight(.semibold))
-                            .foregroundColor(.white)
-                        Spacer()
+                        if subscriptionManager.purchaseState == .purchasing || subscriptionManager.purchaseState == .loading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        } else {
+                            Spacer()
+                            Text(Localizable.string(Localizable.continueButton))
+                                .font(.headline.weight(.semibold))
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
                     }
                     .frame(height: 56)
                     .background(
@@ -125,10 +147,12 @@ struct PaywallView: View {
                             startPoint: .leading,
                             endPoint: .trailing
                         )
+                        .opacity(isButtonEnabled ? 1.0 : 0.6)
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                     .shadow(color: Color("AppGreen").opacity(0.4), radius: 12, x: 0, y: 6)
                 }
+                .disabled(!isButtonEnabled)
                 .padding(.horizontal, 24)
                 .padding(.top, 16)
                 .padding(.bottom, 32)
@@ -138,6 +162,81 @@ struct PaywallView: View {
         .background(Color(.systemBackground))
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
+        .task {
+            // Load products when view appears
+            if subscriptionManager.product == nil {
+                await subscriptionManager.loadProducts()
+            }
+        }
+        .alert("Error", isPresented: $showingError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            if let errorMessage = subscriptionManager.errorMessage {
+                Text(errorMessage)
+            }
+        }
+        .onChange(of: subscriptionManager.isPremiumActive) { _, isActive in
+            if isActive {
+                // Subscription successful, dismiss paywall
+                HapticManager.shared.success()
+                dismiss()
+            }
+        }
+        .onChange(of: subscriptionManager.purchaseState) { _, state in
+            switch state {
+            case .success:
+                HapticManager.shared.success()
+                dismiss()
+            case .failed(let message):
+                showingError = true
+                subscriptionManager.errorMessage = message
+                HapticManager.shared.error()
+            default:
+                break
+            }
+        }
+    }
+    
+    // MARK: - Computed Properties
+    
+    private var priceText: String {
+        if let product = subscriptionManager.product {
+            return "\(product.displayPrice) \(Localizable.string(Localizable.perMonth))"
+        }
+        return "1,99€ \(Localizable.string(Localizable.perMonth))"
+    }
+    
+    private var isButtonEnabled: Bool {
+        !subscriptionManager.isLoading &&
+        subscriptionManager.product != nil &&
+        subscriptionManager.purchaseState != .purchasing &&
+        subscriptionManager.purchaseState != .loading
+    }
+    
+    // MARK: - Purchase Handling
+    
+    private func handlePurchase() async {
+        HapticManager.shared.mediumImpact()
+        
+        do {
+            try await subscriptionManager.purchaseSubscription()
+        } catch {
+            // Error is handled by SubscriptionManager and shown via alert
+            print("Purchase error: \(error.localizedDescription)")
+        }
+    }
+    
+    private func handleRestorePurchases() async {
+        HapticManager.shared.lightImpact()
+        await subscriptionManager.restorePurchases()
+        
+        if subscriptionManager.isPremiumActive {
+            // Restore successful - dismiss will be handled by onChange
+            showingError = false
+        } else {
+            // Show error if no subscription found
+            showingError = true
+        }
     }
 }
 

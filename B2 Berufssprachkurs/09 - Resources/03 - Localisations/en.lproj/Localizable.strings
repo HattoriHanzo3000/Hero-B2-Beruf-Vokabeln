@@ -164,3 +164,7 @@
 "no_favorites_found" = "No favorites found";
 "no_favorites_found_message" = "First mark words as favorite with the star icon";
 
+// Premium Lock
+"premium_required" = "Premium Required";
+"unlock_premium_to_use_feature" = "Unlock Premium to use this function";
+
