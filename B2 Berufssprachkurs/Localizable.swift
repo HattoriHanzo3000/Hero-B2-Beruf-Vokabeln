@@ -138,6 +138,7 @@ extension Localizable {
     static let generalWords = "general_words"
     static let adjectivesWithPrepositions = "adjectives_with_prepositions"
     static let favorites = "favorites"
+    static let favoritesWordsTitle = "favorites_words_title"
     
     // Practice button
     static let practice = "practice"

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct HeaderView: View {
     @ObservedObject var dataService: DataService
@@ -23,99 +24,82 @@ struct HeaderView: View {
     private let autoPlayInterval: TimeInterval = 15.0 // Auto-play every 15 seconds
     
     var body: some View {
-        HStack(alignment: .top, spacing: 5) {
-            // Mascot on the left top with animation
-            mascotView
-                .padding(.top, 4)
-            
-            // 5 rows of text content
-            VStack(alignment: .leading, spacing: 8) {
-                // Row 1: "Word of the Day" label
-                HStack(spacing: 6) {
-                    Image(systemName: "calendar")
-                        .font(.body)
-                        .foregroundColor(.white.opacity(0.8))
-                    Text(Localizable.string(Localizable.wordOfTheDay))
-                        .font(.body)
-                        .fontWeight(.regular)
-                        .foregroundColor(.white.opacity(0.8))
-                        .id("wordOfTheDayLabel_\(languageManager.currentLanguage)")
-                }
-                
-                // Row 2: Word of the day
-                if let word = wordOfTheDay {
-                    Text(word.german)
-                        .font(.system(.title2, design: .rounded))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                    
-                    // Row 3: Explanation
-                    if let explanation = word.explanation, !explanation.isEmpty {
-                        Text(attributedText(label: "erkl: ", value: explanation))
-                            .foregroundColor(.white.opacity(0.9))
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    
-                    // Row 4: Synonym
-                    if let synonyms = word.synonyms, let firstSynonym = synonyms.first {
-                        Text(attributedText(label: "syn: ", value: firstSynonym))
-                            .foregroundColor(.white.opacity(0.9))
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    
-                    // Row 5: Translation
-                    if !word.translation.isEmpty && word.translation.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-                        Text(attributedText(label: "übers: ", value: word.translation))
-                            .foregroundColor(.white.opacity(0.9))
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                } else {
-                    // Empty state
-                    Text(Localizable.string(Localizable.wordOfTheDay))
-                        .font(.system(.title, design: .rounded))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white.opacity(0.7))
-                }
-            }
-            
-            Spacer()
-        }
-        .padding(.vertical, 18)
-        .padding(.horizontal, 5)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            // Solid gradient background
+        ZStack(alignment: .top) {
+            // Background that extends to top edge
             LinearGradient(
                 colors: [
-                    Color("AppGreen").opacity(0.9),
-                    Color("AppGreen").opacity(0.65),
-                    Color("AppBlue").opacity(0.45)
+                    Color("AppGreen"),
+                    Color("AppBlue")
                 ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            ),
-            in: RoundedRectangle(cornerRadius: 32, style: .continuous)
-        )
-        .overlay(
-            RoundedRectangle(
-                cornerRadius: 32,
-                style: .continuous
+                startPoint: .leading,
+                endPoint: .trailing
             )
-            .stroke(
-                LinearGradient(
-                    colors: [
-                        .white.opacity(0.3),
-                        .white.opacity(0.1)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ),
-                lineWidth: 1
-            )
-        )
-        .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
-        .padding(.horizontal)
-        .padding(.top, 8)
+            .ignoresSafeArea(edges: .top)
+            .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
+            
+            // Content that respects safe area
+            HStack(alignment: .top, spacing: 5) {
+                // Mascot on the left top with animation
+                mascotView
+                    .padding(.top, 4)
+                
+                // 5 rows of text content
+                VStack(alignment: .leading, spacing: 8) {
+                    // Row 1: "Word of the Day" label
+                    HStack(spacing: 6) {
+                        Image(systemName: "calendar")
+                            .font(.system(.body, design: .rounded))
+                            .foregroundColor(.white)
+                        Text(Localizable.string(Localizable.wordOfTheDay))
+                            .font(.system(.body, design: .rounded))
+                            .foregroundColor(.white)
+                            .id("wordOfTheDayLabel_\(languageManager.currentLanguage)")
+                    }
+                    
+                    // Row 2: Word of the day
+                    if let word = wordOfTheDay {
+                        Text(word.german)
+                            .font(.system(.title2, design: .rounded))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        
+                        // Row 3: Explanation
+                        if let explanation = word.explanation, !explanation.isEmpty {
+                            Text(attributedText(label: "erkl: ", value: explanation))
+                                .foregroundColor(.white)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        
+                        // Row 4: Synonym
+                        if let synonyms = word.synonyms, let firstSynonym = synonyms.first {
+                            Text(attributedText(label: "syn: ", value: firstSynonym))
+                                .foregroundColor(.white)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        
+                        // Row 5: Translation
+                        if !word.translation.isEmpty && word.translation.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+                            Text(attributedText(label: "übers: ", value: word.translation))
+                                .foregroundColor(.white)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    } else {
+                        // Empty state
+                        Text(Localizable.string(Localizable.wordOfTheDay))
+                            .font(.system(.title, design: .rounded))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white.opacity(0.7))
+                    }
+                }
+                
+                Spacer()
+            }
+            .padding(.top)
+            .padding(.bottom, 18)
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .fixedSize(horizontal: false, vertical: true)
         .onAppear {
             updateWordOfTheDay()
             startAutoPlay()
@@ -200,10 +184,15 @@ struct HeaderView: View {
         wordOfTheDay = dataService.getWordOfTheDay()
     }
     
-    private func attributedText(label: String, value: String, labelFont: Font = .caption.weight(.semibold), valueFont: Font = .caption.weight(.regular)) -> AttributedString {
+    private func attributedText(label: String, value: String, labelFont: Font = .system(.footnote, design: .rounded).weight(.semibold), valueFont: Font = .system(.footnote, design: .rounded).weight(.semibold)) -> AttributedString {
         var fullText = AttributedString("\(label)\(value)")
         if let labelRange = fullText.range(of: label) {
-            fullText[labelRange].font = labelFont
+            // Create italic font for label
+            let fontSize = UIFont.preferredFont(forTextStyle: .footnote).pointSize
+            let italicFont = UIFont.roundedSystemFont(ofSize: fontSize, weight: .semibold)
+            let italicFontDescriptor = italicFont.fontDescriptor.withSymbolicTraits([.traitItalic]) ?? italicFont.fontDescriptor
+            let finalItalicFont = UIFont(descriptor: italicFontDescriptor, size: fontSize)
+            fullText[labelRange].font = Font(finalItalicFont)
         }
         if let valueRange = fullText.range(of: value) {
             fullText[valueRange].font = valueFont

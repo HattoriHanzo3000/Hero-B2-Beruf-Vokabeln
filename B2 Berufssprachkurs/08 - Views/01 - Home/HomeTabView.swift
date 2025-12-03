@@ -14,72 +14,113 @@ struct HomeTabView: View {
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var activeStack: LearningStackType?
     @State private var showPremiumAlert = false
+    @State private var tappedCardId: String? = nil
     
     var body: some View {
         ZStack {
             Color("AppGreenExtraLight")
                 .ignoresSafeArea()
             
-            VStack(alignment: .leading, spacing: 8) {
+            // Playful word background
+            WordWallpaperBackground(dataService: dataService)
+                .ignoresSafeArea()
+            
+            VStack(alignment: .leading, spacing: 0) {
                 HeaderView(dataService: dataService)
                     .id("header_\(languageManager.currentLanguage)")
                 
                 // Scrollable block of learning stacks
-                ScrollView {
-                    VStack(spacing: 16) {
-                        LearningStackCard(
-                            title: Localizable.string(Localizable.generalWords),
-                            accent: Color("AppGreen"),
-                            icon: "square.stack.3d.up.fill"
-                        )
-                        .id("general_\(languageManager.currentLanguage)")
-                        .onTapGesture {
-                            HapticManager.shared.lightImpact()
-                            activeStack = .general
-                        }
-                        
-                        LearningStackCard(
-                            title: Localizable.string(Localizable.verbsWithPrepositions),
-                            accent: Color("AppBlue"),
-                            icon: "square.stack.3d.up.fill"
-                        )
-                        .id("verbs_\(languageManager.currentLanguage)")
-                        .onTapGesture {
-                            HapticManager.shared.lightImpact()
-                            activeStack = .verbs
-                        }
-                        
-                        LearningStackCard(
-                            title: Localizable.string(Localizable.adjectivesWithPrepositions),
-                            accent: Color.purple,
-                            icon: "square.stack.3d.up.fill"
-                        )
-                        .id("adjectives_\(languageManager.currentLanguage)")
-                        .onTapGesture {
-                            HapticManager.shared.lightImpact()
-                            activeStack = .adjectives
-                        }
-                        
-                        LearningStackCard(
-                            title: Localizable.string(Localizable.favorites),
-                            accent: Color.yellow,
-                            icon: "star.fill",
-                            isLocked: !subscriptionManager.isPremiumActive
-                        )
-                        .id("favorites_\(languageManager.currentLanguage)")
-                        .onTapGesture {
-                            if subscriptionManager.isPremiumActive {
-                                HapticManager.shared.lightImpact()
-                                activeStack = .favorites
-                            } else {
-                                HapticManager.shared.heavyImpact()
-                                showPremiumAlert = true
+                GeometryReader { geometry in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        VStack {
+                            Spacer()
+                            HStack(alignment: .center, spacing: 16) {
+                                LearningStackCard(
+                                    title: Localizable.string(Localizable.generalWords).replacingOccurrences(of: " ", with: "\n"),
+                                    accent: Color("AppGreen"),
+                                    icon: "square.stack.3d.up.fill"
+                                )
+                                .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+                                .id("general_\(languageManager.currentLanguage)")
+                                .scaleEffect(tappedCardId == "general" ? 0.95 : 1.0)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
+                                .onTapGesture {
+                                    tappedCardId = "general"
+                                    HapticManager.shared.lightImpact()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        activeStack = .general
+                                        tappedCardId = nil
+                                    }
+                                }
+                                
+                                LearningStackCard(
+                                    title: Localizable.string(Localizable.verbsWithPrepositions),
+                                    accent: Color("AppBlue"),
+                                    icon: "square.stack.3d.up.fill"
+                                )
+                                .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+                                .id("verbs_\(languageManager.currentLanguage)")
+                                .scaleEffect(tappedCardId == "verbs" ? 0.95 : 1.0)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
+                                .onTapGesture {
+                                    tappedCardId = "verbs"
+                                    HapticManager.shared.lightImpact()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        activeStack = .verbs
+                                        tappedCardId = nil
+                                    }
+                                }
+                                
+                                LearningStackCard(
+                                    title: Localizable.string(Localizable.adjectivesWithPrepositions),
+                                    accent: Color.purple,
+                                    icon: "square.stack.3d.up.fill"
+                                )
+                                .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+                                .id("adjectives_\(languageManager.currentLanguage)")
+                                .scaleEffect(tappedCardId == "adjectives" ? 0.95 : 1.0)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
+                                .onTapGesture {
+                                    tappedCardId = "adjectives"
+                                    HapticManager.shared.lightImpact()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        activeStack = .adjectives
+                                        tappedCardId = nil
+                                    }
+                                }
+                                
+                                LearningStackCard(
+                                    title: Localizable.string(Localizable.favoritesWordsTitle),
+                                    accent: Color.yellow,
+                                    icon: "star.fill",
+                                    isLocked: !subscriptionManager.isPremiumActive
+                                )
+                                .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+                                .id("favorites_\(languageManager.currentLanguage)")
+                                .scaleEffect(tappedCardId == "favorites" ? 0.95 : 1.0)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
+                                .onTapGesture {
+                                    tappedCardId = "favorites"
+                                    if subscriptionManager.isPremiumActive {
+                                        HapticManager.shared.lightImpact()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            activeStack = .favorites
+                                            tappedCardId = nil
+                                        }
+                                    } else {
+                                        HapticManager.shared.heavyImpact()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            showPremiumAlert = true
+                                            tappedCardId = nil
+                                        }
+                                    }
+                                }
                             }
+                            .padding(.horizontal, 16)
+                            Spacer()
                         }
+                        .frame(height: geometry.size.height)
                     }
-                    .padding(.horizontal, 32)
-                    .padding(.top, 8)
-                    .padding(.bottom, 16)
                 }
                 
                 // Banner Ad at the bottom
@@ -134,60 +175,147 @@ struct LearningStackCard: View {
     let accent: Color
     let icon: String
     var isLocked: Bool = false
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         ZStack {
             // Bottom layer (stack effect)
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(accent.opacity(0.15))
-                .offset(x: 0, y: 14)
-                .shadow(color: accent.opacity(0.2), radius: 10, x: 0, y: 7)
+            ZStack {
+                if colorScheme == .dark {
+                    // Dark mode: use darker version of accent color
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(Color.black)
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(accent.opacity(0.4))
+                } else {
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(Color.white)
+                }
+            }
+            .offset(x: 0, y: 14)
+            .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 7)
             
             // Middle layer
             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(accent.opacity(0.2))
+                .fill(accent)
                 .offset(x: 0, y: 8)
-                .shadow(color: accent.opacity(0.15), radius: 8, x: 0, y: 5)
+                .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 5)
             
             // Top card - light accent color background with transparency
-            HStack(spacing: 12) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .fill(accent)
-                        .frame(width: 52, height: 52)
-                        .shadow(color: accent.opacity(0.3), radius: 4, x: 0, y: 2)
-                    Image(systemName: icon)
-                        .foregroundColor(.white)
-                        .font(.system(size: 22, weight: .semibold))
-                        .symbolRenderingMode(.hierarchical)
+            ZStack {
+                // Background layer
+                if colorScheme == .dark {
+                    // Dark mode: use darker version of accent color
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(Color.black)
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(accent.opacity(0.4))
+                } else {
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(Color.white)
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(accent.opacity(0.25))
                 }
                 
-                VStack(alignment: .leading, spacing: 4) {
+                // Content layer
+                VStack(spacing: 12) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .fill(accent)
+                            .frame(width: 52, height: 52)
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        Image(systemName: icon)
+                            .foregroundColor(.white)
+                            .font(.system(size: 22, weight: .semibold))
+                            .symbolRenderingMode(.hierarchical)
+                    }
+                    
                     Text(title)
-                        .font(.system(.headline, design: .rounded).weight(.semibold))
-                        .foregroundColor(.primary)
+                        .font(.system(.headline, design: .rounded).weight(.bold))
+                        .foregroundColor(accent)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .frame(minHeight: 44, alignment: .center)
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    if isLocked {
+                        Image(systemName: "lock.fill")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundColor(accent)
+                    }
                 }
-                
-                Spacer()
-                
-                Image(systemName: isLocked ? "lock.fill" : "chevron.right")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundColor(isLocked ? accent : .secondary)
+                .padding(22)
             }
-            .padding(22)
-            .frame(minHeight: 120, alignment: .center)
-            .background(
-                // Solid background - no transparency
-                Color(.systemBackground),
-                in: RoundedRectangle(cornerRadius: 20, style: .continuous)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(accent.opacity(0.25), lineWidth: 1)
-            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 6)
         }
         .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+    }
+}
+
+// MARK: - Word Wallpaper Background
+struct WordWallpaperBackground: View {
+    @ObservedObject var dataService: DataService
+    @State private var words: [String] = []
+    
+    private let fontSize: CGFloat = 18
+    private let lineSpacing: CGFloat = 24
+    
+    var body: some View {
+        GeometryReader { geometry in
+            // Calculate size needed to cover screen when rotated 45 degrees
+            // Diagonal of screen = sqrt(width^2 + height^2)
+            // To cover all corners, we need at least 2x the diagonal
+            let screenDiagonal = sqrt(geometry.size.width * geometry.size.width + geometry.size.height * geometry.size.height)
+            let contentWidth = screenDiagonal * 3.0
+            let contentHeight = screenDiagonal * 3.0
+            
+            // Create text like a book page - words flow in lines
+            Text(words.joined(separator: " "))
+                .font(.system(size: fontSize, design: .rounded))
+                .foregroundColor(Color.gray.opacity(0.12))
+                .lineSpacing(lineSpacing)
+                .frame(width: contentWidth, alignment: .leading)
+                .padding(.horizontal, 40)
+                .padding(.vertical, 60)
+                .frame(width: contentWidth, height: contentHeight, alignment: .topLeading)
+                .rotationEffect(.degrees(-45), anchor: .center)
+                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+        }
+        .clipped()
+        .onAppear {
+            loadRandomWords()
+        }
+        .onChange(of: dataService.wordsBySection) { _, _ in
+            loadRandomWords()
+        }
+    }
+    
+    private func loadRandomWords() {
+        var allWords: [String] = []
+        
+        // Collect all German words from all sections
+        for (_, wordList) in dataService.wordsBySection {
+            for word in wordList {
+                if !word.german.isEmpty {
+                    allWords.append(word.german)
+                }
+            }
+        }
+        
+        // Shuffle and take enough words to fill the background
+        let shuffled = allWords.shuffled()
+        // Use all available words, repeating if needed to ensure full coverage
+        if shuffled.count >= 800 {
+            words = Array(shuffled.prefix(800))
+        } else {
+            // Repeat words if we don't have enough
+            var repeatedWords: [String] = []
+            while repeatedWords.count < 800 {
+                repeatedWords.append(contentsOf: shuffled)
+            }
+            words = Array(repeatedWords.prefix(800))
+        }
     }
 }
 
