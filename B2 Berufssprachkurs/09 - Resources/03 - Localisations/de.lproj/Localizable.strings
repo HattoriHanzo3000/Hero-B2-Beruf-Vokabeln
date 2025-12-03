@@ -131,9 +131,15 @@
 // Premium
 "premium_unlock_title" = "Erlebe die volle Hero-Erfahrung mit Premium";
 "unlock_full_hero_experience" = "Erlebe die volle Hero-Erfahrung";
+"get_hero_premium_access_prefix" = "Erhalte";
+"hero_premium" = "Hero Premium";
+"get_hero_premium_access_suffix" = "Zugang";
+"subscription" = "Abonnement";
+"hero_premium_subscription" = "Hero Premium Abonnement";
 "pro_benefits_description" = "Premium gibt dir vollen Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und werbefreier Erfahrung";
-"monthly_subscription" = "Monatlich";
+"monthly_subscription" = "Premium Monatlich";
 "per_month" = "pro Monat";
+"month" = "Monat";
 "benefits" = "Vorteile";
 "free" = "Basis";
 "premium_column" = "Premium";
@@ -146,6 +152,8 @@
 "unlock_premium" = "Premium freischalten";
 "continue_button" = "Weiter";
 "subscription_terms" = "Bei Abonnement wird dein Apple-Konto mit 1,99€ belastet. Dein Hero Premium-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
+"subscription_title" = "Hero Premium Abonnement";
+"subscription_length" = "1 Monat";
 
 // Promo Code
 "promo_code" = "Gutscheincode";

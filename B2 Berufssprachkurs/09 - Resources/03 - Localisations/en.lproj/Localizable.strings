@@ -131,9 +131,15 @@
 // Premium
 "premium_unlock_title" = "Unlock the full Hero experience with Premium";
 "unlock_full_hero_experience" = "Unlock the full Hero experience";
+"get_hero_premium_access_prefix" = "Get";
+"hero_premium" = "Hero Premium";
+"get_hero_premium_access_suffix" = "Access";
+"subscription" = "Subscription";
+"hero_premium_subscription" = "Hero Premium Subscription";
 "pro_benefits_description" = "Premium gives you full access to all study materials, progress tracking and ad-free experience";
-"monthly_subscription" = "Monthly";
+"monthly_subscription" = "Premium Monthly";
 "per_month" = "per month";
+"month" = "month";
 "benefits" = "Benefits";
 "free" = "Free";
 "premium_column" = "Premium";
@@ -146,6 +152,8 @@
 "unlock_premium" = "Unlock Premium";
 "continue_button" = "Continue";
 "subscription_terms" = "Upon subscribing, your Apple account will be charged 1,99€. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
+"subscription_title" = "Hero Premium Subscription";
+"subscription_length" = "1 month";
 
 // Promo Code
 "promo_code" = "Promo Code";

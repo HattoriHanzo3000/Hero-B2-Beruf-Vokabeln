@@ -13,6 +13,7 @@ struct PaywallView: View {
     @StateObject private var subscriptionManager = SubscriptionManager.shared
     @State private var isMonthlySelected = true
     @State private var showingError = false
+    @State private var presentingLegalURL: URL? = nil
     
     var body: some View {
         VStack(spacing: 0) {
@@ -34,10 +35,19 @@ struct PaywallView: View {
                         .shadow(color: Color("AppGreen").opacity(0.3), radius: 15, x: 0, y: 8)
                         .padding(.top, 32)
                     
-                    // Title
-                    Text(Localizable.string(Localizable.unlockFullHeroExperience))
+                    // Title with gradient
+                    Text(Localizable.string(Localizable.heroPremiumSubscription))
                         .font(.title2.weight(.bold))
-                        .foregroundColor(.primary)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [
+                                    Color("AppGreen"),
+                                    Color("AppBlue")
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
                     
@@ -58,23 +68,19 @@ struct PaywallView: View {
                                 Text(Localizable.string(Localizable.monthlySubscription))
                                     .font(.headline)
                                     .foregroundColor(.primary)
-                                
-                                Text(priceText)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
                             }
                             
                             Spacer()
                             
-                            // Checkmark or circle
-                            if isMonthlySelected {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
+                            // StoreKit product price instead of checkmark
+                            if let product = subscriptionManager.product {
+                                Text("\(product.displayPrice)/\(Localizable.string(Localizable.month))")
+                                    .font(.headline)
                                     .foregroundColor(Color("AppGreen"))
                             } else {
-                                Image(systemName: "circle")
-                                    .font(.title3)
-                                    .foregroundColor(.secondary)
+                                Text("1,99€/\(Localizable.string(Localizable.month))")
+                                    .font(.headline)
+                                    .foregroundColor(Color("AppGreen"))
                             }
                         }
                         .padding(16)
@@ -96,12 +102,39 @@ struct PaywallView: View {
                     Spacer(minLength: 20)
                     
                     // Terms text
-                    Text(Localizable.string(Localizable.subscriptionTerms))
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
-                        .padding(.bottom, 16)
+                    VStack(spacing: 8) {
+                        Text(Localizable.string(Localizable.subscriptionTerms))
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                        
+                        // Functional links to Terms of Use and Privacy Policy
+                        HStack(spacing: 16) {
+                            Button(action: {
+                                HapticManager.shared.lightImpact()
+                                presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
+                            }) {
+                                Text(Localizable.string(Localizable.termsOfUse))
+                                    .font(.caption)
+                                    .foregroundColor(Color("AppGreen"))
+                            }
+                            
+                            Text("•")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            
+                            Button(action: {
+                                HapticManager.shared.lightImpact()
+                                presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
+                            }) {
+                                Text(Localizable.string(Localizable.privacyPolicy))
+                                    .font(.caption)
+                                    .foregroundColor(Color("AppGreen"))
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 32)
+                    .padding(.bottom, 16)
                 }
             }
             
@@ -162,6 +195,12 @@ struct PaywallView: View {
         .background(Color(.systemBackground))
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
+        .sheet(item: Binding(
+            get: { presentingLegalURL.map { LegalDocument(url: $0) } },
+            set: { presentingLegalURL = $0?.url }
+        )) { document in
+            SettingsLegalWebSheetView(url: document.url)
+        }
         .task {
             // Load products when view appears
             if subscriptionManager.product == nil {
@@ -206,6 +245,13 @@ struct PaywallView: View {
         return "1,99€ \(Localizable.string(Localizable.perMonth))"
     }
     
+    private var subscriptionPriceText: String {
+        if let product = subscriptionManager.product {
+            return "\(product.displayPrice) \(Localizable.string(Localizable.perMonth))"
+        }
+        return "1,99€ \(Localizable.string(Localizable.perMonth))"
+    }
+    
     private var isButtonEnabled: Bool {
         !subscriptionManager.isLoading &&
         subscriptionManager.product != nil &&
@@ -237,6 +283,12 @@ struct PaywallView: View {
             // Show error if no subscription found
             showingError = true
         }
+    }
+    
+    // Legal document identifier for sheet presentation
+    struct LegalDocument: Identifiable {
+        let url: URL
+        var id: URL { url }
     }
 }
 

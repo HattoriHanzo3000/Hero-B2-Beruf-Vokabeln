@@ -145,9 +145,15 @@ extension Localizable {
     // Premium
     static let premiumUnlockTitle = "premium_unlock_title"
     static let unlockFullHeroExperience = "unlock_full_hero_experience"
+    static let getHeroPremiumAccessPrefix = "get_hero_premium_access_prefix"
+    static let heroPremium = "hero_premium"
+    static let getHeroPremiumAccessSuffix = "get_hero_premium_access_suffix"
+    static let subscription = "subscription"
+    static let heroPremiumSubscription = "hero_premium_subscription"
     static let proBenefitsDescription = "pro_benefits_description"
     static let monthlySubscription = "monthly_subscription"
     static let perMonth = "per_month"
+    static let month = "month"
     static let benefits = "benefits"
     static let free = "free"
     static let premiumColumn = "premium_column"
@@ -160,6 +166,8 @@ extension Localizable {
     static let unlockPremium = "unlock_premium"
     static let continueButton = "continue_button"
     static let subscriptionTerms = "subscription_terms"
+    static let subscriptionTitle = "subscription_title"
+    static let subscriptionLength = "subscription_length"
     
     // Promo Code
     static let promoCode = "promo_code"
