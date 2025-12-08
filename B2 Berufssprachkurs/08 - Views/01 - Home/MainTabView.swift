@@ -10,17 +10,20 @@ import UIKit
 
 enum TabItem: String, CaseIterable {
     case home = "home"
-    case premium = "premium"
     case cockpit = "cockpit"
+    case premium = "premium"
+    case settings = "settings"
     
     var icon: String {
         switch self {
         case .home:
             return "house.fill"
-        case .premium:
-            return "crown.fill"
         case .cockpit:
             return "gauge"
+        case .premium:
+            return "crown.fill"
+        case .settings:
+            return "gear"
         }
     }
     
@@ -45,6 +48,16 @@ struct MainTabView: View {
                 Label(TabItem.home.localizedTitle, systemImage: TabItem.home.icon)
             }
             
+            // Cockpit Tab
+            NavigationStack {
+                CockpitView()
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tag(TabItem.cockpit)
+            .tabItem {
+                Label(TabItem.cockpit.localizedTitle, systemImage: TabItem.cockpit.icon)
+            }
+            
             // Premium Tab
             NavigationStack {
                 PremiumView()
@@ -55,14 +68,14 @@ struct MainTabView: View {
                 Label(TabItem.premium.localizedTitle, systemImage: TabItem.premium.icon)
             }
             
-            // Cockpit Tab
+            // Settings Tab
             NavigationStack {
-                CockpitView()
+                SettingsView()
                     .navigationBarTitleDisplayMode(.inline)
             }
-            .tag(TabItem.cockpit)
+            .tag(TabItem.settings)
             .tabItem {
-                Label(TabItem.cockpit.localizedTitle, systemImage: TabItem.cockpit.icon)
+                Label(TabItem.settings.localizedTitle, systemImage: TabItem.settings.icon)
             }
         }
         .environmentObject(dataService)

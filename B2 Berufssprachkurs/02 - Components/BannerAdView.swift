@@ -47,7 +47,8 @@ struct BannerAd: View {
     }
     
     var body: some View {
-        if !isPremiumActive {
+        // Check if AdMob is enabled and user doesn't have premium
+        if AdMobConfig.isEnabled && !isPremiumActive {
             BannerAdView(adUnitID: AdMobConfig.currentBannerAdUnitID)
                 .frame(height: 50)
                 .frame(maxWidth: .infinity)

@@ -31,51 +31,47 @@ struct AdjectivesListView: View {
         VStack(alignment: .leading, spacing: 0) {
             // Prepositions list
             List {
-                // Check all button header
-                SwiftUI.Section {
-                    EmptyView()
-                } header: {
-                    HStack {
-                        Button(action: {
-                            HapticManager.shared.mediumImpact()
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                dataService.toggleAdjektiveCompleted()
-                            }
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: dataService.isAdjektiveCompleted() ? "checkmark.circle.fill" : "circle")
-                                    .font(.body)
-                                    .fontWeight(.medium)
-                                    .foregroundColor(dataService.isAdjektiveCompleted() ? .primary : .secondary)
-                                    .symbolEffect(.bounce, value: dataService.isAdjektiveCompleted())
-                                
-                                Text(dataService.isAdjektiveCompleted() ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
-                                    .font(.caption)
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.secondary)
-                            }
+                // Select All as first row item
+                HStack(spacing: 12) {
+                    Button(action: {
+                        HapticManager.shared.mediumImpact()
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            dataService.toggleAdjektiveCompleted()
                         }
-                        .buttonStyle(.plain)
-                        Spacer()
+                    }) {
+                        Image(systemName: dataService.isAdjektiveCompleted() ? "checkmark.circle.fill" : "circle")
+                            .font(.system(.subheadline, design: .rounded).weight(.medium))
+                            .foregroundColor(dataService.isAdjektiveCompleted() ? Color.gray : .secondary)
+                            .symbolEffect(.bounce, value: dataService.isAdjektiveCompleted())
                     }
-                    .padding(.vertical, -4)
+                    .buttonStyle(.plain)
+                    
+                    Text(dataService.isAdjektiveCompleted() ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
+                        .font(.system(.caption, design: .rounded).weight(.medium))
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
                 }
+                .padding(.vertical, 4)
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 
                 // Prepositions as list rows
-                ForEach(Array(adjektivePrepositions.enumerated()), id: \.element.id) { index, preposition in
+                ForEach(adjektivePrepositions, id: \.id) { preposition in
                     AdjektiveRowView(
                         preposition: preposition,
                         dataService: dataService
                     )
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: index == 0 ? -12 : 0, leading: 20, bottom: 0, trailing: 20))
+                    .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 }
             }
             .listStyle(.insetGrouped)
             .safeAreaInset(edge: .bottom) {
                 BannerAd()
-                    .background(Color.purple.opacity(0.08))
+                    .background(Color("AppPurple").opacity(0.08))
             }
             .scrollContentBackground(.hidden)
         }
@@ -97,9 +93,8 @@ struct AdjektiveRowView: View {
                 }
             }) {
                 Image(systemName: dataService.isSectionCompleted(sectionId: preposition.id) ? "checkmark.circle.fill" : "circle")
-                    .font(.body)
-                    .fontWeight(.medium)
-                    .foregroundColor(dataService.isSectionCompleted(sectionId: preposition.id) ? .primary : .secondary)
+                    .font(.system(.subheadline, design: .rounded).weight(.medium))
+                    .foregroundColor(dataService.isSectionCompleted(sectionId: preposition.id) ? Color.gray : .secondary)
                     .symbolEffect(.bounce, value: dataService.isSectionCompleted(sectionId: preposition.id))
             }
             .buttonStyle(.plain)
@@ -111,7 +106,7 @@ struct AdjektiveRowView: View {
             } label: {
                 HStack {
                     Text(preposition.title)
-                        .font(.headline)
+                        .font(.system(.headline, design: .rounded))
                         .foregroundColor(.primary)
                     
                     Spacer()

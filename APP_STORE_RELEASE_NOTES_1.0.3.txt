@@ -1,0 +1,66 @@
+APP STORE CONNECT - RELEASE NOTES FOR VERSION 1.0.3
+====================================================
+
+Copy and paste these into App Store Connect when submitting version 1.0.3
+
+---
+
+ENGLISH (What's New):
+---------------------
+• Premium Features - Unlock the full Hero experience with a subscription offering unlimited access to all features
+• Progress Statistics - Track your learning progress with beautiful ring charts and detailed statistics
+• PDF Export - Generate and share PDF word lists for offline studying with a professional two-column layout
+• Enhanced Content - Added comprehensive vocabulary and examples to chapters 1-6
+• Launch Experience - Beautiful new launch screen featuring the brand new Hero mascot
+• Content Organization - Improved vocabulary structure for faster loading and better organization
+
+---
+
+GERMAN (Was ist neu):
+---------------------
+• Premium-Funktionen - Schalte die vollständige Hero-Erfahrung mit einem Abo frei und erhalte unbegrenzten Zugriff auf alle Funktionen
+• Fortschrittsstatistiken - Verfolge deinen Lernfortschritt mit schönen Ringdiagrammen und detaillierten Statistiken
+• PDF-Export - Erstelle und teile PDF-Wortlisten für das Offline-Lernen mit professionellem zweispaltigem Layout
+• Erweiterte Inhalte - Umfassendes Vokabular und Beispiele zu Kapiteln 1-6 hinzugefügt
+• Startbildschirm - Schöner neuer Startbildschirm mit dem brandneuen Hero-Maskottchen
+• Inhaltsorganisation - Verbesserte Vokabularstruktur für schnellere Ladezeiten und bessere Organisation
+
+---
+
+KEYWORDS FOR APP STORE OPTIMIZATION:
+-------------------------------------
+- German language learning
+- B2 level German
+- Business German
+- Vocabulary flashcards
+- Premium subscription
+- Progress tracking
+- PDF export
+- Study statistics
+- Spaced repetition
+- Language learning app
+
+---
+
+SUBMISSION CHECKLIST:
+----------------------
+[ ] Version number updated to 1.0.3 in Xcode
+[ ] Build number updated to 4 in Xcode
+[ ] Archive created successfully
+[ ] Archive validated
+[ ] Uploaded to App Store Connect
+[ ] Release notes added (English & German)
+[ ] Subscription product configured in App Store Connect
+[ ] Subscription pricing and availability set
+[ ] Screenshots updated if needed
+[ ] App description reviewed
+[ ] Privacy policy URL verified
+[ ] Support URL verified
+[ ] Marketing URL verified (if applicable)
+[ ] Age rating reviewed
+[ ] App Store categories verified
+[ ] Keywords optimized
+[ ] Preview video updated if needed
+[ ] Subscription terms and conditions configured
+[ ] Submitted for review
+

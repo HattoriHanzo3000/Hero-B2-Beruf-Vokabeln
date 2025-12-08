@@ -73,7 +73,7 @@ struct HomeTabView: View {
                                 
                                 LearningStackCard(
                                     title: Localizable.string(Localizable.adjectivesWithPrepositions),
-                                    accent: Color.purple,
+                                    accent: Color("AppPurple"),
                                     icon: "square.stack.3d.up.fill"
                                 )
                                 .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
@@ -91,9 +91,9 @@ struct HomeTabView: View {
                                 
                                 LearningStackCard(
                                     title: Localizable.string(Localizable.favoritesWordsTitle),
-                                    accent: Color.yellow,
+                                    accent: Color("AppYellow"),
                                     icon: "star.fill",
-                                    isLocked: !subscriptionManager.isPremiumActive
+                                    isLocked: false
                                 )
                                 .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
                                 .id("favorites_\(languageManager.currentLanguage)")
@@ -179,27 +179,30 @@ struct LearningStackCard: View {
     
     var body: some View {
         ZStack {
-            // Bottom layer (stack effect)
+            // Bottom layer (stack effect) - NOW SOLID ACCENT COLOR
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(accent)
+                .offset(x: 0, y: 14)
+                .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 7)
+            
+            // Middle layer - LIKE TOP LAYER BUT WITH DOUBLED OPACITY
             ZStack {
                 if colorScheme == .dark {
-                    // Dark mode: use darker version of accent color
+                    // Dark mode: black base with accent at doubled opacity (0.8)
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(Color.black)
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(accent.opacity(0.4))
+                        .fill(accent.opacity(0.8))
                 } else {
+                    // Light mode: white base with accent at doubled opacity (0.5)
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(Color.white)
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(accent.opacity(0.5))
                 }
             }
-            .offset(x: 0, y: 14)
-            .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 7)
-            
-            // Middle layer
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(accent)
-                .offset(x: 0, y: 8)
-                .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 5)
+            .offset(x: 0, y: 8)
+            .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 5)
             
             // Top card - light accent color background with transparency
             ZStack {

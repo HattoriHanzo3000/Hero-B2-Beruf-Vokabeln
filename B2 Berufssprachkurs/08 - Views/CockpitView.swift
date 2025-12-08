@@ -11,7 +11,6 @@ struct CockpitView: View {
     @StateObject private var dataService = DataService()
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var navigateToSettings = false
     @State private var showPremiumAlert = false
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
@@ -29,7 +28,11 @@ struct CockpitView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            Color("AppGreenLight")
+            Color("AppGreenExtraLight")
+                .ignoresSafeArea()
+            
+            // Playful word background
+            WordWallpaperBackground(dataService: dataService)
                 .ignoresSafeArea()
             
             ScrollView {
@@ -92,7 +95,16 @@ struct CockpitView: View {
                             .padding(.horizontal, 16)
                             .background(
                                 Capsule(style: .continuous)
-                                    .fill(Color("AppGreen"))
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [
+                                                Color("AppGreen"),
+                                                Color("AppBlue")
+                                            ],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
                             )
                             .contentShape(Capsule(style: .continuous))
                             
@@ -128,7 +140,16 @@ struct CockpitView: View {
                                 .padding(.horizontal, 16)
                                 .background(
                                     Capsule(style: .continuous)
-                                        .fill(Color("AppGreen"))
+                                        .fill(
+                                            LinearGradient(
+                                                colors: [
+                                                    Color("AppGreen"),
+                                                    Color("AppBlue")
+                                                ],
+                                                startPoint: .leading,
+                                                endPoint: .trailing
+                                            )
+                                        )
                                 )
                                 .contentShape(Capsule(style: .continuous))
                             }
@@ -176,26 +197,10 @@ struct CockpitView: View {
             VStack {
                 Spacer()
                 BannerAd()
-                    .background(Color("AppGreenLight"))
+                    .background(Color("AppGreenExtraLight"))
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    navigateToSettings = true
-                }) {
-                    Image(systemName: "gear")
-                        .foregroundColor(.primary)
-                }
-            }
-        }
-        .fullScreenCover(isPresented: $navigateToSettings) {
-            NavigationStack {
-                SettingsView()
-                    .environmentObject(dataService)
-            }
-        }
         .alert(Localizable.string(Localizable.premiumRequired), isPresented: $showPremiumAlert) {
             Button(Localizable.string(Localizable.ok), role: .cancel) { }
         } message: {

@@ -100,8 +100,7 @@ struct GroupedToolbar: View {
                         onTranslationTap()
                     }) {
                         Image(systemName: ToolbarButtonType.translation.icon)
-                            .font(.body)
-                            .fontWeight(.medium)
+                            .font(.system(.body, design: .rounded).weight(.medium))
                             .foregroundColor(selectedButton == .translation ? ToolbarButtonType.translation.color : .primary)
                             .frame(width: 44, height: 44)
                             .animation(.easeInOut(duration: 0.2), value: selectedButton)
@@ -126,8 +125,7 @@ struct GroupedToolbar: View {
                         onExampleTap?()
                     }) {
                         Image(systemName: ToolbarButtonType.example.icon)
-                            .font(.body)
-                            .fontWeight(.medium)
+                            .font(.system(.body, design: .rounded).weight(.medium))
                             .foregroundColor(selectedButton == .example ? ToolbarButtonType.example.color : .primary)
                             .frame(width: 44, height: 44)
                             .animation(.easeInOut(duration: 0.2), value: selectedButton)
@@ -152,8 +150,7 @@ struct GroupedToolbar: View {
                         onTranslationTap()
                     }) {
                         Image(systemName: ToolbarButtonType.translation.icon)
-                            .font(.body)
-                            .fontWeight(.medium)
+                            .font(.system(.body, design: .rounded).weight(.medium))
                             .foregroundColor(selectedButton == .translation ? ToolbarButtonType.translation.color : .primary)
                             .frame(width: 44, height: 44)
                             .animation(.easeInOut(duration: 0.2), value: selectedButton)
@@ -178,8 +175,7 @@ struct GroupedToolbar: View {
                         onExplanationTap()
                     }) {
                         Image(systemName: ToolbarButtonType.explanation.icon)
-                            .font(.body)
-                            .fontWeight(.medium)
+                            .font(.system(.body, design: .rounded).weight(.medium))
                             .foregroundColor(selectedButton == .explanation ? ToolbarButtonType.explanation.color : .primary)
                             .frame(width: 44, height: 44)
                             .animation(.easeInOut(duration: 0.2), value: selectedButton)
@@ -204,8 +200,7 @@ struct GroupedToolbar: View {
                         onSynonymTap()
                     }) {
                         Image(systemName: ToolbarButtonType.synonym.icon)
-                            .font(.body)
-                            .fontWeight(.medium)
+                            .font(.system(.body, design: .rounded).weight(.medium))
                             .foregroundColor(selectedButton == .synonym ? ToolbarButtonType.synonym.color : .primary)
                             .frame(width: 44, height: 44)
                             .animation(.easeInOut(duration: 0.2), value: selectedButton)

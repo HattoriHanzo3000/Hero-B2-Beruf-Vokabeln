@@ -8,11 +8,46 @@
 import SwiftUI
 
 struct PremiumView: View {
+    @EnvironmentObject private var dataService: DataService
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var showPaywall = false
+    
+    // Determine button text based on user's subscription/trial status
+    private var buttonText: String {
+        if subscriptionManager.hasActiveSubscription {
+            // User has active subscription - show "Change Plan"
+            return Localizable.string(Localizable.changePlan)
+        } else if subscriptionManager.hasUsedTrial {
+            // Trial was used but cancelled - show "Upgrade to Premium"
+            return Localizable.string(Localizable.upgradeToPremium)
+        } else {
+            // Trial not used yet - show "Start Free Trial"
+            return Localizable.string(Localizable.startFreeTrial)
+        }
+    }
+    
+    // Determine button action
+    private func handleButtonAction() {
+        if subscriptionManager.hasActiveSubscription {
+            // User has subscription - show paywall to change plan
+            showPaywall = true
+        } else if !subscriptionManager.hasUsedTrial {
+            // Trial not used - activate trial
+            subscriptionManager.activateTrial()
+            HapticManager.shared.success()
+        } else {
+            // Trial used but cancelled - show paywall to subscribe
+            showPaywall = true
+        }
+    }
     
     var body: some View {
         ZStack {
             Color("AppGreenExtraLight")
+                .ignoresSafeArea()
+            
+            // Playful word background
+            WordWallpaperBackground(dataService: dataService)
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
@@ -22,7 +57,7 @@ struct PremiumView: View {
                         VStack(spacing: 20) {
                             // Big crown icon
                             Image(systemName: "crown.fill")
-                                .font(.system(size: 80, weight: .semibold))
+                                .font(.system(size: 80, weight: .semibold, design: .rounded))
                                 .foregroundStyle(
                                     LinearGradient(
                                         colors: [
@@ -37,7 +72,7 @@ struct PremiumView: View {
                             
                             // Title
                             Text(Localizable.string(Localizable.premiumUnlockTitle))
-                                .font(.title2.weight(.bold))
+                                .font(.system(.title2, design: .rounded).weight(.bold))
                                 .foregroundColor(.primary)
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 24)
@@ -56,12 +91,12 @@ struct PremiumView: View {
                 VStack(spacing: 0) {
                     Button(action: {
                         HapticManager.shared.mediumImpact()
-                        showPaywall = true
+                        handleButtonAction()
                     }) {
                         HStack {
                             Spacer()
-                            Text(Localizable.string(Localizable.unlockPremium))
-                                .font(.headline.weight(.semibold))
+                            Text(buttonText)
+                                .font(.system(.headline, design: .rounded).weight(.semibold))
                                 .foregroundColor(.white)
                             Spacer()
                         }
@@ -104,7 +139,7 @@ private struct PremiumComparisonTable: View {
             HStack(alignment: .center, spacing: 0) {
                 // Benefits column
                 Text(Localizable.string(Localizable.benefits))
-                    .font(.subheadline.weight(.semibold))
+                    .font(.system(.subheadline, design: .rounded).weight(.bold))
                     .foregroundColor(.primary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 16)
@@ -117,7 +152,7 @@ private struct PremiumComparisonTable: View {
                 HStack {
                     Spacer()
                     Text(Localizable.string(Localizable.free))
-                        .font(.subheadline.weight(.medium))
+                        .font(.system(.subheadline, design: .rounded).weight(.bold))
                         .foregroundColor(.primary)
                     Spacer()
                 }
@@ -131,8 +166,17 @@ private struct PremiumComparisonTable: View {
                 HStack {
                     Spacer()
                     Text(Localizable.string(Localizable.premiumColumn))
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundColor(Color("AppGreen"))
+                        .font(.system(.subheadline, design: .rounded).weight(.bold))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [
+                                    Color("AppGreen"),
+                                    Color("AppBlue")
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
                     Spacer()
                 }
                 .frame(width: 80)
@@ -146,15 +190,6 @@ private struct PremiumComparisonTable: View {
             PremiumTableRow(
                 benefit: Localizable.string(Localizable.accessToAllWords),
                 freeAvailable: true,
-                premiumAvailable: true
-            )
-            
-            Divider()
-                .padding(.horizontal, 16)
-            
-            PremiumTableRow(
-                benefit: Localizable.string(Localizable.noAds),
-                freeAvailable: false,
                 premiumAvailable: true
             )
             
@@ -230,7 +265,7 @@ private struct PremiumTableRow: View {
         HStack(alignment: .center, spacing: 0) {
             // Benefits column
             Text(benefit)
-                .font(.subheadline)
+                .font(.system(.subheadline, design: .rounded))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
@@ -246,11 +281,20 @@ private struct PremiumTableRow: View {
                 Spacer()
                 if freeAvailable {
                     Image(systemName: "checkmark.circle.fill")
-                        .font(.title3)
-                        .foregroundColor(Color("AppGreen"))
+                        .font(.system(.title3, design: .rounded))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [
+                                    Color("AppGreen"),
+                                    Color("AppBlue")
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                 } else {
                     Image(systemName: "minus")
-                        .font(.title3)
+                        .font(.system(.title3, design: .rounded))
                         .foregroundColor(.secondary.opacity(0.5))
                 }
                 Spacer()
@@ -265,11 +309,20 @@ private struct PremiumTableRow: View {
                 Spacer()
                 if premiumAvailable {
                     Image(systemName: "checkmark.circle.fill")
-                        .font(.title3)
-                        .foregroundColor(Color("AppGreen"))
+                        .font(.system(.title3, design: .rounded))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [
+                                    Color("AppGreen"),
+                                    Color("AppBlue")
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                 } else {
                     Image(systemName: "minus")
-                        .font(.title3)
+                        .font(.system(.title3, design: .rounded))
                         .foregroundColor(.secondary.opacity(0.5))
                 }
                 Spacer()
@@ -282,6 +335,7 @@ private struct PremiumTableRow: View {
 #Preview {
     NavigationStack {
         PremiumView()
+            .environmentObject(DataService())
     }
 }
 

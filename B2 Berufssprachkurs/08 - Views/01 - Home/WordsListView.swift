@@ -42,7 +42,7 @@ struct WordsListView: View {
             return (Color("AppBlue"), "square.stack.3d.up.fill", Localizable.string(Localizable.verbsWithPrepositions))
         }
         if isAdjektiveSection {
-            return (Color.purple, "square.stack.3d.up.fill", Localizable.string(Localizable.adjectivesWithPrepositions))
+            return (Color("AppPurple"), "square.stack.3d.up.fill", Localizable.string(Localizable.adjectivesWithPrepositions))
         }
         // For general words sections (default)
         return (Color("AppGreen"), "square.stack.3d.up.fill", Localizable.string(Localizable.generalWords))
@@ -150,8 +150,8 @@ struct WordsListView: View {
                         HapticManager.shared.mediumImpact()
                         navigateToStudy = true
                     } label: {
-                        Text(Localizable.string(Localizable.practice))
-                            .font(.headline.weight(.semibold))
+                    Text(Localizable.string(Localizable.practice))
+                        .font(.system(.headline, design: .rounded).weight(.semibold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 50)
@@ -208,8 +208,7 @@ struct WordsListView: View {
                     navigateToPreviousField()
                 }) {
                     Image(systemName: "chevron.up")
-                        .font(.callout)
-                        .fontWeight(.semibold)
+                        .font(.system(.callout, design: .rounded).weight(.semibold))
                 }
                 .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0)
                 .accessibilityLabel("Previous word")
@@ -220,8 +219,7 @@ struct WordsListView: View {
                     navigateToNextField()
                 }) {
                     Image(systemName: "chevron.down")
-                        .font(.callout)
-                        .fontWeight(.semibold)
+                        .font(.system(.callout, design: .rounded).weight(.semibold))
                 }
                 .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= words.count - 1)
                 .accessibilityLabel("Next word")
@@ -231,9 +229,8 @@ struct WordsListView: View {
                     HapticManager.shared.lightImpact()
                     focusedWordId = nil
                 }) {
-                    Text("Done")
-                        .font(.callout)
-                        .fontWeight(.semibold)
+                        Text("Done")
+                        .font(.system(.callout, design: .rounded).weight(.semibold))
                 }
                 .accessibilityLabel("Done")
                 .accessibilityHint("Hide keyboard and finish input")
@@ -373,7 +370,7 @@ struct WordRow: View {
     
     @State private var localTranslation: String = ""
     
-    private func attributedText(label: String, value: String, labelFont: Font = .caption.weight(.semibold), valueFont: Font = .caption, labelColor: Color = .secondary, valueColor: Color = .primary) -> AttributedString {
+    private func attributedText(label: String, value: String, labelFont: Font = .system(.caption, design: .rounded).weight(.semibold), valueFont: Font = .system(.caption, design: .rounded), labelColor: Color = .secondary, valueColor: Color = .primary) -> AttributedString {
         var fullText = AttributedString("\(label)\(value)")
         if let labelRange = fullText.range(of: label) {
             fullText[labelRange].font = labelFont
@@ -391,8 +388,8 @@ struct WordRow: View {
             // Star on the left (yellow when favorited)
             Button(action: onFavoriteToggle) {
                 Image(systemName: isFavorite ? "star.fill" : "star")
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(isFavorite ? Color.yellow : .secondary)
+                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
                     .symbolEffect(.bounce, value: isFavorite)
             }
             .buttonStyle(.plain)
@@ -404,13 +401,12 @@ struct WordRow: View {
             // German word with example sentence
             VStack(alignment: .leading, spacing: 4) {
                 Text(word.german)
-                    .font(.body)
-                    .fontWeight(.medium)
+                    .font(.system(.body, design: .rounded).weight(.medium))
                     .foregroundColor(.primary)
                 
                 if let example = word.example, !example.isEmpty {
                     Text(example)
-                        .font(.subheadline)
+                        .font(.system(.subheadline, design: .rounded))
                         .foregroundColor(.secondary)
                         .italic()
                 }
@@ -437,7 +433,7 @@ struct WordRow: View {
                 
                 // Row 3: Translation input field
                 TextField("Übersetzung", text: $localTranslation, axis: .vertical)
-                    .font(.subheadline)
+                    .font(.system(.subheadline, design: .rounded))
                     .lineLimit(1...10)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
@@ -497,7 +493,7 @@ struct WordsListHeaderView: View {
             
             VStack(alignment: .leading, spacing: 6) {
                 Text(stackTitle)
-                    .font(.title2.weight(.semibold))
+                    .font(.system(.title2, design: .rounded).weight(.semibold))
                     .foregroundColor(.primary)
                 
                 // Show titles: for verben show only section (preposition), for general show both
@@ -506,28 +502,28 @@ struct WordsListHeaderView: View {
                     HStack(spacing: 8) {
                         if !lectionNumber.isEmpty {
                             Text(lectionNumber)
-                                .font(.title3.weight(.semibold))
+                                .font(.system(.title3, design: .rounded).weight(.semibold))
                                 .foregroundColor(.primary)
                         }
                         Text(lectionTitle)
-                            .font(.title3.weight(.medium))
+                            .font(.system(.title3, design: .rounded).weight(.medium))
                             .foregroundColor(.primary)
                     }
                     
                     HStack(spacing: 8) {
                         if !sectionLetter.isEmpty {
                             Text(sectionLetter.uppercased())
-                                .font(.headline.weight(.semibold))
+                                .font(.system(.headline, design: .rounded).weight(.semibold))
                                 .foregroundColor(.primary)
                         }
                         Text(sectionTitle)
-                            .font(.headline.weight(.medium))
+                            .font(.system(.headline, design: .rounded).weight(.medium))
                             .foregroundColor(.primary)
                     }
                 } else if !sectionTitle.isEmpty {
                     // Show only section/preposition title
                     Text(sectionTitle)
-                        .font(.headline.weight(.medium))
+                        .font(.system(.headline, design: .rounded).weight(.medium))
                         .foregroundColor(.primary)
                 }
             }

@@ -91,7 +91,7 @@ struct FlashCardView: View {
             }
             .overlay {
                 Text(frontText)
-                    .font(.system(size: 24, weight: .semibold))
+                    .font(.system(size: 24, weight: .semibold, design: .rounded))
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
@@ -148,7 +148,7 @@ struct FlashCardView: View {
             }
             .overlay {
                 Text(backText)
-                    .font(.system(size: 24, weight: .semibold))
+                    .font(.system(size: 24, weight: .semibold, design: .rounded))
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)

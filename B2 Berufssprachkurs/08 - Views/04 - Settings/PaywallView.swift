@@ -11,9 +11,55 @@ import StoreKit
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var isMonthlySelected = true
+    @StateObject private var promoCodeManager = PromoCodeManager.shared
+    @State private var selectedProductID: String = "yearly_19.99_3d_trial"
+    
+    // Computed property for button text based on selected product and trial eligibility
+    private var buttonText: String {
+        if selectedProductID == "yearly_19.99_3d_trial" && !subscriptionManager.hasUsedTrial {
+            return Localizable.string(Localizable.startFreeTrial)
+        } else {
+            return Localizable.string(Localizable.upgradeNow)
+        }
+    }
+    
+    // Computed property for dynamic subscription terms based on selected product
+    private var dynamicSubscriptionTerms: String {
+        let price: String
+        
+        // Get price from StoreKit product or use fallback
+        if let product = subscriptionManager.products[selectedProductID] {
+            // Use StoreKit product price (automatically updates if price changes)
+            price = product.displayPrice
+        } else {
+            // Use fallback prices until StoreKit products load
+            switch selectedProductID {
+            case "monthly_2.99_3d_trial":
+                price = "2,99€"
+            case "yearly_19.99_3d_trial":
+                price = "19,99€"
+            case "lifetime_49.99":
+                price = "49,99€"
+            default:
+                price = "2,99€"
+            }
+        }
+        
+        // Determine which terms template to use based on subscription type
+        if selectedProductID == "lifetime_49.99" {
+            // Lifetime - one-time purchase
+            return String(format: Localizable.string(Localizable.subscriptionTermsLifetime), price)
+        } else if selectedProductID == "yearly_19.99_3d_trial" {
+            // Yearly subscription
+            return String(format: Localizable.string(Localizable.subscriptionTermsYearly), price)
+        } else {
+            // Monthly subscription (default)
+            return String(format: Localizable.string(Localizable.subscriptionTermsMonthly), price)
+        }
+    }
     @State private var showingError = false
     @State private var presentingLegalURL: URL? = nil
+    @State private var showRedeemPromoCodeSheet = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -21,7 +67,7 @@ struct PaywallView: View {
                 VStack(spacing: 24) {
                     // Crown icon
                     Image(systemName: "crown.fill")
-                        .font(.system(size: 60, weight: .semibold))
+                        .font(.system(size: 60, weight: .semibold, design: .rounded))
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [
@@ -37,7 +83,7 @@ struct PaywallView: View {
                     
                     // Title with gradient
                     Text(Localizable.string(Localizable.heroPremiumSubscription))
-                        .font(.title2.weight(.bold))
+                        .font(.system(.title2, design: .rounded).weight(.bold))
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [
@@ -51,60 +97,88 @@ struct PaywallView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
                     
-                    // Subtitle
-                    Text(Localizable.string(Localizable.proBenefitsDescription))
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
-                    
-                    // Monthly subscription button
-                    Button(action: {
-                        HapticManager.shared.lightImpact()
-                        isMonthlySelected = true
-                    }) {
-                        HStack(spacing: 12) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(Localizable.string(Localizable.monthlySubscription))
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-                            }
-                            
-                            Spacer()
-                            
-                            // StoreKit product price instead of checkmark
-                            if let product = subscriptionManager.product {
-                                Text("\(product.displayPrice)/\(Localizable.string(Localizable.month))")
-                                    .font(.headline)
-                                    .foregroundColor(Color("AppGreen"))
-                            } else {
-                                Text("1,99€/\(Localizable.string(Localizable.month))")
-                                    .font(.headline)
-                                    .foregroundColor(Color("AppGreen"))
-                            }
-                        }
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(isMonthlySelected ? Color("AppGreen").opacity(0.1) : Color(.systemGray6))
+                    // Benefits checklist
+                    VStack(alignment: .leading, spacing: 12) {
+                        BenefitChecklistItem(
+                            text: Localizable.string(Localizable.accessToAllWords)
                         )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .stroke(
-                                    isMonthlySelected ? Color("AppGreen") : Color.clear,
-                                    lineWidth: 2
-                                )
+                        BenefitChecklistItem(
+                            text: Localizable.string(Localizable.detailedProgress)
+                        )
+                        BenefitChecklistItem(
+                            text: Localizable.string(Localizable.favoriteWords)
+                        )
+                        BenefitChecklistItem(
+                            text: Localizable.string(Localizable.practiceModes)
+                        )
+                    }
+                    .padding(.horizontal, 32)
+                    .padding(.top, 8)
+                    
+                    // Subtitle (temporarily deactivated)
+                    // Text(Localizable.string(Localizable.proBenefitsDescription))
+                    //     .font(.system(.subheadline, design: .rounded))
+                    //     .foregroundColor(.secondary)
+                    //     .multilineTextAlignment(.center)
+                    //     .padding(.horizontal, 32)
+                    
+                    // Subscription options
+                    VStack(spacing: 12) {
+                        // Monthly subscription button
+                        SubscriptionOptionButton(
+                            title: Localizable.string(Localizable.monthly),
+                            explanation: Localizable.string(Localizable.monthlyExplanation),
+                            productID: "monthly_2.99_3d_trial",
+                            fallbackPrice: "2,99€",
+                            period: Localizable.string(Localizable.perMonth),
+                            isSelected: selectedProductID == "monthly_2.99_3d_trial",
+                            showFreeTrial: false,
+                            subscriptionManager: subscriptionManager,
+                            onSelect: {
+                                HapticManager.shared.lightImpact()
+                                selectedProductID = "monthly_2.99_3d_trial"
+                            }
+                        )
+                        
+                        // Yearly subscription button
+                        SubscriptionOptionButton(
+                            title: Localizable.string(Localizable.yearly),
+                            explanation: Localizable.string(Localizable.yearlyExplanation),
+                            productID: "yearly_19.99_3d_trial",
+                            fallbackPrice: "19,99€",
+                            period: Localizable.string(Localizable.year1),
+                            isSelected: selectedProductID == "yearly_19.99_3d_trial",
+                            showFreeTrial: !subscriptionManager.hasUsedTrial,
+                            subscriptionManager: subscriptionManager,
+                            onSelect: {
+                                HapticManager.shared.lightImpact()
+                                selectedProductID = "yearly_19.99_3d_trial"
+                            }
+                        )
+                        
+                        // Lifetime subscription button
+                        SubscriptionOptionButton(
+                            title: Localizable.string(Localizable.lifetime),
+                            explanation: Localizable.string(Localizable.lifetimeExplanation),
+                            productID: "lifetime_49.99",
+                            fallbackPrice: "49,99€",
+                            period: "",
+                            isSelected: selectedProductID == "lifetime_49.99",
+                            showFreeTrial: false,
+                            subscriptionManager: subscriptionManager,
+                            onSelect: {
+                                HapticManager.shared.lightImpact()
+                                selectedProductID = "lifetime_49.99"
+                            }
                         )
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 8)
                     
-                    Spacer(minLength: 20)
-                    
-                    // Terms text
+                    // Terms text (Upon subscribing... / You can cancel anytime...)
                     VStack(spacing: 8) {
-                        Text(Localizable.string(Localizable.subscriptionTerms))
-                            .font(.caption2)
+                        Text(dynamicSubscriptionTerms)
+                            .font(.system(.caption2, design: .rounded))
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                         
@@ -115,12 +189,12 @@ struct PaywallView: View {
                                 presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
                             }) {
                                 Text(Localizable.string(Localizable.termsOfUse))
-                                    .font(.caption)
+                                    .font(.system(.caption, design: .rounded))
                                     .foregroundColor(Color("AppGreen"))
                             }
                             
                             Text("•")
-                                .font(.caption)
+                                .font(.system(.caption, design: .rounded))
                                 .foregroundColor(.secondary)
                             
                             Button(action: {
@@ -128,31 +202,72 @@ struct PaywallView: View {
                                 presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
                             }) {
                                 Text(Localizable.string(Localizable.privacyPolicy))
-                                    .font(.caption)
+                                    .font(.system(.caption, design: .rounded))
                                     .foregroundColor(Color("AppGreen"))
                             }
                         }
                     }
                     .padding(.horizontal, 32)
-                    .padding(.bottom, 16)
+                    .padding(.top, 16)
+                    
+                    // iCloud Family sharing text (All plans...)
+                    Text(Localizable.string(Localizable.iCloudFamilySharing))
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+                        .padding(.top, 12)
+                    
+                    // Already Upgraded section
+                    VStack(spacing: 8) {
+                        Text(Localizable.string(Localizable.alreadyUpgraded))
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                        
+                        Button(action: {
+                            Task {
+                                await handleRestorePurchases()
+                            }
+                        }) {
+                            Text(Localizable.string(Localizable.restorePurchase))
+                                .font(.system(.caption, design: .rounded))
+                                .foregroundColor(Color("AppGreen"))
+                        }
+                        .disabled(subscriptionManager.isLoading)
+                    }
+                    .padding(.horizontal, 32)
+                    .padding(.top, 16)
+                    
+                    // Got a code section
+                    VStack(spacing: 8) {
+                        Text(Localizable.string(Localizable.gotACode))
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                        
+                        Button(action: {
+                            HapticManager.shared.lightImpact()
+                            showRedeemPromoCodeSheet = true
+                        }) {
+                            Text(Localizable.string(Localizable.redeem))
+                                .font(.system(.caption, design: .rounded))
+                                .foregroundColor(Color("AppGreen"))
+                        }
+                    }
+                    .padding(.horizontal, 32)
+                    .padding(.top, 8)
+                    
+                    Spacer(minLength: 20)
                 }
             }
-            
-            // Restore Purchases button (outside white box)
-            Button(action: {
-                Task {
-                    await handleRestorePurchases()
-                }
-            }) {
-                Text("Restore Purchases")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-            }
-            .disabled(subscriptionManager.isLoading)
-            .padding(.top, 12)
             
             // Subscribe button at bottom
             VStack(spacing: 0) {
+                // Thin border line at top of footer
+                Divider()
+                    .background(Color(.separator))
+                
                 Button(action: {
                     Task {
                         await handlePurchase()
@@ -164,8 +279,8 @@ struct PaywallView: View {
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                         } else {
                             Spacer()
-                            Text(Localizable.string(Localizable.continueButton))
-                                .font(.headline.weight(.semibold))
+                            Text(buttonText)
+                                .font(.system(.headline, design: .rounded).weight(.semibold))
                                 .foregroundColor(.white)
                             Spacer()
                         }
@@ -203,7 +318,7 @@ struct PaywallView: View {
         }
         .task {
             // Load products when view appears
-            if subscriptionManager.product == nil {
+            if subscriptionManager.products.isEmpty {
                 await subscriptionManager.loadProducts()
             }
         }
@@ -213,6 +328,9 @@ struct PaywallView: View {
             if let errorMessage = subscriptionManager.errorMessage {
                 Text(errorMessage)
             }
+        }
+        .sheet(isPresented: $showRedeemPromoCodeSheet) {
+            RedeemPromoCodeSheet()
         }
         .onChange(of: subscriptionManager.isPremiumActive) { _, isActive in
             if isActive {
@@ -238,23 +356,10 @@ struct PaywallView: View {
     
     // MARK: - Computed Properties
     
-    private var priceText: String {
-        if let product = subscriptionManager.product {
-            return "\(product.displayPrice) \(Localizable.string(Localizable.perMonth))"
-        }
-        return "1,99€ \(Localizable.string(Localizable.perMonth))"
-    }
-    
-    private var subscriptionPriceText: String {
-        if let product = subscriptionManager.product {
-            return "\(product.displayPrice) \(Localizable.string(Localizable.perMonth))"
-        }
-        return "1,99€ \(Localizable.string(Localizable.perMonth))"
-    }
     
     private var isButtonEnabled: Bool {
-        !subscriptionManager.isLoading &&
-        subscriptionManager.product != nil &&
+        return !subscriptionManager.isLoading &&
+        subscriptionManager.products[selectedProductID] != nil &&
         subscriptionManager.purchaseState != .purchasing &&
         subscriptionManager.purchaseState != .loading
     }
@@ -264,8 +369,14 @@ struct PaywallView: View {
     private func handlePurchase() async {
         HapticManager.shared.mediumImpact()
         
+        // If Yearly is selected and trial hasn't been used, activate trial first
+        if selectedProductID == "yearly_19.99_3d_trial" && !subscriptionManager.hasUsedTrial {
+            subscriptionManager.activateTrial()
+            // After activating trial, proceed with purchase
+        }
+        
         do {
-            try await subscriptionManager.purchaseSubscription()
+            try await subscriptionManager.purchaseSubscription(productID: selectedProductID)
         } catch {
             // Error is handled by SubscriptionManager and shown via alert
             print("Purchase error: \(error.localizedDescription)")
@@ -289,6 +400,116 @@ struct PaywallView: View {
     struct LegalDocument: Identifiable {
         let url: URL
         var id: URL { url }
+    }
+}
+
+// MARK: - Subscription Option Button
+private struct SubscriptionOptionButton: View {
+    let title: String
+    let explanation: String
+    let productID: String?
+    let fallbackPrice: String
+    let period: String
+    let isSelected: Bool
+    let showFreeTrial: Bool
+    @ObservedObject var subscriptionManager: SubscriptionManager
+    let onSelect: () -> Void
+    
+    // Computed price text
+    private var priceText: String {
+        if let productID = productID, let product = subscriptionManager.products[productID] {
+            if period.isEmpty {
+                return product.displayPrice
+            } else {
+                return "\(product.displayPrice)/\(period)"
+            }
+        } else {
+            if period.isEmpty {
+                return fallbackPrice
+            } else {
+                return "\(fallbackPrice)/\(period)"
+            }
+        }
+    }
+    
+    var body: some View {
+        Button(action: onSelect) {
+            VStack(spacing: 8) {
+                // First row: Title on left, Price on right
+                HStack {
+                    Text(title)
+                        .font(.system(.headline, design: .rounded))
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
+                    
+                    Text(priceText)
+                        .font(.system(.headline, design: .rounded))
+                        .foregroundColor(Color("AppGreen"))
+                }
+                
+                // Second row: Explanation on left, Free Trial badge on right (if applicable)
+                HStack(alignment: .center) {
+                    Text(explanation)
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    if showFreeTrial {
+                        // Free Trial badge
+                        Text(Localizable.string(Localizable.freeTrial))
+                            .font(.system(.caption2, design: .rounded).weight(.bold))
+                            .foregroundColor(Color("AppOrange"))
+                            .textCase(.uppercase)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                Capsule()
+                                    .fill(Color("AppOrange").opacity(0.15))
+                            )
+                    }
+                }
+            }
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(isSelected ? Color("AppGreen").opacity(0.1) : Color(.systemGray6))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(
+                        isSelected ? Color("AppGreen") : Color.clear,
+                        lineWidth: 2
+                    )
+            )
+        }
+    }
+}
+
+// MARK: - Benefit Checklist Item
+private struct BenefitChecklistItem: View {
+    let text: String
+    
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [
+                            Color("AppGreen"),
+                            Color("AppBlue")
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+            
+            Text(text)
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundColor(.primary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

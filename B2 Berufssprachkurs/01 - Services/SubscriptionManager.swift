@@ -13,15 +13,25 @@ import Combine
 final class SubscriptionManager: ObservableObject {
     static let shared = SubscriptionManager()
     
-    // Product ID from App Store Connect
-    private let productID = "monthly_1.99_3d_trial"
+    // Product IDs from App Store Connect
+    private let productIDs = [
+        "monthly_2.99_3d_trial",
+        "yearly_19.99_3d_trial",
+        "lifetime_49.99"
+    ]
     
     // Published properties for UI observation
     @Published var isPremiumActive = false
+    @Published var hasActiveSubscription = false // Separate from trial
     @Published var isLoading = false
     @Published var purchaseState: PurchaseState = .idle
-    @Published var product: Product?
+    @Published var products: [String: Product] = [:]
     @Published var errorMessage: String?
+    
+    // Convenience property for backward compatibility (defaults to monthly)
+    var product: Product? {
+        products["monthly_2.99_3d_trial"]
+    }
     
     // StoreKit transaction listener
     private var updateListenerTask: Task<Void, Error>?
@@ -33,7 +43,8 @@ final class SubscriptionManager: ObservableObject {
     
     // Private initialization
     private init() {
-        // Initialize 3-day trial for new users
+        // Initialize 3-day trial for new users (but don't auto-activate)
+        // Trial will be activated when user taps "Start Free Trial" button
         initializeTrialIfNeeded()
         
         // Start listening for transaction updates
@@ -66,16 +77,18 @@ final class SubscriptionManager: ObservableObject {
         errorMessage = nil
         
         do {
-            let products = try await Product.products(for: [productID])
+            let loadedProducts = try await Product.products(for: productIDs)
             
-            if let product = products.first {
-                self.product = product
-                
-                // Update subscription status after loading product
-                await checkSubscriptionStatus()
-            } else {
-                errorMessage = "Product not found in App Store Connect"
+            // Store products in dictionary by product ID
+            var productsDict: [String: Product] = [:]
+            for product in loadedProducts {
+                productsDict[product.id] = product
             }
+            
+            self.products = productsDict
+            
+            // Update subscription status after loading products
+            await checkSubscriptionStatus()
         } catch {
             errorMessage = "Failed to load products: \(error.localizedDescription)"
             print("SubscriptionManager: Error loading products - \(error)")
@@ -90,21 +103,22 @@ final class SubscriptionManager: ObservableObject {
         // Check subscription entitlements
         var hasSubscription = false
         
-        if product != nil {
-            for await result in Transaction.currentEntitlements {
-                do {
-                    let transaction = try checkVerified(result)
-                    
-                    // Check if this transaction is for our product
-                    if transaction.productID == productID {
-                        hasSubscription = true
-                        break
-                    }
-                } catch {
-                    print("SubscriptionManager: Error verifying transaction - \(error)")
+        for await result in Transaction.currentEntitlements {
+            do {
+                let transaction = try checkVerified(result)
+                
+                // Check if this transaction is for any of our products
+                if productIDs.contains(transaction.productID) {
+                    hasSubscription = true
+                    break
                 }
+            } catch {
+                print("SubscriptionManager: Error verifying transaction - \(error)")
             }
         }
+        
+        // Track subscription status separately
+        hasActiveSubscription = hasSubscription
         
         // Premium is active if subscription is active OR trial is active
         isPremiumActive = hasSubscription || isTrialActive()
@@ -112,8 +126,11 @@ final class SubscriptionManager: ObservableObject {
     
     // MARK: - Purchase Subscription
     
-    func purchaseSubscription() async throws {
-        guard let product = product else {
+    func purchaseSubscription(productID: String? = nil) async throws {
+        // Use provided productID or default to monthly
+        let targetProductID = productID ?? "monthly_2.99_3d_trial"
+        
+        guard let product = products[targetProductID] else {
             throw SubscriptionError.productNotLoaded
         }
         
@@ -127,6 +144,7 @@ final class SubscriptionManager: ObservableObject {
                 let transaction = try checkVerified(verification)
                 
                 // Update subscription status
+                hasActiveSubscription = true
                 isPremiumActive = true
                 purchaseState = .success
                 
@@ -187,9 +205,10 @@ final class SubscriptionManager: ObservableObject {
                 do {
                     let transaction = try await self.checkVerified(result)
                     
-                    // Update subscription status if this is our product
-                    if transaction.productID == self.productID {
+                    // Update subscription status if this is one of our products
+                    if self.productIDs.contains(transaction.productID) {
                         await MainActor.run {
+                            self.hasActiveSubscription = true
                             self.isPremiumActive = true
                         }
                     }
@@ -219,6 +238,32 @@ final class SubscriptionManager: ObservableObject {
     
     // MARK: - 3-Day Free Trial
     
+    // Check if user has ever activated the trial
+    var hasUsedTrial: Bool {
+        UserDefaults.standard.bool(forKey: trialActivatedKey)
+    }
+    
+    
+    // Activate trial when user taps "Start Free Trial"
+    func activateTrial() {
+        let userDefaults = UserDefaults.standard
+        
+        // Only activate if trial hasn't been used before
+        guard !userDefaults.bool(forKey: trialActivatedKey) else {
+            return
+        }
+        
+        // Activate 3-day trial
+        let now = Date()
+        userDefaults.set(now.timeIntervalSince1970, forKey: firstLaunchDateKey)
+        userDefaults.set(true, forKey: trialActivatedKey)
+        
+        print("SubscriptionManager: 3-day free trial activated")
+        
+        // Update premium status immediately
+        isPremiumActive = true
+    }
+    
     private func initializeTrialIfNeeded() {
         let userDefaults = UserDefaults.standard
         
@@ -229,20 +274,11 @@ final class SubscriptionManager: ObservableObject {
             return
         }
         
-        // Check if this is the first launch
+        // Don't auto-activate trial - user must tap "Start Free Trial" button
+        // Just mark first launch date for tracking
         if userDefaults.object(forKey: firstLaunchDateKey) == nil {
-            // First launch - activate 3-day trial
             let now = Date()
             userDefaults.set(now.timeIntervalSince1970, forKey: firstLaunchDateKey)
-            userDefaults.set(true, forKey: trialActivatedKey)
-            
-            print("SubscriptionManager: 3-day free trial activated for new user")
-            
-            // Update premium status immediately (trial is now active)
-            isPremiumActive = true
-        } else {
-            // Not first launch, check if trial is still active
-            updatePremiumStatusFromTrial()
         }
     }
     
@@ -269,20 +305,22 @@ final class SubscriptionManager: ObservableObject {
     
     private func updatePremiumStatusFromTrial() {
         // Check if trial is active and update premium status accordingly
-        // This is called synchronously to provide immediate feedback
         let trialActive = isTrialActive()
         
         // Only update if we don't already have a subscription
-        // If we have subscription, checkSubscriptionStatus will handle it
         if trialActive {
             // Check subscription status in background, but set trial immediately
             Task {
                 await checkSubscriptionStatus()
             }
             // Set premium to true immediately if trial is active
-            // checkSubscriptionStatus will refine this if subscription exists
             if !isPremiumActive {
                 isPremiumActive = true
+            }
+        } else {
+            // Trial expired, check if we have subscription
+            Task {
+                await checkSubscriptionStatus()
             }
         }
     }

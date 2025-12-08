@@ -56,7 +56,7 @@ struct FavoritesView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.yellow.opacity(0.08)
+                Color("AppYellow").opacity(0.08)
                     .ignoresSafeArea()
                 
                 // Scrollable content including header with Üben button at bottom
@@ -68,8 +68,7 @@ struct FavoritesView: View {
                             Spacer()
                             
                             Text(Localizable.string(Localizable.favorites))
-                                .font(.headline)
-                                .fontWeight(.semibold)
+                                .font(.system(.headline, design: .rounded).weight(.semibold))
                                 .foregroundColor(.primary)
                                 .accessibilityAddTraits(.isHeader)
                             
@@ -80,8 +79,7 @@ struct FavoritesView: View {
                                 dismiss()
                             } label: {
                                 Image(systemName: "xmark")
-                                    .font(.callout)
-                                    .fontWeight(.semibold)
+                                    .font(.system(.callout, design: .rounded).weight(.semibold))
                                     .foregroundColor(.primary)
                                     .frame(width: 44, height: 44)
                                     .background(liquidGlassCircle)
@@ -103,13 +101,12 @@ struct FavoritesView: View {
                                 .accessibilityHidden(true)
                             
                             Text(Localizable.string(Localizable.noFavoritesFound))
-                                .font(.title3)
-                                .fontWeight(.semibold)
+                                .font(.system(.title3, design: .rounded).weight(.semibold))
                                 .foregroundColor(.primary)
                                 .accessibilityAddTraits(.isHeader)
                             
                             Text(Localizable.string(Localizable.noFavoritesFoundMessage))
-                                .font(.body)
+                                .font(.system(.body, design: .rounded))
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 40)
@@ -142,8 +139,7 @@ struct FavoritesView: View {
                         navigateToPreviousField()
                     }) {
                         Image(systemName: "chevron.up")
-                            .font(.callout)
-                            .fontWeight(.semibold)
+                            .font(.system(.callout, design: .rounded).weight(.semibold))
                     }
                     .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0)
                     .accessibilityLabel("Previous word")
@@ -154,8 +150,7 @@ struct FavoritesView: View {
                         navigateToNextField()
                     }) {
                         Image(systemName: "chevron.down")
-                            .font(.callout)
-                            .fontWeight(.semibold)
+                            .font(.system(.callout, design: .rounded).weight(.semibold))
                     }
                     .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= favoriteWords.count - 1)
                     .accessibilityLabel("Next word")
@@ -166,8 +161,7 @@ struct FavoritesView: View {
                         focusedWordId = nil
                     }) {
                         Text("Done")
-                            .font(.callout)
-                            .fontWeight(.semibold)
+                            .font(.system(.callout, design: .rounded).weight(.semibold))
                     }
                     .accessibilityLabel("Done")
                     .accessibilityHint("Hide keyboard and finish input")
@@ -258,22 +252,22 @@ struct FavoritesView: View {
                     navigateToStudy = true
                 } label: {
                     Text(Localizable.string(Localizable.practice))
-                        .font(.headline.weight(.semibold))
+                        .font(.system(.headline, design: .rounded).weight(.semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 50)
                         .background(
                             Capsule(style: .continuous)
-                                .fill(Color.yellow)
+                                .fill(Color("AppYellow"))
                         )
-                        .shadow(color: Color.yellow.opacity(0.3), radius: 8, x: 0, y: 4)
+                        .shadow(color: Color("AppYellow").opacity(0.3), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 8)
                 
                 // Fixed Banner Ad at the bottom
                 BannerAd()
-                    .background(Color.yellow.opacity(0.08))
+                    .background(Color("AppYellow").opacity(0.08))
             }
         }
     }
@@ -353,7 +347,7 @@ struct FavoritesHeaderView: View {
         HStack(spacing: 12) {
             ZStack {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(Color.yellow)
+                    .fill(Color("AppYellow"))
                     .frame(width: 48, height: 48)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -366,7 +360,7 @@ struct FavoritesHeaderView: View {
             }
             
             Text(Localizable.string(Localizable.favorites))
-                .font(.title2.weight(.semibold))
+                .font(.system(.title2, design: .rounded).weight(.semibold))
                 .foregroundColor(.primary)
             
             Spacer()
@@ -376,8 +370,7 @@ struct FavoritesHeaderView: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
-                    .font(.callout)
-                    .fontWeight(.semibold)
+                    .font(.system(.callout, design: .rounded).weight(.semibold))
                     .foregroundColor(.primary)
                     .frame(width: 44, height: 44)
                     .background(liquidGlassCircle)
@@ -421,8 +414,8 @@ struct FavoriteWordRow: View {
             // Star on the left (yellow when favorited)
             Button(action: onFavoriteToggle) {
                 Image(systemName: isFavorite ? "star.fill" : "star")
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(isFavorite ? Color.yellow : .secondary)
+                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
                     .symbolEffect(.bounce, value: isFavorite)
             }
             .buttonStyle(.plain)
@@ -434,13 +427,12 @@ struct FavoriteWordRow: View {
             // German word with example sentence
             VStack(alignment: .leading, spacing: 4) {
                 Text(word.german)
-                    .font(.body)
-                    .fontWeight(.medium)
+                    .font(.system(.body, design: .rounded).weight(.medium))
                     .foregroundColor(.primary)
                 
                 if let example = word.example, !example.isEmpty {
                     Text(example)
-                        .font(.subheadline)
+                        .font(.system(.subheadline, design: .rounded))
                         .foregroundColor(.secondary)
                         .italic()
                 }
@@ -467,7 +459,7 @@ struct FavoriteWordRow: View {
                 
                 // Row 3: Translation input field
                 TextField("Übersetzung", text: $localTranslation, axis: .vertical)
-                    .font(.subheadline)
+                    .font(.system(.subheadline, design: .rounded))
                     .lineLimit(1...10)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)

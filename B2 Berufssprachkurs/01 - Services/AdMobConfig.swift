@@ -9,6 +9,10 @@ import Foundation
 import Combine
 
 struct AdMobConfig {
+    // MARK: - AdMob Enable/Disable Flag
+    // Set to false to temporarily disable all AdMob functionality (banners, interstitials, rewarded)
+    static let isEnabled = false
+    
     // App ID from AdMob dashboard
     static let appID = "ca-app-pub-1380989901130305~8662057835"
     

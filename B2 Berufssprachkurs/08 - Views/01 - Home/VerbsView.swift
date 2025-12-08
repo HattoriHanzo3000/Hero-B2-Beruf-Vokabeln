@@ -56,82 +56,86 @@ struct VerbsView: View {
                     .ignoresSafeArea()
                 
                 VStack(spacing: 0) {
-                    HStack(spacing: 12) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .fill(Color("AppBlue"))
-                                .frame(width: 48, height: 48)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                        .stroke(.white.opacity(0.25), lineWidth: 0.6)
-                                )
-                            Image(systemName: "square.stack.3d.up.fill")
-                                .foregroundColor(.white)
-                                .font(.system(size: 22, weight: .semibold))
-                                .symbolRenderingMode(.hierarchical)
-                        }
-                        
-                        Text(Localizable.string(Localizable.verbsWithPrepositions))
-                            .font(.title2.weight(.semibold))
-                            .foregroundColor(.primary)
-                        
-                        Spacer()
-                        
-                        Button {
-                            HapticManager.shared.lightImpact()
-                            dismiss()
-                        } label: {
-                            Image(systemName: "xmark")
-                                .font(.callout)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.primary)
-                                .frame(width: 44, height: 44)
-                                .background(liquidGlassCircle)
-                        }
-                        .buttonStyle(ScaleButtonStyle())
-                        .accessibilityLabel("Close")
-                        .accessibilityHint("Close this view")
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
-                    .padding(.bottom, 14)
-                    .background(
-                        RoundedRectangle(cornerRadius: 28, style: .continuous)
-                            .fill(.ultraThinMaterial)
+                    // Header similar to main screen - no corners, infinite to top
+                    ZStack(alignment: .top) {
+                        // Background that extends to top edge
+                        Rectangle()
+                            .fill(Color("AppBlue"))
                             .ignoresSafeArea(edges: .top)
-                    )
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 28, style: .continuous)
-                    )
-                    .shadow(color: .black.opacity(0.12), radius: 20, x: 0, y: 12)
-                    .padding(.horizontal, 8)
-                    .padding(.top, 8)
+                            .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
+                        
+                        // Content that respects safe area
+                        HStack(spacing: 12) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                    .fill(Color.white.opacity(0.2))
+                                    .frame(width: 48, height: 48)
+                                Image(systemName: "square.stack.3d.up.fill")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 22, weight: .semibold))
+                                    .symbolRenderingMode(.hierarchical)
+                            }
+                            
+                            Text(Localizable.string(Localizable.verbsWithPrepositions))
+                                .font(.system(.title2, design: .rounded).weight(.semibold))
+                                .foregroundColor(.white)
+                            
+                            Spacer()
+                            
+                            Button {
+                                HapticManager.shared.lightImpact()
+                                dismiss()
+                            } label: {
+                                Image(systemName: "xmark")
+                                    .font(.system(.callout, design: .rounded).weight(.semibold))
+                                    .foregroundColor(.primary)
+                                    .frame(width: 44, height: 44)
+                                    .background(liquidGlassCircle)
+                            }
+                            .buttonStyle(ScaleButtonStyle())
+                            .accessibilityLabel("Close")
+                            .accessibilityHint("Close this view")
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top)
+                        .padding(.bottom, 24)
+                    }
+                    .fixedSize(horizontal: false, vertical: true)
                     
+                    // Content area: list of words/sections
                     ZStack(alignment: .bottom) {
                         VerbsListView(dataService: dataService)
-                            .padding(.top, 12)
-                            .padding(.bottom, 90) // Space for button
+                            .padding(.bottom, 87) // Space for footer (border 0.5 + padding 16 + button 50 + padding 20 = 86.5)
                         
-                        // Üben button at the bottom
-                        Button {
-                            HapticManager.shared.mediumImpact()
-                            navigateToStudy = true
-                        } label: {
-                            Text(Localizable.string(Localizable.practice))
-                                .font(.headline.weight(.semibold))
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 50)
-                                .background(
-                                    Capsule(style: .continuous)
-                                        .fill(Color("AppBlue"))
-                                )
-                                .shadow(color: Color("AppBlue").opacity(0.3), radius: 8, x: 0, y: 4)
+                        // Footer with border and button
+                        VStack(spacing: 0) {
+                            // Thin border line
+                            Rectangle()
+                                .fill(Color(.separator))
+                                .frame(height: 0.5)
+                            
+                            // Üben button at the bottom
+                            Button {
+                                HapticManager.shared.mediumImpact()
+                                navigateToStudy = true
+                            } label: {
+                                Text(Localizable.string(Localizable.practice))
+                                    .font(.system(.headline, design: .rounded).weight(.semibold))
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 50)
+                                    .background(
+                                        Capsule(style: .continuous)
+                                            .fill(Color("AppBlue"))
+                                    )
+                                    .shadow(color: Color("AppBlue").opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
+                            .disabled(!hasAnySelection)
+                            .opacity(hasAnySelection ? 1.0 : 0.5)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 16)
+                            .padding(.bottom, 20)
                         }
-                        .disabled(!hasAnySelection)
-                        .opacity(hasAnySelection ? 1.0 : 0.5)
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 20)
                     }
                 }
             }

@@ -73,9 +73,9 @@ struct StudyView: View {
             case .verbs:
                 return Color("AppBlue")
             case .adjectives:
-                return Color.purple
+                return Color("AppPurple")
             case .favorites:
-                return Color.yellow
+                return Color("AppYellow")
             }
         }
         
@@ -86,9 +86,9 @@ struct StudyView: View {
             case .verbs:
                 return Color("AppBlueLight")
             case .adjectives:
-                return Color.purple.opacity(0.08)
+                return Color("AppPurple").opacity(0.08)
             case .favorites:
-                return Color.yellow.opacity(0.08)
+                return Color("AppYellow").opacity(0.08)
             }
         }
     }
@@ -393,7 +393,7 @@ struct StudyView: View {
                                 if item.isVerbenSection {
                                     return Color("AppBlue")
                                 } else if item.sectionId.hasPrefix("ADJEKTIVE_") {
-                                    return Color.purple
+                                    return Color("AppPurple")
                                 } else {
                                     return Color("AppGreen")
                                 }
@@ -431,8 +431,7 @@ struct StudyView: View {
                                 }
                             }) {
                                 Image(systemName: "xmark")
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
+                                    .font(.system(.title3, design: .rounded).weight(.semibold))
                                     .foregroundColor(.red)
                                     .frame(width: 64, height: 64)
                                     .background(liquidGlassCircle)
@@ -452,8 +451,7 @@ struct StudyView: View {
                                 }
                             }) {
                                 Image(systemName: "checkmark")
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
+                                    .font(.system(.title3, design: .rounded).weight(.semibold))
                                     .foregroundColor(.green)
                                     .frame(width: 64, height: 64)
                                     .background(liquidGlassCircle)
@@ -476,8 +474,8 @@ struct StudyView: View {
                         }
                     }) {
                         Image(systemName: dataService.isFavorite(wordId: studyItems[currentIndex].wordId) ? "star.fill" : "star")
-                            .font(.system(size: 24, weight: .semibold))
-                            .foregroundColor(dataService.isFavorite(wordId: studyItems[currentIndex].wordId) ? Color.yellow : .secondary)
+                            .font(.system(size: 24, weight: .semibold, design: .rounded))
+                            .foregroundColor(dataService.isFavorite(wordId: studyItems[currentIndex].wordId) ? Color("AppYellow") : .secondary)
                             .symbolEffect(.bounce, value: dataService.isFavorite(wordId: studyItems[currentIndex].wordId))
                     }
                     .buttonStyle(.plain)
@@ -589,8 +587,7 @@ struct StudyView: View {
                     handleDismiss()
                 }) {
                     Image(systemName: "chevron.left")
-                        .font(.callout)
-                        .fontWeight(.semibold)
+                        .font(.system(.callout, design: .rounded).weight(.semibold))
                         .foregroundColor(.primary)
                         .frame(width: 44, height: 44)
                         .background(liquidGlassCircle)
@@ -603,8 +600,7 @@ struct StudyView: View {
                 
                 // Title - Card count
                 Text("\(studyItems.count) \(Localizable.string(Localizable.cards))")
-                    .font(.headline)
-                    .fontWeight(.semibold)
+                    .font(.system(.headline, design: .rounded).weight(.semibold))
                     .foregroundColor(.primary)
                     .accessibilityAddTraits(.isHeader)
                 
@@ -616,8 +612,7 @@ struct StudyView: View {
                     reverseCard()
                 }) {
                     Image(systemName: "arrow.trianglehead.2.clockwise")
-                        .font(.callout)
-                        .fontWeight(.semibold)
+                        .font(.system(.callout, design: .rounded).weight(.semibold))
                         .foregroundColor(isReversed ? .green : .primary)
                         .frame(width: 44, height: 44)
                         .background(liquidGlassCircle)
@@ -635,7 +630,7 @@ struct StudyView: View {
                     if item.isVerbenSection {
                         return Color("AppBlue")
                     } else if item.sectionId.hasPrefix("ADJEKTIVE_") {
-                        return Color.purple
+                        return Color("AppPurple")
                     } else {
                         return Color("AppGreen")
                     }
@@ -658,8 +653,7 @@ struct StudyView: View {
                                 }
                             }) {
                                 Text(typeButtonTitle(for: type))
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
+                                    .font(.system(.caption, design: .rounded).weight(.semibold))
                                     .foregroundColor(isSelected ? .white : .primary)
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
@@ -1262,15 +1256,13 @@ struct FlashCardView2: View {
                 // Main content text
                 if shouldShowPlaceholder {
                     Text(Localizable.string(Localizable.addTranslationToWord))
-                        .font(.body)
-                        .fontWeight(.regular)
+                        .font(.system(.body, design: .rounded))
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
                 } else {
                     Text(frontText)
-                        .font(.title2)
-                        .fontWeight(.semibold)
+                        .font(.system(.title2, design: .rounded).weight(.semibold))
                         .foregroundColor(.primary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
@@ -1333,8 +1325,7 @@ struct FlashCardView2: View {
                     // Show German word (verb/adjective with case) above in black and bold for VERBEN and ADJEKTIVE sections
                     if studyItem.isVerbenSection || studyItem.sectionId.hasPrefix("ADJEKTIVE_") {
                         Text(studyItem.germanWord)
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .font(.system(.title2, design: .rounded).weight(.bold))
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
                         
@@ -1349,8 +1340,7 @@ struct FlashCardView2: View {
                     } else {
                         // For regular sections, show German word in bold, then example
                         Text(studyItem.germanWord)
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .font(.system(.title2, design: .rounded).weight(.bold))
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
                         

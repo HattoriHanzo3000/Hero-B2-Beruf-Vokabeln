@@ -28,8 +28,7 @@ struct StudyEmptyStateView: View {
                         onBack()
                     }) {
                         Image(systemName: "chevron.left")
-                            .font(.callout)
-                            .fontWeight(.semibold)
+                            .font(.system(.callout, design: .rounded).weight(.semibold))
                             .foregroundColor(.primary)
                             .frame(width: 44, height: 44)
                             .background(liquidGlassCircle)
@@ -42,8 +41,7 @@ struct StudyEmptyStateView: View {
                     
                     // Title
                     Text(modeTitle)
-                        .font(.headline)
-                        .fontWeight(.semibold)
+                        .font(.system(.headline, design: .rounded).weight(.semibold))
                         .foregroundColor(.primary)
                         .accessibilityAddTraits(.isHeader)
                     
@@ -66,13 +64,12 @@ struct StudyEmptyStateView: View {
                         .accessibilityHidden(true)
                     
                     Text(title)
-                        .font(.title3)
-                        .fontWeight(.semibold)
+                        .font(.system(.title3, design: .rounded).weight(.semibold))
                         .foregroundColor(.primary)
                         .accessibilityAddTraits(.isHeader)
                     
                     Text(message)
-                        .font(.body)
+                        .font(.system(.body, design: .rounded))
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 40)

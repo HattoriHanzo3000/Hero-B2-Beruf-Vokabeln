@@ -536,7 +536,7 @@ class DataService: ObservableObject {
             case .verbs:
                 return Color("AppBlue")
             case .adjectives:
-                return Color.purple
+                return Color("AppPurple")
             }
         }
         
@@ -547,7 +547,7 @@ class DataService: ObservableObject {
             case .verbs:
                 return Color("AppBlue").opacity(0.08)
             case .adjectives:
-                return Color.purple.opacity(0.08)
+                return Color("AppPurple").opacity(0.08)
             }
         }
     }
