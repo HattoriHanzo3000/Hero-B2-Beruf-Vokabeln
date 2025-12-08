@@ -62,7 +62,7 @@ struct RingChartView: View {
         let dataRings = [
             (Double(progress.mastered) / total, Color("AppGreen"), Localizable.string(Localizable.statisticsMasteredTitle), progress.mastered),
             (Double(progress.reinforced) / total, Color("AppBlue"), Localizable.string(Localizable.statisticsReinforcedTitle), progress.reinforced),
-            (Double(progress.familiar) / total, Color.yellow, Localizable.string(Localizable.statisticsFamiliarTitle), progress.familiar),
+            (Double(progress.familiar) / total, Color("AppYellow"), Localizable.string(Localizable.statisticsFamiliarTitle), progress.familiar),
             (Double(progress.wrong) / total, Color("AppRed"), Localizable.string(Localizable.statisticsWrongTitle), progress.wrong)
         ]
         
@@ -168,12 +168,20 @@ struct StatisticsGridView: View {
     
     var body: some View {
         LazyVGrid(columns: columns, spacing: 12) {
-            // Row 1: Wrong (Red), Familiar (Orange)
+            // Row 1: Wrong (Red), Familiar (Yellow)
             StatisticsGridCard(
                 title: Localizable.string(Localizable.statisticsWrongTitle),
                 count: progress.wrong,
                 description: Localizable.string(Localizable.statisticsWrongDescription),
-                color: Color("AppRed")
+                gradient: LinearGradient(
+                    colors: [
+                        Color("AppRed"),
+                        Color("AppRed").opacity(0.85),
+                        Color("AppRed").opacity(0.7)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
             )
             .id("wrong_\(languageManager.currentLanguage)")
             
@@ -181,7 +189,15 @@ struct StatisticsGridView: View {
                 title: Localizable.string(Localizable.statisticsFamiliarTitle),
                 count: progress.familiar,
                 description: Localizable.string(Localizable.statisticsFamiliarDescription),
-                color: .yellow
+                gradient: LinearGradient(
+                    colors: [
+                        Color("AppYellow"),
+                        Color("AppYellow").opacity(0.9),
+                        Color("AppYellow").opacity(0.75)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
             )
             .id("familiar_\(languageManager.currentLanguage)")
             
@@ -190,7 +206,15 @@ struct StatisticsGridView: View {
                 title: Localizable.string(Localizable.statisticsReinforcedTitle),
                 count: progress.reinforced,
                 description: Localizable.string(Localizable.statisticsReinforcedDescription),
-                color: Color("AppBlue")
+                gradient: LinearGradient(
+                    colors: [
+                        Color("AppBlue"),
+                        Color("AppBlue").opacity(0.9),
+                        Color("AppBlue").opacity(0.75)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
             )
             .id("reinforced_\(languageManager.currentLanguage)")
             
@@ -198,7 +222,15 @@ struct StatisticsGridView: View {
                 title: Localizable.string(Localizable.statisticsMasteredTitle),
                 count: progress.mastered,
                 description: Localizable.string(Localizable.statisticsMasteredDescription),
-                color: Color("AppGreen")
+                gradient: LinearGradient(
+                    colors: [
+                        Color("AppGreen"),
+                        Color("AppGreen").opacity(0.9),
+                        Color("AppGreen").opacity(0.75)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
             )
             .id("mastered_\(languageManager.currentLanguage)")
         }
@@ -209,7 +241,7 @@ struct StatisticsGridCard: View {
     let title: String
     let count: Int
     let description: String
-    let color: Color
+    let gradient: LinearGradient
     @Environment(\.colorScheme) private var colorScheme
     
     // Inverted text color: always white
@@ -250,8 +282,23 @@ struct StatisticsGridCard: View {
         .frame(minHeight: 100)
         .background(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(color)
+                .fill(gradient)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    .white.opacity(0.2),
+                                    .white.opacity(0.05)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 0.5
+                        )
+                )
         )
+        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
     }
 }
 
