@@ -17,7 +17,7 @@
     },
     {
       "id": "1A-3",
-      "german": "sich an passen an (+ Akk.)",
+      "german": "sich an|passen an (+ Akk.)",
       "explanation": "Sich an neue Situationen gewöhnen und das Verhalten ändern.",
       "synonyms": [],
       "example": "Er muss sich an die neuen Arbeitszeiten anpassen."
@@ -87,7 +87,7 @@
     },
     {
       "id": "1A-13",
-      "german": "sich ein stellen auf (+ Akk.)",
+      "german": "sich ein|stellen auf (+ Akk.)",
       "explanation": "Sich auf etwas Neues vorbereiten.",
       "synonyms": [],
       "example": "Sie muss sich auf die neue Arbeitsstelle einstellen."
@@ -185,7 +185,7 @@
     },
     {
       "id": "1A-27",
-      "german": "sich nieder lassen",
+      "german": "sich nieder|lassen",
       "explanation": "Sich an einem Ort ansiedeln und dort bleiben.",
       "synonyms": [],
       "example": "Der Arzt möchte sich in dieser Stadt niederlassen."

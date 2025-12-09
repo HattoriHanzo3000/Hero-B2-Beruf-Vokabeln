@@ -34,7 +34,7 @@
 // Settings
 "settings" = "Settings";
 "about" = "About";
-"update" = "Update";
+"update" = "Version";
 "premium" = "Premium";
 "word_of_the_day" = "Word of the Day";
 "periodicity" = "Periodicity";
@@ -97,8 +97,13 @@
 "update_available" = "Update Available";
 "version_updates" = "You are using the latest version of the app.";
 "version_updates_placeholder" = "A new version is available with improvements and bug fixes.";
+"new_version_available" = "A new version of the app is available";
+"this_update_adds" = "This update adds";
 "update_now" = "Update Now";
 "update_button_hint" = "Opens the App Store to update the app";
+"update_alert_title" = "Update Available";
+"update_alert_message" = "A new version of the app is available";
+"remind_me_later" = "Remind Me Later";
 
 "verbs_with_prepositions" = "Verbs with Prepositions";
 
@@ -115,6 +120,14 @@
 
 "practice" = "PRACTICE";
 
+// Header Greeting
+"greeting_word_of_the_day" = "Hey! Nice to see you again! Your word of the day is:";
+"greeting_word_of_the_day_1" = "Hey! Ready for your word of the day?";
+"greeting_word_of_the_day_2" = "Hey! Welcome back! Your word of the day is already waiting.";
+"greeting_word_of_the_day_3" = "Hey! I'm ready! Are you too? Here's your word of the day.";
+"greeting_word_of_the_day_4" = "Hey! Let's go! Today you'll learn this word:";
+"greeting_word_of_the_day_5" = "Hey! Keep it up! Your word for today is:";
+
 // Progress - Under Construction
 "progress_under_construction" = "This section is under construction";
 "progress_coming_soon" = "Keep updating, new features are coming soon";
@@ -130,7 +143,7 @@
 "statistics_mastered_description" = "Answered correctly 3+ times";
 
 // Premium
-"premium_unlock_title" = "Unlock the full Hero experience with Premium";
+"premium_unlock_title" = "Unlock the full learning experience with Hero Premium";
 "unlock_full_hero_experience" = "Unlock the full Hero experience";
 "get_hero_premium_access_prefix" = "Get";
 "hero_premium" = "Hero Premium";
@@ -141,6 +154,7 @@
 "unlock_hero_premium" = "Unlock Hero Premium";
 "premium_promo_subtitle" = "Get full access to study materials, progress tracking and more";
 "enjoy_hero_premium" = "Enjoy Hero Premium";
+"enjoy_full_hero_experience" = "Enjoy the full learning experience with Hero Premium";
 "premium_active_subtitle" = "You have full access to all study materials, progress tracking and more";
 "get_premium_features_back" = "Get all Premium Features Back";
 "premium_features_back_subtitle" = "Resubscribe to regain access to all study materials, progress tracking and more";
@@ -172,6 +186,8 @@
 "detailed_progress" = "Detailed progress";
 "favorite_words" = "Favorite words";
 "practice_modes" = "Practice Modes";
+"word_of_the_day_customization" = "Word of the Day";
+"share_export_words" = "Share & Export words";
 "subscribe_now" = "Subscribe";
 "unlock_premium" = "Unlock Premium";
 "start_free_trial" = "Start Free Trial";
@@ -208,4 +224,11 @@
 // Premium Lock
 "premium_required" = "Premium Required";
 "unlock_premium_to_use_feature" = "Unlock Premium to use this function";
+
+// Rating Prompt
+"rating_title" = "Do you like Hero?";
+"rating_subtitle" = "A quick rating helps us improve the app!";
+"rating_rate_button" = "Rate";
+"rating_later_button" = "Later";
+"rating_no_thanks_button" = "No Thanks";
 

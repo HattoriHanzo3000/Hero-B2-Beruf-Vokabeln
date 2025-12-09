@@ -13,7 +13,7 @@ struct HomeTabView: View {
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var activeStack: LearningStackType?
-    @State private var showPremiumAlert = false
+    @State private var showPaywall = false
     @State private var tappedCardId: String? = nil
     
     var body: some View {
@@ -110,7 +110,7 @@ struct HomeTabView: View {
                                     } else {
                                         HapticManager.shared.heavyImpact()
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                            showPremiumAlert = true
+                                            showPaywall = true
                                             tappedCardId = nil
                                         }
                                     }
@@ -144,10 +144,8 @@ struct HomeTabView: View {
                     .environmentObject(dataService)
             }
         }
-        .alert(Localizable.string(Localizable.premiumRequired), isPresented: $showPremiumAlert) {
-            Button(Localizable.string(Localizable.ok), role: .cancel) { }
-        } message: {
-            Text(Localizable.string(Localizable.unlockPremiumToUseFeature))
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
         }
     }
 }

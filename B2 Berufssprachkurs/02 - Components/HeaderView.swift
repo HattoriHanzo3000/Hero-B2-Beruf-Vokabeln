@@ -23,6 +23,27 @@ struct HeaderView: View {
     private let gifAnimationDuration: Double = 1.1
     private let autoPlayInterval: TimeInterval = 15.0 // Auto-play every 15 seconds
     
+    // Get daily greeting - randomly selected but consistent throughout the day
+    private var dailyGreeting: String {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let dayHash = today.timeIntervalSince1970.hashValue
+        
+        // Array of all greeting keys
+        let greetingKeys = [
+            Localizable.greetingWordOfTheDay,
+            Localizable.greetingWordOfTheDay1,
+            Localizable.greetingWordOfTheDay2,
+            Localizable.greetingWordOfTheDay3,
+            Localizable.greetingWordOfTheDay4,
+            Localizable.greetingWordOfTheDay5
+        ]
+        
+        // Use hash to select greeting index (consistent for the day)
+        let index = abs(dayHash) % greetingKeys.count
+        return Localizable.string(greetingKeys[index])
+    }
+    
     var body: some View {
         ZStack(alignment: .top) {
             // Background that extends to top edge
@@ -38,6 +59,13 @@ struct HeaderView: View {
             .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
             
             // Content that respects safe area
+        VStack(alignment: .leading, spacing: 12) {
+            // Greeting row above mascot and word of the day
+            Text(dailyGreeting)
+                .font(.system(.title2, design: .rounded).weight(.bold))
+                .foregroundColor(.white.opacity(0.9))
+                .id("greeting_\(languageManager.currentLanguage)_\(Calendar.current.startOfDay(for: Date()).timeIntervalSince1970)")
+            
         HStack(alignment: .top, spacing: 5) {
             // Mascot on the left top with animation
             mascotView
@@ -45,25 +73,14 @@ struct HeaderView: View {
             
             // 5 rows of text content
             VStack(alignment: .leading, spacing: 8) {
-                // Row 1: "Word of the Day" label
-                HStack(spacing: 6) {
-                    Image(systemName: "calendar")
-                        .font(.system(.callout, design: .rounded).weight(.bold))
-                            .foregroundColor(.white)
-                    Text(Localizable.string(Localizable.wordOfTheDay))
-                        .font(.system(.callout, design: .rounded).weight(.bold))
-                            .foregroundColor(.white)
-                        .id("wordOfTheDayLabel_\(languageManager.currentLanguage)")
-                }
-                
-                // Row 2: Word of the day
+                    // Row 1: Word of the day
                 if let word = wordOfTheDay {
                     Text(word.german)
                         .font(.system(.title2, design: .rounded))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color("AppYellow"))
                     
-                    // Row 3: Explanation
+                        // Row 2: Explanation
                     if let explanation = word.explanation, !explanation.isEmpty {
                         Text(attributedText(
                             label: "erkl: ",
@@ -76,7 +93,7 @@ struct HeaderView: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     
-                    // Row 4: Synonym
+                        // Row 3: Synonym
                     if let synonyms = word.synonyms, let firstSynonym = synonyms.first {
                         Text(attributedText(
                             label: "syn: ",
@@ -89,7 +106,7 @@ struct HeaderView: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     
-                    // Row 5: Translation
+                        // Row 4: Translation
                     if !word.translation.isEmpty && word.translation.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
                         Text(attributedText(
                             label: "übers: ",
@@ -102,7 +119,7 @@ struct HeaderView: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     
-                    // Row 6: Example (last row)
+                        // Row 5: Example (last row)
                     if let example = word.example, !example.isEmpty {
                         Text(attributedText(
                             label: "beisp: ",
@@ -124,6 +141,7 @@ struct HeaderView: View {
             }
             
             Spacer()
+            }
         }
             .padding(.top)
             .padding(.bottom, 18)

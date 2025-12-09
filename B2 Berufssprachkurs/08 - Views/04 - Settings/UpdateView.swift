@@ -9,31 +9,70 @@ import SwiftUI
 import UIKit
 
 struct UpdateView: View {
-    @State private var latestVersion: String = "1.0" // TODO: Fetch from server or App Store
+    @State private var latestVersion: String = "1.0"
     @State private var hasUpdate: Bool = false
+    @State private var availableVersionReleaseNotes: String? = nil
+    @State private var isLoadingUpdateInfo: Bool = false
     
     private var currentVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
     
-    private var buildNumber: String {
-        Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+    private var versionDescription: String? {
+        if let updateFeatures = UpdateFeaturesConfig.getFeatures(for: currentVersion),
+           !updateFeatures.isEmpty {
+            let combinedFeatures = combineFeatures(updateFeatures)
+            if !combinedFeatures.isEmpty {
+                return "\(Localizable.string(Localizable.thisUpdateAdds)) \(combinedFeatures)"
+            }
+        }
+        return nil
+    }
+    
+    /// Combines feature list into a single flowing text without bullets
+    private func combineFeatures(_ features: [String]) -> String {
+        // Remove any existing bullets and clean up
+        let cleaned = features.map { feature in
+            feature
+                .replacingOccurrences(of: "•", with: "")
+                .replacingOccurrences(of: "-", with: "")
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        .filter { !$0.isEmpty }
+        
+        // Handle empty array
+        guard !cleaned.isEmpty else {
+            return ""
+        }
+        
+        // Join with commas and "and" for the last item
+        if cleaned.count == 1 {
+            return cleaned[0]
+        } else if cleaned.count == 2 {
+            return "\(cleaned[0]) and \(cleaned[1])"
+        } else {
+            let allButLast = cleaned.dropLast().joined(separator: ", ")
+            if let last = cleaned.last {
+                return "\(allButLast), and \(last)"
+            }
+            return allButLast
+        }
     }
     
     var body: some View {
         List {
-            SwiftUI.Section(Localizable.string(Localizable.currentVersion)) {
+            SwiftUI.Section {
                 versionCard(
-                    title: "\(Localizable.string(Localizable.version)) \(currentVersion) (\(buildNumber))",
-                    description: Localizable.string(Localizable.versionUpdates)
+                    title: "\(Localizable.string(Localizable.version)) \(currentVersion)",
+                    description: versionDescription ?? ""
                 )
             }
             
             if hasUpdate {
-                SwiftUI.Section(Localizable.string(Localizable.updateAvailable)) {
+                SwiftUI.Section {
                     versionCard(
                         title: "\(Localizable.string(Localizable.version)) \(latestVersion)",
-                        description: Localizable.string(Localizable.versionUpdatesPlaceholder)
+                        description: Localizable.string(Localizable.newVersionAvailable)
                     )
                     
                     Button {
@@ -74,10 +113,12 @@ struct UpdateView: View {
                     .font(.headline)
                     .foregroundStyle(.primary)
                 
-                Text(description)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+                if !description.isEmpty {
+                    Text(description)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
             
             Spacer(minLength: 0)
@@ -85,7 +126,7 @@ struct UpdateView: View {
         .padding(.vertical, 12)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(title)
-        .accessibilityHint(description)
+        .accessibilityHint(description.isEmpty ? "" : description)
     }
     
     private var appIcon: Image {
@@ -106,9 +147,60 @@ struct UpdateView: View {
     }
     
     private func checkForUpdate() {
-        // TODO: Implement version checking logic
-        // For now, set hasUpdate to false
-        hasUpdate = false
+        Task {
+            await fetchUpdateInfo()
+        }
+    }
+    
+    @MainActor
+    private func fetchUpdateInfo() async {
+        isLoadingUpdateInfo = true
+        defer { isLoadingUpdateInfo = false }
+        
+        do {
+            if let appInfo = try await AppStoreService.shared.fetchAppInfo() {
+                let storeVersion = appInfo.version
+                latestVersion = storeVersion
+                
+                // Compare versions to determine if update is available
+                if compareVersions(currentVersion, storeVersion) < 0 {
+                    hasUpdate = true
+                    
+                    // Fetch and format release notes
+                    if let releaseNotes = appInfo.releaseNotes {
+                        availableVersionReleaseNotes = AppStoreService.shared.formatReleaseNotes(releaseNotes)
+                    }
+                } else {
+                    hasUpdate = false
+                }
+            }
+        } catch {
+            // Silently fail - if we can't fetch, just don't show update
+            print("Failed to fetch update info: \(error.localizedDescription)")
+            hasUpdate = false
+        }
+    }
+    
+    /// Compares two version strings
+    /// Returns: -1 if version1 < version2, 0 if equal, 1 if version1 > version2
+    private func compareVersions(_ version1: String, _ version2: String) -> Int {
+        let v1Components = version1.split(separator: ".").compactMap { Int($0) }
+        let v2Components = version2.split(separator: ".").compactMap { Int($0) }
+        
+        let maxLength = max(v1Components.count, v2Components.count)
+        
+        for i in 0..<maxLength {
+            let v1Value = i < v1Components.count ? v1Components[i] : 0
+            let v2Value = i < v2Components.count ? v2Components[i] : 0
+            
+            if v1Value < v2Value {
+                return -1
+            } else if v1Value > v2Value {
+                return 1
+            }
+        }
+        
+        return 0
     }
     
     private func openAppStore() {

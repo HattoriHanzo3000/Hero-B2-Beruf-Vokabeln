@@ -111,6 +111,12 @@ struct PaywallView: View {
                         BenefitChecklistItem(
                             text: Localizable.string(Localizable.practiceModes)
                         )
+                        BenefitChecklistItem(
+                            text: Localizable.string(Localizable.wordOfTheDayCustomization)
+                        )
+                        BenefitChecklistItem(
+                            text: Localizable.string(Localizable.shareExportWords)
+                        )
                     }
                     .padding(.horizontal, 32)
                     .padding(.top, 8)

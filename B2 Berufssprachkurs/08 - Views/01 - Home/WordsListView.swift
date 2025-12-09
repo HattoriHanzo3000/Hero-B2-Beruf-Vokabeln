@@ -10,10 +10,12 @@ import SwiftUI
 struct WordsListView: View {
     let sectionId: String
     @EnvironmentObject var dataService: DataService
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var translations: [String: String] = [:]
     @State private var navigateToStudy = false
     @State private var navigateToSettings = false
     @State private var showShareSheet = false
+    @State private var showPaywall = false
     @FocusState private var focusedWordId: String?
     
     var words: [Word] {
@@ -189,15 +191,20 @@ struct WordsListView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    HapticManager.shared.lightImpact()
-                    showShareSheet = true
+                    if subscriptionManager.isPremiumActive {
+                        HapticManager.shared.lightImpact()
+                        showShareSheet = true
+                    } else {
+                        HapticManager.shared.heavyImpact()
+                        showPaywall = true
+                    }
                 } label: {
                     Image(systemName: "square.and.arrow.up")
                         .font(.body)
                         .foregroundColor(.primary)
                 }
                 .accessibilityLabel("Share")
-                .accessibilityHint("Share the words list")
+                .accessibilityHint(subscriptionManager.isPremiumActive ? "Share the words list" : "Share requires premium subscription")
             }
             
             ToolbarItemGroup(placement: .keyboard) {
@@ -238,6 +245,9 @@ struct WordsListView: View {
         }
         .sheet(isPresented: $showShareSheet) {
             ShareSheet(activityItems: [generateShareText(), generatePDF()])
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
         }
         .onAppear {
             // Initialize translations from dataService

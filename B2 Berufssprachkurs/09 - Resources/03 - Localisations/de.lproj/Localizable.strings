@@ -34,7 +34,7 @@
 // Settings
 "settings" = "Einstellungen";
 "about" = "Über";
-"update" = "Aktualisierung";
+"update" = "Version";
 "premium" = "Premium";
 "word_of_the_day" = "Wort des Tages";
 "periodicity" = "Häufigkeit";
@@ -97,8 +97,13 @@
 "update_available" = "Update verfügbar";
 "version_updates" = "Sie verwenden die neueste Version der App.";
 "version_updates_placeholder" = "Eine neue Version mit Verbesserungen und Fehlerbehebungen ist verfügbar.";
+"new_version_available" = "Eine neue Version der App ist verfügbar";
+"this_update_adds" = "Dieses Update fügt hinzu";
 "update_now" = "Jetzt aktualisieren";
 "update_button_hint" = "Öffnet den App Store, um die App zu aktualisieren";
+"update_alert_title" = "Update verfügbar";
+"update_alert_message" = "Eine neue Version der App ist verfügbar";
+"remind_me_later" = "Später erinnern";
 
 "verbs_with_prepositions" = "Verben mit Präpositionen";
 
@@ -115,6 +120,14 @@
 
 "practice" = "ÜBEN";
 
+// Header Greeting
+"greeting_word_of_the_day" = "Hey! Schön, dich wiederzusehen! Dein Wort des Tages ist:";
+"greeting_word_of_the_day_1" = "Hey! Bereit für dein Wort des Tages?";
+"greeting_word_of_the_day_2" = "Hey! Willkommen zurück! Dein Wort des Tages wartet schon.";
+"greeting_word_of_the_day_3" = "Hey! Ich bin bereit! Bist du es auch? Hier ist dein Wort des Tages.";
+"greeting_word_of_the_day_4" = "Hey! Los geht's! Heute lernst du dieses Wort:";
+"greeting_word_of_the_day_5" = "Hey! Weiter so! Dein heutiges Wort ist:";
+
 // Progress - Under Construction
 "progress_under_construction" = "Dieser Bereich befindet sich im Aufbau";
 "progress_coming_soon" = "Bleib dran, neue Funktionen kommen bald";
@@ -130,7 +143,7 @@
 "statistics_mastered_description" = "3x oder öfter richtig beantwortet";
 
 // Premium
-"premium_unlock_title" = "Erlebe die volle Hero-Erfahrung mit Premium";
+"premium_unlock_title" = "Erlebe die volle Lernerfahrung mit Hero Premium";
 "unlock_full_hero_experience" = "Erlebe die volle Hero-Erfahrung";
 "get_hero_premium_access_prefix" = "Erhalte";
 "hero_premium" = "Hero Premium";
@@ -141,6 +154,7 @@
 "unlock_hero_premium" = "Hero Premium freischalten";
 "premium_promo_subtitle" = "Erhalte vollen Zugang zu Lernmaterialien, Fortschrittsverfolgung und mehr";
 "enjoy_hero_premium" = "Genieße Hero Premium";
+"enjoy_full_hero_experience" = "Genieße die volle Lernerfahrung mit Hero Premium";
 "premium_active_subtitle" = "Du hast vollen Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und mehr";
 "get_premium_features_back" = "Hole dir alle Premium-Funktionen zurück";
 "premium_features_back_subtitle" = "Abonniere erneut, um wieder Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und mehr zu erhalten";
@@ -153,7 +167,7 @@
 "monthly_explanation" = "Perfekt zum Starten. Jederzeit kündbar";
 "yearly_explanation" = "Mehr sparen. 3 Tage kostenlos testen";
 "lifetime_explanation" = "Einmal zahlen, für immer besitzen. Keine Verlängerung";
-"free_trial" = "Kostenlose Testversion";
+"free_trial" = "kostenlos testen";
 "icloud_family_sharing" = "Alle Pläne können mit deiner iCloud-Familie geteilt werden";
 "already_upgraded" = "Bereits aktualisiert?";
 "restore_purchase" = "Kauf wiederherstellen";
@@ -172,9 +186,11 @@
 "detailed_progress" = "Detaillierter Fortschritt";
 "favorite_words" = "Lieblingswörter";
 "practice_modes" = "Übungsmodi";
+"word_of_the_day_customization" = "Wort des Tages";
+"share_export_words" = "Wörter teilen & exportieren";
 "subscribe_now" = "Abonnieren";
 "unlock_premium" = "Premium freischalten";
-"start_free_trial" = "Kostenlose Testversion starten";
+"start_free_trial" = "Teste jetzt kostenlos";
 "upgrade_now" = "Jetzt upgraden";
 "upgrade_to_premium" = "Auf Premium upgraden";
 "change_plan" = "Plan ändern";
@@ -208,4 +224,11 @@
 // Premium Lock
 "premium_required" = "Premium erforderlich";
 "unlock_premium_to_use_feature" = "Schalte Premium frei, um diese Funktion zu nutzen";
+
+// Rating Prompt
+"rating_title" = "Gefällt dir Hero?";
+"rating_subtitle" = "Eine kurze Bewertung hilft uns, die App weiter zu verbessern!";
+"rating_rate_button" = "Bewerten";
+"rating_later_button" = "Später";
+"rating_no_thanks_button" = "Nein, danke";
 

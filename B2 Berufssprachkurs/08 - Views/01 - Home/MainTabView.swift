@@ -35,6 +35,8 @@ enum TabItem: String, CaseIterable {
 struct MainTabView: View {
     @StateObject private var dataService = DataService()
     @ObservedObject private var languageManager = LanguageManager.shared
+    @StateObject private var updateAlertManager = UpdateAlertManager.shared
+    @StateObject private var ratingManager = RatingManager.shared
     @State private var selectedTab: TabItem = .home
     
     var body: some View {
@@ -81,6 +83,38 @@ struct MainTabView: View {
         .environmentObject(dataService)
         .onAppear {
             setupLiquidGlassTabBar()
+            // Track app launch for rating
+            ratingManager.trackAppLaunch()
+            // Check for update alert
+            Task {
+                await updateAlertManager.checkForUpdateAlert()
+            }
+        }
+        .alert(Localizable.string(Localizable.updateAlertTitle), isPresented: $updateAlertManager.showUpdateAlert) {
+            Button(Localizable.string(Localizable.updateNow)) {
+                updateAlertManager.openAppStore()
+            }
+            Button(Localizable.string(Localizable.remindMeLater), role: .cancel) {
+                updateAlertManager.remindMeLater()
+            }
+        } message: {
+            Text(Localizable.string(Localizable.updateAlertMessage))
+        }
+        .overlay {
+            // Rating prompt overlay
+            if ratingManager.showRatingPrompt {
+                ZStack {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            ratingManager.remindLater()
+                        }
+                    
+                    RatingPromptView()
+                }
+                .transition(.opacity)
+                .animation(.easeInOut(duration: 0.3), value: ratingManager.showRatingPrompt)
+            }
         }
     }
     

@@ -11,6 +11,14 @@ struct AboutView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
+                // Mascot launch image
+                Image("MascotLaunch")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 200, maxHeight: 200)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                
                 // App description block with rounded corners
                 VStack(alignment: .leading, spacing: 12) {
                     Text(Localizable.string(Localizable.aboutThisApp))

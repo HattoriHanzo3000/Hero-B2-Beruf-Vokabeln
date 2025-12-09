@@ -11,7 +11,7 @@ struct CockpitView: View {
     @StateObject private var dataService = DataService()
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var showPremiumAlert = false
+    @State private var showPaywall = false
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
@@ -37,9 +37,23 @@ struct CockpitView: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
+                    // MARK: Premium Promo Section - Only in Basis Mode
+                    if !subscriptionManager.isPremiumActive {
+                        PremiumPromoSection(
+                            isPremiumActive: subscriptionManager.isPremiumActive,
+                            hasUsedTrial: subscriptionManager.hasUsedTrial,
+                            hasActiveSubscription: subscriptionManager.hasActiveSubscription,
+                            onStartFreeTrial: {
+                                HapticManager.shared.mediumImpact()
+                                showPaywall = true
+                            }
+                        )
+                        .padding(.horizontal, 16)
+                    }
+                    
                     // MARK: Word of the Day - Friendly Card
                     CockpitCard(
-                        titleIcon: "calendar",
+                        titleIcon: subscriptionManager.isPremiumActive ? "calendar" : "crown.fill",
                         title: Localizable.string(Localizable.wordOfTheDay),
                         subtitle: Text(Localizable.string(Localizable.wordOfTheDayDescription))
                     ) {
@@ -60,8 +74,13 @@ struct CockpitView: View {
                                 // Circular buttons
                                 HStack(spacing: 8) {
                                     Button {
-                                        HapticManager.shared.lightImpact()
-                                        wordOfTheDayPeriodicity = "12_hours"
+                                        if subscriptionManager.isPremiumActive {
+                                            HapticManager.shared.lightImpact()
+                                            wordOfTheDayPeriodicity = "12_hours"
+                                        } else {
+                                            HapticManager.shared.heavyImpact()
+                                            showPaywall = true
+                                        }
                                     } label: {
                                         Text(Localizable.string(Localizable.hours12Short))
                                             .font(.system(.body, design: .rounded).weight(.bold))
@@ -75,8 +94,13 @@ struct CockpitView: View {
                                     .id("12h_\(languageManager.currentLanguage)")
                                     
                                     Button {
-                                        HapticManager.shared.lightImpact()
-                                        wordOfTheDayPeriodicity = "24_hours"
+                                        if subscriptionManager.isPremiumActive {
+                                            HapticManager.shared.lightImpact()
+                                            wordOfTheDayPeriodicity = "24_hours"
+                                        } else {
+                                            HapticManager.shared.heavyImpact()
+                                            showPaywall = true
+                                        }
                                     } label: {
                                         Text(Localizable.string(Localizable.hours24Short))
                                             .font(.system(.body, design: .rounded).weight(.bold))
@@ -108,7 +132,7 @@ struct CockpitView: View {
                             )
                             .contentShape(Capsule(style: .continuous))
                             
-                            // Source sections button
+                            // Source sections button - accessible to all users
                             NavigationLink {
                                 SectionSelectionView(
                                     selectedSections: $wordOfTheDaySelectedSections,
@@ -161,29 +185,14 @@ struct CockpitView: View {
                     .padding(.horizontal)
                     
                     // MARK: Progress - Statistics Wheel
-                    ZStack {
-                        CockpitCard(
-                            titleIcon: "chart.line.uptrend.xyaxis",
-                            title: Localizable.string(Localizable.progress),
-                            subtitle: Text(String(format: Localizable.string(Localizable.progressDescription), dataService.getAllWordIds().count))
-                        ) {
-                            ProgressStatisticsView(dataService: dataService)
-                                .padding(.top, 2)
-                        }
-                        
-                        // Premium lock overlay for basic users - covers entire card
-                        if !subscriptionManager.isPremiumActive {
-                            PremiumLockOverlay(
-                                titleIcon: "chart.line.uptrend.xyaxis",
-                                title: Localizable.string(Localizable.progress),
-                                subtitle: String(format: Localizable.string(Localizable.progressDescription), dataService.getAllWordIds().count)
-                            )
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                HapticManager.shared.heavyImpact()
-                                showPremiumAlert = true
-                            }
-                        }
+                    CockpitCard(
+                        titleIcon: subscriptionManager.isPremiumActive ? "chart.line.uptrend.xyaxis" : "crown.fill",
+                        title: Localizable.string(Localizable.progress),
+                        subtitle: Text(String(format: Localizable.string(Localizable.progressDescription), dataService.getAllWordIds().count)),
+                        useGlassEffect: false
+                    ) {
+                        ProgressStatisticsView(dataService: dataService, isPremiumActive: subscriptionManager.isPremiumActive)
+                            .padding(.top, 2)
                     }
                     .padding(.horizontal)
                     
@@ -201,10 +210,8 @@ struct CockpitView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .alert(Localizable.string(Localizable.premiumRequired), isPresented: $showPremiumAlert) {
-            Button(Localizable.string(Localizable.ok), role: .cancel) { }
-        } message: {
-            Text(Localizable.string(Localizable.unlockPremiumToUseFeature))
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
         }
         .onAppear {
             // Initialize to 1A if empty (first time use)
@@ -228,12 +235,14 @@ private struct CockpitCard<Content: View>: View {
     let titleIcon: String
     let title: String
     let subtitle: Text?
+    let useGlassEffect: Bool
     @ViewBuilder let content: Content
     
-    init(titleIcon: String, title: String, subtitle: Text? = nil, @ViewBuilder content: () -> Content) {
+    init(titleIcon: String, title: String, subtitle: Text? = nil, useGlassEffect: Bool = true, @ViewBuilder content: () -> Content) {
         self.titleIcon = titleIcon
         self.title = title
         self.subtitle = subtitle
+        self.useGlassEffect = useGlassEffect
         self.content = content()
     }
     
@@ -269,35 +278,46 @@ private struct CockpitCard<Content: View>: View {
         }
         .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            Color.white.opacity(0.22),
-                            Color.white.opacity(0.10)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .background(
+            Group {
+                if useGlassEffect {
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.22),
+                                    Color.white.opacity(0.10)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .background(
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .fill(Color("AppGreenExtraLight"))
+                        )
+                } else {
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(Color("AppGreenExtraLight"))
-                )
+                }
+            }
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(
-                    LinearGradient(
-                        colors: [
-                            .white.opacity(0.35),
-                            .white.opacity(0.08)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    ),
-                    lineWidth: 0.6
-                )
+            Group {
+                if useGlassEffect {
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    .white.opacity(0.35),
+                                    .white.opacity(0.08)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            ),
+                            lineWidth: 0.6
+                        )
+                }
+            }
         )
         .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 6)
     }
@@ -398,62 +418,91 @@ private struct CockpitPeriodicityRowView: View {
     }
 }
 
-// MARK: - Premium Lock Overlay
-private struct PremiumLockOverlay: View {
-    let titleIcon: String
-    let title: String
-    let subtitle: String
+// MARK: - Premium Promo Section
+private struct PremiumPromoSection: View {
+    let isPremiumActive: Bool
+    let hasUsedTrial: Bool
+    let hasActiveSubscription: Bool
+    let onStartFreeTrial: () -> Void
+    
+    // Determine if user was previously subscribed but is now unsubscribed
+    private var wasSubscribed: Bool {
+        // User was subscribed if they used trial (which means they either used trial or subscribed) but now don't have premium
+        return hasUsedTrial && !isPremiumActive
+    }
+    
+    private var title: String {
+        if isPremiumActive {
+            return Localizable.string(Localizable.enjoyHeroPremium)
+        } else if wasSubscribed {
+            return Localizable.string(Localizable.getPremiumFeaturesBack)
+        } else {
+            return Localizable.string(Localizable.unlockHeroPremium)
+        }
+    }
+    
+    private var subtitle: String {
+        if isPremiumActive {
+            return Localizable.string(Localizable.premiumActiveSubtitle)
+        } else if wasSubscribed {
+            return Localizable.string(Localizable.premiumFeaturesBackSubtitle)
+        } else {
+            return Localizable.string(Localizable.premiumPromoSubtitle)
+        }
+    }
     
     var body: some View {
-        // Rounded transparent glass overlay covering the entire card
-        VStack(alignment: .leading, spacing: 14) {
-            // Title with icon
-            HStack(alignment: .center, spacing: 10) {
-                Image(systemName: titleIcon)
-                    .font(.system(.headline, design: .rounded).weight(.semibold))
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top, spacing: 16) {
+                // Crown icon - white
+                Image(systemName: "crown.fill")
+                    .font(.system(size: 32, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
-                    .frame(width: 28, height: 28)
-                    .background(
-                        LinearGradient(
-                            colors: [Color("AppGreen"), Color("AppBlue").opacity(0.9)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        in: RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    )
-                Text(title)
-                    .font(.system(.title3, design: .rounded).weight(.semibold))
-                    .foregroundColor(.primary)
-                Spacer(minLength: 0)
-            }
-            
-            // Subtitle description
-            Text(subtitle)
-                .font(.system(.subheadline, design: .rounded))
-                .foregroundColor(.secondary)
-            
-            Spacer()
-            
-            // Green lock icon in the center
-            HStack {
-                Spacer()
-                Image(systemName: "lock.fill")
-                    .font(.system(size: 32, weight: .semibold))
-                    .foregroundColor(Color("AppGreen"))
+                    .frame(width: 40, height: 40)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    // Title - changes based on premium status
+                    Text(title)
+                        .font(.system(.headline, design: .rounded).weight(.bold))
+                        .foregroundColor(.white)
+                    
+                    // Subtitle - changes based on premium status
+                    Text(subtitle)
+                        .font(.system(.subheadline, design: .rounded))
+                        .foregroundColor(.white.opacity(0.9))
+                }
+                
                 Spacer()
             }
             
-            Spacer()
+            // Button - only show when premium is not active
+            if !isPremiumActive {
+                Button(action: onStartFreeTrial) {
+                    Text(hasUsedTrial ? Localizable.string(Localizable.upgradeToPremium) : Localizable.string(Localizable.startFreeTrial))
+                        .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(
+                            Capsule()
+                                .fill(Color.white.opacity(0.25))
+                        )
+                }
+            }
         }
-        .padding(16)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
         .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(.thinMaterial)
-                .overlay(
-                    // Additional subtle overlay for glass effect
-                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(.white.opacity(0.1))
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color("AppGreen"),
+                            Color("AppBlue")
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
                 )
         )
     }
@@ -464,4 +513,3 @@ private struct PremiumLockOverlay: View {
         CockpitView()
     }
 }
-

@@ -109,8 +109,13 @@ extension Localizable {
     static let updateAvailable = "update_available"
     static let versionUpdates = "version_updates"
     static let versionUpdatesPlaceholder = "version_updates_placeholder"
+    static let newVersionAvailable = "new_version_available"
+    static let thisUpdateAdds = "this_update_adds"
     static let updateNow = "update_now"
     static let updateButtonHint = "update_button_hint"
+    static let updateAlertTitle = "update_alert_title"
+    static let updateAlertMessage = "update_alert_message"
+    static let remindMeLater = "remind_me_later"
     
     // Cockpit / Sections
     static let verbsWithPrepositions = "verbs_with_prepositions"
@@ -143,6 +148,14 @@ extension Localizable {
     // Practice button
     static let practice = "practice"
     
+    // Header Greeting
+    static let greetingWordOfTheDay = "greeting_word_of_the_day"
+    static let greetingWordOfTheDay1 = "greeting_word_of_the_day_1"
+    static let greetingWordOfTheDay2 = "greeting_word_of_the_day_2"
+    static let greetingWordOfTheDay3 = "greeting_word_of_the_day_3"
+    static let greetingWordOfTheDay4 = "greeting_word_of_the_day_4"
+    static let greetingWordOfTheDay5 = "greeting_word_of_the_day_5"
+    
     // Premium
     static let premiumUnlockTitle = "premium_unlock_title"
     static let unlockFullHeroExperience = "unlock_full_hero_experience"
@@ -155,6 +168,7 @@ extension Localizable {
     static let unlockHeroPremium = "unlock_hero_premium"
     static let premiumPromoSubtitle = "premium_promo_subtitle"
     static let enjoyHeroPremium = "enjoy_hero_premium"
+    static let enjoyFullHeroExperience = "enjoy_full_hero_experience"
     static let premiumActiveSubtitle = "premium_active_subtitle"
     static let getPremiumFeaturesBack = "get_premium_features_back"
     static let premiumFeaturesBackSubtitle = "premium_features_back_subtitle"
@@ -188,6 +202,8 @@ extension Localizable {
     static let detailedProgress = "detailed_progress"
     static let favoriteWords = "favorite_words"
     static let practiceModes = "practice_modes"
+    static let wordOfTheDayCustomization = "word_of_the_day_customization"
+    static let shareExportWords = "share_export_words"
     static let subscribeNow = "subscribe_now"
     static let unlockPremium = "unlock_premium"
     static let startFreeTrial = "start_free_trial"
@@ -222,5 +238,12 @@ extension Localizable {
     // Premium Lock
     static let premiumRequired = "premium_required"
     static let unlockPremiumToUseFeature = "unlock_premium_to_use_feature"
+    
+    // Rating Prompt
+    static let ratingTitle = "rating_title"
+    static let ratingSubtitle = "rating_subtitle"
+    static let ratingRateButton = "rating_rate_button"
+    static let ratingLaterButton = "rating_later_button"
+    static let ratingNoThanksButton = "rating_no_thanks_button"
 }
 

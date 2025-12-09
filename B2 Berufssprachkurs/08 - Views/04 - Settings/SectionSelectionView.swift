@@ -10,9 +10,22 @@ import SwiftUI
 struct SectionSelectionView: View {
     @Binding var selectedSections: String
     @ObservedObject var dataService: DataService
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Environment(\.dismiss) private var dismiss
     
     @State private var selectedSectionIds: Set<String> = []
+    @State private var showPaywall = false
+    
+    // Free sections: 1A, 1B, 1C, 1D, 1E
+    private let freeSections: Set<String> = ["1A", "1B", "1C", "1D", "1E"]
+    
+    private func isFreeSection(_ sectionId: String) -> Bool {
+        freeSections.contains(sectionId)
+    }
+    
+    private func canSelectSection(_ sectionId: String) -> Bool {
+        subscriptionManager.isPremiumActive || isFreeSection(sectionId)
+    }
     
     var body: some View {
         NavigationStack {
@@ -48,7 +61,14 @@ struct SectionSelectionView: View {
                                 .contentShape(Rectangle())
                                 .onTapGesture {
                                     HapticManager.shared.lightImpact()
-                                    toggleLectionSelection(lection: lection)
+                                    // Check if all sections in lection are free or user has premium
+                                    let allFree = lection.sections.allSatisfy { isFreeSection($0.id) }
+                                    if subscriptionManager.isPremiumActive || allFree {
+                                        toggleLectionSelection(lection: lection)
+                                    } else {
+                                        HapticManager.shared.heavyImpact()
+                                        showPaywall = true
+                                    }
                                 }
                             } content: {
                                 VStack(spacing: 8) {
@@ -63,6 +83,13 @@ struct SectionSelectionView: View {
                                                 .font(.body)
                                                 .foregroundColor(.primary)
                                             
+                                            // Premium badge for non-free sections
+                                            if !canSelectSection(section.id) {
+                                                Image(systemName: "crown.fill")
+                                                    .font(.caption)
+                                                    .foregroundColor(.orange)
+                                            }
+                                            
                                             Spacer()
                                             
                                             Image(systemName: selectedSectionIds.contains(section.id) ? "checkmark.circle.fill" : "circle")
@@ -76,9 +103,15 @@ struct SectionSelectionView: View {
                                             if selectedSectionIds.contains(section.id) {
                                                 selectedSectionIds.remove(section.id)
                                             } else {
-                                                selectedSectionIds.insert(section.id)
+                                                if canSelectSection(section.id) {
+                                                    selectedSectionIds.insert(section.id)
+                                                } else {
+                                                    HapticManager.shared.heavyImpact()
+                                                    showPaywall = true
+                                                }
                                             }
                                         }
+                                        .opacity(canSelectSection(section.id) ? 1.0 : 0.6)
                                         
                                         if section.id != lection.sections.last?.id {
                                             Divider()
@@ -116,7 +149,12 @@ struct SectionSelectionView: View {
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 HapticManager.shared.lightImpact()
-                                toggleAllVerbenSelection()
+                                if subscriptionManager.isPremiumActive {
+                                    toggleAllVerbenSelection()
+                                } else {
+                                    HapticManager.shared.heavyImpact()
+                                    showPaywall = true
+                                }
                             }
                         } content: {
                             VStack(spacing: 8) {
@@ -125,6 +163,13 @@ struct SectionSelectionView: View {
                                         Text(item.title)
                                             .font(.body)
                                             .foregroundColor(.primary)
+                                        
+                                        // Premium badge for non-free sections
+                                        if !canSelectSection(item.id) {
+                                            Image(systemName: "crown.fill")
+                                                .font(.caption)
+                                                .foregroundColor(.orange)
+                                        }
                                         
                                         Spacer()
                                         
@@ -139,9 +184,15 @@ struct SectionSelectionView: View {
                                         if selectedSectionIds.contains(item.id) {
                                             selectedSectionIds.remove(item.id)
                                         } else {
-                                            selectedSectionIds.insert(item.id)
+                                            if canSelectSection(item.id) {
+                                                selectedSectionIds.insert(item.id)
+                                            } else {
+                                                HapticManager.shared.heavyImpact()
+                                                showPaywall = true
+                                            }
                                         }
                                     }
+                                    .opacity(canSelectSection(item.id) ? 1.0 : 0.6)
                                     
                                     if item.id != verbenPrepositions.last?.id {
                                         Divider()
@@ -178,7 +229,12 @@ struct SectionSelectionView: View {
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 HapticManager.shared.lightImpact()
-                                toggleAllAdjektiveSelection()
+                                if subscriptionManager.isPremiumActive {
+                                    toggleAllAdjektiveSelection()
+                                } else {
+                                    HapticManager.shared.heavyImpact()
+                                    showPaywall = true
+                                }
                             }
                         } content: {
                             VStack(spacing: 8) {
@@ -187,6 +243,13 @@ struct SectionSelectionView: View {
                                         Text(item.title)
                                             .font(.body)
                                             .foregroundColor(.primary)
+                                        
+                                        // Premium badge for non-free sections
+                                        if !canSelectSection(item.id) {
+                                            Image(systemName: "crown.fill")
+                                                .font(.caption)
+                                                .foregroundColor(.orange)
+                                        }
                                         
                                         Spacer()
                                         
@@ -201,9 +264,15 @@ struct SectionSelectionView: View {
                                         if selectedSectionIds.contains(item.id) {
                                             selectedSectionIds.remove(item.id)
                                         } else {
-                                            selectedSectionIds.insert(item.id)
+                                            if canSelectSection(item.id) {
+                                                selectedSectionIds.insert(item.id)
+                                            } else {
+                                                HapticManager.shared.heavyImpact()
+                                                showPaywall = true
+                                            }
                                         }
                                     }
+                                    .opacity(canSelectSection(item.id) ? 1.0 : 0.6)
                                     
                                     if item.id != adjektivePrepositions.last?.id {
                                         Divider()
@@ -231,7 +300,12 @@ struct SectionSelectionView: View {
                         if isAllSelected() {
                             selectedSectionIds.removeAll()
                         } else {
-                            selectAllSections()
+                            if subscriptionManager.isPremiumActive {
+                                selectAllSections()
+                            } else {
+                                HapticManager.shared.heavyImpact()
+                                showPaywall = true
+                            }
                         }
                     } label: {
                         Image(systemName: isAllSelected() ? "checkmark.circle.fill" : "checkmark.circle")
@@ -247,6 +321,9 @@ struct SectionSelectionView: View {
         }
         .onDisappear {
             saveSelection()
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
         }
     }
     
@@ -329,8 +406,13 @@ struct SectionSelectionView: View {
             // Deselect all sections in this lection
             selectedSectionIds.subtract(lectionSectionIds)
         } else {
-            // Select all sections in this lection
-            selectedSectionIds.formUnion(lectionSectionIds)
+            // Select all sections in this lection (only free ones if not premium)
+            if subscriptionManager.isPremiumActive {
+                selectedSectionIds.formUnion(lectionSectionIds)
+            } else {
+                let freeSectionIds = lectionSectionIds.filter { isFreeSection($0) }
+                selectedSectionIds.formUnion(freeSectionIds)
+            }
         }
     }
     
@@ -409,8 +491,13 @@ struct SectionSelectionView: View {
     }
     
     private func selectAllSections() {
-        let allRegularSectionIds = Set(dataService.lections.flatMap { $0.sections.map { $0.id } })
-        selectedSectionIds = allRegularSectionIds.union(verbenIdsSet).union(adjektiveIdsSet)
+        if subscriptionManager.isPremiumActive {
+            let allRegularSectionIds = Set(dataService.lections.flatMap { $0.sections.map { $0.id } })
+            selectedSectionIds = allRegularSectionIds.union(verbenIdsSet).union(adjektiveIdsSet)
+        } else {
+            // Only select free sections
+            selectedSectionIds = freeSections
+        }
     }
     
     private var allSectionIds: Set<String> {

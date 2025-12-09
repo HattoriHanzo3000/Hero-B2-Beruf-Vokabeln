@@ -9,15 +9,22 @@ import SwiftUI
 
 struct ProgressStatisticsView: View {
     @ObservedObject var dataService: DataService
+    let isPremiumActive: Bool
     @ObservedObject private var languageManager = LanguageManager.shared
     @State private var refreshID = UUID()
     @State private var progress: (wrong: Int, familiar: Int, reinforced: Int, mastered: Int, total: Int) = (0, 0, 0, 0, 0)
     @State private var readinessPercentage: Int = 0
     
     private func updateStatistics() {
-        let allWordIds = dataService.getAllWordIds()
-        progress = SpacedRepetitionService.shared.getProgressByLevel(allWordIds: allWordIds)
-        readinessPercentage = SpacedRepetitionService.shared.getReadinessPercentage(allWordIds: allWordIds)
+        if isPremiumActive {
+            let allWordIds = dataService.getAllWordIds()
+            progress = SpacedRepetitionService.shared.getProgressByLevel(allWordIds: allWordIds)
+            readinessPercentage = SpacedRepetitionService.shared.getReadinessPercentage(allWordIds: allWordIds)
+        } else {
+            // In basis mode, everything stays 0
+            progress = (0, 0, 0, 0, 0)
+            readinessPercentage = 0
+        }
         refreshID = UUID()
     }
     

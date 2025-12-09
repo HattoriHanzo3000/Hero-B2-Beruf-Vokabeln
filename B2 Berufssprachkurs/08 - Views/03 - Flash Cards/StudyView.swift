@@ -139,6 +139,7 @@ struct StudyView: View {
     // Track study sessions for interstitial ads
     @AppStorage("studySessionCount") private var studySessionCount = 0
     @AppStorage("adsDisabledUntil") private var adsDisabledUntil: TimeInterval = 0
+    @ObservedObject private var ratingManager = RatingManager.shared
     
     private var isPremiumActive: Bool {
         let now = Date().timeIntervalSince1970
@@ -905,6 +906,14 @@ struct StudyView: View {
         // This prevents counting sessions where user just opened and closed
         if cardsAnswered >= 3 {
             studySessionCount += 1
+            
+            // Check if we should show rating prompt
+            if ratingManager.trackStudySession() {
+                // Show rating prompt after a short delay
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    ratingManager.requestRating()
+                }
+            }
             
             // Show interstitial ad every 2-3 sessions (only if premium is not active)
             // This gives a good balance between revenue and user experience

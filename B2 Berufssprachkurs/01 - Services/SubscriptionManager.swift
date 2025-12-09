@@ -23,10 +23,16 @@ final class SubscriptionManager: ObservableObject {
     // Published properties for UI observation
     @Published var isPremiumActive = false
     @Published var hasActiveSubscription = false // Separate from trial
+    @Published var activeProductID: String? = nil // Track which product is currently active
     @Published var isLoading = false
     @Published var purchaseState: PurchaseState = .idle
     @Published var products: [String: Product] = [:]
     @Published var errorMessage: String?
+    
+    // Check if active subscription is lifetime
+    var hasLifetimeSubscription: Bool {
+        return activeProductID == "lifetime_49.99"
+    }
     
     // Convenience property for backward compatibility (defaults to monthly)
     var product: Product? {
@@ -102,6 +108,7 @@ final class SubscriptionManager: ObservableObject {
     func checkSubscriptionStatus() async {
         // Check subscription entitlements
         var hasSubscription = false
+        var currentProductID: String? = nil
         
         for await result in Transaction.currentEntitlements {
             do {
@@ -110,6 +117,7 @@ final class SubscriptionManager: ObservableObject {
                 // Check if this transaction is for any of our products
                 if productIDs.contains(transaction.productID) {
                     hasSubscription = true
+                    currentProductID = transaction.productID
                     break
                 }
             } catch {
@@ -119,6 +127,7 @@ final class SubscriptionManager: ObservableObject {
         
         // Track subscription status separately
         hasActiveSubscription = hasSubscription
+        activeProductID = currentProductID
         
         // Premium is active if subscription is active OR trial is active
         isPremiumActive = hasSubscription || isTrialActive()
@@ -349,6 +358,33 @@ final class SubscriptionManager: ObservableObject {
         }
         
         print("SubscriptionManager: Premium deactivated for testing")
+    }
+    
+    // MARK: - Debug: Reset to Fresh Install State
+    
+    func resetToFreshInstall() {
+        let userDefaults = UserDefaults.standard
+        
+        // Clear all trial and premium related keys
+        userDefaults.removeObject(forKey: trialActivatedKey)
+        userDefaults.removeObject(forKey: firstLaunchDateKey)
+        userDefaults.removeObject(forKey: "premiumUnlockedUntil")
+        userDefaults.removeObject(forKey: "adsDisabledUntil")
+        
+        // Clear promo code premium
+        PromoCodeManager.shared.clearPromoCodes()
+        
+        // Reset subscription status
+        isPremiumActive = false
+        hasActiveSubscription = false
+        activeProductID = nil
+        
+        // Recheck subscription status
+        Task {
+            await checkSubscriptionStatus()
+        }
+        
+        print("SubscriptionManager: Reset to fresh install state")
     }
 }
 

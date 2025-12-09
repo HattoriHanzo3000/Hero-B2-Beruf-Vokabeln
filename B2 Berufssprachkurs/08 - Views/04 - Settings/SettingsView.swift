@@ -10,7 +10,6 @@ import MessageUI
 
 struct SettingsView: View {
     @EnvironmentObject var dataService: DataService
-    @Environment(\.dismiss) private var dismiss
     @ObservedObject private var languageManager = LanguageManager.shared
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
     @AppStorage("appearancePreference") private var appearancePreference = "System" // Stores key: "Light" | "Dark" | "System"
@@ -27,6 +26,7 @@ struct SettingsView: View {
     @State private var showRewardedAdAlert = false
     @State private var rewardedAdMessage = ""
     @State private var showPaywall = false
+    @State private var hasUpdateAvailable = false
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     
     // Premium status tracking
@@ -57,7 +57,7 @@ struct SettingsView: View {
         List {
             // Premium Section with Gradient
             PremiumPromoSection(
-                isPremiumActive: isPremiumActive,
+                isPremiumActive: subscriptionManager.isPremiumActive,
                 hasUsedTrial: subscriptionManager.hasUsedTrial,
                 hasActiveSubscription: subscriptionManager.hasActiveSubscription,
                 onStartFreeTrial: {
@@ -78,7 +78,8 @@ struct SettingsView: View {
                 NavigationIconRow(
                     icon: "gear.badge",
                     iconColor: .gray,
-                    title: Localizable.string(Localizable.update)
+                    title: Localizable.string(Localizable.update),
+                    showBadge: hasUpdateAvailable
                 ) {
                     UpdateView()
                 }
@@ -207,12 +208,17 @@ struct SettingsView: View {
                     HapticManager.shared.lightImpact()
                     presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/impressum")
                 } label: {
-                    SettingsIconRow(
-                        icon: "building.2.fill",
-                        iconColor: .gray,
-                        title: Localizable.string(Localizable.impressum)
-                    )
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack {
+                        SettingsIconRow(
+                            icon: "building.2.fill",
+                            iconColor: .gray,
+                            title: Localizable.string(Localizable.impressum)
+                        )
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(.secondary)
+                    }
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -221,12 +227,17 @@ struct SettingsView: View {
                     HapticManager.shared.lightImpact()
                     presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
                 } label: {
-                    SettingsIconRow(
-                        icon: "doc.text.fill",
-                        iconColor: .gray,
-                        title: Localizable.string(Localizable.termsOfUse)
-                    )
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack {
+                        SettingsIconRow(
+                            icon: "doc.text.fill",
+                            iconColor: .gray,
+                            title: Localizable.string(Localizable.termsOfUse)
+                        )
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(.secondary)
+                    }
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -235,12 +246,17 @@ struct SettingsView: View {
                     HapticManager.shared.lightImpact()
                     presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
                 } label: {
-                    SettingsIconRow(
-                        icon: "lock.shield.fill",
-                        iconColor: .gray,
-                        title: Localizable.string(Localizable.privacyPolicy)
-                    )
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack {
+                        SettingsIconRow(
+                            icon: "lock.shield.fill",
+                            iconColor: .gray,
+                            title: Localizable.string(Localizable.privacyPolicy)
+                        )
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(.secondary)
+                    }
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -255,20 +271,18 @@ struct SettingsView: View {
                     showResetAlert = true
                 }
                 
-                // Debug: Deactivate Premium (Testing Only) - Hidden for production
-                /*
-                Button {
-                    HapticManager.shared.lightImpact()
-                    subscriptionManager.deactivatePremiumForTesting()
-                } label: {
-                    SettingsIconRow(
-                        icon: "lock.slash.fill",
-                        iconColor: .orange,
-                        title: "Basis"
-                    )
-                }
-                .buttonStyle(.plain)
-                */
+                // Debug: Reset to Fresh Install (Testing Only) - Deactivated for production
+                // Button {
+                //     HapticManager.shared.lightImpact()
+                //     subscriptionManager.resetToFreshInstall()
+                // } label: {
+                //     SettingsIconRow(
+                //         icon: "arrow.counterclockwise.circle.fill",
+                //         iconColor: .blue,
+                //         title: "Reset to Fresh Install"
+                //     )
+                // }
+                // .buttonStyle(.plain)
             }
         }
         .listStyle(.insetGrouped)
@@ -278,17 +292,6 @@ struct SettingsView: View {
         }
         .navigationTitle(Localizable.string(Localizable.settings))
         .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "xmark")
-                        .font(.body)
-                        .fontWeight(.medium)
-                }
-            }
-        }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .sheet(isPresented: $showMailComposer) {
             MailComposeView(
@@ -327,6 +330,15 @@ struct SettingsView: View {
         )) { document in
             SettingsLegalWebSheetView(url: document.url)
         }
+        .onAppear {
+            checkForUpdate()
+        }
+    }
+    
+    private func checkForUpdate() {
+        // TODO: Implement actual update checking logic
+        // For now, this is a placeholder - you can implement App Store API checking here
+        // hasUpdateAvailable = true // Uncomment to test the badge
     }
     
     // Legal document identifier for sheet presentation
@@ -412,19 +424,30 @@ private struct NavigationIconRow<Destination: View>: View {
     let iconColor: Color
     let title: String
     let subtitle: String?
+    let showBadge: Bool
     let destination: () -> Destination
     
-    init(icon: String, iconColor: Color, title: String, subtitle: String? = nil, @ViewBuilder destination: @escaping () -> Destination) {
+    init(icon: String, iconColor: Color, title: String, subtitle: String? = nil, showBadge: Bool = false, @ViewBuilder destination: @escaping () -> Destination) {
         self.icon = icon
         self.iconColor = iconColor
         self.title = title
         self.subtitle = subtitle
+        self.showBadge = showBadge
         self.destination = destination
     }
     
     var body: some View {
         NavigationLink(destination: destination()) {
-            SettingsIconRow(icon: icon, iconColor: iconColor, title: title, subtitle: subtitle)
+            HStack(spacing: 12) {
+                SettingsIconRow(icon: icon, iconColor: iconColor, title: title, subtitle: subtitle)
+                Spacer()
+                if showBadge {
+                    Circle()
+                        .fill(Color.red)
+                        .frame(width: 8, height: 8)
+                        .padding(.trailing, 4)
+                }
+            }
         }
     }
 }
@@ -631,6 +654,7 @@ private struct PremiumPromoSection: View {
                         Text(subtitle)
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundColor(.white.opacity(0.9))
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                     
                     Spacer()
@@ -639,7 +663,7 @@ private struct PremiumPromoSection: View {
                 // Button - only show when premium is not active
                 if !isPremiumActive {
                     Button(action: onStartFreeTrial) {
-                        Text(Localizable.string(Localizable.startFreeTrial))
+                        Text(hasUsedTrial ? Localizable.string(Localizable.upgradeToPremium) : Localizable.string(Localizable.startFreeTrial))
                             .font(.system(.subheadline, design: .rounded).weight(.semibold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)

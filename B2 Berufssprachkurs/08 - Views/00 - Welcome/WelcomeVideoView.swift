@@ -22,8 +22,9 @@ struct WelcomeVideoView: View {
                 .ignoresSafeArea()
             
             if let player = player {
-                AlphaVideoPlayerView(player: player, videoGravity: .resizeAspect)
-                    .ignoresSafeArea()
+                AlphaVideoPlayerView(player: player, videoGravity: .resizeAspectFill)
+                    .ignoresSafeArea(.all)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .onAppear {
                         player.play()
                     }
@@ -152,6 +153,11 @@ struct WelcomeVideoView: View {
 final class PlayerContainerView: UIView {
     override static var layerClass: AnyClass { AVPlayerLayer.self }
     var playerLayer: AVPlayerLayer { layer as! AVPlayerLayer }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer.frame = bounds
+    }
 }
 
 struct AlphaVideoPlayerView: UIViewRepresentable {
@@ -172,16 +178,17 @@ struct AlphaVideoPlayerView: UIViewRepresentable {
         layer.isOpaque = false
         layer.backgroundColor = UIColor.clear.cgColor
         layer.videoGravity = videoGravity
+        // Frame will be set in layoutSubviews
         return view
     }
     
     func updateUIView(_ uiView: PlayerContainerView, context: Context) {
         uiView.playerLayer.player = player
         uiView.playerLayer.videoGravity = videoGravity
+        // Frame will be updated automatically in layoutSubviews
     }
 }
 
 #Preview {
     WelcomeVideoView(hasSeenWelcomeVideo: .constant(false))
 }
-
