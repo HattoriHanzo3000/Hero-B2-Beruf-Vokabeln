@@ -22,8 +22,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             await SubscriptionManager.shared.loadProducts()
         }
         
-        // Request tracking permission (after a short delay to ensure app is fully loaded)
-        TrackingManager.requestTrackingPermission()
+        // Tracking permission removed - AdMob is disabled
+        // TrackingManager.requestTrackingPermission()
         
         return true
     }

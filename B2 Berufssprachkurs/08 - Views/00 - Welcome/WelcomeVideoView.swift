@@ -7,144 +7,107 @@
 
 import SwiftUI
 import AVFoundation
+import os.log
+
+// MARK: - Logger
+private let logger = Logger(subsystem: "com.gizatech.B2-Beruf", category: "WelcomeVideoView")
 
 struct WelcomeVideoView: View {
     @Binding var hasSeenWelcomeVideo: Bool
     @State private var player: AVPlayer?
     @State private var endObserver: NSObjectProtocol?
-    @State private var didComplete: Bool = false
-    @Environment(\.scenePhase) private var scenePhase
+    @State private var didComplete = false
+    @State private var timeoutTask: Task<Void, Never>?
     
     var body: some View {
         ZStack {
-            // Background color matching app theme
-            Color.accentColor
+            Color(.systemBackground)
                 .ignoresSafeArea()
             
             if let player = player {
                 AlphaVideoPlayerView(player: player, videoGravity: .resizeAspectFill)
-                    .ignoresSafeArea(.all)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .ignoresSafeArea()
                     .onAppear {
                         player.play()
                     }
             } else {
-                // Loading state
                 ProgressView()
                     .scaleEffect(1.5)
                     .tint(Color("AppGreen"))
             }
         }
         .onAppear {
-            setupAudioSession()
             setupVideo()
+            startTimeout()
         }
         .onDisappear {
-            cleanupPlayback()
-        }
-        .onChange(of: scenePhase) { _, newPhase in
-            // Pause video when app goes to background
-            switch newPhase {
-            case .active:
-                break
-            case .inactive, .background:
-                player?.pause()
-            @unknown default:
-                player?.pause()
-            }
+            cleanup()
         }
     }
     
     // MARK: - Private Methods
     
-    private func setupAudioSession() {
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback, options: [.mixWithOthers])
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch {
-            // AVAudioSession configuration failed - continue silently
-        }
-    }
-    
     private func setupVideo() {
-        // Find video file with multiple extension support
-        let possibleExtensions = ["mov", "mp4"]
-        var videoURL: URL?
-        for ext in possibleExtensions {
-            if let url = Bundle.main.url(forResource: "welcome_animation", withExtension: ext) {
-                videoURL = url
-                break
-            }
-        }
-        
-        guard let resolvedURL = videoURL else {
-            // Video file not found - mark as seen and continue
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                completeWelcome()
-            }
+        // Find video file (try mov first, then mp4)
+        guard let url = Bundle.main.url(forResource: "welcome_animation", withExtension: "mov")
+            ?? Bundle.main.url(forResource: "welcome_animation", withExtension: "mp4") else {
+            logger.warning("Welcome video not found - skipping")
+            completeWelcome()
             return
         }
         
-        let playerItem = AVPlayerItem(url: resolvedURL)
+        let playerItem = AVPlayerItem(url: url)
+        let player = AVPlayer(playerItem: playerItem)
+        player.isMuted = false
         
-        // Async video loading
-        Task { @MainActor in
+        // Setup completion observer
+        // Capture the binding's projected value to update it from the closure
+        let binding = $hasSeenWelcomeVideo
+        endObserver = NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: playerItem,
+            queue: .main
+        ) { _ in
+            // Update binding on main thread (we're already on main queue)
+            binding.wrappedValue = true
+        }
+        
+        self.player = player
+        player.play()
+    }
+    
+    private func startTimeout() {
+        timeoutTask = Task { @MainActor in
             do {
-                _ = try await playerItem.asset.load(.tracks)
+                try await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds
+                if !didComplete {
+                    logger.warning("Video timeout - skipping welcome screen")
+                    completeWelcome()
+                }
             } catch {
-                // Video track loading failed - continue with playback
+                // Task cancelled - video loaded or view disappeared
             }
-            
-            let player = AVPlayer(playerItem: playerItem)
-            player.actionAtItemEnd = .pause
-            
-            // Unmute for welcome video
-            player.isMuted = false
-            
-            self.player = player
-            setupVideoCompletion(for: player)
-            player.play()
         }
     }
     
-    private func setupVideoCompletion(for player: AVPlayer) {
-        // Remove previous observer if any
+    private func cleanup() {
+        timeoutTask?.cancel()
+        timeoutTask = nil
+        
         if let token = endObserver {
             NotificationCenter.default.removeObserver(token)
             endObserver = nil
         }
         
-        endObserver = NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: player.currentItem,
-            queue: .main
-        ) { _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                completeWelcome()
-            }
-        }
-    }
-    
-    private func cleanupPlayback() {
         player?.pause()
         player?.replaceCurrentItem(with: nil)
         player = nil
-        
-        if let token = endObserver {
-            NotificationCenter.default.removeObserver(token)
-            endObserver = nil
-        }
-        
-        do {
-            try AVAudioSession.sharedInstance().setActive(false)
-        } catch {
-            // Non-fatal; OK to ignore
-        }
     }
     
     private func completeWelcome() {
         guard !didComplete else { return }
         didComplete = true
+        cleanup()
         hasSeenWelcomeVideo = true
     }
 }
