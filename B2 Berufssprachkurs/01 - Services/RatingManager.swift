@@ -150,3 +150,4 @@ class RatingManager: ObservableObject {
         }
     }
 }
+

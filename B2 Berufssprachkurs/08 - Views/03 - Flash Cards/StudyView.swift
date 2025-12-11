@@ -140,10 +140,11 @@ struct StudyView: View {
     @AppStorage("studySessionCount") private var studySessionCount = 0
     @AppStorage("adsDisabledUntil") private var adsDisabledUntil: TimeInterval = 0
     @ObservedObject private var ratingManager = RatingManager.shared
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     
     private var isPremiumActive: Bool {
         let now = Date().timeIntervalSince1970
-        return adsDisabledUntil > now || PromoCodeManager.shared.isPremiumActive
+        return adsDisabledUntil > now || subscriptionManager.isPremiumActive
     }
     
     init(dataService: DataService, filterBySectionId: String? = nil, studyAllMode: Bool = false, favoritesOnly: Bool = false, categoryFilter: String? = nil) {

@@ -15,11 +15,6 @@ struct InterstitialAdHelper {
             return
         }
         
-        // Check promo code premium status
-        if PromoCodeManager.shared.isPremiumActive {
-            return
-        }
-        
         // Check temporary ad disabling
         let adsDisabledUntil = UserDefaults.standard.double(forKey: "adsDisabledUntil")
         let now = Date().timeIntervalSince1970

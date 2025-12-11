@@ -346,9 +346,6 @@ final class SubscriptionManager: ObservableObject {
         userDefaults.removeObject(forKey: "premiumUnlockedUntil")
         userDefaults.removeObject(forKey: "adsDisabledUntil")
         
-        // Clear promo code premium
-        PromoCodeManager.shared.clearPromoCodes()
-        
         // Clear subscription status
         isPremiumActive = false
         
@@ -370,9 +367,6 @@ final class SubscriptionManager: ObservableObject {
         userDefaults.removeObject(forKey: firstLaunchDateKey)
         userDefaults.removeObject(forKey: "premiumUnlockedUntil")
         userDefaults.removeObject(forKey: "adsDisabledUntil")
-        
-        // Clear promo code premium
-        PromoCodeManager.shared.clearPromoCodes()
         
         // Reset subscription status
         isPremiumActive = false

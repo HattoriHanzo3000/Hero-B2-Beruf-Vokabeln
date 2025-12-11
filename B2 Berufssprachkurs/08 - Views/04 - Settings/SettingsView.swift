@@ -573,7 +573,6 @@ private extension SettingsView {
         let now = Date().timeIntervalSince1970
         return premiumUnlockedUntil > now || 
                adsDisabledUntil > now || 
-               PromoCodeManager.shared.isPremiumActive ||
                subscriptionManager.isPremiumActive
     }
     
