@@ -13,7 +13,6 @@ struct SettingsView: View {
     @ObservedObject private var languageManager = LanguageManager.shared
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
     @AppStorage("appearancePreference") private var appearancePreference = "System" // Stores key: "Light" | "Dark" | "System"
-    @AppStorage("textSizePreference") private var textSizePreference = "Large" // Stores key: "Extra Small" | "Small" | etc.
     @AppStorage("appLanguage") private var appLanguage = "English" { // Stores key: "English" | "Deutsch"
         didSet {
             languageManager.setLanguage(appLanguage)
@@ -83,6 +82,15 @@ struct SettingsView: View {
                 ) {
                     UpdateView()
                 }
+                
+                // Share row
+                NavigationIconRow(
+                    icon: "square.and.arrow.up",
+                    iconColor: .blue,
+                    title: Localizable.string(Localizable.share)
+                ) {
+                    ShareView()
+                }
             }
             
             // Premium Features Section - Temporarily deactivated
@@ -138,26 +146,6 @@ struct SettingsView: View {
                         case "Light": return Localizable.string(Localizable.light)
                         case "Dark": return Localizable.string(Localizable.dark)
                         default: return Localizable.string(Localizable.system)
-                        }
-                    }
-                )
-                
-                MenuIconRow(
-                    icon: "textformat.size",
-                    iconColor: .indigo,
-                    title: Localizable.string(Localizable.displayAndTextSize),
-                    options: localizedTextSizeOptions,
-                    selection: $textSizePreference,
-                    displayMapping: { key in
-                        switch key {
-                        case "Extra Small": return Localizable.string(Localizable.extraSmall)
-                        case "Small": return Localizable.string(Localizable.small)
-                        case "Medium": return Localizable.string(Localizable.medium)
-                        case "Large": return Localizable.string(Localizable.large)
-                        case "Extra Large": return Localizable.string(Localizable.extraLarge)
-                        case "XX Large": return Localizable.string(Localizable.xxLarge)
-                        case "XXX Large": return Localizable.string(Localizable.xxxLarge)
-                        default: return Localizable.string(Localizable.large)
                         }
                     }
                 )
@@ -558,10 +546,6 @@ private extension SettingsView {
     
     var localizedAppearanceOptions: [String] {
         ["Light", "Dark", "System"] // Keys
-    }
-    
-    var localizedTextSizeOptions: [String] {
-        ["Extra Small", "Small", "Medium", "Large", "Extra Large", "XX Large", "XXX Large"] // Keys
     }
     
     var localizedPeriodicityOptions: [String] {

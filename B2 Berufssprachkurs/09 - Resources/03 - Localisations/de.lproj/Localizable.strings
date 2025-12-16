@@ -57,6 +57,10 @@
 "extra_large" = "Extra groß";
 "xx_large" = "XX groß";
 "xxx_large" = "XXX groß";
+"share" = "Teilen";
+"scan_qr_code" = "QR-Code scannen";
+"scan_to_download" = "Scannen, um die App herunterzuladen";
+"open_in_app_store" = "Im App Store öffnen";
 "faq" = "FAQ";
 "faq_description" = "Häufig gestellte Fragen\n\nWenn Sie Fragen zur Verwendung der App haben, lesen Sie bitte Folgendes:\n\n• Wort des Tages: Sie können diese Funktion aktivieren/deaktivieren und anpassen, welche Abschnitte einbezogen werden sollen.\n• Lernmodi: Üben Sie mit Übersetzungen, Synonymen oder Erklärungen.\n• Einstellungen: Passen Sie Erscheinungsbild, Textgröße, Sprache und mehr an.\n\nFür zusätzlichen Support verwenden Sie bitte die Option Kontakt.";
 "contact_us" = "Kontakt";

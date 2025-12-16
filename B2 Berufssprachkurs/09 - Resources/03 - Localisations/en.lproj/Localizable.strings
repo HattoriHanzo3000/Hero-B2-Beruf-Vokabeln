@@ -57,6 +57,10 @@
 "extra_large" = "Extra Large";
 "xx_large" = "XX Large";
 "xxx_large" = "XXX Large";
+"share" = "Share";
+"scan_qr_code" = "Scan QR Code";
+"scan_to_download" = "Scan to download the app";
+"open_in_app_store" = "Open in App Store";
 "faq" = "FAQ";
 "faq_description" = "Frequently Asked Questions\n\nIf you have questions about using the app, please check the following:\n\n• Word of the Day: You can enable/disable this feature and customize which sections to include.\n• Study Modes: Practice with translations, synonyms, or explanations.\n• Settings: Customize appearance, text size, language, and more.\n\nFor additional support, please use the Contact Us option.";
 "contact_us" = "Contact Us";

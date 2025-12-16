@@ -18,37 +18,40 @@ struct HeaderView: View {
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @AppStorage("hasShownFirstGreeting") private var hasShownFirstGreeting = false
+    @State private var dailyGreeting: String
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     
     private let gifAnimationDuration: Double = 1.1
     private let autoPlayInterval: TimeInterval = 15.0 // Auto-play every 15 seconds
     
-    // Get daily greeting - first greeting is always greeting 3, then random
-    private var dailyGreeting: String {
-        // First greeting is always greeting 3
-        if !hasShownFirstGreeting {
-            return Localizable.string(Localizable.greetingWordOfTheDay3)
+    // Initialize dailyGreeting based on UserDefaults to avoid flash
+    init(dataService: DataService) {
+        self.dataService = dataService
+        // Read hasShownFirstGreeting directly from UserDefaults for initialization
+        let hasShown = UserDefaults.standard.bool(forKey: "hasShownFirstGreeting")
+        
+        if !hasShown {
+            // First greeting is always greeting 3
+            _dailyGreeting = State(initialValue: Localizable.string(Localizable.greetingWordOfTheDay3))
+        } else {
+            // After first greeting, use random selection (consistent throughout the day)
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: Date())
+            let dayHash = today.timeIntervalSince1970.hashValue
+            
+            let greetingKeys = [
+                Localizable.greetingWordOfTheDay,
+                Localizable.greetingWordOfTheDay1,
+                Localizable.greetingWordOfTheDay2,
+                Localizable.greetingWordOfTheDay3,
+                Localizable.greetingWordOfTheDay4,
+                Localizable.greetingWordOfTheDay5
+            ]
+            
+            let index = abs(dayHash) % greetingKeys.count
+            _dailyGreeting = State(initialValue: Localizable.string(greetingKeys[index]))
         }
-        
-        // After first greeting, use random selection (consistent throughout the day)
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        let dayHash = today.timeIntervalSince1970.hashValue
-        
-        // Array of all greeting keys
-        let greetingKeys = [
-            Localizable.greetingWordOfTheDay,
-            Localizable.greetingWordOfTheDay1,
-            Localizable.greetingWordOfTheDay2,
-            Localizable.greetingWordOfTheDay3,
-            Localizable.greetingWordOfTheDay4,
-            Localizable.greetingWordOfTheDay5
-        ]
-        
-        // Use hash to select greeting index (consistent for the day)
-        let index = abs(dayHash) % greetingKeys.count
-        return Localizable.string(greetingKeys[index])
     }
     
     var body: some View {
@@ -176,13 +179,16 @@ struct HeaderView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         }
         .fixedSize(horizontal: false, vertical: true)
-        .onAppear {
-            updateWordOfTheDay()
-            startAutoPlay()
-            // Mark that first greeting has been shown
+        .task {
+            // Mark that first greeting has been shown after view appears
+            // This ensures the greeting is set correctly before the view renders
             if !hasShownFirstGreeting {
                 hasShownFirstGreeting = true
             }
+        }
+        .onAppear {
+            updateWordOfTheDay()
+            startAutoPlay()
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
             updateWordOfTheDay()

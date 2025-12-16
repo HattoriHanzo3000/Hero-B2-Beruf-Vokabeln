@@ -245,5 +245,11 @@ extension Localizable {
     static let ratingRateButton = "rating_rate_button"
     static let ratingLaterButton = "rating_later_button"
     static let ratingNoThanksButton = "rating_no_thanks_button"
+    
+    // Share
+    static let share = "share"
+    static let scanQRCode = "scan_qr_code"
+    static let scanToDownload = "scan_to_download"
+    static let openInAppStore = "open_in_app_store"
 }
 

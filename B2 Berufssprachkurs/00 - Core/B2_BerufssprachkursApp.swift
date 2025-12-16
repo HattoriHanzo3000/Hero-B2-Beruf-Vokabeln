@@ -26,7 +26,6 @@ extension View {
 @main
 struct B2_BerufssprachkursApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @AppStorage("textSizePreference") private var textSizePreference: String = "Large"
     @AppStorage("appearancePreference") private var appearancePreference: String = "System"
     @AppStorage("hasSeenWelcomeVideo") private var hasSeenWelcomeVideo: Bool = false
     
@@ -43,27 +42,6 @@ struct B2_BerufssprachkursApp: App {
         }
     }
     
-    private var dynamicTypeSize: DynamicTypeSize {
-        switch textSizePreference {
-        case "Extra Small":
-            return .xSmall
-        case "Small":
-            return .small
-        case "Medium":
-            return .medium
-        case "Large":
-            return .large
-        case "Extra Large":
-            return .xLarge
-        case "XX Large":
-            return .xxLarge
-        case "XXX Large":
-            return .xxxLarge
-        default:
-            return .large
-        }
-    }
-    
     var body: some Scene {
         WindowGroup {
             Group {
@@ -73,14 +51,11 @@ struct B2_BerufssprachkursApp: App {
                     MainTabView()
                 }
             }
-            // Apply dynamic type size from user preference
-            .dynamicTypeSize(dynamicTypeSize)
             // Apply appearance preference (Light/Dark/System)
             .preferredColorScheme(colorScheme)
             // Lock orientation to portrait only
             .portraitOrientation()
             .environmentObject(LanguageManager.shared)
-            .environmentObject(TextSizeManager.shared)
             .environmentObject(AppearanceManager.shared)
         }
     }

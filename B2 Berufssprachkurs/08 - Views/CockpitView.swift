@@ -188,8 +188,7 @@ struct CockpitView: View {
                     CockpitCard(
                         titleIcon: subscriptionManager.isPremiumActive ? "chart.line.uptrend.xyaxis" : "crown.fill",
                         title: Localizable.string(Localizable.progress),
-                        subtitle: Text(String(format: Localizable.string(Localizable.progressDescription), dataService.getAllWordIds().count)),
-                        useGlassEffect: false
+                        subtitle: Text(String(format: Localizable.string(Localizable.progressDescription), dataService.getAllWordIds().count))
                     ) {
                         ProgressStatisticsView(dataService: dataService, isPremiumActive: subscriptionManager.isPremiumActive)
                             .padding(.top, 2)

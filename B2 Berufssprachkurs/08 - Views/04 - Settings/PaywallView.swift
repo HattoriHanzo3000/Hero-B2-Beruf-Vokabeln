@@ -497,17 +497,8 @@ private struct SubscriptionOptionButton: View {
                         .multilineTextAlignment(.leading)
                     
                     if showFreeTrial {
-                        // Free Trial badge
-                        Text(Localizable.string(Localizable.freeTrial))
-                            .font(.system(.caption2, design: .rounded).weight(.bold))
-                            .foregroundColor(Color("AppOrange"))
-                            .textCase(.uppercase)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(
-                                Capsule()
-                                    .fill(Color("AppOrange").opacity(0.15))
-                            )
+                        // Free Trial badge with smooth animation
+                        FreeTrialBadge()
                     }
                 }
             }
@@ -524,6 +515,34 @@ private struct SubscriptionOptionButton: View {
                     )
             )
         }
+    }
+}
+
+// MARK: - Free Trial Badge with Animation
+private struct FreeTrialBadge: View {
+    @State private var isAnimating = false
+    
+    var body: some View {
+        Text(Localizable.string(Localizable.freeTrial))
+            .font(.system(.caption2, design: .rounded).weight(.bold))
+            .foregroundColor(Color("AppOrange"))
+            .textCase(.uppercase)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(
+                Capsule()
+                    .fill(Color("AppOrange").opacity(isAnimating ? 0.35 : 0.15))
+            )
+            .scaleEffect(isAnimating ? 1.1 : 1.0)
+            .shadow(color: Color("AppOrange").opacity(isAnimating ? 0.4 : 0.2), radius: isAnimating ? 8 : 4, x: 0, y: 2)
+            .onAppear {
+                withAnimation(
+                    Animation.easeInOut(duration: 2.0)
+                        .repeatForever(autoreverses: true)
+                ) {
+                    isAnimating = true
+                }
+            }
     }
 }
 
