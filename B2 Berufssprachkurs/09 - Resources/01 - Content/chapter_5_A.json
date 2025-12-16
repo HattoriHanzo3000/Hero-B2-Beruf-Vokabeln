@@ -17,7 +17,7 @@
     },
     {
       "id": "5A-3",
-      "german": "ausreden",
+      "german": "aus|reden",
       "explanation": "Jemanden zu Ende sprechen lassen.",
       "synonyms": [],
       "example": "Sie lässt ihre Kollegen immer ausreden."
@@ -87,7 +87,7 @@
     },
     {
       "id": "5A-13",
-      "german": "etw. festlegen",
+      "german": "etw. fest|legen",
       "explanation": "Etwas bestimmen oder vereinbaren.",
       "synonyms": [],
       "example": "Sie legt den Termin für das nächste Meeting fest."

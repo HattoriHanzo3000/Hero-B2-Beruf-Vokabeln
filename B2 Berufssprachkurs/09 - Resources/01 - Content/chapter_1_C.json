@@ -38,7 +38,7 @@
     },
     {
       "id": "1C-6",
-      "german": "etw. einführen",
+      "german": "etw. ein|führen",
       "explanation": "Etwas Neues beginnen oder starten.",
       "synonyms": [],
       "example": "Das Unternehmen möchte ein neues System einführen."
@@ -171,7 +171,7 @@
     },
     {
       "id": "1C-25",
-      "german": "Produkte einführen",
+      "german": "Produkte ein|führen",
       "explanation": "Neue Produkte auf den Markt bringen.",
       "synonyms": [],
       "example": "Das Unternehmen möchte nächstes Jahr neue Produkte einführen."

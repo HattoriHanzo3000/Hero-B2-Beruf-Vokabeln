@@ -3,178 +3,178 @@
   "words": [
     {
       "id": "12D-1",
-      "german": "etw. ab mildern",
-      "explanation": "",
+      "german": "etw. ab|mildern",
+      "explanation": "Etwas weniger stark oder weniger schlimm machen.",
       "synonyms": [],
-      "example": ""
+      "example": "Flexible Arbeitszeiten können Stress im Alltag abmildern."
     },
     {
       "id": "12D-2",
       "german": "der Angehörige, -n",
-      "explanation": "",
+      "explanation": "Eine männliche Person aus der Familie, zum Beispiel Vater, Bruder oder Onkel.",
       "synonyms": [],
-      "example": ""
+      "example": "Pflegebedürftige Angehörige brauchen oft viel Unterstützung."
     },
     {
       "id": "12D-3",
       "german": "die Angehörige, -n",
-      "explanation": "",
+      "explanation": "Eine weibliche Person aus der Familie, zum Beispiel Mutter, Schwester oder Tante.",
       "synonyms": [],
-      "example": ""
+      "example": "Viele Angehörige kümmern sich neben dem Beruf um ihre Eltern."
     },
     {
       "id": "12D-4",
       "german": "der Anspruch, \"-e",
-      "explanation": "",
+      "explanation": "Das Recht, etwas zu bekommen.",
       "synonyms": [],
-      "example": ""
+      "example": "Eltern haben Anspruch auf Elternzeit."
     },
     {
       "id": "12D-5",
       "german": "Anspruch haben auf (+ Akk.)",
-      "explanation": "",
+      "explanation": "Ein Recht auf etwas Bestimmtes besitzen.",
       "synonyms": [],
-      "example": ""
+      "example": "Wer Vollzeit arbeitet, hat Anspruch auf Urlaubstage."
     },
     {
       "id": "12D-6",
       "german": "ausschließlich",
-      "explanation": "",
+      "explanation": "Nur, und nichts anderes.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Raum ist ausschließlich für Besprechungen reserviert."
     },
     {
       "id": "12D-7",
       "german": "etw./jdn. bedenken",
-      "explanation": "",
+      "explanation": "Etwas oder jemanden in einer Entscheidung berücksichtigen.",
       "synonyms": [],
-      "example": ""
+      "example": "Bei der Dienstplanung werden die Wünsche der Mitarbeitenden bedacht."
     },
     {
       "id": "12D-8",
       "german": "der Berufswiedereinstieg (Sg.)",
-      "explanation": "",
+      "explanation": "Die Rückkehr in den Beruf nach einer längeren Pause.",
       "synonyms": [],
-      "example": ""
+      "example": "Nach der Elternzeit plant sie ihren Berufswiedereinstieg."
     },
     {
       "id": "12D-9",
       "german": "die Betreuungsmöglichkeit, -en",
-      "explanation": "",
+      "explanation": "Angebot, bei dem Kinder oder pflegebedürftige Menschen versorgt werden.",
       "synonyms": [],
-      "example": ""
+      "example": "In der Stadt gibt es verschiedene Betreuungsmöglichkeiten für Kleinkinder."
     },
     {
       "id": "12D-10",
       "german": "die Elternzeit (Sg.)",
-      "explanation": "",
+      "explanation": "Zeit, in der Eltern nach der Geburt eines Kindes nicht arbeiten und ihr Kind betreuen.",
       "synonyms": [],
-      "example": ""
+      "example": "Er nimmt ein Jahr Elternzeit, um sich um seine Tochter zu kümmern."
     },
     {
       "id": "12D-11",
-      "german": "jdn. frei stellen",
-      "explanation": "",
+      "german": "jdn. frei|stellen",
+      "explanation": "Jemanden offiziell von der Arbeit befreien.",
       "synonyms": [],
-      "example": ""
+      "example": "Für den Arzttermin wird sie für zwei Stunden freigestellt."
     },
     {
       "id": "12D-12",
       "german": "die Freistellung, -en",
-      "explanation": "",
+      "explanation": "Offizielle Zeit, in der jemand nicht arbeiten muss.",
       "synonyms": [],
-      "example": ""
+      "example": "Für die Pflege eines Angehörigen beantragt er eine Freistellung."
     },
     {
       "id": "12D-13",
       "german": "das Homeoffice (Sg.)",
-      "explanation": "",
+      "explanation": "Arbeit von zu Hause statt im Betrieb.",
       "synonyms": [],
-      "example": ""
+      "example": "Im Homeoffice kann sie ihre Arbeitszeiten besser mit der Kinderbetreuung verbinden."
     },
     {
       "id": "12D-14",
       "german": "der Kündigungsschutz (Sg.)",
-      "explanation": "",
+      "explanation": "Gesetzliche Regeln, die Mitarbeitende vor einer ungerechten Kündigung schützen.",
       "synonyms": [],
-      "example": ""
+      "example": "Während der Elternzeit haben Beschäftigte einen besonderen Kündigungsschutz."
     },
     {
       "id": "12D-15",
       "german": "die Lohnersatzleistung, -en",
-      "explanation": "",
+      "explanation": "Geld, das einen Teil des Lohns ersetzt, zum Beispiel bei Krankheit oder Elternzeit.",
       "synonyms": [],
-      "example": ""
+      "example": "Elterngeld ist eine Form der Lohnersatzleistung."
     },
     {
       "id": "12D-16",
       "german": "pflegebedürftig",
-      "explanation": "",
+      "explanation": "So, dass jemand im Alltag Hilfe durch andere Menschen braucht.",
       "synonyms": [],
-      "example": ""
+      "example": "Seine Mutter ist pflegebedürftig und braucht Unterstützung beim Waschen."
     },
     {
       "id": "12D-17",
       "german": "die Pflegekasse (Sg.)",
-      "explanation": "",
+      "explanation": "Teil der Krankenversicherung, der Leistungen bei Pflegebedürftigkeit bezahlt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Pflegekasse prüft den Antrag auf Pflegegeld."
     },
     {
       "id": "12D-18",
       "german": "die Pflegezeit, -en",
-      "explanation": "",
+      "explanation": "Zeit, in der man weniger oder gar nicht arbeitet, um Angehörige zu pflegen.",
       "synonyms": [],
-      "example": ""
+      "example": "Während der Pflegezeit arbeitet sie nur noch halbtags."
     },
     {
       "id": "12D-19",
       "german": "rechnen mit (+ Dat.)",
-      "explanation": "",
+      "explanation": "Erwarten, dass etwas wahrscheinlich passieren wird.",
       "synonyms": [],
-      "example": ""
+      "example": "Bei der Schichtplanung muss man mit kurzfristigen Ausfällen rechnen."
     },
     {
       "id": "12D-20",
       "german": "der Rechtsanspruch, \"-e",
-      "explanation": "",
+      "explanation": "Ein Anspruch, der im Gesetz festgelegt ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Eltern haben einen Rechtsanspruch auf einen Kita-Platz für ihr Kind."
     },
     {
       "id": "12D-21",
       "german": "die Tagesmutter, \"–",
-      "explanation": "",
+      "explanation": "Person, die gegen Bezahlung tagsüber Kinder betreut.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Tagesmutter betreut die Kinder, bis die Eltern von der Arbeit kommen."
     },
     {
       "id": "12D-22",
       "german": "die Wechselschicht, -en",
-      "explanation": "",
+      "explanation": "Arbeit, bei der sich Früh-, Spät- oder Nachtschichten regelmäßig abwechseln.",
       "synonyms": [],
-      "example": ""
+      "example": "Wechselschicht ist für Familien mit kleinen Kindern oft eine große Belastung."
     },
     {
       "id": "12D-23",
       "german": "zinslos",
-      "explanation": "",
+      "explanation": "Ohne zusätzliche Zinsen; man muss nur den geliehenen Betrag zurückzahlen.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Arbeitgeber bietet ein zinsloses Darlehen für Notfälle an."
     },
     {
       "id": "12D-24",
-      "german": "sich zurecht finden",
-      "explanation": "",
+      "german": "sich zurecht|finden",
+      "explanation": "Sich in einer neuen Situation orientieren und klar kommen.",
       "synonyms": [],
-      "example": ""
+      "example": "Nach einigen Wochen findet sie sich in der neuen Abteilung gut zurecht."
     },
     {
       "id": "12D-25",
       "german": "der Zusammenhang, \"-e",
-      "explanation": "",
+      "explanation": "Die Verbindung zwischen Dingen oder Ereignissen.",
       "synonyms": [],
-      "example": ""
+      "example": "Im Gespräch erklärt die Chefin den Zusammenhang zwischen Arbeitszeit und Gehalt."
     }
   ]
 }

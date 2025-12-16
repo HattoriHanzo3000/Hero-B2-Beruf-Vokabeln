@@ -17,17 +17,17 @@
     },
     {
       "id": "7D-3",
-      "german": "etw. aus gleichen",
+      "german": "etw. aus|gleichen",
       "explanation": "Etwas wieder gut machen oder korrigieren.",
       "synonyms": [],
       "example": "Sie möchte den Fehler schnell ausgleichen."
     },
     {
       "id": "7D-4",
-      "german": "etw. aus handeln",
-      "explanation": "Etwas tun, um ein Problem zu lösen.",
+      "german": "etw. aus|handeln",
+      "explanation": "Etwas durch Gespräche oder Verhandlungen klären oder vereinbaren.",
       "synonyms": [],
-      "example": "Sie muss schnell aus der Situation handeln."
+      "example": "Sie handelt mit dem Chef eine neue Lösung aus."
     },
     {
       "id": "7D-5",
@@ -206,7 +206,7 @@
     },
     {
       "id": "7D-30",
-      "german": "etw./jdn. zurück weisen",
+      "german": "etw./jdn. zurück|weisen",
       "explanation": "Etwas oder jemanden ablehnen oder nicht akzeptieren.",
       "synonyms": [],
       "example": "Sie weist die Kritik zurück."

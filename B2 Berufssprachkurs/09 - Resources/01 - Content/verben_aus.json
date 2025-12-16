@@ -4,24 +4,28 @@
     {
       "id": "VERBEN_aus-1",
       "german": "bestehen aus (+ Dat.)",
+      "explanation": "Aus bestimmten Teilen zusammengesetzt sein.",
       "example": "Mein Vortrag besteht aus drei Teilen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_aus-2",
       "german": "herauskommen aus (+ Dat.)",
+      "explanation": "Einen Ort oder eine Situation verlassen.",
       "example": "Die Mitarbeiter sind aus ihren Büros herausgekommen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_aus-3",
       "german": "sich zurückziehen aus (+ Dat.)",
+      "explanation": "Freiwillig eine Position oder Situation verlassen.",
       "example": "Sie hat sich aus der Geschäftsführung zurückgezogen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_aus-4",
       "german": "sich zusammensetzen aus (+ Dat.)",
+      "explanation": "Aus mehreren Teilen bestehen oder gebildet sein.",
       "example": "Die Luft setzt sich aus verschiedenen Gasen zusammen.",
       "quiz": ""
     }

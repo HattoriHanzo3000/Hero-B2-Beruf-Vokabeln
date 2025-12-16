@@ -10,7 +10,7 @@
     },
     {
       "id": "4C-2",
-      "german": "etw. aushändigen",
+      "german": "etw. aus|händigen",
       "explanation": "Jemandem etwas geben oder überreichen.",
       "synonyms": [],
       "example": "Die Personalabteilung händigt ihr den Mitarbeiterausweis aus."
@@ -38,7 +38,7 @@
     },
     {
       "id": "4C-6",
-      "german": "etw. einplanen",
+      "german": "etw. ein|planen",
       "explanation": "Etwas in einen Plan aufnehmen oder berücksichtigen.",
       "synonyms": [],
       "example": "Sie plant die Pause in ihren Tagesablauf ein."
@@ -171,7 +171,7 @@
     },
     {
       "id": "4C-25",
-      "german": "sich zurechtfinden",
+      "german": "sich zurecht|finden",
       "explanation": "Sich in einer neuen Situation orientieren können.",
       "synonyms": [],
       "example": "Sie findet sich schnell im neuen Arbeitsplatz zurecht."

@@ -10,7 +10,7 @@
     },
     {
       "id": "2A-2",
-      "german": "auffallen",
+      "german": "auf|fallen",
       "explanation": "Besonders bemerkt werden oder Aufmerksamkeit erregen.",
       "synonyms": [],
       "example": "Seine guten Leistungen fallen im Team auf."
@@ -143,7 +143,7 @@
     },
     {
       "id": "2A-21",
-      "german": "hervorgehen aus (+ Dat.)",
+      "german": "hervor|gehen aus (+ Dat.)",
       "explanation": "Aus etwas folgen oder sich aus etwas ergeben.",
       "synonyms": [],
       "example": "Aus der Statistik geht hervor, dass die Arbeitslosigkeit sinkt."
@@ -199,7 +199,7 @@
     },
     {
       "id": "2A-29",
-      "german": "(den Schluss) nahelegen",
+      "german": "(den Schluss) nahe|legen",
       "explanation": "Etwas vermuten lassen oder auf etwas hindeuten.",
       "synonyms": [],
       "example": "Die Zahlen legen den Schluss nahe, dass die Wirtschaft wächst."
@@ -304,7 +304,7 @@
     },
     {
       "id": "2A-44",
-      "german": "etw. zubereiten",
+      "german": "etw. zu|bereiten",
       "explanation": "Essen kochen oder vorbereiten.",
       "synonyms": [],
       "example": "Der Koch bereitet das Essen für die Gäste zu."

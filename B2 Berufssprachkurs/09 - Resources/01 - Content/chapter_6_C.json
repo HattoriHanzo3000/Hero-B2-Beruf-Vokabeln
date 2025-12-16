@@ -73,7 +73,7 @@
     },
     {
       "id": "6C-11",
-      "german": "etw. herunterladen",
+      "german": "etw. herunter|laden",
       "explanation": "Etwas aus dem Internet auf den Computer laden.",
       "synonyms": [],
       "example": "Sie lädt die Anleitung herunter."
@@ -108,7 +108,7 @@
     },
     {
       "id": "6C-16",
-      "german": "etw. nachfüllen",
+      "german": "etw. nach|füllen",
       "explanation": "Etwas wieder auffüllen oder ergänzen.",
       "synonyms": [],
       "example": "Sie füllt das Wasser nach."

@@ -3,7 +3,7 @@
   "words": [
     {
       "id": "5E-1",
-      "german": "sich aufhalten",
+      "german": "sich auf|halten",
       "explanation": "Sich an einem Ort befinden oder dort sein.",
       "synonyms": [],
       "example": "Sie hält sich häufig im Freien auf."
@@ -80,7 +80,7 @@
     },
     {
       "id": "5E-12",
-      "german": "sich etw. vornehmen",
+      "german": "sich etw. vor|nehmen",
       "explanation": "Sich etwas als Ziel setzen oder planen.",
       "synonyms": [],
       "example": "Sie nimmt sich vor, mehr Sport zu treiben."

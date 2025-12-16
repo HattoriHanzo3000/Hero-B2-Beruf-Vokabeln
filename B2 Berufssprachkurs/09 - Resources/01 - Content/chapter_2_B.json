@@ -3,7 +3,7 @@
   "words": [
     {
       "id": "2B-1",
-      "german": "etw./jdn. abfertigen",
+      "german": "etw./jdn. ab|fertigen",
       "explanation": "Etwas oder jemanden bearbeiten und erledigen.",
       "synonyms": [],
       "example": "Die Mitarbeiterin fertigt die Kunden am Schalter ab."
@@ -45,7 +45,7 @@
     },
     {
       "id": "2B-7",
-      "german": "jdn. einstellen",
+      "german": "jdn. ein|stellen",
       "explanation": "Jemanden als Mitarbeiter annehmen.",
       "synonyms": [],
       "example": "Das Unternehmen stellt neue Mitarbeiter ein."
@@ -171,7 +171,7 @@
     },
     {
       "id": "2B-25",
-      "german": "etw. umbauen",
+      "german": "etw. um|bauen",
       "explanation": "Etwas ändern oder renovieren.",
       "synonyms": [],
       "example": "Das Unternehmen baut die Filiale um."

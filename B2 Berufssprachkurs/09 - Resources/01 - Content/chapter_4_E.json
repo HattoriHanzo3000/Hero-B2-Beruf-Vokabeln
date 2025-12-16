@@ -31,7 +31,7 @@
     },
     {
       "id": "4E-5",
-      "german": "etw. einhalten",
+      "german": "etw. ein|halten",
       "explanation": "Etwas beachten oder befolgen.",
       "synonyms": [],
       "example": "Sie hält die Abstandsregeln ein."
@@ -52,7 +52,7 @@
     },
     {
       "id": "4E-8",
-      "german": "etw./jdm. nahekommen",
+      "german": "etw./jdm. nahe|kommen",
       "explanation": "Sich jemandem oder etwas nähern.",
       "synonyms": [],
       "example": "Sie kommt dem Publikum nicht zu nahe."
@@ -94,7 +94,7 @@
     },
     {
       "id": "4E-14",
-      "german": "etw./jdn. wahrnehmen",
+      "german": "etw./jdn. wahr|nehmen",
       "explanation": "Etwas oder jemanden bemerken oder erkennen.",
       "synonyms": [],
       "example": "Sie nimmt die Bedürfnisse des Publikums wahr."

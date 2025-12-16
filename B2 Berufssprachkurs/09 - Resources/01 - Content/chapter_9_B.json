@@ -4,135 +4,135 @@
     {
       "id": "9B-1",
       "german": "Abhilfe schaffen",
-      "explanation": "",
+      "explanation": "Ein Problem lösen oder eine Situation verbessern.",
       "synonyms": [],
-      "example": ""
+      "example": "Wir werden schnell Abhilfe schaffen."
     },
     {
       "id": "9B-2",
       "german": "allerdings",
-      "explanation": "",
+      "explanation": "Drückt einen Gegensatz oder eine Einschränkung aus.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Lieferung ist unterwegs, allerdings wird sie später ankommen."
     },
     {
       "id": "9B-3",
       "german": "etw. bedauern",
-      "explanation": "",
+      "explanation": "Etwas schade finden oder traurig darüber sein.",
       "synonyms": [],
-      "example": ""
+      "example": "Wir bedauern den entstandenen Schaden sehr."
     },
     {
       "id": "9B-4",
       "german": "zu unserem Bedauern",
-      "explanation": "",
+      "explanation": "Formulierung, mit der man höflich sagt, dass man etwas schade findet.",
       "synonyms": [],
-      "example": ""
+      "example": "Zu unserem Bedauern ist der Artikel derzeit nicht lieferbar."
     },
     {
       "id": "9B-5",
       "german": "etw. bestätigen",
-      "explanation": "",
+      "explanation": "Sagen oder schreiben, dass etwas richtig ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Bitte bestätigen Sie den Termin per E-Mail."
     },
     {
       "id": "9B-6",
       "german": "die Dunstabzugshaube, -n",
-      "explanation": "",
+      "explanation": "Ein Gerät über dem Herd, das Dampf und Gerüche absaugt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Dunstabzugshaube funktioniert nicht richtig."
     },
     {
       "id": "9B-7",
-      "german": "ein treffen",
-      "explanation": "",
+      "german": "ein Treffen",
+      "explanation": "Ein Termin, bei dem sich Personen persönlich sehen.",
       "synonyms": [],
-      "example": ""
+      "example": "Wir schlagen ein Treffen in Ihrer Firma vor."
     },
     {
       "id": "9B-8",
       "german": "der Eingang, \"-e",
-      "explanation": "",
+      "explanation": "Die Stelle, an der etwas ankommt oder hereinkommt.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Eingang der Ware wird im System erfasst."
     },
     {
       "id": "9B-9",
       "german": "den Eingang bestätigen",
-      "explanation": "",
+      "explanation": "Sagen, dass etwas angekommen ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Wir bestätigen hiermit den Eingang Ihrer Reklamation."
     },
     {
       "id": "9B-10",
       "german": "die Flamme, -n",
-      "explanation": "",
+      "explanation": "Das Feuer, das aus einem Gas- oder Kerzenbrenner kommt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Flamme am Herd geht immer wieder aus."
     },
     {
       "id": "9B-11",
       "german": "der Gefrierschrank, \"-e",
-      "explanation": "",
+      "explanation": "Ein Schrank, in dem Lebensmittel sehr kalt gelagert werden.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Gefrierschrank kühlt nicht mehr richtig."
     },
     {
       "id": "9B-12",
-      "german": "sich heraus stellen",
-      "explanation": "",
+      "german": "sich heraus|stellen",
+      "explanation": "Später deutlich werden oder klar werden.",
       "synonyms": [],
-      "example": ""
+      "example": "Es stellt sich heraus, dass das Gerät fehlerhaft ist."
     },
     {
       "id": "9B-13",
       "german": "lieferbar",
-      "explanation": "",
+      "explanation": "So, dass es geliefert werden kann.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Ersatzteil ist in zwei Wochen wieder lieferbar."
     },
     {
       "id": "9B-14",
       "german": "der Lieferschein, -e",
-      "explanation": "",
+      "explanation": "Ein Dokument, das eine Lieferung begleitet.",
       "synonyms": [],
-      "example": ""
+      "example": "Bitte heben Sie den Lieferschein für die Warenkontrolle auf."
     },
     {
       "id": "9B-15",
-      "german": "etw. nach liefern",
-      "explanation": "",
+      "german": "etw. nach|liefern",
+      "explanation": "Etwas später schicken, das zuerst gefehlt hat.",
       "synonyms": [],
-      "example": ""
+      "example": "Wir werden die fehlenden Teile umgehend nachliefern."
     },
     {
       "id": "9B-16",
       "german": "umgehend",
-      "explanation": "",
+      "explanation": "Sehr schnell und ohne Verzögerung.",
       "synonyms": [],
-      "example": ""
+      "example": "Wir reagieren umgehend auf Ihre Reklamation."
     },
     {
       "id": "9B-17",
       "german": "verfügbar",
-      "explanation": "",
+      "explanation": "Vorhanden und nutzbar.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Modell ist in allen Farben verfügbar."
     },
     {
       "id": "9B-18",
       "german": "das Versehen, –",
-      "explanation": "",
+      "explanation": "Ein kleiner Fehler, den man nicht mit Absicht macht.",
       "synonyms": [],
-      "example": ""
+      "example": "Die falsche Lieferung war ein Versehen."
     },
     {
       "id": "9B-19",
       "german": "die Warenkontrolle, -n",
-      "explanation": "",
+      "explanation": "Die Prüfung, ob die gelieferte Ware in Ordnung ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Bei der Warenkontrolle fiel der Schaden sofort auf."
     }
   ]
 }

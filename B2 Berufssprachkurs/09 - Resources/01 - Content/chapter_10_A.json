@@ -4,170 +4,170 @@
     {
       "id": "10A-1",
       "german": "das Anliegen, –",
-      "explanation": "",
+      "explanation": "Ein Wunsch oder ein Thema, das für jemanden wichtig ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Er erklärt der Mitarbeiterin sein Anliegen."
     },
     {
       "id": "10A-2",
       "german": "der Arbeitsspeicher, –",
-      "explanation": "",
+      "explanation": "Der Teil des Computers, der Daten kurz speichert, während er arbeitet.",
       "synonyms": [],
-      "example": ""
+      "example": "Für die Software ist ein großer Arbeitsspeicher wichtig."
     },
     {
       "id": "10A-3",
-      "german": "etw. aus statten",
-      "explanation": "",
+      "german": "etw. aus|statten",
+      "explanation": "Etwas mit bestimmten Geräten oder Funktionen versehen.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Messestand ist mit moderner Technik ausgestattet."
     },
     {
       "id": "10A-4",
-      "german": "etw. aus stellen",
-      "explanation": "",
+      "german": "etw. aus|stellen",
+      "explanation": "Etwas öffentlich zeigen, zum Beispiel auf einer Messe.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Firma stellt ihre neuen Produkte auf der Messe aus."
     },
     {
       "id": "10A-5",
       "german": "die Automobilausstellung, -en",
-      "explanation": "",
+      "explanation": "Eine Ausstellung, auf der Autos präsentiert werden.",
       "synonyms": [],
-      "example": ""
+      "example": "Auf der Automobilausstellung werden viele Neuheiten gezeigt."
     },
     {
       "id": "10A-6",
       "german": "die Bildungsmesse, -n",
-      "explanation": "",
+      "explanation": "Eine Messe mit Angeboten rund um Ausbildung und Weiterbildung.",
       "synonyms": [],
-      "example": ""
+      "example": "Viele Schüler besuchen die Bildungsmesse in ihrer Stadt."
     },
     {
       "id": "10A-7",
       "german": "die Buchmesse, -n",
-      "explanation": "",
+      "explanation": "Eine große Messe, auf der Verlage und Autoren Bücher vorstellen.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Buchmesse zieht jedes Jahr viele Besucher an."
     },
     {
       "id": "10A-8",
       "german": "die Einrichtungsmesse, -n",
-      "explanation": "",
+      "explanation": "Eine Messe, auf der Möbel und Wohnideen präsentiert werden.",
       "synonyms": [],
-      "example": ""
+      "example": "Auf der Einrichtungsmesse findet man neue Trends für das Wohnen."
     },
     {
       "id": "10A-9",
       "german": "die Fachmesse, -n",
-      "explanation": "",
+      "explanation": "Eine Messe nur für Fachleute aus einer bestimmten Branche.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Fachmesse ist nur für registrierte Besucher geöffnet."
     },
     {
       "id": "10A-10",
       "german": "die Fachveranstaltung, -en",
-      "explanation": "",
+      "explanation": "Eine Veranstaltung für Experten eines bestimmten Themas.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Fachveranstaltung bietet spannende Vorträge."
     },
     {
       "id": "10A-11",
       "german": "die Festplattengröße, -n",
-      "explanation": "",
+      "explanation": "Die Menge an Daten, die eine Festplatte speichern kann.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Festplattengröße reicht für alle Messepräsentationen aus."
     },
     {
       "id": "10A-12",
       "german": "der Gesprächsinhalt, -e",
-      "explanation": "",
+      "explanation": "Das, worüber man in einem Gespräch spricht.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Gesprächsinhalt wird in einer Notiz festgehalten."
     },
     {
       "id": "10A-13",
       "german": "informativ",
-      "explanation": "",
+      "explanation": "Mit vielen nützlichen Informationen.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Messegespräch war sehr informativ."
     },
     {
       "id": "10A-14",
       "german": "die Innovation, -en",
-      "explanation": "",
+      "explanation": "Eine neue Idee oder Technik, die etwas deutlich verbessert.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Innovationen der Firma stoßen auf großes Interesse."
     },
     {
       "id": "10A-15",
       "german": "etw. konfigurieren",
-      "explanation": "",
+      "explanation": "Einstellungen so wählen, dass ein Gerät oder Programm passt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Software lässt sich individuell konfigurieren."
     },
     {
       "id": "10A-16",
       "german": "leistungsfähig",
-      "explanation": "",
+      "explanation": "Stark genug, um viel oder schwierige Arbeit zu machen.",
       "synonyms": [],
-      "example": ""
+      "example": "Der neue Computer ist sehr leistungsfähig."
     },
     {
       "id": "10A-17",
       "german": "leistungsstark",
-      "explanation": "",
+      "explanation": "Mit besonders hoher Leistung oder Kraft.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie präsentieren eine leistungsstarke Messe-App."
     },
     {
       "id": "10A-18",
       "german": "die Messegesprächsnotiz,-en",
-      "explanation": "",
+      "explanation": "Eine kurze schriftliche Zusammenfassung eines Messegesprächs.",
       "synonyms": [],
-      "example": ""
+      "example": "In der Messegesprächsnotiz stehen alle Kundenwünsche."
     },
     {
       "id": "10A-19",
       "german": "die Messeteilnahme (Sg.)",
-      "explanation": "",
+      "explanation": "Wenn eine Firma oder Person an einer Messe teilnimmt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Messeteilnahme hat den Umsatz deutlich erhöht."
     },
     {
       "id": "10A-20",
       "german": "mittelständisch",
-      "explanation": "",
+      "explanation": "Zu einem Unternehmen gehören, das weder klein noch sehr groß ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Das mittelständische Unternehmen ist Stammgast auf der Messe."
     },
     {
       "id": "10A-21",
       "german": "die Publikumsmesse, -n",
-      "explanation": "",
+      "explanation": "Eine Messe, die für alle Besucher offen ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Auf der Publikumsmesse können Kunden Produkte direkt testen."
     },
     {
       "id": "10A-22",
       "german": "die Tourismusbörse, -n",
-      "explanation": "",
+      "explanation": "Eine Messe mit Angeboten rund um Reisen und Tourismus.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Tourismusbörse stellt Reiseziele aus aller Welt vor."
     },
     {
       "id": "10A-23",
       "german": "der Umsatz, \"-e",
-      "explanation": "",
+      "explanation": "Das Geld, das eine Firma durch Verkäufe einnimmt.",
       "synonyms": [],
-      "example": ""
+      "example": "Durch die Messe konnte der Umsatz gesteigert werden."
     },
     {
       "id": "10A-24",
       "german": "variabel",
-      "explanation": "",
+      "explanation": "Flexibel und leicht zu ändern.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Standgröße ist variabel buchbar."
     }
   ]
 }

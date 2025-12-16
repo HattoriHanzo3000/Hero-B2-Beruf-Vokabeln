@@ -3,7 +3,7 @@
   "words": [
     {
       "id": "1D-1",
-      "german": "etw. anordnen",
+      "german": "etw. an|ordnen",
       "explanation": "Etwas in einer bestimmten Reihenfolge oder Ordnung bringen.",
       "synonyms": [],
       "example": "Die Bücher werden nach Größe angeordnet."
@@ -199,7 +199,7 @@
     },
     {
       "id": "1D-29",
-      "german": "etw. zuordnen zu (+ Dat.)",
+      "german": "etw. zu|ordnen zu (+ Dat.)",
       "explanation": "Etwas einer bestimmten Gruppe oder Abteilung zuweisen.",
       "synonyms": [],
       "example": "Diese Aufgabe wird der Marketingabteilung zugeordnet."

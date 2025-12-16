@@ -4,107 +4,107 @@
     {
       "id": "9D-1",
       "german": "die Abrechnungssoftware, -s",
-      "explanation": "",
+      "explanation": "Ein Computerprogramm, mit dem man Rechnungen und Zahlungen bearbeitet.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Abrechnungssoftware wird regelmäßig aktualisiert."
     },
     {
       "id": "9D-2",
       "german": "der Ansprechpartner, –",
-      "explanation": "",
+      "explanation": "Ein Mann, an den man sich bei Fragen wenden kann.",
       "synonyms": [],
-      "example": ""
+      "example": "Herr Meier ist Ihr Ansprechpartner im Kundenservice."
     },
     {
       "id": "9D-3",
       "german": "die Ansprechpartnerin, -nen",
-      "explanation": "",
+      "explanation": "Eine Frau, an die man sich bei Fragen wenden kann.",
       "synonyms": [],
-      "example": ""
+      "example": "Frau Schulz ist Ihre Ansprechpartnerin in der Personalabteilung."
     },
     {
       "id": "9D-4",
       "german": "der Außendienst (Sg.)",
-      "explanation": "",
+      "explanation": "Arbeit, bei der man Kunden außerhalb der Firma besucht.",
       "synonyms": [],
-      "example": ""
+      "example": "Im Außendienst hat er viel Kontakt zu Kunden."
     },
     {
       "id": "9D-5",
       "german": "der Außendienstmitarbeiter, –",
-      "explanation": "",
+      "explanation": "Ein Mann, der für die Firma zu Kunden fährt.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Außendienstmitarbeiter betreut mehrere Regionen."
     },
     {
       "id": "9D-6",
       "german": "die Außendienstmitarbeiterin, -nen",
-      "explanation": "",
+      "explanation": "Eine Frau, die für die Firma zu Kunden fährt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Außendienstmitarbeiterin besucht die Kunden vor Ort."
     },
     {
       "id": "9D-7",
       "german": "der Betriebsarzt, \"-e",
-      "explanation": "",
+      "explanation": "Ein Arzt, der für die Gesundheit der Mitarbeitenden einer Firma zuständig ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Betriebsarzt bietet regelmäßige Gesundheitschecks an."
     },
     {
       "id": "9D-8",
       "german": "die Betriebsärztin, -nen",
-      "explanation": "",
+      "explanation": "Eine Ärztin, die für die Gesundheit der Mitarbeitenden einer Firma zuständig ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Betriebsärztin berät zum Thema Ergonomie am Arbeitsplatz."
     },
     {
       "id": "9D-9",
-      "german": "dazwischen kommen",
-      "explanation": "",
+      "german": "dazwischen|kommen",
+      "explanation": "Unerwartet passieren und einen Plan stören.",
       "synonyms": [],
-      "example": ""
+      "example": "Leider ist mir ein wichtiger Termin dazwischen gekommen."
     },
     {
       "id": "9D-10",
       "german": "firmenintern",
-      "explanation": "",
+      "explanation": "Nur innerhalb der Firma und nicht nach außen.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Informationen sind firmenintern und vertraulich."
     },
     {
       "id": "9D-11",
       "german": "das Firmenjubiläum, -jubiläen",
-      "explanation": "",
+      "explanation": "Ein besonderer Tag, an dem eine Firma ein rundes Bestehen feiert.",
       "synonyms": [],
-      "example": ""
+      "example": "Zum Firmenjubiläum lädt die Firma alle Mitarbeitenden ein."
     },
     {
       "id": "9D-12",
       "german": "die Grippeimpfung, -en",
-      "explanation": "",
+      "explanation": "Eine Impfung, die vor der Grippe schützen soll.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Grippeimpfung wird im Herbst angeboten."
     },
     {
       "id": "9D-13",
       "german": "hundertjährig",
-      "explanation": "",
+      "explanation": "Seit hundert Jahren bestehend oder hundert Jahre alt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Firma feiert ihr hundertjähriges Bestehen."
     },
     {
       "id": "9D-14",
       "german": "das Intranet (Sg.)",
-      "explanation": "",
+      "explanation": "Ein internes Netzwerk für Informationen in einer Firma.",
       "synonyms": [],
-      "example": ""
+      "example": "Im Intranet finden die Mitarbeitenden aktuelle Nachrichten."
     },
     {
       "id": "9D-15",
-      "german": "etw. wahr nehmen (z.B. einen Termin)",
-      "explanation": "",
+      "german": "etw. wahr|nehmen (z.B. einen Termin)",
+      "explanation": "Etwas nutzen oder wie geplant teilnehmen.",
       "synonyms": [],
-      "example": ""
+      "example": "Sie kann den Termin beim Betriebsarzt leider nicht wahrnehmen."
     }
   ]
 }

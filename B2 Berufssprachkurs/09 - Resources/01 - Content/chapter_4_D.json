@@ -31,21 +31,21 @@
     },
     {
       "id": "4D-5",
-      "german": "etw. aufladen",
+      "german": "etw. auf|laden",
       "explanation": "Etwas mit Energie versorgen, zum Beispiel ein Handy.",
       "synonyms": [],
       "example": "Sie lädt ihr Handy an der Ladestation auf."
     },
     {
       "id": "4D-6",
-      "german": "etw. aushängen",
+      "german": "etw. aus|hängen",
       "explanation": "Etwas an eine Wand oder Tafel hängen.",
       "synonyms": [],
       "example": "Sie hängt die Ankündigung im Flur aus."
     },
     {
       "id": "4D-7",
-      "german": "etw. ausstellen (z.B. einen Parkausweis)",
+      "german": "etw. aus|stellen (z.B. einen Parkausweis)",
       "explanation": "Ein offizielles Dokument erstellen und geben.",
       "synonyms": [],
       "example": "Die Personalabteilung stellt den Parkausweis aus."
@@ -129,7 +129,7 @@
     },
     {
       "id": "4D-19",
-      "german": "eine Dienstreise antreten",
+      "german": "eine Dienstreise an|treten",
       "explanation": "Eine Dienstreise beginnen oder starten.",
       "synonyms": [],
       "example": "Sie tritt die Dienstreise nächste Woche an."

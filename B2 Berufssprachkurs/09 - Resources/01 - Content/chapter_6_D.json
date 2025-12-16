@@ -10,7 +10,7 @@
     },
     {
       "id": "6D-2",
-      "german": "etw. abmontieren",
+      "german": "etw. ab|montieren",
       "explanation": "Etwas entfernen oder demontieren.",
       "synonyms": [],
       "example": "Sie montiert das Rad ab."
@@ -24,7 +24,7 @@
     },
     {
       "id": "6D-4",
-      "german": "etw. anheben",
+      "german": "etw. an|heben",
       "explanation": "Etwas nach oben heben oder anheben.",
       "synonyms": [],
       "example": "Sie hebt das Fahrzeug mit dem Wagenheber an."
@@ -80,28 +80,28 @@
     },
     {
       "id": "6D-12",
-      "german": "etw. eindrehen",
+      "german": "etw. ein|drehen",
       "explanation": "Etwas hineinschrauben oder einschrauben.",
       "synonyms": [],
       "example": "Sie dreht die Schraube ein."
     },
     {
       "id": "6D-13",
-      "german": "etw. einfetten",
+      "german": "etw. ein|fetten",
       "explanation": "Etwas mit Fett bestreichen oder schmieren.",
       "synonyms": [],
       "example": "Sie fettet die beweglichen Teile ein."
     },
     {
       "id": "6D-14",
-      "german": "etw. einfüllen",
+      "german": "etw. ein|füllen",
       "explanation": "Eine Flüssigkeit in etwas hineingießen.",
       "synonyms": [],
       "example": "Sie füllt die Bremsflüssigkeit ein."
     },
     {
       "id": "6D-15",
-      "german": "etw. einlagern",
+      "german": "etw. ein|lagern",
       "explanation": "Etwas für eine bestimmte Zeit lagern oder aufbewahren.",
       "synonyms": [],
       "example": "Sie lagert die Reifen im Winter ein."
@@ -115,7 +115,7 @@
     },
     {
       "id": "6D-17",
-      "german": "etw. festdrehen",
+      "german": "etw. fest|drehen",
       "explanation": "Etwas fest anschrauben oder anziehen.",
       "synonyms": [],
       "example": "Sie dreht die Schraube fest."
@@ -143,7 +143,7 @@
     },
     {
       "id": "6D-21",
-      "german": "Kunden aufrufen",
+      "german": "Kunden auf|rufen",
       "explanation": "Kunden namentlich aufrufen oder zu sich rufen.",
       "synonyms": [],
       "example": "Sie ruft die Kunden der Reihe nach auf."
@@ -164,7 +164,7 @@
     },
     {
       "id": "6D-24",
-      "german": "etw. nachfüllen",
+      "german": "etw. nach|füllen",
       "explanation": "Etwas wieder auffüllen oder ergänzen.",
       "synonyms": [],
       "example": "Sie füllt das Öl nach."

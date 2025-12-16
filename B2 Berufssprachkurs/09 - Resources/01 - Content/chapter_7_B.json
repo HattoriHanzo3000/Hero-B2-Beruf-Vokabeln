@@ -10,7 +10,7 @@
     },
     {
       "id": "7B-2",
-      "german": "etw. aus lösen (z.B. Krankheiten)",
+      "german": "etw. aus|lösen (z.B. Krankheiten)",
       "explanation": "Etwas verursachen oder entstehen lassen.",
       "synonyms": [],
       "example": "Bakterien können Krankheiten auslösen."
@@ -52,7 +52,7 @@
     },
     {
       "id": "7B-8",
-      "german": "etw./jdn. ein seifen",
+      "german": "etw./jdn. ein|seifen",
       "explanation": "Etwas oder jemanden mit Seife waschen.",
       "synonyms": [],
       "example": "Sie muss die Hände gründlich einseifen."

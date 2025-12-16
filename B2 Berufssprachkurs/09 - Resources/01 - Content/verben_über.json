@@ -4,132 +4,154 @@
     {
       "id": "VERBEN_über-1",
       "german": "sich ärgern über (+ Akk.)",
+      "explanation": "Wütend oder unzufrieden über etwas sein.",
       "example": "Ich ärgere mich über intolerante Menschen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-2",
       "german": "sich austauschen über (+ Akk.)",
+      "explanation": "Mit anderen über ein bestimmtes Thema sprechen und Informationen teilen.",
       "example": "Die Kollegen tauschten sich über ihre Erfahrungen aus.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-3",
       "german": "sich beklagen über (+ Akk.)",
+      "explanation": "Sich beschweren oder zeigen, dass man mit etwas unzufrieden ist.",
       "example": "Sie hat sich über die schlechte Zusammenarbeit beklagt.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-4",
       "german": "belehren über (+ Akk.)",
+      "explanation": "Jemandem erklären, was richtig oder falsch ist, oft in einem belehrenden Ton.",
       "example": "Er wurde über seine Pflichten belehrt.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-5",
       "german": "beraten über (+ Akk.)",
+      "explanation": "Gemeinsam über ein Thema diskutieren und eine Entscheidung treffen.",
       "example": "Wir müssen uns über den Plan noch beraten.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-6",
       "german": "berichten über (+ Akk.)",
+      "explanation": "Anderen erzählen, was passiert ist oder was man weiß.",
       "example": "Er hat über den Projektverlauf berichtet.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-7",
       "german": "sich beschweren über (+ Akk.)",
+      "explanation": "Offiziell zeigen, dass man mit etwas nicht zufrieden ist.",
       "example": "Er beschwerte sich über seine schlechte Beurteilung.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-8",
       "german": "brüten über (+ Dat.)",
+      "explanation": "Sehr lange und intensiv über etwas nachdenken oder an etwas arbeiten.",
       "example": "Sie brütet seit Wochen über dem Bericht.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-9",
       "german": "diskutieren über (+ Akk.)",
+      "explanation": "Mit anderen über ein Thema sprechen und verschiedene Meinungen austauschen.",
       "example": "Sie diskutieren immer über dasselbe Problem.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-10",
       "german": "sich freuen über (+ Akk.)",
+      "explanation": "Glücklich und zufrieden über etwas sein.",
       "example": "Fredo freut sich über jeden Sieg vom 1. FC Köln.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-11",
       "german": "hinauskommen über (+ Akk.)",
+      "explanation": "Eine bestimmte Grenze oder einen Wert überschreiten.",
       "example": "Die Partei ist nicht über 20% hinausgekommen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-12",
       "german": "sich informieren über (+ Akk.)",
+      "explanation": "Informationen über ein bestimmtes Thema sammeln und lernen.",
       "example": "Ich lese Zeitung, um mich über die Politik zu informieren.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-13",
       "german": "lächeln über (+ Akk.)",
+      "explanation": "Lächeln, weil man etwas amüsant oder nicht ernst findet.",
       "example": "Über die neue Kollegin kann sie nur lächeln.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-14",
       "german": "lachen über (+ Akk.)",
+      "explanation": "Lachen, weil man etwas lustig oder amüsant findet.",
       "example": "Sie konnte über den Witz nicht lachen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-15",
       "german": "nachdenken über (+ Akk.)",
+      "explanation": "Sich intensiv Gedanken über etwas machen.",
       "example": "Ich habe lange über den Vorschlag nachgedacht.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-16",
       "german": "reden über (+ Akk.)",
+      "explanation": "Über ein bestimmtes Thema sprechen.",
       "example": "Wir haben über den Chef geredet.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-17",
       "german": "referieren über (+ Akk.)",
+      "explanation": "Einen Vortrag oder eine Präsentation über ein Thema halten.",
       "example": "Sie referierte über den neuen Werbeplan.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-18",
       "german": "schimpfen über (+ Akk.)",
+      "explanation": "Böse Worte über etwas sagen, weil man unzufrieden ist.",
       "example": "Sie schimpfte über den Lärm.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-19",
       "german": "sprechen über (+ Akk.)",
+      "explanation": "Über ein bestimmtes Thema reden oder diskutieren.",
       "example": "Ich spreche fast nie über Politik.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-20",
       "german": "sich streiten über (+ Akk.)",
+      "explanation": "Eine Auseinandersetzung oder einen Konflikt über ein bestimmtes Thema haben.",
       "example": "Wir streiten im Team oft über Kleinigkeiten.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-21",
       "german": "verfügen über (+ Akk.)",
+      "explanation": "Etwas besitzen oder haben, besonders Geld oder Ressourcen.",
       "example": "Am Jahresende verfügte die Firma über 20 Mio. Euro Gewinn.",
       "quiz": ""
     },
     {
       "id": "VERBEN_über-22",
       "german": "sich wundern über (+ Akk.)",
+      "explanation": "Überrascht oder erstaunt über etwas sein.",
       "example": "Sie wunderten sich nicht über seine guten Leistungen.",
       "quiz": ""
     }

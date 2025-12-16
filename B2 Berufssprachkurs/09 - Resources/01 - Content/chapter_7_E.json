@@ -3,7 +3,7 @@
   "words": [
     {
       "id": "7E-1",
-      "german": "sich etw. ab gewöhnen",
+      "german": "sich etw. ab|gewöhnen",
       "explanation": "Aufhören, etwas zu machen, was man vorher immer gemacht hat.",
       "synonyms": [],
       "example": "Sie möchte sich das Rauchen abgewöhnen."
@@ -108,7 +108,7 @@
     },
     {
       "id": "7E-16",
-      "german": "sich zurück ziehen von (+ Dat.)",
+      "german": "sich zurück|ziehen von (+ Dat.)",
       "explanation": "Sich von etwas oder jemandem entfernen und weniger Kontakt haben.",
       "synonyms": [],
       "example": "Sie zieht sich von der Diskussion zurück."

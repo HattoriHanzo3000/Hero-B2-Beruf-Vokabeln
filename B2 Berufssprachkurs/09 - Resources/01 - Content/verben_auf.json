@@ -4,144 +4,168 @@
     {
       "id": "VERBEN_auf-1",
       "german": "abwälzen auf (+ Akk.)",
+      "explanation": "Verantwortung oder Arbeit an eine andere Person weitergeben.",
       "example": "Klaus wälzt die ganze Arbeit auf seinen Kollegen ab.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-2",
       "german": "achten auf (+ Akk.)",
+      "explanation": "Bewusst beobachten, ob etwas in Ordnung ist.",
       "example": "Sebastian achtet sehr auf sein Aussehen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-3",
       "german": "ankommen auf (+ Akk.)",
+      "explanation": "Von etwas Bestimmtem abhängig sein.",
       "example": "Das kommt darauf an.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-4",
       "german": "antworten auf (+ Akk.)",
+      "explanation": "Auf eine Frage oder Nachricht reagieren.",
       "example": "Antworten Sie bitte auf meine Frage.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-5",
       "german": "aufpassen auf (+ Akk.)",
+      "explanation": "Gut auf etwas oder jemanden achten, damit nichts passiert.",
       "example": "Sie sollten besser auf Ihren Schlüssel aufpassen. Hier wird oft geklaut.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-6",
       "german": "sich auswirken auf (+ Akk.)",
+      "explanation": "Eine Wirkung oder einen Effekt auf etwas haben.",
       "example": "Seine Müdigkeit hat sich auf seine Leistung ausgewirkt.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-7",
       "german": "sich beziehen auf (+ Akk.)",
+      "explanation": "Deutlich machen, worüber man spricht oder schreibt.",
       "example": "Ich beziehe mich auf Ihren Brief vom 23. Mai.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-8",
       "german": "sich einigen auf (+ Akk.)",
+      "explanation": "Zusammen zu einer gemeinsamen Entscheidung kommen.",
       "example": "Sie haben sich auf die Projektmeilensteine geeinigt.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-9",
       "german": "sich einlassen auf (+ Akk.)",
+      "explanation": "Bewusst bei etwas mitmachen, auch wenn es ein Risiko gibt.",
       "example": "Er hat sich nicht auf das Angebot eingelassen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-10",
       "german": "sich einstellen auf (+ Akk.)",
+      "explanation": "Sich innerlich und organisatorisch auf etwas Neues vorbereiten.",
       "example": "Wir müssen uns auf die neue Situation einstellen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-11",
       "german": "sich einstimmen auf (+ Akk.)",
+      "explanation": "Sich in eine bestimmte Stimmung für etwas bringen.",
       "example": "Wir können uns jetzt auf den Urlaub einstimmen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-12",
       "german": "sich freuen auf (+ Akk.)",
+      "explanation": "Jetzt schon ein gutes Gefühl haben, weil etwas Schönes kommen wird.",
       "example": "Wir freuen uns auf den Urlaub.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-13",
       "german": "hinweisen auf (+ Akk.)",
+      "explanation": "Jemanden auf etwas aufmerksam machen.",
       "example": "Sie hat ihn auf die Projektrisiken hingewiesen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-14",
       "german": "hoffen auf (+ Akk.)",
+      "explanation": "Sich wünschen, dass etwas Bestimmtes passiert.",
       "example": "Sie hofft auf eine schnelle Antwort.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-15",
       "german": "kommen auf (+ Akk.)",
+      "explanation": "Eine Idee oder einen Gedanken entwickeln.",
       "example": "Wie sind Sie auf diesen Vorschlag gekommen?",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-16",
       "german": "sich konzentrieren auf (+ Akk.)",
+      "explanation": "Seine ganze Aufmerksamkeit auf eine Sache richten.",
       "example": "Ich will mich ganz auf die Prüfung konzentrieren.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-17",
       "german": "reagieren auf (+ Akk.)",
+      "explanation": "Handeln oder antworten, nachdem etwas passiert ist.",
       "example": "Wir müssen schnell auf seine Frage reagieren.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-18",
       "german": "stellen auf (+ Akk.)",
+      "explanation": "Eine Einstellung oder Position wählen.",
       "example": "Stell den Schalter auf Stufe 3.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-19",
       "german": "sich verlassen auf (+ Akk.)",
+      "explanation": "Darauf vertrauen, dass jemand etwas richtig macht.",
       "example": "Sie können sich auf mich verlassen.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-20",
       "german": "verzichten auf (+ Akk.)",
+      "explanation": "Etwas nicht nehmen oder nicht nutzen, obwohl man könnte.",
       "example": "Er kann auf seine Kaffeepause heute nicht verzichten.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-21",
       "german": "sich vorbereiten auf (+ Akk.)",
+      "explanation": "Vorher etwas tun, damit man für eine Situation bereit ist.",
       "example": "Wir müssen uns auf das Gespräch vorbereiten.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-22",
       "german": "warten auf (+ Akk.)",
+      "explanation": "An einem Ort bleiben, bis etwas oder jemand kommt.",
       "example": "Fabian wartet auf seinen Vorgesetzten.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-23",
       "german": "wirken auf (+ Akk.)",
+      "explanation": "Einen bestimmten Eindruck bei jemandem machen.",
       "example": "Er wirkt auf mich sympathisch und kompetent.",
       "quiz": ""
     },
     {
       "id": "VERBEN_auf-24",
       "german": "zukommen auf (+ Akk.)",
+      "explanation": "In Zukunft auf jemanden treffen oder ein Problem werden.",
       "example": "Ich sehe einige Probleme auf uns zukommen.",
       "quiz": ""
     }

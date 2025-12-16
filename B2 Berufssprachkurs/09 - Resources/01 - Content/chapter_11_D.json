@@ -4,198 +4,198 @@
     {
       "id": "11D-1",
       "german": "die Abwesenheit, -en",
-      "explanation": "",
+      "explanation": "Die Zeit, in der jemand nicht am Arbeitsplatz ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Abwesenheit wegen Krankheit muss gemeldet werden."
     },
     {
       "id": "11D-2",
       "german": "die Altersgrenze, -n",
-      "explanation": "",
+      "explanation": "Das Alter, bis zu dem etwas erlaubt oder möglich ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Ab einer bestimmten Altersgrenze beginnt der Renteneintritt."
     },
     {
       "id": "11D-3",
       "german": "die Arbeitsunfähigkeit (Sg.)",
-      "explanation": "",
+      "explanation": "Wenn man wegen Krankheit oder Unfall nicht arbeiten kann.",
       "synonyms": [],
-      "example": ""
+      "example": "Bei Arbeitsunfähigkeit braucht man eine Bescheinigung vom Arzt."
     },
     {
       "id": "11D-4",
       "german": "die Arbeitsunfähigkeitsbescheinigung, -en",
-      "explanation": "",
+      "explanation": "Ein Attest vom Arzt, dass man nicht arbeiten kann.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Arbeitsunfähigkeitsbescheinigung muss der Firma vorgelegt werden."
     },
     {
       "id": "11D-5",
       "german": "die Arbeitsvergütung, -en",
-      "explanation": "",
+      "explanation": "Das Geld, das man für seine Arbeit bekommt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Arbeitsvergütung wird im Vertrag geregelt."
     },
     {
       "id": "11D-6",
       "german": "das Arbeitsverhältnis, -se",
-      "explanation": "",
+      "explanation": "Die rechtliche Beziehung zwischen Arbeitgeber und Arbeitnehmer.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Arbeitsverhältnis beginnt mit der Probezeit."
     },
     {
       "id": "11D-7",
       "german": "beeinträchtigen",
-      "explanation": "",
+      "explanation": "Etwas negativ beeinflussen oder schwächer machen.",
       "synonyms": [],
-      "example": ""
+      "example": "Lärm kann die Konzentration bei der Arbeit beeinträchtigen."
     },
     {
       "id": "11D-8",
       "german": "die Bruttovergütung, -en",
-      "explanation": "",
+      "explanation": "Der Lohn vor Abzug von Steuern und Sozialabgaben.",
       "synonyms": [],
-      "example": ""
+      "example": "Im Vertrag ist die Bruttovergütung angegeben."
     },
     {
       "id": "11D-9",
-      "german": "jdn. ein stellen",
-      "explanation": "",
+      "german": "jdn. ein|stellen",
+      "explanation": "Jemanden offiziell als Mitarbeitende aufnehmen.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Firma stellt zum 1. Mai neue Fachkräfte ein."
     },
     {
       "id": "11D-10",
       "german": "die Einwilligung erteilen",
-      "explanation": "",
+      "explanation": "Offiziell zustimmen, dass etwas gemacht werden darf.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Mitarbeitenden müssen ihre Einwilligung zur Datennutzung erteilen."
     },
     {
       "id": "11D-11",
       "german": "die Entgeltfortzahlung, -en",
-      "explanation": "",
+      "explanation": "Wenn man im Krankheitsfall weiter Lohn bekommt.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Entgeltfortzahlung ist gesetzlich geregelt."
     },
     {
       "id": "11D-12",
       "german": "etw. erreichen",
-      "explanation": "",
+      "explanation": "Ein Ziel schaffen oder jemanden kontaktieren.",
       "synonyms": [],
-      "example": ""
+      "example": "Den Betriebsrat kann man per E-Mail erreichen."
     },
     {
       "id": "11D-13",
       "german": "das Geheimnis, -se",
-      "explanation": "",
+      "explanation": "Etwas, das nicht alle wissen sollen.",
       "synonyms": [],
-      "example": ""
+      "example": "Verträge dürfen keine Geschäftsgeheimnisse verraten."
     },
     {
       "id": "11D-14",
       "german": "das Geschäftsgeheimnis, -se",
-      "explanation": "",
+      "explanation": "Wichtige Informationen einer Firma, die vertraulich sind.",
       "synonyms": [],
-      "example": ""
+      "example": "Mitarbeitende dürfen Geschäftsgeheimnisse nicht weitergeben."
     },
     {
       "id": "11D-15",
       "german": "gesetzlich",
-      "explanation": "",
+      "explanation": "So, wie es im Gesetz steht.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Mindesturlaub ist gesetzlich festgelegt."
     },
     {
       "id": "11D-16",
       "german": "gesondert",
-      "explanation": "",
+      "explanation": "Extra und getrennt von anderen Dingen.",
       "synonyms": [],
-      "example": ""
+      "example": "Überstunden werden gesondert vergütet."
     },
     {
       "id": "11D-17",
       "german": "jdm. etw. gewähren",
-      "explanation": "",
+      "explanation": "Jemandem etwas erlauben oder geben.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Arbeitgeber gewährt ihm drei Tage Sonderurlaub."
     },
     {
       "id": "11D-18",
       "german": "die Kernarbeitszeit, -en",
-      "explanation": "",
+      "explanation": "Die Zeit am Tag, in der alle anwesend sein müssen.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Kernarbeitszeit ist von 9 bis 15 Uhr."
     },
     {
       "id": "11D-19",
       "german": "der Mindesturlaub (Sg.)",
-      "explanation": "",
+      "explanation": "Die geringste Anzahl an Urlaubstagen pro Jahr.",
       "synonyms": [],
-      "example": ""
+      "example": "Der gesetzliche Mindesturlaub beträgt 20 Tage bei Vollzeit."
     },
     {
       "id": "11D-20",
       "german": "die Nebentätigkeit, -en",
-      "explanation": "",
+      "explanation": "Eine zusätzliche Arbeit neben dem Hauptberuf.",
       "synonyms": [],
-      "example": ""
+      "example": "Eine Nebentätigkeit muss oft dem Arbeitgeber gemeldet werden."
     },
     {
       "id": "11D-21",
       "german": "der Paragraf, -en",
-      "explanation": "",
+      "explanation": "Ein Abschnitt in einem Gesetzestext.",
       "synonyms": [],
-      "example": ""
+      "example": "Der genaue Paragraf steht im Arbeitsvertrag."
     },
     {
       "id": "11D-22",
       "german": "die Probezeit, -en",
-      "explanation": "",
+      "explanation": "Eine Anfangszeit, in der beide Seiten das Arbeitsverhältnis testen.",
       "synonyms": [],
-      "example": ""
+      "example": "Während der Probezeit ist die Kündigungsfrist kürzer."
     },
     {
       "id": "11D-23",
       "german": "das Stillschweigen (Sg.)",
-      "explanation": "",
+      "explanation": "Wenn man bewusst nichts über etwas sagt.",
       "synonyms": [],
-      "example": ""
+      "example": "Über interne Zahlen wird Stillschweigen bewahrt."
     },
     {
       "id": "11D-24",
       "german": "Stillschweigen bewahren",
-      "explanation": "",
+      "explanation": "Geheime Informationen nicht weitergeben.",
       "synonyms": [],
-      "example": ""
+      "example": "Zu Kundendaten muss sie Stillschweigen bewahren."
     },
     {
       "id": "11D-25",
       "german": "etw. verlangen",
-      "explanation": "",
+      "explanation": "Etwas fordern oder stark wünschen.",
       "synonyms": [],
-      "example": ""
+      "example": "Der Arbeitgeber verlangt Pünktlichkeit und Zuverlässigkeit."
     },
     {
       "id": "11D-26",
       "german": "die Verschwiegenheitspflicht (Sg.)",
-      "explanation": "",
+      "explanation": "Die Pflicht, bestimmte Informationen geheim zu halten.",
       "synonyms": [],
-      "example": ""
+      "example": "Die Verschwiegenheitspflicht gilt auch nach dem Ende des Arbeitsverhältnisses."
     },
     {
       "id": "11D-27",
       "german": "verstoßen gegen (+ Akk.)",
-      "explanation": "",
+      "explanation": "Etwas tun, das gegen eine Regel oder ein Gesetz ist.",
       "synonyms": [],
-      "example": ""
+      "example": "Wer gegen die Verschwiegenheitspflicht verstößt, riskiert eine Abmahnung."
     },
     {
       "id": "11D-28",
       "german": "das Weihnachtsgeld (Sg.)",
-      "explanation": "",
+      "explanation": "Ein zusätzliches Geld, das manche Beschäftigte zu Weihnachten bekommen.",
       "synonyms": [],
-      "example": ""
+      "example": "Das Weihnachtsgeld wird mit dem Novembergehalt gezahlt."
     }
   ]
 }

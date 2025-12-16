@@ -4,48 +4,56 @@
     {
       "id": "ADJEKTIVE_auf-1",
       "german": "angewiesen auf (+ Akk.)",
+      "explanation": "Hilfe oder Unterstützung unbedingt brauchen.",
       "example": "Wir sind auf das Funktionieren der Software angewiesen.",
       "quiz": ""
     },
     {
       "id": "ADJEKTIVE_auf-2",
       "german": "böse auf (+ Akk.)",
+      "explanation": "Wütend oder verärgert über jemanden sein.",
       "example": "Wegen des vergessenen Termins war sie auf ihren Kollegen böse.",
       "quiz": ""
     },
     {
       "id": "ADJEKTIVE_auf-3",
       "german": "eifersüchtig auf (+ Akk.)",
+      "explanation": "Unzufrieden sein, weil jemand anderes etwas hat, das man selbst auch haben möchte.",
       "example": "Das Kind war auf das Spielzeug eines anderen eifersüchtig.",
       "quiz": ""
     },
     {
       "id": "ADJEKTIVE_auf-4",
       "german": "gespannt auf (+ Akk.)",
+      "explanation": "Sehr neugierig und aufgeregt, weil man etwas Bestimmtes erwartet.",
       "example": "Die Mitarbeitenden waren auf die Rede des Betriebsrats gespannt.",
       "quiz": ""
     },
     {
       "id": "ADJEKTIVE_auf-5",
       "german": "neidisch auf (+ Akk.)",
+      "explanation": "Unzufrieden sein, weil jemand anderes etwas hat oder erreicht hat, das man selbst auch möchte.",
       "example": "Er war auf seinen Kollegen, der befördert wurde, neidisch.",
       "quiz": ""
     },
     {
       "id": "ADJEKTIVE_auf-6",
       "german": "neugierig auf (+ Akk.)",
+      "explanation": "Sehr interessiert daran, etwas zu erfahren oder zu sehen.",
       "example": "Sie waren auf das Ergebnis der Gespräche neugierig.",
       "quiz": ""
     },
     {
       "id": "ADJEKTIVE_auf-7",
       "german": "stolz auf (+ Akk.)",
+      "explanation": "Sehr zufrieden und glücklich über etwas, das man oder jemand anderes erreicht hat.",
       "example": "Sie war auf die guten Leistungen ihres Teams stolz.",
       "quiz": ""
     },
     {
       "id": "ADJEKTIVE_auf-8",
       "german": "wütend auf (+ Akk.)",
+      "explanation": "Sehr verärgert oder zornig über jemanden oder etwas sein.",
       "example": "Nach dem Meeting war die Chefin auf das Team ziemlich wütend.",
       "quiz": ""
     }

@@ -59,7 +59,7 @@
     },
     {
       "id": "7A-9",
-      "german": "etw. ein stellen",
+      "german": "etw. ein|stellen",
       "explanation": "Etwas so einrichten, dass es funktioniert.",
       "synonyms": [],
       "example": "Sie muss die Maschine richtig einstellen."
@@ -192,7 +192,7 @@
     },
     {
       "id": "7A-28",
-      "german": "etw. zusammen bauen",
+      "german": "etw. zusammen|bauen",
       "explanation": "Verschiedene Teile zu einem Ganzen zusammenfügen.",
       "synonyms": [],
       "example": "Er muss das Regal zusammenbauen."

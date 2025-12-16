@@ -66,7 +66,7 @@
     },
     {
       "id": "2C-10",
-      "german": "etw. einschlagen",
+      "german": "etw. ein|schlagen",
       "explanation": "Etwas zerschlagen oder kaputt machen.",
       "synonyms": [],
       "example": "Im Notfall kann man die Glasscheibe einschlagen."
@@ -101,7 +101,7 @@
     },
     {
       "id": "2C-15",
-      "german": "etw. freihalten",
+      "german": "etw. frei|halten",
       "explanation": "Etwas frei lassen und nicht blockieren.",
       "synonyms": [],
       "example": "Die Fluchtwege müssen immer freigehalten werden."
@@ -122,7 +122,7 @@
     },
     {
       "id": "2C-18",
-      "german": "hinweisen auf (+ Akk.)",
+      "german": "hin|weisen auf (+ Akk.)",
       "explanation": "Auf etwas aufmerksam machen oder darauf zeigen.",
       "synonyms": [],
       "example": "Das Schild weist auf die Stolpergefahr hin."
