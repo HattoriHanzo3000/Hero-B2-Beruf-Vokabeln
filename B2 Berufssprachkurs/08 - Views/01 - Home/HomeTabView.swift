@@ -15,6 +15,10 @@ struct HomeTabView: View {
     @State private var activeStack: LearningStackType?
     @State private var showPaywall = false
     @State private var tappedCardId: String? = nil
+    @State private var pulseScale1: CGFloat = 1.0
+    @State private var pulseScale2: CGFloat = 1.0
+    @State private var pulseScale3: CGFloat = 1.0
+    @State private var pulseScale4: CGFloat = 1.0
     
     var body: some View {
         ZStack {
@@ -34,7 +38,7 @@ struct HomeTabView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         VStack {
                             Spacer()
-                            HStack(alignment: .center, spacing: 16) {
+                            HStack(alignment: .center, spacing: 28) {
                                 LearningStackCard(
                                     title: Localizable.string(Localizable.generalWords).replacingOccurrences(of: " ", with: "\n"),
                                     accent: Color("AppGreen"),
@@ -42,7 +46,7 @@ struct HomeTabView: View {
                                 )
                                 .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
                                 .id("general_\(languageManager.currentLanguage)")
-                                .scaleEffect(tappedCardId == "general" ? 0.95 : 1.0)
+                                .scaleEffect(tappedCardId == "general" ? 0.95 : pulseScale1)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
                                 .onTapGesture {
                                     tappedCardId = "general"
@@ -60,7 +64,7 @@ struct HomeTabView: View {
                                 )
                                 .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
                                 .id("verbs_\(languageManager.currentLanguage)")
-                                .scaleEffect(tappedCardId == "verbs" ? 0.95 : 1.0)
+                                .scaleEffect(tappedCardId == "verbs" ? 0.95 : pulseScale2)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
                                 .onTapGesture {
                                     tappedCardId = "verbs"
@@ -78,7 +82,7 @@ struct HomeTabView: View {
                                 )
                                 .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
                                 .id("adjectives_\(languageManager.currentLanguage)")
-                                .scaleEffect(tappedCardId == "adjectives" ? 0.95 : 1.0)
+                                .scaleEffect(tappedCardId == "adjectives" ? 0.95 : pulseScale3)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
                                 .onTapGesture {
                                     tappedCardId = "adjectives"
@@ -97,7 +101,7 @@ struct HomeTabView: View {
                                 )
                                 .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
                                 .id("favorites_\(languageManager.currentLanguage)")
-                                .scaleEffect(tappedCardId == "favorites" ? 0.95 : 1.0)
+                                .scaleEffect(tappedCardId == "favorites" ? 0.95 : pulseScale4)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
                                 .onTapGesture {
                                     tappedCardId = "favorites"
@@ -146,6 +150,42 @@ struct HomeTabView: View {
         }
         .sheet(isPresented: $showPaywall) {
             PaywallView()
+        }
+        .onAppear {
+            // Start continuous pulsing animations with staggered delays
+            withAnimation(
+                Animation.easeInOut(duration: 2.5)
+                    .repeatForever(autoreverses: true)
+            ) {
+                pulseScale1 = 1.05
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.625) {
+                withAnimation(
+                    Animation.easeInOut(duration: 2.5)
+                        .repeatForever(autoreverses: true)
+                ) {
+                    pulseScale2 = 1.05
+                }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
+                withAnimation(
+                    Animation.easeInOut(duration: 2.5)
+                        .repeatForever(autoreverses: true)
+                ) {
+                    pulseScale3 = 1.05
+                }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.875) {
+                withAnimation(
+                    Animation.easeInOut(duration: 2.5)
+                        .repeatForever(autoreverses: true)
+                ) {
+                    pulseScale4 = 1.05
+                }
+            }
         }
     }
 }

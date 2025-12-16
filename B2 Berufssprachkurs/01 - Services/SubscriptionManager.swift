@@ -15,9 +15,9 @@ final class SubscriptionManager: ObservableObject {
     
     // Product IDs from App Store Connect
     private let productIDs = [
-        "monthly_2.99_3d_trial",
-        "yearly_19.99_3d_trial",
-        "lifetime_49.99"
+        "hero.premium.monthly",
+        "hero.premium.yearly",
+        "hero.premium.lifetime"
     ]
     
     // Published properties for UI observation
@@ -31,12 +31,12 @@ final class SubscriptionManager: ObservableObject {
     
     // Check if active subscription is lifetime
     var hasLifetimeSubscription: Bool {
-        return activeProductID == "lifetime_49.99"
+        return activeProductID == "hero.premium.lifetime"
     }
     
     // Convenience property for backward compatibility (defaults to monthly)
     var product: Product? {
-        products["monthly_2.99_3d_trial"]
+        products["hero.premium.monthly"]
     }
     
     // StoreKit transaction listener
@@ -137,7 +137,7 @@ final class SubscriptionManager: ObservableObject {
     
     func purchaseSubscription(productID: String? = nil) async throws {
         // Use provided productID or default to monthly
-        let targetProductID = productID ?? "monthly_2.99_3d_trial"
+        let targetProductID = productID ?? "hero.premium.monthly"
         
         guard let product = products[targetProductID] else {
             throw SubscriptionError.productNotLoaded
@@ -156,6 +156,11 @@ final class SubscriptionManager: ObservableObject {
                 hasActiveSubscription = true
                 isPremiumActive = true
                 purchaseState = .success
+                
+                // Activate trial ONLY after successful purchase, and only for yearly subscription
+                if targetProductID == "hero.premium.yearly" && !hasUsedTrial {
+                    activateTrial()
+                }
                 
                 // Finish the transaction
                 await transaction.finish()

@@ -11,11 +11,11 @@ import StoreKit
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var selectedProductID: String = "yearly_19.99_3d_trial"
+    @State private var selectedProductID: String = "hero.premium.yearly"
     
     // Computed property for button text based on selected product and trial eligibility
     private var buttonText: String {
-        if selectedProductID == "yearly_19.99_3d_trial" && !subscriptionManager.hasUsedTrial {
+        if selectedProductID == "hero.premium.yearly" && !subscriptionManager.hasUsedTrial {
             return Localizable.string(Localizable.startFreeTrial)
         } else {
             return Localizable.string(Localizable.upgradeNow)
@@ -33,11 +33,11 @@ struct PaywallView: View {
         } else {
             // Use fallback prices until StoreKit products load
             switch selectedProductID {
-            case "monthly_2.99_3d_trial":
+            case "hero.premium.monthly":
                 price = "2,99€"
-            case "yearly_19.99_3d_trial":
+            case "hero.premium.yearly":
                 price = "19,99€"
-            case "lifetime_49.99":
+            case "hero.premium.lifetime":
                 price = "49,99€"
             default:
                 price = "2,99€"
@@ -45,10 +45,10 @@ struct PaywallView: View {
         }
         
         // Determine which terms template to use based on subscription type
-        if selectedProductID == "lifetime_49.99" {
+        if selectedProductID == "hero.premium.lifetime" {
             // Lifetime - one-time purchase
             return String(format: Localizable.string(Localizable.subscriptionTermsLifetime), price)
-        } else if selectedProductID == "yearly_19.99_3d_trial" {
+        } else if selectedProductID == "hero.premium.yearly" {
             // Yearly subscription
             return String(format: Localizable.string(Localizable.subscriptionTermsYearly), price)
         } else {
@@ -200,15 +200,15 @@ struct PaywallView: View {
             SubscriptionOptionButton(
                 title: Localizable.string(Localizable.monthly),
                 explanation: Localizable.string(Localizable.monthlyExplanation),
-                productID: "monthly_2.99_3d_trial",
+                productID: "hero.premium.monthly",
                 fallbackPrice: "2,99€",
                 period: Localizable.string(Localizable.perMonth),
-                isSelected: selectedProductID == "monthly_2.99_3d_trial",
+                isSelected: selectedProductID == "hero.premium.monthly",
                 showFreeTrial: false,
                 subscriptionManager: subscriptionManager,
                 onSelect: {
                     HapticManager.shared.lightImpact()
-                    selectedProductID = "monthly_2.99_3d_trial"
+                    selectedProductID = "hero.premium.monthly"
                 }
             )
             
@@ -216,15 +216,15 @@ struct PaywallView: View {
             SubscriptionOptionButton(
                 title: Localizable.string(Localizable.yearly),
                 explanation: Localizable.string(Localizable.yearlyExplanation),
-                productID: "yearly_19.99_3d_trial",
+                productID: "hero.premium.yearly",
                 fallbackPrice: "19,99€",
                 period: Localizable.string(Localizable.year1),
-                isSelected: selectedProductID == "yearly_19.99_3d_trial",
+                isSelected: selectedProductID == "hero.premium.yearly",
                 showFreeTrial: !subscriptionManager.hasUsedTrial,
                 subscriptionManager: subscriptionManager,
                 onSelect: {
                     HapticManager.shared.lightImpact()
-                    selectedProductID = "yearly_19.99_3d_trial"
+                    selectedProductID = "hero.premium.yearly"
                 }
             )
             
@@ -232,15 +232,15 @@ struct PaywallView: View {
             SubscriptionOptionButton(
                 title: Localizable.string(Localizable.lifetime),
                 explanation: Localizable.string(Localizable.lifetimeExplanation),
-                productID: "lifetime_49.99",
+                productID: "hero.premium.lifetime",
                 fallbackPrice: "49,99€",
                 period: "",
-                isSelected: selectedProductID == "lifetime_49.99",
+                isSelected: selectedProductID == "hero.premium.lifetime",
                 showFreeTrial: false,
                 subscriptionManager: subscriptionManager,
                 onSelect: {
                     HapticManager.shared.lightImpact()
-                    selectedProductID = "lifetime_49.99"
+                    selectedProductID = "hero.premium.lifetime"
                 }
             )
         }
@@ -399,12 +399,7 @@ struct PaywallView: View {
     private func handlePurchase() async {
         HapticManager.shared.mediumImpact()
         
-        // If Yearly is selected and trial hasn't been used, activate trial first
-        if selectedProductID == "yearly_19.99_3d_trial" && !subscriptionManager.hasUsedTrial {
-            subscriptionManager.activateTrial()
-            // After activating trial, proceed with purchase
-        }
-        
+        // Don't activate trial before purchase - wait for successful purchase validation
         do {
             try await subscriptionManager.purchaseSubscription(productID: selectedProductID)
         } catch {

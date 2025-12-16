@@ -15,6 +15,7 @@ struct HeaderView: View {
     @State private var showMascotGif = false
     @State private var gifPlayToken: UUID = UUID()
     @State private var autoPlayTask: Task<Void, Never>? = nil
+    @State private var shimmerOffset: CGFloat = -300
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @AppStorage("hasShownFirstGreeting") private var hasShownFirstGreeting = false
@@ -56,12 +57,12 @@ struct HeaderView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            // Background that extends to top edge - darker in dark mode
+            // Background that extends to top edge - fully opaque in dark mode
             LinearGradient(
                 colors: colorScheme == .dark ? [
-                    // Darker versions for night mode
-                    Color("AppGreen").opacity(0.5),
-                    Color("AppBlue").opacity(0.5)
+                    // Fully opaque darker versions for night mode
+                    Color("AppGreen").opacity(1.0),
+                    Color("AppBlue").opacity(1.0)
                 ] : [
                     Color("AppGreen"),
                     Color("AppBlue")
@@ -70,8 +71,8 @@ struct HeaderView: View {
                 endPoint: .trailing
             )
             .overlay(
-                // Additional dark overlay in dark mode for deeper colors
-                colorScheme == .dark ? Color.black.opacity(0.2) : Color.clear
+                // Additional dark overlay in dark mode for deeper, fully opaque colors
+                colorScheme == .dark ? Color.black.opacity(0.5) : Color.clear
             )
             .ignoresSafeArea(edges: .top)
             .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 12, x: 0, y: 6)
@@ -100,13 +101,50 @@ struct HeaderView: View {
                             .font(.system(.title2, design: .rounded))
                             .fontWeight(.heavy)
                         
-                        Text(word.german)
-                            .font(.system(.title2, design: .rounded))
-                            .fontWeight(.heavy)
-                            .foregroundColor(Color("AppYellow"))
-                            .fixedSize(horizontal: false, vertical: true)
-                            .lineLimit(nil)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        ZStack(alignment: .leading) {
+                            // Base text
+                            Text(word.german)
+                                .font(.system(.title2, design: .rounded))
+                                .fontWeight(.heavy)
+                                .foregroundColor(Color("AppYellow"))
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineLimit(nil)
+                            
+                            // Shimmer effect - perfectly aligned with text
+                            Text(word.german)
+                                .font(.system(.title2, design: .rounded))
+                                .fontWeight(.heavy)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineLimit(nil)
+                                .foregroundColor(.clear)
+                                .overlay(
+                                    GeometryReader { geometry in
+                                        LinearGradient(
+                                            stops: [
+                                                .init(color: Color.white.opacity(0.0), location: 0.0),
+                                                .init(color: Color.white.opacity(0.0), location: 0.3),
+                                                .init(color: Color.white.opacity(0.5), location: 0.5),
+                                                .init(color: Color.white.opacity(0.0), location: 0.7),
+                                                .init(color: Color.white.opacity(0.0), location: 1.0)
+                                            ],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                        .frame(width: 150)
+                                        .offset(x: shimmerOffset)
+                                        .blendMode(.overlay)
+                                    }
+                                )
+                                .mask(
+                                    // Perfect mask alignment using the same text
+                                    Text(word.german)
+                                        .font(.system(.title2, design: .rounded))
+                                        .fontWeight(.heavy)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .lineLimit(nil)
+                                )
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
@@ -189,6 +227,7 @@ struct HeaderView: View {
         .onAppear {
             updateWordOfTheDay()
             startAutoPlay()
+            startShimmerAnimation()
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
             updateWordOfTheDay()
@@ -322,6 +361,17 @@ struct HeaderView: View {
             return "paintbrush.fill"
         } else {
             return "square.stack.3d.up.fill"
+        }
+    }
+    
+    // MARK: - Shimmer Animation
+    private func startShimmerAnimation() {
+        shimmerOffset = -200
+        withAnimation(
+            Animation.linear(duration: 3.0)
+                .repeatForever(autoreverses: false)
+        ) {
+            shimmerOffset = 500
         }
     }
     
