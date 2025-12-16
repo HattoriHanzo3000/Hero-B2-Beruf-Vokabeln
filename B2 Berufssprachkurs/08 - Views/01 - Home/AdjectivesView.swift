@@ -10,6 +10,7 @@ import SwiftUI
 struct AdjectivesView: View {
     @EnvironmentObject private var dataService: DataService
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
     @State private var navigateToStudy = false
     
     private var liquidGlassCircle: some View {
@@ -58,11 +59,14 @@ struct AdjectivesView: View {
                 VStack(spacing: 0) {
                     // Header similar to main screen - no corners, infinite to top
                     ZStack(alignment: .top) {
-                        // Background that extends to top edge
+                        // Background that extends to top edge - darker in dark mode
                         Rectangle()
-                            .fill(Color("AppPurple"))
+                            .fill(colorScheme == .dark ? Color("AppPurple").opacity(0.5) : Color("AppPurple"))
+                            .overlay(
+                                colorScheme == .dark ? Color.black.opacity(0.2) : Color.clear
+                            )
                             .ignoresSafeArea(edges: .top)
-                            .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
+                            .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 12, x: 0, y: 6)
                         
                         // Content that respects safe area
                         HStack(spacing: 12) {
@@ -70,7 +74,7 @@ struct AdjectivesView: View {
                                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                                     .fill(Color.white.opacity(0.2))
                                     .frame(width: 48, height: 48)
-                                Image(systemName: "square.stack.3d.up.fill")
+                                Image(systemName: "paintbrush.fill")
                                     .foregroundColor(.white)
                                     .font(.system(size: 22, weight: .semibold))
                                     .symbolRenderingMode(.hierarchical)

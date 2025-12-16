@@ -17,14 +17,21 @@ struct HeaderView: View {
     @State private var autoPlayTask: Task<Void, Never>? = nil
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
+    @AppStorage("hasShownFirstGreeting") private var hasShownFirstGreeting = false
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     
     private let gifAnimationDuration: Double = 1.1
     private let autoPlayInterval: TimeInterval = 15.0 // Auto-play every 15 seconds
     
-    // Get daily greeting - randomly selected but consistent throughout the day
+    // Get daily greeting - first greeting is always greeting 3, then random
     private var dailyGreeting: String {
+        // First greeting is always greeting 3
+        if !hasShownFirstGreeting {
+            return Localizable.string(Localizable.greetingWordOfTheDay3)
+        }
+        
+        // After first greeting, use random selection (consistent throughout the day)
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         let dayHash = today.timeIntervalSince1970.hashValue
@@ -46,17 +53,25 @@ struct HeaderView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            // Background that extends to top edge
+            // Background that extends to top edge - darker in dark mode
             LinearGradient(
-                colors: [
+                colors: colorScheme == .dark ? [
+                    // Darker versions for night mode
+                    Color("AppGreen").opacity(0.5),
+                    Color("AppBlue").opacity(0.5)
+                ] : [
                     Color("AppGreen"),
                     Color("AppBlue")
                 ],
                 startPoint: .leading,
                 endPoint: .trailing
             )
+            .overlay(
+                // Additional dark overlay in dark mode for deeper colors
+                colorScheme == .dark ? Color.black.opacity(0.2) : Color.clear
+            )
             .ignoresSafeArea(edges: .top)
-            .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
+            .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 12, x: 0, y: 6)
             
             // Content that respects safe area
         VStack(alignment: .leading, spacing: 12) {
@@ -75,10 +90,22 @@ struct HeaderView: View {
             VStack(alignment: .leading, spacing: 8) {
                     // Row 1: Word of the day
                 if let word = wordOfTheDay {
-                    Text(word.german)
-                        .font(.system(.title2, design: .rounded))
+                    HStack(alignment: .center, spacing: 8) {
+                        // Group icon
+                        Image(systemName: wordStackIcon(for: word))
+                            .foregroundColor(Color("AppYellow"))
+                            .font(.system(.title2, design: .rounded))
+                            .fontWeight(.heavy)
+                        
+                        Text(word.german)
+                            .font(.system(.title2, design: .rounded))
                             .fontWeight(.heavy)
                             .foregroundColor(Color("AppYellow"))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(nil)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     
                         // Row 2: Explanation
                     if let explanation = word.explanation, !explanation.isEmpty {
@@ -152,6 +179,10 @@ struct HeaderView: View {
         .onAppear {
             updateWordOfTheDay()
             startAutoPlay()
+            // Mark that first greeting has been shown
+            if !hasShownFirstGreeting {
+                hasShownFirstGreeting = true
+            }
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
             updateWordOfTheDay()
@@ -192,6 +223,7 @@ struct HeaderView: View {
         .frame(width: 120, height: 120)
         .contentShape(Rectangle())
         .onTapGesture {
+            HapticManager.shared.lightImpact()
             playGifOnly()
         }
     }
@@ -260,6 +292,30 @@ struct HeaderView: View {
                     playGifOnly()
                 }
             }
+        }
+    }
+    
+    // MARK: - Word Stack Helpers
+    private func findSectionId(for word: Word) -> String? {
+        for (sectionId, words) in dataService.wordsBySection {
+            if words.contains(where: { $0.id == word.id }) {
+                return sectionId
+            }
+        }
+        return nil
+    }
+    
+    private func wordStackIcon(for word: Word) -> String {
+        guard let sectionId = findSectionId(for: word) else {
+            return "square.stack.3d.up.fill" // Default to general words
+        }
+        
+        if sectionId.hasPrefix("VERBEN_") {
+            return "bolt.fill"
+        } else if sectionId.hasPrefix("ADJEKTIVE_") {
+            return "paintbrush.fill"
+        } else {
+            return "square.stack.3d.up.fill"
         }
     }
     

@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- New semantic icons for learning stack cards (book for general words, bolt for verbs, paintbrush for adjectives)
+- Group icon indicator in Word of the Day header showing which category the word belongs to
+- Haptic feedback when tapping the mascot
+
+### Changed
+- Word of the Day greeting: First greeting now always uses greeting 3, then randomly changes for subsequent views
+- Learning stack cards now have adaptive font sizing to ensure full text visibility with Dynamic Type
+- Increased learning stack card size (from 0.35 to 0.4 of screen height) for better readability
+- Dark mode support for all headers: Main header and all stack headers (General Words, Verbs, Adjectives) now use darker colors in dark mode
+- Word of the Day text now fully visible with proper wrapping and no truncation
+
+### Improved
+- Better visual hierarchy with distinct icons for each learning category
+- Enhanced dark mode experience with properly darkened header gradients
+- Improved accessibility with adaptive text sizing for stack names
+
 ## [1.0.2] - 27.11.2025
 
 ### Added

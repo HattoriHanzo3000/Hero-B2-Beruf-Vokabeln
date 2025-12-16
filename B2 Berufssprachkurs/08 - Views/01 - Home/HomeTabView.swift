@@ -40,7 +40,7 @@ struct HomeTabView: View {
                                     accent: Color("AppGreen"),
                                     icon: "square.stack.3d.up.fill"
                                 )
-                                .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+                                .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
                                 .id("general_\(languageManager.currentLanguage)")
                                 .scaleEffect(tappedCardId == "general" ? 0.95 : 1.0)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
@@ -56,9 +56,9 @@ struct HomeTabView: View {
                                 LearningStackCard(
                                     title: Localizable.string(Localizable.verbsWithPrepositions),
                                     accent: Color("AppBlue"),
-                                    icon: "square.stack.3d.up.fill"
+                                    icon: "bolt.fill"
                                 )
-                                .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+                                .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
                                 .id("verbs_\(languageManager.currentLanguage)")
                                 .scaleEffect(tappedCardId == "verbs" ? 0.95 : 1.0)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
@@ -74,9 +74,9 @@ struct HomeTabView: View {
                                 LearningStackCard(
                                     title: Localizable.string(Localizable.adjectivesWithPrepositions),
                                     accent: Color("AppPurple"),
-                                    icon: "square.stack.3d.up.fill"
+                                    icon: "paintbrush.fill"
                                 )
-                                .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+                                .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
                                 .id("adjectives_\(languageManager.currentLanguage)")
                                 .scaleEffect(tappedCardId == "adjectives" ? 0.95 : 1.0)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
@@ -95,7 +95,7 @@ struct HomeTabView: View {
                                     icon: "star.fill",
                                     isLocked: false
                                 )
-                                .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+                                .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
                                 .id("favorites_\(languageManager.currentLanguage)")
                                 .scaleEffect(tappedCardId == "favorites" ? 0.95 : 1.0)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
@@ -235,9 +235,9 @@ struct LearningStackCard: View {
                         .font(.system(.headline, design: .rounded).weight(.bold))
                         .foregroundColor(accent)
                         .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                        .frame(minHeight: 44, alignment: .center)
+                        .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
+                        .minimumScaleFactor(0.7)
                     
                     if isLocked {
                         Image(systemName: "lock.fill")
