@@ -25,7 +25,6 @@ struct SettingsView: View {
     @State private var showRewardedAdAlert = false
     @State private var rewardedAdMessage = ""
     @State private var showPaywall = false
-    @State private var hasUpdateAvailable = false
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     
     // Premium status tracking
@@ -72,15 +71,6 @@ struct SettingsView: View {
                     title: Localizable.string(Localizable.about)
                 ) {
                     AboutView()
-                }
-                
-                NavigationIconRow(
-                    icon: "gear.badge",
-                    iconColor: .gray,
-                    title: Localizable.string(Localizable.update),
-                    showBadge: hasUpdateAvailable
-                ) {
-                    UpdateView()
                 }
                 
                 // Share row
@@ -318,15 +308,6 @@ struct SettingsView: View {
         )) { document in
             SettingsLegalWebSheetView(url: document.url)
         }
-        .onAppear {
-            checkForUpdate()
-        }
-    }
-    
-    private func checkForUpdate() {
-        // TODO: Implement actual update checking logic
-        // For now, this is a placeholder - you can implement App Store API checking here
-        // hasUpdateAvailable = true // Uncomment to test the badge
     }
     
     // Legal document identifier for sheet presentation

@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct AboutView: View {
+    // Get current app version (without build number)
+    private var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    }
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -35,6 +40,14 @@ struct AboutView: View {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill(Color(.secondarySystemGroupedBackground))
                 )
+                
+                Spacer()
+                
+                // Version info at bottom
+                Text("\(Localizable.string(Localizable.version)) \(appVersion)")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .padding(16)
             }
             .padding(.horizontal)
             .padding(.top, 8)
