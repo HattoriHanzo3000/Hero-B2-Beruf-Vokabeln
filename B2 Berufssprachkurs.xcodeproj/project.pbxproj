@@ -10,6 +10,8 @@
 		744F823F2ED605EC00B2F198 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 744F823E2ED605EC00B2F198 /* GoogleMobileAds */; };
 		744F83A32ED60C6600B2F198 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744F83A22ED60C6600B2F198 /* AppTrackingTransparency.framework */; };
 		74D0E43E2EDF748E00581890 /* SuperwallKit in Frameworks */ = {isa = PBXBuildFile; productRef = 74D0E43D2EDF748E00581890 /* SuperwallKit */; };
+		74RC00122EDF800000581890 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 74RC00112EDF800000581890 /* RevenueCat */; };
+		74RC00142EDF800000581891 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 74RC00132EDF800000581891 /* RevenueCatUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 				744F823F2ED605EC00B2F198 /* GoogleMobileAds in Frameworks */,
 				744F83A32ED60C6600B2F198 /* AppTrackingTransparency.framework in Frameworks */,
 				74D0E43E2EDF748E00581890 /* SuperwallKit in Frameworks */,
+				74RC00122EDF800000581890 /* RevenueCat in Frameworks */,
+				74RC00142EDF800000581891 /* RevenueCatUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +100,8 @@
 			packageProductDependencies = (
 				744F823E2ED605EC00B2F198 /* GoogleMobileAds */,
 				74D0E43D2EDF748E00581890 /* SuperwallKit */,
+				74RC00112EDF800000581890 /* RevenueCat */,
+				74RC00132EDF800000581891 /* RevenueCatUI */,
 			);
 			productName = "B2 Berufssprachkurs";
 			productReference = 74D87BDE2ECD0E14004BCC24 /* B2 Berufssprachkurs.app */;
@@ -129,6 +135,7 @@
 			packageReferences = (
 				744F823D2ED605EC00B2F198 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				74D0E43C2EDF748E00581890 /* XCRemoteSwiftPackageReference "Superwall-iOS" */,
+				74RC00102EDF800000581890 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 74D87BDF2ECD0E14004BCC24 /* Products */;
@@ -408,6 +415,14 @@
 				minimumVersion = 4.10.6;
 			};
 		};
+		74RC00102EDF800000581890 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -420,6 +435,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 74D0E43C2EDF748E00581890 /* XCRemoteSwiftPackageReference "Superwall-iOS" */;
 			productName = SuperwallKit;
+		};
+		74RC00112EDF800000581890 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 74RC00102EDF800000581890 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		74RC00132EDF800000581891 /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 74RC00102EDF800000581890 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

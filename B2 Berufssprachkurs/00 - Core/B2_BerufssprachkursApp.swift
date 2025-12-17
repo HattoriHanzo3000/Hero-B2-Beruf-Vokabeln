@@ -29,6 +29,11 @@ struct B2_BerufssprachkursApp: App {
     @AppStorage("appearancePreference") private var appearancePreference: String = "System"
     @AppStorage("hasSeenWelcomeVideo") private var hasSeenWelcomeVideo: Bool = false
     
+    init() {
+        // RevenueCat and Superwall are initialized in AppDelegate
+        // This ensures proper initialization order and prevents duplicate calls
+    }
+    
     private var colorScheme: ColorScheme? {
         switch appearancePreference {
         case "Light":

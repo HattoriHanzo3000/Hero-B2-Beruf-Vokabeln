@@ -3,11 +3,13 @@
 //  B2 Berufssprachkurs
 //
 //  Created by Ildar on 18.11.25.
+//  Updated to use RevenueCat while maintaining backward compatibility
 //
 
 import Foundation
 import StoreKit
 import Combine
+import RevenueCat
 
 @MainActor
 final class SubscriptionManager: ObservableObject {
@@ -29,6 +31,12 @@ final class SubscriptionManager: ObservableObject {
     @Published var products: [String: Product] = [:]
     @Published var errorMessage: String?
     
+    // RevenueCat service (primary source of truth)
+    private let revenueCatService = RevenueCatService.shared
+    
+    // Combine cancellables for syncing
+    private var cancellables = Set<AnyCancellable>()
+    
     // Check if active subscription is lifetime
     var hasLifetimeSubscription: Bool {
         return activeProductID == "hero.premium.lifetime"
@@ -38,9 +46,6 @@ final class SubscriptionManager: ObservableObject {
     var product: Product? {
         products["hero.premium.monthly"]
     }
-    
-    // StoreKit transaction listener
-    private var updateListenerTask: Task<Void, Error>?
     
     // Trial period constants
     private let trialPeriodDays: TimeInterval = 3 * 24 * 60 * 60 // 3 days in seconds
@@ -53,17 +58,55 @@ final class SubscriptionManager: ObservableObject {
         // Trial will be activated when user taps "Start Free Trial" button
         initializeTrialIfNeeded()
         
-        // Start listening for transaction updates
-        updateListenerTask = listenForTransactions()
+        // Sync with RevenueCat service
+        setupRevenueCatSync()
         
-        // Check current subscription status
+        // Load products and check subscription status
         Task {
+            await loadProducts()
             await checkSubscriptionStatus()
         }
     }
     
-    deinit {
-        updateListenerTask?.cancel()
+    // MARK: - RevenueCat Integration
+    
+    /// Sets up syncing with RevenueCat service
+    private func setupRevenueCatSync() {
+        // Sync premium status from RevenueCat
+        revenueCatService.$isPremiumActive
+            .dropFirst()
+            .sink { [weak self] isPremium in
+                Task { @MainActor [weak self] in
+                    await self?.updateFromRevenueCat()
+                }
+            }
+            .store(in: &cancellables)
+        
+        // Sync when customer info updates
+        revenueCatService.$customerInfo
+            .compactMap { $0 }
+            .sink { [weak self] _ in
+                Task { @MainActor [weak self] in
+                    await self?.updateFromRevenueCat()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    /// Updates subscription status from RevenueCat
+    private func updateFromRevenueCat() async {
+        // Update premium status from RevenueCat (but preserve trial status)
+        let revenueCatPremium = revenueCatService.isPremiumActive
+        let trialActive = isTrialActive()
+        
+        // Premium is active if RevenueCat says so OR trial is active
+        isPremiumActive = revenueCatPremium || trialActive
+        
+        // Update active subscription status (exclude trial)
+        hasActiveSubscription = revenueCatPremium
+        
+        // Update active product ID from RevenueCat
+        activeProductID = revenueCatService.activeProductID
     }
     
     // MARK: - Purchase State
@@ -83,12 +126,32 @@ final class SubscriptionManager: ObservableObject {
         errorMessage = nil
         
         do {
-            let loadedProducts = try await Product.products(for: productIDs)
+            // Load offerings from RevenueCat
+            let offerings = try await revenueCatService.getOfferings()
             
-            // Store products in dictionary by product ID
+            // Map RevenueCat packages to StoreKit Products for backward compatibility
             var productsDict: [String: Product] = [:]
-            for product in loadedProducts {
-                productsDict[product.id] = product
+            
+            if let currentOffering = offerings.current {
+                for package in currentOffering.availablePackages {
+                    let storeProduct = package.storeProduct
+                    // Map to StoreKit Product format for backward compatibility
+                    if let product = try? await Product.products(for: [storeProduct.productIdentifier]).first {
+                        productsDict[storeProduct.productIdentifier] = product
+                    } else {
+                        // Fallback: Create a Product wrapper from StoreProduct if needed
+                        // Note: This is a simplified mapping - full Product API may not be available
+                        print("SubscriptionManager: Could not load StoreKit Product for \(storeProduct.productIdentifier)")
+                    }
+                }
+            }
+            
+            // Fallback: Also try loading directly from StoreKit for products not in offerings
+            let directProducts = try await Product.products(for: productIDs)
+            for product in directProducts {
+                if productsDict[product.id] == nil {
+                    productsDict[product.id] = product
+                }
             }
             
             self.products = productsDict
@@ -98,6 +161,18 @@ final class SubscriptionManager: ObservableObject {
         } catch {
             errorMessage = "Failed to load products: \(error.localizedDescription)"
             print("SubscriptionManager: Error loading products - \(error)")
+            
+            // Fallback to direct StoreKit loading if RevenueCat fails
+            do {
+                let loadedProducts = try await Product.products(for: productIDs)
+                var productsDict: [String: Product] = [:]
+                for product in loadedProducts {
+                    productsDict[product.id] = product
+                }
+                self.products = productsDict
+            } catch {
+                print("SubscriptionManager: Fallback StoreKit loading also failed - \(error)")
+            }
         }
         
         isLoading = false
@@ -106,9 +181,13 @@ final class SubscriptionManager: ObservableObject {
     // MARK: - Check Subscription Status
     
     func checkSubscriptionStatus() async {
-        // Check subscription entitlements
-        var hasSubscription = false
-        var currentProductID: String? = nil
+        // Primary: Check RevenueCat entitlements
+        await revenueCatService.syncCustomerInfo()
+        await updateFromRevenueCat()
+        
+        // Fallback: Also check StoreKit directly for redundancy
+        var hasStoreKitSubscription = false
+        var storeKitProductID: String? = nil
         
         for await result in Transaction.currentEntitlements {
             do {
@@ -116,8 +195,8 @@ final class SubscriptionManager: ObservableObject {
                 
                 // Check if this transaction is for any of our products
                 if productIDs.contains(transaction.productID) {
-                    hasSubscription = true
-                    currentProductID = transaction.productID
+                    hasStoreKitSubscription = true
+                    storeKitProductID = transaction.productID
                     break
                 }
             } catch {
@@ -125,12 +204,15 @@ final class SubscriptionManager: ObservableObject {
             }
         }
         
-        // Track subscription status separately
-        hasActiveSubscription = hasSubscription
-        activeProductID = currentProductID
+        // Use RevenueCat as primary source, StoreKit as fallback
+        if !hasActiveSubscription && hasStoreKitSubscription {
+            hasActiveSubscription = true
+            activeProductID = storeKitProductID
+        }
         
         // Premium is active if subscription is active OR trial is active
-        isPremiumActive = hasSubscription || isTrialActive()
+        let trialActive = isTrialActive()
+        isPremiumActive = hasActiveSubscription || trialActive
     }
     
     // MARK: - Purchase Subscription
@@ -139,52 +221,74 @@ final class SubscriptionManager: ObservableObject {
         // Use provided productID or default to monthly
         let targetProductID = productID ?? "hero.premium.monthly"
         
-        guard let product = products[targetProductID] else {
-            throw SubscriptionError.productNotLoaded
-        }
-        
         purchaseState = .purchasing
         
         do {
-            let result = try await product.purchase()
+            // Primary: Use RevenueCat for purchase
+            _ = try await revenueCatService.purchase(productIdentifier: targetProductID)
             
-            switch result {
-            case .success(let verification):
-                let transaction = try checkVerified(verification)
-                
-                // Update subscription status
-                hasActiveSubscription = true
-                isPremiumActive = true
-                purchaseState = .success
-                
-                // Activate trial ONLY after successful purchase, and only for yearly subscription
-                if targetProductID == "hero.premium.yearly" && !hasUsedTrial {
-                    activateTrial()
-                }
-                
-                // Finish the transaction
-                await transaction.finish()
-                
-                // Verify subscription status again
-                await checkSubscriptionStatus()
-                
-            case .userCancelled:
-                purchaseState = .idle
-                throw SubscriptionError.userCancelled
-                
-            case .pending:
-                purchaseState = .loading
-                // Transaction is pending (e.g., waiting for approval)
-                // We'll be notified via transaction listener
-                
-            @unknown default:
-                purchaseState = .failed("Unknown purchase result")
-                throw SubscriptionError.unknown
+            // Update subscription status
+            await updateFromRevenueCat()
+            purchaseState = .success
+            
+            // Activate trial ONLY after successful purchase, and only for yearly subscription
+            if targetProductID == "hero.premium.yearly" && !hasUsedTrial {
+                activateTrial()
             }
+            
+            // Verify subscription status again
+            await checkSubscriptionStatus()
+            
+        } catch RevenueCatError.userCancelled {
+            purchaseState = .idle
+            throw SubscriptionError.userCancelled
         } catch {
-            purchaseState = .failed(error.localizedDescription)
-            errorMessage = error.localizedDescription
-            throw error
+            // Fallback to StoreKit if RevenueCat fails
+            guard let product = products[targetProductID] else {
+                purchaseState = .failed("Product not available")
+                throw SubscriptionError.productNotLoaded
+            }
+            
+            do {
+                let result = try await product.purchase()
+                
+                switch result {
+                case .success(let verification):
+                    let transaction = try checkVerified(verification)
+                    
+                    // Update subscription status
+                    hasActiveSubscription = true
+                    isPremiumActive = true
+                    purchaseState = .success
+                    
+                    // Activate trial ONLY after successful purchase, and only for yearly subscription
+                    if targetProductID == "hero.premium.yearly" && !hasUsedTrial {
+                        activateTrial()
+                    }
+                    
+                    // Finish the transaction
+                    await transaction.finish()
+                    
+                    // Verify subscription status again
+                    await checkSubscriptionStatus()
+                    
+                case .userCancelled:
+                    purchaseState = .idle
+                    throw SubscriptionError.userCancelled
+                    
+                case .pending:
+                    purchaseState = .loading
+                    // Transaction is pending (e.g., waiting for approval)
+                    
+                @unknown default:
+                    purchaseState = .failed("Unknown purchase result")
+                    throw SubscriptionError.unknown
+                }
+            } catch {
+                purchaseState = .failed(error.localizedDescription)
+                errorMessage = error.localizedDescription
+                throw error
+            }
         }
     }
     
@@ -194,8 +298,15 @@ final class SubscriptionManager: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        // Check current entitlements
-        await checkSubscriptionStatus()
+        do {
+            // Primary: Use RevenueCat to restore purchases
+            try await revenueCatService.restorePurchases()
+            await updateFromRevenueCat()
+        } catch {
+            print("SubscriptionManager: RevenueCat restore failed, trying StoreKit - \(error)")
+            // Fallback: Check StoreKit directly
+            await checkSubscriptionStatus()
+        }
         
         isLoading = false
         
@@ -209,8 +320,10 @@ final class SubscriptionManager: ObservableObject {
         }
     }
     
-    // MARK: - Transaction Listener
+    // MARK: - Transaction Listener (Legacy - RevenueCat handles this now)
     
+    // Note: RevenueCat handles transaction updates via its delegate
+    // This method is kept for backward compatibility but is no longer actively used
     private func listenForTransactions() -> Task<Void, Error> {
         return Task.detached { [weak self] in
             for await result in Transaction.updates {
@@ -221,17 +334,14 @@ final class SubscriptionManager: ObservableObject {
                     
                     // Update subscription status if this is one of our products
                     if self.productIDs.contains(transaction.productID) {
-                        await MainActor.run {
-                            self.hasActiveSubscription = true
-                            self.isPremiumActive = true
-                        }
+                        // RevenueCat will handle this via delegate, but update here as fallback
+                        await Task { @MainActor in
+                            await self.checkSubscriptionStatus()
+                        }.value
                     }
                     
                     // Always finish the transaction
                     await transaction.finish()
-                    
-                    // Recheck subscription status on main actor
-                    await self.checkSubscriptionStatus()
                 } catch {
                     print("SubscriptionManager: Transaction verification failed - \(error)")
                 }
@@ -241,7 +351,7 @@ final class SubscriptionManager: ObservableObject {
     
     // MARK: - Transaction Verification
     
-    private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
+    private func checkVerified<T>(_ result: StoreKit.VerificationResult<T>) throws -> T {
         switch result {
         case .unverified:
             throw SubscriptionError.transactionUnverified

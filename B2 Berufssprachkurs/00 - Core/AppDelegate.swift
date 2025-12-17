@@ -14,6 +14,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // Initialize RevenueCat SDK early
+        // This will configure RevenueCat and start syncing customer info
+        Task { @MainActor in
+            _ = RevenueCatService.shared
+            // Initialize Superwall after RevenueCat (depends on RevenueCat)
+            SuperwallService.shared.configure()
+        }
+        
         // Initialize AdMob
         AdManager.shared.initialize()
         

@@ -251,5 +251,14 @@ extension Localizable {
     static let scanQRCode = "scan_qr_code"
     static let scanToDownload = "scan_to_download"
     static let openInAppStore = "open_in_app_store"
+    
+    // Holiday Seasonal Banner
+    static let holidaySeasonSale = "holiday_season_sale"
+    static let holidaySeasonSaleDescription = "holiday_season_sale_description"
+    static let regularPrice = "regular_price"
+    static let sale = "sale"
+    
+    // Subscription Terms - Promotional
+    static let subscriptionTermsYearlyPromotional = "subscription_terms_yearly_promotional"
 }
 
