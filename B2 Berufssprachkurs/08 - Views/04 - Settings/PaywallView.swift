@@ -13,98 +13,31 @@ struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var revenueCatService = RevenueCatService.shared
     @StateObject private var subscriptionManager = SubscriptionManager.shared // Keep for trial logic
-    @State private var selectedProductID: String = "hero.premium.yearly"
+    @State private var selectedProductID: String = "hero.premium.yearly.promo"
     @State private var selectedPackage: Package?
     @State private var isLoadingPackages = false
     
     // Computed property for button text based on selected product and trial eligibility
     private var buttonText: String {
-        if selectedProductID == "hero.premium.yearly" && !subscriptionManager.hasUsedTrial {
+        if (selectedProductID == "hero.premium.yearly" || selectedProductID == "hero.premium.yearly.promo") && !subscriptionManager.hasUsedTrial {
             return Localizable.string(Localizable.startFreeTrial)
         } else {
             return Localizable.string(Localizable.upgradeNow)
         }
     }
     
-    // Helper function to check if we're in the promotional period
-    private var isSeasonalOfferActive: Bool {
-        let calendar = Calendar.current
-        let now = Date()
-        let cutoffDate = calendar.date(from: DateComponents(year: 2026, month: 1, day: 15))!
-        
-        // Promotional offer is active until January 15, 2026
-        return now <= cutoffDate
-    }
-    
-    // Helper function to get yearly fallback price based on seasonal pricing
-    private var yearlyFallbackPrice: String {
-        if isSeasonalOfferActive {
-            return "9,99€"
-        } else {
-            return "14,99€"
-        }
-    }
-    
     // Computed property for dynamic subscription terms based on selected product
     private var dynamicSubscriptionTerms: String {
         var price: String = ""
-        var renewalPrice: String? = nil
         
         // Try to get price from RevenueCat package first
         if let offering = revenueCatService.currentOffering,
            let package = offering.availablePackages.first(where: { $0.storeProduct.productIdentifier == selectedProductID }) {
             // Use RevenueCat package price
             price = package.localizedPriceString
-            
-            // For yearly subscription during promotional period, set renewal price
-            if selectedProductID == "hero.premium.yearly" && isSeasonalOfferActive {
-                renewalPrice = "14,99€" // Base renewal price
-            }
         } else if let product = subscriptionManager.products[selectedProductID] {
             // Fallback to StoreKit product
-            // For yearly subscription during promotional period
-            if selectedProductID == "hero.premium.yearly" && isSeasonalOfferActive {
-                // Get promotional price (first year) from the promotional offer
-                if let subscription = product.subscription {
-                    var promoPriceFound = false
-                    for offer in subscription.promotionalOffers {
-                        if offer.id == "christmas.sale" {
-                            price = offer.displayPrice
-                            promoPriceFound = true
-                            break
-                        }
-                    }
-                    if !promoPriceFound {
-                        price = product.displayPrice
-                    }
-                } else {
-                    price = product.displayPrice
-                }
-                
-                // Get the base/regular price for renewal (after first year)
-                renewalPrice = product.displayPrice
-            } else {
-                // Use StoreKit product price (automatically updates if price changes)
-                price = product.displayPrice
-                renewalPrice = nil
-            }
-        } else {
-            // Use fallback prices until products/packages load
-            switch selectedProductID {
-            case "hero.premium.monthly":
-                price = "1,99€"
-                renewalPrice = nil
-            case "hero.premium.yearly":
-                price = yearlyFallbackPrice
-                // During promotional period, renewal will be at regular price
-                renewalPrice = isSeasonalOfferActive ? "14,99€" : nil
-            case "hero.premium.lifetime":
-                price = "29,99€"
-                renewalPrice = nil
-            default:
-                price = "1,99€"
-                renewalPrice = nil
-            }
+            price = product.displayPrice
         }
         
         // Determine which terms template to use based on subscription type
@@ -112,14 +45,8 @@ struct PaywallView: View {
             // Lifetime - one-time purchase
             return String(format: Localizable.string(Localizable.subscriptionTermsLifetime), price)
         } else if selectedProductID == "hero.premium.yearly" {
-            // Yearly subscription - check if we need to show promotional pricing info
-            if let renewalPrice = renewalPrice, isSeasonalOfferActive {
-                // Show terms with both promotional and renewal prices
-                return String(format: Localizable.string(Localizable.subscriptionTermsYearlyPromotional), price, renewalPrice)
-            } else {
-                // Regular yearly subscription terms
-                return String(format: Localizable.string(Localizable.subscriptionTermsYearly), price)
-            }
+            // Regular yearly subscription terms
+            return String(format: Localizable.string(Localizable.subscriptionTermsYearly), price)
         } else {
             // Monthly subscription (default)
             return String(format: Localizable.string(Localizable.subscriptionTermsMonthly), price)
@@ -273,11 +200,8 @@ struct PaywallView: View {
     }
     
     private var seasonalPromotionalBanner: some View {
-        Group {
-            if isSeasonalOfferActive {
-                HolidaySeasonalBanner(subscriptionManager: subscriptionManager)
-            }
-        }
+        // Banner removed - no promotional offers
+        EmptyView()
     }
     
     private var subscriptionOptionsSection: some View {
@@ -287,7 +211,7 @@ struct PaywallView: View {
                 title: Localizable.string(Localizable.monthly),
                 explanation: Localizable.string(Localizable.monthlyExplanation),
                 productID: "hero.premium.monthly",
-                fallbackPrice: "1,99€",
+                fallbackPrice: "",
                 period: Localizable.string(Localizable.perMonth),
                 isSelected: selectedProductID == "hero.premium.monthly",
                 showFreeTrial: false,
@@ -304,17 +228,18 @@ struct PaywallView: View {
             SubscriptionOptionButton(
                 title: Localizable.string(Localizable.yearly),
                 explanation: Localizable.string(Localizable.yearlyExplanation),
-                productID: "hero.premium.yearly",
-                fallbackPrice: yearlyFallbackPrice,
+                productID: "hero.premium.yearly.promo",
+                regularProductID: "hero.premium.yearly",
+                fallbackPrice: "",
                 period: Localizable.string(Localizable.year1),
-                isSelected: selectedProductID == "hero.premium.yearly",
+                isSelected: selectedProductID == "hero.premium.yearly.promo",
                 showFreeTrial: !subscriptionManager.hasUsedTrial,
                 showSeasonalOffer: false,
                 subscriptionManager: subscriptionManager,
                 revenueCatService: revenueCatService,
                 onSelect: {
                     HapticManager.shared.lightImpact()
-                    selectedProductID = "hero.premium.yearly"
+                    selectedProductID = "hero.premium.yearly.promo"
                 }
             )
             
@@ -323,7 +248,7 @@ struct PaywallView: View {
                 title: Localizable.string(Localizable.lifetime),
                 explanation: Localizable.string(Localizable.lifetimeExplanation),
                 productID: "hero.premium.lifetime",
-                fallbackPrice: "29,99€",
+                fallbackPrice: "",
                 period: "",
                 isSelected: selectedProductID == "hero.premium.lifetime",
                 showFreeTrial: false,
@@ -576,6 +501,7 @@ private struct SubscriptionOptionButton: View {
     let title: String
     let explanation: String
     let productID: String?
+    var regularProductID: String? = nil // Optional original product for strikethrough
     let fallbackPrice: String
     let period: String
     let isSelected: Bool
@@ -586,109 +512,36 @@ private struct SubscriptionOptionButton: View {
     @Environment(\.colorScheme) private var colorScheme
     let onSelect: () -> Void
     
-    // Helper to check if seasonal offer is active (for yearly subscription)
-    private var isSeasonalOfferActive: Bool {
-        let calendar = Calendar.current
-        let now = Date()
-        let cutoffDate = calendar.date(from: DateComponents(year: 2026, month: 1, day: 15))!
-        return now <= cutoffDate
+    // Get the display price string from RevenueCat or StoreKit
+    private var basePriceText: String {
+        getPriceString(for: productID)
     }
     
-    // Check if price is promotional
-    private var isPromotionalPrice: Bool {
-        guard let productID = productID else { return false }
-        return productID == "hero.premium.yearly" && isSeasonalOfferActive
-    }
-    
-    // Get the promotional price string
-    private var promotionalPriceText: String {
-        var displayPrice: String = ""
-        
-        // Try RevenueCat package first
-        if let productID = productID,
-           let offering = revenueCatService.currentOffering,
-           let package = offering.availablePackages.first(where: { $0.storeProduct.productIdentifier == productID }) {
-            displayPrice = package.localizedPriceString
-        } else if let productID = productID, let product = subscriptionManager.products[productID] {
-            // Fallback to StoreKit product
-            // For yearly subscription during promotional period, try to get promotional price
-            if productID == "hero.premium.yearly" && isSeasonalOfferActive {
-                // Try to get promotional price from the offer
-                if let subscription = product.subscription {
-                    for offer in subscription.promotionalOffers {
-                        if offer.id == "christmas.sale" {
-                            displayPrice = offer.displayPrice
-                            break
-                        }
-                    }
-                    // If promotional offer not found, use product price
-                    if displayPrice.isEmpty {
-                        displayPrice = product.displayPrice
-                    }
-                } else {
-                    displayPrice = product.displayPrice
-                }
-            } else {
-                displayPrice = product.displayPrice
-            }
-        } else {
-            displayPrice = fallbackPrice
-        }
-        
-        if period.isEmpty {
-            return displayPrice
-        } else {
-            return "\(displayPrice)/\(period)"
-        }
-    }
-    
-    // Get the regular price string (for strikethrough)
+    // Get the regular (old) price string for strikethrough
     private var regularPriceText: String {
-        guard let productID = productID else { return "" }
+        guard let id = regularProductID else { return "" }
+        return getPriceString(for: id)
+    }
+    
+    private func getPriceString(for id: String?) -> String {
+        guard let id = id else { return "" }
+        var displayPrice: String = ""
         
         // Try RevenueCat package first
         if let offering = revenueCatService.currentOffering,
-           let package = offering.availablePackages.first(where: { $0.storeProduct.productIdentifier == productID }) {
-            let basePrice = package.localizedPriceString
-            if period.isEmpty {
-                return basePrice
-            } else {
-                return "\(basePrice)/\(period)"
-            }
-        } else if let product = subscriptionManager.products[productID] {
-            // Fallback to StoreKit product
-            let basePrice = product.displayPrice
-            if period.isEmpty {
-                return basePrice
-            } else {
-                return "\(basePrice)/\(period)"
-            }
-        } else {
-            // Use fallback regular price
-            let regularPrice = productID == "hero.premium.yearly" ? "14,99€" : fallbackPrice
-            if period.isEmpty {
-                return regularPrice
-            } else {
-                return "\(regularPrice)/\(period)"
-            }
-        }
-    }
-    
-    // Get the display price string (for non-promotional)
-    private var basePriceText: String {
-        var displayPrice: String = ""
-        
-        // Try RevenueCat package first
-        if let productID = productID,
-           let offering = revenueCatService.currentOffering,
-           let package = offering.availablePackages.first(where: { $0.storeProduct.productIdentifier == productID }) {
+           let package = offering.availablePackages.first(where: { $0.storeProduct.productIdentifier == id }) {
             displayPrice = package.localizedPriceString
-        } else if let productID = productID, let product = subscriptionManager.products[productID] {
+        } else if let product = subscriptionManager.products[id] {
             // Fallback to StoreKit product
             displayPrice = product.displayPrice
-        } else {
+        }
+        
+        // Only use fallback if we have no price and fallback is provided
+        if displayPrice.isEmpty && !fallbackPrice.isEmpty && id == productID {
             displayPrice = fallbackPrice
         }
+        
+        if displayPrice.isEmpty { return "" }
         
         if period.isEmpty {
             return displayPrice
@@ -697,39 +550,27 @@ private struct SubscriptionOptionButton: View {
         }
     }
     
-    // Price display view with icon and SALE text for promotional
-    @ViewBuilder
-    private var priceDisplayView: some View {
-        if isPromotionalPrice {
-            VStack(alignment: .trailing, spacing: 4) {
-                HStack(spacing: 4) {
-                    // Gift box icon - same font as SALE
-                    Image(systemName: "gift.fill")
-                        .font(.system(.headline, design: .rounded).weight(.bold))
-                        .foregroundColor(.red)
-                    
-                    // SALE text
-                    Text(Localizable.string(Localizable.sale))
-                        .font(.system(.headline, design: .rounded).weight(.bold))
-                        .foregroundColor(.red)
-                    
-                    // Promotional price in red
-                    Text(promotionalPriceText)
-                        .font(.system(.headline, design: .rounded))
-                        .foregroundColor(.red)
-                }
-                
-                // Regular price with strikethrough
-                Text(regularPriceText)
-                    .font(.system(.subheadline, design: .rounded))
-                    .foregroundColor(.secondary)
-                    .strikethrough()
-            }
-        } else {
-            Text(basePriceText)
-                .font(.system(.headline, design: .rounded))
-                .foregroundColor(Color("AppGreen"))
-        }
+    // Check if this is the yearly subscription button
+    private var isYearlyButton: Bool {
+        return productID == "hero.premium.yearly.promo" || productID == "hero.premium.yearly"
+    }
+    
+    // Christmas gradient for yearly button
+    private var christmasGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color(red: 0.85, green: 0.15, blue: 0.15), // Deep red
+                Color(red: 0.15, green: 0.65, blue: 0.15),  // Deep green
+                Color(red: 0.85, green: 0.15, blue: 0.15)   // Deep red again
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+    
+    // Yellow color for price
+    private var yellowColor: Color {
+        Color.yellow
     }
     
     // Button background color that's lighter in dark mode
@@ -741,106 +582,153 @@ private struct SubscriptionOptionButton: View {
         }
     }
     
+    // Background fill for button
+    @ViewBuilder
+    private var buttonBackgroundFill: some View {
+        if isYearlyButton {
+            // Christmas gradient for yearly button
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(christmasGradient)
+                .opacity(isSelected ? 1.0 : 0.15)
+        } else {
+            // Regular background for other buttons
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(isSelected ? Color("AppGreen").opacity(0.1) : buttonBackgroundColor)
+        }
+    }
+    
+    // Border stroke for button
+    @ViewBuilder
+    private var buttonBorder: some View {
+        if isYearlyButton {
+            // Yellow border for yearly button when selected
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .stroke(
+                    isSelected ? yellowColor : Color.clear,
+                    lineWidth: 2
+                )
+        } else {
+            // Regular border for other buttons
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .stroke(
+                    isSelected ? Color("AppGreen") : Color.clear,
+                    lineWidth: 2
+                )
+        }
+    }
+    
+    // Price color
+    private var priceColor: Color {
+        if isYearlyButton && isSelected {
+            return yellowColor
+        } else {
+            return Color("AppGreen")
+        }
+    }
+    
     var body: some View {
         Button(action: onSelect) {
             VStack(spacing: 8) {
-                if isPromotionalPrice {
-                    // First row: Title on left, Sale price on right
-                    HStack {
-                        Text(title)
-                            .font(.system(.headline, design: .rounded))
-                            .foregroundColor(.primary)
-                        
-                        Spacer()
-                        
-                        // Sale price with icon and SALE text
-                        HStack(spacing: 4) {
-                            Image(systemName: "gift.fill")
-                                .font(.system(.headline, design: .rounded).weight(.bold))
-                                .foregroundColor(.red)
-                            
-                            Text(Localizable.string(Localizable.sale))
-                                .font(.system(.headline, design: .rounded).weight(.bold))
-                                .foregroundColor(.red)
-                            
-                            Text(promotionalPriceText)
-                                .font(.system(.headline, design: .rounded))
-                                .foregroundColor(.red)
-                        }
-                    }
+                // First row: Title on left, Price on right
+                HStack {
+                    Text(title)
+                        .font(.system(.headline, design: .rounded))
+                        .foregroundColor(isYearlyButton && isSelected ? .white : .primary)
                     
-                    // Second row: Explanation on left, Regular price (strikethrough) on right
-                    HStack {
-                        Text(explanation)
-                            .font(.system(.caption, design: .rounded))
-                            .foregroundColor(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .multilineTextAlignment(.leading)
-                        
-                        Spacer()
-                        
-                        // Regular price with strikethrough
-                        Text(regularPriceText)
-                            .font(.system(.subheadline, design: .rounded))
-                            .foregroundColor(.secondary)
-                            .strikethrough()
-                    }
+                    Spacer()
                     
-                    // Third row: Free Trial badge aligned right
-                    if showFreeTrial {
-                        HStack {
-                            Spacer()
-                            FreeTrialBadge()
+                    HStack(spacing: 8) {
+                        if !regularPriceText.isEmpty {
+                            Text(regularPriceText)
+                                .font(.system(.subheadline, design: .rounded))
+                                .foregroundColor(isSelected ? .white.opacity(0.6) : .secondary)
+                                .strikethrough()
                         }
-                    }
-                } else {
-                    // Non-promotional layout (original)
-                    // First row: Title on left, Price on right
-                    HStack {
-                        Text(title)
-                            .font(.system(.headline, design: .rounded))
-                            .foregroundColor(.primary)
-                        
-                        Spacer()
                         
                         Text(basePriceText)
                             .font(.system(.headline, design: .rounded))
-                            .foregroundColor(Color("AppGreen"))
+                            .foregroundColor(priceColor)
                     }
+                }
+                
+                // Second row: Explanation on left, Badges on right
+                HStack(alignment: .center, spacing: 8) {
+                    Text(explanation)
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(isYearlyButton && isSelected ? .white.opacity(0.9) : .secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
                     
-                    // Second row: Explanation on left, Badges on right
-                    HStack(alignment: .center, spacing: 8) {
-                        Text(explanation)
-                            .font(.system(.caption, design: .rounded))
-                            .foregroundColor(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .multilineTextAlignment(.leading)
+                    HStack(spacing: 6) {
+                        if showSeasonalOffer {
+                            SeasonalOfferBadge()
+                        }
                         
-                        HStack(spacing: 6) {
-                            if showSeasonalOffer {
-                                SeasonalOfferBadge()
-                            }
-                            
-                            if showFreeTrial {
-                                FreeTrialBadge()
-                            }
+                        if showFreeTrial {
+                            FreeTrialBadge()
                         }
                     }
                 }
+                
+                // Third row: Holiday sale info (only for yearly button)
+                if isYearlyButton {
+                    HolidaySaleRow(isSelected: isSelected)
+                }
             }
             .padding(16)
-            .background(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(isSelected ? Color("AppGreen").opacity(0.1) : buttonBackgroundColor)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .stroke(
-                        isSelected ? Color("AppGreen") : Color.clear,
-                        lineWidth: 2
-                    )
+            .background(buttonBackgroundFill)
+            .overlay(buttonBorder)
+            .shadow(
+                color: isYearlyButton && isSelected ? yellowColor.opacity(0.3) : Color.clear,
+                radius: isYearlyButton && isSelected ? 8 : 0
             )
         }
+    }
+}
+
+// MARK: - Holiday Sale Row
+private struct HolidaySaleRow: View {
+    let isSelected: Bool
+    @State private var isAnimating = false
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            // Animated gift icon
+            Image(systemName: "gift.fill")
+                .font(.system(.title, design: .rounded).weight(.semibold))
+                .foregroundColor(isSelected ? yellowColor : Color("AppGreen"))
+                .rotationEffect(.degrees(isAnimating ? 5 : -5))
+                .scaleEffect(isAnimating ? 1.1 : 1.0)
+            
+            VStack(alignment: .leading, spacing: 2) {
+                // Title - matches yearly title color
+                Text(Localizable.string(Localizable.holidaySeasonSale))
+                    .font(.system(.headline, design: .rounded).weight(.bold))
+                    .foregroundColor(isSelected ? .white : .primary)
+                
+                // Description without price - matches explanation text color
+                Text(Localizable.string(Localizable.holidaySeasonSaleDescriptionNoPrice))
+                    .font(.system(.footnote, design: .rounded))
+                    .foregroundColor(isSelected ? .white.opacity(0.9) : .secondary)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            
+            Spacer()
+        }
+        .padding(.top, 4)
+        .onAppear {
+            withAnimation(
+                Animation.easeInOut(duration: 2.0)
+                    .repeatForever(autoreverses: true)
+            ) {
+                isAnimating = true
+            }
+        }
+    }
+    
+    private var yellowColor: Color {
+        Color.yellow
     }
 }
 
@@ -873,22 +761,59 @@ private struct SeasonalOfferBadge: View {
 }
 
 // MARK: - Free Trial Badge with Animation
+// MARK: - Free Trial Badge with Animation & Shimmer
 private struct FreeTrialBadge: View {
     @State private var isAnimating = false
+    @State private var shimmerOffset: CGFloat = -100
     
     var body: some View {
         Text(Localizable.string(Localizable.freeTrial))
             .font(.system(.caption2, design: .rounded).weight(.bold))
-            .foregroundColor(Color("AppOrange"))
+            .foregroundColor(.white) // White text for better contrast on gradient
             .textCase(.uppercase)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
             .background(
-                Capsule()
-                    .fill(Color("AppOrange").opacity(isAnimating ? 0.35 : 0.15))
+                ZStack {
+                    // Base Golden Gradient
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 1.0, green: 0.9, blue: 0.0), // Bright Yellow
+                                    Color(red: 0.85, green: 0.65, blue: 0.13), // Golden
+                                    Color(red: 1.0, green: 0.8, blue: 0.0)  // Yellow-Gold
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                    
+                    // Shimmer Overlay
+                    GeometryReader { geometry in
+                        Capsule()
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        .clear,
+                                        .white.opacity(0.4), // The "shine"
+                                        .clear
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: 50) // Width of the shine
+                            .offset(x: shimmerOffset)
+                            .onAppear {
+                                startShimmer(width: geometry.size.width)
+                            }
+                    }
+                    .clipShape(Capsule()) // Keep shimmer inside the badge
+                }
             )
-            .scaleEffect(isAnimating ? 1.1 : 1.0)
-            .shadow(color: Color("AppOrange").opacity(isAnimating ? 0.4 : 0.2), radius: isAnimating ? 8 : 4, x: 0, y: 2)
+            .scaleEffect(isAnimating ? 1.05 : 1.0)
+            .shadow(color: Color.yellow.opacity(isAnimating ? 0.5 : 0.3), radius: isAnimating ? 8 : 4, x: 0, y: 2)
             .onAppear {
                 withAnimation(
                     Animation.easeInOut(duration: 2.0)
@@ -897,6 +822,23 @@ private struct FreeTrialBadge: View {
                     isAnimating = true
                 }
             }
+    }
+    
+    private func startShimmer(width: CGFloat) {
+        Task {
+            while true {
+                shimmerOffset = -100
+                // Wait for a few seconds between shimmers
+                try? await Task.sleep(nanoseconds: 3_000_000_000) // 3 second pause
+                
+                withAnimation(.linear(duration: 2.0)) { // 2 second sweep
+                    shimmerOffset = width + 50
+                }
+                
+                // Wait for the animation to finish before resetting
+                try? await Task.sleep(nanoseconds: 2_000_000_000)
+            }
+        }
     }
 }
 

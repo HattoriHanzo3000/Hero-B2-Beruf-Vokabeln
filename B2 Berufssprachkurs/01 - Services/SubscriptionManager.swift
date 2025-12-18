@@ -19,6 +19,7 @@ final class SubscriptionManager: ObservableObject {
     private let productIDs = [
         "hero.premium.monthly",
         "hero.premium.yearly",
+        "hero.premium.yearly.promo",
         "hero.premium.lifetime"
     ]
     

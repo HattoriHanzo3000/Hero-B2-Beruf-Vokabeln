@@ -255,6 +255,7 @@ extension Localizable {
     // Holiday Seasonal Banner
     static let holidaySeasonSale = "holiday_season_sale"
     static let holidaySeasonSaleDescription = "holiday_season_sale_description"
+    static let holidaySeasonSaleDescriptionNoPrice = "holiday_season_sale_description_no_price"
     static let regularPrice = "regular_price"
     static let sale = "sale"
     

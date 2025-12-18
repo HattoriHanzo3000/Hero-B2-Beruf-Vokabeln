@@ -240,6 +240,7 @@
 // Holiday Seasonal Banner
 "holiday_season_sale" = "Holiday Season Sale";
 "holiday_season_sale_description" = "Subscribe now for a Hero Premium Yearly and get a special price %@ for the first year";
+"holiday_season_sale_description_no_price" = "Subscribe now and get a special offer for the first year";
 "regular_price" = "Regular price";
 "sale" = "SALE! ";
 

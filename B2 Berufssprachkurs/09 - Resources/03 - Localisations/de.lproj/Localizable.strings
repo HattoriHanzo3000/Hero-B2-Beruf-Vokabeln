@@ -240,6 +240,7 @@
 // Holiday Seasonal Banner
 "holiday_season_sale" = "Weihnachtsangebot";
 "holiday_season_sale_description" = "Jetzt Hero Premium Yearly abonnieren und im ersten Jahr den Sonderpreis von %@ erhalten";
+"holiday_season_sale_description_no_price" = "Jetzt abonnieren und im ersten Jahr ein Sonderangebot erhalten";
 "regular_price" = "Regulärer Preis";
 "sale" = "SALE! ";
 
