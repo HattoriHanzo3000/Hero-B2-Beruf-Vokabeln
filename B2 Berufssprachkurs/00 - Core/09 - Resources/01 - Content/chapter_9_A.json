@@ -1,0 +1,271 @@
+{
+  "sectionId": "9A",
+  "words": [
+    {
+      "id": "9A-1",
+      "german": "etw. ab|schalten",
+      "explanation": "Ein Gerät ausmachen, sodass es nicht mehr läuft.",
+      "synonyms": [],
+      "example": "Nach der Arbeit schaltet sie die Maschine ab."
+    },
+    {
+      "id": "9A-2",
+      "german": "anfallen",
+      "explanation": "Entstehen oder dazukommen, zum Beispiel Arbeit oder Kosten.",
+      "synonyms": [],
+      "example": "In der Hauptsaison fällt viel zusätzliche Arbeit an."
+    },
+    {
+      "id": "9A-3",
+      "german": "die Aufnahme, -n",
+      "explanation": "Ein Bild, ein Video oder Ton, den man aufnimmt.",
+      "synonyms": [],
+      "example": "Die Aufnahme zeigt den Fehler auf dem Display."
+    },
+    {
+      "id": "9A-4",
+      "german": "begeistert",
+      "explanation": "Sehr froh und positiv über etwas.",
+      "synonyms": [],
+      "example": "Die Kundin ist begeistert vom schnellen Service."
+    },
+    {
+      "id": "9A-5",
+      "german": "etw. beheben",
+      "explanation": "Einen Fehler oder ein Problem lösen.",
+      "synonyms": [],
+      "example": "Der Techniker behebt den Defekt noch heute."
+    },
+    {
+      "id": "9A-6",
+      "german": "etw. beschädigen",
+      "explanation": "Etwas kaputt machen oder schlechter machen.",
+      "synonyms": [],
+      "example": "Beim Transport wurde das Gerät beschädigt."
+    },
+    {
+      "id": "9A-7",
+      "german": "der Dienstleister, –",
+      "explanation": "Ein Mann, der gegen Bezahlung eine Dienstleistung anbietet.",
+      "synonyms": [],
+      "example": "Der Dienstleister reagiert schnell auf Reklamationen."
+    },
+    {
+      "id": "9A-8",
+      "german": "die Dienstleisterin, -nen",
+      "explanation": "Eine Frau, die gegen Bezahlung eine Dienstleistung anbietet.",
+      "synonyms": [],
+      "example": "Die Dienstleisterin kümmert sich um die Reparatur."
+    },
+    {
+      "id": "9A-9",
+      "german": "das Display, -s",
+      "explanation": "Ein Bildschirm, auf dem Informationen angezeigt werden.",
+      "synonyms": [],
+      "example": "Auf dem Display erscheint eine Fehlermeldung."
+    },
+    {
+      "id": "9A-10",
+      "german": "etw. ein|stellen",
+      "explanation": "Etwas so regulieren, dass es richtig funktioniert.",
+      "synonyms": [],
+      "example": "Sie stellt die Temperatur an der Maschine ein."
+    },
+    {
+      "id": "9A-11",
+      "german": "das Elektronikmodul, -e",
+      "explanation": "Ein Teil mit elektronischen Bauteilen in einem Gerät.",
+      "synonyms": [],
+      "example": "Das Elektronikmodul muss ausgetauscht werden."
+    },
+    {
+      "id": "9A-12",
+      "german": "etw. erkennen",
+      "explanation": "Etwas wahrnehmen und verstehen, was es ist.",
+      "synonyms": [],
+      "example": "Der Monteur erkennt den Fehler sofort."
+    },
+    {
+      "id": "9A-13",
+      "german": "erscheinen",
+      "explanation": "Zu sehen sein oder sichtbar werden.",
+      "synonyms": [],
+      "example": "Auf dem Display erscheint ein Warnsymbol."
+    },
+    {
+      "id": "9A-14",
+      "german": "das Fachgeschäft, -e",
+      "explanation": "Ein Laden, der sich auf eine bestimmte Warengruppe spezialisiert.",
+      "synonyms": [],
+      "example": "Das Fachgeschäft bietet einen Reparaturservice an."
+    },
+    {
+      "id": "9A-15",
+      "german": "fehlerhaft",
+      "explanation": "Nicht richtig oder mit Mängeln.",
+      "synonyms": [],
+      "example": "Das fehlerhafte Gerät wird ausgetauscht."
+    },
+    {
+      "id": "9A-16",
+      "german": "den Geist auf|geben",
+      "explanation": "Plötzlich nicht mehr funktionieren.",
+      "synonyms": [],
+      "example": "Die alte Maschine gibt plötzlich den Geist auf."
+    },
+    {
+      "id": "9A-17",
+      "german": "glücklicherweise",
+      "explanation": "Zum Glück und mit einem guten Ausgang.",
+      "synonyms": [],
+      "example": "Glücklicherweise konnte der Schaden schnell behoben werden."
+    },
+    {
+      "id": "9A-18",
+      "german": "die Großwäscherei, -en",
+      "explanation": "Eine große Firma, die viel Wäsche für Kunden wäscht.",
+      "synonyms": [],
+      "example": "Die Großwäscherei reinigt die Textilien von Hotels."
+    },
+    {
+      "id": "9A-19",
+      "german": "die Herstellerfirma, -firmen",
+      "explanation": "Eine Firma, die ein Produkt produziert.",
+      "synonyms": [],
+      "example": "Die Herstellerfirma bietet zwei Jahre Garantie."
+    },
+    {
+      "id": "9A-20",
+      "german": "jdn. konfrontieren mit (+ Dat.)",
+      "explanation": "Jemandem direkt ein Problem oder eine Tatsache zeigen.",
+      "synonyms": [],
+      "example": "Sie konfrontiert den Dienstleister mit den Mängeln."
+    },
+    {
+      "id": "9A-21",
+      "german": "lieferbar",
+      "explanation": "So, dass es geliefert werden kann.",
+      "synonyms": [],
+      "example": "Das Ersatzteil ist ab nächster Woche lieferbar."
+    },
+    {
+      "id": "9A-22",
+      "german": "der Mangel, \"-",
+      "explanation": "Ein Fehler oder etwas, das nicht in Ordnung ist.",
+      "synonyms": [],
+      "example": "Der Mangel wird im Protokoll festgehalten."
+    },
+    {
+      "id": "9A-23",
+      "german": "das Modul, -e",
+      "explanation": "Ein einzelnes Teil eines größeren Systems.",
+      "synonyms": [],
+      "example": "Das defekte Modul wird ausgebaut."
+    },
+    {
+      "id": "9A-24",
+      "german": "der Monteur, -e",
+      "explanation": "Ein Mann, der Geräte einbaut oder repariert.",
+      "synonyms": [],
+      "example": "Der Monteur kommt morgen in die Firma."
+    },
+    {
+      "id": "9A-25",
+      "german": "die Monteurin, -nen",
+      "explanation": "Eine Frau, die Geräte einbaut oder repariert.",
+      "synonyms": [],
+      "example": "Die Monteurin überprüft das Elektronikmodul."
+    },
+    {
+      "id": "9A-26",
+      "german": "etw. nach|bestellen",
+      "explanation": "Etwas zusätzlich oder erneut bestellen.",
+      "synonyms": [],
+      "example": "Sie muss zwei Ersatzteile nachbestellen."
+    },
+    {
+      "id": "9A-27",
+      "german": "ein Problem beheben",
+      "explanation": "Ein Problem lösen, sodass es nicht mehr da ist.",
+      "synonyms": [],
+      "example": "Der Techniker behebt das Problem vor Ort."
+    },
+    {
+      "id": "9A-28",
+      "german": "der Retourenschein, -e",
+      "explanation": "Ein Formular, das man einer Rücksendung beilegt.",
+      "synonyms": [],
+      "example": "Der Kunde füllt den Retourenschein aus."
+    },
+    {
+      "id": "9A-29",
+      "german": "die Serviceleistung, -en",
+      "explanation": "Eine Dienstleistung, die eine Firma zusätzlich zum Produkt anbietet.",
+      "synonyms": [],
+      "example": "Die Serviceleistungen sind im Preis enthalten."
+    },
+    {
+      "id": "9A-30",
+      "german": "die Textilie, -n",
+      "explanation": "Ein Kleidungsstück oder ein Stück Stoff.",
+      "synonyms": [],
+      "example": "Die Textilien wurden verfärbt geliefert."
+    },
+    {
+      "id": "9A-31",
+      "german": "umsonst",
+      "explanation": "Ohne Erfolg oder ohne dafür zu bezahlen.",
+      "synonyms": [],
+      "example": "Der Kunde wartet nicht umsonst auf eine Lösung."
+    },
+    {
+      "id": "9A-32",
+      "german": "etw. verfärben",
+      "explanation": "Dafür sorgen, dass etwas eine andere Farbe bekommt.",
+      "synonyms": [],
+      "example": "Das Waschmittel hat die Bluse verfärbt."
+    },
+    {
+      "id": "9A-33",
+      "german": "etw. versalzen",
+      "explanation": "Zu viel Salz in etwas geben.",
+      "synonyms": [],
+      "example": "Der Koch hat die Suppe versalzen."
+    },
+    {
+      "id": "9A-34",
+      "german": "sich verspäten",
+      "explanation": "Später kommen als geplant.",
+      "synonyms": [],
+      "example": "Der Monteur hat sich um eine Stunde verspätet."
+    },
+    {
+      "id": "9A-35",
+      "german": "jdm. etw. versprechen",
+      "explanation": "Sagen, dass man etwas sicher machen wird.",
+      "synonyms": [],
+      "example": "Die Firma verspricht dem Kunden eine schnelle Lösung."
+    },
+    {
+      "id": "9A-36",
+      "german": "etw. zerbrechen",
+      "explanation": "Etwas in Stücke kaputt machen.",
+      "synonyms": [],
+      "example": "Beim Transport ist das Glas zerbrochen."
+    },
+    {
+      "id": "9A-37",
+      "german": "etw. zerkratzen",
+      "explanation": "Mit spitzen Dingen viele kleine Kratzer machen.",
+      "synonyms": [],
+      "example": "Die Lieferung hat die Oberfläche zerkratzt."
+    },
+    {
+      "id": "9A-38",
+      "german": "etw. zerreißen",
+      "explanation": "Etwas mit Kraft in Stücke reißen.",
+      "synonyms": [],
+      "example": "Beim Auspacken wurde der Stoff zerrissen."
+    }
+  ]
+}

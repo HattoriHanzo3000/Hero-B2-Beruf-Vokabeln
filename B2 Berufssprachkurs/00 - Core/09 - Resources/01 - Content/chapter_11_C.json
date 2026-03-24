@@ -1,0 +1,285 @@
+{
+  "sectionId": "11C",
+  "words": [
+    {
+      "id": "11C-1",
+      "german": "die Abfindung, -en",
+      "explanation": "Geld, das man bei Verlust des Arbeitsplatzes zusätzlich bekommt.",
+      "synonyms": [],
+      "example": "Nach der Kündigung erhält sie eine Abfindung."
+    },
+    {
+      "id": "11C-2",
+      "german": "der Abfindungsanspruch, \"-e",
+      "explanation": "Das Recht, eine Abfindung zu bekommen.",
+      "synonyms": [],
+      "example": "Der Abfindungsanspruch ist im Sozialplan geregelt."
+    },
+    {
+      "id": "11C-3",
+      "german": "die Alternative, -n",
+      "explanation": "Eine andere Möglichkeit oder Lösung.",
+      "synonyms": [],
+      "example": "Zur Kündigung gibt es vielleicht eine bessere Alternative."
+    },
+    {
+      "id": "11C-4",
+      "german": "etw./jdn. an|hören",
+      "explanation": "Ruhig zuhören, was jemand sagt.",
+      "synonyms": [],
+      "example": "Das Arbeitsgericht hört beide Seiten an."
+    },
+    {
+      "id": "11C-5",
+      "german": "die Anstellung, -en",
+      "explanation": "Ein festes Arbeitsverhältnis in einer Firma.",
+      "synonyms": [],
+      "example": "Nach der Probezeit bekommt sie eine unbefristete Anstellung."
+    },
+    {
+      "id": "11C-6",
+      "german": "die Arbeitsagentur, -en",
+      "explanation": "Eine Behörde, die bei Arbeitssuche und Arbeitslosengeld hilft.",
+      "synonyms": [],
+      "example": "Sie meldet sich bei der Arbeitsagentur arbeitssuchend."
+    },
+    {
+      "id": "11C-7",
+      "german": "das Arbeitsgericht, -e",
+      "explanation": "Ein Gericht, das Streitigkeiten rund um Arbeit und Verträge entscheidet.",
+      "synonyms": [],
+      "example": "Die Klage wird vor dem Arbeitsgericht verhandelt."
+    },
+    {
+      "id": "11C-8",
+      "german": "das Arbeitslosengeld, -er (ALG)",
+      "explanation": "Geld vom Staat für Menschen ohne Arbeit.",
+      "synonyms": [],
+      "example": "Sie beantragt Arbeitslosengeld bei der Agentur."
+    },
+    {
+      "id": "11C-9",
+      "german": "der Arbeitsplatzverlust (Sg.)",
+      "explanation": "Wenn man seinen Job verliert.",
+      "synonyms": [],
+      "example": "Beim Arbeitsplatzverlust kann eine Abfindung helfen."
+    },
+    {
+      "id": "11C-10",
+      "german": "arbeitssuchend",
+      "explanation": "Auf der Suche nach einem neuen Arbeitsplatz.",
+      "synonyms": [],
+      "example": "Man muss sich rechtzeitig arbeitssuchend melden."
+    },
+    {
+      "id": "11C-11",
+      "german": "das Arbeitsverhältnis, -se",
+      "explanation": "Die rechtliche Verbindung zwischen Arbeitgeber und Arbeitnehmer.",
+      "synonyms": [],
+      "example": "Das Arbeitsverhältnis endet mit dem Kündigungsdatum."
+    },
+    {
+      "id": "11C-12",
+      "german": "aus|gehen von (+ Dat.)",
+      "explanation": "Etwas als Grundlage oder Ausgangspunkt betrachten.",
+      "synonyms": [],
+      "example": "Wir gehen von einer betriebsbedingten Kündigung aus."
+    },
+    {
+      "id": "11C-13",
+      "german": "etw. aus|lagern",
+      "explanation": "Arbeiten an eine andere Firma geben.",
+      "synonyms": [],
+      "example": "Die Firma lagert die Logistik an einen Dienstleister aus."
+    },
+    {
+      "id": "11C-14",
+      "german": "etw. beanspruchen",
+      "explanation": "Etwas offiziell verlangen oder nutzen.",
+      "synonyms": [],
+      "example": "Sie möchte ihre Abfindung in voller Höhe beanspruchen."
+    },
+    {
+      "id": "11C-15",
+      "german": "die Berechnung, -en",
+      "explanation": "Das Ergebnis, wenn man etwas genau ausrechnet.",
+      "synonyms": [],
+      "example": "Die Berechnung der Abfindung ist kompliziert."
+    },
+    {
+      "id": "11C-16",
+      "german": "betriebsbedingt",
+      "explanation": "Vom Unternehmen verursacht, nicht von der Person.",
+      "synonyms": [],
+      "example": "Die Kündigung ist betriebsbedingt wegen der Schließung."
+    },
+    {
+      "id": "11C-17",
+      "german": "etw. ein|bringen (z.B. Kenntnisse)",
+      "explanation": "Eigene Stärken oder Wissen aktiv nutzen.",
+      "synonyms": [],
+      "example": "Sie bringt ihre Sprachkenntnisse in die neue Stelle ein."
+    },
+    {
+      "id": "11C-18",
+      "german": "die Eingliederung, -en",
+      "explanation": "Wenn jemand wieder in Arbeit oder Gesellschaft aufgenommen wird.",
+      "synonyms": [],
+      "example": "Die Eingliederung in den Arbeitsmarkt wird unterstützt."
+    },
+    {
+      "id": "11C-19",
+      "german": "die Einhaltung (Sg.)",
+      "explanation": "Dass Regeln oder Fristen beachtet werden.",
+      "synonyms": [],
+      "example": "Die Einhaltung der Klagefrist ist sehr wichtig."
+    },
+    {
+      "id": "11C-20",
+      "german": "endgültig",
+      "explanation": "So, dass es sich nicht mehr ändert.",
+      "synonyms": [],
+      "example": "Die Schließung des Betriebs ist endgültig beschlossen."
+    },
+    {
+      "id": "11C-21",
+      "german": "führen zu (+ Dat.)",
+      "explanation": "Die Ursache für etwas sein.",
+      "synonyms": [],
+      "example": "Die Auslagerung führt zu Arbeitsplatzverlusten."
+    },
+    {
+      "id": "11C-22",
+      "german": "die Klage, -n",
+      "explanation": "Ein offizielles Verfahren, mit dem man vor Gericht sein Recht sucht.",
+      "synonyms": [],
+      "example": "Die Klage gegen die Kündigung hat Erfolg."
+    },
+    {
+      "id": "11C-23",
+      "german": "die Klagefrist, -en",
+      "explanation": "Die Zeit, in der man eine Klage einreichen darf.",
+      "synonyms": [],
+      "example": "Die Klagefrist beträgt in der Regel drei Wochen."
+    },
+    {
+      "id": "11C-24",
+      "german": "eine Klage ein|reichen",
+      "explanation": "Eine Klage offiziell beim Gericht abgeben.",
+      "synonyms": [],
+      "example": "Sie reicht eine Klage beim Arbeitsgericht ein."
+    },
+    {
+      "id": "11C-25",
+      "german": "eine Klage erheben",
+      "explanation": "Juristisch gegen etwas vorgehen.",
+      "synonyms": [],
+      "example": "Der Anwalt erhebt Klage gegen die Kündigung."
+    },
+    {
+      "id": "11C-26",
+      "german": "die Kündigungsfrist, -en",
+      "explanation": "Die Zeitspanne zwischen Kündigung und letztem Arbeitstag.",
+      "synonyms": [],
+      "example": "Die Kündigungsfrist beträgt vier Wochen zum Monatsende."
+    },
+    {
+      "id": "11C-27",
+      "german": "das Kündigungsschreiben, –",
+      "explanation": "Ein Brief, in dem die Beendigung des Arbeitsverhältnisses steht.",
+      "synonyms": [],
+      "example": "Im Kündigungsschreiben steht das Datum des Austritts."
+    },
+    {
+      "id": "11C-28",
+      "german": "möglicherweise",
+      "explanation": "Vielleicht oder unter bestimmten Umständen.",
+      "synonyms": [],
+      "example": "Möglicherweise gibt es noch andere Stellen im Unternehmen."
+    },
+    {
+      "id": "11C-29",
+      "german": "die Schließung, -en",
+      "explanation": "Wenn ein Betrieb oder eine Abteilung endgültig aufhört.",
+      "synonyms": [],
+      "example": "Die Schließung des Standorts betrifft viele Mitarbeitende."
+    },
+    {
+      "id": "11C-30",
+      "german": "die Sperrzeit, -en",
+      "explanation": "Ein Zeitraum, in dem man kein Arbeitslosengeld bekommt.",
+      "synonyms": [],
+      "example": "Bei Eigenkündigung kann eine Sperrzeit verhängt werden."
+    },
+    {
+      "id": "11C-31",
+      "german": "der Umbruch, \"-e",
+      "explanation": "Eine starke Veränderung oder Neugestaltung.",
+      "synonyms": [],
+      "example": "Die Schließung bedeutet einen großen Umbruch im Leben vieler Beschäftigter."
+    },
+    {
+      "id": "11C-32",
+      "german": "sich verbessern",
+      "explanation": "Bessere Bedingungen oder Chancen bekommen.",
+      "synonyms": [],
+      "example": "Mit einer neuen Stelle kann sich ihre Situation deutlich verbessern."
+    },
+    {
+      "id": "11C-33",
+      "german": "vermutlich",
+      "explanation": "Wahrscheinlich, aber nicht ganz sicher.",
+      "synonyms": [],
+      "example": "Vermutlich wird das Arbeitsgericht zugunsten der Klägerin entscheiden."
+    },
+    {
+      "id": "11C-34",
+      "german": "der Verstoß, \"-e",
+      "explanation": "Eine Handlung gegen ein Gesetz oder eine Regel.",
+      "synonyms": [],
+      "example": "Die Kündigung ist ein Verstoß gegen das Arbeitsrecht."
+    },
+    {
+      "id": "11C-35",
+      "german": "verstreichen",
+      "explanation": "Ohne Nutzung vorbeigehen.",
+      "synonyms": [],
+      "example": "Die Klagefrist darf nicht ungenutzt verstreichen."
+    },
+    {
+      "id": "11C-36",
+      "german": "wahrscheinlich",
+      "explanation": "Sehr gut möglich, dass etwas so ist.",
+      "synonyms": [],
+      "example": "Wahrscheinlich findet sie bald eine neue Anstellung."
+    },
+    {
+      "id": "11C-37",
+      "german": "weg|fallen",
+      "explanation": "Nicht mehr vorhanden sein oder nicht mehr stattfinden.",
+      "synonyms": [],
+      "example": "Durch die Schließung fällt ihr Arbeitsplatz weg."
+    },
+    {
+      "id": "11C-38",
+      "german": "sich wehren gegen (+ Akk.)",
+      "explanation": "Versuchen, etwas nicht zu akzeptieren.",
+      "synonyms": [],
+      "example": "Die Beschäftigten wehren sich gegen die betriebsbedingte Kündigung."
+    },
+    {
+      "id": "11C-39",
+      "german": "weiterhin",
+      "explanation": "Auch in Zukunft oder noch immer.",
+      "synonyms": [],
+      "example": "Sie möchte weiterhin in Vollzeit arbeiten."
+    },
+    {
+      "id": "11C-40",
+      "german": "jdn. zwingen (sich gezwungen sehen)",
+      "explanation": "Jemandem keine andere Wahl lassen.",
+      "synonyms": [],
+      "example": "Sie sieht sich gezwungen, eine Klage zu erheben."
+    }
+  ]
+}

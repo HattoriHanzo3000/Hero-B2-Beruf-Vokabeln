@@ -1,0 +1,264 @@
+{
+  "sectionId": "7C",
+  "words": [
+    {
+      "id": "7C-1",
+      "german": "angespannt",
+      "explanation": "Wenn man nervös oder gestresst ist.",
+      "synonyms": [],
+      "example": "Die Situation war sehr angespannt."
+    },
+    {
+      "id": "7C-2",
+      "german": "anregend",
+      "explanation": "Etwas, das interessant ist und zum Nachdenken bringt.",
+      "synonyms": [],
+      "example": "Das Gespräch war sehr anregend."
+    },
+    {
+      "id": "7C-3",
+      "german": "das Arbeitsklima (Sg.)",
+      "explanation": "Wie die Stimmung und das Miteinander bei der Arbeit ist.",
+      "synonyms": [],
+      "example": "Das Arbeitsklima in der Firma ist sehr gut."
+    },
+    {
+      "id": "7C-4",
+      "german": "die Atmosphäre (Sg.)",
+      "explanation": "Die Stimmung an einem Ort oder in einer Situation.",
+      "synonyms": [],
+      "example": "Die Atmosphäre im Team ist entspannt."
+    },
+    {
+      "id": "7C-5",
+      "german": "Aufgaben erfüllen",
+      "explanation": "Die Arbeit machen, die man machen muss.",
+      "synonyms": [],
+      "example": "Er erfüllt alle Aufgaben pünktlich."
+    },
+    {
+      "id": "7C-6",
+      "german": "ausführlich",
+      "explanation": "Sehr genau und mit vielen Details.",
+      "synonyms": [],
+      "example": "Sie erklärt alles sehr ausführlich."
+    },
+    {
+      "id": "7C-7",
+      "german": "befreiend",
+      "explanation": "Etwas, das einem ein gutes Gefühl gibt und erleichtert.",
+      "synonyms": [],
+      "example": "Es war befreiend, endlich darüber zu sprechen."
+    },
+    {
+      "id": "7C-8",
+      "german": "etw./jdn. beurteilen",
+      "explanation": "Sich eine Meinung über etwas oder jemanden bilden.",
+      "synonyms": [],
+      "example": "Der Chef muss die Leistung der Mitarbeiter beurteilen."
+    },
+    {
+      "id": "7C-9",
+      "german": "etw. bewerten",
+      "explanation": "Einschätzen, wie gut oder schlecht etwas ist.",
+      "synonyms": [],
+      "example": "Sie bewertet die Arbeit ihrer Kollegen."
+    },
+    {
+      "id": "7C-10",
+      "german": "ehrlich",
+      "explanation": "Wenn man die Wahrheit sagt und nicht lügt.",
+      "synonyms": [],
+      "example": "Er ist immer ehrlich zu seinen Kollegen."
+    },
+    {
+      "id": "7C-11",
+      "german": "einfühlsam",
+      "explanation": "Wenn man versteht, wie andere sich fühlen.",
+      "synonyms": [],
+      "example": "Sie ist sehr einfühlsam mit ihren Mitarbeitern."
+    },
+    {
+      "id": "7C-12",
+      "german": "emotional",
+      "explanation": "Wenn man starke Gefühle zeigt.",
+      "synonyms": [],
+      "example": "Die Diskussion wurde sehr emotional."
+    },
+    {
+      "id": "7C-13",
+      "german": "ernst",
+      "explanation": "Wenn etwas wichtig oder gefährlich ist.",
+      "synonyms": [],
+      "example": "Die Situation ist sehr ernst."
+    },
+    {
+      "id": "7C-14",
+      "german": "etw. erreichen",
+      "explanation": "Ein Ziel schaffen oder etwas bekommen.",
+      "synonyms": [],
+      "example": "Sie möchte ihre Ziele erreichen."
+    },
+    {
+      "id": "7C-15",
+      "german": "etw. zur Diskussion stellen",
+      "explanation": "Etwas zum Thema machen, damit alle darüber reden können.",
+      "synonyms": [],
+      "example": "Er stellt das Problem zur Diskussion."
+    },
+    {
+      "id": "7C-16",
+      "german": "Feedback geben",
+      "explanation": "Jemandem sagen, was gut oder schlecht war.",
+      "synonyms": [],
+      "example": "Der Chef gibt regelmäßig Feedback."
+    },
+    {
+      "id": "7C-17",
+      "german": "das Feedback, -s",
+      "explanation": "Eine Rückmeldung darüber, was gut oder schlecht war.",
+      "synonyms": [],
+      "example": "Das Feedback war sehr hilfreich."
+    },
+    {
+      "id": "7C-18",
+      "german": "Fragen stellen",
+      "explanation": "Etwas fragen, um mehr zu erfahren.",
+      "synonyms": [],
+      "example": "Sie stellt viele Fragen in der Besprechung."
+    },
+    {
+      "id": "7C-19",
+      "german": "die Führungskraft, \"-e",
+      "explanation": "Eine Person, die andere bei der Arbeit führt und leitet.",
+      "synonyms": [],
+      "example": "Die Führungskraft erklärt die neuen Regeln."
+    },
+    {
+      "id": "7C-20",
+      "german": "die Gelegenheit ergreifen",
+      "explanation": "Eine Chance nutzen, wenn sie sich bietet.",
+      "synonyms": [],
+      "example": "Sie ergreift die Gelegenheit, um ihre Idee vorzustellen."
+    },
+    {
+      "id": "7C-21",
+      "german": "harmonisch",
+      "explanation": "Wenn alles gut zusammenpasst und es keine Probleme gibt.",
+      "synonyms": [],
+      "example": "Die Zusammenarbeit ist sehr harmonisch."
+    },
+    {
+      "id": "7C-22",
+      "german": "hitzig",
+      "explanation": "Wenn eine Diskussion sehr leidenschaftlich und aufregend wird.",
+      "synonyms": [],
+      "example": "Die Diskussion wurde sehr hitzig."
+    },
+    {
+      "id": "7C-23",
+      "german": "in Wut geraten",
+      "explanation": "Sehr wütend werden.",
+      "synonyms": [],
+      "example": "Er gerät in Wut, wenn jemand zu spät kommt."
+    },
+    {
+      "id": "7C-24",
+      "german": "klärend",
+      "explanation": "Etwas, das hilft, ein Problem oder eine Situation zu verstehen.",
+      "synonyms": [],
+      "example": "Das Gespräch war sehr klärend."
+    },
+    {
+      "id": "7C-25",
+      "german": "kollegial",
+      "explanation": "Wenn man freundlich und hilfsbereit mit Kollegen umgeht.",
+      "synonyms": [],
+      "example": "Das Team arbeitet sehr kollegial zusammen."
+    },
+    {
+      "id": "7C-26",
+      "german": "die Kooperationsfähigkeit (Sg.)",
+      "explanation": "Die Fähigkeit, gut mit anderen zusammenzuarbeiten.",
+      "synonyms": [],
+      "example": "Die Kooperationsfähigkeit ist in diesem Job wichtig."
+    },
+    {
+      "id": "7C-27",
+      "german": "Kritik üben",
+      "explanation": "Sagen, was man an etwas nicht gut findet.",
+      "synonyms": [],
+      "example": "Sie übt konstruktive Kritik an dem Vorschlag."
+    },
+    {
+      "id": "7C-28",
+      "german": "die Kundenorientierung (Sg.)",
+      "explanation": "Wenn man sich immer an den Wünschen der Kunden orientiert.",
+      "synonyms": [],
+      "example": "Die Kundenorientierung ist für die Firma sehr wichtig."
+    },
+    {
+      "id": "7C-29",
+      "german": "locker",
+      "explanation": "Entspannt und ohne Stress.",
+      "synonyms": [],
+      "example": "Die Atmosphäre im Team ist sehr locker."
+    },
+    {
+      "id": "7C-30",
+      "german": "offen",
+      "explanation": "Wenn man bereit ist, neue Dinge zu hören oder zu akzeptieren.",
+      "synonyms": [],
+      "example": "Sie ist offen für neue Ideen."
+    },
+    {
+      "id": "7C-31",
+      "german": "Protokoll führen",
+      "explanation": "Aufschreiben, was in einer Besprechung gesagt wurde.",
+      "synonyms": [],
+      "example": "Sie führt das Protokoll in der Sitzung."
+    },
+    {
+      "id": "7C-32",
+      "german": "die Rückmeldung, -en",
+      "explanation": "Eine Antwort oder Meinung zu etwas.",
+      "synonyms": [],
+      "example": "Die Rückmeldung vom Chef war positiv."
+    },
+    {
+      "id": "7C-33",
+      "german": "Vereinbarungen treffen",
+      "explanation": "Sich mit anderen auf etwas einigen.",
+      "synonyms": [],
+      "example": "Sie treffen Vereinbarungen für das nächste Projekt."
+    },
+    {
+      "id": "7C-34",
+      "german": "das Verhalten (Sg.)",
+      "explanation": "Wie jemand sich benimmt oder handelt.",
+      "synonyms": [],
+      "example": "Sein Verhalten im Team ist vorbildlich."
+    },
+    {
+      "id": "7C-35",
+      "german": "vertraulich",
+      "explanation": "Wenn etwas geheim bleibt und nicht weitererzählt wird.",
+      "synonyms": [],
+      "example": "Das Gespräch ist vertraulich."
+    },
+    {
+      "id": "7C-36",
+      "german": "das Zielvereinbarungsgespräch, -e",
+      "explanation": "Ein Gespräch, in dem man Ziele für die Arbeit bespricht.",
+      "synonyms": [],
+      "example": "Im Zielvereinbarungsgespräch werden die Ziele für das Jahr festgelegt."
+    },
+    {
+      "id": "7C-37",
+      "german": "zur Sprache kommen",
+      "explanation": "Wenn etwas besprochen oder erwähnt wird.",
+      "synonyms": [],
+      "example": "Das Problem kommt in der Besprechung zur Sprache."
+    }
+  ]
+}

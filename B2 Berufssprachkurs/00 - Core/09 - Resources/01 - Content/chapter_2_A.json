@@ -1,0 +1,320 @@
+{
+  "sectionId": "2A",
+  "words": [
+    {
+      "id": "2A-1",
+      "german": "die Arbeitslosenquote, -n",
+      "explanation": "Der Anteil der Menschen, die keine Arbeit haben.",
+      "synonyms": [],
+      "example": "Die Arbeitslosenquote ist in diesem Jahr gesunken."
+    },
+    {
+      "id": "2A-2",
+      "german": "auf|fallen",
+      "explanation": "Besonders bemerkt werden oder Aufmerksamkeit erregen.",
+      "synonyms": [],
+      "example": "Seine guten Leistungen fallen im Team auf."
+    },
+    {
+      "id": "2A-3",
+      "german": "das Baugewerbe (Sg.)",
+      "explanation": "Alle Unternehmen, die Gebäude bauen.",
+      "synonyms": [],
+      "example": "Das Baugewerbe sucht viele Fachkräfte."
+    },
+    {
+      "id": "2A-4",
+      "german": "etw. bearbeiten",
+      "explanation": "Etwas durcharbeiten oder sich damit beschäftigen.",
+      "synonyms": [],
+      "example": "Sie bearbeitet die Kundenanfragen."
+    },
+    {
+      "id": "2A-5",
+      "german": "etw./jdn. beaufsichtigen",
+      "explanation": "Auf etwas oder jemanden aufpassen und kontrollieren.",
+      "synonyms": [],
+      "example": "Der Meister beaufsichtigt die Auszubildenden."
+    },
+    {
+      "id": "2A-6",
+      "german": "befristet",
+      "explanation": "Nur für eine bestimmte Zeit gültig.",
+      "synonyms": [],
+      "example": "Der Arbeitsvertrag ist auf ein Jahr befristet."
+    },
+    {
+      "id": "2A-7",
+      "german": "der Beschäftigte, -n",
+      "explanation": "Ein Mann, der einen Job hat und arbeitet.",
+      "synonyms": [],
+      "example": "Der Beschäftigte arbeitet seit fünf Jahren in der Firma."
+    },
+    {
+      "id": "2A-8",
+      "german": "die Beschäftigte, -n",
+      "explanation": "Eine Frau, die einen Job hat und arbeitet.",
+      "synonyms": [],
+      "example": "Die Beschäftigte hat eine neue Stelle gefunden."
+    },
+    {
+      "id": "2A-9",
+      "german": "etw./jdn. betreuen",
+      "explanation": "Sich um etwas oder jemanden kümmern.",
+      "synonyms": [],
+      "example": "Sie betreut die Kunden im Servicebereich."
+    },
+    {
+      "id": "2A-10",
+      "german": "die Branche, -n",
+      "explanation": "Ein bestimmter Wirtschaftsbereich oder eine Industrie.",
+      "synonyms": [],
+      "example": "Die IT-Branche wächst sehr schnell."
+    },
+    {
+      "id": "2A-11",
+      "german": "die Dienstleistung, -en",
+      "explanation": "Eine Leistung, die man für andere erbringt, zum Beispiel Beratung oder Service.",
+      "synonyms": [],
+      "example": "Das Unternehmen bietet verschiedene Dienstleistungen an."
+    },
+    {
+      "id": "2A-12",
+      "german": "die Finanzbranche (Sg.)",
+      "explanation": "Alle Unternehmen, die mit Geld und Finanzen arbeiten.",
+      "synonyms": [],
+      "example": "Die Finanzbranche sucht viele Fachkräfte."
+    },
+    {
+      "id": "2A-13",
+      "german": "der Fluggerätemechaniker, –",
+      "explanation": "Ein Mann, der Flugzeuge repariert und wartet.",
+      "synonyms": [],
+      "example": "Der Fluggerätemechaniker prüft die Flugzeuge vor jedem Flug."
+    },
+    {
+      "id": "2A-14",
+      "german": "die Fluggerätemechanikerin, -nen",
+      "explanation": "Eine Frau, die Flugzeuge repariert und wartet.",
+      "synonyms": [],
+      "example": "Die Fluggerätemechanikerin arbeitet in der Wartungshalle."
+    },
+    {
+      "id": "2A-15",
+      "german": "das Gastgewerbe (Sg.)",
+      "explanation": "Alle Unternehmen, die Gäste bewirten, wie Hotels und Restaurants.",
+      "synonyms": [],
+      "example": "Das Gastgewerbe hat viele offene Stellen."
+    },
+    {
+      "id": "2A-16",
+      "german": "das Gesundheitswesen (Sg.)",
+      "explanation": "Alles, was mit Gesundheit und medizinischer Versorgung zu tun hat.",
+      "synonyms": [],
+      "example": "Das Gesundheitswesen braucht viele Pflegekräfte."
+    },
+    {
+      "id": "2A-17",
+      "german": "das Gewerbe (Sg.)",
+      "explanation": "Ein bestimmter Wirtschaftsbereich oder eine Branche.",
+      "synonyms": [],
+      "example": "Das produzierende Gewerbe stellt Waren her."
+    },
+    {
+      "id": "2A-18",
+      "german": "die Gleitzeit (Sg.)",
+      "explanation": "Wenn man selbst bestimmen kann, wann man anfängt und aufhört zu arbeiten.",
+      "synonyms": [],
+      "example": "In diesem Job gibt es Gleitzeit."
+    },
+    {
+      "id": "2A-19",
+      "german": "der Handel (Sg.)",
+      "explanation": "Das Kaufen und Verkaufen von Waren.",
+      "synonyms": [],
+      "example": "Der Handel mit anderen Ländern wächst."
+    },
+    {
+      "id": "2A-20",
+      "german": "das Handwerk (Sg.)",
+      "explanation": "Berufe, bei denen man mit den Händen arbeitet, wie Schreiner oder Elektriker.",
+      "synonyms": [],
+      "example": "Das Handwerk sucht viele Auszubildende."
+    },
+    {
+      "id": "2A-21",
+      "german": "hervor|gehen aus (+ Dat.)",
+      "explanation": "Aus etwas folgen oder sich aus etwas ergeben.",
+      "synonyms": [],
+      "example": "Aus der Statistik geht hervor, dass die Arbeitslosigkeit sinkt."
+    },
+    {
+      "id": "2A-22",
+      "german": "das Homeoffice (Sg.)",
+      "explanation": "Wenn man von zu Hause aus arbeitet.",
+      "synonyms": [],
+      "example": "Viele Mitarbeiter arbeiten im Homeoffice."
+    },
+    {
+      "id": "2A-23",
+      "german": "Hotel und Gastronomie (Sg.)",
+      "explanation": "Alle Unternehmen, die Gäste bewirten, wie Hotels und Restaurants.",
+      "synonyms": [],
+      "example": "Hotel und Gastronomie bieten viele Arbeitsplätze."
+    },
+    {
+      "id": "2A-24",
+      "german": "die IT-Branche (Sg.)",
+      "explanation": "Alle Unternehmen, die mit Computern und Informationstechnik arbeiten.",
+      "synonyms": [],
+      "example": "Die IT-Branche sucht viele Programmierer."
+    },
+    {
+      "id": "2A-25",
+      "german": "kaufmännisch",
+      "explanation": "Alles, was mit Handel, Verkauf und Büroarbeit zu tun hat.",
+      "synonyms": [],
+      "example": "Sie hat eine kaufmännische Ausbildung gemacht."
+    },
+    {
+      "id": "2A-26",
+      "german": "die Konjunktur (Sg.)",
+      "explanation": "Die wirtschaftliche Lage und Entwicklung eines Landes.",
+      "synonyms": [],
+      "example": "Die Konjunktur ist in diesem Jahr gut."
+    },
+    {
+      "id": "2A-27",
+      "german": "die Lagerlogistik (Sg.)",
+      "explanation": "Die Organisation und Verwaltung von Waren im Lager.",
+      "synonyms": [],
+      "example": "Die Lagerlogistik sorgt für die richtige Lagerung der Produkte."
+    },
+    {
+      "id": "2A-28",
+      "german": "die Land- und Forstwirtschaft (Sg.)",
+      "explanation": "Alles, was mit Landwirtschaft und Forstwirtschaft zu tun hat.",
+      "synonyms": [],
+      "example": "Die Land- und Forstwirtschaft bietet viele Arbeitsplätze."
+    },
+    {
+      "id": "2A-29",
+      "german": "(den Schluss) nahe|legen",
+      "explanation": "Etwas vermuten lassen oder auf etwas hindeuten.",
+      "synonyms": [],
+      "example": "Die Zahlen legen den Schluss nahe, dass die Wirtschaft wächst."
+    },
+    {
+      "id": "2A-30",
+      "german": "das Pflegeheim, -e",
+      "explanation": "Ein Ort, wo alte oder kranke Menschen gepflegt werden.",
+      "synonyms": [],
+      "example": "Im Pflegeheim arbeiten viele Pflegekräfte."
+    },
+    {
+      "id": "2A-31",
+      "german": "produzierendes Gewerbe",
+      "explanation": "Alle Unternehmen, die Waren und Produkte herstellen.",
+      "synonyms": [],
+      "example": "Das produzierende Gewerbe ist wichtig für die Wirtschaft."
+    },
+    {
+      "id": "2A-32",
+      "german": "die Reservierung, -en",
+      "explanation": "Eine Vorbestellung, zum Beispiel für einen Tisch oder ein Hotelzimmer.",
+      "synonyms": [],
+      "example": "Die Reservierung für das Restaurant ist bestätigt."
+    },
+    {
+      "id": "2A-33",
+      "german": "die Schichtarbeit (Sg.)",
+      "explanation": "Wenn man zu verschiedenen Zeiten arbeitet, zum Beispiel früh, spät oder nachts.",
+      "synonyms": [],
+      "example": "Die Schichtarbeit ist in der Produktion üblich."
+    },
+    {
+      "id": "2A-34",
+      "german": "der Server, –",
+      "explanation": "Ein Computer, der Daten speichert und anderen Computern zur Verfügung stellt.",
+      "synonyms": [],
+      "example": "Der Server speichert alle wichtigen Daten."
+    },
+    {
+      "id": "2A-35",
+      "german": "sozialversicherungspflichtig",
+      "explanation": "Wenn man in der Sozialversicherung versichert sein muss.",
+      "synonyms": [],
+      "example": "Die Stelle ist sozialversicherungspflichtig."
+    },
+    {
+      "id": "2A-36",
+      "german": "stabil",
+      "explanation": "Fest und sicher, ohne große Veränderungen.",
+      "synonyms": [],
+      "example": "Die wirtschaftliche Lage ist stabil."
+    },
+    {
+      "id": "2A-37",
+      "german": "die Teilzeit (Sg.)",
+      "explanation": "Wenn man weniger als die normale Arbeitszeit arbeitet.",
+      "synonyms": [],
+      "example": "Sie arbeitet in Teilzeit, 20 Stunden pro Woche."
+    },
+    {
+      "id": "2A-38",
+      "german": "etw. überwachen",
+      "explanation": "Etwas kontrollieren und beobachten.",
+      "synonyms": [],
+      "example": "Die Sicherheitskamera überwacht den Eingang."
+    },
+    {
+      "id": "2A-39",
+      "german": "etw. verwalten",
+      "explanation": "Etwas organisieren und verantwortlich sein.",
+      "synonyms": [],
+      "example": "Sie verwaltet die Finanzen des Unternehmens."
+    },
+    {
+      "id": "2A-40",
+      "german": "die Vollzeit (Sg.)",
+      "explanation": "Wenn man die normale Arbeitszeit arbeitet, meist 40 Stunden pro Woche.",
+      "synonyms": [],
+      "example": "Er arbeitet in Vollzeit."
+    },
+    {
+      "id": "2A-41",
+      "german": "der Vollzeitjob, -s",
+      "explanation": "Ein Job, bei dem man die normale Arbeitszeit arbeitet.",
+      "synonyms": [],
+      "example": "Sie sucht einen Vollzeitjob."
+    },
+    {
+      "id": "2A-42",
+      "german": "etw. warten (z.B. eine Maschine)",
+      "explanation": "Etwas reparieren und in Ordnung halten.",
+      "synonyms": [],
+      "example": "Der Mechaniker wartet die Maschinen regelmäßig."
+    },
+    {
+      "id": "2A-43",
+      "german": "die Wirtschaftsbranche (Sg.)",
+      "explanation": "Ein bestimmter Bereich der Wirtschaft.",
+      "synonyms": [],
+      "example": "Die Wirtschaftsbranche entwickelt sich positiv."
+    },
+    {
+      "id": "2A-44",
+      "german": "etw. zu|bereiten",
+      "explanation": "Essen kochen oder vorbereiten.",
+      "synonyms": [],
+      "example": "Der Koch bereitet das Essen für die Gäste zu."
+    },
+    {
+      "id": "2A-45",
+      "german": "die Zuverlässigkeit (Sg.)",
+      "explanation": "Wenn man sich auf jemanden oder etwas verlassen kann.",
+      "synonyms": [],
+      "example": "Ihre Zuverlässigkeit ist sehr wichtig für das Team."
+    }
+  ]
+}

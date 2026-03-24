@@ -1,0 +1,257 @@
+{
+  "sectionId": "9C",
+  "words": [
+    {
+      "id": "9C-1",
+      "german": "die Anfahrt, -en",
+      "explanation": "Der Weg, den man zu einem Ort fährt.",
+      "synonyms": [],
+      "example": "Die Anfahrt zur Werkstatt dauert etwa 20 Minuten."
+    },
+    {
+      "id": "9C-2",
+      "german": "die Anschaffung, -en",
+      "explanation": "Etwas, das man neu kauft.",
+      "synonyms": [],
+      "example": "Die Anschaffung der neuen Maschine war teuer."
+    },
+    {
+      "id": "9C-3",
+      "german": "der Aufpreis, -e",
+      "explanation": "Ein zusätzlicher Betrag, den man extra zahlen muss.",
+      "synonyms": [],
+      "example": "Für die Garantieverlängerung fällt ein Aufpreis an."
+    },
+    {
+      "id": "9C-4",
+      "german": "aus|gehen von (+ Dat.)",
+      "explanation": "Etwas als Basis oder Annahme nehmen.",
+      "synonyms": [],
+      "example": "Wir gehen davon aus, dass das Gerät ordnungsgemäß benutzt wurde."
+    },
+    {
+      "id": "9C-5",
+      "german": "etw. beinhalten",
+      "explanation": "Etwas enthalten oder einschließen.",
+      "synonyms": [],
+      "example": "Die Garantie beinhaltet eine kostenlose Reparatur."
+    },
+    {
+      "id": "9C-6",
+      "german": "etw. beseitigen",
+      "explanation": "Etwas entfernen oder ein Problem lösen.",
+      "synonyms": [],
+      "example": "Die Firma beseitigt die Mängel innerhalb einer Woche."
+    },
+    {
+      "id": "9C-7",
+      "german": "die Beteiligung, -en",
+      "explanation": "Der Anteil, den jemand bei Kosten oder Arbeit übernimmt.",
+      "synonyms": [],
+      "example": "Die Beteiligung des Händlers an den Kosten ist freiwillig."
+    },
+    {
+      "id": "9C-8",
+      "german": "defekt",
+      "explanation": "Kaputt oder nicht funktionsfähig.",
+      "synonyms": [],
+      "example": "Das Gerät ist defekt und muss repariert werden."
+    },
+    {
+      "id": "9C-9",
+      "german": "erfolgen",
+      "explanation": "Passieren oder durchgeführt werden.",
+      "synonyms": [],
+      "example": "Die Reparatur erfolgt innerhalb der Garantiezeit."
+    },
+    {
+      "id": "9C-10",
+      "german": "das Fachgeschäft, -e",
+      "explanation": "Ein Laden, der sich auf bestimmte Produkte spezialisiert.",
+      "synonyms": [],
+      "example": "Im Fachgeschäft erhalten Sie eine gute Beratung."
+    },
+    {
+      "id": "9C-11",
+      "german": "der Fehlercode, -s",
+      "explanation": "Eine Nummer oder ein Text, der einen Fehler im Gerät zeigt.",
+      "synonyms": [],
+      "example": "Der Fehlercode hilft dem Techniker bei der Diagnose."
+    },
+    {
+      "id": "9C-12",
+      "german": "die Frachtkosten (Pl.)",
+      "explanation": "Die Kosten für den Transport einer Ware.",
+      "synonyms": [],
+      "example": "Die Frachtkosten übernimmt in diesem Fall der Hersteller."
+    },
+    {
+      "id": "9C-13",
+      "german": "freiwillig",
+      "explanation": "Ohne Pflicht und aus eigenem Wunsch.",
+      "synonyms": [],
+      "example": "Der Händler bietet freiwillig eine zusätzliche Garantie an."
+    },
+    {
+      "id": "9C-14",
+      "german": "die Garantie, -n",
+      "explanation": "Das Versprechen, dass ein Produkt für eine bestimmte Zeit funktioniert.",
+      "synonyms": [],
+      "example": "Die Garantie gilt zwei Jahre ab Kaufzeitpunkt."
+    },
+    {
+      "id": "9C-15",
+      "german": "die Garantieverlängerung, -en",
+      "explanation": "Wenn die Garantiezeit über den normalen Zeitraum hinaus verlängert wird.",
+      "synonyms": [],
+      "example": "Für einen Aufpreis ist eine Garantieverlängerung möglich."
+    },
+    {
+      "id": "9C-16",
+      "german": "gesetzlich",
+      "explanation": "So, wie es im Gesetz steht.",
+      "synonyms": [],
+      "example": "Die gesetzliche Gewährleistung beträgt zwei Jahre."
+    },
+    {
+      "id": "9C-17",
+      "german": "die Gesprächsnotiz, -en",
+      "explanation": "Kurze schriftliche Zusammenfassung eines Gesprächs.",
+      "synonyms": [],
+      "example": "Die Gesprächsnotiz wird zur Akte gelegt."
+    },
+    {
+      "id": "9C-18",
+      "german": "gewährleisten",
+      "explanation": "Sicherstellen, dass etwas garantiert ist.",
+      "synonyms": [],
+      "example": "Der Hersteller gewährleistet die Funktionsfähigkeit des Geräts."
+    },
+    {
+      "id": "9C-19",
+      "german": "die Gewährleistung, -en",
+      "explanation": "Die gesetzliche Pflicht, ein fehlerhaftes Produkt zu reparieren oder zu ersetzen.",
+      "synonyms": [],
+      "example": "Die Gewährleistung deckt nur bestimmte Schäden ab."
+    },
+    {
+      "id": "9C-20",
+      "german": "der Händler, –",
+      "explanation": "Ein Mann, der Waren verkauft.",
+      "synonyms": [],
+      "example": "Der Händler ist Ihr erster Ansprechpartner bei Reklamationen."
+    },
+    {
+      "id": "9C-21",
+      "german": "die Händlerin, -nen",
+      "explanation": "Eine Frau, die Waren verkauft.",
+      "synonyms": [],
+      "example": "Die Händlerin erklärt die Garantiebedingungen."
+    },
+    {
+      "id": "9C-22",
+      "german": "die Herstellergarantie, -n",
+      "explanation": "Eine Garantie, die direkt vom Hersteller gegeben wird.",
+      "synonyms": [],
+      "example": "Die Herstellergarantie gilt weltweit."
+    },
+    {
+      "id": "9C-23",
+      "german": "der Kaufzeitpunkt, -e",
+      "explanation": "Der genaue Zeitpunkt, an dem etwas gekauft wurde.",
+      "synonyms": [],
+      "example": "Ab dem Kaufzeitpunkt läuft die Garantie."
+    },
+    {
+      "id": "9C-24",
+      "german": "Kosten übernehmen",
+      "explanation": "Die Bezahlung für etwas auf sich nehmen.",
+      "synonyms": [],
+      "example": "Die Firma übernimmt die Kosten für den Versand."
+    },
+    {
+      "id": "9C-25",
+      "german": "kulant",
+      "explanation": "Großzügig und kundenfreundlich in einer schwierigen Situation.",
+      "synonyms": [],
+      "example": "Der Händler reagiert sehr kulant auf die Reklamation."
+    },
+    {
+      "id": "9C-26",
+      "german": "der Kundenservice, -s",
+      "explanation": "Die Abteilung, die Kunden bei Fragen und Problemen hilft.",
+      "synonyms": [],
+      "example": "Der Kundenservice ist telefonisch gut erreichbar."
+    },
+    {
+      "id": "9C-27",
+      "german": "die Mängelbeseitigung, -en",
+      "explanation": "Wenn vorhandene Fehler repariert oder entfernt werden.",
+      "synonyms": [],
+      "example": "Die Mängelbeseitigung erfolgt innerhalb von zehn Tagen."
+    },
+    {
+      "id": "9C-28",
+      "german": "das Missverständnis, -se",
+      "explanation": "Eine falsche oder nicht klare Verständigung.",
+      "synonyms": [],
+      "example": "Das Problem entstand durch ein Missverständnis."
+    },
+    {
+      "id": "9C-29",
+      "german": "etw. nach|weisen",
+      "explanation": "Mit Dokumenten zeigen, dass etwas stimmt.",
+      "synonyms": [],
+      "example": "Sie muss den Kauf mit der Rechnung nachweisen."
+    },
+    {
+      "id": "9C-30",
+      "german": "der Nachweis, -e",
+      "explanation": "Ein Dokument oder Beleg, der etwas bestätigt.",
+      "synonyms": [],
+      "example": "Als Nachweis dient die Originalquittung."
+    },
+    {
+      "id": "9C-31",
+      "german": "ordnungsgemäß",
+      "explanation": "So, wie es die Regeln oder Anweisungen verlangen.",
+      "synonyms": [],
+      "example": "Das Gerät wurde ordnungsgemäß installiert."
+    },
+    {
+      "id": "9C-32",
+      "german": "etw. reklamieren",
+      "explanation": "Sich offiziell über ein Produkt beschweren.",
+      "synonyms": [],
+      "example": "Der Kunde reklamiert den Defekt innerhalb der Frist."
+    },
+    {
+      "id": "9C-33",
+      "german": "verantwortlich für (+ Akk.)",
+      "explanation": "Die Pflicht haben, sich um etwas zu kümmern.",
+      "synonyms": [],
+      "example": "Der Händler ist verantwortlich für die Gewährleistung."
+    },
+    {
+      "id": "9C-34",
+      "german": "die Verlängerung, -en",
+      "explanation": "Wenn etwas länger dauern darf als zuerst geplant.",
+      "synonyms": [],
+      "example": "Die Verlängerung der Garantie muss schriftlich vereinbart werden."
+    },
+    {
+      "id": "9C-35",
+      "german": "jdm. etw. versichern",
+      "explanation": "Jemandem etwas mit Nachdruck und Sicherheit sagen.",
+      "synonyms": [],
+      "example": "Wir versichern Ihnen, dass wir das Problem ernst nehmen."
+    },
+    {
+      "id": "9C-36",
+      "german": "der Zustand (Sg.)",
+      "explanation": "Wie etwas im Moment aussieht oder funktioniert.",
+      "synonyms": [],
+      "example": "Der Zustand des Geräts ist bei der Übergabe einwandfrei."
+    }
+  ]
+}

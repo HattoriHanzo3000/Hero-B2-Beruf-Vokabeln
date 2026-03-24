@@ -1,0 +1,208 @@
+{
+  "sectionId": "7A",
+  "words": [
+    {
+      "id": "7A-1",
+      "german": "die Bedienbarkeit (Sg.)",
+      "explanation": "Wie einfach es ist, etwas zu benutzen.",
+      "synonyms": [],
+      "example": "Die Bedienbarkeit des neuen Geräts ist sehr gut."
+    },
+    {
+      "id": "7A-2",
+      "german": "etw./jdn. bedienen",
+      "explanation": "Etwas benutzen oder jemandem helfen.",
+      "synonyms": [],
+      "example": "Er kann die Maschine problemlos bedienen."
+    },
+    {
+      "id": "7A-3",
+      "german": "benutzerfreundlich",
+      "explanation": "Einfach zu benutzen und verstehen.",
+      "synonyms": [],
+      "example": "Die App ist sehr benutzerfreundlich."
+    },
+    {
+      "id": "7A-4",
+      "german": "die Beseitigung (Sg.)",
+      "explanation": "Wenn man etwas wegmacht oder entfernt.",
+      "synonyms": [],
+      "example": "Die Beseitigung des Problems dauerte lange."
+    },
+    {
+      "id": "7A-5",
+      "german": "etw. betreiben",
+      "explanation": "Etwas in Gang halten oder führen.",
+      "synonyms": [],
+      "example": "Das Unternehmen möchte eine neue Filiale betreiben."
+    },
+    {
+      "id": "7A-6",
+      "german": "die Checkliste, -n",
+      "explanation": "Eine Liste mit Dingen, die man abhaken kann.",
+      "synonyms": [],
+      "example": "Vor dem Start prüft er die Checkliste."
+    },
+    {
+      "id": "7A-7",
+      "german": "das Design, -s",
+      "explanation": "Wie etwas aussieht und gestaltet ist.",
+      "synonyms": [],
+      "example": "Das Design des Produkts gefällt vielen Kunden."
+    },
+    {
+      "id": "7A-8",
+      "german": "effizient",
+      "explanation": "Schnell und gut, ohne Verschwendung.",
+      "synonyms": [],
+      "example": "Die neue Methode ist viel effizienter."
+    },
+    {
+      "id": "7A-9",
+      "german": "etw. ein|stellen",
+      "explanation": "Etwas so einrichten, dass es funktioniert.",
+      "synonyms": [],
+      "example": "Sie muss die Maschine richtig einstellen."
+    },
+    {
+      "id": "7A-10",
+      "german": "haltbar",
+      "explanation": "Etwas, das lange hält und nicht kaputt geht.",
+      "synonyms": [],
+      "example": "Dieses Material ist sehr haltbar."
+    },
+    {
+      "id": "7A-11",
+      "german": "die Haltbarkeit (Sg.)",
+      "explanation": "Wie lange etwas hält und funktioniert.",
+      "synonyms": [],
+      "example": "Die Haltbarkeit des Produkts ist sehr gut."
+    },
+    {
+      "id": "7A-12",
+      "german": "das Image (Sg.)",
+      "explanation": "Wie andere Menschen über etwas oder jemanden denken.",
+      "synonyms": [],
+      "example": "Das Image der Firma ist sehr positiv."
+    },
+    {
+      "id": "7A-13",
+      "german": "die Kundenbewertung, -en",
+      "explanation": "Was Kunden über ein Produkt oder eine Firma schreiben.",
+      "synonyms": [],
+      "example": "Die Kundenbewertung zeigt, dass das Produkt gut ist."
+    },
+    {
+      "id": "7A-14",
+      "german": "langlebig",
+      "explanation": "Etwas, das sehr lange hält und nicht schnell kaputt geht.",
+      "synonyms": [],
+      "example": "Diese Möbel sind besonders langlebig."
+    },
+    {
+      "id": "7A-15",
+      "german": "der Mangel, \"–",
+      "explanation": "Wenn etwas fehlt oder nicht genug da ist.",
+      "synonyms": [],
+      "example": "Es gibt einen Mangel an qualifizierten Mitarbeitern."
+    },
+    {
+      "id": "7A-16",
+      "german": "die Nachhaltigkeit (Sg.)",
+      "explanation": "Wenn man so arbeitet, dass es auch in Zukunft gut für die Umwelt ist.",
+      "synonyms": [],
+      "example": "Die Nachhaltigkeit ist für viele Kunden wichtig."
+    },
+    {
+      "id": "7A-17",
+      "german": "das Preis-Leistungs-Verhältnis, -se",
+      "explanation": "Ob der Preis für das, was man bekommt, gut ist.",
+      "synonyms": [],
+      "example": "Das Preis-Leistungs-Verhältnis ist sehr gut."
+    },
+    {
+      "id": "7A-18",
+      "german": "das Qualitätsmanagement (Sg.)",
+      "explanation": "Alles, was man macht, damit die Qualität gut bleibt.",
+      "synonyms": [],
+      "example": "Das Qualitätsmanagement verbessert die Produkte."
+    },
+    {
+      "id": "7A-19",
+      "german": "das Qualitätsmerkmal, -e",
+      "explanation": "Etwas, das zeigt, wie gut ein Produkt ist.",
+      "synonyms": [],
+      "example": "Die Haltbarkeit ist ein wichtiges Qualitätsmerkmal."
+    },
+    {
+      "id": "7A-20",
+      "german": "die Qualitätssicherung (Sg.)",
+      "explanation": "Wenn man prüft, ob die Qualität gut genug ist.",
+      "synonyms": [],
+      "example": "Die Qualitätssicherung findet vor dem Verkauf statt."
+    },
+    {
+      "id": "7A-21",
+      "german": "die Pauschalreise, -n",
+      "explanation": "Eine Reise, bei der alles zusammen im Preis enthalten ist.",
+      "synonyms": [],
+      "example": "Sie bucht eine Pauschalreise nach Spanien."
+    },
+    {
+      "id": "7A-22",
+      "german": "das Regalbrett, -er",
+      "explanation": "Ein flaches Stück, das in ein Regal passt.",
+      "synonyms": [],
+      "example": "Das Regalbrett ist zu schmal für die Bücher."
+    },
+    {
+      "id": "7A-23",
+      "german": "die Sägemaschine, -n",
+      "explanation": "Eine Maschine, die Holz oder andere Materialien schneidet.",
+      "synonyms": [],
+      "example": "Die Sägemaschine ist sehr laut."
+    },
+    {
+      "id": "7A-24",
+      "german": "die Umweltfreundlichkeit (Sg.)",
+      "explanation": "Wie gut etwas für die Umwelt ist.",
+      "synonyms": [],
+      "example": "Die Umweltfreundlichkeit des Produkts ist wichtig."
+    },
+    {
+      "id": "7A-25",
+      "german": "etw. vermeiden",
+      "explanation": "Etwas nicht machen oder verhindern.",
+      "synonyms": [],
+      "example": "Sie möchte Fehler vermeiden."
+    },
+    {
+      "id": "7A-26",
+      "german": "wettbewerbsfähig",
+      "explanation": "Gut genug, um mit anderen mithalten zu können.",
+      "synonyms": [],
+      "example": "Die Preise müssen wettbewerbsfähig sein."
+    },
+    {
+      "id": "7A-27",
+      "german": "der Zusammenbau (Sg.)",
+      "explanation": "Wenn man verschiedene Teile zu einem Ganzen zusammenfügt.",
+      "synonyms": [],
+      "example": "Der Zusammenbau des Möbelstücks dauert eine Stunde."
+    },
+    {
+      "id": "7A-28",
+      "german": "etw. zusammen|bauen",
+      "explanation": "Verschiedene Teile zu einem Ganzen zusammenfügen.",
+      "synonyms": [],
+      "example": "Er muss das Regal zusammenbauen."
+    },
+    {
+      "id": "7A-29",
+      "german": "die Zuverlässigkeit (Sg.)",
+      "explanation": "Wenn man sich auf etwas oder jemanden verlassen kann.",
+      "synonyms": [],
+      "example": "Die Zuverlässigkeit der Maschine ist sehr wichtig."
+    }
+  ]
+}

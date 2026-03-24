@@ -1,0 +1,215 @@
+{
+  "sectionId": "1D",
+  "words": [
+    {
+      "id": "1D-1",
+      "german": "etw. an|ordnen",
+      "explanation": "Etwas in einer bestimmten Reihenfolge oder Ordnung bringen.",
+      "synonyms": [],
+      "example": "Die Bücher werden nach Größe angeordnet."
+    },
+    {
+      "id": "1D-2",
+      "german": "das Controlling (Sg.)",
+      "explanation": "Die Kontrolle und Überwachung der Finanzen eines Unternehmens.",
+      "synonyms": [],
+      "example": "Das Controlling prüft alle Ausgaben des Unternehmens."
+    },
+    {
+      "id": "1D-3",
+      "german": "die Finanzabteilung, -en",
+      "explanation": "Die Abteilung, die sich um das Geld des Unternehmens kümmert.",
+      "synonyms": [],
+      "example": "Die Finanzabteilung erstellt die Jahresabrechnung."
+    },
+    {
+      "id": "1D-4",
+      "german": "die Fläche, -n",
+      "explanation": "Ein bestimmter Platz oder Raum.",
+      "synonyms": [],
+      "example": "Die Verkaufsfläche beträgt 500 Quadratmeter."
+    },
+    {
+      "id": "1D-5",
+      "german": "die Forschung & Entwicklung (Sg.)",
+      "explanation": "Die Abteilung, die neue Produkte entwickelt und erforscht.",
+      "synonyms": [],
+      "example": "Die Forschung & Entwicklung arbeitet an neuen Technologien."
+    },
+    {
+      "id": "1D-6",
+      "german": "die Geschäftsleitung, -en",
+      "explanation": "Die Chefs, die ein Unternehmen führen.",
+      "synonyms": [],
+      "example": "Die Geschäftsleitung trifft wichtige Entscheidungen."
+    },
+    {
+      "id": "1D-7",
+      "german": "der Hauptbereich, -e",
+      "explanation": "Der wichtigste Bereich oder das wichtigste Gebiet.",
+      "synonyms": [],
+      "example": "Der Hauptbereich des Unternehmens ist die Produktion."
+    },
+    {
+      "id": "1D-8",
+      "german": "die Haustechnik (Sg.)",
+      "explanation": "Alles, was mit der Technik in einem Gebäude zu tun hat.",
+      "synonyms": [],
+      "example": "Die Haustechnik kümmert sich um Heizung und Elektrik."
+    },
+    {
+      "id": "1D-9",
+      "german": "die Herstellung (Sg.)",
+      "explanation": "Wenn man Produkte macht oder produziert.",
+      "synonyms": [],
+      "example": "Die Herstellung der Produkte dauert zwei Wochen."
+    },
+    {
+      "id": "1D-10",
+      "german": "die Hierarchieebene, -n",
+      "explanation": "Eine bestimmte Stufe in der Hierarchie eines Unternehmens.",
+      "synonyms": [],
+      "example": "Auf dieser Hierarchieebene arbeiten die Abteilungsleiter."
+    },
+    {
+      "id": "1D-11",
+      "german": "das Lager, –",
+      "explanation": "Ein Raum oder Gebäude, wo Waren gelagert werden.",
+      "synonyms": [],
+      "example": "Im Lager werden alle Produkte aufbewahrt."
+    },
+    {
+      "id": "1D-12",
+      "german": "etw. leiten",
+      "explanation": "Etwas führen oder verantworten.",
+      "synonyms": [],
+      "example": "Sie leitet die Marketingabteilung."
+    },
+    {
+      "id": "1D-13",
+      "german": "das Marketing (Sg.)",
+      "explanation": "Alles, was mit Werbung und Verkauf von Produkten zu tun hat.",
+      "synonyms": [],
+      "example": "Das Marketing entwickelt neue Werbestrategien."
+    },
+    {
+      "id": "1D-14",
+      "german": "die Marktuntersuchung, -en",
+      "explanation": "Wenn man den Markt erforscht und analysiert.",
+      "synonyms": [],
+      "example": "Die Marktuntersuchung zeigt, was Kunden wollen."
+    },
+    {
+      "id": "1D-15",
+      "german": "die Mitarbeiterzahl, -en",
+      "explanation": "Wie viele Mitarbeiter ein Unternehmen hat.",
+      "synonyms": [],
+      "example": "Die Mitarbeiterzahl ist in diesem Jahr gestiegen."
+    },
+    {
+      "id": "1D-16",
+      "german": "die Öffentlichkeitsarbeit (Sg.)",
+      "explanation": "Wenn ein Unternehmen mit der Öffentlichkeit kommuniziert.",
+      "synonyms": [],
+      "example": "Die Öffentlichkeitsarbeit verbessert das Image des Unternehmens."
+    },
+    {
+      "id": "1D-17",
+      "german": "das Organigramm, -e",
+      "explanation": "Eine Grafik, die die Struktur eines Unternehmens zeigt.",
+      "synonyms": [],
+      "example": "Das Organigramm zeigt alle Abteilungen und ihre Leiter."
+    },
+    {
+      "id": "1D-18",
+      "german": "das Produktionsverfahren, –",
+      "explanation": "Die Art und Weise, wie Produkte hergestellt werden.",
+      "synonyms": [],
+      "example": "Das Produktionsverfahren wurde modernisiert."
+    },
+    {
+      "id": "1D-19",
+      "german": "die Qualitätssicherung (Sg.)",
+      "explanation": "Wenn man sicherstellt, dass Produkte gut sind.",
+      "synonyms": [],
+      "example": "Die Qualitätssicherung prüft alle Produkte vor dem Verkauf."
+    },
+    {
+      "id": "1D-20",
+      "german": "die Rechtsabteilung, -en",
+      "explanation": "Die Abteilung, die sich um rechtliche Fragen kümmert.",
+      "synonyms": [],
+      "example": "Die Rechtsabteilung prüft alle Verträge."
+    },
+    {
+      "id": "1D-21",
+      "german": "die Spitze, -n",
+      "explanation": "Der oberste Teil oder die höchste Position.",
+      "synonyms": [],
+      "example": "An der Spitze des Unternehmens steht der Geschäftsführer."
+    },
+    {
+      "id": "1D-22",
+      "german": "an der Spitze von (+ Dat.)",
+      "explanation": "Der Chef oder die höchste Position von etwas sein.",
+      "synonyms": [],
+      "example": "Er steht an der Spitze des Unternehmens."
+    },
+    {
+      "id": "1D-23",
+      "german": "untergeordnet",
+      "explanation": "Weniger wichtig oder niedriger in der Hierarchie.",
+      "synonyms": [],
+      "example": "Diese Abteilung ist einer anderen untergeordnet."
+    },
+    {
+      "id": "1D-24",
+      "german": "untergliedert",
+      "explanation": "In kleinere Teile aufgeteilt.",
+      "synonyms": [],
+      "example": "Das Unternehmen ist in verschiedene Bereiche untergliedert."
+    },
+    {
+      "id": "1D-25",
+      "german": "unterteilt",
+      "explanation": "In verschiedene Teile geteilt.",
+      "synonyms": [],
+      "example": "Die Abteilung ist in drei Gruppen unterteilt."
+    },
+    {
+      "id": "1D-26",
+      "german": "die Verkaufsförderung (Sg.)",
+      "explanation": "Maßnahmen, die den Verkauf von Produkten steigern.",
+      "synonyms": [],
+      "example": "Die Verkaufsförderung organisiert Werbeaktionen."
+    },
+    {
+      "id": "1D-27",
+      "german": "der Vertrieb (Sg.)",
+      "explanation": "Die Abteilung, die Produkte verkauft und vertreibt.",
+      "synonyms": [],
+      "example": "Der Vertrieb kümmert sich um den Verkauf der Produkte."
+    },
+    {
+      "id": "1D-28",
+      "german": "die Verwaltung, -en",
+      "explanation": "Die Abteilung, die organisatorische Aufgaben übernimmt.",
+      "synonyms": [],
+      "example": "Die Verwaltung kümmert sich um Personal und Büroorganisation."
+    },
+    {
+      "id": "1D-29",
+      "german": "etw. zu|ordnen zu (+ Dat.)",
+      "explanation": "Etwas einer bestimmten Gruppe oder Abteilung zuweisen.",
+      "synonyms": [],
+      "example": "Diese Aufgabe wird der Marketingabteilung zugeordnet."
+    },
+    {
+      "id": "1D-30",
+      "german": "die Zuständigkeit, -en",
+      "explanation": "Die Verantwortung für etwas Bestimmtes.",
+      "synonyms": [],
+      "example": "Die Zuständigkeit für Personal liegt bei der Verwaltung."
+    }
+  ]
+}

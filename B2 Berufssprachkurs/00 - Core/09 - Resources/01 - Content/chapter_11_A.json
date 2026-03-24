@@ -1,0 +1,173 @@
+{
+  "sectionId": "11A",
+  "words": [
+    {
+      "id": "11A-1",
+      "german": "ab|laufen",
+      "explanation": "So passieren oder verlaufen, wie etwas organisiert ist.",
+      "synonyms": [],
+      "example": "Das Vorstellungsgespräch läuft in mehreren Schritten ab."
+    },
+    {
+      "id": "11A-2",
+      "german": "angesichts (+ Gen.)",
+      "explanation": "Wenn man etwas Bestimmtes berücksichtigt.",
+      "synonyms": [],
+      "example": "Angesichts der hohen Arbeitsbelastung werden neue Mitarbeitende eingestellt."
+    },
+    {
+      "id": "11A-3",
+      "german": "die Arbeitsleistung, -en",
+      "explanation": "Die Qualität und Menge der Arbeit, die jemand macht.",
+      "synonyms": [],
+      "example": "Die Arbeitsleistung wird einmal im Jahr beurteilt."
+    },
+    {
+      "id": "11A-4",
+      "german": "aufgrund (+ Gen.)",
+      "explanation": "Wegen etwas oder aus einem bestimmten Grund.",
+      "synonyms": [],
+      "example": "Aufgrund des hohen Zeitaufwands wird der Vertrag angepasst."
+    },
+    {
+      "id": "11A-5",
+      "german": "der Ausbildungsvertrag,\"-e",
+      "explanation": "Ein Vertrag, in dem Rechte und Pflichten in einer Ausbildung stehen.",
+      "synonyms": [],
+      "example": "Im Ausbildungsvertrag ist die Arbeitszeit festgelegt."
+    },
+    {
+      "id": "11A-6",
+      "german": "befristet",
+      "explanation": "Nur für eine bestimmte Zeit gültig.",
+      "synonyms": [],
+      "example": "Der Arbeitsvertrag ist zunächst auf ein Jahr befristet."
+    },
+    {
+      "id": "11A-7",
+      "german": "der Berufsalltag (Sg.)",
+      "explanation": "Die täglichen Aufgaben und Abläufe im Beruf.",
+      "synonyms": [],
+      "example": "Im Praktikum bekommt sie Einblicke in den Berufsalltag."
+    },
+    {
+      "id": "11A-8",
+      "german": "dank (+ Gen.)",
+      "explanation": "Wegen einer positiven Sache oder Person.",
+      "synonyms": [],
+      "example": "Dank ihrer Erfahrung findet sie schnell eine neue Stelle."
+    },
+    {
+      "id": "11A-9",
+      "german": "der Einblick, -e",
+      "explanation": "Die Möglichkeit, etwas genauer kennenzulernen.",
+      "synonyms": [],
+      "example": "Das Praktikum gibt ihm einen Einblick in die Firma."
+    },
+    {
+      "id": "11A-10",
+      "german": "etw. erbringen",
+      "explanation": "Eine Leistung oder Arbeit abgeben oder zeigen.",
+      "synonyms": [],
+      "example": "Die Mitarbeitenden erbringen gute Arbeitsleistungen."
+    },
+    {
+      "id": "11A-11",
+      "german": "gültig",
+      "explanation": "Rechtlich wirksam oder anerkannt.",
+      "synonyms": [],
+      "example": "Der Vertrag ist ab dem 1. Juli gültig."
+    },
+    {
+      "id": "11A-12",
+      "german": "infolge (+ Gen.)",
+      "explanation": "Als Folge von etwas.",
+      "synonyms": [],
+      "example": "Infolge der Krankheit verlängert sich die Probezeit."
+    },
+    {
+      "id": "11A-13",
+      "german": "die Institution, -en",
+      "explanation": "Eine offizielle Organisation, zum Beispiel eine Schule oder Behörde.",
+      "synonyms": [],
+      "example": "Die Institution bietet Beratung zum Arbeitsrecht an."
+    },
+    {
+      "id": "11A-14",
+      "german": "der Mindestlohn, \"-e",
+      "explanation": "Der gesetzlich festgelegte niedrigste Stundenlohn.",
+      "synonyms": [],
+      "example": "Azubis bekommen oft weniger als den allgemeinen Mindestlohn."
+    },
+    {
+      "id": "11A-15",
+      "german": "der Minijob, -s",
+      "explanation": "Ein Job mit wenig Arbeitszeit und begrenztem Lohn.",
+      "synonyms": [],
+      "example": "Sie hat neben der Ausbildung einen Minijob im Supermarkt."
+    },
+    {
+      "id": "11A-16",
+      "german": "der Praktikumsvertrag, \"-e",
+      "explanation": "Ein Vertrag, in dem die Bedingungen eines Praktikums stehen.",
+      "synonyms": [],
+      "example": "Im Praktikumsvertrag sind Dauer und Aufgaben geregelt."
+    },
+    {
+      "id": "11A-17",
+      "german": "der Renteneintritt (Sg.)",
+      "explanation": "Der Zeitpunkt, ab dem jemand in Rente geht.",
+      "synonyms": [],
+      "example": "Der Renteneintritt ist mit 67 Jahren geplant."
+    },
+    {
+      "id": "11A-18",
+      "german": "der Teilzeitarbeitsvertrag, \"-e",
+      "explanation": "Ein Vertrag für eine Stelle mit weniger Stunden als Vollzeit.",
+      "synonyms": [],
+      "example": "Sie unterschreibt einen Teilzeitarbeitsvertrag mit 20 Stunden pro Woche."
+    },
+    {
+      "id": "11A-19",
+      "german": "übersteigen",
+      "explanation": "Höher oder größer sein als etwas anderes.",
+      "synonyms": [],
+      "example": "Die Überstunden übersteigen die vereinbarte Arbeitszeit."
+    },
+    {
+      "id": "11A-20",
+      "german": "unbefristet",
+      "explanation": "Ohne festes Enddatum gültig.",
+      "synonyms": [],
+      "example": "Nach der Probezeit bekommt er einen unbefristeten Vertrag."
+    },
+    {
+      "id": "11A-21",
+      "german": "sich verpflichten zu (+ Dat.)",
+      "explanation": "Versprechen, etwas Bestimmtes zu tun.",
+      "synonyms": [],
+      "example": "Er verpflichtet sich zu regelmäßigen Fortbildungen."
+    },
+    {
+      "id": "11A-22",
+      "german": "wegen (+ Gen.)",
+      "explanation": "Aus dem Grund, dass etwas so ist.",
+      "synonyms": [],
+      "example": "Wegen der Schichtarbeit bekommt sie einen Zuschlag."
+    },
+    {
+      "id": "11A-23",
+      "german": "der Werkvertrag, \"-e",
+      "explanation": "Ein Vertrag, bei dem ein konkretes Ergebnis (Werk) vereinbart wird.",
+      "synonyms": [],
+      "example": "Im Werkvertrag ist die Fertigstellung des Projekts festgelegt."
+    },
+    {
+      "id": "11A-24",
+      "german": "der Zeitaufwand (Sg.)",
+      "explanation": "Die Zeit, die man für eine Aufgabe braucht.",
+      "synonyms": [],
+      "example": "Der Zeitaufwand für die Einarbeitung ist hoch."
+    }
+  ]
+}

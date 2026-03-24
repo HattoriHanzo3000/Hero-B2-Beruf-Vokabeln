@@ -1,0 +1,215 @@
+{
+  "sectionId": "7D",
+  "words": [
+    {
+      "id": "7D-1",
+      "german": "die (stationäre) Altenpflege (Sg.)",
+      "explanation": "Die Betreuung von alten Menschen in einem Heim.",
+      "synonyms": [],
+      "example": "Die Altenpflege ist ein wichtiger Beruf."
+    },
+    {
+      "id": "7D-2",
+      "german": "die Arbeitsbelastung, -en",
+      "explanation": "Wie viel Arbeit man machen muss.",
+      "synonyms": [],
+      "example": "Die Arbeitsbelastung ist sehr hoch."
+    },
+    {
+      "id": "7D-3",
+      "german": "etw. aus|gleichen",
+      "explanation": "Etwas wieder gut machen oder korrigieren.",
+      "synonyms": [],
+      "example": "Sie möchte den Fehler schnell ausgleichen."
+    },
+    {
+      "id": "7D-4",
+      "german": "etw. aus|handeln",
+      "explanation": "Etwas durch Gespräche oder Verhandlungen klären oder vereinbaren.",
+      "synonyms": [],
+      "example": "Sie handelt mit dem Chef eine neue Lösung aus."
+    },
+    {
+      "id": "7D-5",
+      "german": "belastend",
+      "explanation": "Wenn etwas schwer ist und Stress macht.",
+      "synonyms": [],
+      "example": "Die Situation ist sehr belastend für alle."
+    },
+    {
+      "id": "7D-6",
+      "german": "berechtigt",
+      "explanation": "Wenn etwas richtig oder gerechtfertigt ist.",
+      "synonyms": [],
+      "example": "Seine Kritik ist berechtigt."
+    },
+    {
+      "id": "7D-7",
+      "german": "die Betriebsvereinbarung, -en",
+      "explanation": "Eine Vereinbarung zwischen Arbeitgeber und Mitarbeitern in einer Firma.",
+      "synonyms": [],
+      "example": "Die Betriebsvereinbarung regelt die Arbeitszeiten."
+    },
+    {
+      "id": "7D-8",
+      "german": "etw. bewilligen",
+      "explanation": "Offiziell erlauben oder genehmigen.",
+      "synonyms": [],
+      "example": "Der Chef bewilligt den Urlaubsantrag."
+    },
+    {
+      "id": "7D-9",
+      "german": "destruktiv",
+      "explanation": "Wenn etwas schädlich ist und nichts Gutes bringt.",
+      "synonyms": [],
+      "example": "Sein Verhalten ist sehr destruktiv."
+    },
+    {
+      "id": "7D-10",
+      "german": "die Einschätzung, -en",
+      "explanation": "Eine Meinung oder Bewertung über etwas.",
+      "synonyms": [],
+      "example": "Ihre Einschätzung der Situation war richtig."
+    },
+    {
+      "id": "7D-11",
+      "german": "sich einschleichen (z.B. ein Fehler hat sich eingeschlichen)",
+      "explanation": "Wenn etwas unbemerkt passiert oder entsteht.",
+      "synonyms": [],
+      "example": "Ein Fehler hat sich in die Berechnung eingeschlichen."
+    },
+    {
+      "id": "7D-12",
+      "german": "die Entlastung, -en",
+      "explanation": "Wenn man weniger Arbeit oder Stress hat.",
+      "synonyms": [],
+      "example": "Die neue Kollegin bringt Entlastung für das Team."
+    },
+    {
+      "id": "7D-13",
+      "german": "die Fachkraft, \"-e",
+      "explanation": "Eine Person, die viel über ein bestimmtes Fach weiß.",
+      "synonyms": [],
+      "example": "Die Fachkraft erklärt das Problem genau."
+    },
+    {
+      "id": "7D-14",
+      "german": "jdm. sind die Hände gebunden",
+      "explanation": "Wenn jemand nichts tun kann, weil er keine Macht hat.",
+      "synonyms": [],
+      "example": "Ihm sind die Hände gebunden, er kann nichts ändern."
+    },
+    {
+      "id": "7D-15",
+      "german": "gehetzt",
+      "explanation": "Wenn man sehr viel Stress hat und keine Zeit.",
+      "synonyms": [],
+      "example": "Sie fühlt sich den ganzen Tag gehetzt."
+    },
+    {
+      "id": "7D-16",
+      "german": "der Gesundheitsschutz (Sg.)",
+      "explanation": "Alles, was man macht, um die Gesundheit zu schützen.",
+      "synonyms": [],
+      "example": "Der Gesundheitsschutz ist im Beruf wichtig."
+    },
+    {
+      "id": "7D-17",
+      "german": "der Heimleiter, –",
+      "explanation": "Ein Mann, der ein Heim leitet.",
+      "synonyms": [],
+      "example": "Der Heimleiter erklärt die neuen Regeln."
+    },
+    {
+      "id": "7D-18",
+      "german": "die Heimleiterin, -nen",
+      "explanation": "Eine Frau, die ein Heim leitet.",
+      "synonyms": [],
+      "example": "Die Heimleiterin bespricht die Probleme mit dem Team."
+    },
+    {
+      "id": "7D-19",
+      "german": "die Leistungsgrenze (Sg.)",
+      "explanation": "Der Punkt, an dem man nicht mehr kann.",
+      "synonyms": [],
+      "example": "Die Leistungsgrenze ist erreicht."
+    },
+    {
+      "id": "7D-20",
+      "german": "machtlos",
+      "explanation": "Wenn man nichts tun kann, um etwas zu ändern.",
+      "synonyms": [],
+      "example": "Sie fühlt sich machtlos in dieser Situation."
+    },
+    {
+      "id": "7D-21",
+      "german": "die Mehrarbeit (Sg.)",
+      "explanation": "Arbeit, die man zusätzlich machen muss.",
+      "synonyms": [],
+      "example": "Die Mehrarbeit wird extra bezahlt."
+    },
+    {
+      "id": "7D-22",
+      "german": "peinlich",
+      "explanation": "Wenn etwas unangenehm ist und einem unwohl macht.",
+      "synonyms": [],
+      "example": "Die Situation war sehr peinlich für alle."
+    },
+    {
+      "id": "7D-23",
+      "german": "der Personalmangel (Sg.)",
+      "explanation": "Wenn nicht genug Mitarbeiter da sind.",
+      "synonyms": [],
+      "example": "Der Personalmangel macht die Arbeit schwerer."
+    },
+    {
+      "id": "7D-24",
+      "german": "sachlich",
+      "explanation": "Wenn man nur die Fakten betrachtet und nicht emotional wird.",
+      "synonyms": [],
+      "example": "Sie diskutiert das Problem sehr sachlich."
+    },
+    {
+      "id": "7D-25",
+      "german": "der Tadel, –",
+      "explanation": "Eine Kritik oder Beschwerde über etwas.",
+      "synonyms": [],
+      "example": "Der Tadel vom Chef war berechtigt."
+    },
+    {
+      "id": "7D-26",
+      "german": "jdm. etw. übel nehmen",
+      "explanation": "Jemandem böse sein wegen etwas.",
+      "synonyms": [],
+      "example": "Sie nimmt ihm die Verspätung nicht übel."
+    },
+    {
+      "id": "7D-27",
+      "german": "unangenehm",
+      "explanation": "Wenn etwas nicht schön ist und einem unwohl macht.",
+      "synonyms": [],
+      "example": "Das Gespräch war sehr unangenehm."
+    },
+    {
+      "id": "7D-28",
+      "german": "etw. verbergen",
+      "explanation": "Etwas verstecken oder geheim halten.",
+      "synonyms": [],
+      "example": "Sie möchte den Fehler nicht verbergen."
+    },
+    {
+      "id": "7D-29",
+      "german": "versehentlich",
+      "explanation": "Wenn man etwas nicht absichtlich macht.",
+      "synonyms": [],
+      "example": "Sie hat versehentlich den falschen Knopf gedrückt."
+    },
+    {
+      "id": "7D-30",
+      "german": "etw./jdn. zurück|weisen",
+      "explanation": "Etwas oder jemanden ablehnen oder nicht akzeptieren.",
+      "synonyms": [],
+      "example": "Sie weist die Kritik zurück."
+    }
+  ]
+}

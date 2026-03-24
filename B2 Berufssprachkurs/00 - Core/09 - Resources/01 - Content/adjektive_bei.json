@@ -1,0 +1,33 @@
+{
+  "sectionId": "ADJEKTIVE_bei",
+  "words": [
+    {
+      "id": "ADJEKTIVE_bei-1",
+      "german": "angesehen bei (+ Dat.)",
+      "explanation": "Von anderen respektiert und geschätzt werden.",
+      "example": "Sie war bei ihren Geschäftspartnern hoch angesehen.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_bei-2",
+      "german": "behilflich bei (+ Dat.)",
+      "explanation": "Jemandem bei einer Aufgabe helfen können.",
+      "example": "Kannst du mir bei der Installation des Programms behilflich sein?",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_bei-3",
+      "german": "beliebt bei (+ Dat.)",
+      "explanation": "Von anderen gemocht und geschätzt werden.",
+      "example": "Die Internationale Funkausstellung ist bei den Besuchern sehr beliebt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_bei-4",
+      "german": "unbeliebt bei (+ Dat.)",
+      "explanation": "Von anderen nicht gemocht werden.",
+      "example": "Der Chef war bei einigen Mitarbeitenden ziemlich unbeliebt.",
+      "quiz": ""
+    }
+  ]
+}

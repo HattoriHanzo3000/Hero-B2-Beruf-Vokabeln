@@ -1,0 +1,159 @@
+{
+  "sectionId": "2D",
+  "words": [
+    {
+      "id": "2D-1",
+      "german": "der Ablauf, \"-e",
+      "explanation": "Wie etwas passiert oder abläuft.",
+      "synonyms": [],
+      "example": "Der Ablauf des Unfalls wurde genau dokumentiert."
+    },
+    {
+      "id": "2D-2",
+      "german": "arbeitsunfähig",
+      "explanation": "Nicht in der Lage zu arbeiten, krank oder verletzt.",
+      "synonyms": [],
+      "example": "Nach dem Unfall ist er arbeitsunfähig."
+    },
+    {
+      "id": "2D-3",
+      "german": "aus|rutschen",
+      "explanation": "Auf rutschigem Boden ausgleiten und hinfallen.",
+      "synonyms": [],
+      "example": "Er ist auf dem nassen Boden ausgerutscht."
+    },
+    {
+      "id": "2D-4",
+      "german": "die Berufsgenossenschaft, -en",
+      "explanation": "Eine Organisation, die bei Arbeitsunfällen hilft und versichert.",
+      "synonyms": [],
+      "example": "Die Berufsgenossenschaft übernimmt die Kosten nach einem Unfall."
+    },
+    {
+      "id": "2D-5",
+      "german": "beteiligt an (+ Dat.)",
+      "explanation": "Bei etwas dabei sein oder mitwirken.",
+      "synonyms": [],
+      "example": "Mehrere Personen waren an dem Unfall beteiligt."
+    },
+    {
+      "id": "2D-6",
+      "german": "das Detail, -s",
+      "explanation": "Eine kleine Einzelheit oder ein genauer Punkt.",
+      "synonyms": [],
+      "example": "Alle Details des Unfalls wurden dokumentiert."
+    },
+    {
+      "id": "2D-7",
+      "german": "das Ereignis, -se",
+      "explanation": "Etwas, das passiert oder geschieht.",
+      "synonyms": [],
+      "example": "Das Ereignis wurde sofort gemeldet."
+    },
+    {
+      "id": "2D-8",
+      "german": "glatt",
+      "explanation": "Ohne Unebenheiten, rutschig.",
+      "synonyms": [],
+      "example": "Der glatte Boden ist gefährlich."
+    },
+    {
+      "id": "2D-9",
+      "german": "das Kabel, –",
+      "explanation": "Ein Draht, der Strom oder Daten überträgt.",
+      "synonyms": [],
+      "example": "Das Kabel auf dem Boden ist eine Stolpergefahr."
+    },
+    {
+      "id": "2D-10",
+      "german": "sich (etw.) quetschen",
+      "explanation": "Sich verletzen, indem etwas zusammengedrückt wird.",
+      "synonyms": [],
+      "example": "Er hat sich den Finger in der Tür gequetscht."
+    },
+    {
+      "id": "2D-11",
+      "german": "Ruhe bewahren",
+      "explanation": "Ruhig bleiben und nicht in Panik geraten.",
+      "synonyms": [],
+      "example": "Im Notfall muss man Ruhe bewahren."
+    },
+    {
+      "id": "2D-12",
+      "german": "rutschig",
+      "explanation": "So, dass man leicht ausrutschen kann.",
+      "synonyms": [],
+      "example": "Der rutschige Boden verursachte den Unfall."
+    },
+    {
+      "id": "2D-13",
+      "german": "sachlich",
+      "explanation": "Objektiv und ohne Emotionen.",
+      "synonyms": [],
+      "example": "Der Unfallbericht muss sachlich geschrieben werden."
+    },
+    {
+      "id": "2D-14",
+      "german": "der Schaden, \"–",
+      "explanation": "Etwas, das kaputt oder beschädigt ist.",
+      "synonyms": [],
+      "example": "Der Schaden am Gerät wurde dokumentiert."
+    },
+    {
+      "id": "2D-15",
+      "german": "etw. schildern",
+      "explanation": "Etwas genau beschreiben oder erzählen.",
+      "synonyms": [],
+      "example": "Sie schilderte den Ablauf des Unfalls."
+    },
+    {
+      "id": "2D-16",
+      "german": "der Schlauch, \"-e",
+      "explanation": "Ein flexibles Rohr, durch das Flüssigkeiten oder Gase fließen.",
+      "synonyms": [],
+      "example": "Der Schlauch auf dem Boden ist eine Stolpergefahr."
+    },
+    {
+      "id": "2D-17",
+      "german": "stolpern",
+      "explanation": "Über etwas stolpern und fast hinfallen.",
+      "synonyms": [],
+      "example": "Er ist über das Kabel gestolpert."
+    },
+    {
+      "id": "2D-18",
+      "german": "sich (etw.) verbrennen",
+      "explanation": "Sich durch Hitze oder Feuer verletzen.",
+      "synonyms": [],
+      "example": "Sie hat sich die Hand am heißen Gerät verbrannt."
+    },
+    {
+      "id": "2D-19",
+      "german": "das Verhalten (Sg.)",
+      "explanation": "Wie man sich benimmt oder handelt.",
+      "synonyms": [],
+      "example": "Das richtige Verhalten im Notfall ist wichtig."
+    },
+    {
+      "id": "2D-20",
+      "german": "die Vorsichtsmaßnahme, -n",
+      "explanation": "Eine Maßnahme, die Unfälle verhindern soll.",
+      "synonyms": [],
+      "example": "Vorsichtsmaßnahmen können Unfälle vermeiden."
+    },
+    {
+      "id": "2D-21",
+      "german": "der Zeuge, -n",
+      "explanation": "Ein Mann, der etwas gesehen oder erlebt hat.",
+      "synonyms": [],
+      "example": "Der Zeuge schilderte den Ablauf des Unfalls."
+    },
+    {
+      "id": "2D-22",
+      "german": "die Zeugin, -nen",
+      "explanation": "Eine Frau, die etwas gesehen oder erlebt hat.",
+      "synonyms": [],
+      "example": "Die Zeugin gab eine sachliche Aussage ab."
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "sectionId": "12C",
+  "words": [
+    {
+      "id": "12C-1",
+      "german": "absehbar",
+      "explanation": "So, dass man es in naher Zukunft erwarten oder erkennen kann.",
+      "synonyms": [],
+      "example": "Es ist absehbar, dass sie wegen der Operation mehrere Wochen ausfällt."
+    },
+    {
+      "id": "12C-2",
+      "german": "die Abwesenheit (Sg.)",
+      "explanation": "Die Zeit, in der jemand nicht an einem Ort ist.",
+      "synonyms": [],
+      "example": "Die Abwesenheit der Mitarbeiterin muss im System eingetragen werden."
+    },
+    {
+      "id": "12C-3",
+      "german": "ansteckend",
+      "explanation": "So, dass sich eine Krankheit leicht auf andere Personen überträgt.",
+      "synonyms": [],
+      "example": "Bei einer ansteckenden Krankheit soll man zu Hause bleiben."
+    },
+    {
+      "id": "12C-4",
+      "german": "arbeitsfähig",
+      "explanation": "Gesund genug, um arbeiten zu können.",
+      "synonyms": [],
+      "example": "Nach der Reha ist er wieder arbeitsfähig."
+    },
+    {
+      "id": "12C-5",
+      "german": "erkranken",
+      "explanation": "Krank werden.",
+      "synonyms": [],
+      "example": "Mehrere Kollegen sind an einer Grippe erkrankt."
+    },
+    {
+      "id": "12C-6",
+      "german": "die Erkrankung, -en",
+      "explanation": "Eine Krankheit, die oft von Ärztinnen und Ärzten festgestellt wird.",
+      "synonyms": [],
+      "example": "Chronische Erkrankungen müssen regelmäßig kontrolliert werden."
+    },
+    {
+      "id": "12C-7",
+      "german": "der Herzinfarkt, -e",
+      "explanation": "Schwerer Notfall, bei dem das Herz plötzlich nicht mehr richtig arbeitet.",
+      "synonyms": [],
+      "example": "Bei Verdacht auf einen Herzinfarkt muss sofort der Notarzt gerufen werden."
+    },
+    {
+      "id": "12C-8",
+      "german": "die Impfung, -en",
+      "explanation": "Spritze, die vor bestimmten Krankheiten schützen soll.",
+      "synonyms": [],
+      "example": "Viele Betriebe bieten eine Grippeimpfung für ihre Mitarbeitenden an."
+    },
+    {
+      "id": "12C-9",
+      "german": "die Infektionskrankheit, -en",
+      "explanation": "Krankheit, die durch Viren, Bakterien oder andere Erreger ausgelöst wird.",
+      "synonyms": [],
+      "example": "Infektionskrankheiten verbreiten sich in großen Büros oft schnell."
+    },
+    {
+      "id": "12C-10",
+      "german": "jdn. krank|schreiben",
+      "explanation": "Ärztlich bestätigen, dass jemand vorübergehend nicht arbeiten darf.",
+      "synonyms": [],
+      "example": "Der Hausarzt schreibt sie für eine Woche krank."
+    },
+    {
+      "id": "12C-11",
+      "german": "das Krankengeld (Sg.)",
+      "explanation": "Geld von der Krankenkasse, wenn man länger krank ist und kein Gehalt mehr bekommt.",
+      "synonyms": [],
+      "example": "Nach sechs Wochen Krankheit erhält er Krankengeld von der Kasse."
+    },
+    {
+      "id": "12C-12",
+      "german": "die Krankmeldung, -en",
+      "explanation": "Mitteilung an den Arbeitgeber, dass man wegen Krankheit nicht arbeiten kann.",
+      "synonyms": [],
+      "example": "Die Krankmeldung muss am ersten Krankheitstag im Betrieb eingehen."
+    },
+    {
+      "id": "12C-13",
+      "german": "der Kündigungsgrund, \"e",
+      "explanation": "Ein offizieller, rechtlich erlaubter Grund, jemanden zu entlassen.",
+      "synonyms": [],
+      "example": "Häufige unentschuldigte Fehlzeiten können ein Kündigungsgrund sein."
+    },
+    {
+      "id": "12C-14",
+      "german": "etw. nach|holen",
+      "explanation": "Etwas später machen, was man vorher verpasst hat.",
+      "synonyms": [],
+      "example": "Die versäumte Schulung kann sie nachholen, wenn sie wieder gesund ist."
+    },
+    {
+      "id": "12C-15",
+      "german": "der Notfall, \"-e",
+      "explanation": "Eine Situation, in der man sehr schnell Hilfe braucht.",
+      "synonyms": [],
+      "example": "Bei einem medizinischen Notfall wählen Sie sofort die 112."
+    },
+    {
+      "id": "12C-16",
+      "german": "der Orthopäde, -n",
+      "explanation": "Ein Arzt, der sich auf Knochen, Gelenke und den Bewegungsapparat spezialisiert hat.",
+      "synonyms": [],
+      "example": "Der Orthopäde untersucht ihre Rückenschmerzen."
+    },
+    {
+      "id": "12C-17",
+      "german": "die Orthopädin, -nen",
+      "explanation": "Eine Ärztin, die sich auf Knochen, Gelenke und den Bewegungsapparat spezialisiert hat.",
+      "synonyms": [],
+      "example": "Die Orthopädin empfiehlt ihr spezielle Einlagen für die Arbeitsschuhe."
+    },
+    {
+      "id": "12C-18",
+      "german": "etw. rechtfertigen",
+      "explanation": "Erklären, warum etwas richtig oder notwendig war.",
+      "synonyms": [],
+      "example": "Zu häufige Verspätungen lassen sich nur schwer rechtfertigen."
+    },
+    {
+      "id": "12C-19",
+      "german": "soeben",
+      "explanation": "Vor ganz kurzer Zeit, gerade eben.",
+      "synonyms": [],
+      "example": "Sie hat soeben die Krankmeldung per E-Mail verschickt."
+    },
+    {
+      "id": "12C-20",
+      "german": "die Vertretung, -en",
+      "explanation": "Person, die die Aufgaben einer anderen Person vorübergehend übernimmt.",
+      "synonyms": [],
+      "example": "Während ihrer Krankheit übernimmt ein Kollege die Vertretung."
+    },
+    {
+      "id": "12C-21",
+      "german": "voraussichtlich",
+      "explanation": "Mit großer Wahrscheinlichkeit, nach aktueller Einschätzung.",
+      "synonyms": [],
+      "example": "Sie ist voraussichtlich bis Ende der Woche krankgeschrieben."
+    },
+    {
+      "id": "12C-22",
+      "german": "die Vorsorgeuntersuchung, -en",
+      "explanation": "Ärztlicher Termin, um Krankheiten früh zu erkennen und zu verhindern.",
+      "synonyms": [],
+      "example": "Regelmäßige Vorsorgeuntersuchungen sind wichtig für die Gesundheit."
+    },
+    {
+      "id": "12C-23",
+      "german": "etw. weiter|leiten",
+      "explanation": "Informationen oder Dokumente an eine andere Person senden.",
+      "synonyms": [],
+      "example": "Die Personalabteilung leitet die Krankmeldung an die Lohnbuchhaltung weiter."
+    }
+  ]
+}

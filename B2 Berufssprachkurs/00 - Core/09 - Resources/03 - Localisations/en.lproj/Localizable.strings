@@ -1,0 +1,246 @@
+/* 
+  Localizable.strings
+  B2 Berufssprachkurs
+  
+  English localization
+*/
+
+// Existing strings
+"practise_with_explanation" = "Practice with Explanation";
+"practise_with_synonym" = "Practice with Synonym";
+"practise_with_translation" = "Practice with Translation";
+
+// Tab Bar
+"home" = "Home";
+"words" = "Words";
+"verbs" = "Verbs";
+"cockpit" = "Cockpit";
+
+// Practice buttons
+"practise_with_example" = "Practice with Example";
+
+// Study view
+"cards" = "cards";
+"study" = "Study";
+"synonym" = "Synonym";
+"explanation" = "Explanation";
+"translation" = "Translation";
+"add_translation_to_word" = "Add translation to the word";
+
+// Check all button
+"all_selected" = "All selected";
+"select_all" = "Select all";
+
+// Settings
+"settings" = "Settings";
+"about" = "About";
+"update" = "Version";
+"premium" = "Premium";
+"word_of_the_day" = "Word of the Day";
+"periodicity" = "Periodicity";
+"source_sections" = "Choose Sections";
+"all_sections" = "All sections";
+"selected_sections" = "%d selected";
+"app_language" = "App Language";
+"english" = "English";
+"deutsch" = "Deutsch";
+"haptic_feedback" = "Haptic Feedback";
+"appearance" = "Appearance";
+"light" = "Light";
+"dark" = "Dark";
+"system" = "System";
+"display_and_text_size" = "Display and Text Size";
+"extra_small" = "Extra Small";
+"small" = "Small";
+"medium" = "Medium";
+"large" = "Large";
+"extra_large" = "Extra Large";
+"xx_large" = "XX Large";
+"xxx_large" = "XXX Large";
+"share" = "Share";
+"scan_qr_code" = "Scan QR Code";
+"scan_to_download" = "Scan to download the app";
+"open_in_app_store" = "Open in App Store";
+"faq" = "FAQ";
+"faq_description" = "Frequently Asked Questions\n\nIf you have questions about using the app, please check the following:\n\n• Word of the Day: You can enable/disable this feature and customize which sections to include.\n• Study Modes: Practice with translations, synonyms, or explanations.\n• Settings: Customize appearance, text size, language, and more.\n\nFor additional support, please use the Contact Us option.";
+"contact_us" = "Contact Us";
+"send_email" = "Send Email";
+"contact_us_email_subject" = "B2 Berufssprachkurs - Support Request";
+"contact_us_email_body" = "Hello,\n\nI need assistance with the B2 Berufssprachkurs app.\n\nApp Version: %@ (%@)\nDevice: %@\niOS Version: %@\n\nPlease describe your question or issue:\n\n";
+"mail_unavailable" = "Mail Unavailable";
+"mail_unavailable_message" = "Mail services are not available. Please configure a mail account in Settings or send an email to info@gizatech.de";
+"ok" = "OK";
+"report_a_bug" = "Report a Bug";
+"impressum" = "Impressum";
+"terms_of_use" = "Terms of Use";
+"privacy_policy" = "Privacy Policy";
+"reset_app" = "Reset App";
+"reset_app_title" = "Reset App";
+"reset_app_message" = "This will reset all your progress, including checked words, translations, and spaced repetition data. This action cannot be undone.";
+"reset" = "Reset";
+"cancel" = "Cancel";
+
+// About page
+"about_this_app" = "Hero - Deutsch B2 Beruf";
+"about_app_description" = "This app helps you master German vocabulary at the B2 level for everyday and professional contexts and supports your preparation for the telc B2 Berufssprachkurs exam. It provides an interactive way to study and practice words through flashcards and spaced repetition.";
+"device_information" = "Device Information";
+"name" = "Name";
+"version" = "Version";
+"model" = "Model";
+"system_version" = "System Version";
+"app_version" = "App Version";
+
+// Periodicity options
+"12_hours" = "12 hours";
+"24_hours" = "24 hours";
+"12_hours_short" = "12h";
+"24_hours_short" = "24h";
+
+// Update page
+"current_version" = "Current Version";
+"update_available" = "Update Available";
+"version_updates" = "You are using the latest version of the app.";
+"version_updates_placeholder" = "A new version is available with improvements and bug fixes.";
+"new_version_available" = "A new version of the app is available";
+"this_update_adds" = "This update adds";
+"update_now" = "Update Now";
+"update_button_hint" = "Opens the App Store to update the app";
+"update_alert_title" = "Update Available";
+"update_alert_message" = "A new version of the app is available";
+"remind_me_later" = "Remind Me Later";
+
+"verbs_with_prepositions" = "Verbs with Prepositions";
+
+"progress" = "Progress";
+"progress_subtitle" = "Your journey at a glance";
+"word_of_the_day_description" = "Customize which topics appear in your daily word on the main screen.";
+"progress_description" = "Track your learning progress across all %d words in the app.";
+"cockpit_wotd_intro" = "Make your daily learning fit your rhythm and topics you care about.";
+
+"general_words" = "General Words";
+"adjectives_with_prepositions" = "Adjectives with Prepositions";
+"favorites" = "Favorites";
+"favorites_words_title" = "Favorite\nWords";
+
+"practice" = "PRACTICE";
+
+// Header Greeting
+"greeting_word_of_the_day" = "Hey! Nice to see you again! Your word of the day is:";
+"greeting_word_of_the_day_1" = "Hey! Ready for your word of the day?";
+"greeting_word_of_the_day_2" = "Hey! Welcome back! Your word of the day is already waiting.";
+"greeting_word_of_the_day_3" = "Hey! I'm ready! Are you too? Here's your word of the day.";
+"greeting_word_of_the_day_4" = "Hey! Let's go! Today you'll learn this word:";
+"greeting_word_of_the_day_5" = "Hey! Keep it up! Your word for today is:";
+
+// Progress - Under Construction
+"progress_under_construction" = "This section is under construction";
+"progress_coming_soon" = "Keep updating, new features are coming soon";
+
+// Statistics
+"statistics_wrong_title" = "Wrong";
+"statistics_familiar_title" = "Familiar";
+"statistics_reinforced_title" = "Reinforced";
+"statistics_mastered_title" = "Mastered";
+"statistics_wrong_description" = "Answered wrong";
+"statistics_familiar_description" = "Answered correctly 1 time";
+"statistics_reinforced_description" = "Answered correctly 2 times";
+"statistics_mastered_description" = "Answered correctly 3+ times";
+
+// Premium
+"premium_unlock_title" = "Unlock the full learning experience with Hero Premium";
+"unlock_full_hero_experience" = "Unlock the full Hero experience";
+"get_hero_premium_access_prefix" = "Get";
+"hero_premium" = "Hero Premium";
+"get_hero_premium_access_suffix" = "Access";
+"subscription" = "Subscription";
+"hero_premium_subscription" = "Hero Premium Subscription";
+"pro_benefits_description" = "Premium gives you full access to all study materials, progress tracking and ad-free experience. All plans can be shared with your iCloud Family";
+"unlock_hero_premium" = "Unlock Hero Premium";
+"premium_promo_subtitle" = "Get full access to study materials, progress tracking and more";
+"enjoy_hero_premium" = "Enjoy Hero Premium";
+"enjoy_full_hero_experience" = "Enjoy the full learning experience with Hero Premium";
+"premium_active_subtitle" = "You have full access to all study materials, progress tracking and more";
+"get_premium_features_back" = "Get all Premium Features Back";
+"premium_features_back_subtitle" = "Resubscribe to regain access to all study materials, progress tracking and more";
+"monthly_subscription" = "Premium Monthly";
+"per_month" = "month";
+"month" = "month";
+"monthly" = "Monthly";
+"yearly" = "Yearly";
+"lifetime" = "Lifetime";
+"monthly_explanation" = "Perfect to start. Cancel anytime";
+"yearly_explanation" = "Save more. 3-day free trial";
+"lifetime_explanation" = "Pay once, own forever. No renewal";
+"free_trial" = "Free Trial";
+"icloud_family_sharing" = "All plans can be shared with your iCloud Family";
+"already_upgraded" = "Already Upgraded?";
+"restore_purchase" = "Restore Purchase";
+"got_a_code" = "Got a code?";
+"premium_monthly" = "Premium Monthly";
+"premium_3_months" = "Premium 3 Months";
+"premium_yearly" = "Premium Yearly";
+"months_3" = "3 months";
+"year_1" = "year";
+"basic" = "Basic";
+"benefits" = "Benefits";
+"free" = "Free";
+"premium_column" = "Premium";
+"access_to_all_words" = "Access to all words";
+"no_ads" = "No ads";
+"detailed_progress" = "Detailed progress";
+"favorite_words" = "Favorite words";
+"practice_modes" = "Practice Modes";
+"word_of_the_day_customization" = "Word of the Day";
+"share_export_words" = "Share & Export words";
+"subscribe_now" = "Subscribe";
+"unlock_premium" = "Unlock Premium";
+"start_free_trial" = "Start Free Trial";
+"upgrade_now" = "Upgrade Now";
+"upgrade_to_premium" = "Upgrade to Premium";
+"change_plan" = "Change Plan";
+"continue_button" = "Continue";
+"subscription_terms" = "Upon subscribing, your Apple account will be charged 1,99€. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
+"subscription_terms_monthly" = "Upon subscribing, your Apple account will be charged %@. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
+"subscription_terms_yearly" = "Upon subscribing, your Apple account will be charged %@. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
+"subscription_terms_yearly_promotional" = "Upon subscribing, your Apple account will be charged %@ for the first year. After the first year, your Hero Premium subscription will automatically renew at %@ per year unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
+"subscription_terms_lifetime" = "Upon purchase, your Apple account will be charged %@. This is a one-time payment with no recurring charges.\n\nView our Terms of Use and Privacy Policy for more details.";
+"subscription_title" = "Hero Premium Subscription";
+"subscription_length" = "1 month";
+
+// Promo Code
+"promo_code" = "Promo Code";
+"enter_promo_code" = "Enter promo code";
+"redeem" = "Redeem";
+"redeem_special_offer" = "Redeem special offer";
+"code" = "Code";
+"promo_code_premium_active" = "Premium active via promo code. Ads are disabled.";
+"promo_code_footer" = "Enter a promo code to disable ads permanently.";
+
+// Study Empty State
+"no_words_selected" = "No words selected";
+"no_words_selected_message" = "Select words with the checkmark";
+"translation_not_found" = "The translation is not found";
+"translation_not_found_message" = "Write the translation to the words first";
+
+// Favorites Empty State
+"no_favorites_found" = "No favorites found";
+"no_favorites_found_message" = "First mark words as favorite with the star icon";
+
+// Premium Lock
+"premium_required" = "Premium Required";
+"unlock_premium_to_use_feature" = "Unlock Premium to use this function";
+
+// Rating Prompt
+"rating_title" = "Do you like Hero?";
+"rating_subtitle" = "A quick rating helps us improve the app!";
+"rating_rate_button" = "Rate";
+"rating_later_button" = "Later";
+"rating_no_thanks_button" = "No Thanks";
+
+// Holiday Seasonal Banner
+"holiday_season_sale" = "Holiday Season Sale";
+"holiday_season_sale_description" = "Subscribe now for a Hero Premium Yearly and get a special price %@ for the first year";
+"holiday_season_sale_description_no_price" = "Subscribe now and get a special offer for the first year";
+"regular_price" = "Regular price";
+"sale" = "SALE! ";
+

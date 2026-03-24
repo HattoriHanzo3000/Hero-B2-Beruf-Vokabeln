@@ -1,0 +1,264 @@
+{
+  "sectionId": "1C",
+  "words": [
+    {
+      "id": "1C-1",
+      "german": "die Abfallvermeidung (Sg.)",
+      "explanation": "Wenn man versucht, weniger Müll zu produzieren.",
+      "synonyms": [],
+      "example": "Die Abfallvermeidung ist wichtig für die Umwelt."
+    },
+    {
+      "id": "1C-2",
+      "german": "der Anschluss, \"-e",
+      "explanation": "Eine Verbindung zu etwas oder jemandem.",
+      "synonyms": [],
+      "example": "Der Anschluss an das Internet funktioniert gut."
+    },
+    {
+      "id": "1C-3",
+      "german": "der Bereich, -e",
+      "explanation": "Ein bestimmtes Gebiet oder Thema.",
+      "synonyms": [],
+      "example": "Sie arbeitet im Bereich Marketing."
+    },
+    {
+      "id": "1C-4",
+      "german": "die Betriebsbesichtigung, -en",
+      "explanation": "Wenn man sich einen Betrieb oder ein Unternehmen anschaut.",
+      "synonyms": [],
+      "example": "Die Betriebsbesichtigung findet nächste Woche statt."
+    },
+    {
+      "id": "1C-5",
+      "german": "das Betriebsgelände (Sg.)",
+      "explanation": "Das Grundstück, auf dem ein Unternehmen steht.",
+      "synonyms": [],
+      "example": "Das Betriebsgelände ist sehr groß."
+    },
+    {
+      "id": "1C-6",
+      "german": "etw. ein|führen",
+      "explanation": "Etwas Neues beginnen oder starten.",
+      "synonyms": [],
+      "example": "Das Unternehmen möchte ein neues System einführen."
+    },
+    {
+      "id": "1C-7",
+      "german": "die Energieeinsparung, -en",
+      "explanation": "Wenn man weniger Energie verbraucht.",
+      "synonyms": [],
+      "example": "Die Energieeinsparung spart Geld und schont die Umwelt."
+    },
+    {
+      "id": "1C-8",
+      "german": "der Entscheidungsspielraum, \"-e",
+      "explanation": "Die Möglichkeit, selbst Entscheidungen zu treffen.",
+      "synonyms": [],
+      "example": "In diesem Job hat man viel Entscheidungsspielraum."
+    },
+    {
+      "id": "1C-9",
+      "german": "etw. eröffnen",
+      "explanation": "Etwas Neues beginnen oder starten.",
+      "synonyms": [],
+      "example": "Das Unternehmen eröffnet eine neue Filiale."
+    },
+    {
+      "id": "1C-10",
+      "german": "die Eröffnung, -en",
+      "explanation": "Wenn etwas Neues beginnt oder startet.",
+      "synonyms": [],
+      "example": "Die Eröffnung der neuen Filiale war ein Erfolg."
+    },
+    {
+      "id": "1C-11",
+      "german": "die Erschließung (Sg.)",
+      "explanation": "Wenn man ein Gebiet oder einen Markt neu nutzt.",
+      "synonyms": [],
+      "example": "Die Erschließung neuer Märkte ist wichtig für das Unternehmen."
+    },
+    {
+      "id": "1C-12",
+      "german": "etw. erweitern",
+      "explanation": "Etwas größer machen oder mehr hinzufügen.",
+      "synonyms": [],
+      "example": "Das Unternehmen möchte sein Sortiment erweitern."
+    },
+    {
+      "id": "1C-13",
+      "german": "die Fertigstellung (Sg.)",
+      "explanation": "Wenn etwas fertig ist und abgeschlossen wurde.",
+      "synonyms": [],
+      "example": "Die Fertigstellung des neuen Gebäudes dauert noch zwei Monate."
+    },
+    {
+      "id": "1C-14",
+      "german": "die Filiale, -n",
+      "explanation": "Ein Geschäft oder eine Niederlassung an einem anderen Ort.",
+      "synonyms": [],
+      "example": "Die Filiale in Berlin ist sehr erfolgreich."
+    },
+    {
+      "id": "1C-15",
+      "german": "eine flache Hierarchie",
+      "explanation": "Wenn es nur wenige Ebenen zwischen Chef und Mitarbeitern gibt.",
+      "synonyms": [],
+      "example": "In einer flachen Hierarchie können Mitarbeiter schneller entscheiden."
+    },
+    {
+      "id": "1C-16",
+      "german": "das Geschäftsjahr, -e",
+      "explanation": "Ein Jahr, in dem ein Unternehmen arbeitet und Geschäfte macht.",
+      "synonyms": [],
+      "example": "Das Geschäftsjahr endet im Dezember."
+    },
+    {
+      "id": "1C-17",
+      "german": "das Gründungsdatum, -daten",
+      "explanation": "Das Datum, an dem ein Unternehmen gegründet wurde.",
+      "synonyms": [],
+      "example": "Das Gründungsdatum des Unternehmens ist der 15. März 1995."
+    },
+    {
+      "id": "1C-18",
+      "german": "die Hierarchie, -n",
+      "explanation": "Die Struktur, wer über wen bestimmt in einem Unternehmen.",
+      "synonyms": [],
+      "example": "Die Hierarchie in diesem Unternehmen ist sehr klar."
+    },
+    {
+      "id": "1C-19",
+      "german": "im Anschluss an (+ Akk.)",
+      "explanation": "Nach etwas, direkt danach.",
+      "synonyms": [],
+      "example": "Im Anschluss an die Besprechung gibt es eine Betriebsbesichtigung."
+    },
+    {
+      "id": "1C-20",
+      "german": "das Mitspracherecht, -e",
+      "explanation": "Das Recht, bei Entscheidungen mitzureden.",
+      "synonyms": [],
+      "example": "Die Mitarbeiter haben ein Mitspracherecht bei wichtigen Entscheidungen."
+    },
+    {
+      "id": "1C-21",
+      "german": "nachhaltig",
+      "explanation": "Gut für die Umwelt und für die Zukunft.",
+      "synonyms": [],
+      "example": "Das Unternehmen arbeitet nachhaltig und spart Energie."
+    },
+    {
+      "id": "1C-22",
+      "german": "etw. präsentieren",
+      "explanation": "Etwas vorstellen oder zeigen.",
+      "synonyms": [],
+      "example": "Sie präsentiert das neue Produkt den Kunden."
+    },
+    {
+      "id": "1C-23",
+      "german": "der Pressesprecher, –",
+      "explanation": "Ein Mann, der für ein Unternehmen mit der Presse spricht.",
+      "synonyms": [],
+      "example": "Der Pressesprecher informiert die Medien über das Unternehmen."
+    },
+    {
+      "id": "1C-24",
+      "german": "die Pressesprecherin, -nen",
+      "explanation": "Eine Frau, die für ein Unternehmen mit der Presse spricht.",
+      "synonyms": [],
+      "example": "Die Pressesprecherin beantwortet Fragen von Journalisten."
+    },
+    {
+      "id": "1C-25",
+      "german": "Produkte ein|führen",
+      "explanation": "Neue Produkte auf den Markt bringen.",
+      "synonyms": [],
+      "example": "Das Unternehmen möchte nächstes Jahr neue Produkte einführen."
+    },
+    {
+      "id": "1C-26",
+      "german": "die Produktionsstätte, -n",
+      "explanation": "Ein Ort, wo Produkte hergestellt werden.",
+      "synonyms": [],
+      "example": "Die Produktionsstätte liegt außerhalb der Stadt."
+    },
+    {
+      "id": "1C-27",
+      "german": "der Rundgang, \"-e",
+      "explanation": "Ein Spaziergang durch ein Gebäude oder Gelände.",
+      "synonyms": [],
+      "example": "Der Rundgang durch das Unternehmen dauert eine Stunde."
+    },
+    {
+      "id": "1C-28",
+      "german": "das Sortiment, -e",
+      "explanation": "Alle Produkte, die ein Geschäft anbietet.",
+      "synonyms": [],
+      "example": "Das Sortiment umfasst über 1000 verschiedene Artikel."
+    },
+    {
+      "id": "1C-29",
+      "german": "der Standort, -e",
+      "explanation": "Der Ort, wo etwas ist oder steht.",
+      "synonyms": [],
+      "example": "Der Standort des Unternehmens ist sehr gut."
+    },
+    {
+      "id": "1C-30",
+      "german": "die Terminbestätigung, -en",
+      "explanation": "Eine Bestätigung, dass ein Termin stattfindet.",
+      "synonyms": [],
+      "example": "Die Terminbestätigung wurde per E-Mail verschickt."
+    },
+    {
+      "id": "1C-31",
+      "german": "etw. übernehmen",
+      "explanation": "Etwas annehmen oder für etwas verantwortlich sein.",
+      "synonyms": [],
+      "example": "Sie übernimmt die Leitung der neuen Abteilung."
+    },
+    {
+      "id": "1C-32",
+      "german": "der Umsatz, \"-e",
+      "explanation": "Das Geld, das ein Unternehmen durch Verkäufe einnimmt.",
+      "synonyms": [],
+      "example": "Der Umsatz ist in diesem Jahr gestiegen."
+    },
+    {
+      "id": "1C-33",
+      "german": "die Unternehmensgeschichte, -n",
+      "explanation": "Die Geschichte eines Unternehmens von der Gründung bis heute.",
+      "synonyms": [],
+      "example": "Die Unternehmensgeschichte wird auf der Website erzählt."
+    },
+    {
+      "id": "1C-34",
+      "german": "die Verkaufsfläche, -n",
+      "explanation": "Der Platz in einem Geschäft, wo Waren verkauft werden.",
+      "synonyms": [],
+      "example": "Die Verkaufsfläche wurde vergrößert."
+    },
+    {
+      "id": "1C-35",
+      "german": "das Verkaufsgespräch, -e",
+      "explanation": "Ein Gespräch, in dem man versucht, etwas zu verkaufen.",
+      "synonyms": [],
+      "example": "Das Verkaufsgespräch mit dem Kunden war erfolgreich."
+    },
+    {
+      "id": "1C-36",
+      "german": "das Zentrallager, –",
+      "explanation": "Ein großes Lager, wo alle Waren gesammelt werden.",
+      "synonyms": [],
+      "example": "Das Zentrallager versorgt alle Filialen mit Waren."
+    },
+    {
+      "id": "1C-37",
+      "german": "das Zweigwerk, -e",
+      "explanation": "Ein Werk oder eine Fabrik an einem anderen Ort.",
+      "synonyms": [],
+      "example": "Das Zweigwerk produziert die gleichen Produkte wie das Hauptwerk."
+    }
+  ]
+}

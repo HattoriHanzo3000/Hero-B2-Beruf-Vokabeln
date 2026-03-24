@@ -1,0 +1,187 @@
+{
+  "sectionId": "4B",
+  "words": [
+    {
+      "id": "4B-1",
+      "german": "die Anwesenheit (Sg.)",
+      "explanation": "Wenn jemand an einem Ort ist oder da ist.",
+      "synonyms": [],
+      "example": "Ihre Anwesenheit bei der Besprechung ist wichtig."
+    },
+    {
+      "id": "4B-2",
+      "german": "der Arbeitsbeginn (Sg.)",
+      "explanation": "Der Zeitpunkt, an dem die Arbeit beginnt.",
+      "synonyms": [],
+      "example": "Der Arbeitsbeginn ist um 8 Uhr."
+    },
+    {
+      "id": "4B-3",
+      "german": "der Auswahlprozess, -e",
+      "explanation": "Der Prozess, bei dem man aus mehreren Kandidaten auswählt.",
+      "synonyms": [],
+      "example": "Der Auswahlprozess dauert mehrere Wochen."
+    },
+    {
+      "id": "4B-4",
+      "german": "die Besetzung (einer Stelle) (Sg.)",
+      "explanation": "Wenn eine Stelle mit einem Mitarbeiter besetzt wird.",
+      "synonyms": [],
+      "example": "Die Besetzung der Stelle erfolgt nächsten Monat."
+    },
+    {
+      "id": "4B-5",
+      "german": "die Betriebsferien (Pl.)",
+      "explanation": "Ferien, in denen das gesamte Unternehmen geschlossen ist.",
+      "synonyms": [],
+      "example": "Die Betriebsferien sind im August."
+    },
+    {
+      "id": "4B-6",
+      "german": "die Betriebskantine, -n",
+      "explanation": "Ein Restaurant im Unternehmen, wo die Mitarbeiter essen können.",
+      "synonyms": [],
+      "example": "Die Betriebskantine bietet täglich warmes Essen an."
+    },
+    {
+      "id": "4B-7",
+      "german": "das Bewerbungsverfahren, –",
+      "explanation": "Der gesamte Prozess von der Bewerbung bis zur Entscheidung.",
+      "synonyms": [],
+      "example": "Das Bewerbungsverfahren umfasst mehrere Schritte."
+    },
+    {
+      "id": "4B-8",
+      "german": "der Büroleiter, –",
+      "explanation": "Ein Mann, der ein Büro leitet.",
+      "synonyms": [],
+      "example": "Der Büroleiter koordiniert alle Aufgaben."
+    },
+    {
+      "id": "4B-9",
+      "german": "die Büroleiterin, -nen",
+      "explanation": "Eine Frau, die ein Büro leitet.",
+      "synonyms": [],
+      "example": "Die Büroleiterin plant die Termine."
+    },
+    {
+      "id": "4B-10",
+      "german": "durchgehend",
+      "explanation": "Ohne Unterbrechung oder Pause.",
+      "synonyms": [],
+      "example": "Das Büro ist durchgehend von 8 bis 17 Uhr geöffnet."
+    },
+    {
+      "id": "4B-11",
+      "german": "die Einarbeitung (Sg.)",
+      "explanation": "Die Zeit, in der man sich in eine neue Aufgabe einarbeitet.",
+      "synonyms": [],
+      "example": "Die Einarbeitung dauert etwa drei Monate."
+    },
+    {
+      "id": "4B-12",
+      "german": "der Eindruck, \"-e",
+      "explanation": "Das Gefühl oder die Meinung, die man von etwas hat.",
+      "synonyms": [],
+      "example": "Sie hat einen sehr guten Eindruck vom Unternehmen."
+    },
+    {
+      "id": "4B-13",
+      "german": "das Einstellungsgespräch, -e",
+      "explanation": "Ein Gespräch, bei dem man über eine neue Stelle spricht.",
+      "synonyms": [],
+      "example": "Das Einstellungsgespräch findet nächste Woche statt."
+    },
+    {
+      "id": "4B-14",
+      "german": "die Einzelheit, -en",
+      "explanation": "Eine kleine oder spezifische Information.",
+      "synonyms": [],
+      "example": "Sie bespricht alle Einzelheiten des Arbeitsvertrags."
+    },
+    {
+      "id": "4B-15",
+      "german": "sich erkundigen nach (+ Dat.)",
+      "explanation": "Nach etwas fragen oder Informationen einholen.",
+      "synonyms": [],
+      "example": "Sie erkundigt sich nach den Arbeitszeiten."
+    },
+    {
+      "id": "4B-16",
+      "german": "der Feierabend (Sg.)",
+      "explanation": "Das Ende des Arbeitstages.",
+      "synonyms": [],
+      "example": "Nach Feierabend geht sie nach Hause."
+    },
+    {
+      "id": "4B-17",
+      "german": "flexibel",
+      "explanation": "Wenn man sich an verschiedene Situationen anpassen kann.",
+      "synonyms": [],
+      "example": "Sie ist sehr flexibel bei den Arbeitszeiten."
+    },
+    {
+      "id": "4B-18",
+      "german": "gesetzlich",
+      "explanation": "Nach dem Gesetz oder durch das Gesetz geregelt.",
+      "synonyms": [],
+      "example": "Die Arbeitszeiten sind gesetzlich geregelt."
+    },
+    {
+      "id": "4B-19",
+      "german": "die Kündigungsregelung, -en",
+      "explanation": "Die Regelung, wie man einen Arbeitsvertrag beenden kann.",
+      "synonyms": [],
+      "example": "Die Kündigungsregelung steht im Arbeitsvertrag."
+    },
+    {
+      "id": "4B-20",
+      "german": "der ÖPNV (Öffentlicher Personennahverkehr) (Sg.)",
+      "explanation": "Öffentliche Verkehrsmittel wie Busse und Bahnen.",
+      "synonyms": [],
+      "example": "Der ÖPNV ist gut erreichbar vom Büro."
+    },
+    {
+      "id": "4B-21",
+      "german": "der Schichtbetrieb (Sg.)",
+      "explanation": "Wenn in verschiedenen Schichten gearbeitet wird.",
+      "synonyms": [],
+      "example": "Das Unternehmen arbeitet im Schichtbetrieb."
+    },
+    {
+      "id": "4B-22",
+      "german": "die Teambesprechung, -en",
+      "explanation": "Ein Treffen, bei dem das Team über Aufgaben spricht.",
+      "synonyms": [],
+      "example": "Die Teambesprechung findet jeden Montag statt."
+    },
+    {
+      "id": "4B-23",
+      "german": "der Urlaubsanspruch, \"-e",
+      "explanation": "Wie viele Urlaubstage man pro Jahr hat.",
+      "synonyms": [],
+      "example": "Der Urlaubsanspruch beträgt 30 Tage pro Jahr."
+    },
+    {
+      "id": "4B-24",
+      "german": "(gut/schlecht) verlaufen",
+      "explanation": "Wie etwas abläuft oder passiert.",
+      "synonyms": [],
+      "example": "Das Gespräch ist gut verlaufen."
+    },
+    {
+      "id": "4B-25",
+      "german": "sich etw. verschaffen (z.B. einen Eindruck)",
+      "explanation": "Sich etwas beschaffen oder aneignen.",
+      "synonyms": [],
+      "example": "Sie verschafft sich einen Eindruck vom Unternehmen."
+    },
+    {
+      "id": "4B-26",
+      "german": "der Zuschuss, \"-e",
+      "explanation": "Geld, das zusätzlich zu etwas gezahlt wird.",
+      "synonyms": [],
+      "example": "Das Unternehmen zahlt einen Zuschuss für die Fahrtkosten."
+    }
+  ]
+}

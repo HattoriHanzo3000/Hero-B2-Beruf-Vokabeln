@@ -1,0 +1,89 @@
+{
+  "sectionId": "VERBEN_zu",
+  "words": [
+    {
+      "id": "VERBEN_zu-1",
+      "german": "sich aufraffen zu (+ Dat.)",
+      "explanation": "Sich überwinden und endlich anfangen, etwas zu tun, auch wenn es schwerfällt.",
+      "example": "Er raffte sich dazu auf, etwas für das Projekt zu tun.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-2",
+      "german": "beitragen zu (+ Dat.)",
+      "explanation": "Einen Teil dazu beitragen, dass etwas passiert oder erreicht wird.",
+      "example": "Sie hat viel zum Erfolg des Teams beigetragen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-3",
+      "german": "drängen zu (+ Dat.)",
+      "explanation": "Jemanden stark dazu auffordern oder überreden, etwas zu tun.",
+      "example": "Sie drängte ihn zum Einverständnis.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-4",
+      "german": "einladen zu (+ Dat.)",
+      "explanation": "Jemanden bitten, zu einer Veranstaltung oder Aktivität zu kommen.",
+      "example": "Die Geschäftsführung hat Journalisten zum Pressefest eingeladen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-5",
+      "german": "sich entwickeln zu (+ Dat.)",
+      "explanation": "Mit der Zeit zu etwas Bestimmtem werden oder sich verändern.",
+      "example": "Er hat sich zu einem guten Mitarbeiter entwickelt.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-6",
+      "german": "führen zu (+ Dat.)",
+      "explanation": "Die Ursache für etwas sein oder etwas verursachen.",
+      "example": "Diese Diskussion führt zu keinem Ergebnis.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-7",
+      "german": "gehören zu (+ Dat.)",
+      "explanation": "Teil einer Gruppe oder Organisation sein.",
+      "example": "Gehören Sie auch zu dieser Firma?",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-8",
+      "german": "gratulieren zu (+ Dat.)",
+      "explanation": "Jemandem Glückwünsche zu einem besonderen Anlass sagen.",
+      "example": "Ich gratuliere dir zum Geburtstag.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-9",
+      "german": "kommen zu (+ Dat.)",
+      "explanation": "Etwas passiert oder entsteht durch bestimmte Umstände.",
+      "example": "Wegen des Nebels kam es zu vielen Unfällen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-10",
+      "german": "meinen zu (+ Dat.)",
+      "explanation": "Eine Meinung oder Einschätzung zu etwas haben.",
+      "example": "Was meinen Sie zu meinem Vorschlag?",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-11",
+      "german": "passen zu (+ Dat.)",
+      "explanation": "Gut zusammenpassen oder zusammen gehören.",
+      "example": "Welche Fähigkeiten von Ihnen passen zu diesem Beruf?",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_zu-12",
+      "german": "wählen zu (+ Dat.)",
+      "explanation": "Jemanden durch Abstimmung in eine Position oder Funktion wählen.",
+      "example": "Michaela König wurde gestern zur Betriebsrätin gewählt.",
+      "quiz": ""
+    }
+  ]
+}

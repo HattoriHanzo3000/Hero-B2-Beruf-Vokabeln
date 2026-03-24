@@ -1,0 +1,250 @@
+{
+  "sectionId": "4D",
+  "words": [
+    {
+      "id": "4D-1",
+      "german": "die Abschiedsfeier, -n",
+      "explanation": "Eine Feier, wenn jemand das Unternehmen verlässt.",
+      "synonyms": [],
+      "example": "Die Abschiedsfeier findet am Freitag statt."
+    },
+    {
+      "id": "4D-2",
+      "german": "der Alarm, -e",
+      "explanation": "Ein Signal, das vor Gefahr warnt.",
+      "synonyms": [],
+      "example": "Der Alarm ertönt bei einem Brandfall."
+    },
+    {
+      "id": "4D-3",
+      "german": "der Anlass, \"-e",
+      "explanation": "Der Grund oder die Ursache für etwas.",
+      "synonyms": [],
+      "example": "Der Anlass für die Betriebsversammlung ist wichtig."
+    },
+    {
+      "id": "4D-4",
+      "german": "das Antragsformular, -e",
+      "explanation": "Ein Formular, das man ausfüllt, um etwas zu beantragen.",
+      "synonyms": [],
+      "example": "Das Antragsformular für den Zuschuss liegt im Büro."
+    },
+    {
+      "id": "4D-5",
+      "german": "etw. auf|laden",
+      "explanation": "Etwas mit Energie versorgen, zum Beispiel ein Handy.",
+      "synonyms": [],
+      "example": "Sie lädt ihr Handy an der Ladestation auf."
+    },
+    {
+      "id": "4D-6",
+      "german": "etw. aus|hängen",
+      "explanation": "Etwas an eine Wand oder Tafel hängen.",
+      "synonyms": [],
+      "example": "Sie hängt die Ankündigung im Flur aus."
+    },
+    {
+      "id": "4D-7",
+      "german": "etw. aus|stellen (z.B. einen Parkausweis)",
+      "explanation": "Ein offizielles Dokument erstellen und geben.",
+      "synonyms": [],
+      "example": "Die Personalabteilung stellt den Parkausweis aus."
+    },
+    {
+      "id": "4D-8",
+      "german": "etw. beantragen (z.B. einen Zuschuss)",
+      "explanation": "Offiziell um etwas bitten oder einen Antrag stellen.",
+      "synonyms": [],
+      "example": "Sie beantragt einen Zuschuss für die Weiterbildung."
+    },
+    {
+      "id": "4D-9",
+      "german": "betrieblich",
+      "explanation": "Zum Unternehmen gehörend oder im Unternehmen.",
+      "synonyms": [],
+      "example": "Die betrieblichen Regelungen stehen in der Hausordnung."
+    },
+    {
+      "id": "4D-10",
+      "german": "der Betriebsausflug, \"-e",
+      "explanation": "Ein gemeinsamer Ausflug aller Mitarbeiter.",
+      "synonyms": [],
+      "example": "Der Betriebsausflug findet im Sommer statt."
+    },
+    {
+      "id": "4D-11",
+      "german": "die Betriebsrente, -n",
+      "explanation": "Eine zusätzliche Rente vom Unternehmen.",
+      "synonyms": [],
+      "example": "Die Betriebsrente wird zusätzlich zur gesetzlichen Rente gezahlt."
+    },
+    {
+      "id": "4D-12",
+      "german": "die Betriebsversammlung, -en",
+      "explanation": "Ein Treffen aller Mitarbeiter des Unternehmens.",
+      "synonyms": [],
+      "example": "Die Betriebsversammlung findet zweimal im Jahr statt."
+    },
+    {
+      "id": "4D-13",
+      "german": "die Betriebszugehörigkeit (Sg.)",
+      "explanation": "Wie lange jemand im Unternehmen arbeitet.",
+      "synonyms": [],
+      "example": "Die Betriebszugehörigkeit wird bei der Betriebsrente berücksichtigt."
+    },
+    {
+      "id": "4D-14",
+      "german": "der Betroffene, -n",
+      "explanation": "Ein Mann, der von etwas betroffen ist.",
+      "synonyms": [],
+      "example": "Der Betroffene erhält eine Entschädigung."
+    },
+    {
+      "id": "4D-15",
+      "german": "die Betroffene, -n",
+      "explanation": "Eine Frau, die von etwas betroffen ist.",
+      "synonyms": [],
+      "example": "Die Betroffene wird über die Änderungen informiert."
+    },
+    {
+      "id": "4D-16",
+      "german": "etw. bezuschussen",
+      "explanation": "Einen Teil der Kosten übernehmen oder bezahlen.",
+      "synonyms": [],
+      "example": "Das Unternehmen bezuschusst die Weiterbildung."
+    },
+    {
+      "id": "4D-17",
+      "german": "der Brandfall, \"-e",
+      "explanation": "Wenn ein Feuer ausbricht.",
+      "synonyms": [],
+      "example": "Im Brandfall muss das Gebäude sofort verlassen werden."
+    },
+    {
+      "id": "4D-18",
+      "german": "die Dienstreise, -n",
+      "explanation": "Eine Reise, die man für die Arbeit macht.",
+      "synonyms": [],
+      "example": "Die Dienstreise führt sie nach Berlin."
+    },
+    {
+      "id": "4D-19",
+      "german": "eine Dienstreise an|treten",
+      "explanation": "Eine Dienstreise beginnen oder starten.",
+      "synonyms": [],
+      "example": "Sie tritt die Dienstreise nächste Woche an."
+    },
+    {
+      "id": "4D-20",
+      "german": "durchschnittlich",
+      "explanation": "Im Durchschnitt oder im Mittel.",
+      "synonyms": [],
+      "example": "Durchschnittlich arbeitet sie 40 Stunden pro Woche."
+    },
+    {
+      "id": "4D-21",
+      "german": "das Firmengelände, –",
+      "explanation": "Das Grundstück oder die Fläche, auf der das Unternehmen steht.",
+      "synonyms": [],
+      "example": "Das Firmengelände ist sehr groß."
+    },
+    {
+      "id": "4D-22",
+      "german": "der Firmenparkplatz, \"-e",
+      "explanation": "Ein Parkplatz, der zum Unternehmen gehört.",
+      "synonyms": [],
+      "example": "Der Firmenparkplatz ist für alle Mitarbeiter."
+    },
+    {
+      "id": "4D-23",
+      "german": "ganztägig",
+      "explanation": "Den ganzen Tag lang.",
+      "synonyms": [],
+      "example": "Die Schulung ist ganztägig."
+    },
+    {
+      "id": "4D-24",
+      "german": "die Genehmigung, -en",
+      "explanation": "Die Erlaubnis oder Zustimmung für etwas.",
+      "synonyms": [],
+      "example": "Die Genehmigung für den Parkausweis liegt vor."
+    },
+    {
+      "id": "4D-25",
+      "german": "die Ladestation, -en",
+      "explanation": "Ein Ort, wo man elektronische Geräte aufladen kann.",
+      "synonyms": [],
+      "example": "Die Ladestation befindet sich im Pausenraum."
+    },
+    {
+      "id": "4D-26",
+      "german": "die Lautsprecheranlage, -n",
+      "explanation": "Eine Anlage, die Durchsagen macht.",
+      "synonyms": [],
+      "example": "Die Lautsprecheranlage informiert über wichtige Mitteilungen."
+    },
+    {
+      "id": "4D-27",
+      "german": "das Nettoeinkommen, –",
+      "explanation": "Das Einkommen nach Abzug aller Steuern und Abgaben.",
+      "synonyms": [],
+      "example": "Das Nettoeinkommen ist niedriger als das Bruttoeinkommen."
+    },
+    {
+      "id": "4D-28",
+      "german": "die Nutzung, -en",
+      "explanation": "Wenn man etwas benutzt oder verwendet.",
+      "synonyms": [],
+      "example": "Die Nutzung des Firmenparkplatzes ist kostenlos."
+    },
+    {
+      "id": "4D-29",
+      "german": "der Ruhestand (Sg.)",
+      "explanation": "Die Zeit nach dem Ende der Berufstätigkeit.",
+      "synonyms": [],
+      "example": "Sie geht nächsten Monat in den Ruhestand."
+    },
+    {
+      "id": "4D-30",
+      "german": "die Sozialleistung, -en",
+      "explanation": "Leistungen, die der Staat oder das Unternehmen zahlt.",
+      "synonyms": [],
+      "example": "Die Sozialleistungen sind im Arbeitsvertrag geregelt."
+    },
+    {
+      "id": "4D-31",
+      "german": "die Telefonbenutzung (Sg.)",
+      "explanation": "Wenn man das Telefon benutzt.",
+      "synonyms": [],
+      "example": "Die Telefonbenutzung für private Gespräche ist geregelt."
+    },
+    {
+      "id": "4D-32",
+      "german": "üblich",
+      "explanation": "Normal oder gewöhnlich.",
+      "synonyms": [],
+      "example": "Es ist üblich, den Parkausweis zu beantragen."
+    },
+    {
+      "id": "4D-33",
+      "german": "etw. untersagen",
+      "explanation": "Etwas verbieten oder nicht erlauben.",
+      "synonyms": [],
+      "example": "Das Rauchen auf dem Firmengelände ist untersagt."
+    },
+    {
+      "id": "4D-34",
+      "german": "der Verwaltungsbereich, -e",
+      "explanation": "Der Bereich, der für Verwaltungsaufgaben zuständig ist.",
+      "synonyms": [],
+      "example": "Der Verwaltungsbereich ist im zweiten Stock."
+    },
+    {
+      "id": "4D-35",
+      "german": "die Wertsache, -n",
+      "explanation": "Etwas Wertvolles wie Schmuck oder Geld.",
+      "synonyms": [],
+      "example": "Wertsachen sollten sicher aufbewahrt werden."
+    }
+  ]
+}

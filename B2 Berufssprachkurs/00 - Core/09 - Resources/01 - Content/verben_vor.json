@@ -1,0 +1,47 @@
+{
+  "sectionId": "VERBEN_vor",
+  "words": [
+    {
+      "id": "VERBEN_vor-1",
+      "german": "sich ekeln vor (+ Dat.)",
+      "explanation": "Ein sehr starkes Gefühl von Abscheu oder Ekel vor etwas haben.",
+      "example": "Karla ekelt sich vor Spinnen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_vor-2",
+      "german": "flüchten vor (+ Dat.)",
+      "explanation": "Vor etwas Gefährlichem oder Unangenehmem weglaufen oder fliehen.",
+      "example": "Sie flüchteten vor Unterdrückung.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_vor-3",
+      "german": "sich fürchten vor (+ Dat.)",
+      "explanation": "Angst vor etwas haben oder sich vor etwas sorgen.",
+      "example": "Viele Menschen fürchten sich vor der Klimaerwärmung.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_vor-4",
+      "german": "sich rechtfertigen vor (+ Dat.)",
+      "explanation": "Vor jemandem erklären, warum man etwas getan hat, besonders wenn es kritisiert wurde.",
+      "example": "Er musste sich vor seinem Chef rechtfertigen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_vor-5",
+      "german": "schützen vor (+ Dat.)",
+      "explanation": "Dafür sorgen, dass jemand oder etwas vor Gefahr oder Schaden sicher ist.",
+      "example": "Diese Jacke schützt vor Regen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_vor-6",
+      "german": "warnen vor (+ Dat.)",
+      "explanation": "Jemanden auf eine Gefahr oder ein Problem aufmerksam machen.",
+      "example": "Er warnte sie vor einer Zusammenarbeit mit dieser Firma.",
+      "quiz": ""
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "sectionId": "ADJEKTIVE_von",
+  "words": [
+    {
+      "id": "ADJEKTIVE_von-1",
+      "german": "abhängig von (+ Dat.)",
+      "explanation": "Auf jemanden oder etwas angewiesen sein und es brauchen.",
+      "example": "Wir sind von unserem Auftraggeber abhängig.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_von-2",
+      "german": "begeistert von (+ Dat.)",
+      "explanation": "Sehr positiv und enthusiastisch über etwas sein.",
+      "example": "Sie war von den Verkaufszahlen im letzten Quartal begeistert.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_von-3",
+      "german": "entfernt von (+ Dat.)",
+      "explanation": "Weit weg von einem Ziel oder Zustand sein.",
+      "example": "Wir sind von einer guten Bilanz noch meilenweit entfernt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_von-4",
+      "german": "enttäuscht von (+ Dat.)",
+      "explanation": "Unzufrieden sein, weil etwas nicht so ist, wie man es erwartet hat.",
+      "example": "Die GF war von der Entwicklung der Verkaufszahlen enttäuscht.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_von-5",
+      "german": "frei von (+ Dat.)",
+      "explanation": "Etwas Negatives nicht haben oder davon befreit sein.",
+      "example": "Frei von Schulden zu sein, ist das Ziel vieler Unternehmen.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_von-6",
+      "german": "müde von (+ Dat.)",
+      "explanation": "Erschöpft sein, weil man etwas Bestimmtes gemacht hat.",
+      "example": "Sie war von dem langen Meeting sehr müde.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_von-7",
+      "german": "überzeugt von (+ Dat.)",
+      "explanation": "Sicher sein, dass etwas gut oder richtig ist.",
+      "example": "Sie sind von der Qualität der neuen Anlage überzeugt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_von-8",
+      "german": "unabhängig von (+ Dat.)",
+      "explanation": "Nicht auf jemanden oder etwas angewiesen sein oder nicht davon beeinflusst werden.",
+      "example": "Das Projekt wurde unabhängig von den Kostensteigerungen weitergeführt.",
+      "quiz": ""
+    }
+  ]
+}

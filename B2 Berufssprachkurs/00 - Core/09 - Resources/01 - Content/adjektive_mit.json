@@ -1,0 +1,68 @@
+{
+  "sectionId": "ADJEKTIVE_mit",
+  "words": [
+    {
+      "id": "ADJEKTIVE_mit-1",
+      "german": "befreundet mit (+ Dat.)",
+      "explanation": "Eine freundschaftliche Beziehung mit jemandem haben.",
+      "example": "Er ist mit allen Kollegen gut befreundet.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-2",
+      "german": "bekannt mit (+ Dat.)",
+      "explanation": "Jemanden kennen oder mit jemandem vertraut sein.",
+      "example": "Sie ist mit allen Außendienstmitarbeitenden sehr gut bekannt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-3",
+      "german": "beschäftigt mit (+ Dat.)",
+      "explanation": "Gerade an einer bestimmten Aufgabe arbeiten.",
+      "example": "Frau Dr. Kurz ist noch mit dem Abschlussbericht beschäftigt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-4",
+      "german": "einverstanden mit (+ Dat.)",
+      "explanation": "Mit etwas zustimmen oder damit einverstanden sein.",
+      "example": "Er ist mit seiner Versetzung in eine andere Abteilung einverstanden.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-5",
+      "german": "fertig mit (+ Dat.)",
+      "explanation": "Eine Aufgabe abgeschlossen haben oder beendet sein.",
+      "example": "Sind Sie mit dem Projektbericht schon fertig?",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-6",
+      "german": "unzufrieden mit (+ Dat.)",
+      "explanation": "Nicht zufrieden sein, weil etwas nicht so ist, wie man es sich wünscht.",
+      "example": "Die GF war mit der Geschäftsentwicklung unzufrieden.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-7",
+      "german": "verheiratet mit (+ Dat.)",
+      "explanation": "Offiziell mit jemandem verheiratet sein oder sehr eng mit etwas verbunden sein.",
+      "example": "Er ist eigentlich mit seiner Arbeit verheiratet.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-8",
+      "german": "verwandt mit (+ Dat.)",
+      "explanation": "Zur gleichen Familie gehören oder familiär verbunden sein.",
+      "example": "Er ist mit seinem Chef verwandt.",
+      "quiz": ""
+    },
+    {
+      "id": "ADJEKTIVE_mit-9",
+      "german": "zufrieden mit (+ Dat.)",
+      "explanation": "Glücklich und zufrieden sein, weil etwas gut ist oder den Erwartungen entspricht.",
+      "example": "Unsere Kunden sind mit unseren Dienstleistungen sehr zufrieden.",
+      "quiz": ""
+    }
+  ]
+}

@@ -1,0 +1,285 @@
+{
+  "sectionId": "2C",
+  "words": [
+    {
+      "id": "2C-1",
+      "german": "das Arbeitsmittel, –",
+      "explanation": "Werkzeuge und Geräte, die man für die Arbeit braucht.",
+      "synonyms": [],
+      "example": "Alle Arbeitsmittel müssen regelmäßig geprüft werden."
+    },
+    {
+      "id": "2C-2",
+      "german": "der Arbeitsschutz (Sg.)",
+      "explanation": "Maßnahmen, die die Sicherheit am Arbeitsplatz gewährleisten.",
+      "synonyms": [],
+      "example": "Der Arbeitsschutz ist in jedem Unternehmen wichtig."
+    },
+    {
+      "id": "2C-3",
+      "german": "etw. befolgen",
+      "explanation": "Etwas tun, was vorgeschrieben ist.",
+      "synonyms": [],
+      "example": "Alle Mitarbeiter müssen die Sicherheitsvorschriften befolgen."
+    },
+    {
+      "id": "2C-4",
+      "german": "etw./jdn. behindern",
+      "explanation": "Etwas oder jemanden stören oder blockieren.",
+      "synonyms": [],
+      "example": "Die Kisten behindern den Fluchtweg."
+    },
+    {
+      "id": "2C-5",
+      "german": "etw. betätigen (z.B. den Brandmelder)",
+      "explanation": "Etwas aktivieren oder drücken.",
+      "synonyms": [],
+      "example": "Im Notfall muss man den Brandmelder betätigen."
+    },
+    {
+      "id": "2C-6",
+      "german": "der Brandmelder, –",
+      "explanation": "Ein Gerät, das vor Feuer warnt.",
+      "synonyms": [],
+      "example": "Der Brandmelder schlägt Alarm, wenn es brennt."
+    },
+    {
+      "id": "2C-7",
+      "german": "der Brandschutz (Sg.)",
+      "explanation": "Maßnahmen, die vor Feuer schützen.",
+      "synonyms": [],
+      "example": "Der Brandschutz ist in jedem Gebäude wichtig."
+    },
+    {
+      "id": "2C-8",
+      "german": "das Brandschutzzeichen, –",
+      "explanation": "Ein Schild, das auf Brandschutz hinweist.",
+      "synonyms": [],
+      "example": "Das Brandschutzzeichen zeigt den Standort des Feuerlöschers."
+    },
+    {
+      "id": "2C-9",
+      "german": "dreieckig",
+      "explanation": "In der Form eines Dreiecks.",
+      "synonyms": [],
+      "example": "Warnzeichen sind meist dreieckig."
+    },
+    {
+      "id": "2C-10",
+      "german": "etw. ein|schlagen",
+      "explanation": "Etwas zerschlagen oder kaputt machen.",
+      "synonyms": [],
+      "example": "Im Notfall kann man die Glasscheibe einschlagen."
+    },
+    {
+      "id": "2C-11",
+      "german": "etw. entsorgen",
+      "explanation": "Etwas wegwerfen oder richtig beseitigen.",
+      "synonyms": [],
+      "example": "Abfälle müssen ordnungsgemäß entsorgt werden."
+    },
+    {
+      "id": "2C-12",
+      "german": "der Feuerlöscher, –",
+      "explanation": "Ein Gerät, mit dem man Feuer löschen kann.",
+      "synonyms": [],
+      "example": "Der Feuerlöscher muss regelmäßig geprüft werden."
+    },
+    {
+      "id": "2C-13",
+      "german": "der Feuermelder, –",
+      "explanation": "Ein Gerät, das vor Feuer warnt.",
+      "synonyms": [],
+      "example": "Der Feuermelder erkennt Rauch automatisch."
+    },
+    {
+      "id": "2C-14",
+      "german": "der Flucht- und Rettungsweg, -e",
+      "explanation": "Ein Weg, auf dem man im Notfall das Gebäude verlassen kann.",
+      "synonyms": [],
+      "example": "Der Flucht- und Rettungsweg muss immer frei sein."
+    },
+    {
+      "id": "2C-15",
+      "german": "etw. frei|halten",
+      "explanation": "Etwas frei lassen und nicht blockieren.",
+      "synonyms": [],
+      "example": "Die Fluchtwege müssen immer freigehalten werden."
+    },
+    {
+      "id": "2C-16",
+      "german": "das Gebotszeichen, –",
+      "explanation": "Ein Schild, das zeigt, was man tun muss.",
+      "synonyms": [],
+      "example": "Das Gebotszeichen zeigt, dass man einen Helm tragen muss."
+    },
+    {
+      "id": "2C-17",
+      "german": "die Glasscheibe, -n",
+      "explanation": "Eine Scheibe aus Glas.",
+      "synonyms": [],
+      "example": "Die Glasscheibe kann im Notfall eingeschlagen werden."
+    },
+    {
+      "id": "2C-18",
+      "german": "hin|weisen auf (+ Akk.)",
+      "explanation": "Auf etwas aufmerksam machen oder darauf zeigen.",
+      "synonyms": [],
+      "example": "Das Schild weist auf die Stolpergefahr hin."
+    },
+    {
+      "id": "2C-19",
+      "german": "das Hinweisschild, -er",
+      "explanation": "Ein Schild, das Informationen gibt.",
+      "synonyms": [],
+      "example": "Das Hinweisschild zeigt den Weg zum Notausgang."
+    },
+    {
+      "id": "2C-20",
+      "german": "etw. löschen",
+      "explanation": "Feuer zum Erlöschen bringen.",
+      "synonyms": [],
+      "example": "Mit dem Feuerlöscher kann man das Feuer löschen."
+    },
+    {
+      "id": "2C-21",
+      "german": "der Notausgang, \"-e",
+      "explanation": "Ein Ausgang, den man im Notfall benutzt.",
+      "synonyms": [],
+      "example": "Der Notausgang ist mit einem grünen Schild gekennzeichnet."
+    },
+    {
+      "id": "2C-22",
+      "german": "die Pflicht, -en",
+      "explanation": "Etwas, das man tun muss.",
+      "synonyms": [],
+      "example": "Es ist die Pflicht jedes Mitarbeiters, die Sicherheitsregeln zu befolgen."
+    },
+    {
+      "id": "2C-23",
+      "german": "quadratisch",
+      "explanation": "In der Form eines Quadrats.",
+      "synonyms": [],
+      "example": "Gebotszeichen sind meist quadratisch."
+    },
+    {
+      "id": "2C-24",
+      "german": "das Rettungszeichen, –",
+      "explanation": "Ein Schild, das den Weg zur Rettung zeigt.",
+      "synonyms": [],
+      "example": "Das Rettungszeichen zeigt den Weg zum Notausgang."
+    },
+    {
+      "id": "2C-25",
+      "german": "die Schutzausrüstung, -en",
+      "explanation": "Kleidung und Geräte, die vor Gefahren schützen.",
+      "synonyms": [],
+      "example": "Die Schutzausrüstung muss immer getragen werden."
+    },
+    {
+      "id": "2C-26",
+      "german": "die Schutzbrille, -n",
+      "explanation": "Eine Brille, die die Augen schützt.",
+      "synonyms": [],
+      "example": "Bei der Arbeit muss eine Schutzbrille getragen werden."
+    },
+    {
+      "id": "2C-27",
+      "german": "etw./jdn. schützen",
+      "explanation": "Etwas oder jemanden vor Gefahren bewahren.",
+      "synonyms": [],
+      "example": "Die Schutzausrüstung schützt vor Verletzungen."
+    },
+    {
+      "id": "2C-28",
+      "german": "der Schutzhelm, -e",
+      "explanation": "Ein Helm, der den Kopf schützt.",
+      "synonyms": [],
+      "example": "Auf der Baustelle muss ein Schutzhelm getragen werden."
+    },
+    {
+      "id": "2C-29",
+      "german": "der Sicherheitshinweis, -e",
+      "explanation": "Eine Information über Sicherheit.",
+      "synonyms": [],
+      "example": "Der Sicherheitshinweis erklärt, wie man sich verhalten soll."
+    },
+    {
+      "id": "2C-30",
+      "german": "der Sicherheitsschuh, -e",
+      "explanation": "Ein Schuh, der die Füße schützt.",
+      "synonyms": [],
+      "example": "Sicherheitsschuhe haben eine stabile Sohle."
+    },
+    {
+      "id": "2C-31",
+      "german": "die Sicherheitsvorschrift, -en",
+      "explanation": "Eine Regel, die die Sicherheit am Arbeitsplatz gewährleistet.",
+      "synonyms": [],
+      "example": "Alle Sicherheitsvorschriften müssen befolgt werden."
+    },
+    {
+      "id": "2C-32",
+      "german": "die Stolpergefahr, -en",
+      "explanation": "Die Gefahr, hinzufallen oder zu stolpern.",
+      "synonyms": [],
+      "example": "Kabel auf dem Boden erhöhen die Stolpergefahr."
+    },
+    {
+      "id": "2C-33",
+      "german": "die Straßenverkehrsordnung (Sg.)",
+      "explanation": "Die Regeln für den Straßenverkehr.",
+      "synonyms": [],
+      "example": "Die Straßenverkehrsordnung muss von allen befolgt werden."
+    },
+    {
+      "id": "2C-34",
+      "german": "das Verbotsschild, -er",
+      "explanation": "Ein Schild, das zeigt, was nicht erlaubt ist.",
+      "synonyms": [],
+      "example": "Das Verbotsschild zeigt, dass Rauchen verboten ist."
+    },
+    {
+      "id": "2C-35",
+      "german": "das Verbotszeichen, –",
+      "explanation": "Ein Zeichen, das zeigt, was verboten ist.",
+      "synonyms": [],
+      "example": "Das Verbotszeichen ist meist rot und rund."
+    },
+    {
+      "id": "2C-36",
+      "german": "etw. vermeiden",
+      "explanation": "Etwas nicht tun oder verhindern.",
+      "synonyms": [],
+      "example": "Man sollte Unfälle durch Vorsicht vermeiden."
+    },
+    {
+      "id": "2C-37",
+      "german": "die Verordnung, -en",
+      "explanation": "Eine offizielle Regel oder Vorschrift.",
+      "synonyms": [],
+      "example": "Die Verordnung muss von allen befolgt werden."
+    },
+    {
+      "id": "2C-38",
+      "german": "verpflichtet",
+      "explanation": "Etwas tun müssen, weil es vorgeschrieben ist.",
+      "synonyms": [],
+      "example": "Alle Mitarbeiter sind verpflichtet, die Sicherheitsregeln zu befolgen."
+    },
+    {
+      "id": "2C-39",
+      "german": "etw. verstauen",
+      "explanation": "Etwas ordentlich wegpacken oder lagern.",
+      "synonyms": [],
+      "example": "Die Arbeitsmittel müssen nach der Arbeit verstaut werden."
+    },
+    {
+      "id": "2C-40",
+      "german": "das Warnzeichen, –",
+      "explanation": "Ein Zeichen, das vor Gefahren warnt.",
+      "synonyms": [],
+      "example": "Das Warnzeichen ist meist gelb und dreieckig."
+    }
+  ]
+}

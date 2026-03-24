@@ -1,0 +1,293 @@
+{
+  "sectionId": "12A",
+  "words": [
+    {
+      "id": "12A-1",
+      "german": "etw./jdn. ab|sichern",
+      "explanation": "Dafür sorgen, dass jemand oder etwas finanziell geschützt ist.",
+      "synonyms": [],
+      "example": "Mit einer Versicherung sichern Sie Ihre Familie ab."
+    },
+    {
+      "id": "12A-2",
+      "german": "die Absicherung, -en",
+      "explanation": "Ein Schutz, besonders finanziell, damit man in schwierigen Situationen Hilfe bekommt.",
+      "synonyms": [],
+      "example": "Die Absicherung durch den Sozialstaat gibt vielen Menschen Sicherheit."
+    },
+    {
+      "id": "12A-3",
+      "german": "angewiesen auf (+ Akk.)",
+      "explanation": "Hilfe oder Unterstützung unbedingt brauchen.",
+      "synonyms": [],
+      "example": "Viele Alleinerziehende sind auf finanzielle Unterstützung angewiesen."
+    },
+    {
+      "id": "12A-4",
+      "german": "der Anspruch, \"e",
+      "explanation": "Das Recht, etwas zu bekommen.",
+      "synonyms": [],
+      "example": "Wer lange genug gearbeitet hat, hat Anspruch auf Arbeitslosengeld."
+    },
+    {
+      "id": "12A-5",
+      "german": "das Arbeitslosengeld (Sg.)",
+      "explanation": "Geld vom Staat, das man bekommt, wenn man arbeitslos ist.",
+      "synonyms": [],
+      "example": "Nach der Kündigung beantragt er Arbeitslosengeld."
+    },
+    {
+      "id": "12A-6",
+      "german": "die Arbeitslosenversicherung, -en",
+      "explanation": "Versicherung, die zahlt, wenn jemand arbeitslos wird.",
+      "synonyms": [],
+      "example": "Durch die Arbeitslosenversicherung bekommt sie im Notfall Unterstützung."
+    },
+    {
+      "id": "12A-7",
+      "german": "der Ausgleich (Sg.)",
+      "explanation": "Etwas, das eine negative Situation ein bisschen besser macht.",
+      "synonyms": [],
+      "example": "Das Wohngeld ist ein Ausgleich für hohe Mieten."
+    },
+    {
+      "id": "12A-8",
+      "german": "der Beamte, -n",
+      "explanation": "Ein Mann, der beim Staat arbeitet und einen besonderen Status hat.",
+      "synonyms": [],
+      "example": "Der Beamte im Rathaus erklärt ihr die Formulare."
+    },
+    {
+      "id": "12A-9",
+      "german": "die Beamtin, -nen",
+      "explanation": "Eine Frau, die beim Staat arbeitet und einen besonderen Status hat.",
+      "synonyms": [],
+      "example": "Die Beamtin bearbeitet ihren Antrag auf Elterngeld."
+    },
+    {
+      "id": "12A-10",
+      "german": "etw. beantragen",
+      "explanation": "Offiziell darum bitten, etwas zu bekommen, oft mit einem Formular.",
+      "synonyms": [],
+      "example": "Sie beantragt Wohngeld beim Amt."
+    },
+    {
+      "id": "12A-11",
+      "german": "sich begeben",
+      "explanation": "Zu einem bestimmten Ort gehen.",
+      "synonyms": [],
+      "example": "Bitte begeben Sie sich nach der Anmeldung zum Wartebereich."
+    },
+    {
+      "id": "12A-12",
+      "german": "die Beihilfe, -n",
+      "explanation": "Zusätzliche finanzielle Unterstützung, oft vom Staat oder Arbeitgeber.",
+      "synonyms": [],
+      "example": "Für die Pflege ihrer Mutter erhält sie eine Beihilfe."
+    },
+    {
+      "id": "12A-13",
+      "german": "die Betriebsrente, -n",
+      "explanation": "Zusätzliche Rente, die ein Unternehmen seinen Mitarbeitenden zahlt.",
+      "synonyms": [],
+      "example": "Durch die Betriebsrente hat er im Alter mehr Einkommen."
+    },
+    {
+      "id": "12A-14",
+      "german": "etw. bewilligen",
+      "explanation": "Offiziell ja zu einem Antrag sagen.",
+      "synonyms": [],
+      "example": "Die Behörde bewilligt den Antrag auf Kindergeld."
+    },
+    {
+      "id": "12A-15",
+      "german": "der Bürger, –",
+      "explanation": "Ein Mann mit den Rechten und Pflichten in einem Staat.",
+      "synonyms": [],
+      "example": "Jeder Bürger hat das Recht auf soziale Absicherung."
+    },
+    {
+      "id": "12A-16",
+      "german": "die Bürgerin, -nen",
+      "explanation": "Eine Frau mit den Rechten und Pflichten in einem Staat.",
+      "synonyms": [],
+      "example": "Auch ausländische Bürgerinnen können unter bestimmten Bedingungen Sozialleistungen erhalten."
+    },
+    {
+      "id": "12A-17",
+      "german": "das Elterngeld (Sg.)",
+      "explanation": "Geld vom Staat für Eltern, die nach der Geburt eines Kindes weniger oder nicht arbeiten.",
+      "synonyms": [],
+      "example": "Durch das Elterngeld kann sie im ersten Jahr bei ihrem Kind bleiben."
+    },
+    {
+      "id": "12A-18",
+      "german": "das Existenzminimum (Sg.)",
+      "explanation": "Der kleinste Geldbetrag, den man zum Leben unbedingt braucht.",
+      "synonyms": [],
+      "example": "Die Grundsicherung soll das Existenzminimum sichern."
+    },
+    {
+      "id": "12A-19",
+      "german": "die Grundsicherung (Sg.)",
+      "explanation": "Staatliche Hilfe, wenn das eigene Einkommen nicht zum Leben reicht.",
+      "synonyms": [],
+      "example": "Nach langer Arbeitslosigkeit erhält er Grundsicherung."
+    },
+    {
+      "id": "12A-20",
+      "german": "der Jahresverdienst, -e",
+      "explanation": "Das Geld, das man in einem Jahr insgesamt verdient.",
+      "synonyms": [],
+      "example": "Das Elterngeld hängt vom Jahresverdienst vor der Geburt ab."
+    },
+    {
+      "id": "12A-21",
+      "german": "das Kindergeld (Sg.)",
+      "explanation": "Geld vom Staat, das Eltern für ihre Kinder bekommen.",
+      "synonyms": [],
+      "example": "Für jedes Kind erhält die Familie Kindergeld."
+    },
+    {
+      "id": "12A-22",
+      "german": "das Krankengeld (Sg.)",
+      "explanation": "Geld, das man bekommt, wenn man länger krank ist und kein normales Gehalt mehr bekommt.",
+      "synonyms": [],
+      "example": "Nach sechs Wochen Krankheit zahlt die Krankenkasse Krankengeld."
+    },
+    {
+      "id": "12A-23",
+      "german": "die Krankenversicherung, -en",
+      "explanation": "Versicherung, die Kosten bei Krankheit oder nach einem Unfall übernimmt.",
+      "synonyms": [],
+      "example": "In Deutschland muss jede Person eine Krankenversicherung haben."
+    },
+    {
+      "id": "12A-24",
+      "german": "die Leistung, -en",
+      "explanation": "Geld, Hilfe oder Service, den man von einer Versicherung oder vom Staat bekommt.",
+      "synonyms": [],
+      "example": "Die Leistungen der Krankenkasse umfassen Medikamente und Behandlungen."
+    },
+    {
+      "id": "12A-25",
+      "german": "das Nettoeinkommen, –",
+      "explanation": "Das Einkommen nach Abzug von Steuern und Sozialabgaben.",
+      "synonyms": [],
+      "example": "Das Nettoeinkommen ist entscheidend für die Berechnung des Wohngelds."
+    },
+    {
+      "id": "12A-26",
+      "german": "oberhalb (+ Gen.)",
+      "explanation": "Räumlich oder in einer Tabelle über etwas liegen.",
+      "synonyms": [],
+      "example": "Wer oberhalb einer bestimmten Einkommensgrenze liegt, bekommt kein Wohngeld."
+    },
+    {
+      "id": "12A-27",
+      "german": "die Pension, -en",
+      "explanation": "Rente, die vor allem Beamte im Alter bekommen.",
+      "synonyms": [],
+      "example": "Nach vielen Dienstjahren erhält sie eine gute Pension."
+    },
+    {
+      "id": "12A-28",
+      "german": "das Pflegegeld (Sg.)",
+      "explanation": "Geld für Menschen, die wegen Pflegebedürftigkeit Unterstützung brauchen.",
+      "synonyms": [],
+      "example": "Seine Großmutter bekommt Pflegegeld, weil sie im Alltag Hilfe benötigt."
+    },
+    {
+      "id": "12A-29",
+      "german": "die Pflegeversicherung, -en",
+      "explanation": "Versicherung, die Kosten für Pflege im Alter oder bei Krankheit übernimmt.",
+      "synonyms": [],
+      "example": "Die Pflegeversicherung beteiligt sich an den Kosten für das Pflegeheim."
+    },
+    {
+      "id": "12A-30",
+      "german": "die Pflichtversicherung, -en",
+      "explanation": "Versicherung, die man gesetzlich haben muss.",
+      "synonyms": [],
+      "example": "Die Krankenversicherung ist in Deutschland eine Pflichtversicherung."
+    },
+    {
+      "id": "12A-31",
+      "german": "die Rente, -n",
+      "explanation": "Geld, das man regelmäßig im Alter bekommt, wenn man nicht mehr arbeitet.",
+      "synonyms": [],
+      "example": "Nach einem langen Arbeitsleben freut er sich auf seine Rente."
+    },
+    {
+      "id": "12A-32",
+      "german": "das Rentenalter (Sg.)",
+      "explanation": "Das Alter, in dem Menschen normalerweise in Rente gehen.",
+      "synonyms": [],
+      "example": "Das Rentenalter liegt in Deutschland derzeit bei etwa 67 Jahren."
+    },
+    {
+      "id": "12A-33",
+      "german": "die Rentenversicherung, -en",
+      "explanation": "Versicherung, in die man während des Arbeitslebens einzahlt und die später die Rente zahlt.",
+      "synonyms": [],
+      "example": "Durch die Rentenversicherung bekommt sie im Alter eine monatliche Zahlung."
+    },
+    {
+      "id": "12A-34",
+      "german": "der Sonderstatus (Sg.)",
+      "explanation": "Eine besondere Situation mit anderen Rechten oder Regeln als normal.",
+      "synonyms": [],
+      "example": "Beamte haben im Sozialsystem einen Sonderstatus."
+    },
+    {
+      "id": "12A-35",
+      "german": "sozial",
+      "explanation": "Mit der Gesellschaft und dem Zusammenleben der Menschen zu tun habend.",
+      "synonyms": [],
+      "example": "Das Unternehmen übernimmt soziale Verantwortung für seine Mitarbeitenden."
+    },
+    {
+      "id": "12A-36",
+      "german": "die Sozialhilfe (Sg.)",
+      "explanation": "Staatliche finanzielle Hilfe für Menschen ohne oder mit sehr wenig eigenem Geld.",
+      "synonyms": [],
+      "example": "Ohne Arbeit und Ersparnisse ist sie auf Sozialhilfe angewiesen."
+    },
+    {
+      "id": "12A-37",
+      "german": "der Sozialstaat, -en",
+      "explanation": "Staat, der seine Bürgerinnen und Bürger mit sozialen Leistungen unterstützt.",
+      "synonyms": [],
+      "example": "Deutschland wird oft als Sozialstaat bezeichnet."
+    },
+    {
+      "id": "12A-38",
+      "german": "die Sozialversicherung, -en",
+      "explanation": "System von Versicherungen für Krankheit, Rente, Arbeitslosigkeit und Pflege.",
+      "synonyms": [],
+      "example": "Die Sozialversicherung schützt Menschen in verschiedenen Lebenslagen."
+    },
+    {
+      "id": "12A-39",
+      "german": "unterhalb (+ Gen.)",
+      "explanation": "Räumlich oder in einer Tabelle unter etwas liegen.",
+      "synonyms": [],
+      "example": "Wer unterhalb der Einkommensgrenze liegt, kann Grundsicherung bekommen."
+    },
+    {
+      "id": "12A-40",
+      "german": "(etw.) vor|legen",
+      "explanation": "Ein Dokument oder einen Beleg offiziell zeigen.",
+      "synonyms": [],
+      "example": "Bitte legen Sie Ihren Ausweis und die Unterlagen vor."
+    },
+    {
+      "id": "12A-41",
+      "german": "das Wohngeld (Sg.)",
+      "explanation": "Geld vom Staat, das einen Teil der Miete unterstützt.",
+      "synonyms": [],
+      "example": "Die Familie erhält Wohngeld, weil ihr Einkommen niedrig ist."
+    }
+  ]
+}
+

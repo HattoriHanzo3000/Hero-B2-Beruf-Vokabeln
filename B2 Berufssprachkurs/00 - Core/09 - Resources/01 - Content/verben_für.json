@@ -1,0 +1,110 @@
+{
+  "sectionId": "VERBEN_für",
+  "words": [
+    {
+      "id": "VERBEN_für-1",
+      "german": "ausgeben für (+ Akk.)",
+      "explanation": "Geld für etwas Bestimmtes verwenden.",
+      "example": "Die Firma gibt viel Geld für Weiterbildung aus.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-2",
+      "german": "sich begeistern für (+ Akk.)",
+      "explanation": "Sehr begeistert und positiv von etwas sein.",
+      "example": "Er hat sich für die neue Technik begeistert.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-3",
+      "german": "sich einsetzen für (+ Akk.)",
+      "explanation": "Aktiv dafür arbeiten, dass etwas passiert oder jemandem geholfen wird.",
+      "example": "Sie hat sich aktiv für ihren Kollegen eingesetzt.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-4",
+      "german": "sich engagieren für (+ Akk.)",
+      "explanation": "Sich aktiv und freiwillig für eine Sache oder Person einsetzen.",
+      "example": "Ich engagiere mich für das Jugendtheater in unserer Stadt.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-5",
+      "german": "sich entscheiden für (+ Akk.)",
+      "explanation": "Eine Wahl treffen und sich für eine bestimmte Option entscheiden.",
+      "example": "Sie hat sich für das billigere Angebot entschieden.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-6",
+      "german": "sich entschuldigen für (+ Akk.)",
+      "explanation": "Um Entschuldigung bitten, weil man etwas Falsches gemacht hat.",
+      "example": "Ich entschuldige mich für diesen Fehler.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-7",
+      "german": "erwärmen für (+ Akk.)",
+      "explanation": "Langsam positive Gefühle für etwas oder jemanden entwickeln.",
+      "example": "Er konnte sich nicht für seinen neuen Chef erwärmen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-8",
+      "german": "halten für (+ Akk.)",
+      "explanation": "Eine bestimmte Meinung über etwas haben.",
+      "example": "Wir halten Innovationen für ein wichtiges Thema.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-9",
+      "german": "sich interessieren für (+ Akk.)",
+      "explanation": "Etwas gut finden und mehr darüber wissen wollen.",
+      "example": "Sie interessiert sich sehr für die Weiterbildung.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-10",
+      "german": "kämpfen für (+ Akk.)",
+      "explanation": "Sich aktiv und hart für etwas einsetzen, das man erreichen will.",
+      "example": "Sie kämpft für die Anerkennung ihres Schulabschlusses.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-11",
+      "german": "plädieren für (+ Akk.)",
+      "explanation": "Offiziell für eine bestimmte Entscheidung oder Idee argumentieren.",
+      "example": "Er plädierte für die Anmietung neuer Büros.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-12",
+      "german": "sorgen für (+ Akk.)",
+      "explanation": "Der Grund für etwas sein oder dafür verantwortlich sein, dass etwas passiert.",
+      "example": "Ihr Auftritt sorgte für eine Überraschung.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-13",
+      "german": "stimmen für (+ Akk.)",
+      "explanation": "Bei einer Abstimmung mit ja stimmen oder eine Option wählen.",
+      "example": "Viele stimmten für den neuen Plan.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-14",
+      "german": "tun für (+ Akk.)",
+      "explanation": "Alles Mögliche machen, damit etwas passiert oder erreicht wird.",
+      "example": "Wir tun alles für die Einhaltung des Terminplans.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_für-15",
+      "german": "votieren für (+ Akk.)",
+      "explanation": "Bei einer Abstimmung für eine bestimmte Option stimmen.",
+      "example": "Sie votierte für eine Ausweitung der Produktion.",
+      "quiz": ""
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "sectionId": "2B",
+  "words": [
+    {
+      "id": "2B-1",
+      "german": "etw./jdn. ab|fertigen",
+      "explanation": "Etwas oder jemanden bearbeiten und erledigen.",
+      "synonyms": [],
+      "example": "Die Mitarbeiterin fertigt die Kunden am Schalter ab."
+    },
+    {
+      "id": "2B-2",
+      "german": "die Arbeitsstätte, -n",
+      "explanation": "Der Ort, wo man arbeitet.",
+      "synonyms": [],
+      "example": "Die neue Arbeitsstätte ist sehr modern."
+    },
+    {
+      "id": "2B-3",
+      "german": "etw. beschreiben",
+      "explanation": "Etwas erklären oder darstellen.",
+      "synonyms": [],
+      "example": "Sie beschreibt ihre Aufgaben im Detail."
+    },
+    {
+      "id": "2B-4",
+      "german": "etw. betreiben",
+      "explanation": "Etwas führen oder machen.",
+      "synonyms": [],
+      "example": "Das Unternehmen betreibt mehrere Filialen."
+    },
+    {
+      "id": "2B-5",
+      "german": "das Bodenpersonal (Sg.)",
+      "explanation": "Die Mitarbeiter, die am Flughafen am Boden arbeiten.",
+      "synonyms": [],
+      "example": "Das Bodenpersonal kümmert sich um die Flugzeuge."
+    },
+    {
+      "id": "2B-6",
+      "german": "der Check-in (Sg.)",
+      "explanation": "Die Anmeldung am Flughafen vor dem Flug.",
+      "synonyms": [],
+      "example": "Der Check-in beginnt zwei Stunden vor Abflug."
+    },
+    {
+      "id": "2B-7",
+      "german": "jdn. ein|stellen",
+      "explanation": "Jemanden als Mitarbeiter annehmen.",
+      "synonyms": [],
+      "example": "Das Unternehmen stellt neue Mitarbeiter ein."
+    },
+    {
+      "id": "2B-8",
+      "german": "der Einzelhandel (Sg.)",
+      "explanation": "Geschäfte, die Waren direkt an Kunden verkaufen.",
+      "synonyms": [],
+      "example": "Der Einzelhandel hat viele offene Stellen."
+    },
+    {
+      "id": "2B-9",
+      "german": "etw. erweitern",
+      "explanation": "Etwas größer machen oder mehr hinzufügen.",
+      "synonyms": [],
+      "example": "Das Unternehmen möchte sein Angebot erweitern."
+    },
+    {
+      "id": "2B-10",
+      "german": "der Fluglotse, -n",
+      "explanation": "Ein Mann, der den Flugverkehr vom Boden aus steuert.",
+      "synonyms": [],
+      "example": "Der Fluglotse leitet die Flugzeuge sicher zum Flughafen."
+    },
+    {
+      "id": "2B-11",
+      "german": "die Fluglotsin, -nen",
+      "explanation": "Eine Frau, die den Flugverkehr vom Boden aus steuert.",
+      "synonyms": [],
+      "example": "Die Fluglotsin überwacht den Flugverkehr."
+    },
+    {
+      "id": "2B-12",
+      "german": "die Flugzeugabfertigung (Sg.)",
+      "explanation": "Wenn ein Flugzeug für den Flug vorbereitet wird.",
+      "synonyms": [],
+      "example": "Die Flugzeugabfertigung dauert etwa eine Stunde."
+    },
+    {
+      "id": "2B-13",
+      "german": "die Gepäckabfertigung (Sg.)",
+      "explanation": "Wenn das Gepäck der Passagiere bearbeitet wird.",
+      "synonyms": [],
+      "example": "Die Gepäckabfertigung erfolgt am Check-in-Schalter."
+    },
+    {
+      "id": "2B-14",
+      "german": "die Gewerkschaft, -en",
+      "explanation": "Eine Organisation, die die Interessen der Arbeitnehmer vertritt.",
+      "synonyms": [],
+      "example": "Die Gewerkschaft verhandelt über bessere Arbeitsbedingungen."
+    },
+    {
+      "id": "2B-15",
+      "german": "etw. gründen",
+      "explanation": "Etwas Neues starten oder ins Leben rufen.",
+      "synonyms": [],
+      "example": "Sie möchte ein eigenes Unternehmen gründen."
+    },
+    {
+      "id": "2B-16",
+      "german": "das Handgepäck (Sg.)",
+      "explanation": "Gepäck, das man mit ins Flugzeug nimmt.",
+      "synonyms": [],
+      "example": "Das Handgepäck darf maximal 8 Kilogramm wiegen."
+    },
+    {
+      "id": "2B-17",
+      "german": "die Hygiene (Sg.)",
+      "explanation": "Sauberkeit und Reinlichkeit.",
+      "synonyms": [],
+      "example": "Die Hygiene ist in der Gastronomie sehr wichtig."
+    },
+    {
+      "id": "2B-18",
+      "german": "die Logistik (Sg.)",
+      "explanation": "Die Organisation und Planung von Transport und Lagerung.",
+      "synonyms": [],
+      "example": "Die Logistik sorgt für den reibungslosen Ablauf."
+    },
+    {
+      "id": "2B-19",
+      "german": "die Luftfracht (Sg.)",
+      "explanation": "Waren, die mit dem Flugzeug transportiert werden.",
+      "synonyms": [],
+      "example": "Die Luftfracht wird im Frachtbereich gelagert."
+    },
+    {
+      "id": "2B-20",
+      "german": "der Passagier, -e",
+      "explanation": "Ein Mann, der mit einem Flugzeug, Zug oder Schiff reist.",
+      "synonyms": [],
+      "example": "Der Passagier wartet am Gate auf seinen Flug."
+    },
+    {
+      "id": "2B-21",
+      "german": "die Passagierin, -nen",
+      "explanation": "Eine Frau, die mit einem Flugzeug, Zug oder Schiff reist.",
+      "synonyms": [],
+      "example": "Die Passagierin hat ihren Flug verpasst."
+    },
+    {
+      "id": "2B-22",
+      "german": "der Quereinsteiger, –",
+      "explanation": "Ein Mann, der in einen neuen Beruf wechselt, ohne die entsprechende Ausbildung zu haben.",
+      "synonyms": [],
+      "example": "Der Quereinsteiger bringt Erfahrung aus einem anderen Bereich mit."
+    },
+    {
+      "id": "2B-23",
+      "german": "die Quereinsteigerin, -nen",
+      "explanation": "Eine Frau, die in einen neuen Beruf wechselt, ohne die entsprechende Ausbildung zu haben.",
+      "synonyms": [],
+      "example": "Die Quereinsteigerin lernt den neuen Beruf schnell."
+    },
+    {
+      "id": "2B-24",
+      "german": "die Spedition, -en",
+      "explanation": "Ein Unternehmen, das Waren transportiert und versendet.",
+      "synonyms": [],
+      "example": "Die Spedition liefert die Waren pünktlich aus."
+    },
+    {
+      "id": "2B-25",
+      "german": "etw. um|bauen",
+      "explanation": "Etwas ändern oder renovieren.",
+      "synonyms": [],
+      "example": "Das Unternehmen baut die Filiale um."
+    },
+    {
+      "id": "2B-26",
+      "german": "etw. umfassen",
+      "explanation": "Etwas enthalten oder einschließen.",
+      "synonyms": [],
+      "example": "Die Aufgabe umfasst verschiedene Bereiche."
+    },
+    {
+      "id": "2B-27",
+      "german": "etw./jdn. vertreten",
+      "explanation": "Für etwas oder jemanden einstehen oder ihn ersetzen.",
+      "synonyms": [],
+      "example": "Sie vertritt ihren Kollegen während des Urlaubs."
+    }
+  ]
+}

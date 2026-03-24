@@ -1,0 +1,54 @@
+{
+  "sectionId": "VERBEN_in",
+  "words": [
+    {
+      "id": "VERBEN_in-1",
+      "german": "sich halten in (+ Dat.)",
+      "explanation": "In einer schwierigen Situation gut zurechtkommen oder sich gut verhalten.",
+      "example": "Sie hat sich in der Prüfung sehr gut gehalten.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-2",
+      "german": "sich hineinversetzen in (+ Akk.)",
+      "explanation": "Versuchen zu verstehen, wie sich jemand anderes fühlt oder denkt.",
+      "example": "Ich kann mich gut in den Chef hineinversetzen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-3",
+      "german": "sich integrieren in (+ Akk.)",
+      "explanation": "Teil einer Gruppe werden und sich dort wohlfühlen.",
+      "example": "Er hat sich gut in das neue Team integriert.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-4",
+      "german": "investieren in (+ Akk.)",
+      "explanation": "Geld oder Zeit in etwas stecken, um später einen Vorteil zu haben.",
+      "example": "Der Staat sollte mehr in Elektroautos investieren.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-5",
+      "german": "nachlassen in (+ Dat.)",
+      "explanation": "Schlechter werden oder weniger gut sein als vorher.",
+      "example": "Er hat in seinen Leistungen leider sehr nachgelassen.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-6",
+      "german": "übereinstimmen in (+ Dat.)",
+      "explanation": "Die gleiche Meinung oder den gleichen Standpunkt haben.",
+      "example": "Die Mitarbeitenden stimmten in diesem Punkt überein.",
+      "quiz": ""
+    },
+    {
+      "id": "VERBEN_in-7",
+      "german": "umrechnen in (+ Akk.)",
+      "explanation": "Einen Wert von einer Einheit in eine andere umwandeln.",
+      "example": "Die Bank hat die Dollar in Euro umgerechnet.",
+      "quiz": ""
+    }
+  ]
+}
