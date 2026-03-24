@@ -80,11 +80,7 @@ struct ShareView: View {
                 .padding(.horizontal)
             }
             .padding(.vertical, 20)
-            .padding(.bottom, 60) // Space for banner ad
-        }
-        .safeAreaInset(edge: .bottom) {
-            BannerAd()
-                .background(Color(.systemGroupedBackground))
+            .padding(.bottom, 24)
         }
         .navigationTitle(Localizable.string(Localizable.share))
         .navigationBarTitleDisplayMode(.inline)

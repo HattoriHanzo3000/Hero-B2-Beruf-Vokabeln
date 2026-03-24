@@ -30,8 +30,7 @@ struct B2_BerufssprachkursApp: App {
     @AppStorage("hasSeenWelcomeVideo") private var hasSeenWelcomeVideo: Bool = false
     
     init() {
-        // RevenueCat and Superwall are initialized in AppDelegate
-        // This ensures proper initialization order and prevents duplicate calls
+        // RevenueCat is initialized in AppDelegate
     }
     
     private var colorScheme: ColorScheme? {

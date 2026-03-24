@@ -1,5 +1,5 @@
 {
-  "originHash" : "cbd28a32f7f8eb9653c316b77c8b0489273924e82147f29ce83fb339fbd95ae8",
+  "originHash" : "a3bcaa15a454fa7370ad47de0b4a365f92876b40d5fa0a3e490eb29c4688cd7b",
   "pins" : [
     {
       "identity" : "purchases-ios-spm",
@@ -8,42 +8,6 @@
       "state" : {
         "revision" : "2d95eedc59c06fa6349aab7a506f0950ac0a563b",
         "version" : "5.50.1"
-      }
-    },
-    {
-      "identity" : "superscript-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/superwall/Superscript-iOS",
-      "state" : {
-        "revision" : "bde42f1c7652a69a469677978ed97cba92c4dd2c",
-        "version" : "1.0.10"
-      }
-    },
-    {
-      "identity" : "superwall-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/superwall/Superwall-iOS",
-      "state" : {
-        "revision" : "741e4c5ce6970499fe59896f23945c1ad9c9f118",
-        "version" : "4.11.2"
-      }
-    },
-    {
-      "identity" : "swift-package-manager-google-mobile-ads",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/googleads/swift-package-manager-google-mobile-ads.git",
-      "state" : {
-        "revision" : "1239c23464503053c17d37ee5daa70de3455e9c8",
-        "version" : "12.14.0"
-      }
-    },
-    {
-      "identity" : "swift-package-manager-google-user-messaging-platform",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git",
-      "state" : {
-        "revision" : "13b248eaa73b7826f0efb1bcf455e251d65ecb1b",
-        "version" : "3.1.0"
       }
     }
   ],

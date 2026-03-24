@@ -265,9 +265,6 @@ struct FavoritesView: View {
                 .padding(.horizontal, 20)
                 .padding(.bottom, 8)
                 
-                // Fixed Banner Ad at the bottom
-                BannerAd()
-                    .background(Color("AppYellow").opacity(0.08))
             }
         }
     }

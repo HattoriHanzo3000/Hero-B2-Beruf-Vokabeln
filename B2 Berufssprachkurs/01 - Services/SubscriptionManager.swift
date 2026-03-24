@@ -458,10 +458,6 @@ final class SubscriptionManager: ObservableObject {
         userDefaults.removeObject(forKey: trialActivatedKey)
         userDefaults.removeObject(forKey: firstLaunchDateKey)
         
-        // Clear temporary premium unlocks
-        userDefaults.removeObject(forKey: "premiumUnlockedUntil")
-        userDefaults.removeObject(forKey: "adsDisabledUntil")
-        
         // Clear subscription status
         isPremiumActive = false
         
@@ -481,9 +477,6 @@ final class SubscriptionManager: ObservableObject {
         // Clear all trial and premium related keys
         userDefaults.removeObject(forKey: trialActivatedKey)
         userDefaults.removeObject(forKey: firstLaunchDateKey)
-        userDefaults.removeObject(forKey: "premiumUnlockedUntil")
-        userDefaults.removeObject(forKey: "adsDisabledUntil")
-        
         // Reset subscription status
         isPremiumActive = false
         hasActiveSubscription = false

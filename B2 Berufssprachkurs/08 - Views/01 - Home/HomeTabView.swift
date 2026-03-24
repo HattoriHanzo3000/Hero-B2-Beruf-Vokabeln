@@ -127,9 +127,6 @@ struct HomeTabView: View {
                     }
                 }
                 
-                // Banner Ad at the bottom
-                BannerAd()
-                    .padding(.bottom, 8)
             }
         }
         .fullScreenCover(item: $activeStack) { stack in

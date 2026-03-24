@@ -198,14 +198,7 @@ struct CockpitView: View {
                     // Add more content sections here as needed
                 }
                 .padding(.vertical)
-                .padding(.bottom, 60) // Space for fixed banner ad
-            }
-            
-            // Fixed Banner Ad at the bottom
-            VStack {
-                Spacer()
-                BannerAd()
-                    .background(Color("AppGreenExtraLight"))
+                .padding(.bottom, 16)
             }
         }
         .navigationBarTitleDisplayMode(.inline)

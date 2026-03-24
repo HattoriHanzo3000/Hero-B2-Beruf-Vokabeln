@@ -18,20 +18,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // This will configure RevenueCat and start syncing customer info
         Task { @MainActor in
             _ = RevenueCatService.shared
-            // Initialize Superwall after RevenueCat (depends on RevenueCat)
-            SuperwallService.shared.configure()
         }
-        
-        // Initialize AdMob
-        AdManager.shared.initialize()
         
         // Initialize SubscriptionManager to check subscription status early
         Task { @MainActor in
             await SubscriptionManager.shared.loadProducts()
         }
-        
-        // Tracking permission removed - AdMob is disabled
-        // TrackingManager.requestTrackingPermission()
         
         return true
     }

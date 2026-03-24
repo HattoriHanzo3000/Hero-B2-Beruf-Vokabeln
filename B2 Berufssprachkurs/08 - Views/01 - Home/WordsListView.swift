@@ -166,9 +166,6 @@ struct WordsListView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 8)
                     
-                    // Fixed Banner Ad at the bottom
-                    BannerAd()
-                        .background(stackInfo.color.opacity(0.08))
                 }
             }
         }

@@ -69,10 +69,6 @@ struct AdjectivesListView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .safeAreaInset(edge: .bottom) {
-                BannerAd()
-                    .background(Color("AppPurple").opacity(0.08))
-            }
             .scrollContentBackground(.hidden)
         }
         .navigationBarTitleDisplayMode(.inline)

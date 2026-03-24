@@ -73,10 +73,6 @@ struct VerbsListView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .safeAreaInset(edge: .bottom) {
-                BannerAd()
-                    .background(Color("AppBlue").opacity(0.08))
-            }
             .scrollContentBackground(.hidden)
         }
         .navigationBarTitleDisplayMode(.inline)

@@ -2,7 +2,7 @@
 //  RevenueCatService.swift
 //  B2 Berufssprachkurs
 //
-//  Created for RevenueCat + Superwall Integration
+//  RevenueCat integration
 //
 
 import Foundation

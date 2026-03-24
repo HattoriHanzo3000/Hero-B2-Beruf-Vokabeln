@@ -136,15 +136,13 @@ struct StudyView: View {
         return .generalWords
     }
     
-    // Track study sessions for interstitial ads
+    // Track study sessions for rating prompts
     @AppStorage("studySessionCount") private var studySessionCount = 0
-    @AppStorage("adsDisabledUntil") private var adsDisabledUntil: TimeInterval = 0
     @ObservedObject private var ratingManager = RatingManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     
     private var isPremiumActive: Bool {
-        let now = Date().timeIntervalSince1970
-        return adsDisabledUntil > now || subscriptionManager.isPremiumActive
+        subscriptionManager.isPremiumActive
     }
     
     init(dataService: DataService, filterBySectionId: String? = nil, studyAllMode: Bool = false, favoritesOnly: Bool = false, categoryFilter: String? = nil) {
@@ -916,14 +914,6 @@ struct StudyView: View {
                 }
             }
             
-            // Show interstitial ad every 2-3 sessions (only if premium is not active)
-            // This gives a good balance between revenue and user experience
-            if !isPremiumActive && studySessionCount % 3 == 0 {
-                // Show ad after a short delay to allow view to start dismissing
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    InterstitialAdHelper.showInterstitialAd()
-                }
-            }
         }
         
         dismiss()

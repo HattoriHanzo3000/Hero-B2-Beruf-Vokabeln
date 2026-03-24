@@ -73,59 +73,6 @@ enum AppConfig {
         return "appl_rcEmwNiUYUgSBkoXePHgjfKFjcI"
     }
     
-    // MARK: - Superwall Configuration
-    
-    /// Superwall Public API Key
-    ///
-    /// Get from: https://superwall.com/dashboard → Settings → API Keys
-    ///
-    /// **Important:**
-    /// - Use test/sandbox key for development
-    /// - Use production key for release builds
-    /// - Never commit production keys to version control
-    static var superwallAPIKey: String {
-        // Option 1: Read from Info.plist (recommended for production)
-        if let key = Bundle.main.object(forInfoDictionaryKey: "SuperwallAPIKey") as? String,
-           !key.isEmpty {
-            return key
-        }
-        
-        // Option 2: Read from environment variable (for CI/CD)
-        if let key = ProcessInfo.processInfo.environment["SUPERWALL_API_KEY"],
-           !key.isEmpty {
-            return key
-        }
-        
-        // Option 3: Hardcoded fallback (for development only)
-        //
-        // ⚠️ IMPORTANT NOTES ABOUT API KEYS:
-        //
-        // 1. Superwall Public API Keys (starting with "pk_") are MEANT to be in client code.
-        //    They are NOT secret keys - they're public identifiers for your project.
-        //
-        // 2. However, you may want separate keys for:
-        //    - Development/Testing: Use test/sandbox environment
-        //    - Production: Use production environment
-        //    (Superwall may provide separate keys, or you might use the same key for both)
-        //
-        // 3. If Superwall gives you separate test/prod keys, use them here.
-        //    If they give you one key that works for both, that's fine too.
-        //
-        // 4. The real security concern is using the RIGHT environment, not hiding the key.
-        //    Superwall handles security server-side.
-        //
-        // 5. For maximum security, move keys to Info.plist (see INTEGRATION_CHECKLIST.md)
-        //
-        #if DEBUG
-        // Development/Test key - Use this for testing in simulator or TestFlight
-        return "pk_FkOPYHsQH06fg63Xr0lTU"
-        #else
-        // Production key - Use this for App Store releases
-        // If Superwall provides a separate production key, replace it here
-        return "pk_FkOPYHsQH06fg63Xr0lTU"
-        #endif
-    }
-    
     // MARK: - Validation
     
     /// Validates that API keys are configured (not placeholder values)
@@ -136,12 +83,6 @@ enum AppConfig {
         let revenueCatKey = revenueCatAPIKey
         if revenueCatKey.contains("YOUR_") || revenueCatKey.isEmpty {
             errors.append("RevenueCat API key is not configured")
-        }
-        
-        // Check Superwall API key
-        let superwallKey = superwallAPIKey
-        if superwallKey.contains("YOUR_") || superwallKey.isEmpty {
-            errors.append("Superwall API key is not configured")
         }
         
         return (errors.isEmpty, errors)
@@ -160,15 +101,6 @@ enum AppConfig {
             source["RevenueCat"] = "Environment Variable"
         } else {
             source["RevenueCat"] = "Hardcoded (Fallback)"
-        }
-        
-        // Check Superwall
-        if Bundle.main.object(forInfoDictionaryKey: "SuperwallAPIKey") as? String != nil {
-            source["Superwall"] = "Info.plist"
-        } else if ProcessInfo.processInfo.environment["SUPERWALL_API_KEY"] != nil {
-            source["Superwall"] = "Environment Variable"
-        } else {
-            source["Superwall"] = "Hardcoded (Fallback)"
         }
         
         return source
