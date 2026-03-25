@@ -25,7 +25,14 @@ enum LaunchOfferService {
 
     /// Date of first app launch. Nil if never recorded.
     static var firstLaunchDate: Date? {
-        UserDefaults.standard.object(forKey: firstLaunchDateKey) as? Date
+        let raw = UserDefaults.standard.object(forKey: firstLaunchDateKey)
+        if let date = raw as? Date {
+            return date
+        }
+        if let timestamp = raw as? TimeInterval {
+            return Date(timeIntervalSince1970: timestamp)
+        }
+        return nil
     }
 
     /// True if current time is within 72 hours of first app launch.

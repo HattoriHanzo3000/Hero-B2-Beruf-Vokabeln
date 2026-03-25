@@ -211,10 +211,12 @@ extension Localizable {
     static let continueButton = "continue_button"
     static let subscriptionTerms = "subscription_terms"
     static let subscriptionTermsMonthly = "subscription_terms_monthly"
+    static let subscriptionTermsQuarterly = "subscription_terms_quarterly"
     static let subscriptionTermsYearly = "subscription_terms_yearly"
     static let subscriptionTermsLifetime = "subscription_terms_lifetime"
     static let subscriptionTitle = "subscription_title"
     static let subscriptionLength = "subscription_length"
+    static let quarterlyExplanation = "quarterly_explanation"
     
     // Launch offer (3-day lifetime promo)
     static let launchOfferExpiresIn = "launch_offer_expires_in"

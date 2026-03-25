@@ -47,8 +47,7 @@ struct PaywallView: View {
             // Lifetime - one-time purchase
             return String(format: Localizable.string(Localizable.subscriptionTermsLifetime), price)
         } else if selectedProductID == "hero.premium.quarterly" {
-            // Temporary: reuse monthly renewal copy until quarterly-specific copy is added
-            return String(format: Localizable.string(Localizable.subscriptionTermsMonthly), price)
+            return String(format: Localizable.string(Localizable.subscriptionTermsQuarterly), price)
         } else {
             // Monthly subscription (default)
             return String(format: Localizable.string(Localizable.subscriptionTermsMonthly), price)
@@ -131,8 +130,8 @@ struct PaywallView: View {
             if activeNow != isLaunchOfferActive {
                 isLaunchOfferActive = activeNow
                 if !activeNow && selectedProductID == LaunchOfferService.promoProductId {
-                    // Promo expired while paywall is open; fall back to quarterly selection.
-                    selectedProductID = "hero.premium.quarterly"
+                    // Promo expired while paywall is open; fall back to standard lifetime.
+                    selectedProductID = LaunchOfferService.standardLifetimeProductId
                 }
             }
             countdownString = activeNow ? LaunchOfferService.countdownString : ""
@@ -219,8 +218,8 @@ struct PaywallView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
 
-            // Subtitle (for now reuse title copy)
-            Text(Localizable.string(Localizable.heroPremiumSubscription))
+            // Subtitle copy (separate from the title)
+            Text(Localizable.string(Localizable.premiumPromoSubtitle))
                 .font(.system(.subheadline, design: .rounded).weight(.semibold))
                 .foregroundColor(.white.opacity(0.95))
                 .multilineTextAlignment(.center)
@@ -295,10 +294,10 @@ struct PaywallView: View {
                 }
             )
             
-            // Yearly subscription button
+            // Quarterly subscription button
             SubscriptionOptionButton(
                 title: Localizable.string(Localizable.premium3Months),
-                explanation: Localizable.string(Localizable.monthlyExplanation),
+                explanation: Localizable.string(Localizable.quarterlyExplanation),
                 productID: "hero.premium.quarterly",
                 fallbackPrice: "",
                 period: Localizable.string(Localizable.months3),
