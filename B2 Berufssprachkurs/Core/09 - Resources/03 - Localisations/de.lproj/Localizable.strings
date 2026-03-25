@@ -204,6 +204,7 @@
 "subscription_terms_yearly" = "Bei Abonnement wird dein Apple-Konto mit %@ belastet. Dein Hero Premium-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
 "subscription_terms_yearly_promotional" = "Bei Abonnement wird dein Apple-Konto mit %@ für das erste Jahr belastet. Nach dem ersten Jahr verlängert sich dein Hero Premium-Abonnement automatisch zu %@ pro Jahr, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
 "subscription_terms_lifetime" = "Bei Kauf wird dein Apple-Konto mit %@ belastet. Dies ist eine einmalige Zahlung ohne wiederkehrende Gebühren.\n\nWeitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
+"launch_offer_expires_in" = "Endet in";
 "subscription_title" = "Hero Premium Abonnement";
 "subscription_length" = "1 Monat";
 

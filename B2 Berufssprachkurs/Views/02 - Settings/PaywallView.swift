@@ -8,6 +8,7 @@
 import SwiftUI
 import StoreKit
 import RevenueCat
+import Combine
 
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
@@ -16,6 +17,9 @@ struct PaywallView: View {
     @State private var selectedProductID: String = "hero.premium.quarterly"
     @State private var selectedPackage: Package?
     @State private var isLoadingPackages = false
+    
+    @State private var isLaunchOfferActive = LaunchOfferService.isLaunchOfferActive
+    @State private var countdownString = LaunchOfferService.countdownString
     
     // Computed property for button text based on selected product and trial eligibility
     private var buttonText: String {
@@ -90,8 +94,24 @@ struct PaywallView: View {
                 await subscriptionManager.loadProducts()
             }
             
+            // Default selection depends on the 3-day lifetime promo window
+            isLaunchOfferActive = LaunchOfferService.isLaunchOfferActive
+            selectedProductID = isLaunchOfferActive ? LaunchOfferService.promoProductId : "hero.premium.quarterly"
+            countdownString = isLaunchOfferActive ? LaunchOfferService.countdownString : ""
+            
             // Set selected package based on selected product ID
             updateSelectedPackage()
+        }
+        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
+            let activeNow = LaunchOfferService.isLaunchOfferActive
+            if activeNow != isLaunchOfferActive {
+                isLaunchOfferActive = activeNow
+                if !activeNow && selectedProductID == LaunchOfferService.promoProductId {
+                    // Promo expired while paywall is open; fall back to quarterly selection.
+                    selectedProductID = "hero.premium.quarterly"
+                }
+            }
+            countdownString = activeNow ? LaunchOfferService.countdownString : ""
         }
         .alert("Error", isPresented: $showingError) {
             Button("OK", role: .cancel) { }
@@ -212,6 +232,7 @@ struct PaywallView: View {
                 isSelected: selectedProductID == "hero.premium.monthly",
                 showFreeTrial: false,
                 showSeasonalOffer: false,
+                countdownText: nil,
                 subscriptionManager: subscriptionManager,
                 revenueCatService: revenueCatService,
                 onSelect: {
@@ -230,6 +251,7 @@ struct PaywallView: View {
                 isSelected: selectedProductID == "hero.premium.quarterly",
                 showFreeTrial: false,
                 showSeasonalOffer: false,
+                countdownText: nil,
                 subscriptionManager: subscriptionManager,
                 revenueCatService: revenueCatService,
                 onSelect: {
@@ -239,22 +261,44 @@ struct PaywallView: View {
             )
             
             // Lifetime subscription button
-            SubscriptionOptionButton(
-                title: Localizable.string(Localizable.lifetime),
-                explanation: Localizable.string(Localizable.lifetimeExplanation),
-                productID: "hero.premium.lifetime",
-                fallbackPrice: "",
-                period: "",
-                isSelected: selectedProductID == "hero.premium.lifetime",
-                showFreeTrial: false,
-                showSeasonalOffer: false,
-                subscriptionManager: subscriptionManager,
-                revenueCatService: revenueCatService,
-                onSelect: {
-                    HapticManager.shared.lightImpact()
-                    selectedProductID = "hero.premium.lifetime"
-                }
-            )
+            if isLaunchOfferActive {
+                SubscriptionOptionButton(
+                    title: Localizable.string(Localizable.lifetime),
+                    explanation: Localizable.string(Localizable.lifetimeExplanation),
+                    productID: LaunchOfferService.promoProductId,
+                    regularProductID: LaunchOfferService.standardLifetimeProductId,
+                    fallbackPrice: "",
+                    period: "",
+                    isSelected: selectedProductID == LaunchOfferService.promoProductId,
+                    showFreeTrial: false,
+                    showSeasonalOffer: false,
+                    countdownText: countdownString,
+                    subscriptionManager: subscriptionManager,
+                    revenueCatService: revenueCatService,
+                    onSelect: {
+                        HapticManager.shared.lightImpact()
+                        selectedProductID = LaunchOfferService.promoProductId
+                    }
+                )
+            } else {
+                SubscriptionOptionButton(
+                    title: Localizable.string(Localizable.lifetime),
+                    explanation: Localizable.string(Localizable.lifetimeExplanation),
+                    productID: LaunchOfferService.standardLifetimeProductId,
+                    fallbackPrice: "",
+                    period: "",
+                    isSelected: selectedProductID == LaunchOfferService.standardLifetimeProductId,
+                    showFreeTrial: false,
+                    showSeasonalOffer: false,
+                    countdownText: nil,
+                    subscriptionManager: subscriptionManager,
+                    revenueCatService: revenueCatService,
+                    onSelect: {
+                        HapticManager.shared.lightImpact()
+                        selectedProductID = LaunchOfferService.standardLifetimeProductId
+                    }
+                )
+            }
         }
         .padding(.horizontal, 24)
         .padding(.top, 8)
@@ -500,6 +544,7 @@ private struct SubscriptionOptionButton: View {
     let isSelected: Bool
     let showFreeTrial: Bool
     let showSeasonalOffer: Bool
+    let countdownText: String?
     @ObservedObject var subscriptionManager: SubscriptionManager
     @ObservedObject var revenueCatService: RevenueCatService
     @Environment(\.colorScheme) private var colorScheme
@@ -666,8 +711,21 @@ private struct SubscriptionOptionButton: View {
                 }
                 
                 // Third row: Holiday sale info (only for yearly button)
-                if isYearlyButton {
-                    HolidaySaleRow(isSelected: isSelected)
+                if let countdownText, !countdownText.isEmpty {
+                    HStack(alignment: .center, spacing: 8) {
+                        Image(systemName: "timer")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(isYearlyButton && isSelected ? .white.opacity(0.9) : Color("AppGreen"))
+                        Text(Localizable.string(Localizable.launchOfferExpiresIn))
+                            .font(.system(.caption2, design: .rounded).weight(.semibold))
+                            .foregroundColor(isYearlyButton && isSelected ? .white.opacity(0.9) : .secondary)
+                        Text(countdownText)
+                            .font(.system(.caption2, design: .rounded).weight(.bold))
+                            .monospacedDigit()
+                            .foregroundColor(isYearlyButton && isSelected ? .white : .primary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, 2)
                 }
             }
             .padding(16)

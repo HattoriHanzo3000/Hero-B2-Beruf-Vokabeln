@@ -204,6 +204,7 @@
 "subscription_terms_yearly" = "Upon subscribing, your Apple account will be charged %@. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
 "subscription_terms_yearly_promotional" = "Upon subscribing, your Apple account will be charged %@ for the first year. After the first year, your Hero Premium subscription will automatically renew at %@ per year unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
 "subscription_terms_lifetime" = "Upon purchase, your Apple account will be charged %@. This is a one-time payment with no recurring charges.\n\nView our Terms of Use and Privacy Policy for more details.";
+"launch_offer_expires_in" = "Ends in";
 "subscription_title" = "Hero Premium Subscription";
 "subscription_length" = "1 month";
 

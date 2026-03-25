@@ -216,6 +216,9 @@ extension Localizable {
     static let subscriptionTitle = "subscription_title"
     static let subscriptionLength = "subscription_length"
     
+    // Launch offer (3-day lifetime promo)
+    static let launchOfferExpiresIn = "launch_offer_expires_in"
+    
     // Promo Code
     static let promoCode = "promo_code"
     static let enterPromoCode = "enter_promo_code"

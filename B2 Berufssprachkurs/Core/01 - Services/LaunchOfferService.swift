@@ -8,7 +8,10 @@
 import Foundation
 
 enum LaunchOfferService {
-    // RevenueCat package identifier values (matched against `Package.identifier`)
+    // App Store Connect product identifier values (matched against `StoreProduct.productIdentifier`)
+    static let promoProductId = "hero.premium.lifetime.promo"
+
+    // RevenueCat package identifier values (matched against `Package.identifier`) - kept for reference.
     static let promoPackageIdentifier = "$rc_lifetime_promo"
 
     // App Store Connect product identifiers (matched against `StoreProduct.productIdentifier`)
