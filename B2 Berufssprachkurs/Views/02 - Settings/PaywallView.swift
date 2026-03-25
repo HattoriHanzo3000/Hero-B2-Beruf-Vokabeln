@@ -9,9 +9,11 @@ import SwiftUI
 import StoreKit
 import RevenueCat
 import Combine
+import UIKit
 
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
     @StateObject private var revenueCatService = RevenueCatService.shared
     @StateObject private var subscriptionManager = SubscriptionManager.shared // Keep for trial logic
     @State private var selectedProductID: String = "hero.premium.quarterly"
@@ -23,7 +25,7 @@ struct PaywallView: View {
     
     // Computed property for button text based on selected product and trial eligibility
     private var buttonText: String {
-        Localizable.string(Localizable.upgradeNow)
+        Localizable.string(Localizable.continueButton)
     }
     
     // Computed property for dynamic subscription terms based on selected product
@@ -58,21 +60,43 @@ struct PaywallView: View {
     @State private var errorMessage: String?
     
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack {
+            // Vertical gradient background using your app colors
+            LinearGradient(
+                colors: [
+                    Color("AppGreen"),
+                    Color("AppBlue")
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            
             ScrollView {
                 VStack(spacing: 24) {
                     headerSection
                     benefitsSection
                     seasonalPromotionalBanner
                     subscriptionOptionsSection
-                    termsSection
+                    
+                    // Main CTA
+                    subscribeButtonSection
+                    
+                    // Benefits block again, matching the "after continue" layout
+                    benefitsSection
+                    
+                    // Restore purchases + redeem code
                     footerActionsSection
+                    
+                    // Legal boilerplate + bottom legal row
+                    termsSection
+                    legalActionsRow
+                    
                     Spacer(minLength: 20)
                 }
             }
-            subscribeButtonSection
+            .background(Color.clear)
         }
-        .background(Color(.systemBackground))
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
         .sheet(item: Binding(
@@ -155,23 +179,30 @@ struct PaywallView: View {
     // MARK: - View Components
     
     private var headerSection: some View {
-        VStack(spacing: 0) {
-            // Crown icon
-            Image(systemName: "crown.fill")
-                .font(.system(size: 60, weight: .semibold, design: .rounded))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [
-                            Color("AppGreen"),
-                            Color("AppBlue")
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
+        VStack(spacing: 12) {
+            // Premium shield badge
+            HStack(spacing: 8) {
+                Image(systemName: "shield.fill")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [
+                                Color("AppGreen"),
+                                Color("AppBlue")
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
                     )
-                )
-                .shadow(color: Color("AppGreen").opacity(0.3), radius: 15, x: 0, y: 8)
-                .padding(.top, 32)
-            
+                Text(Localizable.string(Localizable.premium))
+                    .font(.system(.caption, design: .rounded).weight(.bold))
+                    .foregroundColor(.white.opacity(0.95))
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 7)
+            .background(Capsule().fill(Color.white.opacity(0.12)))
+            .overlay(Capsule().stroke(Color.white.opacity(0.28), lineWidth: 1))
+
             // Title with gradient
             Text(Localizable.string(Localizable.heroPremiumSubscription))
                 .font(.system(.title2, design: .rounded).weight(.bold))
@@ -187,31 +218,54 @@ struct PaywallView: View {
                 )
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
+
+            // Subtitle (for now reuse title copy)
+            Text(Localizable.string(Localizable.heroPremiumSubscription))
+                .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                .foregroundColor(.white.opacity(0.95))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 24)
+
+            // Mascot (reuses existing app assets)
+            Image(mascotImageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 130, height: 130)
+                .accessibilityHidden(true)
         }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 8)
+    }
+    
+    private var mascotImageName: String {
+        if colorScheme == .dark, UIImage(named: "MascotDark") != nil {
+            return "MascotDark"
+        }
+        return "Mascot"
+    }
+    
+    private var benefitsBlockText: String {
+        let parts = [
+            Localizable.string(Localizable.accessToAllWords),
+            Localizable.string(Localizable.detailedProgress),
+            Localizable.string(Localizable.favoriteWords),
+            Localizable.string(Localizable.practiceModes),
+            Localizable.string(Localizable.wordOfTheDayCustomization),
+            Localizable.string(Localizable.shareExportWords)
+        ]
+        // One consolidated block of text (no checkmarks).
+        return parts.joined(separator: "\n")
     }
     
     private var benefitsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            BenefitChecklistItem(
-                text: Localizable.string(Localizable.accessToAllWords)
-            )
-            BenefitChecklistItem(
-                text: Localizable.string(Localizable.detailedProgress)
-            )
-            BenefitChecklistItem(
-                text: Localizable.string(Localizable.favoriteWords)
-            )
-            BenefitChecklistItem(
-                text: Localizable.string(Localizable.practiceModes)
-            )
-            BenefitChecklistItem(
-                text: Localizable.string(Localizable.wordOfTheDayCustomization)
-            )
-            BenefitChecklistItem(
-                text: Localizable.string(Localizable.shareExportWords)
-            )
+        VStack(spacing: 12) {
+            Text(benefitsBlockText)
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundColor(.white.opacity(0.95))
+                .multilineTextAlignment(.center)
+                .lineSpacing(6)
+                .padding(.horizontal, 24)
         }
-        .padding(.horizontal, 32)
         .padding(.top, 8)
     }
     
@@ -310,33 +364,8 @@ struct PaywallView: View {
             VStack(spacing: 8) {
                 Text(dynamicSubscriptionTerms)
                     .font(.system(.caption2, design: .rounded))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.white.opacity(0.85))
                     .multilineTextAlignment(.center)
-                
-                // Functional links to Terms of Use and Privacy Policy
-                HStack(spacing: 16) {
-                    Button(action: {
-                        HapticManager.shared.lightImpact()
-                        presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
-                    }) {
-                        Text(Localizable.string(Localizable.termsOfUse))
-                            .font(.system(.caption, design: .rounded))
-                            .foregroundColor(Color("AppGreen"))
-                    }
-                    
-                    Text("•")
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundColor(.secondary)
-                    
-                    Button(action: {
-                        HapticManager.shared.lightImpact()
-                        presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
-                    }) {
-                        Text(Localizable.string(Localizable.privacyPolicy))
-                            .font(.system(.caption, design: .rounded))
-                            .foregroundColor(Color("AppGreen"))
-                    }
-                }
             }
             .padding(.horizontal, 32)
             .padding(.top, 16)
@@ -344,7 +373,7 @@ struct PaywallView: View {
             // iCloud Family sharing text
             Text(Localizable.string(Localizable.iCloudFamilySharing))
                 .font(.system(.caption, design: .rounded))
-                .foregroundColor(.secondary)
+                .foregroundColor(.white.opacity(0.75))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
                 .padding(.top, 12)
@@ -357,7 +386,7 @@ struct PaywallView: View {
             VStack(spacing: 8) {
                 Text(Localizable.string(Localizable.alreadyUpgraded))
                     .font(.system(.caption, design: .rounded))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.white.opacity(0.75))
                     .multilineTextAlignment(.center)
                 
                 Button(action: {
@@ -373,26 +402,49 @@ struct PaywallView: View {
             }
             .padding(.horizontal, 32)
             .padding(.top, 16)
-            
-            // Redeem Offer Code section
-            VStack(spacing: 8) {
-                Text(Localizable.string(Localizable.gotACode))
-                    .font(.system(.caption, design: .rounded))
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    showOfferCodeRedemption = true
-                }) {
-                    Text(Localizable.string(Localizable.redeem))
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundColor(Color("AppGreen"))
-                }
-            }
-            .padding(.horizontal, 32)
-            .padding(.top, 8)
         }
+    }
+    
+    private var legalActionsRow: some View {
+        HStack(spacing: 8) {
+            Button(action: {
+                HapticManager.shared.lightImpact()
+                presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
+            }) {
+                Text(Localizable.string(Localizable.termsOfUse))
+                    .font(.system(.caption, design: .rounded).weight(.medium))
+                    .foregroundColor(.white.opacity(0.9))
+            }
+            
+            Text("·")
+                .font(.system(.caption, design: .rounded))
+                .foregroundColor(.white.opacity(0.6))
+            
+            Button(action: {
+                HapticManager.shared.lightImpact()
+                presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
+            }) {
+                Text(Localizable.string(Localizable.privacyPolicy))
+                    .font(.system(.caption, design: .rounded).weight(.medium))
+                    .foregroundColor(.white.opacity(0.9))
+            }
+
+            Text("·")
+                .font(.system(.caption, design: .rounded))
+                .foregroundColor(.white.opacity(0.6))
+            
+            Button(action: {
+                HapticManager.shared.lightImpact()
+                showOfferCodeRedemption = true
+            }) {
+                Text(Localizable.string(Localizable.redeem))
+                    .font(.system(.caption, design: .rounded).weight(.medium))
+                    .foregroundColor(.white.opacity(0.9))
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 8)
+        .buttonStyle(.plain)
     }
     
     private var subscribeButtonSection: some View {
@@ -437,7 +489,7 @@ struct PaywallView: View {
             .padding(.horizontal, 24)
             .padding(.top, 16)
             .padding(.bottom, 32)
-            .background(Color(.systemBackground))
+            .background(Color.clear)
         }
     }
     
