@@ -18,8 +18,8 @@ final class SubscriptionManager: ObservableObject {
     // Product IDs from App Store Connect
     private let productIDs = [
         "hero.premium.monthly",
-        "hero.premium.yearly",
-        "hero.premium.yearly.promo",
+        "hero.premium.quarterly",
+        "hero.premium.lifetime.promo",
         "hero.premium.lifetime"
     ]
     
@@ -40,7 +40,7 @@ final class SubscriptionManager: ObservableObject {
     
     // Check if active subscription is lifetime
     var hasLifetimeSubscription: Bool {
-        return activeProductID == "hero.premium.lifetime"
+        return activeProductID == "hero.premium.lifetime" || activeProductID == "hero.premium.lifetime.promo"
     }
     
     // Convenience property for backward compatibility (defaults to monthly)
@@ -232,11 +232,6 @@ final class SubscriptionManager: ObservableObject {
             await updateFromRevenueCat()
             purchaseState = .success
             
-            // Activate trial ONLY after successful purchase, and only for yearly subscription
-            if targetProductID == "hero.premium.yearly" && !hasUsedTrial {
-                activateTrial()
-            }
-            
             // Verify subscription status again
             await checkSubscriptionStatus()
             
@@ -261,11 +256,6 @@ final class SubscriptionManager: ObservableObject {
                     hasActiveSubscription = true
                     isPremiumActive = true
                     purchaseState = .success
-                    
-                    // Activate trial ONLY after successful purchase, and only for yearly subscription
-                    if targetProductID == "hero.premium.yearly" && !hasUsedTrial {
-                        activateTrial()
-                    }
                     
                     // Finish the transaction
                     await transaction.finish()

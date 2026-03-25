@@ -13,17 +13,13 @@ struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var revenueCatService = RevenueCatService.shared
     @StateObject private var subscriptionManager = SubscriptionManager.shared // Keep for trial logic
-    @State private var selectedProductID: String = "hero.premium.yearly.promo"
+    @State private var selectedProductID: String = "hero.premium.quarterly"
     @State private var selectedPackage: Package?
     @State private var isLoadingPackages = false
     
     // Computed property for button text based on selected product and trial eligibility
     private var buttonText: String {
-        if (selectedProductID == "hero.premium.yearly" || selectedProductID == "hero.premium.yearly.promo") && !subscriptionManager.hasUsedTrial {
-            return Localizable.string(Localizable.startFreeTrial)
-        } else {
-            return Localizable.string(Localizable.upgradeNow)
-        }
+        Localizable.string(Localizable.upgradeNow)
     }
     
     // Computed property for dynamic subscription terms based on selected product
@@ -41,12 +37,12 @@ struct PaywallView: View {
         }
         
         // Determine which terms template to use based on subscription type
-        if selectedProductID == "hero.premium.lifetime" {
+        if selectedProductID == "hero.premium.lifetime" || selectedProductID == "hero.premium.lifetime.promo" {
             // Lifetime - one-time purchase
             return String(format: Localizable.string(Localizable.subscriptionTermsLifetime), price)
-        } else if selectedProductID == "hero.premium.yearly" {
-            // Regular yearly subscription terms
-            return String(format: Localizable.string(Localizable.subscriptionTermsYearly), price)
+        } else if selectedProductID == "hero.premium.quarterly" {
+            // Temporary: reuse monthly renewal copy until quarterly-specific copy is added
+            return String(format: Localizable.string(Localizable.subscriptionTermsMonthly), price)
         } else {
             // Monthly subscription (default)
             return String(format: Localizable.string(Localizable.subscriptionTermsMonthly), price)
@@ -226,20 +222,19 @@ struct PaywallView: View {
             
             // Yearly subscription button
             SubscriptionOptionButton(
-                title: Localizable.string(Localizable.yearly),
-                explanation: Localizable.string(Localizable.yearlyExplanation),
-                productID: "hero.premium.yearly.promo",
-                regularProductID: "hero.premium.yearly",
+                title: Localizable.string(Localizable.premium3Months),
+                explanation: Localizable.string(Localizable.monthlyExplanation),
+                productID: "hero.premium.quarterly",
                 fallbackPrice: "",
-                period: Localizable.string(Localizable.year1),
-                isSelected: selectedProductID == "hero.premium.yearly.promo",
-                showFreeTrial: !subscriptionManager.hasUsedTrial,
+                period: Localizable.string(Localizable.months3),
+                isSelected: selectedProductID == "hero.premium.quarterly",
+                showFreeTrial: false,
                 showSeasonalOffer: false,
                 subscriptionManager: subscriptionManager,
                 revenueCatService: revenueCatService,
                 onSelect: {
                     HapticManager.shared.lightImpact()
-                    selectedProductID = "hero.premium.yearly.promo"
+                    selectedProductID = "hero.premium.quarterly"
                 }
             )
             
@@ -425,9 +420,7 @@ struct PaywallView: View {
                 let (_, userCancelled) = try await revenueCatService.purchase(package: package)
                 if !userCancelled {
                     // Purchase successful - activate trial if applicable
-                    if selectedProductID == "hero.premium.yearly" && !subscriptionManager.hasUsedTrial {
-                        subscriptionManager.activateTrial()
-                    }
+                    // No free-trial activation here; premium is granted via RevenueCat.
                 }
             } catch RevenueCatError.userCancelled {
                 // User cancelled - no error needed
@@ -552,7 +545,9 @@ private struct SubscriptionOptionButton: View {
     
     // Check if this is the yearly subscription button
     private var isYearlyButton: Bool {
-        return productID == "hero.premium.yearly.promo" || productID == "hero.premium.yearly"
+        // Repurpose the "highlight" style for the limited lifetime promo.
+        // (The full countdown UI will be implemented in a later step.)
+        return productID == "hero.premium.lifetime.promo"
     }
     
     // Christmas gradient for yearly button

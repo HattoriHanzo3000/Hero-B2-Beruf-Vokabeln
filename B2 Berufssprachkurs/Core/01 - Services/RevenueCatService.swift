@@ -46,8 +46,8 @@ final class RevenueCatService: NSObject, ObservableObject {
     /// These should match the product IDs in SubscriptionManager
     private let productIDs = [
         "hero.premium.monthly",
-        "hero.premium.yearly",
-        "hero.premium.yearly.promo",
+        "hero.premium.quarterly",
+        "hero.premium.lifetime.promo",
         "hero.premium.lifetime"
     ]
     
