@@ -167,6 +167,7 @@ extension Localizable {
     static let proBenefitsDescription = "pro_benefits_description"
     static let unlockHeroPremium = "unlock_hero_premium"
     static let premiumPromoSubtitle = "premium_promo_subtitle"
+    static let paywallTitleFutureGermany = "paywall_title_future_germany"
     static let enjoyHeroPremium = "enjoy_hero_premium"
     static let enjoyFullHeroExperience = "enjoy_full_hero_experience"
     static let premiumActiveSubtitle = "premium_active_subtitle"
@@ -181,6 +182,7 @@ extension Localizable {
     static let monthlyExplanation = "monthly_explanation"
     static let yearlyExplanation = "yearly_explanation"
     static let lifetimeExplanation = "lifetime_explanation"
+    static let lifetimeExplanationLine2 = "lifetime_explanation_line2"
     static let freeTrial = "free_trial"
     static let iCloudFamilySharing = "icloud_family_sharing"
     static let alreadyUpgraded = "already_upgraded"
@@ -197,13 +199,7 @@ extension Localizable {
     static let benefits = "benefits"
     static let free = "free"
     static let premiumColumn = "premium_column"
-    static let accessToAllWords = "access_to_all_words"
     static let noAds = "no_ads"
-    static let detailedProgress = "detailed_progress"
-    static let favoriteWords = "favorite_words"
-    static let practiceModes = "practice_modes"
-    static let wordOfTheDayCustomization = "word_of_the_day_customization"
-    static let shareExportWords = "share_export_words"
     static let subscribeNow = "subscribe_now"
     static let unlockPremium = "unlock_premium"
     static let startFreeTrial = "start_free_trial"
@@ -217,8 +213,10 @@ extension Localizable {
     static let subscriptionTitle = "subscription_title"
     static let subscriptionLength = "subscription_length"
     static let quarterlyExplanation = "quarterly_explanation"
+    static let paywallBestValue = "paywall_best_value"
     
     // Launch offer (3-day lifetime promo)
+    static let launchOfferBadge = "launch_offer_badge"
     static let launchOfferExpiresIn = "launch_offer_expires_in"
     
     // Promo Code

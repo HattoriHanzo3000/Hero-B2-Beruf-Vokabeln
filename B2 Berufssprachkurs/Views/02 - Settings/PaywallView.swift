@@ -11,6 +11,16 @@ import RevenueCat
 import Combine
 import UIKit
 
+private extension Font {
+    static var paywallSubtitleCondensed: Font {
+        Font(UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize, weight: .regular, width: .condensed))
+    }
+
+    static var paywallSubtitleExpanded: Font {
+        Font(UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize, weight: .regular, width: .expanded))
+    }
+}
+
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
@@ -30,27 +40,12 @@ struct PaywallView: View {
     
     // Computed property for dynamic subscription terms based on selected product
     private var dynamicSubscriptionTerms: String {
-        var price: String = ""
-        
-        // Try to get price from RevenueCat package first
-        if let offering = revenueCatService.currentOffering,
-           let package = offering.availablePackages.first(where: { $0.storeProduct.productIdentifier == selectedProductID }) {
-            // Use RevenueCat package price
-            price = package.localizedPriceString
-        } else if let product = subscriptionManager.products[selectedProductID] {
-            // Fallback to StoreKit product
-            price = product.displayPrice
-        }
-        
-        // Determine which terms template to use based on subscription type
         if selectedProductID == "hero.premium.lifetime" || selectedProductID == "hero.premium.lifetime.promo" {
-            // Lifetime - one-time purchase
-            return String(format: Localizable.string(Localizable.subscriptionTermsLifetime), price)
+            return Localizable.string(Localizable.subscriptionTermsLifetime)
         } else if selectedProductID == "hero.premium.quarterly" {
-            return String(format: Localizable.string(Localizable.subscriptionTermsQuarterly), price)
+            return Localizable.string(Localizable.subscriptionTermsQuarterly)
         } else {
-            // Monthly subscription (default)
-            return String(format: Localizable.string(Localizable.subscriptionTermsMonthly), price)
+            return Localizable.string(Localizable.subscriptionTermsMonthly)
         }
     }
     @State private var showingError = false
@@ -60,36 +55,55 @@ struct PaywallView: View {
     
     var body: some View {
         ZStack {
-            // Vertical gradient background using your app colors
+            // Hero-style dark-to-light green background with liquid-glass highlight.
             LinearGradient(
                 colors: [
-                    Color("AppGreen"),
-                    Color("AppBlue")
+                    Color("AppGreen").opacity(0.99),
+                    Color("AppGreen").opacity(0.65),
+                    Color("AppGreenSecond").opacity(0.55)
                 ],
-                startPoint: .top,
-                endPoint: .bottom
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .overlay(
+                LinearGradient(
+                    colors: [
+                        Color.white.opacity(0.20),
+                        Color.white.opacity(0.05),
+                        Color.clear
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
             )
             .ignoresSafeArea()
             
             ScrollView {
                 VStack(spacing: 24) {
                     headerSection
-                    benefitsSection
                     seasonalPromotionalBanner
                     subscriptionOptionsSection
+                    
+                    Text(Localizable.string(Localizable.iCloudFamilySharing))
+                        .font(.system(.caption2, design: .rounded).weight(.medium))
+                        .foregroundColor(.white.opacity(0.9))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 0)
+                        .padding(.bottom, -8)
                     
                     // Main CTA
                     subscribeButtonSection
                     
-                    // Benefits block again, matching the "after continue" layout
-                    benefitsSection
-                    
                     // Restore purchases + redeem code
                     footerActionsSection
+                        .padding(.top, -12)
                     
                     // Legal boilerplate + bottom legal row
                     termsSection
+                        .padding(.top, -12)
                     legalActionsRow
+                        .padding(.top, -12)
                     
                     Spacer(minLength: 20)
                 }
@@ -179,49 +193,13 @@ struct PaywallView: View {
     
     private var headerSection: some View {
         VStack(spacing: 12) {
-            // Premium shield badge
-            HStack(spacing: 8) {
-                Image(systemName: "shield.fill")
-                    .font(.system(size: 16, weight: .bold, design: .rounded))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [
-                                Color("AppGreen"),
-                                Color("AppBlue")
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                Text(Localizable.string(Localizable.premium))
-                    .font(.system(.caption, design: .rounded).weight(.bold))
-                    .foregroundColor(.white.opacity(0.95))
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 7)
-            .background(Capsule().fill(Color.white.opacity(0.12)))
-            .overlay(Capsule().stroke(Color.white.opacity(0.28), lineWidth: 1))
+            // Premium badge (copied design)
+            PremiumShieldBadge(label: Localizable.string(Localizable.premium), showShimmer: true)
 
-            // Title with gradient
-            Text(Localizable.string(Localizable.heroPremiumSubscription))
-                .font(.system(.title2, design: .rounded).weight(.bold))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [
-                            Color("AppGreen"),
-                            Color("AppBlue")
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 24)
-
-            // Subtitle copy (separate from the title)
-            Text(Localizable.string(Localizable.premiumPromoSubtitle))
-                .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                .foregroundColor(.white.opacity(0.95))
+            // Title (SF Pro, italic, white)
+            Text(Localizable.string(Localizable.paywallTitleFutureGermany))
+                .font(.system(.title2, weight: .heavy).italic())
+                .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
 
@@ -231,6 +209,13 @@ struct PaywallView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 130, height: 130)
                 .accessibilityHidden(true)
+
+            // Subtitle copy (separate from the title)
+            Text(Localizable.string(Localizable.premiumPromoSubtitle))
+                .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                .foregroundColor(.white.opacity(0.95))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 24)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 8)
@@ -243,38 +228,13 @@ struct PaywallView: View {
         return "Mascot"
     }
     
-    private var benefitsBlockText: String {
-        let parts = [
-            Localizable.string(Localizable.accessToAllWords),
-            Localizable.string(Localizable.detailedProgress),
-            Localizable.string(Localizable.favoriteWords),
-            Localizable.string(Localizable.practiceModes),
-            Localizable.string(Localizable.wordOfTheDayCustomization),
-            Localizable.string(Localizable.shareExportWords)
-        ]
-        // One consolidated block of text (no checkmarks).
-        return parts.joined(separator: "\n")
-    }
-    
-    private var benefitsSection: some View {
-        VStack(spacing: 12) {
-            Text(benefitsBlockText)
-                .font(.system(.subheadline, design: .rounded))
-                .foregroundColor(.white.opacity(0.95))
-                .multilineTextAlignment(.center)
-                .lineSpacing(6)
-                .padding(.horizontal, 24)
-        }
-        .padding(.top, 8)
-    }
-    
     private var seasonalPromotionalBanner: some View {
         // Banner removed - no promotional offers
         EmptyView()
     }
     
     private var subscriptionOptionsSection: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 18) {
             // Monthly subscription button
             SubscriptionOptionButton(
                 title: Localizable.string(Localizable.monthly),
@@ -285,6 +245,7 @@ struct PaywallView: View {
                 isSelected: selectedProductID == "hero.premium.monthly",
                 showFreeTrial: false,
                 showSeasonalOffer: false,
+                showBestValueBadge: false,
                 countdownText: nil,
                 subscriptionManager: subscriptionManager,
                 revenueCatService: revenueCatService,
@@ -296,7 +257,7 @@ struct PaywallView: View {
             
             // Quarterly subscription button
             SubscriptionOptionButton(
-                title: Localizable.string(Localizable.premium3Months),
+                title: Localizable.string(Localizable.months3),
                 explanation: Localizable.string(Localizable.quarterlyExplanation),
                 productID: "hero.premium.quarterly",
                 fallbackPrice: "",
@@ -304,6 +265,7 @@ struct PaywallView: View {
                 isSelected: selectedProductID == "hero.premium.quarterly",
                 showFreeTrial: false,
                 showSeasonalOffer: false,
+                showBestValueBadge: !isLaunchOfferActive,
                 countdownText: nil,
                 subscriptionManager: subscriptionManager,
                 revenueCatService: revenueCatService,
@@ -318,13 +280,15 @@ struct PaywallView: View {
                 SubscriptionOptionButton(
                     title: Localizable.string(Localizable.lifetime),
                     explanation: Localizable.string(Localizable.lifetimeExplanation),
+                    secondaryExplanation: Localizable.string(Localizable.lifetimeExplanationLine2),
                     productID: LaunchOfferService.promoProductId,
                     regularProductID: LaunchOfferService.standardLifetimeProductId,
                     fallbackPrice: "",
                     period: "",
                     isSelected: selectedProductID == LaunchOfferService.promoProductId,
                     showFreeTrial: false,
-                    showSeasonalOffer: false,
+                    showSeasonalOffer: true,
+                    showBestValueBadge: false,
                     countdownText: countdownString,
                     subscriptionManager: subscriptionManager,
                     revenueCatService: revenueCatService,
@@ -337,12 +301,14 @@ struct PaywallView: View {
                 SubscriptionOptionButton(
                     title: Localizable.string(Localizable.lifetime),
                     explanation: Localizable.string(Localizable.lifetimeExplanation),
+                    secondaryExplanation: Localizable.string(Localizable.lifetimeExplanationLine2),
                     productID: LaunchOfferService.standardLifetimeProductId,
                     fallbackPrice: "",
                     period: "",
                     isSelected: selectedProductID == LaunchOfferService.standardLifetimeProductId,
                     showFreeTrial: false,
                     showSeasonalOffer: false,
+                    showBestValueBadge: false,
                     countdownText: nil,
                     subscriptionManager: subscriptionManager,
                     revenueCatService: revenueCatService,
@@ -368,40 +334,25 @@ struct PaywallView: View {
             }
             .padding(.horizontal, 32)
             .padding(.top, 16)
-            
-            // iCloud Family sharing text
-            Text(Localizable.string(Localizable.iCloudFamilySharing))
-                .font(.system(.caption, design: .rounded))
-                .foregroundColor(.white.opacity(0.75))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-                .padding(.top, 12)
         }
     }
     
     private var footerActionsSection: some View {
-        VStack(spacing: 16) {
-            // Already Upgraded section
-            VStack(spacing: 8) {
-                Text(Localizable.string(Localizable.alreadyUpgraded))
-                    .font(.system(.caption, design: .rounded))
-                    .foregroundColor(.white.opacity(0.75))
-                    .multilineTextAlignment(.center)
-                
-                Button(action: {
-                    Task {
-                        await handleRestorePurchases()
-                    }
-                }) {
-                    Text(Localizable.string(Localizable.restorePurchase))
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundColor(Color("AppGreen"))
+        VStack(spacing: 8) {
+            Button(action: {
+                Task {
+                    await handleRestorePurchases()
                 }
-                .disabled(subscriptionManager.isLoading)
+            }) {
+                Text(Localizable.string(Localizable.restorePurchase))
+                    .font(.system(.footnote, design: .rounded).weight(.medium))
+                    .foregroundColor(.white.opacity(0.9))
             }
-            .padding(.horizontal, 32)
-            .padding(.top, 16)
+            .disabled(subscriptionManager.isLoading)
+            .padding(.horizontal, 24)
+            .padding(.top, 0)
         }
+        .padding(.top, 4)
     }
     
     private var legalActionsRow: some View {
@@ -448,46 +399,59 @@ struct PaywallView: View {
     
     private var subscribeButtonSection: some View {
         VStack(spacing: 0) {
-            // Thin border line at top of footer
-            Divider()
-                .background(Color(.separator))
-            
             Button(action: {
                 Task {
                     await handlePurchase()
                 }
             }) {
+                let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
+
                 HStack {
                     if subscriptionManager.purchaseState == .purchasing || subscriptionManager.purchaseState == .loading {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     } else {
                         Spacer()
-                        Text(buttonText)
-                            .font(.system(.headline, design: .rounded).weight(.semibold))
+                        Text(buttonText.uppercased())
+                            .font(.system(.headline, weight: .bold))
                             .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .minimumScaleFactor(0.85)
+                            .allowsTightening(true)
                         Spacer()
                     }
                 }
-                .frame(height: 56)
+                .padding(.vertical, 18)
+                .frame(maxWidth: .infinity)
                 .background(
-                    LinearGradient(
-                        colors: [
-                            Color("AppGreen"),
-                            Color("AppBlue")
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                    .opacity(isButtonEnabled ? 1.0 : 0.6)
+                    shape
+                        .fill(
+                            LinearGradient(
+                                colors: [Color("AppBlue"), Color("AppBlueThird")],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .opacity(isButtonEnabled ? 1.0 : 0.75)
+                        .overlay(
+                            shape
+                                .stroke(Color.white.opacity(0.12), lineWidth: 0.4)
+                                .blendMode(.plusLighter)
+                        )
+                        .overlay(
+                            shape
+                                .stroke(Color.white.opacity(0.18), lineWidth: 1)
+                        )
                 )
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .shadow(color: Color("AppGreen").opacity(0.4), radius: 12, x: 0, y: 6)
+                .clipShape(shape)
+                .shadow(color: .black.opacity(isButtonEnabled ? 0.16 : 0.08), radius: 22, x: 0, y: 10)
+                .scaleEffect(isButtonEnabled ? 1 : 0.98)
+                .animation(.spring(response: 0.45, dampingFraction: 0.82), value: isButtonEnabled)
             }
             .disabled(!isButtonEnabled)
             .padding(.horizontal, 24)
-            .padding(.top, 16)
-            .padding(.bottom, 32)
+            .padding(.top, 10)
+            .padding(.bottom, 18)
             .background(Color.clear)
         }
     }
@@ -588,6 +552,7 @@ struct PaywallView: View {
 private struct SubscriptionOptionButton: View {
     let title: String
     let explanation: String
+    var secondaryExplanation: String? = nil
     let productID: String?
     var regularProductID: String? = nil // Optional original product for strikethrough
     let fallbackPrice: String
@@ -595,11 +560,14 @@ private struct SubscriptionOptionButton: View {
     let isSelected: Bool
     let showFreeTrial: Bool
     let showSeasonalOffer: Bool
+    let showBestValueBadge: Bool
     let countdownText: String?
     @ObservedObject var subscriptionManager: SubscriptionManager
     @ObservedObject var revenueCatService: RevenueCatService
-    @Environment(\.colorScheme) private var colorScheme
     let onSelect: () -> Void
+
+    private var contentForeground: Color { isSelected ? .white : .white.opacity(0.7) }
+    private var secondaryForeground: Color { isSelected ? .white.opacity(0.9) : .white.opacity(0.6) }
     
     // Get the display price string from RevenueCat or StoreKit
     private var basePriceText: String {
@@ -632,161 +600,153 @@ private struct SubscriptionOptionButton: View {
         
         if displayPrice.isEmpty { return "" }
         
-        if period.isEmpty {
-            return displayPrice
-        } else {
-            return "\(displayPrice)/\(period)"
-        }
+        return displayPrice
     }
-    
-    // Check if this is the yearly subscription button
-    private var isYearlyButton: Bool {
-        // Repurpose the "highlight" style for the limited lifetime promo.
-        // (The full countdown UI will be implemented in a later step.)
-        return productID == "hero.premium.lifetime.promo"
-    }
-    
-    // Christmas gradient for yearly button
-    private var christmasGradient: LinearGradient {
-        LinearGradient(
-            colors: [
-                Color(red: 0.85, green: 0.15, blue: 0.15), // Deep red
-                Color(red: 0.15, green: 0.65, blue: 0.15),  // Deep green
-                Color(red: 0.85, green: 0.15, blue: 0.15)   // Deep red again
-            ],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    }
-    
-    // Yellow color for price
-    private var yellowColor: Color {
-        Color.yellow
-    }
-    
-    // Button background color that's lighter in dark mode
-    private var buttonBackgroundColor: Color {
-        if colorScheme == .dark {
-            return Color(.systemGray5)
-        } else {
-            return Color(.systemGray6)
+
+    private var slashPeriodText: String? {
+        guard let productID else { return nil }
+        switch productID {
+        case "hero.premium.monthly":
+            return "/mo"
+        case "hero.premium.quarterly":
+            return "/3mo"
+        default:
+            return nil
         }
     }
     
     // Background fill for button
-    @ViewBuilder
     private var buttonBackgroundFill: some View {
-        if isYearlyButton {
-            // Christmas gradient for yearly button
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(christmasGradient)
-                .opacity(isSelected ? 1.0 : 0.15)
-        } else {
-            // Regular background for other buttons
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(isSelected ? Color("AppGreen").opacity(0.1) : buttonBackgroundColor)
-        }
-    }
-    
-    // Border stroke for button
-    @ViewBuilder
-    private var buttonBorder: some View {
-        if isYearlyButton {
-            // Yellow border for yearly button when selected
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(
-                    isSelected ? yellowColor : Color.clear,
-                    lineWidth: 2
+        let shape = RoundedRectangle(cornerRadius: 16, style: .continuous)
+        return shape
+            .fill(
+                LinearGradient(
+                    colors: showSeasonalOffer
+                    ? [Color("AppOrange"), Color("AppOrange").opacity(0.82)]
+                    : [Color("AppBlue"), Color("AppBlueThird")],
+                    startPoint: .leading,
+                    endPoint: .trailing
                 )
-        } else {
-            // Regular border for other buttons
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(
-                    isSelected ? Color("AppGreen") : Color.clear,
-                    lineWidth: 2
+            )
+            .overlay(
+                LinearGradient(
+                    colors: [
+                        Color.white.opacity(0.20),
+                        Color.white.opacity(0.05),
+                        Color.clear
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
                 )
-        }
-    }
-    
-    // Price color
-    private var priceColor: Color {
-        if isYearlyButton && isSelected {
-            return yellowColor
-        } else {
-            return Color("AppGreen")
-        }
+                .clipShape(shape)
+            )
     }
     
     var body: some View {
         Button(action: onSelect) {
-            VStack(spacing: 8) {
-                // First row: Title on left, Price on right
-                HStack {
-                    Text(title)
-                        .font(.system(.headline, design: .rounded))
-                        .foregroundColor(isYearlyButton && isSelected ? .white : .primary)
-                    
-                    Spacer()
-                    
-                    HStack(spacing: 8) {
+            ZStack(alignment: .top) {
+                HStack(spacing: 12) {
+                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                        .font(.system(size: 24, weight: .semibold))
+                        .foregroundStyle(isSelected ? .white : .white.opacity(0.7))
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(title)
+                            .font(.system(.headline, weight: .bold))
+                            .foregroundStyle(contentForeground)
+
+                        Text(explanation)
+                            .font(.paywallSubtitleCondensed)
+                            .foregroundStyle(secondaryForeground)
+
+                        if let secondaryExplanation, !secondaryExplanation.isEmpty {
+                            Text(secondaryExplanation)
+                                .font(.paywallSubtitleCondensed)
+                                .foregroundStyle(secondaryForeground)
+                        }
+
+                        if let countdownText, !countdownText.isEmpty {
+                            HStack(spacing: 4) {
+                                Text(Localizable.string(Localizable.launchOfferExpiresIn))
+                                    .font(.paywallSubtitleExpanded)
+                                Text(countdownText)
+                                    .font(.paywallSubtitleExpanded)
+                                    .monospacedDigit()
+                            }
+                            .foregroundStyle(secondaryForeground)
+                        }
+                    }
+
+                    Spacer(minLength: 8)
+
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
                         if !regularPriceText.isEmpty {
-                            Text(regularPriceText)
-                                .font(.system(.subheadline, design: .rounded))
-                                .foregroundColor(isSelected ? .white.opacity(0.6) : .secondary)
-                                .strikethrough()
+                            VStack(alignment: .trailing, spacing: 2) {
+                                Text(basePriceText)
+                                    .font(.system(.title3, weight: .bold))
+                                    .foregroundStyle(contentForeground)
+
+                                Text(regularPriceText)
+                                    .font(.system(.caption2, weight: .medium))
+                                    .strikethrough(color: secondaryForeground)
+                                    .foregroundStyle(secondaryForeground)
+                            }
+                        } else {
+                            Text(basePriceText)
+                                .font(.system(.title3, weight: .bold))
+                                .foregroundStyle(contentForeground)
                         }
-                        
-                        Text(basePriceText)
-                            .font(.system(.headline, design: .rounded))
-                            .foregroundColor(priceColor)
-                    }
-                }
-                
-                // Second row: Explanation on left, Badges on right
-                HStack(alignment: .center, spacing: 8) {
-                    Text(explanation)
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundColor(isYearlyButton && isSelected ? .white.opacity(0.9) : .secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
-                    
-                    HStack(spacing: 6) {
-                        if showSeasonalOffer {
-                            SeasonalOfferBadge()
-                        }
-                        
-                        if showFreeTrial {
-                            FreeTrialBadge()
+
+                        if let slashPeriodText {
+                            Text(slashPeriodText)
+                                .font(.paywallSubtitleCondensed)
+                                .foregroundStyle(secondaryForeground)
                         }
                     }
                 }
-                
-                // Third row: Holiday sale info (only for yearly button)
-                if let countdownText, !countdownText.isEmpty {
-                    HStack(alignment: .center, spacing: 8) {
-                        Image(systemName: "timer")
-                            .font(.system(.caption, design: .rounded))
-                            .foregroundColor(isYearlyButton && isSelected ? .white.opacity(0.9) : Color("AppGreen"))
-                        Text(Localizable.string(Localizable.launchOfferExpiresIn))
-                            .font(.system(.caption2, design: .rounded).weight(.semibold))
-                            .foregroundColor(isYearlyButton && isSelected ? .white.opacity(0.9) : .secondary)
-                        Text(countdownText)
-                            .font(.system(.caption2, design: .rounded).weight(.bold))
-                            .monospacedDigit()
-                            .foregroundColor(isYearlyButton && isSelected ? .white : .primary)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, 2)
+                .padding(16)
+                .background(buttonBackgroundFill)
+
+                if showSeasonalOffer {
+                    PromoDealBadge()
+                        .offset(y: -11)
+                }
+                if showBestValueBadge {
+                    BestValueBadge()
+                        .offset(y: -11)
                 }
             }
-            .padding(16)
-            .background(buttonBackgroundFill)
-            .overlay(buttonBorder)
-            .shadow(
-                color: isYearlyButton && isSelected ? yellowColor.opacity(0.3) : Color.clear,
-                radius: isYearlyButton && isSelected ? 8 : 0
-            )
         }
+        .buttonStyle(.plain)
+        .scaleEffect(isSelected ? 1.05 : 1)
+        .animation(.easeInOut(duration: 0.25), value: isSelected)
+    }
+}
+
+private struct PromoDealBadge: View {
+    var body: some View {
+        Text(Localizable.string(Localizable.launchOfferBadge))
+            .font(.system(.caption2, weight: .semibold).italic())
+            .foregroundStyle(.white)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(Color.red)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .shadow(color: .black.opacity(0.16), radius: 2, y: 1)
+    }
+}
+
+private struct BestValueBadge: View {
+    var body: some View {
+        Text(Localizable.string(Localizable.paywallBestValue))
+            .font(.system(.caption2, weight: .semibold).italic())
+            .textCase(.uppercase)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(Color("AppOrange"))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .shadow(color: .black.opacity(0.16), radius: 2, y: 1)
     }
 }
 
@@ -946,33 +906,14 @@ private struct FreeTrialBadge: View {
     }
 }
 
-// MARK: - Benefit Checklist Item
-private struct BenefitChecklistItem: View {
-    let text: String
-    
-    var body: some View {
-        HStack(spacing: 10) {
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(.subheadline, design: .rounded))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [
-                            Color("AppGreen"),
-                            Color("AppBlue")
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-            
-            Text(text)
-                .font(.system(.subheadline, design: .rounded))
-                .foregroundColor(.primary)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
+#Preview("Launch offer active (within 7 days)") {
+    // Simulate first launch happening "now" so the 7-day promo is active.
+    UserDefaults.standard.set(Date(), forKey: "firstLaunchDate")
+    return PaywallView()
 }
 
-#Preview {
-    PaywallView()
+#Preview("Launch offer expired (after 7 days)") {
+    // Simulate first launch 8 days ago so the promo is expired.
+    UserDefaults.standard.set(Date().addingTimeInterval(-8 * 24 * 60 * 60), forKey: "firstLaunchDate")
+    return PaywallView()
 }

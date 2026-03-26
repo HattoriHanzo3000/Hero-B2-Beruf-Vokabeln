@@ -2,7 +2,7 @@
 //  LaunchOfferService.swift
 //  B2 Berufssprachkurs
 //
-//  3-day lifetime promo window (launch offer) based on first app launch.
+//  7-day lifetime promo window (launch offer) based on first app launch.
 //
 
 import Foundation
@@ -20,8 +20,8 @@ enum LaunchOfferService {
     // Your app already stores this key for trial timing in `SubscriptionManager`.
     private static let firstLaunchDateKey = "firstLaunchDate"
 
-    // 3 days (72 hours)
-    private static let launchWindowSeconds: TimeInterval = 72 * 60 * 60
+    // 7 days (168 hours)
+    private static let launchWindowSeconds: TimeInterval = 7 * 24 * 60 * 60
 
     /// Date of first app launch. Nil if never recorded.
     static var firstLaunchDate: Date? {
@@ -35,7 +35,7 @@ enum LaunchOfferService {
         return nil
     }
 
-    /// True if current time is within 72 hours of first app launch.
+    /// True if current time is within 7 days of first app launch.
     static var isLaunchOfferActive: Bool {
         remainingSeconds > 0
     }

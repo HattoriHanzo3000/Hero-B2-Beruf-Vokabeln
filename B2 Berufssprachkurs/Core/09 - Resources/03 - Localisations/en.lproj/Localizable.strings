@@ -154,9 +154,10 @@
 "get_hero_premium_access_suffix" = "Access";
 "subscription" = "Subscription";
 "hero_premium_subscription" = "Hero Premium Subscription";
+"paywall_title_future_germany" = "Unlock your future in Germany with confidence in professional language";
 "pro_benefits_description" = "Premium gives you full access to all study materials, progress tracking and ad-free experience. All plans can be shared with your iCloud Family";
 "unlock_hero_premium" = "Unlock Hero Premium";
-"premium_promo_subtitle" = "Get full access to study materials, progress tracking and more";
+"premium_promo_subtitle" = "Get full access to all words, detailed progress, favorite words, practice modes, word of the day, and more";
 "enjoy_hero_premium" = "Enjoy Hero Premium";
 "enjoy_full_hero_experience" = "Enjoy the full learning experience with Hero Premium";
 "premium_active_subtitle" = "You have full access to all study materials, progress tracking and more";
@@ -169,9 +170,10 @@
 "yearly" = "Yearly";
 "lifetime" = "Lifetime";
 "monthly_explanation" = "Perfect to start. Cancel anytime";
-"quarterly_explanation" = "Best value. Cancel anytime";
+"quarterly_explanation" = "3 days free trial";
 "yearly_explanation" = "Save more. 3-day free trial";
-"lifetime_explanation" = "Pay once, own forever. No renewal";
+"lifetime_explanation" = "Pay once, own forever";
+"lifetime_explanation_line2" = "No hidden fees. No recurring charges.";
 "free_trial" = "Free Trial";
 "icloud_family_sharing" = "All plans can be shared with your iCloud Family";
 "already_upgraded" = "Already Upgraded?";
@@ -186,13 +188,7 @@
 "benefits" = "Benefits";
 "free" = "Free";
 "premium_column" = "Premium";
-"access_to_all_words" = "Access to all words";
 "no_ads" = "No ads";
-"detailed_progress" = "Detailed progress";
-"favorite_words" = "Favorite words";
-"practice_modes" = "Practice Modes";
-"word_of_the_day_customization" = "Word of the Day";
-"share_export_words" = "Share & Export words";
 "subscribe_now" = "Subscribe";
 "unlock_premium" = "Unlock Premium";
 "start_free_trial" = "Start Free Trial";
@@ -201,12 +197,14 @@
 "change_plan" = "Change Plan";
 "continue_button" = "Continue";
 "subscription_terms" = "Upon subscribing, your Apple account will be charged 1,99€. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
-"subscription_terms_monthly" = "Upon subscribing, your Apple account will be charged %@. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
-"subscription_terms_quarterly" = "Upon subscribing, your Apple account will be charged %@. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
+"subscription_terms_monthly" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";
+"subscription_terms_quarterly" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";
 "subscription_terms_yearly" = "Upon subscribing, your Apple account will be charged %@. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
 "subscription_terms_yearly_promotional" = "Upon subscribing, your Apple account will be charged %@ for the first year. After the first year, your Hero Premium subscription will automatically renew at %@ per year unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
-"subscription_terms_lifetime" = "Upon purchase, your Apple account will be charged %@. This is a one-time payment with no recurring charges.\n\nView our Terms of Use and Privacy Policy for more details.";
+"subscription_terms_lifetime" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";
 "launch_offer_expires_in" = "Ends in";
+"launch_offer_badge" = "LAUNCH OFFER -54%";
+"paywall_best_value" = "Best value";
 "subscription_title" = "Hero Premium Subscription";
 "subscription_length" = "1 month";
 

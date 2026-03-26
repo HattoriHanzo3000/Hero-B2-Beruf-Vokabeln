@@ -154,9 +154,10 @@
 "get_hero_premium_access_suffix" = "Zugang";
 "subscription" = "Abonnement";
 "hero_premium_subscription" = "Hero Premium Abonnement";
+"paywall_title_future_germany" = "Entfalte deine Zukunft in Deutschland mit Sicherheit in beruflicher Sprache";
 "pro_benefits_description" = "Premium gibt dir vollen Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und werbefreier Erfahrung. Alle Pläne können mit deiner iCloud-Familie geteilt werden";
 "unlock_hero_premium" = "Hero Premium freischalten";
-"premium_promo_subtitle" = "Erhalte vollen Zugang zu Lernmaterialien, Fortschrittsverfolgung und mehr";
+"premium_promo_subtitle" = "Erhalte vollen Zugriff auf alle Wörter, detaillierten Fortschritt, Lieblingswörter, Übungsmodi, Wort des Tages und mehr";
 "enjoy_hero_premium" = "Genieße Hero Premium";
 "enjoy_full_hero_experience" = "Genieße die volle Lernerfahrung mit Hero Premium";
 "premium_active_subtitle" = "Du hast vollen Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und mehr";
@@ -169,9 +170,10 @@
 "yearly" = "Jährlich";
 "lifetime" = "Lebenslang";
 "monthly_explanation" = "Perfekt zum Starten. Jederzeit kündbar";
-"quarterly_explanation" = "Bester Preis. Jederzeit kündbar";
+"quarterly_explanation" = "3 Tage kostenlos testen";
 "yearly_explanation" = "Mehr sparen. 3 Tage kostenlos testen";
-"lifetime_explanation" = "Einmal zahlen, für immer besitzen. Keine Verlängerung";
+"lifetime_explanation" = "Einmal zahlen, für immer besitzen";
+"lifetime_explanation_line2" = "Keine versteckten Kosten. Keine wiederkehrenden Gebühren.";
 "free_trial" = "kostenlos testen";
 "icloud_family_sharing" = "Alle Pläne können mit deiner iCloud-Familie geteilt werden";
 "already_upgraded" = "Bereits aktualisiert?";
@@ -186,13 +188,7 @@
 "benefits" = "Vorteile";
 "free" = "Basis";
 "premium_column" = "Premium";
-"access_to_all_words" = "Zugang zu allen Wörtern";
 "no_ads" = "Keine Werbung";
-"detailed_progress" = "Detaillierter Fortschritt";
-"favorite_words" = "Lieblingswörter";
-"practice_modes" = "Übungsmodi";
-"word_of_the_day_customization" = "Wort des Tages";
-"share_export_words" = "Wörter teilen & exportieren";
 "subscribe_now" = "Abonnieren";
 "unlock_premium" = "Premium freischalten";
 "start_free_trial" = "Teste jetzt kostenlos";
@@ -201,12 +197,14 @@
 "change_plan" = "Plan ändern";
 "continue_button" = "Weiter";
 "subscription_terms" = "Bei Abonnement wird dein Apple-Konto mit 1,99€ belastet. Dein Hero Premium-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
-"subscription_terms_monthly" = "Bei Abonnement wird dein Apple-Konto mit %@ belastet. Dein Hero Premium-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
-"subscription_terms_quarterly" = "Bei Abonnement wird dein Apple-Konto mit %@ belastet. Dein Hero Premium-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
+"subscription_terms_monthly" = "Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo in den App Store-Kontoeinstellungen verwalten. Mit dem Fortfahren stimmst du unseren Nutzungsbedingungen und der Datenschutzerklärung zu.";
+"subscription_terms_quarterly" = "Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo in den App Store-Kontoeinstellungen verwalten. Mit dem Fortfahren stimmst du unseren Nutzungsbedingungen und der Datenschutzerklärung zu.";
 "subscription_terms_yearly" = "Bei Abonnement wird dein Apple-Konto mit %@ belastet. Dein Hero Premium-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
 "subscription_terms_yearly_promotional" = "Bei Abonnement wird dein Apple-Konto mit %@ für das erste Jahr belastet. Nach dem ersten Jahr verlängert sich dein Hero Premium-Abonnement automatisch zu %@ pro Jahr, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
-"subscription_terms_lifetime" = "Bei Kauf wird dein Apple-Konto mit %@ belastet. Dies ist eine einmalige Zahlung ohne wiederkehrende Gebühren.\n\nWeitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
+"subscription_terms_lifetime" = "Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo in den App Store-Kontoeinstellungen verwalten. Mit dem Fortfahren stimmst du unseren Nutzungsbedingungen und der Datenschutzerklärung zu.";
 "launch_offer_expires_in" = "Endet in";
+"launch_offer_badge" = "START-DEAL -54%";
+"paywall_best_value" = "Bester Preis";
 "subscription_title" = "Hero Premium Abonnement";
 "subscription_length" = "1 Monat";
 
