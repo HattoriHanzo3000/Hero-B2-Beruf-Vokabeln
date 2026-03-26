@@ -147,13 +147,6 @@
 "statistics_mastered_description" = "3x oder öfter richtig beantwortet";
 
 // Premium
-"premium_unlock_title" = "Erlebe die volle Lernerfahrung mit Hero Premium";
-"unlock_full_hero_experience" = "Erlebe die volle Hero-Erfahrung";
-"get_hero_premium_access_prefix" = "Erhalte";
-"hero_premium" = "Hero Premium";
-"get_hero_premium_access_suffix" = "Zugang";
-"subscription" = "Abonnement";
-"hero_premium_subscription" = "Hero Premium Abonnement";
 "paywall_title_future_germany" = "Entfalte deine Zukunft in Deutschland mit Sicherheit in beruflicher Sprache";
 "pro_benefits_description" = "Premium gibt dir vollen Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und werbefreier Erfahrung. Alle Pläne können mit deiner iCloud-Familie geteilt werden";
 "unlock_hero_premium" = "Hero Premium freischalten";
@@ -176,9 +169,7 @@
 "lifetime_explanation_line2" = "Keine versteckten Kosten. Keine wiederkehrenden Gebühren.";
 "free_trial" = "kostenlos testen";
 "icloud_family_sharing" = "Alle Pläne können mit deiner iCloud-Familie geteilt werden";
-"already_upgraded" = "Bereits aktualisiert?";
 "restore_purchase" = "Kauf wiederherstellen";
-"got_a_code" = "Hast du einen Code?";
 "premium_monthly" = "Premium Monatlich";
 "premium_3_months" = "Premium 3 Monate";
 "premium_yearly" = "Premium Jährlich";
@@ -192,7 +183,6 @@
 "subscribe_now" = "Abonnieren";
 "unlock_premium" = "Premium freischalten";
 "start_free_trial" = "Teste jetzt kostenlos";
-"upgrade_now" = "Jetzt upgraden";
 "upgrade_to_premium" = "Auf Premium upgraden";
 "change_plan" = "Plan ändern";
 "continue_button" = "Weiter";

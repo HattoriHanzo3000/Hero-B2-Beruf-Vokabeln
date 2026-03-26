@@ -60,9 +60,9 @@ struct MainTabView: View {
                 Label(TabItem.cockpit.localizedTitle, systemImage: TabItem.cockpit.icon)
             }
             
-            // Premium Tab
+            // Premium Tab — paywall (subscriptions)
             NavigationStack {
-                PremiumView()
+                PaywallView()
                     .navigationBarTitleDisplayMode(.inline)
             }
             .tag(TabItem.premium)

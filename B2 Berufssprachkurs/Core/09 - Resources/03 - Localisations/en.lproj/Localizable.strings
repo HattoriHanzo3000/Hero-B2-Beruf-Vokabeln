@@ -147,13 +147,6 @@
 "statistics_mastered_description" = "Answered correctly 3+ times";
 
 // Premium
-"premium_unlock_title" = "Unlock the full learning experience with Hero Premium";
-"unlock_full_hero_experience" = "Unlock the full Hero experience";
-"get_hero_premium_access_prefix" = "Get";
-"hero_premium" = "Hero Premium";
-"get_hero_premium_access_suffix" = "Access";
-"subscription" = "Subscription";
-"hero_premium_subscription" = "Hero Premium Subscription";
 "paywall_title_future_germany" = "Unlock your future in Germany with confidence in professional language";
 "pro_benefits_description" = "Premium gives you full access to all study materials, progress tracking and ad-free experience. All plans can be shared with your iCloud Family";
 "unlock_hero_premium" = "Unlock Hero Premium";
@@ -176,9 +169,7 @@
 "lifetime_explanation_line2" = "No hidden fees. No recurring charges.";
 "free_trial" = "Free Trial";
 "icloud_family_sharing" = "All plans can be shared with your iCloud Family";
-"already_upgraded" = "Already Upgraded?";
 "restore_purchase" = "Restore Purchase";
-"got_a_code" = "Got a code?";
 "premium_monthly" = "Premium Monthly";
 "premium_3_months" = "Premium 3 Months";
 "premium_yearly" = "Premium Yearly";
@@ -192,7 +183,6 @@
 "subscribe_now" = "Subscribe";
 "unlock_premium" = "Unlock Premium";
 "start_free_trial" = "Start Free Trial";
-"upgrade_now" = "Upgrade Now";
 "upgrade_to_premium" = "Upgrade to Premium";
 "change_plan" = "Change Plan";
 "continue_button" = "Continue";
