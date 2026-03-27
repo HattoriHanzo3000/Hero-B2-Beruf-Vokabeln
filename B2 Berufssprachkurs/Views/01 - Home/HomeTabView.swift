@@ -15,11 +15,6 @@ struct HomeTabView: View {
     private let isPremiumPreviewOverride: Bool?
     @State private var activeStack: LearningStackType?
     @State private var showPaywall = false
-    @State private var tappedCardId: String? = nil
-    @State private var pulseScale1: CGFloat = 1.0
-    @State private var pulseScale2: CGFloat = 1.0
-    @State private var pulseScale3: CGFloat = 1.0
-    @State private var pulseScale4: CGFloat = 1.0
 
     init(isPremiumPreviewOverride: Bool? = nil) {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
@@ -41,97 +36,82 @@ struct HomeTabView: View {
                 )
                     .id("header_\(languageManager.currentLanguage)")
                 
-                // Scrollable block of learning stacks
+                // Vertical stack of learning rows (full-width, layered stack styling)
                 GeometryReader { geometry in
-                    ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.vertical, showsIndicators: false) {
                         VStack {
-                            Spacer()
-                            HStack(alignment: .center, spacing: 28) {
+                            Spacer(minLength: 0)
+                            VStack(spacing: 28) {
                                 LearningStackCard(
-                                    title: Localizable.string(Localizable.generalWords).replacingOccurrences(of: " ", with: "\n"),
+                                    title: Localizable.string(Localizable.generalWords),
                                     accent: Color("AppGreen"),
                                     icon: "square.stack.3d.up.fill"
                                 )
-                                .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
+                                .frame(maxWidth: .infinity, minHeight: 76)
                                 .id("general_\(languageManager.currentLanguage)")
-                                .scaleEffect(tappedCardId == "general" ? 0.95 : pulseScale1)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
                                 .onTapGesture {
-                                    tappedCardId = "general"
                                     HapticManager.shared.lightImpact()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                         activeStack = .general
-                                        tappedCardId = nil
                                     }
                                 }
-                                
+
                                 LearningStackCard(
                                     title: Localizable.string(Localizable.verbsWithPrepositions),
                                     accent: Color("AppBlue"),
-                                    icon: "bolt.fill"
+                                    icon: "figure.run"
                                 )
-                                .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
+                                .frame(maxWidth: .infinity, minHeight: 76)
                                 .id("verbs_\(languageManager.currentLanguage)")
-                                .scaleEffect(tappedCardId == "verbs" ? 0.95 : pulseScale2)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
                                 .onTapGesture {
-                                    tappedCardId = "verbs"
                                     HapticManager.shared.lightImpact()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                         activeStack = .verbs
-                                        tappedCardId = nil
                                     }
                                 }
-                                
+
                                 LearningStackCard(
                                     title: Localizable.string(Localizable.adjectivesWithPrepositions),
                                     accent: Color("AppPurple"),
                                     icon: "paintbrush.fill"
                                 )
-                                .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
+                                .frame(maxWidth: .infinity, minHeight: 76)
                                 .id("adjectives_\(languageManager.currentLanguage)")
-                                .scaleEffect(tappedCardId == "adjectives" ? 0.95 : pulseScale3)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
                                 .onTapGesture {
-                                    tappedCardId = "adjectives"
                                     HapticManager.shared.lightImpact()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                         activeStack = .adjectives
-                                        tappedCardId = nil
                                     }
                                 }
-                                
+
                                 LearningStackCard(
                                     title: Localizable.string(Localizable.favoritesWordsTitle),
                                     accent: Color("AppYellow"),
                                     icon: "star.fill",
                                     isLocked: false
                                 )
-                                .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
+                                .frame(maxWidth: .infinity, minHeight: 76)
                                 .id("favorites_\(languageManager.currentLanguage)")
-                                .scaleEffect(tappedCardId == "favorites" ? 0.95 : pulseScale4)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
                                 .onTapGesture {
-                                    tappedCardId = "favorites"
                                     if effectivePremiumActive {
                                         HapticManager.shared.lightImpact()
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                             activeStack = .favorites
-                                            tappedCardId = nil
                                         }
                                     } else {
                                         HapticManager.shared.heavyImpact()
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                             showPaywall = true
-                                            tappedCardId = nil
                                         }
                                     }
                                 }
                             }
                             .padding(.horizontal, 16)
-                            Spacer()
+                            .padding(.top, 24)
+                            Spacer(minLength: 0)
                         }
-                        .frame(height: geometry.size.height)
+                        .padding(.bottom, 32)
+                        .frame(minHeight: geometry.size.height)
                     }
                 }
                 
@@ -155,42 +135,6 @@ struct HomeTabView: View {
         }
         .sheet(isPresented: $showPaywall) {
             PaywallView()
-        }
-        .onAppear {
-            // Start continuous pulsing animations with staggered delays
-            withAnimation(
-                Animation.easeInOut(duration: 2.5)
-                    .repeatForever(autoreverses: true)
-            ) {
-                pulseScale1 = 1.05
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.625) {
-                withAnimation(
-                    Animation.easeInOut(duration: 2.5)
-                        .repeatForever(autoreverses: true)
-                ) {
-                    pulseScale2 = 1.05
-                }
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
-                withAnimation(
-                    Animation.easeInOut(duration: 2.5)
-                        .repeatForever(autoreverses: true)
-                ) {
-                    pulseScale3 = 1.05
-                }
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.875) {
-                withAnimation(
-                    Animation.easeInOut(duration: 2.5)
-                        .repeatForever(autoreverses: true)
-                ) {
-                    pulseScale4 = 1.05
-                }
-            }
         }
     }
 
@@ -223,7 +167,24 @@ struct LearningStackCard: View {
     let icon: String
     var isLocked: Bool = false
     @Environment(\.colorScheme) private var colorScheme
-    
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    /// Localized titles sometimes use `\n` (e.g. favorites); a single-line cap would hide the rest and show "…".
+    private var displayTitle: String {
+        title
+            .replacingOccurrences(of: "\r\n", with: " ")
+            .replacingOccurrences(of: "\n", with: " ")
+    }
+
+    /// Up to 2 lines for default–XXXLarge (long phrases + space instead of newline); more at accessibility sizes.
+    private var titleLineRange: ClosedRange<Int> {
+        dynamicTypeSize < .accessibility1 ? 1...2 : 1...4
+    }
+
+    private var titleMinimumScale: CGFloat {
+        dynamicTypeSize < .accessibility1 ? 0.8 : 1.0
+    }
+
     var body: some View {
         ZStack {
             // Bottom layer (stack effect) - NOW SOLID ACCENT COLOR
@@ -267,34 +228,38 @@ struct LearningStackCard: View {
                         .fill(accent.opacity(0.25))
                 }
                 
-                // Content layer
-                VStack(spacing: 12) {
+                // Content layer — icon leading, title trailing (row button)
+                HStack(alignment: .center, spacing: 16) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .fill(accent)
-                            .frame(width: 52, height: 52)
+                            .frame(width: 48, height: 48)
                             .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                         Image(systemName: icon)
                             .foregroundColor(.white)
-                            .font(.system(size: 22, weight: .semibold))
+                            .font(.system(size: 20, weight: .semibold))
                             .symbolRenderingMode(.hierarchical)
                     }
-                    
-                    Text(title)
-                        .font(.system(.headline, design: .rounded).weight(.bold))
-                        .foregroundColor(accent)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(nil)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .minimumScaleFactor(0.7)
-                    
-                    if isLocked {
-                        Image(systemName: "lock.fill")
-                            .font(.subheadline.weight(.semibold))
+
+                    HStack(alignment: .center, spacing: 8) {
+                        Text(displayTitle)
+                            .font(.system(.headline, design: .rounded).weight(.bold))
                             .foregroundColor(accent)
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(titleLineRange)
+                            .minimumScaleFactor(titleMinimumScale)
+                            .truncationMode(.tail)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        if isLocked {
+                            Image(systemName: "lock.fill")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundColor(accent)
+                        }
                     }
                 }
-                .padding(22)
+                .padding(.horizontal, 18)
+                .padding(.vertical, 14)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 6)
@@ -369,13 +334,26 @@ struct WordWallpaperBackground: View {
     }
 }
 
+/// Ensures canvas previews use German strings (matches `LanguageManager` “Deutsch” option).
+private struct HomeTabPreviewHost: View {
+    let isPremiumPreviewOverride: Bool?
+
+    init(isPremiumPreviewOverride: Bool?) {
+        self.isPremiumPreviewOverride = isPremiumPreviewOverride
+        LanguageManager.shared.currentLanguage = "Deutsch"
+    }
+
+    var body: some View {
+        HomeTabView(isPremiumPreviewOverride: isPremiumPreviewOverride)
+            .environmentObject(DataService())
+    }
+}
+
 #Preview("Home Tab - Free") {
-    HomeTabView(isPremiumPreviewOverride: false)
-        .environmentObject(DataService())
+    HomeTabPreviewHost(isPremiumPreviewOverride: false)
 }
 
 #Preview("Home Tab - Premium") {
-    HomeTabView(isPremiumPreviewOverride: true)
-        .environmentObject(DataService())
+    HomeTabPreviewHost(isPremiumPreviewOverride: true)
 }
 

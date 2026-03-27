@@ -74,7 +74,7 @@ struct VerbsView: View {
                                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                                     .fill(Color.white.opacity(0.2))
                                     .frame(width: 48, height: 48)
-                                Image(systemName: "bolt.fill")
+                                Image(systemName: "figure.run")
                                     .foregroundColor(.white)
                                     .font(.system(size: 22, weight: .semibold))
                                     .symbolRenderingMode(.hierarchical)

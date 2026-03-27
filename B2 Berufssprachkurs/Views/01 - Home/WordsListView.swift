@@ -50,7 +50,7 @@ struct WordsListView: View {
     // Determine which stack this belongs to and get appropriate styling
     var stackInfo: (color: Color, icon: String, title: String) {
         if isVerbenSection {
-            return (Color("AppBlue"), "bolt.fill", Localizable.string(Localizable.verbsWithPrepositions))
+            return (Color("AppBlue"), "figure.run", Localizable.string(Localizable.verbsWithPrepositions))
         }
         if isAdjektiveSection {
             return (Color("AppPurple"), "paintbrush.fill", Localizable.string(Localizable.adjectivesWithPrepositions))
