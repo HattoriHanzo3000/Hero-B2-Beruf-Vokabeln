@@ -13,6 +13,8 @@ struct HeaderView: View {
     @ObservedObject var dataService: DataService
     @Query(sort: \WordProgress.wordId) private var wordProgressRecords: [WordProgress]
     @ObservedObject private var languageManager = LanguageManager.shared
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    private let isPremiumPreviewOverride: Bool?
     @State private var wordOfTheDay: Word? = nil
     @State private var showMascotGif = false
     @State private var gifPlayToken: UUID = UUID()
@@ -29,8 +31,9 @@ struct HeaderView: View {
     private let autoPlayInterval: TimeInterval = 15.0 // Auto-play every 15 seconds
     
     // Initialize dailyGreeting based on UserDefaults to avoid flash
-    init(dataService: DataService) {
+    init(dataService: DataService, isPremiumPreviewOverride: Bool? = nil) {
         self.dataService = dataService
+        self.isPremiumPreviewOverride = isPremiumPreviewOverride
         // Read hasShownFirstGreeting directly from UserDefaults for initialization
         let hasShown = UserDefaults.standard.bool(forKey: "hasShownFirstGreeting")
         
@@ -81,6 +84,18 @@ struct HeaderView: View {
             
             // Content that respects safe area
         VStack(alignment: .leading, spacing: 12) {
+            // Premium shield (Hero-style): top-trailing row above greeting, home tab only.
+            if shouldShowPremiumBadge {
+                HStack {
+                    Spacer(minLength: 0)
+                    PremiumShieldBadge(
+                        label: Localizable.string(Localizable.premium),
+                        color: .white,
+                        showShimmer: true
+                    )
+                }
+            }
+
             // Greeting row above mascot and word of the day
             Text(dailyGreeting)
                 .font(.system(.title2, design: .rounded).weight(.bold))
@@ -247,6 +262,10 @@ struct HeaderView: View {
     }
     
     // MARK: - Mascot View
+    private var shouldShowPremiumBadge: Bool {
+        isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
+    }
+
     private var mascotView: some View {
         ZStack {
             // Static image

@@ -42,26 +42,40 @@ struct PaywallView: View {
     @State private var errorMessage: String?
     
     var body: some View {
-        ZStack {
-            PaywallBackground()
+        NavigationStack {
+            ZStack {
+                PaywallBackground()
 
-            ScrollView {
-                VStack(spacing: 24) {
-                    headerSection
-                    subscriptionOptionsSection
-                    iCloudFamilySharingLine
-                    subscribeButtonSection
-                    footerActionsSection
-                        .padding(.top, -12)
-                    termsSection
-                        .padding(.top, -12)
-                    legalActionsRow
-                        .padding(.top, -12)
-                    
-                    Spacer(minLength: 20)
+                ScrollView {
+                    VStack(spacing: 24) {
+                        headerSection
+                        subscriptionOptionsSection
+                        iCloudFamilySharingLine
+                        subscribeButtonSection
+                        footerActionsSection
+                            .padding(.top, -12)
+                        termsSection
+                            .padding(.top, -12)
+                        legalActionsRow
+                            .padding(.top, -12)
+                        
+                        Spacer(minLength: 20)
+                    }
+                }
+                .background(Color.clear)
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button {
+                        HapticManager.shared.lightImpact()
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .accessibilityLabel("Close")
                 }
             }
-            .background(Color.clear)
         }
         // MARK: Presentation & side effects
         .presentationDetents([.large])

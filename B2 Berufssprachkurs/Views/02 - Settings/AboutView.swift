@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct AboutView: View {
+    @EnvironmentObject private var dataService: DataService
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    @State private var versionTapCount = 0
+    @State private var showDebugSheet = false
+
     // Get current app version (without build number)
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -48,6 +53,15 @@ struct AboutView: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .padding(16)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        versionTapCount += 1
+                        if versionTapCount >= 7 {
+                            versionTapCount = 0
+                            HapticManager.shared.mediumImpact()
+                            showDebugSheet = true
+                        }
+                    }
             }
             .padding(.horizontal)
             .padding(.top, 8)
@@ -55,12 +69,92 @@ struct AboutView: View {
         }
         .navigationTitle(Localizable.string(Localizable.about))
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showDebugSheet) {
+            AboutDebugSheet(
+                dataService: dataService,
+                subscriptionManager: subscriptionManager
+            )
+        }
+    }
+}
+
+private struct AboutDebugSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var dataService: DataService
+    @ObservedObject var subscriptionManager: SubscriptionManager
+    @State private var lastAppliedMessage: String?
+
+    var body: some View {
+        NavigationStack {
+            List {
+                SwiftUI.Section {
+                    Button("Set Free Mode") {
+                        subscriptionManager.deactivatePremiumForTesting()
+                        HapticManager.shared.success()
+                        lastAppliedMessage = "Free mode enabled"
+                    }
+
+                    Button("Set Premium Mode") {
+                        subscriptionManager.activatePremiumForTesting()
+                        HapticManager.shared.success()
+                        lastAppliedMessage = "Premium mode enabled"
+                    }
+                } header: {
+                    Text("Subscription State")
+                }
+
+                SwiftUI.Section {
+                    debugProgressButton(for: .p25)
+                    debugProgressButton(for: .p44)
+                    debugProgressButton(for: .p67)
+                    debugProgressButton(for: .p93)
+                } header: {
+                    Text("Progress Presets")
+                } footer: {
+                    Text("Presets use uneven distributions to look natural across wrong, familiar, reinforced, and mastered.")
+                }
+
+                if let message = lastAppliedMessage {
+                    SwiftUI.Section {
+                        Text(message)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    } header: {
+                        Text("Last Action")
+                    }
+                }
+            }
+            .navigationTitle("Debug Mode")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func debugProgressButton(for preset: SpacedRepetitionService.DebugProgressPreset) -> some View {
+        Button("Apply \(preset.targetPercentage)% Progress") {
+            let actual = SpacedRepetitionService.shared.applyDebugProgressPreset(
+                preset,
+                allWordIds: dataService.getAllWordIds()
+            )
+            HapticManager.shared.success()
+            lastAppliedMessage = "Applied \(preset.targetPercentage)% preset (current readiness: \(actual)%)"
+        }
     }
 }
 
 #Preview {
     NavigationStack {
         AboutView()
+            .environmentObject(DataService())
     }
 }
 

@@ -12,6 +12,7 @@ struct HomeTabView: View {
     @EnvironmentObject private var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    private let isPremiumPreviewOverride: Bool?
     @State private var activeStack: LearningStackType?
     @State private var showPaywall = false
     @State private var tappedCardId: String? = nil
@@ -19,6 +20,10 @@ struct HomeTabView: View {
     @State private var pulseScale2: CGFloat = 1.0
     @State private var pulseScale3: CGFloat = 1.0
     @State private var pulseScale4: CGFloat = 1.0
+
+    init(isPremiumPreviewOverride: Bool? = nil) {
+        self.isPremiumPreviewOverride = isPremiumPreviewOverride
+    }
     
     var body: some View {
         ZStack {
@@ -30,7 +35,10 @@ struct HomeTabView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .leading, spacing: 0) {
-                HeaderView(dataService: dataService)
+                HeaderView(
+                    dataService: dataService,
+                    isPremiumPreviewOverride: isPremiumPreviewOverride
+                )
                     .id("header_\(languageManager.currentLanguage)")
                 
                 // Scrollable block of learning stacks
@@ -105,7 +113,7 @@ struct HomeTabView: View {
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedCardId)
                                 .onTapGesture {
                                     tappedCardId = "favorites"
-                                    if subscriptionManager.isPremiumActive {
+                                    if effectivePremiumActive {
                                         HapticManager.shared.lightImpact()
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                             activeStack = .favorites
@@ -184,6 +192,10 @@ struct HomeTabView: View {
                 }
             }
         }
+    }
+
+    private var effectivePremiumActive: Bool {
+        isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
     }
 }
 
@@ -357,8 +369,13 @@ struct WordWallpaperBackground: View {
     }
 }
 
-#Preview {
-    HomeTabView()
+#Preview("Home Tab - Free") {
+    HomeTabView(isPremiumPreviewOverride: false)
+        .environmentObject(DataService())
+}
+
+#Preview("Home Tab - Premium") {
+    HomeTabView(isPremiumPreviewOverride: true)
         .environmentObject(DataService())
 }
 

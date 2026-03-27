@@ -458,6 +458,20 @@ final class SubscriptionManager: ObservableObject {
         
         print("SubscriptionManager: Premium deactivated for testing")
     }
+
+    /// Debug helper to force-enable premium state via trial activation.
+    /// This keeps behavior local and reversible for QA flows.
+    func activatePremiumForTesting() {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(Date().timeIntervalSince1970, forKey: firstLaunchDateKey)
+        userDefaults.set(true, forKey: trialActivatedKey)
+
+        isPremiumActive = true
+        hasActiveSubscription = false
+        activeProductID = nil
+
+        print("SubscriptionManager: Premium activated for testing")
+    }
     
     // MARK: - Debug: Reset to Fresh Install State
     

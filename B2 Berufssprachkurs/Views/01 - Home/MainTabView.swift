@@ -11,7 +11,6 @@ import UIKit
 enum TabItem: String, CaseIterable {
     case home = "home"
     case cockpit = "cockpit"
-    case premium = "premium"
     case settings = "settings"
     
     var icon: String {
@@ -20,8 +19,6 @@ enum TabItem: String, CaseIterable {
             return "house.fill"
         case .cockpit:
             return "gauge"
-        case .premium:
-            return "crown.fill"
         case .settings:
             return "gear"
         }
@@ -58,16 +55,6 @@ struct MainTabView: View {
             .tag(TabItem.cockpit)
             .tabItem {
                 Label(TabItem.cockpit.localizedTitle, systemImage: TabItem.cockpit.icon)
-            }
-            
-            // Premium Tab — paywall (subscriptions)
-            NavigationStack {
-                PaywallView()
-                    .navigationBarTitleDisplayMode(.inline)
-            }
-            .tag(TabItem.premium)
-            .tabItem {
-                Label(TabItem.premium.localizedTitle, systemImage: TabItem.premium.icon)
             }
             
             // Settings Tab
