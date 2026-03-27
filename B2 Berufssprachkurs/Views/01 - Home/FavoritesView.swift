@@ -10,6 +10,7 @@ import SwiftData
 
 struct FavoritesView: View {
     @EnvironmentObject private var dataService: DataService
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
 
     @State private var navigateToStudy = false
@@ -69,11 +70,7 @@ struct FavoritesView: View {
             Color("AppYellow").opacity(0.08)
                 .ignoresSafeArea()
 
-            if favoriteWords.isEmpty {
-                favoritesEmptyStateView
-            } else {
-                favoritesListView
-            }
+            favoritesListView
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .navigationDestination(isPresented: $navigateToStudy) {
@@ -88,52 +85,18 @@ struct FavoritesView: View {
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if favoriteWords.isEmpty {
-                ToolbarItem(placement: .principal) {
-                    Text(Localizable.string(Localizable.favorites))
-                        .font(.system(.headline, design: .rounded).weight(.semibold))
-                        .foregroundColor(.primary)
-                        .accessibilityAddTraits(.isHeader)
+            if !favoriteWords.isEmpty {
+                ToolbarItem(placement: .topBarTrailing) {
+                    WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
                 }
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
-            }
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    navigateToPreviousField()
-                }) {
-                    Image(systemName: "chevron.up")
-                        .font(.system(.callout, design: .rounded).weight(.semibold))
-                }
-                .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0)
-                .accessibilityLabel("Previous word")
-                .accessibilityHint("Navigate to the previous word in the list")
-
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    navigateToNextField()
-                }) {
-                    Image(systemName: "chevron.down")
-                        .font(.system(.callout, design: .rounded).weight(.semibold))
-                }
-                .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= favoriteWords.count - 1)
-                .accessibilityLabel("Next word")
-                .accessibilityHint("Navigate to the next word in the list")
-
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    focusedWordId = nil
-                }) {
-                    Text("Done")
-                        .font(.system(.callout, design: .rounded).weight(.semibold))
-                }
-                .accessibilityLabel("Done")
-                .accessibilityHint("Hide keyboard and finish input")
-            }
+            WordListKeyboardNavigationToolbar(
+                canGoToPrevious: !(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0),
+                canGoToNext: !(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= favoriteWords.count - 1),
+                goToPrevious: { navigateToPreviousField() },
+                goToNext: { navigateToNextField() },
+                dismissKeyboard: { focusedWordId = nil }
+            )
         }
         .wordListPremiumShareSheets(
             showShareSheet: $showShareSheet,
@@ -169,33 +132,6 @@ struct FavoritesView: View {
         return PDFGenerationService.generateWordsListPDF(info: pdfInfo)
     }
 
-    private var favoritesEmptyStateView: some View {
-        VStack(spacing: 0) {
-            Spacer()
-
-            VStack(spacing: 20) {
-                Image(systemName: "star")
-                    .font(.system(size: 60))
-                    .foregroundColor(.secondary)
-                    .accessibilityHidden(true)
-
-                Text(Localizable.string(Localizable.noFavoritesFound))
-                    .font(.system(.title3, design: .rounded).weight(.semibold))
-                    .foregroundColor(.primary)
-                    .accessibilityAddTraits(.isHeader)
-
-                Text(Localizable.string(Localizable.noFavoritesFoundMessage))
-                    .font(.system(.body, design: .rounded))
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 40)
-            }
-            .accessibilityElement(children: .combine)
-
-            Spacer()
-        }
-    }
-    
     private var favoritesListView: some View {
         ZStack(alignment: .bottom) {
             ScrollViewReader { proxy in
@@ -213,26 +149,75 @@ struct FavoritesView: View {
                     }
 
                     SwiftUI.Section {
-                        ForEach(favoriteWords) { word in
-                            FavoriteWordRow(
-                                word: word,
-                                isFavorite: dataService.isFavorite(wordId: word.id),
-                                dataService: dataService,
-                                focusedWordId: $focusedWordId,
-                                onFavoriteToggle: {
-                                    HapticManager.shared.lightImpact()
-                                    dataService.toggleFavorite(wordId: word.id)
-                                }
-                            )
-                            .id(word.id)
+                        if favoriteWords.isEmpty {
+                            VStack(spacing: 12) {
+                                Text(Localizable.string(Localizable.noFavoritesFound))
+                                    .font(.system(.title3, design: .rounded).weight(.semibold))
+                                    .foregroundColor(.primary)
+                                    .multilineTextAlignment(.center)
+                                    .accessibilityAddTraits(.isHeader)
+
+                                Text(Localizable.string(Localizable.noFavoritesFoundMessage))
+                                    .font(.system(.body, design: .rounded))
+                                    .foregroundColor(.secondary)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 32)
+                            .padding(.vertical, 28)
                             .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .accessibilityElement(children: .combine)
+                        } else {
+                            ForEach(favoriteWords) { word in
+                                FavoriteWordRow(
+                                    word: word,
+                                    isFavorite: dataService.isFavorite(wordId: word.id),
+                                    dataService: dataService,
+                                    focusedWordId: $focusedWordId,
+                                    onFavoriteToggle: {
+                                        if dataService.toggleFavorite(wordId: word.id) {
+                                            HapticManager.shared.lightImpact()
+                                        } else {
+                                            HapticManager.shared.heavyImpact()
+                                            showPaywall = true
+                                        }
+                                    }
+                                )
+                                .id(word.id)
+                                .listRowBackground(Color.clear)
+                            }
+
+                            if !subscriptionManager.isPremiumActive {
+                                Text(
+                                    String(
+                                        format: Localizable.string(Localizable.favoritesFreePlanFooter),
+                                        dataService.favoritesCount,
+                                        DataService.FavoriteFreeTier.maxFavorites
+                                    )
+                                )
+                                .font(.system(.caption, design: .rounded))
+                                .foregroundStyle(.secondary)
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 4)
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden, edges: .bottom)
+                                .accessibilityLabel(
+                                    String(
+                                        format: Localizable.string(Localizable.favoritesFreePlanFooter),
+                                        dataService.favoritesCount,
+                                        DataService.FavoriteFreeTier.maxFavorites
+                                    )
+                                )
+                            }
                         }
                     }
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .contentMargins(.top, 8, for: .scrollContent)
-                .contentMargins(.bottom, 90, for: .scrollContent)
+                .contentMargins(.bottom, favoriteWords.isEmpty ? 24 : 90, for: .scrollContent)
                 .accessibilityLabel("Favorites list")
                 .accessibilityHint("List of favorite German words with translations, explanations, and synonyms")
                 .onChange(of: focusedWordId) { oldValue, newValue in
@@ -243,28 +228,27 @@ struct FavoritesView: View {
                     }
                 }
             }
-            
-            // Üben button and Banner Ad at the bottom
-            VStack(spacing: 0) {
-                // Üben button (always active)
-                Button {
-                    HapticManager.shared.mediumImpact()
-                    navigateToStudy = true
-                } label: {
-                    Text(Localizable.string(Localizable.practice))
-                        .font(.system(.headline, design: .rounded).weight(.semibold))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(
-                            Capsule(style: .continuous)
-                                .fill(Color("AppYellow"))
-                        )
-                        .shadow(color: Color("AppYellow").opacity(0.3), radius: 8, x: 0, y: 4)
+
+            if !favoriteWords.isEmpty {
+                VStack(spacing: 0) {
+                    Button {
+                        HapticManager.shared.mediumImpact()
+                        navigateToStudy = true
+                    } label: {
+                        Text(Localizable.string(Localizable.practice))
+                            .font(.system(.headline, design: .rounded).weight(.semibold))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(
+                                Capsule(style: .continuous)
+                                    .fill(Color("AppYellow"))
+                            )
+                            .shadow(color: Color("AppYellow").opacity(0.3), radius: 8, x: 0, y: 4)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 8)
-                
             }
         }
     }

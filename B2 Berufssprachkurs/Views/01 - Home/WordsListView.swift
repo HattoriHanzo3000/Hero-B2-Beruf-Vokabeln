@@ -130,8 +130,12 @@ struct WordsListView: View {
                             dataService: dataService,
                             focusedWordId: $focusedWordId,
                             onFavoriteToggle: {
-                                HapticManager.shared.lightImpact()
-                                dataService.toggleFavorite(wordId: word.id)
+                                if dataService.toggleFavorite(wordId: word.id) {
+                                    HapticManager.shared.lightImpact()
+                                } else {
+                                    HapticManager.shared.heavyImpact()
+                                    showPaywall = true
+                                }
                             }
                         )
                         .id(word.id)
@@ -200,41 +204,13 @@ struct WordsListView: View {
                 WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
             }
             
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    navigateToPreviousField()
-                }) {
-                    Image(systemName: "chevron.up")
-                        .font(.system(.callout, design: .rounded).weight(.semibold))
-                }
-                .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0)
-                .accessibilityLabel("Previous word")
-                .accessibilityHint("Navigate to the previous word in the list")
-                
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    navigateToNextField()
-                }) {
-                    Image(systemName: "chevron.down")
-                        .font(.system(.callout, design: .rounded).weight(.semibold))
-                }
-                .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= words.count - 1)
-                .accessibilityLabel("Next word")
-                .accessibilityHint("Navigate to the next word in the list")
-                
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    focusedWordId = nil
-                }) {
-                        Text("Done")
-                        .font(.system(.callout, design: .rounded).weight(.semibold))
-                }
-                .accessibilityLabel("Done")
-                .accessibilityHint("Hide keyboard and finish input")
-            }
+            WordListKeyboardNavigationToolbar(
+                canGoToPrevious: !(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0),
+                canGoToNext: !(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= words.count - 1),
+                goToPrevious: { navigateToPreviousField() },
+                goToNext: { navigateToNextField() },
+                dismissKeyboard: { focusedWordId = nil }
+            )
         }
         .wordListPremiumShareSheets(
             showShareSheet: $showShareSheet,

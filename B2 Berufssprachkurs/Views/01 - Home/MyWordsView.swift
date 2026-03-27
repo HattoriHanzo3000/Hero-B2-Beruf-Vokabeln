@@ -68,6 +68,7 @@ struct MyWordsView: View {
     @State private var editingEntry: CustomWordEntry?
     @State private var showShareSheet = false
     @State private var showPaywall = false
+    @State private var showDeleteAllConfirmation = false
 
     private var accent: Color { Color("AppRed") }
 
@@ -88,7 +89,7 @@ struct MyWordsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .environment(\.editMode, $editMode)
         .toolbar {
-            // Trailing order: edit (inner), then share (outermost).
+            // Trailing order: edit (inner), delete-all when editing (middle), share (outermost).
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     HapticManager.shared.lightImpact()
@@ -103,6 +104,20 @@ struct MyWordsView: View {
                 .accessibilityLabel(
                     Localizable.string(editMode == .active ? Localizable.myWordsDoneEditing : Localizable.myWordsEdit)
                 )
+            }
+            if editMode == .active, !customWordEntries.isEmpty {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        HapticManager.shared.heavyImpact()
+                        showDeleteAllConfirmation = true
+                    } label: {
+                        Image(systemName: "trash")
+                            .font(.body)
+                            .foregroundColor(.primary)
+                    }
+                    .accessibilityLabel(Localizable.string(Localizable.myWordsDeleteAllToolbarLabel))
+                    .accessibilityHint(Localizable.string(Localizable.myWordsDeleteAllToolbarHint))
+                }
             }
             ToolbarItem(placement: .topBarTrailing) {
                 WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
@@ -136,6 +151,17 @@ struct MyWordsView: View {
         }
         .onAppear {
             CustomWordEntry.renumberSortOrderIfNeeded(in: modelContext)
+        }
+        .alert(
+            Localizable.string(Localizable.myWordsDeleteAllTitle),
+            isPresented: $showDeleteAllConfirmation
+        ) {
+            Button(Localizable.string(Localizable.cancel), role: .cancel) {}
+            Button(Localizable.string(Localizable.myWordsDeleteAllConfirm), role: .destructive) {
+                deleteAllMyWords()
+            }
+        } message: {
+            Text(Localizable.string(Localizable.myWordsDeleteAllMessage))
         }
         .hidesBottomBarWhenPushed(true)
     }
@@ -192,27 +218,18 @@ struct MyWordsView: View {
                         let word = entry.asWord()
                         Group {
                             if editMode == .active {
-                                Button {
-                                    HapticManager.shared.lightImpact()
-                                    editingEntry = entry
-                                } label: {
-                                    MyWordRow(
-                                        word: word,
-                                        isFavorite: dataService.isFavorite(wordId: word.id),
-                                        onFavoriteToggle: {
-                                            HapticManager.shared.lightImpact()
-                                            dataService.toggleFavorite(wordId: word.id)
-                                        }
-                                    )
-                                }
-                                .buttonStyle(.plain)
+                                myWordEditModeRow(entry: entry, word: word)
                             } else {
                                 MyWordRow(
                                     word: word,
                                     isFavorite: dataService.isFavorite(wordId: word.id),
                                     onFavoriteToggle: {
-                                        HapticManager.shared.lightImpact()
-                                        dataService.toggleFavorite(wordId: word.id)
+                                        if dataService.toggleFavorite(wordId: word.id) {
+                                            HapticManager.shared.lightImpact()
+                                        } else {
+                                            HapticManager.shared.heavyImpact()
+                                            showPaywall = true
+                                        }
                                     }
                                 )
                             }
@@ -307,6 +324,86 @@ struct MyWordsView: View {
                 .padding(.bottom, 8)
             }
         }
+    }
+
+    @ViewBuilder
+    private func myWordEditModeRow(entry: CustomWordEntry, word: Word) -> some View {
+        // Center with the row so the minus lines up with the system reorder (“lines”) control on the trailing edge.
+        HStack(alignment: .center, spacing: 12) {
+            Button(role: .destructive) {
+                deleteEntry(entry)
+            } label: {
+                Image(systemName: "minus.circle.fill")
+                    .font(.system(size: 22, weight: .regular, design: .rounded))
+                    .foregroundStyle(.red)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Localizable.string(Localizable.myWordsDeleteWord))
+            .accessibilityHint(Localizable.string(Localizable.myWordsDeleteWordHint))
+
+            Button {
+                HapticManager.shared.lightImpact()
+                editingEntry = entry
+            } label: {
+                MyWordRow(
+                    word: word,
+                    isFavorite: false,
+                    onFavoriteToggle: {},
+                    showsFavoriteControl: false
+                )
+            }
+            .buttonStyle(.plain)
+            .accessibilityHint(Localizable.string(Localizable.myWordsEditRowHint))
+        }
+    }
+
+    private func deleteAllMyWords() {
+        let entries = Array(customWordEntries)
+        guard !entries.isEmpty else { return }
+
+        for entry in entries {
+            let wordId = entry.id
+            if dataService.isFavorite(wordId: wordId) {
+                dataService.toggleFavorite(wordId: wordId)
+            }
+            let wid = wordId
+            var progressDescriptor = FetchDescriptor<WordProgress>(
+                predicate: #Predicate<WordProgress> { $0.wordId == wid }
+            )
+            progressDescriptor.fetchLimit = 1
+            if let progress = try? modelContext.fetch(progressDescriptor).first {
+                modelContext.delete(progress)
+            }
+            modelContext.delete(entry)
+        }
+
+        editingEntry = nil
+        withAnimation(.easeInOut(duration: 0.2)) {
+            editMode = .inactive
+        }
+        try? modelContext.save()
+        HapticManager.shared.mediumImpact()
+    }
+
+    private func deleteEntry(_ entry: CustomWordEntry) {
+        let wordId = entry.id
+        if dataService.isFavorite(wordId: wordId) {
+            dataService.toggleFavorite(wordId: wordId)
+        }
+        if editingEntry?.id == entry.id {
+            editingEntry = nil
+        }
+        let wid = wordId
+        var progressDescriptor = FetchDescriptor<WordProgress>(
+            predicate: #Predicate<WordProgress> { $0.wordId == wid }
+        )
+        progressDescriptor.fetchLimit = 1
+        if let progress = try? modelContext.fetch(progressDescriptor).first {
+            modelContext.delete(progress)
+        }
+        modelContext.delete(entry)
+        try? modelContext.save()
+        HapticManager.shared.mediumImpact()
     }
 
     private func applyMove(from source: IndexSet, to destination: Int) {
@@ -503,6 +600,8 @@ struct MyWordRow: View {
     let word: Word
     let isFavorite: Bool
     let onFavoriteToggle: () -> Void
+    /// When `false`, the favorite star is hidden (e.g. edit mode uses a delete control in the parent row).
+    var showsFavoriteControl: Bool = true
 
     private func attributedText(
         label: String,
@@ -526,17 +625,19 @@ struct MyWordRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            Button(action: onFavoriteToggle) {
-                Image(systemName: isFavorite ? "star.fill" : "star")
-                    .font(.system(size: 15, weight: .semibold, design: .rounded))
-                    .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
-                    .symbolEffect(.bounce, value: isFavorite)
+            if showsFavoriteControl {
+                Button(action: onFavoriteToggle) {
+                    Image(systemName: isFavorite ? "star.fill" : "star")
+                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
+                        .symbolEffect(.bounce, value: isFavorite)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
+                .accessibilityValue(isFavorite ? "Favorited" : "Not favorited")
+                .accessibilityHint("Toggle favorite for \(word.german)")
+                .accessibilityAddTraits(isFavorite ? .isSelected : [])
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
-            .accessibilityValue(isFavorite ? "Favorited" : "Not favorited")
-            .accessibilityHint("Toggle favorite for \(word.german)")
-            .accessibilityAddTraits(isFavorite ? .isSelected : [])
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(word.german)

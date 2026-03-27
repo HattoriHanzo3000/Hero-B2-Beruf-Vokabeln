@@ -15,6 +15,11 @@ class DataService: ObservableObject {
     /// Synthetic section for user-created entries (`CustomWordEntry`); not in bundle JSON.
     static let userMyWordsSectionId = "USER_MY_WORDS"
 
+    /// Non‑premium users may favorite up to this many words across the app; premium is unlimited.
+    enum FavoriteFreeTier {
+        static let maxFavorites = 5
+    }
+
     @Published var lections: [Lection] = []
     @Published var wordsBySection: [String: [Word]] = [:]
     /// Populated from SwiftData `CustomWordEntry` (CloudKit when sync is on).
@@ -439,14 +444,28 @@ class DataService: ObservableObject {
     }
     
     // MARK: - Favorites Functions
-    
-    func toggleFavorite(wordId: String) {
+
+    var favoritesCount: Int { favoriteWords.count }
+
+    /// Whether another word can be favorited on the free plan (premium ignores the cap).
+    func canAddMoreFavorites(isPremiumActive: Bool) -> Bool {
+        isPremiumActive || favoriteWords.count < FavoriteFreeTier.maxFavorites
+    }
+
+    /// Removes or adds a favorite. Returns `false` if adding was blocked by the free-tier limit.
+    @discardableResult
+    func toggleFavorite(wordId: String) -> Bool {
         if favoriteWords.contains(wordId) {
             favoriteWords.remove(wordId)
-        } else {
-            favoriteWords.insert(wordId)
+            saveFavoriteWords()
+            return true
         }
+        if !SubscriptionManager.shared.isPremiumActive && favoriteWords.count >= FavoriteFreeTier.maxFavorites {
+            return false
+        }
+        favoriteWords.insert(wordId)
         saveFavoriteWords()
+        return true
     }
     
     func isFavorite(wordId: String) -> Bool {

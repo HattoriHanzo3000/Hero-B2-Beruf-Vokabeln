@@ -150,6 +150,7 @@ extension Localizable {
     static let adjectivesWithPrepositions = "adjectives_with_prepositions"
     static let favorites = "favorites"
     static let favoritesWordsTitle = "favorites_words_title"
+    static let favoritesFreePlanFooter = "favorites_free_plan_footer"
     static let myWords = "my_words"
     static let myWordsAddWord = "my_words_add_word"
     static let myWordsWordOrPhrase = "my_words_word_or_phrase"
@@ -158,7 +159,15 @@ extension Localizable {
     static let myWordsDoneEditing = "my_words_done_editing"
     static let myWordsEditWord = "my_words_edit_word"
     static let myWordsFreePlanFooter = "my_words_free_plan_footer"
-    
+    static let myWordsDeleteWord = "my_words_delete_word"
+    static let myWordsDeleteWordHint = "my_words_delete_word_hint"
+    static let myWordsEditRowHint = "my_words_edit_row_hint"
+    static let myWordsDeleteAllTitle = "my_words_delete_all_title"
+    static let myWordsDeleteAllMessage = "my_words_delete_all_message"
+    static let myWordsDeleteAllConfirm = "my_words_delete_all_confirm"
+    static let myWordsDeleteAllToolbarHint = "my_words_delete_all_toolbar_hint"
+    static let myWordsDeleteAllToolbarLabel = "my_words_delete_all_toolbar_label"
+
     // Practice button
     static let practice = "practice"
     

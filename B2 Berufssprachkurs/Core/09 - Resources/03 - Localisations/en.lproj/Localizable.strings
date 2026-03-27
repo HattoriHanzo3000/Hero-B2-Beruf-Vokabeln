@@ -126,6 +126,7 @@
 "adjectives_with_prepositions" = "Adjectives with Prepositions";
 "favorites" = "Favorites";
 "favorites_words_title" = "Favorite\nWords";
+"favorites_free_plan_footer" = "Free plan: %d of %d favorite words.";
 "my_words" = "My\nWords";
 "my_words_add_word" = "Add word";
 "my_words_word_or_phrase" = "Word or phrase";
@@ -134,6 +135,14 @@
 "my_words_done_editing" = "Done";
 "my_words_edit_word" = "Edit word";
 "my_words_free_plan_footer" = "Free plan: %d of %d words used.";
+"my_words_delete_word" = "Delete word";
+"my_words_delete_word_hint" = "Removes this word from My Words.";
+"my_words_edit_row_hint" = "Opens the editor for this word.";
+"my_words_delete_all_title" = "Delete all words?";
+"my_words_delete_all_message" = "Are you sure you want to delete all words from My Words? This action cannot be undone.";
+"my_words_delete_all_confirm" = "Delete All";
+"my_words_delete_all_toolbar_hint" = "Delete every word in My Words";
+"my_words_delete_all_toolbar_label" = "Delete all words";
 
 "practice" = "PRACTICE";
 

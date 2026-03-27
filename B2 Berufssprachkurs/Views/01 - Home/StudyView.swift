@@ -41,6 +41,7 @@ struct StudyView: View {
     @State private var currentContentType: ContentType = .translation // Current content type shown on card
     @State private var buttonFeedback: ButtonFeedback? = nil // Track button press feedback for color indication
     @State private var studySessionMetricsRecorded = false
+    @State private var showFavoriteLimitPaywall = false
     @Namespace private var cardNamespace
     
     // Enum for button feedback
@@ -515,9 +516,13 @@ struct StudyView: View {
                     
                     // Star icon in bottom right corner of the page
                     Button(action: {
-                        HapticManager.shared.lightImpact()
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                            dataService.toggleFavorite(wordId: studyItems[currentIndex].wordId)
+                        let wid = studyItems[currentIndex].wordId
+                        if dataService.toggleFavorite(wordId: wid) {
+                            HapticManager.shared.lightImpact()
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {}
+                        } else {
+                            HapticManager.shared.heavyImpact()
+                            showFavoriteLimitPaywall = true
                         }
                     }) {
                         Image(systemName: dataService.isFavorite(wordId: studyItems[currentIndex].wordId) ? "star.fill" : "star")
@@ -658,6 +663,9 @@ struct StudyView: View {
         .onChange(of: isReversed) { _, newValue in
             // Keep card flipped when reverse mode is active
             cardFlipped = newValue
+        }
+        .sheet(isPresented: $showFavoriteLimitPaywall) {
+            PaywallView()
         }
     }
     

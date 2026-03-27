@@ -24,10 +24,8 @@ private struct HomeStackButtonStyle: ButtonStyle {
 struct HomeView: View {
     @EnvironmentObject private var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
-    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     private let isPremiumPreviewOverride: Bool?
     @State private var activeStack: LearningStackType?
-    @State private var showPaywall = false
 
     init(isPremiumPreviewOverride: Bool? = nil) {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
@@ -120,16 +118,9 @@ struct HomeView: View {
                                 .id("my_words_\(languageManager.currentLanguage)")
 
                                 Button {
-                                    if effectivePremiumActive {
-                                        HapticManager.shared.lightImpact()
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                            activeStack = .favorites
-                                        }
-                                    } else {
-                                        HapticManager.shared.heavyImpact()
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                            showPaywall = true
-                                        }
+                                    HapticManager.shared.lightImpact()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        activeStack = .favorites
                                     }
                                 } label: {
                                     LearningStackCard(
@@ -178,13 +169,6 @@ struct HomeView: View {
                     .environmentObject(LearningListsUIState.shared)
             }
         }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView()
-        }
-    }
-
-    private var effectivePremiumActive: Bool {
-        isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
     }
 }
 

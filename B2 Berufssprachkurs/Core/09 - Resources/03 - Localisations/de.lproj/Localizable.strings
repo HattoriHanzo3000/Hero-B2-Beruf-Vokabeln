@@ -126,6 +126,7 @@
 "adjectives_with_prepositions" = "Adjektive mit Präpositionen";
 "favorites" = "Favoriten";
 "favorites_words_title" = "Favoriten\nWörter";
+"favorites_free_plan_footer" = "Kostenloses Kontingent: %d von %d Favoriten.";
 "my_words" = "Meine\nWörter";
 "my_words_add_word" = "Wort hinzufügen";
 "my_words_word_or_phrase" = "Wort oder Wendung";
@@ -134,6 +135,14 @@
 "my_words_done_editing" = "Fertig";
 "my_words_edit_word" = "Wort bearbeiten";
 "my_words_free_plan_footer" = "Kostenloses Kontingent: %d von %d Wörtern.";
+"my_words_delete_word" = "Wort löschen";
+"my_words_delete_word_hint" = "Entfernt dieses Wort aus „Meine Wörter“.";
+"my_words_edit_row_hint" = "Öffnet den Editor für dieses Wort.";
+"my_words_delete_all_title" = "Alle Wörter löschen?";
+"my_words_delete_all_message" = "Möchtest du wirklich alle Wörter unter „Meine Wörter“ löschen? Diese Aktion kann nicht rückgängig gemacht werden.";
+"my_words_delete_all_confirm" = "Alle löschen";
+"my_words_delete_all_toolbar_hint" = "Alle Einträge unter „Meine Wörter“ löschen";
+"my_words_delete_all_toolbar_label" = "Alle Wörter löschen";
 
 "practice" = "ÜBEN";
 
