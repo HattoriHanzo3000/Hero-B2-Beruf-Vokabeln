@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct WordsListView: View {
     let sectionId: String
     @EnvironmentObject var dataService: DataService
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var translations: [String: String] = [:]
+    @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
+
+    private var progressByWordId: [String: WordProgress] {
+        Dictionary(uniqueKeysWithValues: wordProgressList.map { ($0.wordId, $0) })
+    }
+
+    private func userTranslation(for wordId: String) -> String {
+        progressByWordId[wordId]?.translation ?? ""
+    }
     @State private var navigateToStudy = false
     @State private var navigateToSettings = false
     @State private var showShareSheet = false
@@ -108,22 +117,12 @@ struct WordsListView: View {
                     ForEach(words) { word in
                         WordRow(
                             word: word,
-                            sectionId: sectionId,
                             isFavorite: dataService.isFavorite(wordId: word.id),
-                            translation: translations[word.id] ?? word.translation,
                             dataService: dataService,
                             focusedWordId: $focusedWordId,
                             onFavoriteToggle: {
                                 HapticManager.shared.lightImpact()
                                 dataService.toggleFavorite(wordId: word.id)
-                            },
-                            onTranslationChange: { newTranslation in
-                                translations[word.id] = newTranslation
-                                dataService.updateTranslation(
-                                    for: word.id,
-                                    in: sectionId,
-                                    translation: newTranslation
-                                )
                             }
                         )
                         .id(word.id)
@@ -246,14 +245,6 @@ struct WordsListView: View {
         .sheet(isPresented: $showPaywall) {
             PaywallView()
         }
-        .onAppear {
-            // Initialize translations from dataService
-            for word in words {
-                if !word.translation.isEmpty {
-                    translations[word.id] = word.translation
-                }
-            }
-        }
     }
     
     private func generateShareText() -> String {
@@ -270,10 +261,9 @@ struct WordsListView: View {
             if let explanation = word.explanation, !explanation.isEmpty {
                 shareText += " (\(explanation))"
             }
-            if let translation = translations[word.id], !translation.isEmpty {
+            let translation = userTranslation(for: word.id)
+            if !translation.isEmpty {
                 shareText += " - \(translation)"
-            } else if !word.translation.isEmpty {
-                shareText += " - \(word.translation)"
             }
             shareText += "\n"
         }
@@ -309,7 +299,7 @@ struct WordsListView: View {
                 german: word.german,
                 example: word.example,
                 explanation: word.explanation,
-                translation: translations[word.id] ?? word.translation,
+                translation: userTranslation(for: word.id),
                 synonyms: word.synonyms
             )
         }
@@ -367,15 +357,34 @@ struct ShareSheet: UIViewControllerRepresentable {
 
 struct WordRow: View {
     let word: Word
-    let sectionId: String
     let isFavorite: Bool
-    let translation: String
     @ObservedObject var dataService: DataService
     @FocusState.Binding var focusedWordId: String?
     let onFavoriteToggle: () -> Void
-    let onTranslationChange: (String) -> Void
-    
+
+    @Environment(\.modelContext) private var modelContext
+    @Query private var progressMatches: [WordProgress]
     @State private var localTranslation: String = ""
+
+    init(
+        word: Word,
+        isFavorite: Bool,
+        dataService: DataService,
+        focusedWordId: FocusState<String?>.Binding,
+        onFavoriteToggle: @escaping () -> Void
+    ) {
+        self.word = word
+        self.isFavorite = isFavorite
+        self.dataService = dataService
+        self._focusedWordId = focusedWordId
+        self.onFavoriteToggle = onFavoriteToggle
+        let id = word.id
+        _progressMatches = Query(filter: #Predicate<WordProgress> { $0.wordId == id })
+    }
+
+    private var cloudTranslation: String {
+        progressMatches.first?.translation ?? ""
+    }
     
     private func attributedText(label: String, value: String, labelFont: Font = .system(.caption, design: .rounded).weight(.semibold), valueFont: Font = .system(.caption, design: .rounded), labelColor: Color = .secondary, valueColor: Color = .primary) -> AttributedString {
         var fullText = AttributedString("\(label)\(value)")
@@ -457,10 +466,14 @@ struct WordRow: View {
                     .accessibilityHint("Enter the translation for this German word")
                     .accessibilityValue(localTranslation.isEmpty ? "Empty" : localTranslation)
                     .onAppear {
-                        localTranslation = translation
+                        localTranslation = cloudTranslation
                     }
-                    .onChange(of: localTranslation) { oldValue, newValue in
-                        onTranslationChange(newValue)
+                    .onChange(of: cloudTranslation) { _, newValue in
+                        guard focusedWordId != word.id else { return }
+                        localTranslation = newValue
+                    }
+                    .onChange(of: localTranslation) { _, newValue in
+                        WordProgress.upsertTranslation(wordId: word.id, text: newValue, in: modelContext)
                     }
             }
             .frame(width: 150, alignment: .leading)
@@ -543,8 +556,11 @@ struct WordsListHeaderView: View {
 }
 
 #Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: WordProgress.self, configurations: config)
     NavigationStack {
         WordsListView(sectionId: "1A")
             .environmentObject(DataService())
     }
+    .modelContainer(container)
 }

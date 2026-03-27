@@ -37,9 +37,6 @@ class DataService: ObservableObject {
             self.lections = lectionsData.lections
         }
         
-        // Load user translations first
-        let userTranslations = loadUserTranslations()
-        
         // Load chapter section files (chapter_1_A.json through chapter_12_E.json)
         for chapter in 1...12 {
             for letter in ["A", "B", "C", "D", "E"] {
@@ -48,11 +45,10 @@ class DataService: ObservableObject {
                    let data = try? Data(contentsOf: url),
                    let sectionFile = try? JSONDecoder().decode(SectionFile.self, from: data) {
                     let words = sectionFile.words.map { wordWithoutTranslation -> Word in
-                        let translation = userTranslations[wordWithoutTranslation.id]?.translation ?? ""
                         return Word(
                             id: wordWithoutTranslation.id,
                             german: wordWithoutTranslation.german,
-                            translation: translation,
+                            translation: "",
                             synonyms: wordWithoutTranslation.synonyms,
                             explanation: wordWithoutTranslation.explanation,
                             example: wordWithoutTranslation.example,
@@ -72,11 +68,10 @@ class DataService: ObservableObject {
                let data = try? Data(contentsOf: url),
                let sectionFile = try? JSONDecoder().decode(SectionFile.self, from: data) {
                 let words = sectionFile.words.map { wordWithoutTranslation -> Word in
-                    let translation = userTranslations[wordWithoutTranslation.id]?.translation ?? ""
                     return Word(
                         id: wordWithoutTranslation.id,
                         german: wordWithoutTranslation.german,
-                        translation: translation,
+                        translation: "",
                         synonyms: wordWithoutTranslation.synonyms,
                         explanation: wordWithoutTranslation.explanation,
                         example: wordWithoutTranslation.example,
@@ -95,11 +90,10 @@ class DataService: ObservableObject {
                let data = try? Data(contentsOf: url),
                let sectionFile = try? JSONDecoder().decode(SectionFile.self, from: data) {
                 let words = sectionFile.words.map { wordWithoutTranslation -> Word in
-                    let translation = userTranslations[wordWithoutTranslation.id]?.translation ?? ""
                     return Word(
                         id: wordWithoutTranslation.id,
                         german: wordWithoutTranslation.german,
-                        translation: translation,
+                        translation: "",
                         synonyms: wordWithoutTranslation.synonyms,
                         explanation: wordWithoutTranslation.explanation,
                         example: wordWithoutTranslation.example,
@@ -146,59 +140,6 @@ class DataService: ObservableObject {
             }
         }
         return nil
-    }
-    
-    func updateTranslation(for wordId: String, in sectionId: String, translation: String) {
-        guard var words = wordsBySection[sectionId] else { return }
-        if let index = words.firstIndex(where: { $0.id == wordId }) {
-            words[index].translation = translation
-            // Assign back to trigger @Published change notification
-            wordsBySection[sectionId] = words
-            // Force a change notification by toggling the dictionary
-            // This ensures SwiftUI detects the change even if the dictionary reference is the same
-            objectWillChange.send()
-            
-            // Save translation to user_translations.json
-            saveUserTranslation(wordId: wordId, translation: translation)
-        }
-    }
-    
-    private func saveUserTranslation(wordId: String, translation: String) {
-        // Load existing translations
-        var userTranslations = loadUserTranslations()
-        
-        // Update translation
-        userTranslations[wordId] = TranslationEntry(translation: translation)
-        
-        // Save to Documents directory (we can't write to Bundle, so save to app's Documents)
-        if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = documentsURL.appendingPathComponent("user_translations.json")
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-            if let encoded = try? encoder.encode(userTranslations) {
-                try? encoded.write(to: fileURL)
-            }
-        }
-    }
-    
-    private func loadUserTranslations() -> UserTranslations {
-        // First try to load from Documents (user's saved translations)
-        if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = documentsURL.appendingPathComponent("user_translations.json")
-            if let data = try? Data(contentsOf: fileURL),
-               let translations = try? JSONDecoder().decode(UserTranslations.self, from: data) {
-                return translations
-            }
-        }
-        
-        // Fallback to Bundle (default empty translations)
-        if let url = Bundle.main.url(forResource: "user_translations", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let translations = try? JSONDecoder().decode(UserTranslations.self, from: data) {
-            return translations
-        }
-        
-        return [:]
     }
     
     func toggleWordChecked(wordId: String, in sectionId: String) {
@@ -588,7 +529,11 @@ class DataService: ObservableObject {
         if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let fileURL = documentsURL.appendingPathComponent("user_translations.json")
             try? FileManager.default.removeItem(at: fileURL)
+            let legacyFileURL = documentsURL.appendingPathComponent("translations.json")
+            try? FileManager.default.removeItem(at: legacyFileURL)
         }
+
+        MigrationManager.resetTranslationsMigrationFlag()
         
         // Reload words data to reset translations to original values
         wordsBySection.removeAll()

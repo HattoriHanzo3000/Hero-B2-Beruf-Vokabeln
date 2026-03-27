@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 import UIKit
 
 struct HeaderView: View {
     @ObservedObject var dataService: DataService
+    @Query(sort: \WordProgress.wordId) private var wordProgressRecords: [WordProgress]
     @ObservedObject private var languageManager = LanguageManager.shared
     @State private var wordOfTheDay: Word? = nil
     @State private var showMascotGif = false
@@ -175,10 +177,10 @@ struct HeaderView: View {
                     }
                     
                         // Row 4: Translation
-                    if !word.translation.isEmpty && word.translation.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+                    if !displayedTranslation(for: word).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         Text(attributedText(
                             label: "übers: ",
-                            value: word.translation,
+                            value: displayedTranslation(for: word),
                             labelFont: .system(.subheadline, design: .rounded).weight(.bold),
                             valueFont: .system(.subheadline, design: .rounded).weight(.semibold),
                             labelColor: Color("AppYellow")
@@ -309,6 +311,14 @@ struct HeaderView: View {
     private func updateWordOfTheDay() {
         wordOfTheDay = dataService.getWordOfTheDay()
     }
+
+    private func displayedTranslation(for word: Word) -> String {
+        if let stored = wordProgressRecords.first(where: { $0.wordId == word.id })?.translation,
+           !stored.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return stored
+        }
+        return word.translation
+    }
     
     private func attributedText(label: String, value: String, labelFont: Font = .system(.subheadline, design: .rounded).weight(.semibold), valueFont: Font = .system(.subheadline, design: .rounded).weight(.semibold), labelColor: Color? = nil) -> AttributedString {
         var fullText = AttributedString("\(label)\(value)")
@@ -378,7 +388,10 @@ struct HeaderView: View {
 }
 
 #Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: WordProgress.self, configurations: config)
     HeaderView(dataService: DataService())
         .background(Color("AppGreenLight"))
+        .modelContainer(container)
 }
 

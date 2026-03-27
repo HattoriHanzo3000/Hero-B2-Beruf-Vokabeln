@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavoritesView: View {
     @EnvironmentObject private var dataService: DataService
     @Environment(\.dismiss) private var dismiss
     @State private var navigateToStudy = false
-    @State private var translations: [String: String] = [:]
     @FocusState private var focusedWordId: String?
     
     var favoriteWords: [Word] {
@@ -167,22 +167,6 @@ struct FavoritesView: View {
                     .accessibilityHint("Hide keyboard and finish input")
                 }
             }
-            .onAppear {
-                // Initialize translations from dataService
-                for word in favoriteWords {
-                    if !word.translation.isEmpty {
-                        translations[word.id] = word.translation
-                    }
-                }
-            }
-            .onChange(of: favoriteWords) { _, _ in
-                // Update translations when favorites change
-                for word in favoriteWords {
-                    if !word.translation.isEmpty {
-                        translations[word.id] = word.translation
-                    }
-                }
-            }
             .navigationBarHidden(true)
         }
     }
@@ -203,26 +187,11 @@ struct FavoritesView: View {
                         FavoriteWordRow(
                             word: word,
                             isFavorite: dataService.isFavorite(wordId: word.id),
-                            translation: translations[word.id] ?? word.translation,
                             dataService: dataService,
                             focusedWordId: $focusedWordId,
                             onFavoriteToggle: {
                                 HapticManager.shared.lightImpact()
                                 dataService.toggleFavorite(wordId: word.id)
-                            },
-                            onTranslationChange: { newTranslation in
-                                translations[word.id] = newTranslation
-                                // Find sectionId for this word
-                                for (sectionId, words) in dataService.wordsBySection {
-                                    if words.contains(where: { $0.id == word.id }) {
-                                        dataService.updateTranslation(
-                                            for: word.id,
-                                            in: sectionId,
-                                            translation: newTranslation
-                                        )
-                                        break
-                                    }
-                                }
                             }
                         )
                         .id(word.id)
@@ -385,13 +354,33 @@ struct FavoritesHeaderView: View {
 struct FavoriteWordRow: View {
     let word: Word
     let isFavorite: Bool
-    let translation: String
     @ObservedObject var dataService: DataService
     @FocusState.Binding var focusedWordId: String?
     let onFavoriteToggle: () -> Void
-    let onTranslationChange: (String) -> Void
-    
+
+    @Environment(\.modelContext) private var modelContext
+    @Query private var progressMatches: [WordProgress]
     @State private var localTranslation: String = ""
+
+    init(
+        word: Word,
+        isFavorite: Bool,
+        dataService: DataService,
+        focusedWordId: FocusState<String?>.Binding,
+        onFavoriteToggle: @escaping () -> Void
+    ) {
+        self.word = word
+        self.isFavorite = isFavorite
+        self.dataService = dataService
+        self._focusedWordId = focusedWordId
+        self.onFavoriteToggle = onFavoriteToggle
+        let id = word.id
+        _progressMatches = Query(filter: #Predicate<WordProgress> { $0.wordId == id })
+    }
+
+    private var cloudTranslation: String {
+        progressMatches.first?.translation ?? ""
+    }
     
     private func attributedText(label: String, value: String, labelFont: Font = .caption.weight(.semibold), valueFont: Font = .caption, labelColor: Color = .secondary, valueColor: Color = .primary) -> AttributedString {
         var fullText = AttributedString("\(label)\(value)")
@@ -473,10 +462,14 @@ struct FavoriteWordRow: View {
                     .accessibilityHint("Enter the translation for this German word")
                     .accessibilityValue(localTranslation.isEmpty ? "Empty" : localTranslation)
                     .onAppear {
-                        localTranslation = translation
+                        localTranslation = cloudTranslation
                     }
-                    .onChange(of: localTranslation) { oldValue, newValue in
-                        onTranslationChange(newValue)
+                    .onChange(of: cloudTranslation) { _, newValue in
+                        guard focusedWordId != word.id else { return }
+                        localTranslation = newValue
+                    }
+                    .onChange(of: localTranslation) { _, newValue in
+                        WordProgress.upsertTranslation(wordId: word.id, text: newValue, in: modelContext)
                     }
             }
             .frame(width: 150, alignment: .leading)
@@ -489,6 +482,9 @@ struct FavoriteWordRow: View {
 }
 
 #Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: WordProgress.self, configurations: config)
     FavoritesView()
         .environmentObject(DataService())
+        .modelContainer(container)
 }

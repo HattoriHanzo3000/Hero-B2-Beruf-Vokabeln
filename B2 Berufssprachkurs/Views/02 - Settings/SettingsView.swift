@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 import MessageUI
 
 struct SettingsView: View {
     @EnvironmentObject var dataService: DataService
+    @Environment(\.modelContext) private var modelContext
     @ObservedObject private var languageManager = LanguageManager.shared
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
+    @AppStorage(MigrationManager.iCloudSyncEnabledKey) private var iCloudSyncEnabled = true
     @AppStorage("appearancePreference") private var appearancePreference = "System" // Stores key: "Light" | "Dark" | "System"
     @AppStorage("appLanguage") private var appLanguage = "English" { // Stores key: "English" | "Deutsch"
         didSet {
@@ -110,6 +113,18 @@ struct SettingsView: View {
                         }
                     }
                 )
+            }
+
+            SwiftUI.Section {
+                ToggleIconRow(
+                    icon: "icloud.fill",
+                    iconColor: .blue,
+                    title: Localizable.string(Localizable.iCloudSync),
+                    isOn: $iCloudSyncEnabled,
+                    tintColor: .blue
+                )
+            } footer: {
+                iCloudSyncSectionFooter()
             }
             
             SwiftUI.Section {
@@ -278,8 +293,23 @@ struct SettingsView: View {
         var id: URL { url }
     }
     
+    @ViewBuilder
+    private func iCloudSyncSectionFooter() -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(Localizable.string(Localizable.iCloudSyncFooter))
+            if FileManager.default.ubiquityIdentityToken != nil {
+                Text(Localizable.string(Localizable.iCloudAccountSignedIn))
+            } else {
+                Text(Localizable.string(Localizable.iCloudAccountNotSignedIn))
+            }
+        }
+        .font(.footnote)
+        .foregroundStyle(.secondary)
+    }
+
     private func resetApp() {
         HapticManager.shared.mediumImpact()
+        try? WordProgress.deleteAll(in: modelContext)
         dataService.resetAllData()
     }
     

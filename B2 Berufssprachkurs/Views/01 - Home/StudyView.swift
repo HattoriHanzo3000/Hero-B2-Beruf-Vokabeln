@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct StudyItem {
     let wordId: String
@@ -31,6 +32,7 @@ struct StudyView: View {
     let categoryFilter: String? // If provided, only load sections with this prefix (e.g., "VERBEN_", "ADJEKTIVE_")
     
     private let spacedRepetition = SpacedRepetitionService.shared
+    @Query(sort: \WordProgress.wordId) private var wordProgressRecords: [WordProgress]
     @State private var currentIndex = 0
     @State private var studyItems: [StudyItem] = []
     @State private var isReversed = false // When true, word is on front
@@ -152,7 +154,28 @@ struct StudyView: View {
         self.favoritesOnly = favoritesOnly
         self.categoryFilter = categoryFilter
     }
-    
+
+    private var progressTranslationById: [String: String] {
+        Dictionary(uniqueKeysWithValues: wordProgressRecords.map { ($0.wordId, $0.translation) })
+    }
+
+    private var wordProgressSyncFingerprint: String {
+        wordProgressRecords
+            .sorted { $0.wordId < $1.wordId }
+            .map { "\($0.wordId)|\($0.translation)|\($0.lastUpdated.timeIntervalSince1970)" }
+            .joined(separator: "#")
+    }
+
+    /// User-edited translation from SwiftData, falling back to legacy `Word.translation` if present.
+    private func translationForStudy(for word: Word) -> String? {
+        if let raw = progressTranslationById[word.id] {
+            let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty { return raw }
+        }
+        let legacy = word.translation.trimmingCharacters(in: .whitespacesAndNewlines)
+        return legacy.isEmpty ? nil : word.translation
+    }
+
     private func loadStudyItems() {
         var items: [StudyItem] = []
         
@@ -268,7 +291,7 @@ struct StudyView: View {
                 // For VERBEN sections: include if they have quiz/example OR translation
                 if isVerbenSection {
                     let hasQuizExample = word.quiz?.isEmpty == false && word.example?.isEmpty == false
-                    let translation = word.translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : word.translation
+                    let translation = translationForStudy(for: word)
                     let hasTranslation = translation != nil
                     
                     // Include if has quiz/example (for quiz mode) OR has translation (for translation mode)
@@ -289,7 +312,7 @@ struct StudyView: View {
                     // For ADJEKTIVE sections: include if they have translation, synonym, or explanation (same as regular sections)
                     let synonym = word.synonyms?.first
                     let explanation = word.explanation?.isEmpty == false ? word.explanation : nil
-                    let translation = word.translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : word.translation
+                    let translation = translationForStudy(for: word)
                     let example = word.example?.isEmpty == false ? word.example : nil
                     
                     // Only include if at least one content type is available (translation, synonym, or explanation)
@@ -311,7 +334,7 @@ struct StudyView: View {
                     // For regular sections: include if they have at least one content type
                     let synonym = word.synonyms?.first
                     let explanation = word.explanation?.isEmpty == false ? word.explanation : nil
-                    let translation = word.translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : word.translation
+                    let translation = translationForStudy(for: word)
                     let example = word.example?.isEmpty == false ? word.example : nil
                     
                     // Only include if at least one content type is available
@@ -570,6 +593,9 @@ struct StudyView: View {
         }
         .onChange(of: languageManager.currentLanguage) { _, _ in
             // Reload study items when language changes
+            loadStudyItems()
+        }
+        .onChange(of: wordProgressSyncFingerprint) { _, _ in
             loadStudyItems()
         }
         .onChange(of: isReversed) { _, newValue in
@@ -1367,8 +1393,11 @@ struct FlashCardView2: View {
 }
 
 #Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: WordProgress.self, configurations: config)
     NavigationStack {
         StudyView(dataService: DataService(), filterBySectionId: nil, studyAllMode: true)
     }
+    .modelContainer(container)
 }
 

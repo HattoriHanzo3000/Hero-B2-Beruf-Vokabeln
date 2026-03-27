@@ -79,6 +79,10 @@
 "reset_app_message" = "This will reset all your progress, including checked words, translations, and spaced repetition data. This action cannot be undone.";
 "reset" = "Reset";
 "cancel" = "Cancel";
+"icloud_sync" = "iCloud Sync";
+"icloud_sync_footer" = "When this is on, your word translations can sync across your Apple devices via iCloud. Your device must be signed in to iCloud in Settings.";
+"icloud_account_signed_in" = "iCloud is active on this device.";
+"icloud_account_not_signed_in" = "iCloud is not signed in on this device. To sync, sign in under Settings → Apple ID.";
 
 // About page
 "about_this_app" = "Hero - Deutsch B2 Beruf";

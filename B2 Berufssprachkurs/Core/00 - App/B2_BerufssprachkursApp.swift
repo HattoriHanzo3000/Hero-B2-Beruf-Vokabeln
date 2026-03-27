@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // View modifier to lock orientation to portrait
 struct PortraitOrientationModifier: ViewModifier {
@@ -28,9 +29,25 @@ struct B2_BerufssprachkursApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @AppStorage("appearancePreference") private var appearancePreference: String = "System"
     @AppStorage("hasSeenWelcomeVideo") private var hasSeenWelcomeVideo: Bool = false
-    
+
+    private let sharedModelContainer: ModelContainer
+
     init() {
-        // RevenueCat is initialized in AppDelegate
+        let schema = Schema([WordProgress.self])
+        let iCloudSyncEnabled =
+            UserDefaults.standard.object(forKey: MigrationManager.iCloudSyncEnabledKey) as? Bool ?? true
+        let cloudKitDatabase: ModelConfiguration.CloudKitDatabase =
+            iCloudSyncEnabled ? .automatic : .none
+        let modelConfiguration = ModelConfiguration(
+            schema: schema,
+            isStoredInMemoryOnly: false,
+            cloudKitDatabase: cloudKitDatabase
+        )
+        do {
+            sharedModelContainer = try ModelContainer(for: schema, configurations: [modelConfiguration])
+        } catch {
+            fatalError("Could not create ModelContainer: \(error.localizedDescription)")
+        }
     }
     
     private var colorScheme: ColorScheme? {
@@ -61,6 +78,12 @@ struct B2_BerufssprachkursApp: App {
             .portraitOrientation()
             .environmentObject(LanguageManager.shared)
             .environmentObject(AppearanceManager.shared)
+            .task {
+                MigrationManager.runTranslationsImportIfNeeded(
+                    context: sharedModelContainer.mainContext
+                )
+            }
         }
+        .modelContainer(sharedModelContainer)
     }
 }

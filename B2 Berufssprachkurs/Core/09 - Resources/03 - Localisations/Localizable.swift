@@ -87,6 +87,11 @@ extension Localizable {
     static let resetAppMessage = "reset_app_message"
     static let reset = "reset"
     static let cancel = "cancel"
+
+    static let iCloudSync = "icloud_sync"
+    static let iCloudSyncFooter = "icloud_sync_footer"
+    static let iCloudAccountSignedIn = "icloud_account_signed_in"
+    static let iCloudAccountNotSignedIn = "icloud_account_not_signed_in"
     
     // About page
     static let aboutThisApp = "about_this_app"
