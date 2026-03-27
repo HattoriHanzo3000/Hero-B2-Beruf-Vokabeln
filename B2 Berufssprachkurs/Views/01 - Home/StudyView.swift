@@ -23,7 +23,6 @@ struct StudyItem {
 struct StudyView: View {
     @ObservedObject var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
-    @Environment(\.dismiss) private var dismiss
     
     // Filtering parameters
     let filterBySectionId: String? // If provided, only load from this section
@@ -41,6 +40,7 @@ struct StudyView: View {
     @State private var cardsAnswered = 0 // Track number of cards answered in this session
     @State private var currentContentType: ContentType = .translation // Current content type shown on card
     @State private var buttonFeedback: ButtonFeedback? = nil // Track button press feedback for color indication
+    @State private var studySessionMetricsRecorded = false
     @Namespace private var cardNamespace
     
     // Enum for button feedback
@@ -391,11 +391,7 @@ struct StudyView: View {
                 StudyEmptyStateView(
                     title: emptyStateTitle,
                     message: emptyStateMessage,
-                    iconName: emptyStateIcon,
-                    modeTitle: Localizable.string(Localizable.study),
-                    onBack: {
-                        handleDismiss()
-                    }
+                    iconName: emptyStateIcon
                 )
             } else if currentIndex < studyItems.count {
                 ZStack(alignment: .bottomTrailing) {
@@ -509,14 +505,43 @@ struct StudyView: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden(true)
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .principal) {
-                EmptyView()
+            if studyItems.isEmpty {
+                ToolbarItem(placement: .principal) {
+                    Text(Localizable.string(Localizable.study))
+                        .font(.system(.headline, design: .rounded).weight(.semibold))
+                        .foregroundColor(.primary)
+                        .accessibilityAddTraits(.isHeader)
+                }
+            } else {
+                ToolbarItem(placement: .principal) {
+                    Text("\(studyItems.count) \(Localizable.string(Localizable.cards))")
+                        .font(.system(.headline, design: .rounded).weight(.semibold))
+                        .foregroundColor(.primary)
+                        .accessibilityAddTraits(.isHeader)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        HapticManager.shared.lightImpact()
+                        reverseCard()
+                    } label: {
+                        Image(systemName: "arrow.trianglehead.2.clockwise")
+                            .font(.body)
+                            .foregroundColor(isReversed ? .green : .primary)
+                    }
+                    .accessibilityLabel(isReversed ? "Reverse mode active" : "Reverse mode inactive")
+                    .accessibilityHint("Toggle to show word on front or back of card")
+                    .accessibilityValue(isReversed ? "Active" : "Inactive")
+                }
             }
         }
         .toolbar(.hidden, for: .tabBar)
         .hidesBottomBarWhenPushed(true)
+        .onDisappear {
+            recordStudySessionMetricsIfNeeded()
+        }
         .onAppear {
             loadStudyItems()
             // Set initial flip state based on reverse mode
@@ -607,49 +632,6 @@ struct StudyView: View {
     
     private var headerView: some View {
         VStack(spacing: 8) {
-            HStack {
-                // Back button with liquid glass style
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    handleDismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(.callout, design: .rounded).weight(.semibold))
-                        .foregroundColor(.primary)
-                        .frame(width: 44, height: 44)
-                        .background(liquidGlassCircle)
-                }
-                .buttonStyle(ScaleButtonStyle())
-                .accessibilityLabel("Back")
-                .accessibilityHint("Return to previous screen")
-                
-                Spacer()
-                
-                // Title - Card count
-                Text("\(studyItems.count) \(Localizable.string(Localizable.cards))")
-                    .font(.system(.headline, design: .rounded).weight(.semibold))
-                    .foregroundColor(.primary)
-                    .accessibilityAddTraits(.isHeader)
-                
-                Spacer()
-                
-                // Reverse button with liquid glass style
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    reverseCard()
-                }) {
-                    Image(systemName: "arrow.trianglehead.2.clockwise")
-                        .font(.system(.callout, design: .rounded).weight(.semibold))
-                        .foregroundColor(isReversed ? .green : .primary)
-                        .frame(width: 44, height: 44)
-                        .background(liquidGlassCircle)
-                }
-                .buttonStyle(ScaleButtonStyle())
-                .accessibilityLabel(isReversed ? "Reverse mode active" : "Reverse mode inactive")
-                .accessibilityHint("Toggle to show word on front or back of card")
-                .accessibilityValue(isReversed ? "Active" : "Inactive")
-            }
-            
             // Content type buttons row - only show buttons for available content types
             if currentIndex < studyItems.count {
                 let item = studyItems[currentIndex]
@@ -927,7 +909,9 @@ struct StudyView: View {
         }
     }
     
-    private func handleDismiss() {
+    private func recordStudySessionMetricsIfNeeded() {
+        guard !studySessionMetricsRecorded else { return }
+        studySessionMetricsRecorded = true
         // Only count as a session if user answered at least 3 cards
         // This prevents counting sessions where user just opened and closed
         if cardsAnswered >= 3 {
@@ -940,10 +924,7 @@ struct StudyView: View {
                     ratingManager.requestRating()
                 }
             }
-            
         }
-        
-        dismiss()
     }
     
     private func reverseCard() {
