@@ -20,6 +20,7 @@
 "practise_with_example" = "Mit Beispiel üben";
 
 // Study view
+"card" = "Karte";
 "cards" = "Karten";
 "study" = "Lernen";
 "synonym" = "Synonym";
@@ -125,6 +126,14 @@
 "adjectives_with_prepositions" = "Adjektive mit Präpositionen";
 "favorites" = "Favoriten";
 "favorites_words_title" = "Favoriten\nWörter";
+"my_words" = "Meine\nWörter";
+"my_words_add_word" = "Wort hinzufügen";
+"my_words_word_or_phrase" = "Wort oder Wendung";
+"my_words_example_label" = "Beispiel";
+"my_words_edit" = "Bearbeiten";
+"my_words_done_editing" = "Fertig";
+"my_words_edit_word" = "Wort bearbeiten";
+"my_words_free_plan_footer" = "Kostenloses Kontingent: %d von %d Wörtern.";
 
 "practice" = "ÜBEN";
 

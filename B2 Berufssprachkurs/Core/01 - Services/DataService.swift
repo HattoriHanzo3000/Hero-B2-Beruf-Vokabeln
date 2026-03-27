@@ -8,11 +8,17 @@
 import Foundation
 import Combine
 import SwiftUI
+import SwiftData
 
 @MainActor
 class DataService: ObservableObject {
+    /// Synthetic section for user-created entries (`CustomWordEntry`); not in bundle JSON.
+    static let userMyWordsSectionId = "USER_MY_WORDS"
+
     @Published var lections: [Lection] = []
     @Published var wordsBySection: [String: [Word]] = [:]
+    /// Populated from SwiftData `CustomWordEntry` (CloudKit when sync is on).
+    @Published var userCustomWords: [Word] = []
     @Published var completedSections: Set<String> = []
     @Published var completedLections: Set<Int> = []
     @Published var checkedWords: [String: Set<String>] = [:] // sectionId: Set<wordId>
@@ -106,12 +112,26 @@ class DataService: ObservableObject {
     }
     
     func getWords(for sectionId: String) -> [Word] {
+        if sectionId == Self.userMyWordsSectionId {
+            return userCustomWords
+        }
         return wordsBySection[sectionId] ?? []
+    }
+
+    func updateUserCustomWords(from entries: [CustomWordEntry]) {
+        userCustomWords = entries
+            .sorted {
+                if $0.sortIndex != $1.sortIndex { return $0.sortIndex < $1.sortIndex }
+                return $0.createdAt < $1.createdAt
+            }
+            .map { $0.asWord() }
     }
     
     /// Get all word IDs across all sections
     func getAllWordIds() -> [String] {
-        return wordsBySection.values.flatMap { $0.map { $0.id } }
+        let bundleIds = wordsBySection.values.flatMap { $0.map { $0.id } }
+        let customIds = userCustomWords.map(\.id)
+        return bundleIds + customIds
     }
     
     func getLectionAndSection(for sectionId: String) -> (lectionTitle: String, sectionTitle: String, lectionNumber: String, sectionLetter: String)? {
@@ -442,10 +462,16 @@ class DataService: ObservableObject {
                 }
             }
         }
+        for word in userCustomWords where favoriteWords.contains(word.id) {
+            favoriteWordsList.append(word)
+        }
         return favoriteWordsList
     }
     
     func getSectionId(for wordId: String) -> String? {
+        if userCustomWords.contains(where: { $0.id == wordId }) {
+            return Self.userMyWordsSectionId
+        }
         for (sectionId, words) in wordsBySection {
             if words.contains(where: { $0.id == wordId }) {
                 return sectionId
@@ -455,6 +481,9 @@ class DataService: ObservableObject {
     }
     
     func getGroupType(for sectionId: String) -> FavoriteGroupType {
+        if sectionId == Self.userMyWordsSectionId {
+            return .myWords
+        }
         if sectionId.hasPrefix("VERBEN_") {
             return .verbs
         }
@@ -469,6 +498,7 @@ class DataService: ObservableObject {
         case generalWords // Green
         case verbs // Blue
         case adjectives // Purple
+        case myWords // Red (user vocabulary)
         
         var color: Color {
             switch self {
@@ -478,6 +508,8 @@ class DataService: ObservableObject {
                 return Color("AppBlue")
             case .adjectives:
                 return Color("AppPurple")
+            case .myWords:
+                return Color("AppRed")
             }
         }
         
@@ -489,6 +521,8 @@ class DataService: ObservableObject {
                 return Color("AppBlue").opacity(0.08)
             case .adjectives:
                 return Color("AppPurple").opacity(0.08)
+            case .myWords:
+                return Color("AppRed").opacity(0.08)
             }
         }
     }

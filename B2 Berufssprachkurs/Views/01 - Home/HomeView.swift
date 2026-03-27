@@ -1,11 +1,13 @@
 //
-//  HomeTabView.swift
+//  HomeView.swift
 //  B2 Berufssprachkurs
 //
 //  Created by Ildar on 18.11.25.
 //
 
 import SwiftUI
+import SwiftData
+import UIKit
 
 // MARK: - Home stack row press style
 /// Subtle scale and opacity on press, similar to system list rows and tappable cards.
@@ -18,8 +20,8 @@ private struct HomeStackButtonStyle: ButtonStyle {
     }
 }
 
-// MARK: - Home Tab View
-struct HomeTabView: View {
+// MARK: - Home
+struct HomeView: View {
     @EnvironmentObject private var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
@@ -33,21 +35,21 @@ struct HomeTabView: View {
     
     var body: some View {
         ZStack {
-            Color("AppGreenExtraLight")
+            Color(uiColor: .systemGroupedBackground)
                 .ignoresSafeArea()
-            
-            // Playful word background
+
             WordWallpaperBackground(dataService: dataService)
                 .ignoresSafeArea()
-            
+
             VStack(alignment: .leading, spacing: 0) {
                 HeaderView(
                     dataService: dataService,
-                    isPremiumPreviewOverride: isPremiumPreviewOverride
+                    isPremiumPreviewOverride: isPremiumPreviewOverride,
+                    embedInScrollContent: false,
+                    pinsDynamicTypeSize: true
                 )
-                    .id("header_\(languageManager.currentLanguage)")
-                
-                // Vertical stack of learning rows (full-width, layered stack styling)
+                .id("header_\(languageManager.currentLanguage)")
+
                 GeometryReader { geometry in
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
@@ -102,6 +104,22 @@ struct HomeTabView: View {
                                 .id("adjectives_\(languageManager.currentLanguage)")
 
                                 Button {
+                                    HapticManager.shared.lightImpact()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        activeStack = .myWords
+                                    }
+                                } label: {
+                                    LearningStackCard(
+                                        title: Localizable.string(Localizable.myWords),
+                                        accent: Color("AppRed"),
+                                        icon: "text.book.closed.fill"
+                                    )
+                                    .frame(maxWidth: .infinity, minHeight: 76)
+                                }
+                                .buttonStyle(HomeStackButtonStyle())
+                                .id("my_words_\(languageManager.currentLanguage)")
+
+                                Button {
                                     if effectivePremiumActive {
                                         HapticManager.shared.lightImpact()
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -133,23 +151,31 @@ struct HomeTabView: View {
                         .frame(minHeight: geometry.size.height)
                     }
                 }
-                
             }
         }
+        .toolbar(.hidden, for: .navigationBar)
         .navigationDestination(item: $activeStack) { stack in
             switch stack {
             case .general:
                 GeneralWordsView()
                     .environmentObject(dataService)
+                    .environmentObject(LearningListsUIState.shared)
             case .verbs:
                 VerbsView()
                     .environmentObject(dataService)
+                    .environmentObject(LearningListsUIState.shared)
             case .adjectives:
                 AdjectivesView()
                     .environmentObject(dataService)
+                    .environmentObject(LearningListsUIState.shared)
             case .favorites:
                 FavoritesView()
                     .environmentObject(dataService)
+                    .environmentObject(LearningListsUIState.shared)
+            case .myWords:
+                MyWordsView()
+                    .environmentObject(dataService)
+                    .environmentObject(LearningListsUIState.shared)
             }
         }
         .sheet(isPresented: $showPaywall) {
@@ -167,6 +193,7 @@ enum LearningStackType: Identifiable, Hashable {
     case general
     case verbs
     case adjectives
+    case myWords
     case favorites
     
     var id: String {
@@ -174,6 +201,7 @@ enum LearningStackType: Identifiable, Hashable {
         case .general: return "general"
         case .verbs: return "verbs"
         case .adjectives: return "adjectives"
+        case .myWords: return "myWords"
         case .favorites: return "favorites"
         }
     }
@@ -206,22 +234,18 @@ struct LearningStackCard: View {
 
     var body: some View {
         ZStack {
-            // Bottom layer (stack effect) - NOW SOLID ACCENT COLOR
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(accent)
                 .offset(x: 0, y: 14)
                 .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 7)
-            
-            // Middle layer - LIKE TOP LAYER BUT WITH DOUBLED OPACITY
+
             ZStack {
                 if colorScheme == .dark {
-                    // Dark mode: black base with accent at doubled opacity (0.8)
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(Color.black)
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(accent.opacity(0.8))
                 } else {
-                    // Light mode: white base with accent at doubled opacity (0.5)
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(Color.white)
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
@@ -230,12 +254,9 @@ struct LearningStackCard: View {
             }
             .offset(x: 0, y: 8)
             .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 5)
-            
-            // Top card - light accent color background with transparency
+
             ZStack {
-                // Background layer
                 if colorScheme == .dark {
-                    // Dark mode: use darker version of accent color
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(Color.black)
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
@@ -246,8 +267,7 @@ struct LearningStackCard: View {
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(accent.opacity(0.25))
                 }
-                
-                // Content layer — icon leading, title trailing (row button)
+
                 HStack(alignment: .center, spacing: 16) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -354,7 +374,7 @@ struct WordWallpaperBackground: View {
 }
 
 /// Ensures canvas previews use German strings (matches `LanguageManager` “Deutsch” option).
-private struct HomeTabPreviewHost: View {
+private struct HomeViewPreviewHost: View {
     let isPremiumPreviewOverride: Bool?
 
     init(isPremiumPreviewOverride: Bool?) {
@@ -363,21 +383,35 @@ private struct HomeTabPreviewHost: View {
     }
 
     var body: some View {
-        HomeTabView(isPremiumPreviewOverride: isPremiumPreviewOverride)
-            .environmentObject(DataService())
-            .environmentObject(LearningListsUIState.shared)
+        HomeView(isPremiumPreviewOverride: isPremiumPreviewOverride)
     }
 }
 
-#Preview("Home Tab - Free") {
-    NavigationStack {
-        HomeTabPreviewHost(isPremiumPreviewOverride: false)
+/// Previews must attach `environmentObject` and `modelContainer` to `NavigationStack`, not only to `HomeView`.
+/// Otherwise `navigationDestination` pushes (e.g. `GeneralWordsView` → lists using `LearningListsUIState`, `HeaderView` / `WordsListView` `@Query`) run without required environment and crash.
+private struct HomeViewCanvasPreview: View {
+    let isPremiumPreviewOverride: Bool?
+
+    private static let previewContainer: ModelContainer = {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        return try! ModelContainer(for: WordProgress.self, CustomWordEntry.self, configurations: config)
+    }()
+
+    var body: some View {
+        NavigationStack {
+            HomeViewPreviewHost(isPremiumPreviewOverride: isPremiumPreviewOverride)
+        }
+        .environmentObject(DataService())
+        .environmentObject(LearningListsUIState.shared)
+        .modelContainer(Self.previewContainer)
     }
 }
 
-#Preview("Home Tab - Premium") {
-    NavigationStack {
-        HomeTabPreviewHost(isPremiumPreviewOverride: true)
-    }
+#Preview("Home — Free") {
+    HomeViewCanvasPreview(isPremiumPreviewOverride: false)
+}
+
+#Preview("Home — Premium") {
+    HomeViewCanvasPreview(isPremiumPreviewOverride: true)
 }
 

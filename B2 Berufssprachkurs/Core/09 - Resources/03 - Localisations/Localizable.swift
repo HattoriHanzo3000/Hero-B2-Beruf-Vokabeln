@@ -33,6 +33,7 @@ extension Localizable {
     static let practiseWithExample = "practise_with_example"
     
     // Study view
+    static let card = "card"
     static let cards = "cards"
     static let study = "study"
     static let synonym = "synonym"
@@ -149,6 +150,14 @@ extension Localizable {
     static let adjectivesWithPrepositions = "adjectives_with_prepositions"
     static let favorites = "favorites"
     static let favoritesWordsTitle = "favorites_words_title"
+    static let myWords = "my_words"
+    static let myWordsAddWord = "my_words_add_word"
+    static let myWordsWordOrPhrase = "my_words_word_or_phrase"
+    static let myWordsExampleLabel = "my_words_example_label"
+    static let myWordsEdit = "my_words_edit"
+    static let myWordsDoneEditing = "my_words_done_editing"
+    static let myWordsEditWord = "my_words_edit_word"
+    static let myWordsFreePlanFooter = "my_words_free_plan_footer"
     
     // Practice button
     static let practice = "practice"

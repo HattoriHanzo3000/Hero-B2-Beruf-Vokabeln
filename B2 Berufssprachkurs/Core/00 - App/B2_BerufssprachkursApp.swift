@@ -33,7 +33,7 @@ struct B2_BerufssprachkursApp: App {
     private let sharedModelContainer: ModelContainer
 
     init() {
-        let schema = Schema([WordProgress.self])
+        let schema = Schema([WordProgress.self, CustomWordEntry.self])
         let iCloudSyncEnabled =
             UserDefaults.standard.object(forKey: MigrationManager.iCloudSyncEnabledKey) as? Bool ?? true
         let cloudKitDatabase: ModelConfiguration.CloudKitDatabase =
@@ -69,7 +69,7 @@ struct B2_BerufssprachkursApp: App {
                 if !hasSeenWelcomeVideo {
                     WelcomeVideoView(hasSeenWelcomeVideo: $hasSeenWelcomeVideo)
                 } else {
-                    MainTabView()
+                    MainView()
                 }
             }
             // Apply appearance preference (Light/Dark/System)

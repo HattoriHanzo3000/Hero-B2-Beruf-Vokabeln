@@ -20,6 +20,7 @@
 "practise_with_example" = "Practice with Example";
 
 // Study view
+"card" = "card";
 "cards" = "cards";
 "study" = "Study";
 "synonym" = "Synonym";
@@ -125,6 +126,14 @@
 "adjectives_with_prepositions" = "Adjectives with Prepositions";
 "favorites" = "Favorites";
 "favorites_words_title" = "Favorite\nWords";
+"my_words" = "My\nWords";
+"my_words_add_word" = "Add word";
+"my_words_word_or_phrase" = "Word or phrase";
+"my_words_example_label" = "Example";
+"my_words_edit" = "Edit";
+"my_words_done_editing" = "Done";
+"my_words_edit_word" = "Edit word";
+"my_words_free_plan_footer" = "Free plan: %d of %d words used.";
 
 "practice" = "PRACTICE";
 

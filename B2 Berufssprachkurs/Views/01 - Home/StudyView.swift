@@ -67,6 +67,7 @@ struct StudyView: View {
         case verbs // Blue
         case adjectives // Purple
         case favorites // Yellow
+        case myWords // Red (user vocabulary)
         
         var accentColor: Color {
             switch self {
@@ -78,6 +79,8 @@ struct StudyView: View {
                 return Color("AppPurple")
             case .favorites:
                 return Color("AppYellow")
+            case .myWords:
+                return Color("AppRed")
             }
         }
         
@@ -91,12 +94,17 @@ struct StudyView: View {
                 return Color("AppPurple").opacity(0.08)
             case .favorites:
                 return Color("AppYellow").opacity(0.08)
+            case .myWords:
+                return Color("AppRed").opacity(0.08)
             }
         }
     }
     
     // Determine stack type based on study items
     private var stackType: StackType {
+        if filterBySectionId == DataService.userMyWordsSectionId {
+            return .myWords
+        }
         if studyItems.isEmpty {
             // Default to general words if no items
             return .generalWords
@@ -176,6 +184,11 @@ struct StudyView: View {
         return legacy.isEmpty ? nil : word.translation
     }
 
+    private func cardCountLabel(count: Int) -> String {
+        let key = count == 1 ? Localizable.card : Localizable.cards
+        return "\(count) \(Localizable.string(key))"
+    }
+
     private func loadStudyItems() {
         var items: [StudyItem] = []
         
@@ -183,26 +196,32 @@ struct StudyView: View {
         var sectionsToProcess: [(section: Section, lection: Lection?)] = []
         
         if let sectionId = filterBySectionId {
-            // From section view: only process the specified section
-            // Try regular sections first
-            for lection in dataService.lections {
-                if let section = lection.sections.first(where: { $0.id == sectionId }) {
-                    sectionsToProcess.append((section: section, lection: lection))
-                    break
+            if sectionId == DataService.userMyWordsSectionId {
+                if !dataService.userCustomWords.isEmpty {
+                    sectionsToProcess.append((section: Section(id: sectionId, title: ""), lection: nil))
                 }
-            }
-            // If not found in regular sections, check VERBEN sections
-            if sectionsToProcess.isEmpty && sectionId.hasPrefix("VERBEN_") {
-                if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
-                    let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "VERBEN_", with: ""))
-                    sectionsToProcess.append((section: section, lection: nil))
+            } else {
+                // From section view: only process the specified section
+                // Try regular sections first
+                for lection in dataService.lections {
+                    if let section = lection.sections.first(where: { $0.id == sectionId }) {
+                        sectionsToProcess.append((section: section, lection: lection))
+                        break
+                    }
                 }
-            }
-            // Also check ADJEKTIVE sections
-            if sectionsToProcess.isEmpty && sectionId.hasPrefix("ADJEKTIVE_") {
-                if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
-                    let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "ADJEKTIVE_", with: ""))
-                    sectionsToProcess.append((section: section, lection: nil))
+                // If not found in regular sections, check VERBEN sections
+                if sectionsToProcess.isEmpty && sectionId.hasPrefix("VERBEN_") {
+                    if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
+                        let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "VERBEN_", with: ""))
+                        sectionsToProcess.append((section: section, lection: nil))
+                    }
+                }
+                // Also check ADJEKTIVE sections
+                if sectionsToProcess.isEmpty && sectionId.hasPrefix("ADJEKTIVE_") {
+                    if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
+                        let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "ADJEKTIVE_", with: ""))
+                        sectionsToProcess.append((section: section, lection: nil))
+                    }
                 }
             }
         } else {
@@ -239,6 +258,12 @@ struct StudyView: View {
                         let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "ADJEKTIVE_", with: ""))
                         sectionsToProcess.append((section: section, lection: nil))
                     }
+                }
+                if !dataService.userCustomWords.isEmpty {
+                    sectionsToProcess.append((
+                        section: Section(id: DataService.userMyWordsSectionId, title: ""),
+                        lection: nil
+                    ))
                 }
             } else {
                 // General words mode: process only regular sections from lections (no VERBEN, no ADJEKTIVE)
@@ -409,6 +434,9 @@ struct StudyView: View {
                             currentContentType: $currentContentType,
                             cardColor: {
                                 let item = studyItems[currentIndex]
+                                if item.sectionId == DataService.userMyWordsSectionId {
+                                    return Color("AppRed")
+                                }
                                 if item.isVerbenSection {
                                     return Color("AppBlue")
                                 } else if item.sectionId.hasPrefix("ADJEKTIVE_") {
@@ -517,7 +545,7 @@ struct StudyView: View {
                 }
             } else {
                 ToolbarItem(placement: .principal) {
-                    Text("\(studyItems.count) \(Localizable.string(Localizable.cards))")
+                    Text(cardCountLabel(count: studyItems.count))
                         .font(.system(.headline, design: .rounded).weight(.semibold))
                         .foregroundColor(.primary)
                         .accessibilityAddTraits(.isHeader)
@@ -624,6 +652,9 @@ struct StudyView: View {
         .onChange(of: wordProgressSyncFingerprint) { _, _ in
             loadStudyItems()
         }
+        .onChange(of: dataService.userCustomWords.count) { _, _ in
+            loadStudyItems()
+        }
         .onChange(of: isReversed) { _, newValue in
             // Keep card flipped when reverse mode is active
             cardFlipped = newValue
@@ -636,6 +667,9 @@ struct StudyView: View {
             if currentIndex < studyItems.count {
                 let item = studyItems[currentIndex]
                 let currentCardColor: Color = {
+                    if item.sectionId == DataService.userMyWordsSectionId {
+                        return Color("AppRed")
+                    }
                     if item.isVerbenSection {
                         return Color("AppBlue")
                     } else if item.sectionId.hasPrefix("ADJEKTIVE_") {
@@ -1376,7 +1410,7 @@ struct FlashCardView2: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: WordProgress.self, configurations: config)
+    let container = try! ModelContainer(for: WordProgress.self, CustomWordEntry.self, configurations: config)
     NavigationStack {
         StudyView(dataService: DataService(), filterBySectionId: nil, studyAllMode: true)
     }

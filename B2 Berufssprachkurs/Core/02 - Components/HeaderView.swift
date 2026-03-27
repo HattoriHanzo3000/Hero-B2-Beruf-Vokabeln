@@ -15,6 +15,10 @@ struct HeaderView: View {
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     private let isPremiumPreviewOverride: Bool?
+    /// When `true`, only greeting / mascot / word-of-the-day are shown (no pinned gradient shell). Use on Home with a full-screen background gradient.
+    private let embedInScrollContent: Bool
+    /// When `true`, header typography ignores the user’s Dynamic Type setting (fixed at `.large`). Used for the pinned home header only.
+    private let pinsDynamicTypeSize: Bool
     @State private var wordOfTheDay: Word? = nil
     @State private var showMascotGif = false
     @State private var gifPlayToken: UUID = UUID()
@@ -30,9 +34,11 @@ struct HeaderView: View {
     private let autoPlayInterval: TimeInterval = 15.0 // Auto-play every 15 seconds
     
     // Initialize dailyGreeting based on UserDefaults to avoid flash
-    init(dataService: DataService, isPremiumPreviewOverride: Bool? = nil) {
+    init(dataService: DataService, isPremiumPreviewOverride: Bool? = nil, embedInScrollContent: Bool = false, pinsDynamicTypeSize: Bool = false) {
         self.dataService = dataService
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
+        self.embedInScrollContent = embedInScrollContent
+        self.pinsDynamicTypeSize = pinsDynamicTypeSize
         // Read hasShownFirstGreeting directly from UserDefaults for initialization
         let hasShown = UserDefaults.standard.bool(forKey: "hasShownFirstGreeting")
         
@@ -60,139 +66,17 @@ struct HeaderView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            // Background that extends to top edge - fully opaque in dark mode
-            LinearGradient(
-                colors: colorScheme == .dark ? [
-                    // Fully opaque darker versions for night mode
-                    Color("AppGreen").opacity(1.0),
-                    Color("AppBlue").opacity(1.0)
-                ] : [
-                    Color("AppGreen"),
-                    Color("AppBlue")
-                ],
-                startPoint: .leading,
-                endPoint: .trailing
-            )
-            .overlay(
-                // Additional dark overlay in dark mode for deeper, fully opaque colors
-                colorScheme == .dark ? Color.black.opacity(0.5) : Color.clear
-            )
-            .ignoresSafeArea(edges: .top)
-            .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 12, x: 0, y: 6)
-            
-            // Content that respects safe area
-        VStack(alignment: .leading, spacing: 12) {
-            // Premium shield (Hero-style): top-trailing row above greeting, home tab only.
-            if shouldShowPremiumBadge {
-                HStack {
-                    Spacer(minLength: 0)
-                    PremiumShieldBadge(
-                        label: Localizable.string(Localizable.premium),
-                        color: .white,
-                        showShimmer: true
-                    )
+        Group {
+            if embedInScrollContent {
+                mainHeaderContent
+            } else {
+                ZStack(alignment: .top) {
+                    pinnedHeaderGradientBackground
+                    mainHeaderContent
                 }
-            }
-
-            // Greeting row above mascot and word of the day
-            Text(dailyGreeting)
-                .font(.system(.title2, design: .default, weight: .medium).italic())
-                .foregroundColor(.white.opacity(0.9))
-                .id("greeting_\(languageManager.currentLanguage)_\(Calendar.current.startOfDay(for: Date()).timeIntervalSince1970)")
-            
-        HStack(alignment: .top, spacing: 5) {
-            // Mascot on the left top with animation
-            mascotView
-                .padding(.top, 4)
-            
-            // 5 rows of text content
-            VStack(alignment: .leading, spacing: 8) {
-                    // Row 1: Word of the day
-                if let word = wordOfTheDay {
-                    HStack(alignment: .center, spacing: 8) {
-                        // Group icon
-                        Image(systemName: wordStackIcon(for: word))
-                            .foregroundColor(Color("AppYellow"))
-                            .font(.system(.title2, design: .default, weight: .heavy))
-
-                        Text(word.german)
-                            .font(.system(.title2, design: .default, weight: .semibold))
-                            .foregroundColor(Color("AppYellow"))
-                            .fixedSize(horizontal: false, vertical: true)
-                            .lineLimit(nil)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                        // Row 2: Explanation
-                    if let explanation = word.explanation, !explanation.isEmpty {
-                        Text(attributedText(
-                            label: "erkl: ",
-                            value: explanation,
-                            labelFont: .system(.subheadline, design: .default, weight: .heavy).width(.condensed),
-                            valueFont: .system(.subheadline, design: .default, weight: .bold).width(.condensed),
-                            labelColor: Color("AppYellow")
-                        ))
-                                .foregroundColor(.white)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    
-                        // Row 3: Synonym
-                    if let synonyms = word.synonyms, let firstSynonym = synonyms.first {
-                        Text(attributedText(
-                            label: "syn: ",
-                            value: firstSynonym,
-                            labelFont: .system(.subheadline, design: .default, weight: .heavy).width(.condensed),
-                            valueFont: .system(.subheadline, design: .default, weight: .bold).width(.condensed),
-                            labelColor: Color("AppYellow")
-                        ))
-                                .foregroundColor(.white)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    
-                        // Row 4: Translation
-                    if !displayedTranslation(for: word).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        Text(attributedText(
-                            label: "übers: ",
-                            value: displayedTranslation(for: word),
-                            labelFont: .system(.subheadline, design: .default, weight: .heavy).width(.condensed),
-                            valueFont: .system(.subheadline, design: .default, weight: .bold).width(.condensed),
-                            labelColor: Color("AppYellow")
-                        ))
-                                .foregroundColor(.white)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    
-                        // Row 5: Example (last row)
-                    if let example = word.example, !example.isEmpty {
-                        Text(attributedText(
-                            label: "beisp: ",
-                            value: example,
-                            labelFont: .system(.subheadline, design: .default, weight: .heavy).width(.condensed),
-                            valueFont: .system(.subheadline, design: .default, weight: .bold).width(.condensed),
-                            labelColor: Color("AppYellow")
-                        ))
-                                .foregroundColor(.white)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                } else {
-                    // Empty state
-                    Text(Localizable.string(Localizable.wordOfTheDay))
-                        .font(.system(.largeTitle, design: .default, weight: .semibold))
-                        .foregroundColor(.white.opacity(0.7))
-                }
-            }
-            
-            Spacer()
+                .fixedSize(horizontal: false, vertical: true)
             }
         }
-            .padding(.top)
-            .padding(.bottom, 18)
-            .padding(.horizontal, 16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .fixedSize(horizontal: false, vertical: true)
         .task {
             // Mark that first greeting has been shown after view appears
             // This ensures the greeting is set correctly before the view renders
@@ -217,8 +101,219 @@ struct HeaderView: View {
             autoPlayTask?.cancel()
             autoPlayTask = nil
         }
+        .dynamicTypeSize(headerDynamicTypeRange)
     }
-    
+
+    private var headerDynamicTypeRange: ClosedRange<DynamicTypeSize> {
+        pinsDynamicTypeSize ? (.large ... .large) : (.xSmall ... .accessibility5)
+    }
+
+    /// Hero header background for the legacy pinned header layout (horizontal green → blue bar).
+    private var pinnedHeaderGradientBackground: some View {
+        LinearGradient(
+            colors: colorScheme == .dark ? [
+                Color("AppGreen").opacity(1.0),
+                Color("AppBlue").opacity(1.0)
+            ] : [
+                Color("AppGreen"),
+                Color("AppBlue")
+            ],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+        .overlay(
+            colorScheme == .dark ? Color.black.opacity(0.5) : Color.clear
+        )
+        .ignoresSafeArea(edges: .top)
+        .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 12, x: 0, y: 6)
+    }
+
+    private var mainHeaderContent: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if shouldShowPremiumBadge {
+                HStack {
+                    Spacer(minLength: 0)
+                    PremiumShieldBadge(
+                        label: Localizable.string(Localizable.premium),
+                        color: embedInScrollContent ? (colorScheme == .light ? .black : .white) : .white,
+                        showShimmer: true
+                    )
+                }
+            }
+
+            if embedInScrollContent {
+                greetingMascotAndWordSection
+                    .padding(18)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background { homeHeroIslandBackground }
+                    .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 28, style: .continuous)
+                            .strokeBorder(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(colorScheme == .dark ? 0.22 : 0.45),
+                                        Color.white.opacity(colorScheme == .dark ? 0.06 : 0.12)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 1
+                            )
+                    }
+                    .shadow(color: .black.opacity(colorScheme == .dark ? 0.35 : 0.14), radius: 20, x: 0, y: 10)
+            } else {
+                greetingMascotAndWordSection
+            }
+        }
+        .padding(.top)
+        .padding(.bottom, embedInScrollContent ? 8 : 18)
+        .padding(.horizontal, 16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// Title, stack icon, and detail line *values*—deep green in light mode; brighter green in dark mode for contrast on the island.
+    private var wordOfTheDayAccentColor: Color {
+        if colorScheme == .dark {
+            Color(red: 0.42, green: 0.82, blue: 0.58)
+        } else {
+            Color(red: 0.06, green: 0.38, blue: 0.26)
+        }
+    }
+
+    /// Prefixed labels (`erkl:` etc.): bold condensed (one step heavier than semibold).
+    private var wotdDetailLabelFont: Font {
+        .system(.subheadline, design: .default, weight: .bold).width(.condensed)
+    }
+
+    /// Explanation / example body: medium condensed.
+    private var wotdDetailValueFont: Font {
+        .system(.subheadline, design: .default, weight: .medium).width(.condensed)
+    }
+
+    /// Greeting, eagle mascot, and word-of-the-day copy (optionally wrapped in `homeHeroIslandBackground` when embedded on Home).
+    private var greetingMascotAndWordSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text(dailyGreeting)
+                .font(.system(.title2, design: .default, weight: .medium).italic())
+                .foregroundColor(.white.opacity(0.95))
+                .id("greeting_\(languageManager.currentLanguage)_\(Calendar.current.startOfDay(for: Date()).timeIntervalSince1970)")
+
+            HStack(alignment: .top, spacing: 5) {
+                mascotView
+                    .padding(.top, 4)
+
+                VStack(alignment: .leading, spacing: 8) {
+                    if let word = wordOfTheDay {
+                        HStack(alignment: .center, spacing: 8) {
+                            Image(systemName: wordStackIcon(for: word))
+                                .foregroundColor(wordOfTheDayAccentColor)
+                                .font(.system(.title2, design: .default, weight: .heavy))
+
+                            Text(word.german)
+                                .font(.system(.title2, design: .default, weight: .semibold))
+                                .foregroundColor(wordOfTheDayAccentColor)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineLimit(nil)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                        if let explanation = word.explanation, !explanation.isEmpty {
+                            Text(attributedText(
+                                label: "erkl: ",
+                                value: explanation,
+                                labelFont: wotdDetailLabelFont,
+                                valueFont: wotdDetailValueFont,
+                                labelColor: .white,
+                                valueColor: .white
+                            ))
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
+
+                        if let synonyms = word.synonyms, let firstSynonym = synonyms.first {
+                            Text(attributedText(
+                                label: "syn: ",
+                                value: firstSynonym,
+                                labelFont: wotdDetailLabelFont,
+                                valueFont: wotdDetailValueFont,
+                                labelColor: .white,
+                                valueColor: .white
+                            ))
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
+
+                        if !displayedTranslation(for: word).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            Text(attributedText(
+                                label: "übers: ",
+                                value: displayedTranslation(for: word),
+                                labelFont: wotdDetailLabelFont,
+                                valueFont: wotdDetailValueFont,
+                                labelColor: .white,
+                                valueColor: .white
+                            ))
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
+
+                        if let example = word.example, !example.isEmpty {
+                            Text(attributedText(
+                                label: "beisp: ",
+                                value: example,
+                                labelFont: wotdDetailLabelFont,
+                                valueFont: wotdDetailValueFont,
+                                labelColor: .white,
+                                valueColor: .white
+                            ))
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
+                    } else {
+                        Text(Localizable.string(Localizable.wordOfTheDay))
+                            .font(.system(.largeTitle, design: .default, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.7))
+                    }
+                }
+
+                Spacer(minLength: 0)
+            }
+        }
+    }
+
+    /// Liquid Glass island: material blur tinted with the same green → blue palette as the legacy pinned header / home wash.
+    private var homeHeroIslandBackground: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .fill(.ultraThinMaterial)
+
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .fill(heroIslandGreenBlueTint)
+
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .fill(Color.black.opacity(colorScheme == .dark ? 0.28 : 0.09))
+        }
+    }
+
+    private var heroIslandGreenBlueTint: LinearGradient {
+        if colorScheme == .dark {
+            LinearGradient(
+                colors: [
+                    Color("AppGreen").opacity(0.62),
+                    Color("AppBlue").opacity(0.55)
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        } else {
+            LinearGradient(
+                colors: [
+                    Color("AppGreen").opacity(0.52),
+                    Color("AppBlue").opacity(0.46)
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        }
+    }
+
     // MARK: - Mascot View
     private var shouldShowPremiumBadge: Bool {
         isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
@@ -297,18 +392,26 @@ struct HeaderView: View {
         return word.translation
     }
     
-    private func attributedText(label: String, value: String, labelFont: Font = .system(.subheadline, design: .default, weight: .bold).width(.condensed), valueFont: Font = .system(.subheadline, design: .default, weight: .bold).width(.condensed), labelColor: Color? = nil) -> AttributedString {
+    private func attributedText(
+        label: String,
+        value: String,
+        labelFont: Font = .system(.subheadline, design: .default, weight: .bold).width(.condensed),
+        valueFont: Font = .system(.subheadline, design: .default, weight: .bold).width(.condensed),
+        labelColor: Color? = nil,
+        valueColor: Color? = nil
+    ) -> AttributedString {
         var fullText = AttributedString("\(label)\(value)")
         if let labelRange = fullText.range(of: label) {
-            // Use the labelFont directly (with bold weight)
             fullText[labelRange].font = labelFont
-            // Apply label color if provided
-            if let labelColor = labelColor {
+            if let labelColor {
                 fullText[labelRange].foregroundColor = labelColor
             }
         }
         if let valueRange = fullText.range(of: value) {
             fullText[valueRange].font = valueFont
+            if let valueColor {
+                fullText[valueRange].foregroundColor = valueColor
+            }
         }
         return fullText
     }

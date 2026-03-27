@@ -10,9 +10,21 @@ import SwiftData
 
 struct FavoritesView: View {
     @EnvironmentObject private var dataService: DataService
+    @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
+
     @State private var navigateToStudy = false
+    @State private var showShareSheet = false
+    @State private var showPaywall = false
     @FocusState private var focusedWordId: String?
-    
+
+    private var progressByWordId: [String: WordProgress] {
+        Dictionary(uniqueKeysWithValues: wordProgressList.map { ($0.wordId, $0) })
+    }
+
+    private func userTranslation(for wordId: String) -> String {
+        progressByWordId[wordId]?.translation ?? ""
+    }
+
     var favoriteWords: [Word] {
         dataService.getFavoriteWords()
     }
@@ -84,6 +96,9 @@ struct FavoritesView: View {
                         .accessibilityAddTraits(.isHeader)
                 }
             }
+            ToolbarItem(placement: .topBarTrailing) {
+                WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
+            }
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
 
@@ -120,7 +135,38 @@ struct FavoritesView: View {
                 .accessibilityHint("Hide keyboard and finish input")
             }
         }
+        .wordListPremiumShareSheets(
+            showShareSheet: $showShareSheet,
+            showPaywall: $showPaywall,
+            shareText: { generateFavoritesShareText() },
+            pdfURL: { generateFavoritesPDF() }
+        )
         .hidesBottomBarWhenPushed(true)
+    }
+
+    private func generateFavoritesShareText() -> String {
+        WordListShareManager.shareText(
+            words: favoriteWords,
+            header: "\(Localizable.string(Localizable.favorites))\n\n",
+            translationProvider: { userTranslation(for: $0.id) }
+        )
+    }
+
+    private func generateFavoritesPDF() -> URL {
+        let wordData = WordListShareManager.wordDataForPDF(
+            words: favoriteWords,
+            translationProvider: { userTranslation(for: $0.id) }
+        )
+        let pdfInfo = PDFGenerationService.PDFInfo(
+            lectionTitle: Localizable.string(Localizable.favorites),
+            lectionNumber: nil,
+            sectionTitle: "",
+            sectionLetter: nil,
+            headerColor: Color("AppYellow"),
+            words: wordData,
+            fileName: "Favorites"
+        )
+        return PDFGenerationService.generateWordsListPDF(info: pdfInfo)
     }
 
     private var favoritesEmptyStateView: some View {

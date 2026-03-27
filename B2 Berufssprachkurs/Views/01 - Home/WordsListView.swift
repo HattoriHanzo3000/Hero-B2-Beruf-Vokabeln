@@ -12,7 +12,6 @@ struct WordsListView: View {
     let sectionId: String
     @EnvironmentObject var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
-    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
 
     private var progressByWordId: [String: WordProgress] {
@@ -198,21 +197,7 @@ struct WordsListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    if subscriptionManager.isPremiumActive {
-                        HapticManager.shared.lightImpact()
-                        showShareSheet = true
-                    } else {
-                        HapticManager.shared.heavyImpact()
-                        showPaywall = true
-                    }
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
-                        .font(.body)
-                        .foregroundColor(.primary)
-                }
-                .accessibilityLabel("Share")
-                .accessibilityHint(subscriptionManager.isPremiumActive ? "Share the words list" : "Share requires premium subscription")
+                WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
             }
             
             ToolbarItemGroup(placement: .keyboard) {
@@ -251,36 +236,26 @@ struct WordsListView: View {
                 .accessibilityHint("Hide keyboard and finish input")
             }
         }
-        .sheet(isPresented: $showShareSheet) {
-            ShareSheet(activityItems: [generateShareText(), generatePDF()])
-        }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView()
-        }
+        .wordListPremiumShareSheets(
+            showShareSheet: $showShareSheet,
+            showPaywall: $showPaywall,
+            shareText: { generateShareText() },
+            pdfURL: { generatePDF() }
+        )
     }
     
     private func generateShareText() -> String {
-        var shareText = ""
-        
+        var header = ""
         if let info = headerInfo {
-            shareText += "\(info.lectionTitle) - \(info.sectionTitle)\n\n"
+            header = "\(info.lectionTitle) - \(info.sectionTitle)\n\n"
         } else if isVerbenSection || isAdjektiveSection {
-            shareText += "\(prepositionTitle)\n\n"
+            header = "\(prepositionTitle)\n\n"
         }
-        
-        for word in words {
-            shareText += "\(word.german)"
-            if let explanation = word.explanation, !explanation.isEmpty {
-                shareText += " (\(explanation))"
-            }
-            let translation = userTranslation(for: word.id)
-            if !translation.isEmpty {
-                shareText += " - \(translation)"
-            }
-            shareText += "\n"
-        }
-        
-        return shareText
+        return WordListShareManager.shareText(
+            words: words,
+            header: header,
+            translationProvider: { userTranslation(for: $0.id) }
+        )
     }
     
     private func generatePDF() -> URL {
@@ -306,15 +281,10 @@ struct WordsListView: View {
             sectionLetter = nil
         }
         
-        let wordData = words.map { word in
-            PDFGenerationService.WordData(
-                german: word.german,
-                example: word.example,
-                explanation: word.explanation,
-                translation: userTranslation(for: word.id),
-                synonyms: word.synonyms
-            )
-        }
+        let wordData = WordListShareManager.wordDataForPDF(
+            words: words,
+            translationProvider: { userTranslation(for: $0.id) }
+        )
         
         let pdfInfo = PDFGenerationService.PDFInfo(
             lectionTitle: lectionTitle,
@@ -353,18 +323,6 @@ struct WordsListView: View {
         // Scrolling is handled by onChange(of: focusedWordId)
     }
     
-}
-
-// MARK: - Share Sheet
-struct ShareSheet: UIViewControllerRepresentable {
-    let activityItems: [Any]
-    
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        return controller
-    }
-    
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 struct WordRow: View {

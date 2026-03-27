@@ -310,6 +310,7 @@ struct SettingsView: View {
     private func resetApp() {
         HapticManager.shared.mediumImpact()
         try? WordProgress.deleteAll(in: modelContext)
+        try? CustomWordEntry.deleteAll(in: modelContext)
         dataService.resetAllData()
     }
     
