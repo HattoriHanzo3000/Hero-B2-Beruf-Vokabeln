@@ -10,7 +10,6 @@ import SwiftData
 
 struct FavoritesView: View {
     @EnvironmentObject private var dataService: DataService
-    @Environment(\.dismiss) private var dismiss
     @State private var navigateToStudy = false
     @FocusState private var focusedWordId: String?
     
@@ -54,121 +53,100 @@ struct FavoritesView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color("AppYellow").opacity(0.08)
-                    .ignoresSafeArea()
-                
-                // Scrollable content including header with Üben button at bottom
-                if favoriteWords.isEmpty {
-                    // Empty state view
-                    VStack(spacing: 0) {
-                        // Header with close button
-                        HStack {
-                            Spacer()
-                            
-                            Text(Localizable.string(Localizable.favorites))
-                                .font(.system(.headline, design: .rounded).weight(.semibold))
-                                .foregroundColor(.primary)
-                                .accessibilityAddTraits(.isHeader)
-                            
-                            Spacer()
-                            
-                            Button {
-                                HapticManager.shared.lightImpact()
-                                dismiss()
-                            } label: {
-                                Image(systemName: "xmark")
-                                    .font(.system(.callout, design: .rounded).weight(.semibold))
-                                    .foregroundColor(.primary)
-                                    .frame(width: 44, height: 44)
-                                    .background(liquidGlassCircle)
-                            }
-                            .buttonStyle(ScaleButtonStyle())
-                            .accessibilityLabel("Close")
-                            .accessibilityHint("Close this view")
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 8)
-                        
-                        Spacer()
-                        
-                        // Empty state content
-                        VStack(spacing: 20) {
-                            Image(systemName: "star")
-                                .font(.system(size: 60))
-                                .foregroundColor(.secondary)
-                                .accessibilityHidden(true)
-                            
-                            Text(Localizable.string(Localizable.noFavoritesFound))
-                                .font(.system(.title3, design: .rounded).weight(.semibold))
-                                .foregroundColor(.primary)
-                                .accessibilityAddTraits(.isHeader)
-                            
-                            Text(Localizable.string(Localizable.noFavoritesFoundMessage))
-                                .font(.system(.body, design: .rounded))
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal, 40)
-                        }
-                        .accessibilityElement(children: .combine)
-                        
-                        Spacer()
-                    }
-                } else {
-                    favoritesListView
+        ZStack {
+            Color("AppYellow").opacity(0.08)
+                .ignoresSafeArea()
+
+            if favoriteWords.isEmpty {
+                favoritesEmptyStateView
+            } else {
+                favoritesListView
+            }
+        }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .navigationDestination(isPresented: $navigateToStudy) {
+            StudyView(
+                dataService: dataService,
+                filterBySectionId: nil, // Favorites: process all sections
+                studyAllMode: false, // Study only favorites
+                favoritesOnly: true // Only show favorite words
+            )
+            .environmentObject(dataService)
+        }
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            if favoriteWords.isEmpty {
+                ToolbarItem(placement: .principal) {
+                    Text(Localizable.string(Localizable.favorites))
+                        .font(.system(.headline, design: .rounded).weight(.semibold))
+                        .foregroundColor(.primary)
+                        .accessibilityAddTraits(.isHeader)
                 }
             }
-            .ignoresSafeArea(.keyboard, edges: .bottom)
-            .navigationDestination(isPresented: $navigateToStudy) {
-                StudyView(
-                    dataService: dataService,
-                    filterBySectionId: nil, // Favorites: process all sections
-                    studyAllMode: false, // Study only favorites
-                    favoritesOnly: true // Only show favorite words
-                )
-                .environmentObject(dataService)
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    
-                    Button(action: {
-                        HapticManager.shared.lightImpact()
-                        navigateToPreviousField()
-                    }) {
-                        Image(systemName: "chevron.up")
-                            .font(.system(.callout, design: .rounded).weight(.semibold))
-                    }
-                    .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0)
-                    .accessibilityLabel("Previous word")
-                    .accessibilityHint("Navigate to the previous word in the list")
-                    
-                    Button(action: {
-                        HapticManager.shared.lightImpact()
-                        navigateToNextField()
-                    }) {
-                        Image(systemName: "chevron.down")
-                            .font(.system(.callout, design: .rounded).weight(.semibold))
-                    }
-                    .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= favoriteWords.count - 1)
-                    .accessibilityLabel("Next word")
-                    .accessibilityHint("Navigate to the next word in the list")
-                    
-                    Button(action: {
-                        HapticManager.shared.lightImpact()
-                        focusedWordId = nil
-                    }) {
-                        Text("Done")
-                            .font(.system(.callout, design: .rounded).weight(.semibold))
-                    }
-                    .accessibilityLabel("Done")
-                    .accessibilityHint("Hide keyboard and finish input")
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+
+                Button(action: {
+                    HapticManager.shared.lightImpact()
+                    navigateToPreviousField()
+                }) {
+                    Image(systemName: "chevron.up")
+                        .font(.system(.callout, design: .rounded).weight(.semibold))
                 }
+                .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0)
+                .accessibilityLabel("Previous word")
+                .accessibilityHint("Navigate to the previous word in the list")
+
+                Button(action: {
+                    HapticManager.shared.lightImpact()
+                    navigateToNextField()
+                }) {
+                    Image(systemName: "chevron.down")
+                        .font(.system(.callout, design: .rounded).weight(.semibold))
+                }
+                .disabled(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= favoriteWords.count - 1)
+                .accessibilityLabel("Next word")
+                .accessibilityHint("Navigate to the next word in the list")
+
+                Button(action: {
+                    HapticManager.shared.lightImpact()
+                    focusedWordId = nil
+                }) {
+                    Text("Done")
+                        .font(.system(.callout, design: .rounded).weight(.semibold))
+                }
+                .accessibilityLabel("Done")
+                .accessibilityHint("Hide keyboard and finish input")
             }
-            .navigationBarHidden(true)
-            .hidesBottomBarWhenPushed(true)
+        }
+        .hidesBottomBarWhenPushed(true)
+    }
+
+    private var favoritesEmptyStateView: some View {
+        VStack(spacing: 0) {
+            Spacer()
+
+            VStack(spacing: 20) {
+                Image(systemName: "star")
+                    .font(.system(size: 60))
+                    .foregroundColor(.secondary)
+                    .accessibilityHidden(true)
+
+                Text(Localizable.string(Localizable.noFavoritesFound))
+                    .font(.system(.title3, design: .rounded).weight(.semibold))
+                    .foregroundColor(.primary)
+                    .accessibilityAddTraits(.isHeader)
+
+                Text(Localizable.string(Localizable.noFavoritesFoundMessage))
+                    .font(.system(.body, design: .rounded))
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 40)
+            }
+            .accessibilityElement(children: .combine)
+
+            Spacer()
         }
     }
     
@@ -176,27 +154,33 @@ struct FavoritesView: View {
         ZStack(alignment: .bottom) {
             ScrollViewReader { proxy in
                 List {
-                    // Header matching WordsListView style (scrollable)
+                    // Header + word rows — same list style as WordsListView for spacing under the header divider
                     SwiftUI.Section {
                         EmptyView()
                     } header: {
-                        FavoritesHeaderView()
-                    }
-                    
-                    // Favorites words list
-                    ForEach(favoriteWords) { word in
-                        FavoriteWordRow(
-                            word: word,
-                            isFavorite: dataService.isFavorite(wordId: word.id),
-                            dataService: dataService,
-                            focusedWordId: $focusedWordId,
-                            onFavoriteToggle: {
-                                HapticManager.shared.lightImpact()
-                                dataService.toggleFavorite(wordId: word.id)
-                            }
+                        ScrollableStackRootHeader(
+                            accent: Color("AppYellow"),
+                            icon: "star.fill",
+                            title: Localizable.string(Localizable.favorites),
+                            showsDivider: false
                         )
-                        .id(word.id)
-                        .listRowBackground(Color.clear)
+                    }
+
+                    SwiftUI.Section {
+                        ForEach(favoriteWords) { word in
+                            FavoriteWordRow(
+                                word: word,
+                                isFavorite: dataService.isFavorite(wordId: word.id),
+                                dataService: dataService,
+                                focusedWordId: $focusedWordId,
+                                onFavoriteToggle: {
+                                    HapticManager.shared.lightImpact()
+                                    dataService.toggleFavorite(wordId: word.id)
+                                }
+                            )
+                            .id(word.id)
+                            .listRowBackground(Color.clear)
+                        }
                     }
                 }
                 .listStyle(.plain)
@@ -237,117 +221,6 @@ struct FavoritesView: View {
                 
             }
         }
-    }
-    
-    private var liquidGlassCircle: some View {
-        Circle()
-            .fill(.regularMaterial)
-            .overlay {
-                Circle()
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.4),
-                                .white.opacity(0.1)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 0.8
-                    )
-            }
-            .overlay {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.15),
-                                .white.opacity(0.05)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-    }
-}
-
-// MARK: - Favorites Header View
-struct FavoritesHeaderView: View {
-    @Environment(\.dismiss) private var dismiss
-    
-    private var liquidGlassCircle: some View {
-        Circle()
-            .fill(.regularMaterial)
-            .overlay {
-                Circle()
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.4),
-                                .white.opacity(0.1)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 0.8
-                    )
-            }
-            .overlay {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.15),
-                                .white.opacity(0.05)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-    }
-    
-    var body: some View {
-        HStack(spacing: 12) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(Color("AppYellow"))
-                    .frame(width: 48, height: 48)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .stroke(.white.opacity(0.25), lineWidth: 0.6)
-                    )
-                Image(systemName: "star.fill")
-                    .foregroundColor(.white)
-                    .font(.system(size: 22, weight: .semibold))
-                    .symbolRenderingMode(.hierarchical)
-            }
-            
-            Text(Localizable.string(Localizable.favorites))
-                .font(.system(.title2, design: .rounded).weight(.semibold))
-                .foregroundColor(.primary)
-            
-            Spacer()
-            
-            Button {
-                HapticManager.shared.lightImpact()
-                dismiss()
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.system(.callout, design: .rounded).weight(.semibold))
-                    .foregroundColor(.primary)
-                    .frame(width: 44, height: 44)
-                    .background(liquidGlassCircle)
-            }
-            .buttonStyle(ScaleButtonStyle())
-            .accessibilityLabel("Close")
-            .accessibilityHint("Close this view")
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 16)
     }
 }
 
@@ -485,7 +358,9 @@ struct FavoriteWordRow: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: WordProgress.self, configurations: config)
-    FavoritesView()
-        .environmentObject(DataService())
-        .modelContainer(container)
+    NavigationStack {
+        FavoritesView()
+            .environmentObject(DataService())
+    }
+    .modelContainer(container)
 }

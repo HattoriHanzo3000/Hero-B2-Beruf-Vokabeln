@@ -30,17 +30,28 @@ enum TabItem: String, CaseIterable {
 }
 
 struct MainTabView: View {
-    @StateObject private var dataService = DataService()
-    @ObservedObject private var languageManager = LanguageManager.shared
-    @StateObject private var updateAlertManager = UpdateAlertManager.shared
-    @StateObject private var ratingManager = RatingManager.shared
+    private let isPremiumPreviewOverride: Bool?
+
+    @StateObject private var dataService: DataService
+    @ObservedObject private var languageManager: LanguageManager
+    @StateObject private var updateAlertManager: UpdateAlertManager
+    @StateObject private var ratingManager: RatingManager
     @State private var selectedTab: TabItem = .home
-    
+
+    /// - Parameter isPremiumPreviewOverride: Pass `true` / `false` for canvas previews only; `nil` uses live subscription state.
+    init(isPremiumPreviewOverride: Bool? = nil) {
+        self.isPremiumPreviewOverride = isPremiumPreviewOverride
+        _dataService = StateObject(wrappedValue: DataService())
+        _languageManager = ObservedObject(wrappedValue: LanguageManager.shared)
+        _updateAlertManager = StateObject(wrappedValue: UpdateAlertManager.shared)
+        _ratingManager = StateObject(wrappedValue: RatingManager.shared)
+    }
+
     var body: some View {
         TabView(selection: $selectedTab) {
             // Home Tab - Shows learning stack cards
             NavigationStack {
-                HomeTabView()
+                HomeTabView(isPremiumPreviewOverride: isPremiumPreviewOverride)
             }
             .tag(TabItem.home)
             .tabItem {
@@ -68,6 +79,7 @@ struct MainTabView: View {
             }
         }
         .environmentObject(dataService)
+        .environmentObject(LearningListsUIState.shared)
         .onAppear {
             setupLiquidGlassTabBar()
             // Track app launch for rating
@@ -146,7 +158,25 @@ struct MainTabView: View {
     }
 }
 
-#Preview {
-    MainTabView()
+/// Ensures full-tab previews use German strings (matches `LanguageManager` “Deutsch” option).
+private struct MainTabPreviewHost: View {
+    let isPremiumPreviewOverride: Bool
+
+    init(isPremiumPreviewOverride: Bool) {
+        self.isPremiumPreviewOverride = isPremiumPreviewOverride
+        LanguageManager.shared.currentLanguage = "Deutsch"
+    }
+
+    var body: some View {
+        MainTabView(isPremiumPreviewOverride: isPremiumPreviewOverride)
+    }
+}
+
+#Preview("Main Tab - Free") {
+    MainTabPreviewHost(isPremiumPreviewOverride: false)
+}
+
+#Preview("Main Tab - Premium") {
+    MainTabPreviewHost(isPremiumPreviewOverride: true)
 }
 

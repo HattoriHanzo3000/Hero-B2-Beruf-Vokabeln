@@ -16,7 +16,7 @@ struct SettingsView: View {
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
     @AppStorage(MigrationManager.iCloudSyncEnabledKey) private var iCloudSyncEnabled = true
     @AppStorage("appearancePreference") private var appearancePreference = "System" // Stores key: "Light" | "Dark" | "System"
-    @AppStorage("appLanguage") private var appLanguage = "English" { // Stores key: "English" | "Deutsch"
+    @AppStorage("appLanguage") private var appLanguage = "Deutsch" { // Stores key: "English" | "Deutsch"
         didSet {
             languageManager.setLanguage(appLanguage)
         }

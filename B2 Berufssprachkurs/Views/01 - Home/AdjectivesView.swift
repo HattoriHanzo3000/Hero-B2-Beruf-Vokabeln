@@ -56,5 +56,6 @@ struct AdjectivesView: View {
     NavigationStack {
         AdjectivesView()
             .environmentObject(DataService())
+            .environmentObject(LearningListsUIState.shared)
     }
 }

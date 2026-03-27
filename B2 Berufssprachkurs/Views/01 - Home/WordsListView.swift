@@ -11,6 +11,7 @@ import SwiftData
 struct WordsListView: View {
     let sectionId: String
     @EnvironmentObject var dataService: DataService
+    @EnvironmentObject private var listUIState: LearningListsUIState
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
 
@@ -70,7 +71,14 @@ struct WordsListView: View {
         }
         return ""
     }
-    
+
+    private var wordsListScrollBinding: Binding<String?> {
+        Binding(
+            get: { listUIState.wordsListScrollWordId(for: sectionId) },
+            set: { listUIState.setWordsListScrollWordId($0, for: sectionId) }
+        )
+    }
+
     var body: some View {
         ZStack {
             stackInfo.color.opacity(0.08)
@@ -95,6 +103,7 @@ struct WordsListView: View {
                                 lectionNumber: "",
                                 sectionLetter: ""
                             )
+                            .id("wl-header-\(sectionId)")
                         }
                     } else if let info = headerInfo {
                         // For general words sections, show both titles
@@ -110,6 +119,7 @@ struct WordsListView: View {
                                 lectionNumber: info.lectionNumber,
                                 sectionLetter: info.sectionLetter
                             )
+                            .id("wl-header-\(sectionId)")
                         }
                     }
                     
@@ -133,6 +143,7 @@ struct WordsListView: View {
                     .scrollContentBackground(.hidden)
                     .contentMargins(.top, 8, for: .scrollContent)
                     .contentMargins(.bottom, 150, for: .scrollContent) // Space for button + banner ad
+                    .scrollPosition(id: wordsListScrollBinding, anchor: .center)
                     .accessibilityLabel("Words list")
                     .accessibilityHint("List of German words with translations, explanations, and synonyms")
                     .onChange(of: focusedWordId) { oldValue, newValue in
@@ -562,6 +573,7 @@ struct WordsListHeaderView: View {
     NavigationStack {
         WordsListView(sectionId: "1A")
             .environmentObject(DataService())
+            .environmentObject(LearningListsUIState.shared)
     }
     .modelContainer(container)
 }

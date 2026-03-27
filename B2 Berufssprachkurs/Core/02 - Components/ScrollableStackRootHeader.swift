@@ -13,6 +13,8 @@ struct ScrollableStackRootHeader: View {
     let accent: Color
     let icon: String
     let title: String
+    /// When `false`, no `Divider` under the title (e.g. Favorites uses the list’s shorter inset separator only).
+    var showsDivider: Bool = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -41,7 +43,9 @@ struct ScrollableStackRootHeader: View {
             .padding(.top, 8)
             .padding(.bottom, 10)
 
-            Divider()
+            if showsDivider {
+                Divider()
+            }
         }
     }
 }

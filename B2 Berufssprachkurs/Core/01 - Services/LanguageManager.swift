@@ -14,7 +14,7 @@ class LanguageManager: ObservableObject {
     
     private let appLanguageKey = "appLanguage"
     
-    @Published var currentLanguage: String = "English" {
+    @Published var currentLanguage: String = "Deutsch" {
         didSet {
             updateLanguage()
         }
@@ -23,8 +23,8 @@ class LanguageManager: ObservableObject {
     private var bundle: Bundle = .main
     
     private init() {
-        // Load initial language from UserDefaults
-        currentLanguage = UserDefaults.standard.string(forKey: appLanguageKey) ?? "English"
+        // Load initial language from UserDefaults; new installs default to German.
+        currentLanguage = UserDefaults.standard.string(forKey: appLanguageKey) ?? "Deutsch"
         updateLanguage()
     }
     

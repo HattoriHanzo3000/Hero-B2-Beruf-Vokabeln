@@ -56,5 +56,6 @@ struct GeneralWordsView: View {
     NavigationStack {
         GeneralWordsView()
             .environmentObject(DataService())
+            .environmentObject(LearningListsUIState.shared)
     }
 }

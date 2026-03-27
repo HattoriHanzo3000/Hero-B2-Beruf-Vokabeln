@@ -365,6 +365,7 @@ private struct HomeTabPreviewHost: View {
     var body: some View {
         HomeTabView(isPremiumPreviewOverride: isPremiumPreviewOverride)
             .environmentObject(DataService())
+            .environmentObject(LearningListsUIState.shared)
     }
 }
 

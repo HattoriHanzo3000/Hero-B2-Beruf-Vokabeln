@@ -9,8 +9,15 @@ import SwiftUI
 
 struct GeneralWordsListView: View {
     @ObservedObject var dataService: DataService
-    @State private var expandedLections: Set<Int> = []
-    
+    @EnvironmentObject private var listUIState: LearningListsUIState
+
+    private var generalWordsScrollBinding: Binding<String?> {
+        Binding(
+            get: { listUIState.generalWordsScrollRowId },
+            set: { listUIState.generalWordsScrollRowId = $0 }
+        )
+    }
+
     var body: some View {
         List {
             SwiftUI.Section {
@@ -21,8 +28,9 @@ struct GeneralWordsListView: View {
                     icon: "square.stack.3d.up.fill",
                     title: Localizable.string(Localizable.generalWords)
                 )
+                .id("gw-stack-header")
             }
-            
+
             // Check all button header
             SwiftUI.Section {
                 EmptyView()
@@ -49,31 +57,30 @@ struct GeneralWordsListView: View {
                     Spacer()
                 }
                 .padding(.vertical, 0)
+                .id("gw-select-all")
             }
-            
+
             // Lections (only first 12)
             ForEach(Array(dataService.lections.prefix(12))) { lection in
                 SwiftUI.Section {
-                    if expandedLections.contains(lection.id) {
+                    if listUIState.generalWordsExpandedLectionIds.contains(lection.id) {
                         ForEach(lection.sections) { section in
                             SectionRowView(section: section, dataService: dataService)
                                 .listRowBackground(Color.clear)
+                                .id("gw-section-\(section.id)")
                         }
                     }
                 } header: {
                     LectionHeaderView(
                         lection: lection,
-                        isExpanded: expandedLections.contains(lection.id),
+                        isExpanded: listUIState.generalWordsExpandedLectionIds.contains(lection.id),
                         onToggle: {
                             HapticManager.shared.selection()
-                            if expandedLections.contains(lection.id) {
-                                expandedLections.remove(lection.id)
-                            } else {
-                                expandedLections.insert(lection.id)
-                            }
+                            listUIState.toggleGeneralWordsLectionExpanded(lection.id)
                         },
                         dataService: dataService
                     )
+                    .id("gw-lection-\(lection.id)")
                 }
             }
         }
@@ -81,6 +88,7 @@ struct GeneralWordsListView: View {
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 8, for: .scrollContent)
         .contentMargins(.bottom, 90, for: .scrollContent)
+        .scrollPosition(id: generalWordsScrollBinding, anchor: .center)
     }
 }
 
@@ -192,6 +200,7 @@ struct SectionRowView: View {
 
 #Preview {
     GeneralWordsListView(dataService: DataService())
+        .environmentObject(LearningListsUIState.shared)
         .background(Color("AppGreenLight"))
 }
 

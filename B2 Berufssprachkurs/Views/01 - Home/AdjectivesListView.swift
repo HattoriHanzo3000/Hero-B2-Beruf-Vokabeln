@@ -9,7 +9,15 @@ import SwiftUI
 
 struct AdjectivesListView: View {
     @ObservedObject var dataService: DataService
-    
+    @EnvironmentObject private var listUIState: LearningListsUIState
+
+    private var adjectivesScrollBinding: Binding<String?> {
+        Binding(
+            get: { listUIState.adjectivesRootScrollRowId },
+            set: { listUIState.adjectivesRootScrollRowId = $0 }
+        )
+    }
+
     // Prepositions for Adjektive mit Präpositionen
     private let adjektivePrepositions: [Section] = [
         Section(id: "ADJEKTIVE_an", title: "an"),
@@ -39,49 +47,53 @@ struct AdjectivesListView: View {
                         icon: "paintbrush.fill",
                         title: Localizable.string(Localizable.adjectivesWithPrepositions)
                     )
+                    .id("adjectives-stack-header")
                 }
-                
-                // Select All as first row item
-                HStack(spacing: 12) {
-                    Button(action: {
-                        HapticManager.shared.mediumImpact()
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                            dataService.toggleAdjektiveCompleted()
-                        }
-                    }) {
-                        Image(systemName: dataService.isAdjektiveCompleted() ? "checkmark.circle.fill" : "circle")
-                            .font(.system(.subheadline, design: .rounded).weight(.medium))
-                            .foregroundColor(dataService.isAdjektiveCompleted() ? Color.gray : .secondary)
-                            .symbolEffect(.bounce, value: dataService.isAdjektiveCompleted())
+
+                // Select-all header + preposition rows in one section (tighter gap than two separate sections)
+                SwiftUI.Section {
+                    ForEach(Array(adjektivePrepositions.enumerated()), id: \.element.id) { index, preposition in
+                        AdjektiveRowView(
+                            preposition: preposition,
+                            rowNumber: index + 1,
+                            dataService: dataService
+                        )
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                        .id("adjectives-row-\(preposition.id)")
                     }
-                    .buttonStyle(.plain)
-                    
-                    Text(dataService.isAdjektiveCompleted() ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
-                        .font(.system(.caption, design: .rounded).weight(.medium))
-                        .foregroundColor(.secondary)
-                    
-                    Spacer()
-                }
-                .padding(.vertical, 4)
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-                .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                
-                // Prepositions as list rows
-                ForEach(adjektivePrepositions, id: \.id) { preposition in
-                    AdjektiveRowView(
-                        preposition: preposition,
-                        dataService: dataService
-                    )
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                } header: {
+                    HStack {
+                        Button(action: {
+                            HapticManager.shared.mediumImpact()
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                dataService.toggleAdjektiveCompleted()
+                            }
+                        }) {
+                            HStack(spacing: 6) {
+                                Image(systemName: dataService.isAdjektiveCompleted() ? "checkmark.circle.fill" : "circle")
+                                    .font(.system(.subheadline, design: .rounded).weight(.medium))
+                                    .foregroundColor(dataService.isAdjektiveCompleted() ? Color.gray : .secondary)
+                                    .symbolEffect(.bounce, value: dataService.isAdjektiveCompleted())
+
+                                Text(dataService.isAdjektiveCompleted() ? Localizable.string(Localizable.allSelected) : Localizable.string(Localizable.selectAll))
+                                    .font(.system(.caption, design: .rounded).weight(.medium))
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        Spacer()
+                    }
+                    .padding(.vertical, 0)
+                    .id("adjectives-select-all")
                 }
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .contentMargins(.top, 8, for: .scrollContent)
             .contentMargins(.bottom, 90, for: .scrollContent)
+            .scrollPosition(id: adjectivesScrollBinding, anchor: .center)
         }
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -89,6 +101,7 @@ struct AdjectivesListView: View {
 
 struct AdjektiveRowView: View {
     let preposition: Section
+    let rowNumber: Int
     @ObservedObject var dataService: DataService
     
     var body: some View {
@@ -107,12 +120,17 @@ struct AdjektiveRowView: View {
             }
             .buttonStyle(.plain)
             
-            // NavigationLink to words list (styled like lection header)
+            // NavigationLink to words list (styled like lection header with numbered circle)
             NavigationLink {
                 WordsListView(sectionId: preposition.id)
                     .environmentObject(dataService)
             } label: {
-                HStack {
+                HStack(spacing: 12) {
+                    Image(systemName: "\(rowNumber).circle.fill")
+                        .font(.system(.title2, design: .rounded).weight(.medium))
+                        .foregroundColor(Color("AppPurple"))
+                        .accessibilityHidden(true)
+                    
                     Text(preposition.title)
                         .font(.system(.headline, design: .rounded))
                         .foregroundColor(.primary)
@@ -128,6 +146,7 @@ struct AdjektiveRowView: View {
 #Preview {
     NavigationStack {
         AdjectivesListView(dataService: DataService())
+            .environmentObject(LearningListsUIState.shared)
     }
 }
 

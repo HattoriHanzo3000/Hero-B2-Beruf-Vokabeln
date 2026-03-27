@@ -56,5 +56,6 @@ struct VerbsView: View {
     NavigationStack {
         VerbsView()
             .environmentObject(DataService())
+            .environmentObject(LearningListsUIState.shared)
     }
 }
