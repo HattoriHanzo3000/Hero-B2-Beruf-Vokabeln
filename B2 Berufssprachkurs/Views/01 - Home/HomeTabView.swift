@@ -136,7 +136,7 @@ struct HomeTabView: View {
                 
             }
         }
-        .fullScreenCover(item: $activeStack) { stack in
+        .navigationDestination(item: $activeStack) { stack in
             switch stack {
             case .general:
                 GeneralWordsView()
@@ -163,7 +163,7 @@ struct HomeTabView: View {
 }
 
 // MARK: - Learning Stack Type
-enum LearningStackType: Identifiable {
+enum LearningStackType: Identifiable, Hashable {
     case general
     case verbs
     case adjectives
@@ -369,10 +369,14 @@ private struct HomeTabPreviewHost: View {
 }
 
 #Preview("Home Tab - Free") {
-    HomeTabPreviewHost(isPremiumPreviewOverride: false)
+    NavigationStack {
+        HomeTabPreviewHost(isPremiumPreviewOverride: false)
+    }
 }
 
 #Preview("Home Tab - Premium") {
-    HomeTabPreviewHost(isPremiumPreviewOverride: true)
+    NavigationStack {
+        HomeTabPreviewHost(isPremiumPreviewOverride: true)
+    }
 }
 

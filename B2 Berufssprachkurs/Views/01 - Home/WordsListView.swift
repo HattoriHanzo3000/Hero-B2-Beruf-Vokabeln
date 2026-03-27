@@ -169,6 +169,7 @@ struct WordsListView: View {
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .hidesBottomBarWhenPushed(true)
         .navigationDestination(isPresented: $navigateToStudy) {
             StudyView(
                 dataService: dataService,

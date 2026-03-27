@@ -516,6 +516,7 @@ struct StudyView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
+        .hidesBottomBarWhenPushed(true)
         .onAppear {
             loadStudyItems()
             // Set initial flip state based on reverse mode

@@ -35,6 +35,16 @@ struct VerbsListView: View {
         VStack(alignment: .leading, spacing: 0) {
             // Prepositions list
             List {
+                SwiftUI.Section {
+                    EmptyView()
+                } header: {
+                    ScrollableStackRootHeader(
+                        accent: Color("AppBlue"),
+                        icon: "figure.run",
+                        title: Localizable.string(Localizable.verbsWithPrepositions)
+                    )
+                }
+                
                 // Select All as first row item
                 HStack(spacing: 12) {
                     Button(action: {
@@ -74,6 +84,8 @@ struct VerbsListView: View {
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
+            .contentMargins(.top, 8, for: .scrollContent)
+            .contentMargins(.bottom, 90, for: .scrollContent)
         }
         .navigationBarTitleDisplayMode(.inline)
     }

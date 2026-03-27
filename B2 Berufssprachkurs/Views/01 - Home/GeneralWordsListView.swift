@@ -13,6 +13,16 @@ struct GeneralWordsListView: View {
     
     var body: some View {
         List {
+            SwiftUI.Section {
+                EmptyView()
+            } header: {
+                ScrollableStackRootHeader(
+                    accent: Color("AppGreen"),
+                    icon: "square.stack.3d.up.fill",
+                    title: Localizable.string(Localizable.generalWords)
+                )
+            }
+            
             // Check all button header
             SwiftUI.Section {
                 EmptyView()
@@ -69,6 +79,8 @@ struct GeneralWordsListView: View {
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
+        .contentMargins(.top, 8, for: .scrollContent)
+        .contentMargins(.bottom, 90, for: .scrollContent)
     }
 }
 

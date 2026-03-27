@@ -31,6 +31,16 @@ struct AdjectivesListView: View {
         VStack(alignment: .leading, spacing: 0) {
             // Prepositions list
             List {
+                SwiftUI.Section {
+                    EmptyView()
+                } header: {
+                    ScrollableStackRootHeader(
+                        accent: Color("AppPurple"),
+                        icon: "paintbrush.fill",
+                        title: Localizable.string(Localizable.adjectivesWithPrepositions)
+                    )
+                }
+                
                 // Select All as first row item
                 HStack(spacing: 12) {
                     Button(action: {
@@ -70,6 +80,8 @@ struct AdjectivesListView: View {
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
+            .contentMargins(.top, 8, for: .scrollContent)
+            .contentMargins(.bottom, 90, for: .scrollContent)
         }
         .navigationBarTitleDisplayMode(.inline)
     }

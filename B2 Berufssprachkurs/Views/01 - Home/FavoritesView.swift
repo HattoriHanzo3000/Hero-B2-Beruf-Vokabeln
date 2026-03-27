@@ -168,6 +168,7 @@ struct FavoritesView: View {
                 }
             }
             .navigationBarHidden(true)
+            .hidesBottomBarWhenPushed(true)
         }
     }
     

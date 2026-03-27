@@ -389,6 +389,55 @@ struct UbenGroupButtonStyle: ButtonStyle {
     }
 }
 
+// MARK: - Floating “Üben” on stack root screens
+struct FloatingPracticeButton: View {
+    let title: String
+    let accent: Color
+    let isEnabled: Bool
+    let action: () -> Void
+
+    @Environment(\.colorScheme) private var colorScheme
+
+    /// Fully opaque sRGB grays (no alpha blend) — matches ~systemGray2 so the pill never looks “see‑through” over the list.
+    private var inactiveFill: Color {
+        switch colorScheme {
+        case .dark:
+            return Color(red: 0.39, green: 0.39, blue: 0.41)
+        case .light:
+            fallthrough
+        @unknown default:
+            // Slightly darker than before so “Üben” reads as a solid chip over the list (pairs with white label).
+            return Color(red: 0.58, green: 0.58, blue: 0.60)
+        }
+    }
+
+    var body: some View {
+        Button {
+            guard isEnabled else { return }
+            action()
+        } label: {
+            Text(title)
+                .font(.system(.headline, design: .rounded).weight(.semibold))
+                .foregroundStyle(Color.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background {
+                    Capsule(style: .continuous)
+                        .fill(isEnabled ? accent : inactiveFill)
+                }
+                .shadow(
+                    color: isEnabled ? accent.opacity(0.35) : Color.black.opacity(0.12),
+                    radius: 8,
+                    x: 0,
+                    y: 4
+                )
+        }
+        .buttonStyle(.plain)
+        .compositingGroup()
+        // Avoid `.disabled(true)` — system styling on recent iOS can look like frosted glass and lets content show through.
+    }
+}
+
 #Preview {
     VStack {
         Spacer()
