@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+// MARK: - Home stack row press style
+/// Subtle scale and opacity on press, similar to system list rows and tappable cards.
+private struct HomeStackButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+            .opacity(configuration.isPressed ? 0.88 : 1.0)
+            .animation(.easeInOut(duration: 0.18), value: configuration.isPressed)
+    }
+}
+
 // MARK: - Home Tab View
 struct HomeTabView: View {
     @EnvironmentObject private var dataService: DataService
@@ -42,57 +53,55 @@ struct HomeTabView: View {
                         VStack {
                             Spacer(minLength: 0)
                             VStack(spacing: 28) {
-                                LearningStackCard(
-                                    title: Localizable.string(Localizable.generalWords),
-                                    accent: Color("AppGreen"),
-                                    icon: "square.stack.3d.up.fill"
-                                )
-                                .frame(maxWidth: .infinity, minHeight: 76)
-                                .id("general_\(languageManager.currentLanguage)")
-                                .onTapGesture {
+                                Button {
                                     HapticManager.shared.lightImpact()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                         activeStack = .general
                                     }
+                                } label: {
+                                    LearningStackCard(
+                                        title: Localizable.string(Localizable.generalWords),
+                                        accent: Color("AppGreen"),
+                                        icon: "square.stack.3d.up.fill"
+                                    )
+                                    .frame(maxWidth: .infinity, minHeight: 76)
                                 }
+                                .buttonStyle(HomeStackButtonStyle())
+                                .id("general_\(languageManager.currentLanguage)")
 
-                                LearningStackCard(
-                                    title: Localizable.string(Localizable.verbsWithPrepositions),
-                                    accent: Color("AppBlue"),
-                                    icon: "figure.run"
-                                )
-                                .frame(maxWidth: .infinity, minHeight: 76)
-                                .id("verbs_\(languageManager.currentLanguage)")
-                                .onTapGesture {
+                                Button {
                                     HapticManager.shared.lightImpact()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                         activeStack = .verbs
                                     }
+                                } label: {
+                                    LearningStackCard(
+                                        title: Localizable.string(Localizable.verbsWithPrepositions),
+                                        accent: Color("AppBlue"),
+                                        icon: "figure.run"
+                                    )
+                                    .frame(maxWidth: .infinity, minHeight: 76)
                                 }
+                                .buttonStyle(HomeStackButtonStyle())
+                                .id("verbs_\(languageManager.currentLanguage)")
 
-                                LearningStackCard(
-                                    title: Localizable.string(Localizable.adjectivesWithPrepositions),
-                                    accent: Color("AppPurple"),
-                                    icon: "paintbrush.fill"
-                                )
-                                .frame(maxWidth: .infinity, minHeight: 76)
-                                .id("adjectives_\(languageManager.currentLanguage)")
-                                .onTapGesture {
+                                Button {
                                     HapticManager.shared.lightImpact()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                         activeStack = .adjectives
                                     }
+                                } label: {
+                                    LearningStackCard(
+                                        title: Localizable.string(Localizable.adjectivesWithPrepositions),
+                                        accent: Color("AppPurple"),
+                                        icon: "paintbrush.fill"
+                                    )
+                                    .frame(maxWidth: .infinity, minHeight: 76)
                                 }
+                                .buttonStyle(HomeStackButtonStyle())
+                                .id("adjectives_\(languageManager.currentLanguage)")
 
-                                LearningStackCard(
-                                    title: Localizable.string(Localizable.favoritesWordsTitle),
-                                    accent: Color("AppYellow"),
-                                    icon: "star.fill",
-                                    isLocked: false
-                                )
-                                .frame(maxWidth: .infinity, minHeight: 76)
-                                .id("favorites_\(languageManager.currentLanguage)")
-                                .onTapGesture {
+                                Button {
                                     if effectivePremiumActive {
                                         HapticManager.shared.lightImpact()
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -104,7 +113,17 @@ struct HomeTabView: View {
                                             showPaywall = true
                                         }
                                     }
+                                } label: {
+                                    LearningStackCard(
+                                        title: Localizable.string(Localizable.favoritesWordsTitle),
+                                        accent: Color("AppYellow"),
+                                        icon: "star.fill",
+                                        isLocked: false
+                                    )
+                                    .frame(maxWidth: .infinity, minHeight: 76)
                                 }
+                                .buttonStyle(HomeStackButtonStyle())
+                                .id("favorites_\(languageManager.currentLanguage)")
                             }
                             .padding(.horizontal, 16)
                             .padding(.top, 24)
@@ -237,13 +256,13 @@ struct LearningStackCard: View {
                             .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                         Image(systemName: icon)
                             .foregroundColor(.white)
-                            .font(.system(size: 20, weight: .semibold))
+                            .font(.system(size: 20, weight: .bold))
                             .symbolRenderingMode(.hierarchical)
                     }
 
                     HStack(alignment: .center, spacing: 8) {
                         Text(displayTitle)
-                            .font(.system(.headline, design: .rounded).weight(.bold))
+                            .font(.system(.headline, design: .default, weight: .semibold))
                             .foregroundColor(accent)
                             .multilineTextAlignment(.leading)
                             .lineLimit(titleLineRange)
@@ -253,7 +272,7 @@ struct LearningStackCard: View {
 
                         if isLocked {
                             Image(systemName: "lock.fill")
-                                .font(.subheadline.weight(.semibold))
+                                .font(.subheadline.weight(.bold))
                                 .foregroundColor(accent)
                         }
                     }

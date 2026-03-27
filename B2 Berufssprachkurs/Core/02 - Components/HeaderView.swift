@@ -19,7 +19,6 @@ struct HeaderView: View {
     @State private var showMascotGif = false
     @State private var gifPlayToken: UUID = UUID()
     @State private var autoPlayTask: Task<Void, Never>? = nil
-    @State private var shimmerOffset: CGFloat = -300
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @AppStorage("hasShownFirstGreeting") private var hasShownFirstGreeting = false
@@ -98,7 +97,7 @@ struct HeaderView: View {
 
             // Greeting row above mascot and word of the day
             Text(dailyGreeting)
-                .font(.system(.title2, design: .rounded).weight(.bold))
+                .font(.system(.title2, design: .default, weight: .medium).italic())
                 .foregroundColor(.white.opacity(0.9))
                 .id("greeting_\(languageManager.currentLanguage)_\(Calendar.current.startOfDay(for: Date()).timeIntervalSince1970)")
             
@@ -115,53 +114,14 @@ struct HeaderView: View {
                         // Group icon
                         Image(systemName: wordStackIcon(for: word))
                             .foregroundColor(Color("AppYellow"))
-                            .font(.system(.title2, design: .rounded))
-                            .fontWeight(.heavy)
-                        
-                        ZStack(alignment: .leading) {
-                            // Base text
-                            Text(word.german)
-                                .font(.system(.title2, design: .rounded))
-                                .fontWeight(.heavy)
-                                .foregroundColor(Color("AppYellow"))
-                                .fixedSize(horizontal: false, vertical: true)
-                                .lineLimit(nil)
-                            
-                            // Shimmer effect - perfectly aligned with text
-                            Text(word.german)
-                                .font(.system(.title2, design: .rounded))
-                                .fontWeight(.heavy)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .lineLimit(nil)
-                                .foregroundColor(.clear)
-                                .overlay(
-                                    GeometryReader { geometry in
-                                        LinearGradient(
-                                            stops: [
-                                                .init(color: Color.white.opacity(0.0), location: 0.0),
-                                                .init(color: Color.white.opacity(0.0), location: 0.3),
-                                                .init(color: Color.white.opacity(0.5), location: 0.5),
-                                                .init(color: Color.white.opacity(0.0), location: 0.7),
-                                                .init(color: Color.white.opacity(0.0), location: 1.0)
-                                            ],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
-                                        .frame(width: 150)
-                                        .offset(x: shimmerOffset)
-                                        .blendMode(.overlay)
-                                    }
-                                )
-                                .mask(
-                                    // Perfect mask alignment using the same text
-                                    Text(word.german)
-                                        .font(.system(.title2, design: .rounded))
-                                        .fontWeight(.heavy)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .lineLimit(nil)
-                                )
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.system(.title2, design: .default, weight: .heavy))
+
+                        Text(word.german)
+                            .font(.system(.title2, design: .default, weight: .semibold))
+                            .foregroundColor(Color("AppYellow"))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(nil)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
@@ -170,8 +130,8 @@ struct HeaderView: View {
                         Text(attributedText(
                             label: "erkl: ",
                             value: explanation,
-                            labelFont: .system(.subheadline, design: .rounded).weight(.bold),
-                            valueFont: .system(.subheadline, design: .rounded).weight(.semibold),
+                            labelFont: .system(.subheadline, design: .default, weight: .heavy).width(.condensed),
+                            valueFont: .system(.subheadline, design: .default, weight: .bold).width(.condensed),
                             labelColor: Color("AppYellow")
                         ))
                                 .foregroundColor(.white)
@@ -183,8 +143,8 @@ struct HeaderView: View {
                         Text(attributedText(
                             label: "syn: ",
                             value: firstSynonym,
-                            labelFont: .system(.subheadline, design: .rounded).weight(.bold),
-                            valueFont: .system(.subheadline, design: .rounded).weight(.semibold),
+                            labelFont: .system(.subheadline, design: .default, weight: .heavy).width(.condensed),
+                            valueFont: .system(.subheadline, design: .default, weight: .bold).width(.condensed),
                             labelColor: Color("AppYellow")
                         ))
                                 .foregroundColor(.white)
@@ -196,8 +156,8 @@ struct HeaderView: View {
                         Text(attributedText(
                             label: "übers: ",
                             value: displayedTranslation(for: word),
-                            labelFont: .system(.subheadline, design: .rounded).weight(.bold),
-                            valueFont: .system(.subheadline, design: .rounded).weight(.semibold),
+                            labelFont: .system(.subheadline, design: .default, weight: .heavy).width(.condensed),
+                            valueFont: .system(.subheadline, design: .default, weight: .bold).width(.condensed),
                             labelColor: Color("AppYellow")
                         ))
                                 .foregroundColor(.white)
@@ -209,8 +169,8 @@ struct HeaderView: View {
                         Text(attributedText(
                             label: "beisp: ",
                             value: example,
-                            labelFont: .system(.subheadline, design: .rounded).weight(.bold),
-                            valueFont: .system(.subheadline, design: .rounded).weight(.semibold),
+                            labelFont: .system(.subheadline, design: .default, weight: .heavy).width(.condensed),
+                            valueFont: .system(.subheadline, design: .default, weight: .bold).width(.condensed),
                             labelColor: Color("AppYellow")
                         ))
                                 .foregroundColor(.white)
@@ -219,8 +179,7 @@ struct HeaderView: View {
                 } else {
                     // Empty state
                     Text(Localizable.string(Localizable.wordOfTheDay))
-                        .font(.system(.largeTitle, design: .rounded))
-                        .fontWeight(.bold)
+                        .font(.system(.largeTitle, design: .default, weight: .semibold))
                         .foregroundColor(.white.opacity(0.7))
                 }
             }
@@ -244,7 +203,6 @@ struct HeaderView: View {
         .onAppear {
             updateWordOfTheDay()
             startAutoPlay()
-            startShimmerAnimation()
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
             updateWordOfTheDay()
@@ -339,7 +297,7 @@ struct HeaderView: View {
         return word.translation
     }
     
-    private func attributedText(label: String, value: String, labelFont: Font = .system(.subheadline, design: .rounded).weight(.semibold), valueFont: Font = .system(.subheadline, design: .rounded).weight(.semibold), labelColor: Color? = nil) -> AttributedString {
+    private func attributedText(label: String, value: String, labelFont: Font = .system(.subheadline, design: .default, weight: .bold).width(.condensed), valueFont: Font = .system(.subheadline, design: .default, weight: .bold).width(.condensed), labelColor: Color? = nil) -> AttributedString {
         var fullText = AttributedString("\(label)\(value)")
         if let labelRange = fullText.range(of: label) {
             // Use the labelFont directly (with bold weight)
@@ -390,17 +348,6 @@ struct HeaderView: View {
             return "paintbrush.fill"
         } else {
             return "square.stack.3d.up.fill"
-        }
-    }
-    
-    // MARK: - Shimmer Animation
-    private func startShimmerAnimation() {
-        shimmerOffset = -200
-        withAnimation(
-            Animation.linear(duration: 3.0)
-                .repeatForever(autoreverses: false)
-        ) {
-            shimmerOffset = 500
         }
     }
     
