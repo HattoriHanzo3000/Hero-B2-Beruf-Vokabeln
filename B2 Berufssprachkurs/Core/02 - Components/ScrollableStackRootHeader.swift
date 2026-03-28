@@ -34,7 +34,7 @@ struct ScrollableStackRootHeader: View {
                 }
 
                 Text(title)
-                    .font(.system(.title2, design: .rounded).weight(.semibold))
+                    .font(.system(.title, design: .default, weight: .regular))
                     .foregroundColor(.primary)
 
                 Spacer(minLength: 0)

@@ -14,7 +14,7 @@ struct GeneralWordsListView: View {
     private var generalWordsScrollBinding: Binding<String?> {
         Binding(
             get: { listUIState.generalWordsScrollRowId },
-            set: { listUIState.generalWordsScrollRowId = $0 }
+            set: { listUIState.setGeneralWordsScrollRowId($0) }
         )
     }
 

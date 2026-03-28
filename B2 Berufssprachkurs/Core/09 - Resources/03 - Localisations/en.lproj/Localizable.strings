@@ -26,6 +26,8 @@
 "synonym" = "Synonym";
 "explanation" = "Explanation";
 "translation" = "Translation";
+"clear_translation_input" = "Clear";
+"clear_translation_input_hint" = "Removes all text in this field";
 "add_translation_to_word" = "Add translation to the word";
 
 // Check all button

@@ -14,7 +14,7 @@ struct VerbsListView: View {
     private var verbsScrollBinding: Binding<String?> {
         Binding(
             get: { listUIState.verbsRootScrollRowId },
-            set: { listUIState.verbsRootScrollRowId = $0 }
+            set: { listUIState.setVerbsRootScrollRowId($0) }
         )
     }
 

@@ -31,7 +31,14 @@ final class LearningListsUIState: ObservableObject {
         wordsListScrollWordIdBySection[sectionId]
     }
 
+    /// Avoid publishing when the scroll id is unchanged — `scrollPosition` writes often and would
+    /// otherwise re-run parent views (and every row) in a tight loop.
     func setWordsListScrollWordId(_ id: String?, for sectionId: String) {
+        if let id {
+            if wordsListScrollWordIdBySection[sectionId] == id { return }
+        } else {
+            if wordsListScrollWordIdBySection[sectionId] == nil { return }
+        }
         var map = wordsListScrollWordIdBySection
         if let id {
             map[sectionId] = id
@@ -39,6 +46,21 @@ final class LearningListsUIState: ObservableObject {
             map.removeValue(forKey: sectionId)
         }
         wordsListScrollWordIdBySection = map
+    }
+
+    func setGeneralWordsScrollRowId(_ id: String?) {
+        guard generalWordsScrollRowId != id else { return }
+        generalWordsScrollRowId = id
+    }
+
+    func setVerbsRootScrollRowId(_ id: String?) {
+        guard verbsRootScrollRowId != id else { return }
+        verbsRootScrollRowId = id
+    }
+
+    func setAdjectivesRootScrollRowId(_ id: String?) {
+        guard adjectivesRootScrollRowId != id else { return }
+        adjectivesRootScrollRowId = id
     }
 
     func toggleGeneralWordsLectionExpanded(_ lectionId: Int) {

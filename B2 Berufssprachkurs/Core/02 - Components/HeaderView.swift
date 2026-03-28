@@ -181,12 +181,12 @@ struct HeaderView: View {
         }
     }
 
-    /// Prefixed labels (`erkl:` etc.): bold condensed (one step heavier than semibold).
+    /// Prefixed labels (`erkl:`, `beisp:`, etc.): bold condensed — heavier than list rows so WOTD stays the focus.
     private var wotdDetailLabelFont: Font {
         .system(.subheadline, design: .default, weight: .bold).width(.condensed)
     }
 
-    /// Explanation / example body: medium condensed.
+    /// Detail line body: medium condensed.
     private var wotdDetailValueFont: Font {
         .system(.subheadline, design: .default, weight: .medium).width(.condensed)
     }

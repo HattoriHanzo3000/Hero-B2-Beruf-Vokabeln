@@ -140,7 +140,7 @@ struct GroupedToolbar: View {
                     .accessibilityAddTraits(selectedButton == .example ? .isSelected : [])
                 }
                 .frame(height: 44)
-                .background(liquidGlassCapsule)
+                .background(LiquidGlassToolbarCapsule())
             } else {
                 // Regular mode: Translation, Explanation, Synonym
                 HStack(spacing: 0) {
@@ -215,7 +215,7 @@ struct GroupedToolbar: View {
                     .accessibilityAddTraits(selectedButton == .synonym ? .isSelected : [])
                 }
                 .frame(height: 44)
-                .background(liquidGlassCapsule)
+                .background(LiquidGlassToolbarCapsule())
             }
             
             Spacer()
@@ -224,8 +224,11 @@ struct GroupedToolbar: View {
             selectedButton = newValue
         }
     }
-    
-    private var liquidGlassCapsule: some View {
+}
+
+/// Shared chrome for segmented toolbar controls (word-list mode switcher, translation keyboard accessory, etc.).
+struct LiquidGlassToolbarCapsule: View {
+    var body: some View {
         Capsule()
             .fill(.regularMaterial)
             .overlay {
@@ -257,7 +260,6 @@ struct GroupedToolbar: View {
             }
             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
     }
-    
 }
 
 enum GroupedButtonPosition {

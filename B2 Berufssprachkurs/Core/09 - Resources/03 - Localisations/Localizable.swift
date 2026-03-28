@@ -39,6 +39,8 @@ extension Localizable {
     static let synonym = "synonym"
     static let explanation = "explanation"
     static let translation = "translation"
+    static let clearTranslationInput = "clear_translation_input"
+    static let clearTranslationInputHint = "clear_translation_input_hint"
     static let addTranslationToWord = "add_translation_to_word"
     
     // Check all button

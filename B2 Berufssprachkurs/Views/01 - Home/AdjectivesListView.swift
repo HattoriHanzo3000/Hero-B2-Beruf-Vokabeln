@@ -14,7 +14,7 @@ struct AdjectivesListView: View {
     private var adjectivesScrollBinding: Binding<String?> {
         Binding(
             get: { listUIState.adjectivesRootScrollRowId },
-            set: { listUIState.adjectivesRootScrollRowId = $0 }
+            set: { listUIState.setAdjectivesRootScrollRowId($0) }
         )
     }
 

@@ -16,40 +16,24 @@ struct FavoritesView: View {
     @State private var navigateToStudy = false
     @State private var showShareSheet = false
     @State private var showPaywall = false
-    @FocusState private var focusedWordId: String?
+    @State private var focusedTranslationWordId: String?
+    @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
+    @StateObject private var keyboardMetrics = WordListKeyboardMetrics()
 
     private var progressByWordId: [String: WordProgress] {
         Dictionary(uniqueKeysWithValues: wordProgressList.map { ($0.wordId, $0) })
     }
 
     private func userTranslation(for wordId: String) -> String {
-        progressByWordId[wordId]?.translation ?? ""
+        let progressText = progressByWordId[wordId]?.translation ?? ""
+        if !progressText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return progressText
+        }
+        return favoriteWords.first(where: { $0.id == wordId })?.translation ?? ""
     }
 
     var favoriteWords: [Word] {
         dataService.getFavoriteWords()
-    }
-    
-    private func getCurrentWordIndex() -> Int? {
-        guard let focusedId = focusedWordId,
-              let index = favoriteWords.firstIndex(where: { $0.id == focusedId }) else {
-            return nil
-        }
-        return index
-    }
-    
-    private func navigateToPreviousField() {
-        guard let currentIndex = getCurrentWordIndex(),
-              currentIndex > 0 else { return }
-        let previousWordId = favoriteWords[currentIndex - 1].id
-        focusedWordId = previousWordId
-    }
-    
-    private func navigateToNextField() {
-        guard let currentIndex = getCurrentWordIndex(),
-              currentIndex < favoriteWords.count - 1 else { return }
-        let nextWordId = favoriteWords[currentIndex + 1].id
-        focusedWordId = nextWordId
     }
     
     private func attributedText(label: String, value: String, labelFont: Font = .caption.weight(.semibold), valueFont: Font = .caption, labelColor: Color = .secondary, valueColor: Color = .primary) -> AttributedString {
@@ -70,9 +54,12 @@ struct FavoritesView: View {
             Color("AppYellow").opacity(0.08)
                 .ignoresSafeArea()
 
-            favoritesListView
+            if favoriteWords.isEmpty {
+                favoritesEmptyCenteredView
+            } else {
+                favoritesListView
+            }
         }
-        .ignoresSafeArea(.keyboard, edges: .bottom)
         .navigationDestination(isPresented: $navigateToStudy) {
             StudyView(
                 dataService: dataService,
@@ -90,13 +77,6 @@ struct FavoritesView: View {
                     WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
                 }
             }
-            WordListKeyboardNavigationToolbar(
-                canGoToPrevious: !(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! <= 0),
-                canGoToNext: !(focusedWordId == nil || getCurrentWordIndex() == nil || getCurrentWordIndex()! >= favoriteWords.count - 1),
-                goToPrevious: { navigateToPreviousField() },
-                goToNext: { navigateToNextField() },
-                dismissKeyboard: { focusedWordId = nil }
-            )
         }
         .wordListPremiumShareSheets(
             showShareSheet: $showShareSheet,
@@ -105,6 +85,41 @@ struct FavoritesView: View {
             pdfURL: { generateFavoritesPDF() }
         )
         .hidesBottomBarWhenPushed(true)
+        .environmentObject(keyboardNavBridge)
+        .onAppear {
+            keyboardNavBridge.attachHandlers(
+                onPrevious: navigateToPreviousTranslationField,
+                onNext: navigateToNextTranslationField,
+                onDismiss: { focusedTranslationWordId = nil }
+            )
+            syncTranslationKeyboardNavBridge()
+        }
+    }
+
+    private func syncTranslationKeyboardNavBridge() {
+        guard let fid = focusedTranslationWordId,
+              let idx = favoriteWords.firstIndex(where: { $0.id == fid }) else {
+            keyboardNavBridge.syncCanNavigate(canPrevious: false, canNext: false)
+            return
+        }
+        keyboardNavBridge.syncCanNavigate(
+            canPrevious: idx > 0,
+            canNext: idx < favoriteWords.count - 1
+        )
+    }
+
+    private func navigateToPreviousTranslationField() {
+        guard let fid = focusedTranslationWordId,
+              let idx = favoriteWords.firstIndex(where: { $0.id == fid }),
+              idx > 0 else { return }
+        focusedTranslationWordId = favoriteWords[idx - 1].id
+    }
+
+    private func navigateToNextTranslationField() {
+        guard let fid = focusedTranslationWordId,
+              let idx = favoriteWords.firstIndex(where: { $0.id == fid }),
+              idx < favoriteWords.count - 1 else { return }
+        focusedTranslationWordId = favoriteWords[idx + 1].id
     }
 
     private func generateFavoritesShareText() -> String {
@@ -132,6 +147,35 @@ struct FavoritesView: View {
         return PDFGenerationService.generateWordsListPDF(info: pdfInfo)
     }
 
+    /// No scroll header — only the soft star, title, and hint, centered between safe areas (back stays in the nav bar).
+    private var favoritesEmptyCenteredView: some View {
+        VStack(spacing: 0) {
+            Spacer(minLength: 0)
+            VStack(spacing: 14) {
+                Image(systemName: "star")
+                    .font(.system(size: 40, weight: .medium))
+                    .foregroundStyle(.secondary)
+                    .symbolRenderingMode(.hierarchical)
+                    .accessibilityHidden(true)
+
+                Text(Localizable.string(Localizable.noFavoritesFound))
+                    .font(.system(.title3, design: .rounded).weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .accessibilityAddTraits(.isHeader)
+
+                Text(Localizable.string(Localizable.noFavoritesFoundMessage))
+                    .font(.system(.body, design: .rounded))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .padding(.horizontal, 36)
+            .accessibilityElement(children: .combine)
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
     private var favoritesListView: some View {
         ZStack(alignment: .bottom) {
             ScrollViewReader { proxy in
@@ -149,107 +193,92 @@ struct FavoritesView: View {
                     }
 
                     SwiftUI.Section {
-                        if favoriteWords.isEmpty {
-                            VStack(spacing: 12) {
-                                Text(Localizable.string(Localizable.noFavoritesFound))
-                                    .font(.system(.title3, design: .rounded).weight(.semibold))
-                                    .foregroundColor(.primary)
-                                    .multilineTextAlignment(.center)
-                                    .accessibilityAddTraits(.isHeader)
-
-                                Text(Localizable.string(Localizable.noFavoritesFoundMessage))
-                                    .font(.system(.body, design: .rounded))
-                                    .foregroundColor(.secondary)
-                                    .multilineTextAlignment(.center)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(.horizontal, 32)
-                            .padding(.vertical, 28)
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                            .accessibilityElement(children: .combine)
-                        } else {
-                            ForEach(favoriteWords) { word in
-                                FavoriteWordRow(
-                                    word: word,
-                                    isFavorite: dataService.isFavorite(wordId: word.id),
-                                    dataService: dataService,
-                                    focusedWordId: $focusedWordId,
-                                    onFavoriteToggle: {
-                                        if dataService.toggleFavorite(wordId: word.id) {
-                                            HapticManager.shared.lightImpact()
-                                        } else {
-                                            HapticManager.shared.heavyImpact()
-                                            showPaywall = true
-                                        }
+                        ForEach(favoriteWords) { word in
+                            FavoriteWordRow(
+                                word: word,
+                                isFavorite: dataService.isFavorite(wordId: word.id),
+                                dataService: dataService,
+                                focusedTranslationWordId: $focusedTranslationWordId,
+                                onFavoriteToggle: {
+                                    if dataService.toggleFavorite(wordId: word.id) {
+                                        HapticManager.shared.lightImpact()
+                                    } else {
+                                        HapticManager.shared.heavyImpact()
+                                        showPaywall = true
                                     }
-                                )
-                                .id(word.id)
-                                .listRowBackground(Color.clear)
-                            }
+                                }
+                            )
+                            .id(word.id)
+                            .listRowBackground(Color.clear)
+                        }
 
-                            if !subscriptionManager.isPremiumActive {
-                                Text(
-                                    String(
-                                        format: Localizable.string(Localizable.favoritesFreePlanFooter),
-                                        dataService.favoritesCount,
-                                        DataService.FavoriteFreeTier.maxFavorites
-                                    )
+                        if !subscriptionManager.isPremiumActive {
+                            Text(
+                                String(
+                                    format: Localizable.string(Localizable.favoritesFreePlanFooter),
+                                    dataService.favoritesCount,
+                                    DataService.FavoriteFreeTier.maxFavorites
                                 )
-                                .font(.system(.caption, design: .rounded))
-                                .foregroundStyle(.secondary)
-                                .multilineTextAlignment(.center)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 4)
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden, edges: .bottom)
-                                .accessibilityLabel(
-                                    String(
-                                        format: Localizable.string(Localizable.favoritesFreePlanFooter),
-                                        dataService.favoritesCount,
-                                        DataService.FavoriteFreeTier.maxFavorites
-                                    )
+                            )
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 4)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden, edges: .bottom)
+                            .accessibilityLabel(
+                                String(
+                                    format: Localizable.string(Localizable.favoritesFreePlanFooter),
+                                    dataService.favoritesCount,
+                                    DataService.FavoriteFreeTier.maxFavorites
                                 )
-                            }
+                            )
                         }
                     }
                 }
                 .listStyle(.plain)
+                .scrollDismissesKeyboard(.never)
                 .scrollContentBackground(.hidden)
                 .contentMargins(.top, 8, for: .scrollContent)
-                .contentMargins(.bottom, favoriteWords.isEmpty ? 24 : 90, for: .scrollContent)
+                .contentMargins(.bottom, 90, for: .scrollContent)
                 .accessibilityLabel("Favorites list")
                 .accessibilityHint("List of favorite German words with translations, explanations, and synonyms")
-                .onChange(of: focusedWordId) { oldValue, newValue in
-                    if let wordId = newValue {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            proxy.scrollTo(wordId, anchor: .center)
+                .onChange(of: focusedTranslationWordId) { _, newValue in
+                    syncTranslationKeyboardNavBridge()
+                    guard let id = newValue else { return }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        withAnimation(.easeInOut(duration: 0.28)) {
+                            proxy.scrollTo(id, anchor: .center)
                         }
                     }
                 }
-            }
-
-            if !favoriteWords.isEmpty {
-                VStack(spacing: 0) {
-                    Button {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    } label: {
-                        Text(Localizable.string(Localizable.practice))
-                            .font(.system(.headline, design: .rounded).weight(.semibold))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(
-                                Capsule(style: .continuous)
-                                    .fill(Color("AppYellow"))
-                            )
-                            .shadow(color: Color("AppYellow").opacity(0.3), radius: 8, x: 0, y: 4)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 8)
+                .onChange(of: favoriteWords.count) { _, _ in
+                    syncTranslationKeyboardNavBridge()
                 }
             }
+
+            VStack(spacing: 0) {
+                Button {
+                    HapticManager.shared.mediumImpact()
+                    navigateToStudy = true
+                } label: {
+                    Text(Localizable.string(Localizable.practice))
+                        .font(.system(.headline, design: .default, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(
+                            Capsule(style: .continuous)
+                                .fill(Color("AppYellow"))
+                        )
+                        .shadow(color: Color("AppYellow").opacity(0.3), radius: 8, x: 0, y: 4)
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 8)
+            }
+            .offset(y: keyboardMetrics.bottomOverlap)
+            .animation(.easeOut(duration: 0.22), value: keyboardMetrics.bottomOverlap)
         }
     }
 }
@@ -259,33 +288,69 @@ struct FavoriteWordRow: View {
     let word: Word
     let isFavorite: Bool
     @ObservedObject var dataService: DataService
-    @FocusState.Binding var focusedWordId: String?
+    @Binding var focusedTranslationWordId: String?
     let onFavoriteToggle: () -> Void
 
+    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.modelContext) private var modelContext
-    @Query private var progressMatches: [WordProgress]
     @State private var localTranslation: String = ""
+
+    @Query private var progressMatches: [WordProgress]
+
+    private var translationGroup: DataService.FavoriteGroupType {
+        if let sid = dataService.getSectionId(for: word.id) {
+            return dataService.getGroupType(for: sid)
+        }
+        return .generalWords
+    }
+
+    private var translationTextColor: Color {
+        WordListTranslationTextStyle.color(for: translationGroup, colorScheme: colorScheme)
+    }
 
     init(
         word: Word,
         isFavorite: Bool,
         dataService: DataService,
-        focusedWordId: FocusState<String?>.Binding,
+        focusedTranslationWordId: Binding<String?>,
         onFavoriteToggle: @escaping () -> Void
     ) {
         self.word = word
         self.isFavorite = isFavorite
         self.dataService = dataService
-        self._focusedWordId = focusedWordId
+        self._focusedTranslationWordId = focusedTranslationWordId
         self.onFavoriteToggle = onFavoriteToggle
         let id = word.id
         _progressMatches = Query(filter: #Predicate<WordProgress> { $0.wordId == id })
     }
 
-    private var cloudTranslation: String {
+    private var savedTranslation: String {
         progressMatches.first?.translation ?? ""
     }
-    
+
+    /// Shown text and edit baseline: `WordProgress` when set, otherwise the word’s own translation (e.g. My Words).
+    private var trimmedTranslation: String {
+        let progress = savedTranslation.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !progress.isEmpty { return progress }
+        return word.translation.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func baselineTranslationForEditing() -> String {
+        let progress = savedTranslation.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !progress.isEmpty { return savedTranslation }
+        return word.translation
+    }
+
+    private func beginEditingTranslation() {
+        localTranslation = baselineTranslationForEditing()
+        focusedTranslationWordId = word.id
+    }
+
+    private func syncLocalTranslationWhenNotEditing() {
+        guard focusedTranslationWordId != word.id else { return }
+        localTranslation = baselineTranslationForEditing()
+    }
+
     private func attributedText(label: String, value: String, labelFont: Font = .caption.weight(.semibold), valueFont: Font = .caption, labelColor: Color = .secondary, valueColor: Color = .primary) -> AttributedString {
         var fullText = AttributedString("\(label)\(value)")
         if let labelRange = fullText.range(of: label) {
@@ -299,89 +364,176 @@ struct FavoriteWordRow: View {
         return fullText
     }
     
+    private var hasWordDetailLines: Bool {
+        let hasErkl = word.explanation?.isEmpty == false
+        let hasBeisp = word.example?.isEmpty == false
+        let hasSyn = !(word.synonyms?.isEmpty ?? true)
+        return hasErkl || hasBeisp || hasSyn
+    }
+
+    private static let starColumnWidth: CGFloat = 32
+
+    private var isEditingTranslation: Bool {
+        focusedTranslationWordId == word.id
+    }
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            // Star on the left (yellow when favorited)
             Button(action: onFavoriteToggle) {
                 Image(systemName: isFavorite ? "star.fill" : "star")
                     .font(.system(size: 15, weight: .semibold, design: .rounded))
                     .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
                     .symbolEffect(.bounce, value: isFavorite)
+                    .frame(width: Self.starColumnWidth)
             }
             .buttonStyle(.plain)
             .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
             .accessibilityValue(isFavorite ? "Favorited" : "Not favorited")
             .accessibilityHint("Toggle favorite for \(word.german)")
             .accessibilityAddTraits(isFavorite ? .isSelected : [])
-            
-            // German word with example sentence
-            VStack(alignment: .leading, spacing: 4) {
-                Text(word.german)
-                    .font(.system(.body, design: .rounded).weight(.medium))
-                    .foregroundColor(.primary)
-                
-                if let example = word.example, !example.isEmpty {
-                    Text(example)
-                        .font(.system(.subheadline, design: .rounded))
-                        .foregroundColor(.secondary)
-                        .italic()
-                }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel("German word: \(word.german)\(word.example != nil && !word.example!.isEmpty ? ". Example: \(word.example!)" : "")")
-            
-            // Translation column on the right with explanation, synonyms, and translation
-            VStack(alignment: .leading, spacing: 6) {
-                // Row 1: Explanation
-                if let explanation = word.explanation, !explanation.isEmpty {
-                    Text(attributedText(label: "erkl: ", value: explanation))
+
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(alignment: isEditingTranslation ? .firstTextBaseline : .top, spacing: 12) {
+                    Text(word.german)
+                        .font(.system(.body, design: .default, weight: .regular))
+                        .foregroundColor(.primary)
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .fixedSize(horizontal: false, vertical: true)
-                        .accessibilityLabel("Explanation: \(explanation)")
+                        .accessibilityAddTraits(.isStaticText)
+
+                    ZStack(alignment: .topTrailing) {
+                        TranslationTextField(
+                            text: $localTranslation,
+                            wordId: word.id,
+                            focusedWordId: $focusedTranslationWordId,
+                            placeholder: Localizable.string(Localizable.translation)
+                        )
+                        .opacity(isEditingTranslation ? 1 : 0)
+                        .allowsHitTesting(isEditingTranslation)
+                        .accessibilityHidden(!isEditingTranslation)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .alignmentGuide(.firstTextBaseline) { _ in
+                            isEditingTranslation
+                                ? TranslationTextField.rowFirstBaselineFromTopForBodyStyle()
+                                : 0
+                        }
+
+                        if !isEditingTranslation {
+                            Group {
+                                if trimmedTranslation.isEmpty {
+                                    Button(action: beginEditingTranslation) {
+                                        Image(systemName: "pencil.line")
+                                            .font(.system(size: 20, weight: .regular))
+                                            .foregroundStyle(.secondary)
+                                            .frame(minWidth: 44, alignment: .trailing)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .accessibilityLabel(Localizable.string(Localizable.addTranslationToWord))
+                                    .accessibilityHint("Opens the keyboard to type your translation")
+                                } else {
+                                    Button(action: beginEditingTranslation) {
+                                        Text(trimmedTranslation)
+                                            .font(.system(.subheadline, design: .default, weight: .medium))
+                                            .foregroundColor(translationTextColor)
+                                            .multilineTextAlignment(.trailing)
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .accessibilityLabel("Translation: \(trimmedTranslation)")
+                                    .accessibilityHint("Double tap to edit translation")
+                                }
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
-                
-                // Row 2: Synonyms
-                if let synonyms = word.synonyms, !synonyms.isEmpty {
-                    let synonymsText = synonyms.joined(separator: ", ")
-                    Text(attributedText(label: "syn: ", value: synonymsText))
-                        .accessibilityLabel("Synonyms: \(synonymsText)")
-                }
-                
-                // Row 3: Translation input field
-                TextField("Übersetzung", text: $localTranslation, axis: .vertical)
-                    .font(.system(.subheadline, design: .rounded))
-                    .lineLimit(1...10)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: 18, style: .continuous)
-                            .fill(Color(.systemBackground))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                                    .stroke(Color(.separator), lineWidth: 0.5)
+
+                if hasWordDetailLines {
+                    VStack(alignment: .leading, spacing: 6) {
+                        if let explanation = word.explanation, !explanation.isEmpty {
+                            Text(
+                                attributedText(
+                                    label: "erkl: ",
+                                    value: explanation,
+                                    labelFont: WordListRowDetailTextStyle.explanationLabelFont,
+                                    valueFont: WordListRowDetailTextStyle.explanationValueFont,
+                                    labelColor: .secondary,
+                                    valueColor: .primary
+                                )
                             )
-                    )
-                    .focused($focusedWordId, equals: word.id)
-                    .accessibilityLabel("Translation for \(word.german)")
-                    .accessibilityHint("Enter the translation for this German word")
-                    .accessibilityValue(localTranslation.isEmpty ? "Empty" : localTranslation)
-                    .onAppear {
-                        localTranslation = cloudTranslation
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .accessibilityLabel("Explanation: \(explanation)")
+                        }
+
+                        if let example = word.example, !example.isEmpty {
+                            Text(
+                                attributedText(
+                                    label: "beisp: ",
+                                    value: example,
+                                    labelFont: WordListRowDetailTextStyle.explanationLabelFont,
+                                    valueFont: WordListRowDetailTextStyle.explanationValueFont,
+                                    labelColor: .secondary,
+                                    valueColor: .primary
+                                )
+                            )
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .accessibilityLabel("Example: \(example)")
+                        }
+
+                        if let synonyms = word.synonyms, !synonyms.isEmpty {
+                            let synonymsText = synonyms.joined(separator: ", ")
+                            Text(
+                                attributedText(
+                                    label: "syn: ",
+                                    value: synonymsText,
+                                    labelFont: WordListRowDetailTextStyle.labelFont,
+                                    valueFont: WordListRowDetailTextStyle.valueFont,
+                                    labelColor: .secondary,
+                                    valueColor: .primary
+                                )
+                            )
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .accessibilityLabel("Synonyms: \(synonymsText)")
+                        }
                     }
-                    .onChange(of: cloudTranslation) { _, newValue in
-                        guard focusedWordId != word.id else { return }
-                        localTranslation = newValue
-                    }
-                    .onChange(of: localTranslation) { _, newValue in
-                        WordProgress.upsertTranslation(wordId: word.id, text: newValue, in: modelContext)
-                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityElement(children: .combine)
+                }
             }
-            .frame(width: 150, alignment: .leading)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(
+                focusedTranslationWordId == word.id
+                    ? "\(word.german). Editing translation"
+                    : (trimmedTranslation.isEmpty
+                        ? "\(word.german). \(Localizable.string(Localizable.addTranslationToWord))"
+                        : "\(word.german). Translation: \(trimmedTranslation)")
+            )
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 10)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Word row for \(word.german)")
+        .onAppear {
+            syncLocalTranslationWhenNotEditing()
+        }
+        .onChange(of: savedTranslation) { _, _ in
+            syncLocalTranslationWhenNotEditing()
+        }
+        .onChange(of: word.translation) { _, _ in
+            syncLocalTranslationWhenNotEditing()
+        }
+        .onChange(of: localTranslation) { _, newValue in
+            WordProgress.upsertTranslation(wordId: word.id, text: newValue, in: modelContext)
+        }
     }
 }
 

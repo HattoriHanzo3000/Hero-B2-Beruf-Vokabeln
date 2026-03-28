@@ -417,7 +417,7 @@ struct FloatingPracticeButton: View {
             action()
         } label: {
             Text(title)
-                .font(.system(.headline, design: .rounded).weight(.semibold))
+                .font(.system(.headline, design: .default, weight: .bold))
                 .foregroundStyle(Color.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
