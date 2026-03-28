@@ -15,6 +15,8 @@ private enum MyWordFormFieldHelpers {
     static func multilineField(
         _ placeholder: String,
         text: Binding<String>,
+        focusedField: FocusState<MyWordSheetField?>.Binding,
+        field: MyWordSheetField,
         autocapitalize: TextInputAutocapitalization? = nil
     ) -> some View {
         if let style = autocapitalize {
@@ -22,11 +24,29 @@ private enum MyWordFormFieldHelpers {
                 .lineLimit(1...)
                 .fixedSize(horizontal: false, vertical: true)
                 .textInputAutocapitalization(style)
+                .focused(focusedField, equals: field)
         } else {
             TextField(placeholder, text: text, axis: .vertical)
                 .lineLimit(1...)
                 .fixedSize(horizontal: false, vertical: true)
+                .focused(focusedField, equals: field)
         }
+    }
+}
+
+private enum MyWordSheetField: Int, CaseIterable {
+    case german
+    case translation
+    case example
+    case explanation
+
+    var previous: Self? {
+        guard rawValue > 0 else { return nil }
+        return Self(rawValue: rawValue - 1)
+    }
+
+    var next: Self? {
+        Self(rawValue: rawValue + 1)
     }
 }
 
@@ -35,20 +55,41 @@ private struct MyWordFormFields: View {
     @Binding var translation: String
     @Binding var example: String
     @Binding var explanation: String
+    let focusedField: FocusState<MyWordSheetField?>.Binding
 
     var body: some View {
         SwiftUI.Section {
             MyWordFormFieldHelpers.multilineField(
                 Localizable.string(Localizable.myWordsWordOrPhrase),
                 text: $german,
-                autocapitalize: .sentences
+                focusedField: focusedField,
+                field: .german,
+                autocapitalize: .never
             )
 
-            MyWordFormFieldHelpers.multilineField(Localizable.string(Localizable.translation), text: $translation)
+            MyWordFormFieldHelpers.multilineField(
+                Localizable.string(Localizable.translation),
+                text: $translation,
+                focusedField: focusedField,
+                field: .translation,
+                autocapitalize: .never
+            )
 
-            MyWordFormFieldHelpers.multilineField(Localizable.string(Localizable.myWordsExampleLabel), text: $example)
+            MyWordFormFieldHelpers.multilineField(
+                Localizable.string(Localizable.myWordsExampleLabel),
+                text: $example,
+                focusedField: focusedField,
+                field: .example,
+                autocapitalize: .never
+            )
 
-            MyWordFormFieldHelpers.multilineField(Localizable.string(Localizable.explanation), text: $explanation)
+            MyWordFormFieldHelpers.multilineField(
+                Localizable.string(Localizable.explanation),
+                text: $explanation,
+                focusedField: focusedField,
+                field: .explanation,
+                autocapitalize: .never
+            )
         }
     }
 }
@@ -409,6 +450,8 @@ private struct AddMyWordSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    @FocusState private var focusedField: MyWordSheetField?
+    @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
 
     /// Called when save is blocked because the free tier is full (e.g. race); presents paywall from parent.
     var onLimitReached: () -> Void = {}
@@ -429,7 +472,8 @@ private struct AddMyWordSheet: View {
                     german: $german,
                     translation: $translation,
                     example: $example,
-                    explanation: $explanation
+                    explanation: $explanation,
+                    focusedField: $focusedField
                 )
             }
             .navigationTitle(Localizable.string(Localizable.myWordsAddWord))
@@ -456,10 +500,34 @@ private struct AddMyWordSheet: View {
                     .disabled(!canSave)
                     .accessibilityLabel(Localizable.string(Localizable.ok))
                 }
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    TranslationKeyboardNavAccessory(
+                        keyboardNav: keyboardNavBridge,
+                        onPrevious: {
+                            HapticManager.shared.lightImpact()
+                            focusPreviousField()
+                        },
+                        onNext: {
+                            HapticManager.shared.lightImpact()
+                            focusNextField()
+                        },
+                        onDone: {
+                            HapticManager.shared.lightImpact()
+                            focusedField = nil
+                        }
+                    )
+                }
             }
         }
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
+        .onAppear {
+            syncKeyboardNavBridge()
+        }
+        .onChange(of: focusedField) { _, _ in
+            syncKeyboardNavBridge()
+        }
     }
 
     private func nextSortIndex() -> Int {
@@ -497,6 +565,21 @@ private struct AddMyWordSheet: View {
         HapticManager.shared.lightImpact()
         dismiss()
     }
+
+    private func focusPreviousField() {
+        focusedField = focusedField?.previous
+    }
+
+    private func focusNextField() {
+        focusedField = focusedField?.next
+    }
+
+    private func syncKeyboardNavBridge() {
+        keyboardNavBridge.syncCanNavigate(
+            canPrevious: focusedField?.previous != nil,
+            canNext: focusedField?.next != nil
+        )
+    }
 }
 
 // MARK: - Edit word sheet
@@ -504,6 +587,8 @@ private struct AddMyWordSheet: View {
 private struct EditMyWordSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @FocusState private var focusedField: MyWordSheetField?
+    @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
 
     let entry: CustomWordEntry
 
@@ -523,7 +608,8 @@ private struct EditMyWordSheet: View {
                     german: $german,
                     translation: $translation,
                     example: $example,
-                    explanation: $explanation
+                    explanation: $explanation,
+                    focusedField: $focusedField
                 )
             }
             .navigationTitle(Localizable.string(Localizable.myWordsEditWord))
@@ -550,6 +636,24 @@ private struct EditMyWordSheet: View {
                     .disabled(!canSave)
                     .accessibilityLabel(Localizable.string(Localizable.ok))
                 }
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    TranslationKeyboardNavAccessory(
+                        keyboardNav: keyboardNavBridge,
+                        onPrevious: {
+                            HapticManager.shared.lightImpact()
+                            focusPreviousField()
+                        },
+                        onNext: {
+                            HapticManager.shared.lightImpact()
+                            focusNextField()
+                        },
+                        onDone: {
+                            HapticManager.shared.lightImpact()
+                            focusedField = nil
+                        }
+                    )
+                }
             }
         }
         .presentationDetents([.medium, .large])
@@ -559,6 +663,10 @@ private struct EditMyWordSheet: View {
             translation = entry.translation
             example = entry.example ?? ""
             explanation = entry.explanation ?? ""
+            syncKeyboardNavBridge()
+        }
+        .onChange(of: focusedField) { _, _ in
+            syncKeyboardNavBridge()
         }
     }
 
@@ -577,6 +685,21 @@ private struct EditMyWordSheet: View {
         try? modelContext.save()
         HapticManager.shared.lightImpact()
         dismiss()
+    }
+
+    private func focusPreviousField() {
+        focusedField = focusedField?.previous
+    }
+
+    private func focusNextField() {
+        focusedField = focusedField?.next
+    }
+
+    private func syncKeyboardNavBridge() {
+        keyboardNavBridge.syncCanNavigate(
+            canPrevious: focusedField?.previous != nil,
+            canNext: focusedField?.next != nil
+        )
     }
 }
 

@@ -40,7 +40,7 @@ struct TranslationTextField: UIViewRepresentable {
         tv.textColor = .label
         tv.tintColor = .label
         tv.autocorrectionType = .yes
-        tv.autocapitalizationType = .sentences
+        tv.autocapitalizationType = .none
         tv.smartDashesType = .yes
         tv.smartQuotesType = .yes
         tv.returnKeyType = .default

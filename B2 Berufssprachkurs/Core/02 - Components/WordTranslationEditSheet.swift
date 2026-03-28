@@ -39,7 +39,7 @@ struct WordTranslationEditSheet: View {
                     )
                     .lineLimit(1...)
                     .fixedSize(horizontal: false, vertical: true)
-                    .textInputAutocapitalization(.sentences)
+                    .textInputAutocapitalization(.never)
                 }
             }
             .navigationTitle(word.german)
