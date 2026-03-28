@@ -34,7 +34,7 @@ struct FlatIndexedStackListView: View {
                     .id(stackHeaderId)
                 }
 
-                // Select-all header + rows in one section (tighter gap than two separate sections)
+                // Select-all header + rows in one section: keeps vertical gap tight (inset grouped adds extra space between sections).
                 SwiftUI.Section {
                     ForEach(Array(rows.enumerated()), id: \.element.id) { index, section in
                         FlatIndexedStackRow(
@@ -44,14 +44,12 @@ struct FlatIndexedStackListView: View {
                             dataService: dataService
                         )
                         .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                         .id("\(rowIdPrefix)-\(section.id)")
                     }
                 } header: {
                     StackListSelectAllHeader(
                         isSelected: isAllSelected,
-                        fontDesign: .rounded,
+                        fontDesign: .default,
                         action: onToggleAll
                     )
                     .id(selectAllId)
@@ -67,6 +65,13 @@ private struct FlatIndexedStackRow: View {
     let rowNumber: Int
     let accent: Color
     @ObservedObject var dataService: DataService
+    @Environment(\.colorScheme) private var colorScheme
+
+    /// Flat lists have no parent lection; completed rows use the same “full” gray as General Words subsection rows when the lection is complete.
+    private var checkmarkFillColor: Color {
+        guard dataService.isSectionCompleted(sectionId: section.id) else { return .secondary }
+        return CompletionCheckmarkPalette.fullFill(colorScheme)
+    }
 
     var body: some View {
         HStack(spacing: 12) {
@@ -77,8 +82,8 @@ private struct FlatIndexedStackRow: View {
                 }
             } label: {
                 Image(systemName: dataService.isSectionCompleted(sectionId: section.id) ? "checkmark.circle.fill" : "circle")
-                    .font(.system(.subheadline, design: .rounded).weight(.medium))
-                    .foregroundColor(dataService.isSectionCompleted(sectionId: section.id) ? Color.gray : .secondary)
+                    .font(.system(.subheadline, design: .default).weight(.medium))
+                    .foregroundColor(checkmarkFillColor)
                     .symbolEffect(.bounce, value: dataService.isSectionCompleted(sectionId: section.id))
             }
             .buttonStyle(.plain)
@@ -89,18 +94,20 @@ private struct FlatIndexedStackRow: View {
             } label: {
                 HStack(spacing: 12) {
                     Image(systemName: "\(rowNumber).circle.fill")
-                        .font(.system(.title2, design: .rounded).weight(.medium))
+                        .font(.system(.title2, design: .default).weight(.medium))
                         .foregroundColor(accent)
                         .accessibilityHidden(true)
 
                     Text(section.title)
-                        .font(.system(.headline, design: .rounded))
+                        .font(.system(.title3, design: .default))
                         .foregroundColor(.primary)
 
                     Spacer()
                 }
+                .padding(.vertical, 4)
+                .padding(.leading, 8)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-        .padding(.vertical, 4)
     }
 }
