@@ -39,6 +39,8 @@ struct StudyView: View {
     @State private var flashColor: Color? = nil // Track flash color for screen flash
     @State private var cardsAnswered = 0 // Track number of cards answered in this session
     @State private var currentContentType: ContentType = .translation // Current content type shown on card
+    @State private var autoMode = true // When ON, every new card resets to first available content type
+    @State private var showTranslationMissingAlert = false
     @State private var buttonFeedback: ButtonFeedback? = nil // Track button press feedback for color indication
     @State private var studySessionMetricsRecorded = false
     @State private var showFavoriteLimitPaywall = false
@@ -563,8 +565,7 @@ struct StudyView: View {
                         reverseCard()
                     } label: {
                         Image(systemName: "arrow.trianglehead.2.clockwise")
-                            .font(.body)
-                            .fontWeight(.regular)
+                            .navigationBarSymbolStyle()
                             .foregroundColor(isReversed ? .green : .primary)
                     }
                     .accessibilityLabel(isReversed ? "Reverse mode active" : "Reverse mode inactive")
@@ -582,56 +583,18 @@ struct StudyView: View {
             loadStudyItems()
             // Set initial flip state based on reverse mode
             cardFlipped = isReversed
-            // Set default content type based on first item
             if !studyItems.isEmpty {
-                let firstItem = studyItems[0]
-                if firstItem.isVerbenSection {
-                    if let translation = firstItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        currentContentType = .translation
-                    } else if let explanation = firstItem.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        currentContentType = .explanation
-                    }
-                } else {
-                    // For regular sections, default to translation if available, otherwise use first available
-                    if let translation = firstItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        currentContentType = .translation
-                    } else if firstItem.explanation != nil {
-                        currentContentType = .explanation
-                    } else if firstItem.synonym != nil {
-                        currentContentType = .synonym
-                    }
-                }
+                currentContentType = firstAvailableContentType(for: studyItems[0])
             }
         }
         .onChange(of: currentIndex) { _, _ in
-            // Keep the user's selected content type when moving to next card
-            // Only switch if current type is not available for the new card
             if currentIndex < studyItems.count {
                 let item = studyItems[currentIndex]
-                // Check if current content type is available
-                if !isContentTypeAvailable(currentContentType, for: item) {
-                    // Find first available content type
-                    if item.isVerbenSection {
-                        if let translation = item.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            currentContentType = .translation
-                        } else if let explanation = item.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            currentContentType = .explanation
-                        }
-                    } else {
-                        // For regular sections, prioritize translation
-                        if let translation = item.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            currentContentType = .translation
-                        } else if item.explanation != nil {
-                            currentContentType = .explanation
-                        } else if item.synonym != nil {
-                            currentContentType = .synonym
-                        } else {
-                            // No content available, keep current but it won't show buttons
-                            // This shouldn't happen if data is correct
-                        }
-                    }
+                if autoMode {
+                    currentContentType = firstAvailableContentType(for: item)
+                } else if !isContentTypeAvailable(currentContentType, for: item) {
+                    currentContentType = firstAvailableContentType(for: item)
                 }
-                // Otherwise keep the current selection
             }
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
@@ -671,6 +634,14 @@ struct StudyView: View {
         .sheet(isPresented: $showFavoriteLimitPaywall) {
             PaywallView()
         }
+        .alert(
+            Localizable.string(Localizable.translationNotFound),
+            isPresented: $showTranslationMissingAlert
+        ) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(Localizable.string(Localizable.translationNotFoundMessage))
+        }
     }
     
     private var headerView: some View {
@@ -691,30 +662,70 @@ struct StudyView: View {
                     }
                 }()
                 
-                // Filter to only show available content types (works for both VERBEN and regular sections)
                 let availableTypes = ContentType.displayOrder.filter { type in
                     isContentTypeAvailable(type, for: item)
                 }
                 
-                if !availableTypes.isEmpty {
+                // Always show badges: available types + translation (even if unavailable)
+                let displayTypes: [ContentType] = {
+                    var types = availableTypes
+                    if !types.contains(.translation) {
+                        types.append(.translation)
+                    }
+                    return ContentType.displayOrder.filter { types.contains($0) }
+                }()
+                
+                if !displayTypes.isEmpty {
                     HStack(spacing: 8) {
-                        ForEach(availableTypes, id: \.self) { type in
+                        Button(action: {
+                            HapticManager.shared.lightImpact()
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                autoMode.toggle()
+                            }
+                        }) {
+                            Text(Localizable.string(Localizable.auto))
+                                .font(.system(.caption, design: .default).weight(.regular).width(.expanded))
+                                .foregroundColor(autoMode ? .white : .primary)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                        .fill(autoMode ? currentCardColor : Color(.systemGray5))
+                                )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .accessibilityLabel("Auto mode")
+                        .accessibilityValue(autoMode ? "On" : "Off")
+                        .accessibilityHint("Automatically resets to explanation for each new card")
+                        
+                        ForEach(displayTypes, id: \.self) { type in
                             let isSelected = currentContentType == type
+                            let isAvailable = isContentTypeAvailable(type, for: item)
                             
                             Button(action: {
-                                HapticManager.shared.lightImpact()
-                                withAnimation(.easeInOut(duration: 0.2)) {
-                                    currentContentType = type
+                                if isAvailable {
+                                    HapticManager.shared.lightImpact()
+                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                        currentContentType = type
+                                    }
+                                } else {
+                                    HapticManager.shared.heavyImpact()
+                                    showTranslationMissingAlert = true
                                 }
                             }) {
                                 Text(typeButtonTitle(for: type))
                                     .font(.system(.caption, design: .default).weight(.regular).width(.expanded))
-                                    .foregroundColor(isSelected ? .white : .primary)
+                                    .foregroundColor(
+                                        !isAvailable ? .secondary.opacity(0.5) :
+                                        isSelected ? .white : .primary
+                                    )
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
                                     .background(
                                         RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                            .fill(isSelected ? currentCardColor : Color(.systemGray5))
+                                            .fill(
+                                                isSelected && isAvailable ? currentCardColor : Color(.systemGray5)
+                                            )
                                     )
                             }
                             .buttonStyle(PlainButtonStyle())
@@ -768,6 +779,16 @@ struct StudyView: View {
         case .synonym:
             return Localizable.string(Localizable.synonym)
         }
+    }
+    
+    /// Priority: Erklärung → Übersetzung → Synonym. Falls back to current selection if nothing is available.
+    private func firstAvailableContentType(for item: StudyItem) -> ContentType {
+        for type in [ContentType.explanation, .translation, .synonym] {
+            if isContentTypeAvailable(type, for: item) {
+                return type
+            }
+        }
+        return currentContentType
     }
     
     private var liquidGlassCircle: some View {

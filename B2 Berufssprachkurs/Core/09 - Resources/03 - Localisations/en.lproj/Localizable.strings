@@ -26,6 +26,7 @@
 "synonym" = "Synonym";
 "explanation" = "Explanation";
 "translation" = "Translation";
+"auto" = "Auto";
 "clear_translation_input" = "Clear";
 "clear_translation_input_hint" = "Removes all text in this field";
 "add_translation_to_word" = "Add translation to the word";
@@ -237,7 +238,7 @@
 "no_words_selected" = "No words selected";
 "no_words_selected_message" = "Select words with the checkmark";
 "translation_not_found" = "The translation is not found";
-"translation_not_found_message" = "Write the translation to the words first";
+"translation_not_found_message" = "Write the translation for this word first.";
 
 // Favorites Empty State
 "no_favorites_found" = "No favorites found";
