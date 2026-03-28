@@ -481,7 +481,7 @@ struct StudyView: View {
                                 }
                             }) {
                                 Image(systemName: "xmark")
-                                    .font(.system(.title3, design: .rounded).weight(.semibold))
+                                    .font(.system(.title3, design: .default).weight(.semibold))
                                     .foregroundColor(.red)
                                     .frame(width: 64, height: 64)
                                     .background(liquidGlassCircle)
@@ -501,7 +501,7 @@ struct StudyView: View {
                                 }
                             }) {
                                 Image(systemName: "checkmark")
-                                    .font(.system(.title3, design: .rounded).weight(.semibold))
+                                    .font(.system(.title3, design: .default).weight(.semibold))
                                     .foregroundColor(.green)
                                     .frame(width: 64, height: 64)
                                     .background(liquidGlassCircle)
@@ -528,7 +528,7 @@ struct StudyView: View {
                         }
                     }) {
                         Image(systemName: dataService.isFavorite(wordId: studyItems[currentIndex].wordId) ? "star.fill" : "star")
-                            .font(.system(size: 24, weight: .semibold, design: .rounded))
+                            .font(.system(size: 24, weight: .regular, design: .default))
                             .foregroundColor(dataService.isFavorite(wordId: studyItems[currentIndex].wordId) ? Color("AppYellow") : .secondary)
                             .symbolEffect(.bounce, value: dataService.isFavorite(wordId: studyItems[currentIndex].wordId))
                     }
@@ -546,14 +546,14 @@ struct StudyView: View {
             if studyItems.isEmpty {
                 ToolbarItem(placement: .principal) {
                     Text(Localizable.string(Localizable.study))
-                        .font(.system(.headline, design: .rounded).weight(.semibold))
+                        .font(.system(.headline, design: .default).weight(.regular))
                         .foregroundColor(.primary)
                         .accessibilityAddTraits(.isHeader)
                 }
             } else {
                 ToolbarItem(placement: .principal) {
                     Text(cardCountLabel(count: studyItems.count))
-                        .font(.system(.headline, design: .rounded).weight(.semibold))
+                        .font(.system(.headline, design: .default).weight(.medium))
                         .foregroundColor(.primary)
                         .accessibilityAddTraits(.isHeader)
                 }
@@ -563,7 +563,8 @@ struct StudyView: View {
                         reverseCard()
                     } label: {
                         Image(systemName: "arrow.trianglehead.2.clockwise")
-                            .navigationBarSymbolStyle()
+                            .font(.body)
+                            .fontWeight(.regular)
                             .foregroundColor(isReversed ? .green : .primary)
                     }
                     .accessibilityLabel(isReversed ? "Reverse mode active" : "Reverse mode inactive")
@@ -707,7 +708,7 @@ struct StudyView: View {
                                 }
                             }) {
                                 Text(typeButtonTitle(for: type))
-                                    .font(.system(.caption, design: .rounded).weight(.semibold))
+                                    .font(.system(.caption, design: .default).weight(.regular).width(.expanded))
                                     .foregroundColor(isSelected ? .white : .primary)
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
@@ -1026,7 +1027,8 @@ struct FlashCardView2: View {
     let onSwipeCorrect: (() -> Void)?
     let onSwipeWrong: (() -> Void)?
     
-    @State private var isFlipped = false
+    @State private var showsFront = true
+    @State private var halfAngle: Double = 0
     @State private var dragOffset: CGSize = .zero
     @State private var dragRotation: Double = 0
     @State private var thresholdReached = false
@@ -1125,20 +1127,38 @@ struct FlashCardView2: View {
     }
     
     
+    private func performFlip() {
+        if reduceMotion {
+            showsFront.toggle()
+            halfAngle = showsFront ? 0 : 180
+            return
+        }
+        let target: Double = showsFront ? 180 : 0
+        withAnimation(.easeIn(duration: 0.25)) {
+            halfAngle = 90
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            showsFront.toggle()
+            withAnimation(.easeOut(duration: 0.25)) {
+                halfAngle = target
+            }
+        }
+    }
+    
     var body: some View {
         ZStack {
             frontCard
-                .opacity(isFlipped ? 0 : 1)
-                .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
-                .accessibilityHidden(isFlipped)
+                .opacity(showsFront ? 1 : 0)
+                .accessibilityHidden(!showsFront)
             
             backCard
-                .opacity(isFlipped ? 1 : 0)
-                .rotation3DEffect(.degrees(isFlipped ? 0 : -180), axis: (x: 0, y: 1, z: 0))
-                .accessibilityHidden(!isFlipped)
+                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                .opacity(showsFront ? 0 : 1)
+                .accessibilityHidden(showsFront)
         }
+        .rotation3DEffect(.degrees(halfAngle), axis: (x: 0, y: 1, z: 0))
         .accessibilityElement(children: .contain)
-        .accessibilityValue(isFlipped ? "Showing back" : "Showing front")
+        .accessibilityValue(showsFront ? "Showing front" : "Showing back")
         .offset(dragOffset)
         .rotationEffect(.degrees(reduceMotion ? 0 : dragRotation))
         .opacity(1 - min(abs(dragOffset.width) / 600.0, 0.3))
@@ -1222,16 +1242,14 @@ struct FlashCardView2: View {
         .simultaneousGesture(
             TapGesture()
                 .onEnded { _ in
-                    // Only flip if not dragging
                     if dragOffset == .zero {
-                        withAnimation(.easeInOut(duration: 0.5)) {
-                            isFlipped.toggle()
-                        }
+                        performFlip()
                     }
                 }
         )
         .onChange(of: cardId) { _, _ in
-            isFlipped = initialFlipped
+            showsFront = !initialFlipped
+            halfAngle = initialFlipped ? 180 : 0
             dragOffset = .zero
             dragRotation = 0
             thresholdReached = false
@@ -1284,12 +1302,14 @@ struct FlashCardView2: View {
             }
         }
         .onChange(of: initialFlipped) { _, newValue in
-            withAnimation(.easeInOut(duration: 0.5)) {
-                isFlipped = newValue
+            let target = !newValue
+            if showsFront != target {
+                performFlip()
             }
         }
         .onAppear {
-            isFlipped = initialFlipped
+            showsFront = !initialFlipped
+            halfAngle = initialFlipped ? 180 : 0
         }
         .id(cardId)
     }
@@ -1341,13 +1361,13 @@ struct FlashCardView2: View {
                 // Main content text
                 if shouldShowPlaceholder {
                     Text(Localizable.string(Localizable.addTranslationToWord))
-                        .font(.system(.body, design: .rounded))
+                        .font(.system(.body, design: .default))
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
                 } else {
                     Text(frontText)
-                        .font(.system(.title2, design: .rounded).weight(.semibold))
+                        .font(.system(.title2, design: .default).weight(.regular))
                         .foregroundColor(.primary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
@@ -1410,7 +1430,7 @@ struct FlashCardView2: View {
                     // Show German word (verb/adjective with case) above in black and bold for VERBEN and ADJEKTIVE sections
                     if studyItem.isVerbenSection || studyItem.sectionId.hasPrefix("ADJEKTIVE_") {
                         Text(studyItem.germanWord)
-                            .font(.system(.title2, design: .rounded).weight(.bold))
+                            .font(.system(.title2, design: .default).weight(.regular))
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
                         
@@ -1425,7 +1445,7 @@ struct FlashCardView2: View {
                     } else {
                         // For regular sections, show German word in bold, then example
                         Text(studyItem.germanWord)
-                            .font(.system(.title2, design: .rounded).weight(.bold))
+                            .font(.system(.title2, design: .default).weight(.regular))
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
                         

@@ -28,12 +28,12 @@ struct StudyEmptyStateView: View {
                         .accessibilityHidden(true)
                     
                     Text(title)
-                        .font(.system(.title3, design: .rounded).weight(.semibold))
+                        .font(.system(.title3, design: .default).weight(.regular))
                         .foregroundColor(.primary)
                         .accessibilityAddTraits(.isHeader)
                     
                     Text(message)
-                        .font(.system(.body, design: .rounded))
+                        .font(.system(.body, design: .default))
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 40)
