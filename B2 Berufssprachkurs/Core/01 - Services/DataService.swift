@@ -208,6 +208,7 @@ class DataService: ObservableObject {
         } else {
             completedSections.insert(sectionId)
         }
+        syncLectionCompletionMetadata(forSectionId: sectionId)
         saveCompletedStates()
     }
     
@@ -237,8 +238,46 @@ class DataService: ObservableObject {
         saveCompletedStates()
     }
     
+    /// True when every subsection in this lection is marked complete (source of truth for UI and study gating).
     func isLectionCompleted(lectionId: Int) -> Bool {
-        return completedLections.contains(lectionId)
+        guard let lection = lections.first(where: { $0.id == lectionId }) else {
+            return completedLections.contains(lectionId)
+        }
+        return isEverySectionCompleted(in: lection)
+    }
+
+    /// Uses `lection.sections` (dynamic count), not a fixed number.
+    func isEverySectionCompleted(in lection: Lection) -> Bool {
+        let ids = lection.sections.map { $0.id }
+        guard !ids.isEmpty else { return false }
+        return ids.allSatisfy { completedSections.contains($0) }
+    }
+
+    func isAnySectionCompleted(in lection: Lection) -> Bool {
+        lection.sections.contains { completedSections.contains($0.id) }
+    }
+
+    private func syncLectionCompletionMetadata(forSectionId sectionId: String) {
+        guard let lection = lections.first(where: { $0.sections.contains { $0.id == sectionId } }) else { return }
+        let sectionIds = Set(lection.sections.map { $0.id })
+        guard !sectionIds.isEmpty else { return }
+        if sectionIds.isSubset(of: completedSections) {
+            completedLections.insert(lection.id)
+        } else {
+            completedLections.remove(lection.id)
+        }
+    }
+
+    private func reconcileLectionCompletionMetadataWithSectionState() {
+        for lection in lections {
+            let sectionIds = Set(lection.sections.map { $0.id })
+            guard !sectionIds.isEmpty else { continue }
+            if sectionIds.isSubset(of: completedSections) {
+                completedLections.insert(lection.id)
+            } else {
+                completedLections.remove(lection.id)
+            }
+        }
     }
     
     func toggleAllLections() {
@@ -400,6 +439,7 @@ class DataService: ObservableObject {
         if !words.isEmpty && checkedCount == words.count {
             if !completedSections.contains(sectionId) {
                 completedSections.insert(sectionId)
+                syncLectionCompletionMetadata(forSectionId: sectionId)
                 saveCompletedStates()
             }
         } else {
@@ -430,6 +470,9 @@ class DataService: ObservableObject {
         if let sectionsArray = userDefaults.array(forKey: completedSectionsKey) as? [String] {
             completedSections = Set(sectionsArray)
         }
+
+        reconcileLectionCompletionMetadataWithSectionState()
+        saveCompletedStates()
     }
     
     private func loadFavoriteWords() {

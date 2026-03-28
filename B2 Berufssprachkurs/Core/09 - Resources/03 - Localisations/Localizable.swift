@@ -172,6 +172,8 @@ extension Localizable {
 
     // Practice button
     static let practice = "practice"
+    static let practiceNeedSelectionTitle = "practice_need_selection_title"
+    static let practiceNeedSelectionMessage = "practice_need_selection_message"
     
     // Header Greeting
     static let greetingWordOfTheDay = "greeting_word_of_the_day"

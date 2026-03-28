@@ -310,7 +310,7 @@ struct WordWallpaperBackground: View {
             
             // Create text like a book page - words flow in lines
             Text(words.joined(separator: " "))
-                .font(.system(size: fontSize, design: .rounded))
+                .font(.system(size: fontSize, weight: .medium, design: .default))
                 .foregroundColor(Color.gray.opacity(0.12))
                 .lineSpacing(lineSpacing)
                 .frame(width: contentWidth, alignment: .leading)

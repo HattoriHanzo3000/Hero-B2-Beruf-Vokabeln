@@ -20,7 +20,7 @@ struct TranslationKeyboardNavAccessory: View {
                 onPrevious()
             } label: {
                 Image(systemName: "chevron.up")
-                    .font(.system(.body, design: .rounded).weight(.medium))
+                    .font(.system(.body, design: .default, weight: .medium))
                     .foregroundColor(.primary)
                     .frame(width: 44, height: 44)
             }
@@ -37,7 +37,7 @@ struct TranslationKeyboardNavAccessory: View {
                 onNext()
             } label: {
                 Image(systemName: "chevron.down")
-                    .font(.system(.body, design: .rounded).weight(.medium))
+                    .font(.system(.body, design: .default, weight: .medium))
                     .foregroundColor(.primary)
                     .frame(width: 44, height: 44)
             }
@@ -54,7 +54,7 @@ struct TranslationKeyboardNavAccessory: View {
                 onDone()
             } label: {
                 Image(systemName: "checkmark")
-                    .font(.system(.body, design: .rounded).weight(.medium))
+                    .font(.system(.body, design: .default, weight: .medium))
                     .foregroundColor(.primary)
                     .frame(width: 44, height: 44)
             }

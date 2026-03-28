@@ -397,6 +397,7 @@ struct FloatingPracticeButton: View {
     let action: () -> Void
 
     @Environment(\.colorScheme) private var colorScheme
+    @State private var showNeedSelectionAlert = false
 
     /// Fully opaque sRGB grays (no alpha blend) — matches ~systemGray2 so the pill never looks “see‑through” over the list.
     private var inactiveFill: Color {
@@ -413,8 +414,12 @@ struct FloatingPracticeButton: View {
 
     var body: some View {
         Button {
-            guard isEnabled else { return }
-            action()
+            if isEnabled {
+                action()
+            } else {
+                HapticManager.shared.heavyImpact()
+                showNeedSelectionAlert = true
+            }
         } label: {
             Text(title)
                 .font(.system(.headline, design: .default, weight: .bold))
@@ -434,6 +439,16 @@ struct FloatingPracticeButton: View {
         }
         .buttonStyle(.plain)
         .compositingGroup()
+        .alert(
+            Localizable.string(Localizable.practiceNeedSelectionTitle),
+            isPresented: $showNeedSelectionAlert
+        ) {
+            Button(Localizable.string(Localizable.ok)) {
+                showNeedSelectionAlert = false
+            }
+        } message: {
+            Text(Localizable.string(Localizable.practiceNeedSelectionMessage))
+        }
         // Avoid `.disabled(true)` — system styling on recent iOS can look like frosted glass and lets content show through.
     }
 }

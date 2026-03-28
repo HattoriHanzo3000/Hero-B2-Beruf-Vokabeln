@@ -9,11 +9,9 @@ import SwiftUI
 import StoreKit
 import RevenueCat
 import Combine
-import UIKit
 
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.colorScheme) private var colorScheme
     @StateObject private var revenueCatService = RevenueCatService.shared
     @StateObject private var subscriptionManager = SubscriptionManager.shared
     @State private var selectedProductID: String = "hero.premium.quarterly"
@@ -171,8 +169,8 @@ struct PaywallView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
 
-            // Mascot (reuses existing app assets)
-            Image(mascotImageName)
+            // The paywall always uses the light mascot for consistent brand presentation.
+            Image("Mascot")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 130, height: 130)
@@ -187,13 +185,6 @@ struct PaywallView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 8)
-    }
-    
-    private var mascotImageName: String {
-        if colorScheme == .dark, UIImage(named: "MascotDark") != nil {
-            return "MascotDark"
-        }
-        return "Mascot"
     }
     
     private var subscriptionOptionsSection: some View {

@@ -147,6 +147,8 @@
 "my_words_delete_all_toolbar_label" = "Alle Wörter löschen";
 
 "practice" = "ÜBEN";
+"practice_need_selection_title" = "Kategorien auswählen";
+"practice_need_selection_message" = "Wähle mindestens eine Kategorie mit dem Häkchen aus, um mit Karten zu üben.";
 
 // Header Greeting
 "greeting_word_of_the_day" = "Hey! Schön, dich wiederzusehen! Dein Wort des Tages ist:";
