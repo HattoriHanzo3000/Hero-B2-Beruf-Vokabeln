@@ -177,12 +177,8 @@ extension Localizable {
     static let practiceNeedSelectionMessage = "practice_need_selection_message"
     
     // Header Greeting
-    static let greetingWordOfTheDay = "greeting_word_of_the_day"
-    static let greetingWordOfTheDay1 = "greeting_word_of_the_day_1"
-    static let greetingWordOfTheDay2 = "greeting_word_of_the_day_2"
-    static let greetingWordOfTheDay3 = "greeting_word_of_the_day_3"
-    static let greetingWordOfTheDay4 = "greeting_word_of_the_day_4"
-    static let greetingWordOfTheDay5 = "greeting_word_of_the_day_5"
+    /// Single home hero encouragement above the word of the day (fixed-size text well).
+    static let heroWordOfTheDayEncouragement = "hero_word_of_the_day_encouragement"
     
     // Premium
     static let proBenefitsDescription = "pro_benefits_description"

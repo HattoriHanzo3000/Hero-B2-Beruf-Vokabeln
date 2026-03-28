@@ -43,8 +43,7 @@ struct HomeView: View {
                 HeaderView(
                     dataService: dataService,
                     isPremiumPreviewOverride: isPremiumPreviewOverride,
-                    embedInScrollContent: false,
-                    pinsDynamicTypeSize: true
+                    embedInScrollContent: false
                 )
                 .id("header_\(languageManager.currentLanguage)")
 

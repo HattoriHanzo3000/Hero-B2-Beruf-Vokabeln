@@ -152,12 +152,7 @@
 "practice_need_selection_message" = "Check at least one category with the checkmark to study with flashcards.";
 
 // Header Greeting
-"greeting_word_of_the_day" = "Hey! Nice to see you again! Your word of the day is:";
-"greeting_word_of_the_day_1" = "Hey! Ready for your word of the day?";
-"greeting_word_of_the_day_2" = "Hey! Welcome back! Your word of the day is already waiting.";
-"greeting_word_of_the_day_3" = "Hey! I'm ready! Are you too? Here's your word of the day.";
-"greeting_word_of_the_day_4" = "Hey! Let's go! Today you'll learn this word:";
-"greeting_word_of_the_day_5" = "Hey! Keep it up! Your word for today is:";
+"hero_word_of_the_day_encouragement" = "Hey, don’t give up! Here’s your word of the day.";
 
 // Progress - Under Construction
 "progress_under_construction" = "This section is under construction";

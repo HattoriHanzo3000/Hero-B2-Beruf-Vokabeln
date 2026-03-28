@@ -35,12 +35,12 @@ struct PremiumShieldBadge: View {
 
     var body: some View {
         Text(label.uppercased())
-            .font(.system(.footnote, weight: .regular).width(.expanded))
+            .font(.system(.caption2, weight: .medium).width(.expanded))
             .foregroundColor(color)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: false)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3)
             .overlay(
                 RoundedRectangle(cornerRadius: 6, style: .continuous)
                     .stroke(color, lineWidth: 0.6)
