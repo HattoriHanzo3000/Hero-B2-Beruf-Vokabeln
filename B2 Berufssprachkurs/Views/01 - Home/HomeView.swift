@@ -394,7 +394,7 @@ private struct HomeViewCanvasPreview: View {
     HomeViewCanvasPreview(isPremiumPreviewOverride: false)
 }
 
-#Preview("Home — Premium") {
+#Preview("Home — Pro") {
     HomeViewCanvasPreview(isPremiumPreviewOverride: true)
 }
 

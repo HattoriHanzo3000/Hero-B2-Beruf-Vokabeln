@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Free tier (PDF share)
 
-/// Non‑premium users get one successful PDF/text share; after that the paywall is shown.
+/// Users without Pro get one successful PDF/text share; after that the paywall is shown.
 enum WordListShareFreeTier {
     private static let countKey = "wordListFreePdfShareCount"
     private static let maxFreeShares = 1
@@ -97,7 +97,7 @@ enum WordListShareManager {
     }
 }
 
-// MARK: - Premium share toolbar control
+// MARK: - Pro share toolbar control
 
 struct WordListShareButton: View {
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
@@ -127,19 +127,19 @@ struct WordListShareButton: View {
 
     private var accessibilityHintText: String {
         if subscriptionManager.isPremiumActive {
-            return "Share the words list as text and PDF"
+            return Localizable.string(Localizable.wordListShareA11yHint)
         }
         if WordListShareFreeTier.canShareFree {
-            return "Share once for free, then premium is required"
+            return Localizable.string(Localizable.wordListShareA11yHintFreeOnce)
         }
-        return "Premium subscription required to share"
+        return Localizable.string(Localizable.wordListShareA11yHintProRequired)
     }
 }
 
 // MARK: - Sheets
 
 extension View {
-    /// Share sheet (text + PDF URL) and paywall for non‑premium users.
+    /// Share sheet (text + PDF URL) and paywall for users without Pro.
     func wordListPremiumShareSheets(
         showShareSheet: Binding<Bool>,
         showPaywall: Binding<Bool>,

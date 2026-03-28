@@ -37,9 +37,9 @@ struct CockpitView: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    // MARK: Premium Promo Section - Only in Basis Mode
+                    // MARK: Pro promo section — only in Basis mode
                     if !subscriptionManager.isPremiumActive {
-                        PremiumPromoSection(
+                        ProPromoSection(
                             isPremiumActive: subscriptionManager.isPremiumActive,
                             hasUsedTrial: subscriptionManager.hasUsedTrial,
                             hasActiveSubscription: subscriptionManager.hasActiveSubscription,
@@ -410,8 +410,8 @@ private struct CockpitPeriodicityRowView: View {
     }
 }
 
-// MARK: - Premium Promo Section
-private struct PremiumPromoSection: View {
+// MARK: - Pro promo section
+private struct ProPromoSection: View {
     let isPremiumActive: Bool
     let hasUsedTrial: Bool
     let hasActiveSubscription: Bool

@@ -177,7 +177,7 @@ private struct MainViewPreviewHost: View {
     MainViewPreviewHost(isPremiumPreviewOverride: false)
 }
 
-#Preview("Main — Premium") {
+#Preview("Main — Pro") {
     MainViewPreviewHost(isPremiumPreviewOverride: true)
 }
 

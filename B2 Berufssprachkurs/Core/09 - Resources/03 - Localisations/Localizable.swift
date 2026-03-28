@@ -106,6 +106,8 @@ extension Localizable {
     static let model = "model"
     static let systemVersion = "system_version"
     static let appVersion = "app_version"
+    static let aboutDebugSetProMode = "about_debug_set_pro_mode"
+    static let aboutDebugProModeEnabled = "about_debug_pro_mode_enabled"
     
     // Periodicity
     static let hours12 = "12_hours"
@@ -170,6 +172,8 @@ extension Localizable {
     static let myWordsDeleteAllConfirm = "my_words_delete_all_confirm"
     static let myWordsDeleteAllToolbarHint = "my_words_delete_all_toolbar_hint"
     static let myWordsDeleteAllToolbarLabel = "my_words_delete_all_toolbar_label"
+    static let myWordsAddWordA11yHint = "my_words_add_word_a11y_hint"
+    static let myWordsAddWordA11yHintLocked = "my_words_add_word_a11y_hint_locked"
 
     // Practice button
     static let practice = "practice"
@@ -180,7 +184,7 @@ extension Localizable {
     /// Single home hero encouragement above the word of the day (fixed-size text well).
     static let heroWordOfTheDayEncouragement = "hero_word_of_the_day_encouragement"
     
-    // Premium
+    // Pro subscription
     static let proBenefitsDescription = "pro_benefits_description"
     static let unlockHeroPremium = "unlock_hero_premium"
     static let premiumPromoSubtitle = "premium_promo_subtitle"
@@ -252,9 +256,12 @@ extension Localizable {
     static let noFavoritesFound = "no_favorites_found"
     static let noFavoritesFoundMessage = "no_favorites_found_message"
     
-    // Premium Lock
+    // Pro Lock
     static let premiumRequired = "premium_required"
     static let unlockPremiumToUseFeature = "unlock_premium_to_use_feature"
+    static let wordListShareA11yHint = "word_list_share_a11y_hint"
+    static let wordListShareA11yHintFreeOnce = "word_list_share_a11y_hint_free_once"
+    static let wordListShareA11yHintProRequired = "word_list_share_a11y_hint_pro_required"
     
     // Rating Prompt
     static let ratingTitle = "rating_title"

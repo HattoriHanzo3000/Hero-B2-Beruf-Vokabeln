@@ -39,7 +39,7 @@
 "settings" = "Settings";
 "about" = "About";
 "update" = "Version";
-"premium" = "Premium";
+"premium" = "Pro";
 "word_of_the_day" = "Word of the Day";
 "periodicity" = "Periodicity";
 "source_sections" = "Choose Sections";
@@ -146,6 +146,8 @@
 "my_words_delete_all_confirm" = "Delete All";
 "my_words_delete_all_toolbar_hint" = "Delete every word in My Words";
 "my_words_delete_all_toolbar_label" = "Delete all words";
+"my_words_add_word_a11y_hint" = "Adds a new word to your list";
+"my_words_add_word_a11y_hint_locked" = "Upgrade to Pro to add more than five words";
 
 "practice" = "PRACTICE";
 "practice_need_selection_title" = "Select categories";
@@ -168,17 +170,17 @@
 "statistics_reinforced_description" = "Answered correctly 2 times";
 "statistics_mastered_description" = "Answered correctly 3+ times";
 
-// Premium
+// Pro subscription
 "paywall_title_future_germany" = "Unlock your future in Germany with confidence in professional language";
-"pro_benefits_description" = "Premium gives you full access to all study materials, progress tracking and ad-free experience. All plans can be shared with your iCloud Family";
-"unlock_hero_premium" = "Unlock Hero Premium";
+"pro_benefits_description" = "Pro gives you full access to all study materials, progress tracking and ad-free experience. All plans can be shared with your iCloud Family";
+"unlock_hero_premium" = "Unlock Hero Pro";
 "premium_promo_subtitle" = "Get full access to all words, detailed progress, favorite words, practice modes, word of the day, and more";
-"enjoy_hero_premium" = "Enjoy Hero Premium";
-"enjoy_full_hero_experience" = "Enjoy the full learning experience with Hero Premium";
+"enjoy_hero_premium" = "Enjoy Hero Pro";
+"enjoy_full_hero_experience" = "Enjoy the full learning experience with Hero Pro";
 "premium_active_subtitle" = "You have full access to all study materials, progress tracking and more";
-"get_premium_features_back" = "Get all Premium Features Back";
+"get_premium_features_back" = "Get All Pro Features Back";
 "premium_features_back_subtitle" = "Resubscribe to regain access to all study materials, progress tracking and more";
-"monthly_subscription" = "Premium Monthly";
+"monthly_subscription" = "Pro Monthly";
 "per_month" = "month";
 "month" = "month";
 "monthly" = "Monthly";
@@ -192,32 +194,32 @@
 "free_trial" = "Free Trial";
 "icloud_family_sharing" = "All plans can be shared with your iCloud Family";
 "restore_purchase" = "Restore Purchase";
-"premium_monthly" = "Premium Monthly";
-"premium_3_months" = "Premium 3 Months";
-"premium_yearly" = "Premium Yearly";
+"premium_monthly" = "Pro Monthly";
+"premium_3_months" = "Pro 3 Months";
+"premium_yearly" = "Pro Yearly";
 "months_3" = "3 months";
 "year_1" = "year";
 "basic" = "Basic";
 "benefits" = "Benefits";
 "free" = "Free";
-"premium_column" = "Premium";
+"premium_column" = "Pro";
 "no_ads" = "No ads";
 "subscribe_now" = "Subscribe";
-"unlock_premium" = "Unlock Premium";
+"unlock_premium" = "Unlock Pro";
 "start_free_trial" = "Start Free Trial";
-"upgrade_to_premium" = "Upgrade to Premium";
+"upgrade_to_premium" = "Upgrade to Pro";
 "change_plan" = "Change Plan";
 "continue_button" = "Continue";
-"subscription_terms" = "Upon subscribing, your Apple account will be charged 1,99€. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
+"subscription_terms" = "Upon subscribing, your Apple account will be charged 1,99€. Your Hero Pro subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
 "subscription_terms_monthly" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";
 "subscription_terms_quarterly" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";
-"subscription_terms_yearly" = "Upon subscribing, your Apple account will be charged %@. Your Hero Premium subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
-"subscription_terms_yearly_promotional" = "Upon subscribing, your Apple account will be charged %@ for the first year. After the first year, your Hero Premium subscription will automatically renew at %@ per year unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
+"subscription_terms_yearly" = "Upon subscribing, your Apple account will be charged %@. Your Hero Pro subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
+"subscription_terms_yearly_promotional" = "Upon subscribing, your Apple account will be charged %@ for the first year. After the first year, your Hero Pro subscription will automatically renew at %@ per year unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
 "subscription_terms_lifetime" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";
 "launch_offer_expires_in" = "Ends in";
 "launch_offer_badge" = "LAUNCH OFFER -54%";
 "paywall_best_value" = "Best value";
-"subscription_title" = "Hero Premium Subscription";
+"subscription_title" = "Hero Pro Subscription";
 "subscription_length" = "1 month";
 
 // Promo Code
@@ -226,7 +228,7 @@
 "redeem" = "Redeem";
 "redeem_special_offer" = "Redeem special offer";
 "code" = "Code";
-"promo_code_premium_active" = "Premium active via promo code. Ads are disabled.";
+"promo_code_premium_active" = "Pro active via promo code. Ads are disabled.";
 "promo_code_footer" = "Enter a promo code to disable ads permanently.";
 
 // Study Empty State
@@ -239,9 +241,18 @@
 "no_favorites_found" = "No favorites found";
 "no_favorites_found_message" = "First mark words as favorite with the star icon";
 
-// Premium Lock
-"premium_required" = "Premium Required";
-"unlock_premium_to_use_feature" = "Unlock Premium to use this function";
+// Pro Lock
+"premium_required" = "Pro Required";
+"unlock_premium_to_use_feature" = "Unlock Pro to use this function";
+
+// Word list share (accessibility)
+"word_list_share_a11y_hint" = "Share the words list as text and PDF";
+"word_list_share_a11y_hint_free_once" = "Share once for free, then Pro is required";
+"word_list_share_a11y_hint_pro_required" = "Pro subscription required to share";
+
+// About — debug (hidden sheet)
+"about_debug_set_pro_mode" = "Set Pro Mode";
+"about_debug_pro_mode_enabled" = "Pro mode enabled";
 
 // Rating Prompt
 "rating_title" = "Do you like Hero?";
@@ -252,7 +263,7 @@
 
 // Holiday Seasonal Banner
 "holiday_season_sale" = "Holiday Season Sale";
-"holiday_season_sale_description" = "Subscribe now for a Hero Premium Yearly and get a special price %@ for the first year";
+"holiday_season_sale_description" = "Subscribe now to Hero Pro Yearly and get a special price of %@ for the first year";
 "holiday_season_sale_description_no_price" = "Subscribe now and get a special offer for the first year";
 "regular_price" = "Regular price";
 "sale" = "SALE! ";

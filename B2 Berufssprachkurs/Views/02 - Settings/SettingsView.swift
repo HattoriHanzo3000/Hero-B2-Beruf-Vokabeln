@@ -50,8 +50,8 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            // Premium Section with Gradient
-            PremiumPromoSection(
+            // Pro promo section with gradient
+            ProPromoSection(
                 isPremiumActive: subscriptionManager.isPremiumActive,
                 hasUsedTrial: subscriptionManager.hasUsedTrial,
                 hasActiveSubscription: subscriptionManager.hasActiveSubscription,
@@ -528,8 +528,8 @@ private extension SettingsView {
     
 }
 
-// MARK: - Premium Promo Section
-private struct PremiumPromoSection: View {
+// MARK: - Pro promo section
+private struct ProPromoSection: View {
     let isPremiumActive: Bool
     let hasUsedTrial: Bool
     let hasActiveSubscription: Bool

@@ -39,7 +39,7 @@
 "settings" = "Einstellungen";
 "about" = "Über";
 "update" = "Version";
-"premium" = "Premium";
+"premium" = "Pro";
 "word_of_the_day" = "Wort des Tages";
 "periodicity" = "Häufigkeit";
 "source_sections" = "Abschnitte auswählen";
@@ -146,6 +146,8 @@
 "my_words_delete_all_confirm" = "Alle löschen";
 "my_words_delete_all_toolbar_hint" = "Alle Einträge unter „Meine Wörter“ löschen";
 "my_words_delete_all_toolbar_label" = "Alle Wörter löschen";
+"my_words_add_word_a11y_hint" = "Fügt ein neues Wort zu deiner Liste hinzu";
+"my_words_add_word_a11y_hint_locked" = "Schalte Pro frei, um mehr als fünf Wörter hinzuzufügen";
 
 "practice" = "ÜBEN";
 "practice_need_selection_title" = "Kategorien auswählen";
@@ -168,17 +170,17 @@
 "statistics_reinforced_description" = "2x richtig beantwortet";
 "statistics_mastered_description" = "3x oder öfter richtig beantwortet";
 
-// Premium
+// Pro subscription
 "paywall_title_future_germany" = "Entfalte deine Zukunft in Deutschland mit Sicherheit in beruflicher Sprache";
-"pro_benefits_description" = "Premium gibt dir vollen Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und werbefreier Erfahrung. Alle Pläne können mit deiner iCloud-Familie geteilt werden";
-"unlock_hero_premium" = "Hero Premium freischalten";
+"pro_benefits_description" = "Pro gibt dir vollen Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und werbefreier Erfahrung. Alle Pläne können mit deiner iCloud-Familie geteilt werden";
+"unlock_hero_premium" = "Hero Pro freischalten";
 "premium_promo_subtitle" = "Erhalte vollen Zugriff auf alle Wörter, detaillierten Fortschritt, Lieblingswörter, Übungsmodi, Wort des Tages und mehr";
-"enjoy_hero_premium" = "Genieße Hero Premium";
-"enjoy_full_hero_experience" = "Genieße die volle Lernerfahrung mit Hero Premium";
+"enjoy_hero_premium" = "Genieße Hero Pro";
+"enjoy_full_hero_experience" = "Genieße die volle Lernerfahrung mit Hero Pro";
 "premium_active_subtitle" = "Du hast vollen Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und mehr";
-"get_premium_features_back" = "Hole dir alle Premium-Funktionen zurück";
+"get_premium_features_back" = "Hole dir alle Pro-Funktionen zurück";
 "premium_features_back_subtitle" = "Abonniere erneut, um wieder Zugang zu allen Lernmaterialien, Fortschrittsverfolgung und mehr zu erhalten";
-"monthly_subscription" = "Premium Monatlich";
+"monthly_subscription" = "Pro Monatlich";
 "per_month" = "Monat";
 "month" = "Monat";
 "monthly" = "Monatlich";
@@ -192,32 +194,32 @@
 "free_trial" = "kostenlos testen";
 "icloud_family_sharing" = "Alle Pläne können mit deiner iCloud-Familie geteilt werden";
 "restore_purchase" = "Kauf wiederherstellen";
-"premium_monthly" = "Premium Monatlich";
-"premium_3_months" = "Premium 3 Monate";
-"premium_yearly" = "Premium Jährlich";
+"premium_monthly" = "Pro Monatlich";
+"premium_3_months" = "Pro 3 Monate";
+"premium_yearly" = "Pro Jährlich";
 "months_3" = "3 Monate";
 "year_1" = "Jahr";
 "basic" = "Basis";
 "benefits" = "Vorteile";
 "free" = "Basis";
-"premium_column" = "Premium";
+"premium_column" = "Pro";
 "no_ads" = "Keine Werbung";
 "subscribe_now" = "Abonnieren";
-"unlock_premium" = "Premium freischalten";
+"unlock_premium" = "Pro freischalten";
 "start_free_trial" = "Teste jetzt kostenlos";
-"upgrade_to_premium" = "Auf Premium upgraden";
+"upgrade_to_premium" = "Auf Pro upgraden";
 "change_plan" = "Plan ändern";
 "continue_button" = "Weiter";
-"subscription_terms" = "Bei Abonnement wird dein Apple-Konto mit 1,99€ belastet. Dein Hero Premium-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
+"subscription_terms" = "Bei Abonnement wird dein Apple-Konto mit 1,99€ belastet. Dein Hero Pro-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
 "subscription_terms_monthly" = "Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo in den App Store-Kontoeinstellungen verwalten. Mit dem Fortfahren stimmst du unseren Nutzungsbedingungen und der Datenschutzerklärung zu.";
 "subscription_terms_quarterly" = "Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo in den App Store-Kontoeinstellungen verwalten. Mit dem Fortfahren stimmst du unseren Nutzungsbedingungen und der Datenschutzerklärung zu.";
-"subscription_terms_yearly" = "Bei Abonnement wird dein Apple-Konto mit %@ belastet. Dein Hero Premium-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
-"subscription_terms_yearly_promotional" = "Bei Abonnement wird dein Apple-Konto mit %@ für das erste Jahr belastet. Nach dem ersten Jahr verlängert sich dein Hero Premium-Abonnement automatisch zu %@ pro Jahr, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
+"subscription_terms_yearly" = "Bei Abonnement wird dein Apple-Konto mit %@ belastet. Dein Hero Pro-Abonnement verlängert sich automatisch zum gleichen Preis am Ende deiner aktuellen Abonnementlaufzeit, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
+"subscription_terms_yearly_promotional" = "Bei Abonnement wird dein Apple-Konto mit %@ für das erste Jahr belastet. Nach dem ersten Jahr verlängert sich dein Hero Pro-Abonnement automatisch zu %@ pro Jahr, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
 "subscription_terms_lifetime" = "Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo in den App Store-Kontoeinstellungen verwalten. Mit dem Fortfahren stimmst du unseren Nutzungsbedingungen und der Datenschutzerklärung zu.";
 "launch_offer_expires_in" = "Endet in";
 "launch_offer_badge" = "START-DEAL -54%";
 "paywall_best_value" = "Bester Preis";
-"subscription_title" = "Hero Premium Abonnement";
+"subscription_title" = "Hero Pro Abonnement";
 "subscription_length" = "1 Monat";
 
 // Promo Code
@@ -226,7 +228,7 @@
 "redeem" = "Einlösen";
 "redeem_special_offer" = "Sonderangebot einlösen";
 "code" = "Code";
-"promo_code_premium_active" = "Premium aktiv über Gutscheincode. Werbung ist deaktiviert.";
+"promo_code_premium_active" = "Pro aktiv über Gutscheincode. Werbung ist deaktiviert.";
 "promo_code_footer" = "Gib einen Gutscheincode ein, um Werbung dauerhaft zu deaktivieren.";
 
 // Study Empty State
@@ -239,9 +241,18 @@
 "no_favorites_found" = "Keine Favoriten gefunden";
 "no_favorites_found_message" = "Markiere zuerst Wörter als Favoriten mit dem Stern-Symbol";
 
-// Premium Lock
-"premium_required" = "Premium erforderlich";
-"unlock_premium_to_use_feature" = "Schalte Premium frei, um diese Funktion zu nutzen";
+// Pro Lock
+"premium_required" = "Pro erforderlich";
+"unlock_premium_to_use_feature" = "Schalte Pro frei, um diese Funktion zu nutzen";
+
+// Word list share (accessibility)
+"word_list_share_a11y_hint" = "Wörterliste als Text und PDF teilen";
+"word_list_share_a11y_hint_free_once" = "Einmal kostenlos teilen, danach ist Pro erforderlich";
+"word_list_share_a11y_hint_pro_required" = "Zum Teilen ist ein Pro-Abonnement erforderlich";
+
+// About — debug (hidden sheet)
+"about_debug_set_pro_mode" = "Pro-Modus aktivieren";
+"about_debug_pro_mode_enabled" = "Pro-Modus aktiviert";
 
 // Rating Prompt
 "rating_title" = "Gefällt dir Hero?";
@@ -252,7 +263,7 @@
 
 // Holiday Seasonal Banner
 "holiday_season_sale" = "Weihnachtsangebot";
-"holiday_season_sale_description" = "Jetzt Hero Premium Yearly abonnieren und im ersten Jahr den Sonderpreis von %@ erhalten";
+"holiday_season_sale_description" = "Jetzt Hero Pro Jahresabo abonnieren und im ersten Jahr den Sonderpreis von %@ erhalten";
 "holiday_season_sale_description_no_price" = "Jetzt abonnieren und im ersten Jahr ein Sonderangebot erhalten";
 "regular_price" = "Regulärer Preis";
 "sale" = "SALE! ";

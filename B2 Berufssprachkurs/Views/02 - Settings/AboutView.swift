@@ -94,10 +94,10 @@ private struct AboutDebugSheet: View {
                         lastAppliedMessage = "Free mode enabled"
                     }
 
-                    Button("Set Premium Mode") {
+                    Button(Localizable.string(Localizable.aboutDebugSetProMode)) {
                         subscriptionManager.activatePremiumForTesting()
                         HapticManager.shared.success()
-                        lastAppliedMessage = "Premium mode enabled"
+                        lastAppliedMessage = Localizable.string(Localizable.aboutDebugProModeEnabled)
                     }
                 } header: {
                     Text("Subscription State")

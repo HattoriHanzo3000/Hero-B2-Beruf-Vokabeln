@@ -144,7 +144,7 @@ struct HeaderView: View {
         .system(.subheadline, design: .default, weight: .medium).width(.condensed)
     }
 
-    private var premiumBadgeColor: Color {
+    private var proBadgeColor: Color {
         embedInScrollContent ? (colorScheme == .light ? .black : .white) : .white
     }
 
@@ -166,10 +166,10 @@ struct HeaderView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 10) {
                 VStack(alignment: .leading, spacing: 8) {
-                    if shouldShowPremiumBadge {
-                        PremiumShieldBadge(
+                    if shouldShowProBadge {
+                        ProShieldBadge(
                             label: "PRO",
-                            color: premiumBadgeColor,
+                            color: proBadgeColor,
                             showShimmer: true
                         )
                     }
@@ -185,7 +185,7 @@ struct HeaderView: View {
                             .frame(
                                 width: geo.size.width,
                                 height: geo.size.height,
-                                alignment: shouldShowPremiumBadge
+                                alignment: shouldShowProBadge
                                     ? .topLeading
                                     : .init(horizontal: .leading, vertical: .center)
                             )
@@ -309,7 +309,7 @@ struct HeaderView: View {
     }
 
     // MARK: - Mascot View
-    private var shouldShowPremiumBadge: Bool {
+    private var shouldShowProBadge: Bool {
         isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
     }
 

@@ -23,9 +23,9 @@ private struct ShimmerOverlay: View {
     }
 }
 
-// MARK: - Premium Badge (decorative, non-interactive)
+// MARK: - Pro badge (decorative, non-interactive)
 // Copied design from Hero: rounded rect stroke + SF Pro Expanded uppercase + shimmer overlay.
-struct PremiumShieldBadge: View {
+struct ProShieldBadge: View {
     let label: String
     var color: Color = .white
     /// When true, applies shimmer overlay.
@@ -59,4 +59,3 @@ struct PremiumShieldBadge: View {
         }
     }
 }
-

@@ -331,8 +331,8 @@ struct MyWordsView: View {
                         .accessibilityLabel(Localizable.string(Localizable.myWordsAddWord))
                         .accessibilityHint(
                             canAddMoreMyWords
-                                ? "Adds a new word to your list"
-                                : "Upgrade to Premium to add more than five words"
+                                ? Localizable.string(Localizable.myWordsAddWordA11yHint)
+                                : Localizable.string(Localizable.myWordsAddWordA11yHintLocked)
                         )
                     }
                 }

@@ -160,8 +160,8 @@ struct PaywallView: View {
     
     private var headerSection: some View {
         VStack(spacing: 12) {
-            // Premium badge (copied design)
-            PremiumShieldBadge(label: Localizable.string(Localizable.premium), showShimmer: true)
+            // Pro badge (copied design)
+            ProShieldBadge(label: Localizable.string(Localizable.premium), showShimmer: true)
 
             // Title (SF Pro, italic, white)
             Text(Localizable.string(Localizable.paywallTitleFutureGermany))
