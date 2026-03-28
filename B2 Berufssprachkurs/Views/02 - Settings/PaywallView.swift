@@ -70,6 +70,7 @@ struct PaywallView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
+                            .navigationBarSymbolStyle()
                     }
                     .accessibilityLabel("Close")
                 }

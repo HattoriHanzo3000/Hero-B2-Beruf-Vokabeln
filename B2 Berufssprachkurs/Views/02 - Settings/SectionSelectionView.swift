@@ -305,7 +305,7 @@ struct SectionSelectionView: View {
                         }
                     } label: {
                         Image(systemName: isAllSelected() ? "checkmark.circle.fill" : "checkmark.circle")
-                            .font(.system(size: 18, weight: .semibold))
+                            .navigationBarSymbolStyle()
                             .foregroundColor(isAllSelected() ? .primary : .secondary)
                     }
                     .accessibilityLabel(Text(Localizable.string(Localizable.selectAll)))

@@ -50,7 +50,7 @@ struct WordTranslationEditSheet: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
-                            .font(.body.weight(.semibold))
+                            .navigationBarSymbolStyle()
                             .foregroundStyle(.primary)
                     }
                     .accessibilityLabel(Localizable.string(Localizable.cancel))
@@ -60,7 +60,7 @@ struct WordTranslationEditSheet: View {
                         saveAndDismiss()
                     } label: {
                         Image(systemName: "checkmark")
-                            .font(.body.weight(.semibold))
+                            .navigationBarSymbolStyle()
                             .foregroundStyle(canConfirm ? Color.accentColor : .secondary)
                     }
                     .disabled(!canConfirm)

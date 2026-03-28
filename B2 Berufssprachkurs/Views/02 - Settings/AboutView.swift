@@ -132,6 +132,7 @@ private struct AboutDebugSheet: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
+                            .navigationBarSymbolStyle()
                     }
                 }
             }

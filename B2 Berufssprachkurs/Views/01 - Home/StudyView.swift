@@ -316,18 +316,22 @@ struct StudyView: View {
             for word in wordsToProcess {
                 // For VERBEN sections: include if they have quiz/example OR translation
                 if isVerbenSection {
-                    let hasQuizExample = word.quiz?.isEmpty == false && word.example?.isEmpty == false
+                    let hasQuizAndExample = word.quiz?.isEmpty == false && word.example?.isEmpty == false
+                    let explanationTrimmed = word.explanation?.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let explanationOpt = (explanationTrimmed?.isEmpty == false) ? word.explanation : nil
+                    let hasExample = word.example?.isEmpty == false
                     let translation = translationForStudy(for: word)
                     let hasTranslation = translation != nil
+                    // Bundle JSON often leaves `quiz` empty while `example` / `explanation` are filled.
+                    let hasVerbenStudyContent = hasQuizAndExample || hasTranslation || hasExample || explanationOpt != nil
                     
-                    // Include if has quiz/example (for quiz mode) OR has translation (for translation mode)
-                    if hasQuizExample || hasTranslation {
+                    if hasVerbenStudyContent {
                         items.append(StudyItem(
                             wordId: word.id,
                             sectionId: section.id,
                             germanWord: word.german,
                             synonym: nil,
-                            explanation: nil,
+                            explanation: explanationOpt,
                             translation: translation,
                             quiz: word.quiz,
                             example: word.example,
@@ -335,15 +339,13 @@ struct StudyView: View {
                         ))
                     }
                 } else if isAdjektiveSection {
-                    // For ADJEKTIVE sections: include if they have translation, synonym, or explanation (same as regular sections)
+                    // For ADJEKTIVE sections: include if they have translation, synonym, explanation, or example
                     let synonym = word.synonyms?.first
                     let explanation = word.explanation?.isEmpty == false ? word.explanation : nil
                     let translation = translationForStudy(for: word)
                     let example = word.example?.isEmpty == false ? word.example : nil
                     
-                    // Only include if at least one content type is available (translation, synonym, or explanation)
-                    // Example is shown on back but not required for inclusion
-                    if synonym != nil || explanation != nil || translation != nil {
+                    if synonym != nil || explanation != nil || translation != nil || example != nil {
                         items.append(StudyItem(
                             wordId: word.id,
                             sectionId: section.id,
@@ -561,7 +563,7 @@ struct StudyView: View {
                         reverseCard()
                     } label: {
                         Image(systemName: "arrow.trianglehead.2.clockwise")
-                            .font(.body)
+                            .navigationBarSymbolStyle()
                             .foregroundColor(isReversed ? .green : .primary)
                     }
                     .accessibilityLabel(isReversed ? "Reverse mode active" : "Reverse mode inactive")
@@ -583,9 +585,10 @@ struct StudyView: View {
             if !studyItems.isEmpty {
                 let firstItem = studyItems[0]
                 if firstItem.isVerbenSection {
-                    // For VERBEN sections, default to translation if available
                     if let translation = firstItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         currentContentType = .translation
+                    } else if let explanation = firstItem.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        currentContentType = .explanation
                     }
                 } else {
                     // For regular sections, default to translation if available, otherwise use first available
@@ -608,11 +611,11 @@ struct StudyView: View {
                 if !isContentTypeAvailable(currentContentType, for: item) {
                     // Find first available content type
                     if item.isVerbenSection {
-                        // For VERBEN sections, check for translation first
                         if let translation = item.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             currentContentType = .translation
+                        } else if let explanation = item.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            currentContentType = .explanation
                         }
-                        // Otherwise, VERBEN sections use quiz/example mode (no content type buttons)
                     } else {
                         // For regular sections, prioritize translation
                         if let translation = item.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -725,13 +728,20 @@ struct StudyView: View {
     // Helper function to check if a content type is available for a study item
     private func isContentTypeAvailable(_ type: ContentType, for item: StudyItem) -> Bool {
         if item.isVerbenSection {
-            // For VERBEN sections, only translation mode is available if translation exists
-            if type == .translation {
+            switch type {
+            case .translation:
                 if let translation = item.translation {
                     return !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                 }
+                return false
+            case .explanation:
+                if let explanation = item.explanation {
+                    return !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                }
+                return false
+            case .synonym:
+                return false
             }
-            return false
         }
         switch type {
         case .synonym:
@@ -802,6 +812,15 @@ struct StudyView: View {
             let checkedWordIds = dataService.checkedWords[sectionId] ?? Set<String>()
             return !checkedWordIds.isEmpty || dataService.isSectionCompleted(sectionId: sectionId)
         } else {
+            // Stack root (Verben / Adjektive): completion lives in `completedSections`, not in lections.
+            if let categoryFilter = categoryFilter {
+                if categoryFilter == "VERBEN_" {
+                    return dataService.hasAnyVerbenCompleted()
+                }
+                if categoryFilter == "ADJEKTIVE_" {
+                    return dataService.hasAnyAdjektiveCompleted()
+                }
+            }
             // From home view: check if any sections or lections are selected
             for lection in dataService.lections {
                 if dataService.isLectionCompleted(lectionId: lection.id) {
@@ -1046,11 +1065,20 @@ struct FlashCardView2: View {
     // Computed properties for front text and card color
     private var frontText: String {
         if studyItem.isVerbenSection {
-            // For VERBEN sections, show translation if in translation mode, otherwise show quiz
+            // Translation → user translation; Erklärung → bundled meaning; else cloze/quiz when present; else example
             if currentContentType == .translation, let translation = studyItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 return translation
             }
-            return studyItem.quiz ?? ""
+            if currentContentType == .explanation, let explanation = studyItem.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return explanation
+            }
+            if let quiz = studyItem.quiz, !quiz.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return quiz
+            }
+            if let explanation = studyItem.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return explanation
+            }
+            return studyItem.example ?? ""
         }
         
         switch currentContentType {
@@ -1212,12 +1240,19 @@ struct FlashCardView2: View {
             // Keep the user's selected content type when card changes
             // Only switch if current type is not available for the new card
             if studyItem.isVerbenSection {
-                // For VERBEN sections, check if translation is available
                 if currentContentType == .translation {
                     let translation = studyItem.translation ?? ""
-                    if translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        // Translation mode selected but no translation available, keep quiz mode
-                        // (no content type buttons will show)
+                    if translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                       let explanation = studyItem.explanation,
+                       !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        currentContentType = .explanation
+                    }
+                } else if currentContentType == .explanation {
+                    let explanation = studyItem.explanation ?? ""
+                    if explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                       let translation = studyItem.translation,
+                       !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        currentContentType = .translation
                     }
                 }
             } else {

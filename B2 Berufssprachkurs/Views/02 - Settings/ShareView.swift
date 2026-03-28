@@ -91,7 +91,7 @@ struct ShareView: View {
                     showShareSheet = true
                 } label: {
                     Image(systemName: "square.and.arrow.up")
-                        .font(.body)
+                        .navigationBarSymbolStyle()
                         .foregroundColor(.primary)
                 }
                 .accessibilityLabel("Share")

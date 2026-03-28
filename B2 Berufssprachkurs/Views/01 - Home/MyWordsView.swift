@@ -138,7 +138,7 @@ struct MyWordsView: View {
                     }
                 } label: {
                     Image(systemName: editMode == .active ? "checkmark" : "pencil")
-                        .font(.body.weight(.semibold))
+                        .navigationBarSymbolStyle()
                         .foregroundStyle(.primary)
                 }
                 .accessibilityLabel(
@@ -152,7 +152,7 @@ struct MyWordsView: View {
                         showDeleteAllConfirmation = true
                     } label: {
                         Image(systemName: "trash")
-                            .font(.body)
+                            .navigationBarSymbolStyle()
                             .foregroundColor(.primary)
                     }
                     .accessibilityLabel(Localizable.string(Localizable.myWordsDeleteAllToolbarLabel))
@@ -484,7 +484,7 @@ private struct AddMyWordSheet: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
-                            .font(.body.weight(.semibold))
+                            .navigationBarSymbolStyle()
                             .foregroundStyle(.primary)
                     }
                     .accessibilityLabel(Localizable.string(Localizable.cancel))
@@ -494,7 +494,7 @@ private struct AddMyWordSheet: View {
                         saveAndDismiss()
                     } label: {
                         Image(systemName: "checkmark")
-                            .font(.body.weight(.semibold))
+                            .navigationBarSymbolStyle()
                             .foregroundStyle(canSave ? Color.primary : Color.primary.opacity(0.34))
                     }
                     .disabled(!canSave)
@@ -620,7 +620,7 @@ private struct EditMyWordSheet: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
-                            .font(.body.weight(.semibold))
+                            .navigationBarSymbolStyle()
                             .foregroundStyle(.primary)
                     }
                     .accessibilityLabel(Localizable.string(Localizable.cancel))
@@ -630,7 +630,7 @@ private struct EditMyWordSheet: View {
                         saveAndDismiss()
                     } label: {
                         Image(systemName: "checkmark")
-                            .font(.body.weight(.semibold))
+                            .navigationBarSymbolStyle()
                             .foregroundStyle(canSave ? Color.primary : Color.primary.opacity(0.34))
                     }
                     .disabled(!canSave)

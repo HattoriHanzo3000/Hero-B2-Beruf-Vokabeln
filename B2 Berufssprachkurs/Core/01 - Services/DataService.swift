@@ -280,32 +280,28 @@ class DataService: ObservableObject {
         }
     }
     
+    /// Toggles “all subsections in all lections” for **General Words only**. Does not change Verben or Adjektive stacks.
     func toggleAllLections() {
-        let allLectionIds = Set(lections.map { $0.id })
         let allSectionIds = Set(lections.flatMap { $0.sections.map { $0.id } })
-        let allSectionsIncludingVerben = allSectionIds.union(verbenSectionIds)
+        let allGeneralSelected = lections.allSatisfy { isEverySectionCompleted(in: $0) }
         
-        let allLectionsCompleted = allLectionIds.isSubset(of: completedLections)
-        let allVerbenCompleted = verbenSectionIds.isSubset(of: completedSections)
-        
-        if allLectionsCompleted && allVerbenCompleted {
-            // All are selected, unselect all
-            completedLections.removeAll()
-            completedSections.removeAll()
+        if allGeneralSelected {
+            for id in allSectionIds {
+                completedSections.remove(id)
+            }
         } else {
-            // Select all lections, sections, and VERBEN sections
-            completedLections = allLectionIds
-            completedSections = allSectionsIncludingVerben
+            for id in allSectionIds {
+                completedSections.insert(id)
+            }
         }
+        reconcileLectionCompletionMetadataWithSectionState()
         saveCompletedStates()
     }
     
+    /// True when every subsection in every lection is marked (General Words stack “select all”).
     func areAllLectionsCompleted() -> Bool {
         guard !lections.isEmpty else { return false }
-        let allLectionIds = Set(lections.map { $0.id })
-        let allLectionsCompleted = allLectionIds.isSubset(of: completedLections)
-        let allVerbenCompleted = verbenSectionIds.isSubset(of: completedSections)
-        return allLectionsCompleted && allVerbenCompleted
+        return lections.allSatisfy { isEverySectionCompleted(in: $0) }
     }
     
     // VERBEN sections IDs

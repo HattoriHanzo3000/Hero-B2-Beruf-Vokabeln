@@ -57,6 +57,7 @@ struct RevenueCatPaywallView: View {
                         dismiss()
                     }) {
                         Image(systemName: "xmark.circle.fill")
+                            .navigationBarSymbolStyle()
                             .foregroundColor(.secondary)
                     }
                 }

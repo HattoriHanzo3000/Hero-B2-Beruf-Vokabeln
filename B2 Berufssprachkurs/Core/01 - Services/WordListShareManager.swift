@@ -8,13 +8,50 @@
 import SwiftUI
 import UIKit
 
+// MARK: - Free tier (PDF share)
+
+/// Non‑premium users get one successful PDF/text share; after that the paywall is shown.
+enum WordListShareFreeTier {
+    private static let countKey = "wordListFreePdfShareCount"
+    private static let maxFreeShares = 1
+
+    static var freeSharesUsed: Int {
+        UserDefaults.standard.integer(forKey: countKey)
+    }
+
+    static var canShareFree: Bool {
+        freeSharesUsed < maxFreeShares
+    }
+
+    /// Called when the system reports a completed share activity (Save, AirDrop, Messages, etc.).
+    static func consumeFreeShareIfEligible() {
+        guard !SubscriptionManager.shared.isPremiumActive else { return }
+        guard freeSharesUsed < maxFreeShares else { return }
+        UserDefaults.standard.set(freeSharesUsed + 1, forKey: countKey)
+    }
+}
+
 // MARK: - Share sheet
 
 struct ShareSheet: UIViewControllerRepresentable {
     let activityItems: [Any]
+    /// Invoked when the user finishes a share action successfully (`completed == true` in UIKit).
+    var onShareCompleted: (() -> Void)?
+
+    init(activityItems: [Any], onShareCompleted: (() -> Void)? = nil) {
+        self.activityItems = activityItems
+        self.onShareCompleted = onShareCompleted
+    }
 
     func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        controller.completionWithItemsHandler = { _, completed, _, _ in
+            guard completed else { return }
+            Task { @MainActor in
+                onShareCompleted?()
+            }
+        }
+        return controller
     }
 
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
@@ -72,21 +109,30 @@ struct WordListShareButton: View {
             if subscriptionManager.isPremiumActive {
                 HapticManager.shared.lightImpact()
                 showShareSheet = true
+            } else if WordListShareFreeTier.canShareFree {
+                HapticManager.shared.lightImpact()
+                showShareSheet = true
             } else {
                 HapticManager.shared.heavyImpact()
                 showPaywall = true
             }
         } label: {
             Image(systemName: "square.and.arrow.up")
-                .font(.body)
+                .navigationBarSymbolStyle()
                 .foregroundColor(.primary)
         }
         .accessibilityLabel(Localizable.string(Localizable.share))
-        .accessibilityHint(
-            subscriptionManager.isPremiumActive
-                ? "Share the words list"
-                : "Share requires premium subscription"
-        )
+        .accessibilityHint(accessibilityHintText)
+    }
+
+    private var accessibilityHintText: String {
+        if subscriptionManager.isPremiumActive {
+            return "Share the words list as text and PDF"
+        }
+        if WordListShareFreeTier.canShareFree {
+            return "Share once for free, then premium is required"
+        }
+        return "Premium subscription required to share"
     }
 }
 
@@ -102,7 +148,9 @@ extension View {
     ) -> some View {
         self
             .sheet(isPresented: showShareSheet) {
-                ShareSheet(activityItems: [shareText(), pdfURL()])
+                ShareSheet(activityItems: [shareText(), pdfURL()]) {
+                    WordListShareFreeTier.consumeFreeShareIfEligible()
+                }
             }
             .sheet(isPresented: showPaywall) {
                 PaywallView()
