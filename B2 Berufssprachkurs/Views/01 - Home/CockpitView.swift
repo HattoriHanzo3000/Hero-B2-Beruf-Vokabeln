@@ -7,14 +7,58 @@
 
 import SwiftUI
 
+/// Cockpit-only WOTD rows: liquid glass (regular material) + App Green tint at 0.9 opacity. Üben controls are separate.
+private struct WotdLiquidGlassCapsuleBackground: View {
+    var body: some View {
+        ZStack {
+            Capsule(style: .continuous)
+                .fill(.regularMaterial)
+            Capsule(style: .continuous)
+                .fill(Color("AppGreen").opacity(0.75))
+        }
+    }
+}
+
 struct CockpitView: View {
-    @StateObject private var dataService = DataService()
+    private let isPremiumPreviewOverride: Bool?
+
+    @StateObject private var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var showPaywall = false
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
+
+    private static let wotdControlFontSize: CGFloat = 17
+    private static let wotdControlChevronSize: CGFloat = 13
+    /// Comfortable tap height aligned with typical iOS prominent controls (~50pt row).
+    private static let wotdControlMinHeight: CGFloat = 52
+    private static let wotdControlHorizontalPadding: CGFloat = 18
+
+    /// Pass `true` / `false` for canvas previews only; `nil` uses live subscription state.
+    init(isPremiumPreviewOverride: Bool? = nil) {
+        self.isPremiumPreviewOverride = isPremiumPreviewOverride
+        _dataService = StateObject(wrappedValue: DataService())
+    }
+
+    private var isPremiumForUI: Bool {
+        isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
+    }
+
+    private var wordOfTheDayPeriodicityBinding: Binding<String> {
+        Binding(
+            get: { wordOfTheDayPeriodicity },
+            set: { newValue in
+                if isPremiumForUI {
+                    wordOfTheDayPeriodicity = newValue
+                } else {
+                    HapticManager.shared.heavyImpact()
+                    showPaywall = true
+                }
+            }
+        )
+    }
     
     // Inverted text color: white in light mode, black in dark mode (matching statistics cards)
     private var invertedTextColor: Color {
@@ -38,9 +82,9 @@ struct CockpitView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     // MARK: Pro promo section — only in Basis mode
-                    if !subscriptionManager.isPremiumActive {
+                    if !isPremiumForUI {
                         ProPromoSection(
-                            isPremiumActive: subscriptionManager.isPremiumActive,
+                            isPremiumActive: isPremiumForUI,
                             hasUsedTrial: subscriptionManager.hasUsedTrial,
                             hasActiveSubscription: subscriptionManager.hasActiveSubscription,
                             onStartFreeTrial: {
@@ -53,7 +97,7 @@ struct CockpitView: View {
                     
                     // MARK: Word of the Day - Friendly Card
                     CockpitCard(
-                        titleIcon: subscriptionManager.isPremiumActive ? "calendar" : "crown.fill",
+                        titleIcon: isPremiumForUI ? "calendar" : "p.square.fill",
                         title: Localizable.string(Localizable.wordOfTheDay),
                         subtitle: Text(Localizable.string(Localizable.wordOfTheDayDescription))
                     ) {
@@ -62,75 +106,79 @@ struct CockpitView: View {
                             // Periodicity control
                             HStack(spacing: 10) {
                                 Image(systemName: "clock.fill")
-                                    .font(.system(.body, design: .rounded))
-                                    .foregroundColor(.white)
+                                    .font(.system(size: CockpitView.wotdControlFontSize, weight: .regular, design: .default))
+                                    .foregroundStyle(.white)
                                 
                                 Text(Localizable.string(Localizable.periodicity))
-                                    .font(.system(.body, design: .rounded).weight(.bold))
-                                    .foregroundColor(.white)
+                                    .font(.system(size: CockpitView.wotdControlFontSize, weight: .medium, design: .default))
+                                    .foregroundStyle(.white)
+                                    .lineLimit(1)
                                 
                                 Spacer()
                                 
-                                // Circular buttons
-                                HStack(spacing: 8) {
+                                Menu {
                                     Button {
-                                        if subscriptionManager.isPremiumActive {
-                                            HapticManager.shared.lightImpact()
-                                            wordOfTheDayPeriodicity = "12_hours"
-                                        } else {
-                                            HapticManager.shared.heavyImpact()
-                                            showPaywall = true
+                                        wordOfTheDayPeriodicityBinding.wrappedValue = "12_hours"
+                                        if isPremiumForUI {
+                                            HapticManager.shared.selection()
                                         }
                                     } label: {
-                                        Text(Localizable.string(Localizable.hours12Short))
-                                            .font(.system(.body, design: .rounded).weight(.bold))
-                                            .foregroundColor(.white)
-                                            .frame(width: 44, height: 44)
-                                            .background(
-                                                Circle()
-                                                    .fill(wordOfTheDayPeriodicity == "12_hours" ? (colorScheme == .light ? Color.white.opacity(0.6) : Color.black.opacity(0.5)) : (colorScheme == .light ? Color.white.opacity(0.15) : Color.black.opacity(0.1)))
-                                            )
+                                        HStack {
+                                            Text(Localizable.string(Localizable.hours12))
+                                                .font(AppFont.fixedExpanded(size: CockpitView.wotdControlFontSize))
+                                            Spacer()
+                                            if wordOfTheDayPeriodicity == "12_hours" {
+                                                Image(systemName: "checkmark")
+                                                    .font(.system(size: CockpitView.wotdControlFontSize, weight: .regular, design: .default))
+                                            }
+                                        }
                                     }
-                                    .id("12h_\(languageManager.currentLanguage)")
-                                    
                                     Button {
-                                        if subscriptionManager.isPremiumActive {
-                                            HapticManager.shared.lightImpact()
-                                            wordOfTheDayPeriodicity = "24_hours"
-                                        } else {
-                                            HapticManager.shared.heavyImpact()
-                                            showPaywall = true
+                                        wordOfTheDayPeriodicityBinding.wrappedValue = "24_hours"
+                                        if isPremiumForUI {
+                                            HapticManager.shared.selection()
                                         }
                                     } label: {
-                                        Text(Localizable.string(Localizable.hours24Short))
-                                            .font(.system(.body, design: .rounded).weight(.bold))
-                                            .foregroundColor(.white)
-                                            .frame(width: 44, height: 44)
-                                            .background(
-                                                Circle()
-                                                    .fill(wordOfTheDayPeriodicity == "24_hours" ? (colorScheme == .light ? Color.white.opacity(0.6) : Color.black.opacity(0.5)) : (colorScheme == .light ? Color.white.opacity(0.15) : Color.black.opacity(0.1)))
-                                            )
+                                        HStack {
+                                            Text(Localizable.string(Localizable.hours24))
+                                                .font(AppFont.fixedExpanded(size: CockpitView.wotdControlFontSize))
+                                            Spacer()
+                                            if wordOfTheDayPeriodicity == "24_hours" {
+                                                Image(systemName: "checkmark")
+                                                    .font(.system(size: CockpitView.wotdControlFontSize, weight: .regular, design: .default))
+                                            }
+                                        }
                                     }
-                                    .id("24h_\(languageManager.currentLanguage)")
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .padding(.horizontal, 16)
-                            .background(
-                                Capsule(style: .continuous)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [
-                                                Color("AppGreen"),
-                                                Color("AppBlue")
-                                            ],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
+                                } label: {
+                                    HStack(spacing: 6) {
+                                        Text(
+                                            wordOfTheDayPeriodicity == "12_hours"
+                                                ? Localizable.string(Localizable.hours12Short)
+                                                : Localizable.string(Localizable.hours24Short)
                                         )
-                                    )
-                            )
+                                        .font(AppFont.fixedExpanded(size: CockpitView.wotdControlFontSize))
+                                        .foregroundStyle(.white)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.75)
+                                        Image(systemName: "chevron.down")
+                                            .font(.system(size: CockpitView.wotdControlChevronSize, weight: .regular, design: .default))
+                                            .foregroundStyle(.white)
+                                            .accessibilityHidden(true)
+                                    }
+                                    .fixedSize(horizontal: true, vertical: false)
+                                }
+                                .menuActionDismissBehavior(.automatic)
+                                .id("wotd_periodicity_\(languageManager.currentLanguage)")
+                            }
+                            .frame(maxWidth: .infinity, minHeight: CockpitView.wotdControlMinHeight, alignment: .center)
+                            .padding(.horizontal, CockpitView.wotdControlHorizontalPadding)
+                            .background(WotdLiquidGlassCapsuleBackground())
                             .contentShape(Capsule(style: .continuous))
+                            .simultaneousGesture(
+                                TapGesture().onEnded { _ in
+                                    HapticManager.shared.lightImpact()
+                                }
+                            )
                             
                             // Source sections button - accessible to all users
                             NavigationLink {
@@ -141,56 +189,61 @@ struct CockpitView: View {
                             } label: {
                                 HStack(spacing: 10) {
                                     Image(systemName: "checklist")
-                                        .font(.system(.body, design: .rounded))
-                                        .foregroundColor(.white)
+                                        .font(.system(size: CockpitView.wotdControlFontSize, weight: .regular, design: .default))
+                                        .foregroundStyle(.white)
                                     
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text(Localizable.string(Localizable.sourceSections))
-                                            .font(.system(.body, design: .rounded).weight(.bold))
-                                            .foregroundColor(.white)
-                                        Text(getSelectedSectionsCount() == 0
-                                             ? Localizable.string(Localizable.allSections)
-                                             : String(format: Localizable.string(Localizable.selectedSections), getSelectedSectionsCount()))
-                                            .font(.system(.subheadline, design: .rounded))
-                                            .foregroundColor(.white.opacity(0.9))
-                                    }
+                                    Text(Localizable.string(Localizable.sourceSections))
+                                        .font(.system(size: CockpitView.wotdControlFontSize, weight: .medium, design: .default))
+                                        .foregroundStyle(.white)
+                                        .lineLimit(1)
+                                    
                                     Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .font(.system(.caption, design: .rounded).weight(.semibold))
-                                        .foregroundColor(.white.opacity(0.9))
+                                    
+                                    HStack(spacing: 6) {
+                                        Text("\(getSelectedSectionsCount())")
+                                            .font(AppFont.fixedExpanded(size: CockpitView.wotdControlFontSize))
+                                            .foregroundStyle(.white)
+                                            .monospacedDigit()
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.75)
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: CockpitView.wotdControlChevronSize, weight: .regular, design: .default))
+                                            .foregroundStyle(.white)
+                                            .accessibilityHidden(true)
+                                    }
+                                    .fixedSize(horizontal: true, vertical: false)
                                 }
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 12)
-                                .padding(.horizontal, 16)
-                                .background(
-                                    Capsule(style: .continuous)
-                                        .fill(
-                                            LinearGradient(
-                                                colors: [
-                                                    Color("AppGreen"),
-                                                    Color("AppBlue")
-                                                ],
-                                                startPoint: .leading,
-                                                endPoint: .trailing
-                                            )
-                                        )
-                                )
+                                .frame(maxWidth: .infinity, minHeight: CockpitView.wotdControlMinHeight, alignment: .center)
+                                .padding(.horizontal, CockpitView.wotdControlHorizontalPadding)
+                                .background(WotdLiquidGlassCapsuleBackground())
                                 .contentShape(Capsule(style: .continuous))
                             }
                             .buttonStyle(.plain)
-                            .accessibilityLabel(Localizable.string(Localizable.sourceSections))
+                            .simultaneousGesture(
+                                TapGesture().onEnded { _ in
+                                    HapticManager.shared.lightImpact()
+                                }
+                            )
+                            .accessibilityLabel(
+                                "\(Localizable.string(Localizable.sourceSections)), \(String(format: Localizable.string(Localizable.selectedSections), getSelectedSectionsCount()))"
+                            )
                         }
+                        .dynamicTypeSize(.large ... .large)
                         .padding(.top, 2)
                     }
                     .padding(.horizontal)
                     
                     // MARK: Progress - Statistics Wheel
                     CockpitCard(
-                        titleIcon: subscriptionManager.isPremiumActive ? "chart.line.uptrend.xyaxis" : "crown.fill",
+                        titleIcon: isPremiumForUI ? "chart.line.uptrend.xyaxis" : "p.square.fill",
                         title: Localizable.string(Localizable.progress),
                         subtitle: Text(String(format: Localizable.string(Localizable.progressDescription), dataService.getAllWordIds().count))
                     ) {
-                        ProgressStatisticsView(dataService: dataService, isPremiumActive: subscriptionManager.isPremiumActive)
+                        ProgressStatisticsView(
+                            dataService: dataService,
+                            isPremiumActive: isPremiumForUI,
+                            statisticsPreviewPreset: isPremiumPreviewOverride == true ? .p67 : nil
+                        )
                             .padding(.top, 2)
                     }
                     .padding(.horizontal)
@@ -229,6 +282,7 @@ private struct CockpitCard<Content: View>: View {
     let subtitle: Text?
     let useGlassEffect: Bool
     @ViewBuilder let content: Content
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
     init(titleIcon: String, title: String, subtitle: Text? = nil, useGlassEffect: Bool = true, @ViewBuilder content: () -> Content) {
         self.titleIcon = titleIcon
@@ -242,7 +296,7 @@ private struct CockpitCard<Content: View>: View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .center, spacing: 10) {
                 Image(systemName: titleIcon)
-                    .font(.system(.headline, design: .rounded).weight(.semibold))
+                    .font(.system(size: 17, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
                     .frame(width: 28, height: 28)
                     .background(
@@ -254,7 +308,7 @@ private struct CockpitCard<Content: View>: View {
                         in: RoundedRectangle(cornerRadius: 8, style: .continuous)
                     )
                 Text(title)
-                    .font(.system(.title3, design: .rounded).weight(.semibold))
+                    .font(.system(.title3, design: .default, weight: .regular))
                     .foregroundColor(.primary)
                 Spacer(minLength: 0)
             }
@@ -262,7 +316,7 @@ private struct CockpitCard<Content: View>: View {
             // Subtitle description
             if let subtitle = subtitle {
                 subtitle
-                    .font(.system(.subheadline, design: .rounded))
+                    .font(AppFont.subheadlineCondensedRegular(dynamicTypeSize: dynamicTypeSize))
                     .foregroundColor(.secondary)
             }
             
@@ -445,33 +499,29 @@ private struct ProPromoSection: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top, spacing: 16) {
-                // Crown icon - white
-                Image(systemName: "crown.fill")
-                    .font(.system(size: 32, weight: .semibold, design: .rounded))
-                    .foregroundColor(.white)
-                    .frame(width: 40, height: 40)
-                
+            HStack(alignment: .top, spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
-                    // Title - changes based on premium status
                     Text(title)
-                        .font(.system(.headline, design: .rounded).weight(.bold))
+                        .font(.system(.headline, design: .default).weight(.bold))
                         .foregroundColor(.white)
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    // Subtitle - changes based on premium status
                     Text(subtitle)
-                        .font(.system(.subheadline, design: .rounded))
+                        .font(.system(.subheadline, design: .default))
                         .foregroundColor(.white.opacity(0.9))
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Spacer()
+                ProShieldBadge(label: "PRO", color: .white, showShimmer: true)
             }
             
-            // Button - only show when premium is not active
             if !isPremiumActive {
                 Button(action: onStartFreeTrial) {
                     Text(hasUsedTrial ? Localizable.string(Localizable.upgradeToPremium) : Localizable.string(Localizable.startFreeTrial))
-                        .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                        .font(.system(.subheadline, design: .default).weight(.semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
@@ -500,8 +550,34 @@ private struct ProPromoSection: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        CockpitView()
+/// Canvas previews use German strings (matches `LanguageManager` “Deutsch” option).
+private struct CockpitViewPreviewHost: View {
+    let isPremiumPreviewOverride: Bool?
+
+    init(isPremiumPreviewOverride: Bool?) {
+        self.isPremiumPreviewOverride = isPremiumPreviewOverride
+        LanguageManager.shared.currentLanguage = "Deutsch"
     }
+
+    var body: some View {
+        CockpitView(isPremiumPreviewOverride: isPremiumPreviewOverride)
+    }
+}
+
+private struct CockpitViewCanvasPreview: View {
+    let isPremiumPreviewOverride: Bool?
+
+    var body: some View {
+        NavigationStack {
+            CockpitViewPreviewHost(isPremiumPreviewOverride: isPremiumPreviewOverride)
+        }
+    }
+}
+
+#Preview("Cockpit — Free") {
+    CockpitViewCanvasPreview(isPremiumPreviewOverride: false)
+}
+
+#Preview("Cockpit — Pro") {
+    CockpitViewCanvasPreview(isPremiumPreviewOverride: true)
 }

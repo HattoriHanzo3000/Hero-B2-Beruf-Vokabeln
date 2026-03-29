@@ -107,8 +107,8 @@
 // Periodicity options
 "12_hours" = "12 hours";
 "24_hours" = "24 hours";
-"12_hours_short" = "12h";
-"24_hours_short" = "24h";
+"12_hours_short" = "12 h";
+"24_hours_short" = "24 h";
 
 // Update alert (MainView)
 "update_now" = "Update Now";
@@ -168,6 +168,7 @@
 "statistics_familiar_description" = "Answered correctly 1 time";
 "statistics_reinforced_description" = "Answered correctly 2 times";
 "statistics_mastered_description" = "Answered correctly 3+ times";
+"statistics_card_flip_hint" = "Tap to flip for details.";
 
 // Pro subscription
 "paywall_title_future_germany" = "Unlock your future in Germany with confidence in professional language";

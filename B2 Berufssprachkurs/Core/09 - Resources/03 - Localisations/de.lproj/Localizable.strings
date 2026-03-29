@@ -107,8 +107,8 @@
 // Periodicity options
 "12_hours" = "12 Stunden";
 "24_hours" = "24 Stunden";
-"12_hours_short" = "12 S";
-"24_hours_short" = "24 S";
+"12_hours_short" = "12 h";
+"24_hours_short" = "24 h";
 
 // Update alert (MainView)
 "update_now" = "Jetzt aktualisieren";
@@ -168,6 +168,7 @@
 "statistics_familiar_description" = "1x richtig beantwortet";
 "statistics_reinforced_description" = "2x richtig beantwortet";
 "statistics_mastered_description" = "3x oder öfter richtig beantwortet";
+"statistics_card_flip_hint" = "Tippen zum Umdrehen.";
 
 // Pro subscription
 "paywall_title_future_germany" = "Entfalte deine Zukunft in Deutschland mit Sicherheit in beruflicher Sprache";

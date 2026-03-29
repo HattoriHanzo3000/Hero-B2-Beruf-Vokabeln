@@ -92,8 +92,9 @@ struct SettingsView: View {
                         iconColor: Color(uiColor: .darkGray),
                         title: Localizable.string(Localizable.premium)
                     )
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionAccess))
             }

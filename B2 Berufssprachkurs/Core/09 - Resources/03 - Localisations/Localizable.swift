@@ -148,6 +148,7 @@ extension Localizable {
     static let statisticsFamiliarDescription = "statistics_familiar_description"
     static let statisticsReinforcedDescription = "statistics_reinforced_description"
     static let statisticsMasteredDescription = "statistics_mastered_description"
+    static let statisticsCardFlipHint = "statistics_card_flip_hint"
     
     // Home Cards
     static let generalWords = "general_words"

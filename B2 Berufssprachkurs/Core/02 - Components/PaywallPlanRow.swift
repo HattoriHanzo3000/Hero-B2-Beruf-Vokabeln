@@ -25,6 +25,7 @@ struct PaywallPlanRow: View {
     @ObservedObject var subscriptionManager: SubscriptionManager
     @ObservedObject var revenueCatService: RevenueCatService
     let onSelect: () -> Void
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private var contentForeground: Color { isSelected ? .white : .white.opacity(0.7) }
     private var secondaryForeground: Color { isSelected ? .white.opacity(0.9) : .white.opacity(0.6) }
@@ -109,21 +110,21 @@ struct PaywallPlanRow: View {
                             .foregroundStyle(contentForeground)
 
                         Text(explanation)
-                            .font(.paywallSubtitleCondensed)
+                            .font(AppFont.caption1CondensedRegular(dynamicTypeSize: dynamicTypeSize))
                             .foregroundStyle(secondaryForeground)
 
                         if let secondaryExplanation, !secondaryExplanation.isEmpty {
                             Text(secondaryExplanation)
-                                .font(.paywallSubtitleCondensed)
+                                .font(AppFont.caption1CondensedRegular(dynamicTypeSize: dynamicTypeSize))
                                 .foregroundStyle(secondaryForeground)
                         }
 
                         if let countdownText, !countdownText.isEmpty {
                             HStack(spacing: 4) {
                                 Text(Localizable.string(Localizable.launchOfferExpiresIn))
-                                    .font(.paywallSubtitleExpanded)
+                                    .font(AppFont.caption1ExpandedRegular(dynamicTypeSize: dynamicTypeSize))
                                 Text(countdownText)
-                                    .font(.paywallSubtitleExpanded)
+                                    .font(AppFont.caption1ExpandedRegular(dynamicTypeSize: dynamicTypeSize))
                                     .monospacedDigit()
                             }
                             .foregroundStyle(secondaryForeground)
@@ -152,7 +153,7 @@ struct PaywallPlanRow: View {
 
                         if let slashPeriodText {
                             Text(slashPeriodText)
-                                .font(.paywallSubtitleCondensed)
+                                .font(AppFont.caption1CondensedRegular(dynamicTypeSize: dynamicTypeSize))
                                 .foregroundStyle(secondaryForeground)
                         }
                     }

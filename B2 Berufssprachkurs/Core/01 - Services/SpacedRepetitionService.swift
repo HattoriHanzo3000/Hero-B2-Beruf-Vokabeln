@@ -189,6 +189,33 @@ class SpacedRepetitionService {
         }
     }
 
+    /// Same category mix and readiness formula as ``applyDebugProgressPreset(_:allWordIds:)``, but does not read or write study data (safe for SwiftUI previews).
+    func previewStatistics(for preset: DebugProgressPreset, allWordIds: [String]) -> (wrong: Int, familiar: Int, reinforced: Int, mastered: Int, total: Int, readinessPercentage: Int) {
+        let total = allWordIds.count
+        guard total > 0 else { return (0, 0, 0, 0, 0, 0) }
+
+        let (wrongRatio, familiarRatio, reinforcedRatio, masteredRatio) = preset.ratios
+        let counts = distributeCounts(
+            total: total,
+            ratios: [wrongRatio, familiarRatio, reinforcedRatio, masteredRatio]
+        )
+        let wrong = counts[0]
+        let familiar = counts[1]
+        let reinforced = counts[2]
+        let mastered = counts[3]
+
+        let totalPoints = familiar * 1 + reinforced * 2 + mastered * 3
+        let maxPossiblePoints = total * 3
+        let readinessPercentage: Int
+        if maxPossiblePoints > 0 {
+            readinessPercentage = min(Int((Double(totalPoints) / Double(maxPossiblePoints)) * 100), 100)
+        } else {
+            readinessPercentage = 0
+        }
+
+        return (wrong, familiar, reinforced, mastered, total, readinessPercentage)
+    }
+
     /// Applies a debug progress state by writing spaced-repetition records directly.
     /// Returns resulting readiness percentage after writing.
     func applyDebugProgressPreset(_ preset: DebugProgressPreset, allWordIds: [String]) -> Int {
