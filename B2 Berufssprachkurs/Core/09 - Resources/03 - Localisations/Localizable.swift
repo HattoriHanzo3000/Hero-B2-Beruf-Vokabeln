@@ -49,6 +49,13 @@ extension Localizable {
     
     // Settings
     static let settings = "settings"
+    static let settingsSectionAbout = "settings_section_about"
+    static let settingsSectionAccess = "settings_section_access"
+    static let settingsSectionPersonalization = "settings_section_personalization"
+    static let settingsSectionSynchronization = "settings_section_synchronization"
+    static let settingsSectionSupport = "settings_section_support"
+    static let settingsSectionLegal = "settings_section_legal"
+    static let settingsSectionData = "settings_section_data"
     static let about = "about"
     static let update = "update"
     static let premium = "premium"

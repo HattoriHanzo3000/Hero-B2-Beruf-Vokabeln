@@ -78,6 +78,24 @@ struct SettingsView: View {
                 ) {
                     ShareView()
                 }
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionAbout))
+            }
+            
+            SwiftUI.Section {
+                Button {
+                    HapticManager.shared.lightImpact()
+                    showPaywall = true
+                } label: {
+                    SettingsIconRow(
+                        icon: "p.square",
+                        iconColor: Color(uiColor: .darkGray),
+                        title: Localizable.string(Localizable.premium)
+                    )
+                }
+                .buttonStyle(.plain)
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionAccess))
             }
             
             SwiftUI.Section {
@@ -113,6 +131,8 @@ struct SettingsView: View {
                         }
                     }
                 )
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionPersonalization))
             }
 
             SwiftUI.Section {
@@ -123,6 +143,8 @@ struct SettingsView: View {
                     isOn: $iCloudSyncEnabled,
                     tintColor: .blue
                 )
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionSynchronization))
             } footer: {
                 iCloudSyncSectionFooter()
             }
@@ -165,6 +187,8 @@ struct SettingsView: View {
                         .navigationTitle(Localizable.string(Localizable.reportABug))
                 }
                 */
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionSupport))
             }
             
             SwiftUI.Section {
@@ -224,6 +248,8 @@ struct SettingsView: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionLegal))
             }
             
             SwiftUI.Section {
@@ -247,6 +273,8 @@ struct SettingsView: View {
                 //     )
                 // }
                 // .buttonStyle(.plain)
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionData))
             }
         }
         .listStyle(.insetGrouped)

@@ -37,9 +37,16 @@
 
 // Settings
 "settings" = "Settings";
+"settings_section_about" = "About";
+"settings_section_access" = "Access";
+"settings_section_personalization" = "Personalization";
+"settings_section_synchronization" = "Synchronization";
+"settings_section_support" = "Support";
+"settings_section_legal" = "Legal";
+"settings_section_data" = "Data";
 "about" = "About";
 "update" = "Version";
-"premium" = "Pro";
+"premium" = "Hero Pro";
 "word_of_the_day" = "Word of the Day";
 "periodicity" = "Periodicity";
 "source_sections" = "Choose Sections";
@@ -83,7 +90,7 @@
 "reset_app_message" = "This will reset all your progress, including checked words, translations, and spaced repetition data. This action cannot be undone.";
 "reset" = "Reset";
 "cancel" = "Cancel";
-"icloud_sync" = "iCloud Sync";
+"icloud_sync" = "iCloud";
 "icloud_sync_footer" = "When this is on, your word translations can sync across your Apple devices via iCloud. Your device must be signed in to iCloud in Settings.";
 "icloud_account_signed_in" = "iCloud is active on this device.";
 "icloud_account_not_signed_in" = "iCloud is not signed in on this device. To sync, sign in under Settings → Apple ID.";
