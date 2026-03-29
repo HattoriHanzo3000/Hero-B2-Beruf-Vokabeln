@@ -28,6 +28,18 @@ extension Localizable {
     static let home = "home"
     static let words = "words"
     static let verbs = "verbs"
+    static let tabSearchAccessibility = "tab_search_accessibility"
+
+    // Global vocabulary search
+    static let searchVocabularyTitle = "search_vocabulary_title"
+    static let searchVocabularyHint = "search_vocabulary_hint"
+    static let searchVocabularyPrompt = "search_vocabulary_prompt"
+    /// Short row badge in search results (Verben mit Präpositionen)
+    static let searchBadgeVerbs = "search_badge_verbs"
+    /// Short row badge in search results (Adjektive mit Präpositionen)
+    static let searchBadgeAdjectives = "search_badge_adjectives"
+    /// Short row badge in search results (My Words)
+    static let searchBadgeMyWords = "search_badge_my_words"
     
     // Practice buttons
     static let practiseWithExample = "practise_with_example"

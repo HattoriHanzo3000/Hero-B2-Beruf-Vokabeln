@@ -11,9 +11,12 @@ import UIKit
 
 struct WordsListView: View {
     let sectionId: String
+    /// When set (e.g. opening from global search), scroll this row to the **vertical center** of the list after layout.
+    var scrollToWordIdOnAppear: String? = nil
     @EnvironmentObject var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
 
     private var progressByWordId: [String: WordProgress] {
@@ -30,6 +33,7 @@ struct WordsListView: View {
     @State private var focusedTranslationWordId: String?
     @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
     @StateObject private var keyboardMetrics = WordListKeyboardMetrics()
+    @State private var deepLinkScrollTask: Task<Void, Never>?
 
     var words: [Word] {
         dataService.getWords(for: sectionId)
@@ -179,6 +183,13 @@ struct WordsListView: View {
                     .onChange(of: words.count) { _, _ in
                         syncTranslationKeyboardNavBridge()
                     }
+                    .onAppear {
+                        centerListOnDeepLinkIfNeeded(using: proxy)
+                    }
+                    .onDisappear {
+                        deepLinkScrollTask?.cancel()
+                        deepLinkScrollTask = nil
+                    }
                 }
 
                 // Üben — SwiftUI still lays out above the keyboard; counter with measured overlap (see WordListKeyboardMetrics).
@@ -240,6 +251,41 @@ struct WordsListView: View {
                 onDismiss: { focusedTranslationWordId = nil }
             )
             syncTranslationKeyboardNavBridge()
+        }
+    }
+
+    /// After opening from search, scrolls the target row to the **center** with **one** animation after a short layout yield (avoids stacked scrolls fighting on device).
+    private func centerListOnDeepLinkIfNeeded(using proxy: ScrollViewProxy) {
+        let fromParam = scrollToWordIdOnAppear
+        if let id = fromParam {
+            listUIState.setWordsListScrollWordId(id, for: sectionId)
+        }
+        let wordId = fromParam ?? listUIState.wordsListScrollWordId(for: sectionId)
+        guard let wordId,
+              words.contains(where: { $0.id == wordId }) else { return }
+
+        let deepLink = fromParam != nil
+        let sid = sectionId
+        let targetId = wordId
+        let reduceMotion = accessibilityReduceMotion
+
+        deepLinkScrollTask?.cancel()
+        deepLinkScrollTask = Task { @MainActor in
+            // One layout pass so `List` has measured cells; cheap (no extra data loading).
+            try? await Task.sleep(nanoseconds: 72_000_000)
+            guard !Task.isCancelled else { return }
+            if reduceMotion {
+                proxy.scrollTo(targetId, anchor: .center)
+            } else {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    proxy.scrollTo(targetId, anchor: .center)
+                }
+            }
+            if deepLink {
+                try? await Task.sleep(nanoseconds: 520_000_000)
+                guard !Task.isCancelled else { return }
+                listUIState.setWordsListScrollWordId(nil, for: sid)
+            }
         }
     }
 

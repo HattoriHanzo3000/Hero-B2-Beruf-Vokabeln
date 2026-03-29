@@ -15,6 +15,15 @@
 "words" = "Words";
 "verbs" = "Verbs";
 "cockpit" = "Cockpit";
+"tab_search_accessibility" = "Search";
+
+// Global vocabulary search
+"search_vocabulary_title" = "Search";
+"search_vocabulary_hint" = "Find words by German spelling, your translation, explanations, or examples.";
+"search_vocabulary_prompt" = "Words, translations, examples…";
+"search_badge_verbs" = "Verb";
+"search_badge_adjectives" = "Adj";
+"search_badge_my_words" = "Mine";
 
 // Practice buttons
 "practise_with_example" = "Practice with Example";

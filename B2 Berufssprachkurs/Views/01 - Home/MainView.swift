@@ -9,10 +9,11 @@ import SwiftUI
 import SwiftData
 import UIKit
 
-/// Identifies which root area is selected in the main `TabView` (home, cockpit, settings). Raw values match `Localizable` keys.
+/// Identifies which root area is selected in the main `TabView`. Most raw values match `Localizable` keys; `search` uses the system search tab role (icon-only).
 enum MainViewSection: String, CaseIterable {
     case home = "home"
     case cockpit = "cockpit"
+    case search = "search"
     case settings = "settings"
 
     var icon: String {
@@ -21,13 +22,20 @@ enum MainViewSection: String, CaseIterable {
             return "house.fill"
         case .cockpit:
             return "gauge"
+        case .search:
+            return "magnifyingglass"
         case .settings:
             return "gear"
         }
     }
 
     var localizedTitle: String {
-        Localizable.string(self.rawValue)
+        switch self {
+        case .search:
+            return Localizable.string(Localizable.tabSearchAccessibility)
+        default:
+            return Localizable.string(self.rawValue)
+        }
     }
 }
 
@@ -56,29 +64,35 @@ struct MainView: View {
 
     var body: some View {
         TabView(selection: $selectedSection) {
-            NavigationStack {
-                HomeView(isPremiumPreviewOverride: isPremiumPreviewOverride)
-            }
-            .tag(MainViewSection.home)
-            .tabItem {
+            Tab(value: MainViewSection.home) {
+                NavigationStack {
+                    HomeView(isPremiumPreviewOverride: isPremiumPreviewOverride)
+                }
+            } label: {
                 Label(MainViewSection.home.localizedTitle, systemImage: MainViewSection.home.icon)
             }
 
-            NavigationStack {
-                CockpitView()
-                    .navigationBarTitleDisplayMode(.inline)
-            }
-            .tag(MainViewSection.cockpit)
-            .tabItem {
+            Tab(value: MainViewSection.cockpit) {
+                NavigationStack {
+                    CockpitView()
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+            } label: {
                 Label(MainViewSection.cockpit.localizedTitle, systemImage: MainViewSection.cockpit.icon)
             }
 
-            NavigationStack {
-                SettingsView()
-                    .navigationBarTitleDisplayMode(.inline)
+            Tab(value: MainViewSection.search, role: .search) {
+                NavigationStack {
+                    GlobalSearchView()
+                }
             }
-            .tag(MainViewSection.settings)
-            .tabItem {
+
+            Tab(value: MainViewSection.settings) {
+                NavigationStack {
+                    SettingsView()
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+            } label: {
                 Label(MainViewSection.settings.localizedTitle, systemImage: MainViewSection.settings.icon)
             }
         }

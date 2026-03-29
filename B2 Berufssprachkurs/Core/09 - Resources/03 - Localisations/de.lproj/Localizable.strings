@@ -15,6 +15,15 @@
 "words" = "Wörter";
 "verbs" = "Verben";
 "cockpit" = "Cockpit";
+"tab_search_accessibility" = "Suchen";
+
+// Global vocabulary search
+"search_vocabulary_title" = "Suchen";
+"search_vocabulary_hint" = "Finde Wörter anhand deutscher Schreibweise, deiner Übersetzung, Erklärungen oder Beispielen.";
+"search_vocabulary_prompt" = "Wörter, Übersetzungen, Beispiele…";
+"search_badge_verbs" = "Verb";
+"search_badge_adjectives" = "Adj";
+"search_badge_my_words" = "Meine";
 
 // Practice buttons
 "practise_with_example" = "Mit Beispiel üben";

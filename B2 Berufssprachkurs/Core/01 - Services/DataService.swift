@@ -749,5 +749,38 @@ class DataService: ObservableObject {
         // Reset welcome video flag to show welcome screen again
         userDefaults.set(false, forKey: "hasSeenWelcomeVideo")
     }
+
+    // MARK: - Global search
+
+    /// Whether bundled vocabulary in `sectionId` appears in global search. Without Pro, matches practice unlocks: **Lektion 1** only for General Words, **an** only for Verben and Adjektive. User “My Words” are always included.
+    func isSectionIncludedInGlobalSearch(sectionId: String, isPremium: Bool) -> Bool {
+        if isPremium { return true }
+        if sectionId == Self.userMyWordsSectionId { return true }
+        if sectionId.hasPrefix("VERBEN_") {
+            return Self.VerbenFreeTier.isVerbenSectionUnlockedWithoutPremium(sectionId)
+        }
+        if sectionId.hasPrefix("ADJEKTIVE_") {
+            return Self.AdjektiveFreeTier.isAdjektiveSectionUnlockedWithoutPremium(sectionId)
+        }
+        guard let lection1 = lections.first(where: { $0.id == Self.GeneralWordsFreeTier.unlockedLectionId }) else {
+            return false
+        }
+        return lection1.sections.contains { $0.id == sectionId }
+    }
+
+    /// Short label for search result rows (section / stack context).
+    func searchResultContextLabel(for sectionId: String) -> String {
+        if sectionId == Self.userMyWordsSectionId {
+            return Localizable.string(Localizable.searchBadgeMyWords)
+        }
+        if sectionId.hasPrefix("VERBEN_") {
+            return Localizable.string(Localizable.searchBadgeVerbs)
+        }
+        if sectionId.hasPrefix("ADJEKTIVE_") {
+            return Localizable.string(Localizable.searchBadgeAdjectives)
+        }
+        // General words: compact code from content (e.g. "1A", "12E"); same as JSON `sectionId`.
+        return sectionId
+    }
 }
 
