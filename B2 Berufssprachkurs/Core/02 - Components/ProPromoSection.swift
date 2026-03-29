@@ -91,9 +91,9 @@ struct ProPromoSection: View {
                     .fill(
                         LinearGradient(
                             colors: [
-                                Color("AppGreen"),
-                                Color("AppGreen").opacity(0.94),
-                                Color("AppGreenSecond").opacity(0.92)
+                                Color("AppOrange"),
+                                Color("AppOrange").opacity(0.94),
+                                Color("AppOrange").opacity(0.88)
                             ],
                             startPoint: .top,
                             endPoint: .bottom

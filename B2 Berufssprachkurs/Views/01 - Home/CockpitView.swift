@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 /// Cockpit-only WOTD rows: liquid glass (regular material) + App Green tint at 0.9 opacity. Üben controls are separate.
 private struct WotdLiquidGlassCapsuleBackground: View {
@@ -65,10 +66,10 @@ struct CockpitView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            Color("AppGreenExtraLight")
+            // Same base + `WordWallpaperBackground` as `HomeView` (system grouped + gray word texture).
+            Color(uiColor: .systemGroupedBackground)
                 .ignoresSafeArea()
-            
-            // Playful word background
+
             WordWallpaperBackground(dataService: dataService)
                 .ignoresSafeArea()
             

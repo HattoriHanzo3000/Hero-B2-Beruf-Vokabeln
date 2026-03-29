@@ -198,7 +198,7 @@ struct HeaderView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 10) {
                 VStack(alignment: .leading, spacing: 8) {
-                    HStack(alignment: .center, spacing: 8) {
+                    HStack(alignment: .top, spacing: 8) {
                         ProShieldBadge(
                             label: "PRO",
                             color: proBadgeColor,
@@ -212,17 +212,41 @@ struct HeaderView: View {
                                 } label: {
                                     Text(Localizable.string(Localizable.startFreeTrial))
                                         .font(heroProSupplementFont)
-                                        .foregroundColor(proBadgeColor.opacity(0.92))
+                                        .foregroundColor(.white)
+                                        .multilineTextAlignment(.leading)
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.75)
+                                        .padding(.horizontal, 6)
+                                        .padding(.vertical, 3)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                                .fill(Color("AppOrange"))
+                                        )
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                                .stroke(Color.white, lineWidth: 0.6)
+                                        )
+                                        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                                 }
                                 .buttonStyle(.plain)
                             } else {
                                 Text(Localizable.string(Localizable.startFreeTrial))
                                     .font(heroProSupplementFont)
-                                    .foregroundColor(proBadgeColor.opacity(0.92))
+                                    .foregroundColor(.white)
+                                    .multilineTextAlignment(.leading)
                                     .lineLimit(1)
                                     .minimumScaleFactor(0.75)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 3)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                            .fill(Color("AppOrange"))
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                            .stroke(Color.white, lineWidth: 0.6)
+                                    )
+                                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                             }
                         }
                     }
