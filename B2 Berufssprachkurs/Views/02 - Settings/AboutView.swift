@@ -88,6 +88,17 @@ private struct AboutDebugSheet: View {
         NavigationStack {
             List {
                 SwiftUI.Section {
+                    Button(Localizable.string(Localizable.aboutDebugRestoreNormalSubscription)) {
+                        Task { @MainActor in
+                            await subscriptionManager.restoreNormalSubscriptionStateForTesting()
+                            let hadSnapshot = SpacedRepetitionService.shared.restoreStudyDataFromBeforeDebugPresets()
+                            HapticManager.shared.success()
+                            lastAppliedMessage = Localizable.string(
+                                hadSnapshot ? Localizable.aboutDebugNormalModeRestoredAll : Localizable.aboutDebugNormalModeClearedStudy
+                            )
+                        }
+                    }
+
                     Button("Set Free Mode") {
                         subscriptionManager.deactivatePremiumForTesting()
                         HapticManager.shared.success()
@@ -111,7 +122,7 @@ private struct AboutDebugSheet: View {
                 } header: {
                     Text("Progress Presets")
                 } footer: {
-                    Text("Presets use uneven distributions to look natural across wrong, familiar, reinforced, and mastered.")
+                    Text(Localizable.string(Localizable.aboutDebugProgressPresetFooter))
                 }
 
                 if let message = lastAppliedMessage {

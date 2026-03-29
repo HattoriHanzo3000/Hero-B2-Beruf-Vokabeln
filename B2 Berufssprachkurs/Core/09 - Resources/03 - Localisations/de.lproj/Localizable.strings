@@ -122,6 +122,9 @@
 "progress_subtitle" = "Dein Weg auf einen Blick";
 "word_of_the_day_description" = "Wähle die Themen aus, die in deinem täglichen Wort auf dem Hauptbildschirm erscheinen.";
 "progress_description" = "Verfolge deinen Lernfortschritt über alle %d Wörter in der App hinweg.";
+"progress_description_my_words" = "Verfolge deinen Lernfortschritt über deine %d Wörter in Meine Wörter.";
+"progress_word_scope_app" = "App";
+"progress_word_scope_mine" = "Meine";
 "cockpit_wotd_intro" = "Passe dein tägliches Lernen an deinen Rhythmus und deine Themen an.";
 
 "general_words" = "Allgemeine Wörter";
@@ -251,6 +254,10 @@
 "word_list_share_a11y_hint_pro_required" = "Zum Teilen ist ein Pro-Abonnement erforderlich";
 
 // About — debug (hidden sheet)
+"about_debug_restore_normal_subscription" = "Regulärer Modus (mit Store synchronisieren)";
+"about_debug_normal_mode_restored_all" = "Abonnement mit dem Store synchronisiert. Lernfortschritt wurde aus dem Stand vor den Debug-Voreinstellungen wiederhergestellt.";
+"about_debug_normal_mode_cleared_study" = "Abonnement mit dem Store synchronisiert. Kein Snapshot vor den Presets gefunden — Lernfortschritt wurde zurückgesetzt.";
+"about_debug_progress_preset_footer" = "Die Presets nutzen ungleiche Kategorien für einen natürlichen Mix. Beim ersten Preset wird eine Kopie deiner Lerndaten gespeichert; der reguläre Modus stellt sie wieder her und entfernt die Preset-Daten.";
 "about_debug_set_pro_mode" = "Pro-Modus aktivieren";
 "about_debug_pro_mode_enabled" = "Pro-Modus aktiviert";
 

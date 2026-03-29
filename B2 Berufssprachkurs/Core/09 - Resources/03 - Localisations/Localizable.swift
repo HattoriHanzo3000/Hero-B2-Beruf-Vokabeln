@@ -114,6 +114,10 @@ extension Localizable {
     static let appVersion = "app_version"
     static let aboutDebugSetProMode = "about_debug_set_pro_mode"
     static let aboutDebugProModeEnabled = "about_debug_pro_mode_enabled"
+    static let aboutDebugRestoreNormalSubscription = "about_debug_restore_normal_subscription"
+    static let aboutDebugNormalModeRestoredAll = "about_debug_normal_mode_restored_all"
+    static let aboutDebugNormalModeClearedStudy = "about_debug_normal_mode_cleared_study"
+    static let aboutDebugProgressPresetFooter = "about_debug_progress_preset_footer"
     
     // Periodicity
     static let hours12 = "12_hours"
@@ -136,6 +140,9 @@ extension Localizable {
     static let cockpitWotdIntro = "cockpit_wotd_intro"
     static let wordOfTheDayDescription = "word_of_the_day_description"
     static let progressDescription = "progress_description"
+    static let progressDescriptionMyWords = "progress_description_my_words"
+    static let progressWordScopeApp = "progress_word_scope_app"
+    static let progressWordScopeMine = "progress_word_scope_mine"
     static let progressUnderConstruction = "progress_under_construction"
     static let progressComingSoon = "progress_coming_soon"
     

@@ -23,13 +23,15 @@ private struct WotdLiquidGlassCapsuleBackground: View {
 struct CockpitView: View {
     private let isPremiumPreviewOverride: Bool?
 
-    @StateObject private var dataService: DataService
+    @EnvironmentObject private var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var showPaywall = false
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
+    @AppStorage("cockpitProgressWordScope") private var progressWordScopeRaw = DataService.ProgressWordScope.app.rawValue
 
     private static let wotdControlFontSize: CGFloat = 17
     private static let wotdControlChevronSize: CGFloat = 13
@@ -40,7 +42,6 @@ struct CockpitView: View {
     /// Pass `true` / `false` for canvas previews only; `nil` uses live subscription state.
     init(isPremiumPreviewOverride: Bool? = nil) {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
-        _dataService = StateObject(wrappedValue: DataService())
     }
 
     private var isPremiumForUI: Bool {
@@ -52,6 +53,25 @@ struct CockpitView: View {
             get: { wordOfTheDayPeriodicity },
             set: { wordOfTheDayPeriodicity = $0 }
         )
+    }
+
+    private var progressWordScope: DataService.ProgressWordScope {
+        DataService.ProgressWordScope(rawValue: progressWordScopeRaw) ?? .app
+    }
+
+    private var progressWordScopeBinding: Binding<DataService.ProgressWordScope> {
+        Binding(
+            get: { progressWordScope },
+            set: { newValue in
+                progressWordScopeRaw = newValue.rawValue
+                HapticManager.shared.selection()
+            }
+        )
+    }
+
+    /// Drives subtitle digit animation when scope or vocabulary counts change.
+    private var progressSubtitleAnimationKey: String {
+        "\(progressWordScope.rawValue)|\(dataService.getBundleWordIds().count)|\(dataService.getUserCustomWordIds().count)"
     }
     
     // Inverted text color: white in light mode, black in dark mode (matching statistics cards)
@@ -92,7 +112,7 @@ struct CockpitView: View {
                     CockpitCard(
                         titleIcon: "calendar",
                         title: Localizable.string(Localizable.wordOfTheDay),
-                        subtitle: Text(Localizable.string(Localizable.wordOfTheDayDescription))
+                        subtitle: AnyView(Text(Localizable.string(Localizable.wordOfTheDayDescription)))
                     ) {
                         VStack(alignment: .leading, spacing: 14) {
                             
@@ -226,11 +246,41 @@ struct CockpitView: View {
                     CockpitCard(
                         titleIcon: "chart.line.uptrend.xyaxis",
                         title: Localizable.string(Localizable.progress),
-                        subtitle: Text(String(format: Localizable.string(Localizable.progressDescription), dataService.getAllWordIds().count))
+                        subtitle: AnyView(
+                            Text(
+                                String(
+                                    format: Localizable.string(
+                                        progressWordScope == .app
+                                            ? Localizable.progressDescription
+                                            : Localizable.progressDescriptionMyWords
+                                    ),
+                                    progressWordScope == .app
+                                        ? dataService.getBundleWordIds().count
+                                        : dataService.getUserCustomWordIds().count
+                                )
+                            )
+                            .monospacedDigit()
+                            .contentTransition(reduceMotion ? .interpolate : .numericText())
+                            .animation(reduceMotion ? .default : .smooth(duration: 0.45), value: progressSubtitleAnimationKey)
+                        ),
+                        titleTrailing: AnyView(
+                            Picker(selection: progressWordScopeBinding) {
+                                Text(Localizable.string(Localizable.progressWordScopeApp))
+                                    .tag(DataService.ProgressWordScope.app)
+                                Text(Localizable.string(Localizable.progressWordScopeMine))
+                                    .tag(DataService.ProgressWordScope.mine)
+                            } label: {
+                                EmptyView()
+                            }
+                            .pickerStyle(.segmented)
+                            .frame(maxWidth: 168)
+                            .accessibilityLabel(Localizable.string(Localizable.progress))
+                        )
                     ) {
                         ProgressStatisticsView(
                             dataService: dataService,
-                            statisticsPreviewPreset: isPremiumPreviewOverride == true ? .p67 : nil
+                            statisticsPreviewPreset: isPremiumPreviewOverride == true ? .p67 : nil,
+                            wordScope: progressWordScope
                         )
                             .padding(.top, 2)
                     }
@@ -252,7 +302,6 @@ struct CockpitView: View {
                 wordOfTheDaySelectedSections = "1A"
             }
         }
-        .environmentObject(dataService)
     }
     
     private func getSelectedSectionsCount() -> Int {
@@ -267,16 +316,18 @@ struct CockpitView: View {
 private struct CockpitCard<Content: View>: View {
     let titleIcon: String
     let title: String
-    let subtitle: Text?
+    let subtitle: AnyView?
     let useGlassEffect: Bool
+    private let titleTrailing: AnyView?
     @ViewBuilder let content: Content
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
-    init(titleIcon: String, title: String, subtitle: Text? = nil, useGlassEffect: Bool = true, @ViewBuilder content: () -> Content) {
+    init(titleIcon: String, title: String, subtitle: AnyView? = nil, useGlassEffect: Bool = true, titleTrailing: AnyView? = nil, @ViewBuilder content: () -> Content) {
         self.titleIcon = titleIcon
         self.title = title
         self.subtitle = subtitle
         self.useGlassEffect = useGlassEffect
+        self.titleTrailing = titleTrailing
         self.content = content()
     }
     
@@ -298,7 +349,12 @@ private struct CockpitCard<Content: View>: View {
                 Text(title)
                     .font(.system(.title3, design: .default, weight: .regular))
                     .foregroundColor(.primary)
-                Spacer(minLength: 0)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
+                Spacer(minLength: 8)
+                if let titleTrailing {
+                    titleTrailing
+                }
             }
             
             // Subtitle description
@@ -463,6 +519,7 @@ private struct CockpitViewPreviewHost: View {
 
     var body: some View {
         CockpitView(isPremiumPreviewOverride: isPremiumPreviewOverride)
+            .environmentObject(DataService())
     }
 }
 

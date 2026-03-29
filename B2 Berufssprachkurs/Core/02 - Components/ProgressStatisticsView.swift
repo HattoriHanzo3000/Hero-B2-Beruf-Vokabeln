@@ -11,13 +11,13 @@ struct ProgressStatisticsView: View {
     @ObservedObject var dataService: DataService
     /// When set, shows the same distribution/readiness as the matching debug preset without touching saved study data (e.g. canvas previews).
     var statisticsPreviewPreset: SpacedRepetitionService.DebugProgressPreset? = nil
+    var wordScope: DataService.ProgressWordScope = .app
     @ObservedObject private var languageManager = LanguageManager.shared
-    @State private var refreshID = UUID()
     @State private var progress: (wrong: Int, familiar: Int, reinforced: Int, mastered: Int, total: Int) = (0, 0, 0, 0, 0)
     @State private var readinessPercentage: Int = 0
     
     private func updateStatistics() {
-        let allWordIds = dataService.getAllWordIds()
+        let allWordIds = dataService.wordIds(for: wordScope)
         if let preset = statisticsPreviewPreset {
             let stats = SpacedRepetitionService.shared.previewStatistics(for: preset, allWordIds: allWordIds)
             progress = (stats.wrong, stats.familiar, stats.reinforced, stats.mastered, stats.total)
@@ -26,7 +26,6 @@ struct ProgressStatisticsView: View {
             progress = SpacedRepetitionService.shared.getProgressByLevel(allWordIds: allWordIds)
             readinessPercentage = SpacedRepetitionService.shared.getReadinessPercentage(allWordIds: allWordIds)
         }
-        refreshID = UUID()
     }
     
     var body: some View {
@@ -35,11 +34,10 @@ struct ProgressStatisticsView: View {
             RingChartView(progress: progress, readinessPercentage: readinessPercentage)
                 .frame(maxWidth: .infinity)
                 .frame(height: 320)
-                .id(refreshID)
             
             // Statistics grid (2x2)
             StatisticsGridView(progress: progress)
-                .id("\(refreshID)_\(languageManager.currentLanguage)")
+                .id(languageManager.currentLanguage)
         }
         .onAppear {
             updateStatistics()
@@ -47,8 +45,11 @@ struct ProgressStatisticsView: View {
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SpacedRepetitionUpdated"))) { _ in
             updateStatistics()
         }
-        .onChange(of: languageManager.currentLanguage) { _, _ in
-            refreshID = UUID()
+        .onChange(of: wordScope) { _, _ in
+            updateStatistics()
+        }
+        .onChange(of: dataService.userCustomWords.count) { _, _ in
+            updateStatistics()
         }
     }
 }
@@ -58,6 +59,7 @@ struct RingChartView: View {
     let readinessPercentage: Int
     @State private var isPulsing: Bool = false
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private static let readinessPulseDuration: Double = 1.45
     
@@ -98,6 +100,9 @@ struct RingChartView: View {
             Text("\(readinessPercentage)%")
                 .font(AppFont.fixedExpanded(size: 24, weight: .semibold))
                 .foregroundStyle(.secondary)
+                .monospacedDigit()
+                .contentTransition(reduceMotion ? .interpolate : .numericText())
+                .animation(reduceMotion ? .default : .smooth(duration: 0.45), value: readinessPercentage)
                 .frame(width: 260, height: 260)
                 .contentShape(Rectangle())
                 .scaleEffect(isPulsing ? 1.1 : 1.0)
@@ -123,6 +128,7 @@ struct RingView: View {
     let ringIndex: Int
     let totalRings: Int
     @State private var animatedProgress: Double = 0
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     
     private var ringThickness: CGFloat {
         return 70
@@ -163,8 +169,12 @@ struct RingView: View {
             }
         }
         .onChange(of: progress) { _, newValue in
-            withAnimation(.easeOut(duration: 0.8)) {
+            if reduceMotion {
                 animatedProgress = newValue
+            } else {
+                withAnimation(.smooth(duration: 0.55)) {
+                    animatedProgress = newValue
+                }
             }
         }
     }
@@ -344,6 +354,8 @@ struct StatisticsGridCard: View {
                 .font(AppFont.fixedExpanded(size: Self.countPointSize, weight: .semibold))
                 .foregroundColor(invertedCountColor)
                 .monospacedDigit()
+                .contentTransition(reduceMotion ? .interpolate : .numericText())
+                .animation(reduceMotion ? .default : .smooth(duration: 0.45), value: count)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(16)

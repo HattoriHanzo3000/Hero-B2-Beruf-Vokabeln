@@ -472,6 +472,17 @@ final class SubscriptionManager: ObservableObject {
 
         print("SubscriptionManager: Premium activated for testing")
     }
+
+    /// Clears local trial keys used by debug / trial flows, then re-syncs premium from RevenueCat and StoreKit so the app matches normal production behavior.
+    func restoreNormalSubscriptionStateForTesting() async {
+        let userDefaults = UserDefaults.standard
+        userDefaults.removeObject(forKey: trialActivatedKey)
+        userDefaults.removeObject(forKey: firstLaunchDateKey)
+
+        await checkSubscriptionStatus()
+
+        print("SubscriptionManager: Restored normal subscription state (store sync)")
+    }
     
     // MARK: - Debug: Reset to Fresh Install State
     

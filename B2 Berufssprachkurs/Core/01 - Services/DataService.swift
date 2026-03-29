@@ -12,6 +12,13 @@ import SwiftData
 
 @MainActor
 class DataService: ObservableObject {
+    /// Which vocabulary set drives the Cockpit progress ring and statistics.
+    enum ProgressWordScope: String, CaseIterable, Identifiable, Hashable {
+        case app
+        case mine
+        var id: String { rawValue }
+    }
+
     /// Synthetic section for user-created entries (`CustomWordEntry`); not in bundle JSON.
     static let userMyWordsSectionId = "USER_MY_WORDS"
 
@@ -156,11 +163,27 @@ class DataService: ObservableObject {
             .map { $0.asWord() }
     }
     
+    /// Word IDs from bundled course content only (excludes `userCustomWords`).
+    func getBundleWordIds() -> [String] {
+        wordsBySection.values.flatMap { $0.map(\.id) }
+    }
+
+    func getUserCustomWordIds() -> [String] {
+        userCustomWords.map(\.id)
+    }
+
     /// Get all word IDs across all sections
     func getAllWordIds() -> [String] {
-        let bundleIds = wordsBySection.values.flatMap { $0.map { $0.id } }
-        let customIds = userCustomWords.map(\.id)
-        return bundleIds + customIds
+        getBundleWordIds() + getUserCustomWordIds()
+    }
+
+    func wordIds(for scope: ProgressWordScope) -> [String] {
+        switch scope {
+        case .app:
+            return getBundleWordIds()
+        case .mine:
+            return getUserCustomWordIds()
+        }
     }
     
     func getLectionAndSection(for sectionId: String) -> (lectionTitle: String, sectionTitle: String, lectionNumber: String, sectionLetter: String)? {

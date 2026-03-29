@@ -15,6 +15,8 @@ class SpacedRepetitionService {
     
     private let userDefaults = UserDefaults.standard
     private let studyDataKey = "spacedRepetitionStudyData"
+    /// One-shot snapshot taken before the first debug progress preset is applied; restored from About → Debug “Regular mode”.
+    private let debugStudyDataBackupKey = "spacedRepetitionStudyDataDebugBackup"
     
     // In-memory cache for performance
     private var studyDataCache: [String: StudyCardData] = [:]
@@ -145,6 +147,7 @@ class SpacedRepetitionService {
     func resetAllStudyData() {
         studyDataCache.removeAll()
         userDefaults.removeObject(forKey: studyDataKey)
+        userDefaults.removeObject(forKey: debugStudyDataBackupKey)
     }
     
     /// Reset study data for a specific word and mode
@@ -152,6 +155,42 @@ class SpacedRepetitionService {
         let key = makeKey(wordId: wordId, mode: mode)
         studyDataCache.removeValue(forKey: key)
         saveStudyData()
+    }
+
+    /// Restores spaced-repetition data from the snapshot taken before the first debug progress preset in this session chain, then clears that snapshot so the next preset can capture again.
+    /// If no snapshot exists, clears all study data (removes preset-only progress from builds before snapshotting existed).
+    /// - Returns: Whether a snapshot was restored (`true`) or study data was cleared (`false`).
+    @discardableResult
+    func restoreStudyDataFromBeforeDebugPresets() -> Bool {
+        if let backup = userDefaults.data(forKey: debugStudyDataBackupKey) {
+            userDefaults.set(backup, forKey: studyDataKey)
+            userDefaults.removeObject(forKey: debugStudyDataBackupKey)
+            loadStudyData()
+            saveStudyData()
+            return true
+        } else {
+            studyDataCache.removeAll()
+            userDefaults.removeObject(forKey: studyDataKey)
+            saveStudyData()
+            return false
+        }
+    }
+
+    private func preserveStudyDataBeforeFirstDebugPresetIfNeeded() {
+        guard userDefaults.data(forKey: debugStudyDataBackupKey) == nil else { return }
+        if let data = userDefaults.data(forKey: studyDataKey) {
+            userDefaults.set(data, forKey: debugStudyDataBackupKey)
+        } else {
+            let empty: [String: StudyCardData] = [:]
+            guard let encoded = try? JSONEncoder().encode(empty) else { return }
+            userDefaults.set(encoded, forKey: debugStudyDataBackupKey)
+        }
+    }
+
+    /// Like ``resetAllStudyData()`` but keeps the debug preset restore snapshot in UserDefaults.
+    private func resetAllStudyDataPreservingDebugBackup() {
+        studyDataCache.removeAll()
+        userDefaults.removeObject(forKey: studyDataKey)
     }
 
     // MARK: - Debug Presets
@@ -221,7 +260,8 @@ class SpacedRepetitionService {
     func applyDebugProgressPreset(_ preset: DebugProgressPreset, allWordIds: [String]) -> Int {
         guard !allWordIds.isEmpty else { return 0 }
 
-        resetAllStudyData()
+        preserveStudyDataBeforeFirstDebugPresetIfNeeded()
+        resetAllStudyDataPreservingDebugBackup()
 
         let shuffledIds = allWordIds.shuffled()
         let (wrongRatio, familiarRatio, reinforcedRatio, masteredRatio) = preset.ratios

@@ -122,6 +122,9 @@
 "progress_subtitle" = "Your journey at a glance";
 "word_of_the_day_description" = "Customize which topics appear in your daily word on the main screen.";
 "progress_description" = "Track your learning progress across all %d words in the app.";
+"progress_description_my_words" = "Track your learning progress across your %d words in My Words.";
+"progress_word_scope_app" = "App";
+"progress_word_scope_mine" = "Mine";
 "cockpit_wotd_intro" = "Make your daily learning fit your rhythm and topics you care about.";
 
 "general_words" = "General Words";
@@ -251,6 +254,10 @@
 "word_list_share_a11y_hint_pro_required" = "Pro subscription required to share";
 
 // About — debug (hidden sheet)
+"about_debug_restore_normal_subscription" = "Regular mode (sync from store)";
+"about_debug_normal_mode_restored_all" = "Subscription synced from the store. Study progress was restored from before debug presets.";
+"about_debug_normal_mode_cleared_study" = "Subscription synced from the store. No preset snapshot was found, so study progress was reset.";
+"about_debug_progress_preset_footer" = "Presets use uneven category counts for a natural-looking mix. The first preset you apply saves a copy of your study data; Regular mode restores that copy and clears preset progress.";
 "about_debug_set_pro_mode" = "Set Pro Mode";
 "about_debug_pro_mode_enabled" = "Pro mode enabled";
 
