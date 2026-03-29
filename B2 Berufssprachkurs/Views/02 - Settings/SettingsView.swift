@@ -54,12 +54,13 @@ struct SettingsView: View {
             ProPromoSection(
                 isPremiumActive: subscriptionManager.isPremiumActive,
                 hasUsedTrial: subscriptionManager.hasUsedTrial,
-                hasActiveSubscription: subscriptionManager.hasActiveSubscription,
                 onStartFreeTrial: {
                     HapticManager.shared.mediumImpact()
                     showPaywall = true
                 }
             )
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
             
             SwiftUI.Section {
                 NavigationIconRow(
@@ -80,23 +81,6 @@ struct SettingsView: View {
                 }
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionAbout))
-            }
-            
-            SwiftUI.Section {
-                Button {
-                    HapticManager.shared.lightImpact()
-                    showPaywall = true
-                } label: {
-                    SettingsIconRow(
-                        icon: "p.square",
-                        iconColor: Color(uiColor: .darkGray),
-                        title: Localizable.string(Localizable.premium)
-                    )
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .contentShape(Rectangle())
-                }
-            } header: {
-                Text(Localizable.string(Localizable.settingsSectionAccess))
             }
             
             SwiftUI.Section {
@@ -555,101 +539,6 @@ private extension SettingsView {
         ["12_hours", "24_hours"] // Keys
     }
     
-}
-
-// MARK: - Pro promo section
-private struct ProPromoSection: View {
-    let isPremiumActive: Bool
-    let hasUsedTrial: Bool
-    let hasActiveSubscription: Bool
-    let onStartFreeTrial: () -> Void
-    
-    // Determine if user was previously subscribed but is now unsubscribed
-    private var wasSubscribed: Bool {
-        // User was subscribed if they used trial (which means they either used trial or subscribed) but now don't have premium
-        return hasUsedTrial && !isPremiumActive
-    }
-    
-    private var title: String {
-        if isPremiumActive {
-            return Localizable.string(Localizable.enjoyHeroPremium)
-        } else if wasSubscribed {
-            return Localizable.string(Localizable.getPremiumFeaturesBack)
-        } else {
-            return Localizable.string(Localizable.unlockHeroPremium)
-        }
-    }
-    
-    private var subtitle: String {
-        if isPremiumActive {
-            return Localizable.string(Localizable.premiumActiveSubtitle)
-        } else if wasSubscribed {
-            return Localizable.string(Localizable.premiumFeaturesBackSubtitle)
-        } else {
-            return Localizable.string(Localizable.premiumPromoSubtitle)
-        }
-    }
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(alignment: .top, spacing: 16) {
-                    // Crown icon - white
-                    Image(systemName: "crown.fill")
-                        .font(.system(size: 32, weight: .semibold, design: .rounded))
-                        .foregroundColor(.white)
-                        .frame(width: 40, height: 40)
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        // Title - changes based on premium status
-                        Text(title)
-                            .font(.system(.headline, design: .rounded).weight(.bold))
-                            .foregroundColor(.white)
-                        
-                        // Subtitle - changes based on premium status
-                        Text(subtitle)
-                            .font(.system(.subheadline, design: .rounded))
-                            .foregroundColor(.white.opacity(0.9))
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    
-                    Spacer()
-                }
-                
-                // Button - only show when premium is not active
-                if !isPremiumActive {
-                    Button(action: onStartFreeTrial) {
-                        Text(hasUsedTrial ? Localizable.string(Localizable.upgradeToPremium) : Localizable.string(Localizable.startFreeTrial))
-                            .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .background(
-                                Capsule()
-                                    .fill(Color.white.opacity(0.25))
-                            )
-                    }
-                }
-            }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
-            .background(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color("AppGreen"),
-                                Color("AppBlue")
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            )
-        }
-        .listRowInsets(EdgeInsets())
-        .listRowBackground(Color.clear)
-    }
 }
 
 #Preview {

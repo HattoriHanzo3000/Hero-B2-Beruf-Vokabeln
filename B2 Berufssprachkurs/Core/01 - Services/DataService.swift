@@ -20,6 +20,30 @@ class DataService: ObservableObject {
         static let maxFavorites = 5
     }
 
+    /// General Words lections from `lections.json` (IDs 1…12). Without Pro, only lection `1` is selectable for practice.
+    enum GeneralWordsFreeTier {
+        static let unlockedLectionId = 1
+        static func isLectionUnlockedWithoutPremium(_ lectionId: Int) -> Bool {
+            lectionId == unlockedLectionId
+        }
+    }
+
+    /// Verben mit Präpositionen: without Pro, only the **an** section is available for practice.
+    enum VerbenFreeTier {
+        static let unlockedSectionId = "VERBEN_an"
+        static func isVerbenSectionUnlockedWithoutPremium(_ sectionId: String) -> Bool {
+            sectionId == unlockedSectionId
+        }
+    }
+
+    /// Adjektive mit Präpositionen: without Pro, only the **an** section is available for practice.
+    enum AdjektiveFreeTier {
+        static let unlockedSectionId = "ADJEKTIVE_an"
+        static func isAdjektiveSectionUnlockedWithoutPremium(_ sectionId: String) -> Bool {
+            sectionId == unlockedSectionId
+        }
+    }
+
     @Published var lections: [Lection] = []
     @Published var wordsBySection: [String: [Word]] = [:]
     /// Populated from SwiftData `CustomWordEntry` (CloudKit when sync is on).
@@ -335,14 +359,57 @@ class DataService: ObservableObject {
         return verbenSectionIds.isSubset(of: completedSections)
     }
     
-    func hasAnyLectionCompleted() -> Bool {
-        guard !lections.isEmpty else { return false }
-        return lections.contains { isLectionCompleted(lectionId: $0.id) } ||
-               lections.flatMap { $0.sections }.contains { isSectionCompleted(sectionId: $0.id) }
+    /// Practice / floating button: only lection 1 counts for non‑Pro users.
+    func hasAnyGeneralWordsPracticeSelection(isPremium: Bool) -> Bool {
+        let relevant: [Lection]
+        if isPremium {
+            relevant = lections
+        } else {
+            relevant = lections.filter { $0.id == GeneralWordsFreeTier.unlockedLectionId }
+        }
+        guard !relevant.isEmpty else { return false }
+        if relevant.contains(where: { isLectionCompleted(lectionId: $0.id) }) { return true }
+        for lection in relevant {
+            for section in lection.sections {
+                if isSectionCompleted(sectionId: section.id) { return true }
+                if let checked = checkedWords[section.id], !checked.isEmpty { return true }
+            }
+        }
+        return false
+    }
+
+    /// “Study all” for General Words: all lections when Pro; otherwise all subsections in lection 1 only.
+    func areAllGeneralWordsCompletedForStudy(isPremium: Bool) -> Bool {
+        if isPremium {
+            return areAllLectionsCompleted()
+        }
+        guard let lection1 = lections.first(where: { $0.id == GeneralWordsFreeTier.unlockedLectionId }) else {
+            return false
+        }
+        return isEverySectionCompleted(in: lection1)
     }
     
     func hasAnyVerbenCompleted() -> Bool {
         return verbenSectionIds.contains { completedSections.contains($0) }
+    }
+
+    /// Practice button on Verbs stack: all VERBEN rows when Pro; otherwise only **an** may count.
+    func hasAnyVerbenPracticeSelection(isPremium: Bool) -> Bool {
+        if isPremium {
+            return hasAnyVerbenCompleted()
+        }
+        let an = VerbenFreeTier.unlockedSectionId
+        if isSectionCompleted(sectionId: an) { return true }
+        if let checked = checkedWords[an], !checked.isEmpty { return true }
+        return false
+    }
+
+    /// “Study all” for Verbs: every VERBEN subsection when Pro; otherwise only **an** is fully selected.
+    func areAllVerbenCompletedForStudy(isPremium: Bool) -> Bool {
+        if isPremium {
+            return isVerbenCompleted()
+        }
+        return isSectionCompleted(sectionId: VerbenFreeTier.unlockedSectionId)
     }
     
     // ADJEKTIVE sections IDs
@@ -378,6 +445,25 @@ class DataService: ObservableObject {
     
     func hasAnyAdjektiveCompleted() -> Bool {
         return adjektiveSectionIds.contains { completedSections.contains($0) }
+    }
+
+    /// Practice button on Adjectives stack: all ADJEKTIVE rows when Pro; otherwise only **an** may count.
+    func hasAnyAdjektivePracticeSelection(isPremium: Bool) -> Bool {
+        if isPremium {
+            return hasAnyAdjektiveCompleted()
+        }
+        let an = AdjektiveFreeTier.unlockedSectionId
+        if isSectionCompleted(sectionId: an) { return true }
+        if let checked = checkedWords[an], !checked.isEmpty { return true }
+        return false
+    }
+
+    /// “Study all” for Adjectives: every ADJEKTIVE subsection when Pro; otherwise only **an** is fully selected.
+    func areAllAdjektiveCompletedForStudy(isPremium: Bool) -> Bool {
+        if isPremium {
+            return isAdjektiveCompleted()
+        }
+        return isSectionCompleted(sectionId: AdjektiveFreeTier.unlockedSectionId)
     }
     
     func getWordOfTheDay() -> Word? {

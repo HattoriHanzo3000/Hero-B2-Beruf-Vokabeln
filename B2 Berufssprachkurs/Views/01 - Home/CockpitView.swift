@@ -49,14 +49,7 @@ struct CockpitView: View {
     private var wordOfTheDayPeriodicityBinding: Binding<String> {
         Binding(
             get: { wordOfTheDayPeriodicity },
-            set: { newValue in
-                if isPremiumForUI {
-                    wordOfTheDayPeriodicity = newValue
-                } else {
-                    HapticManager.shared.heavyImpact()
-                    showPaywall = true
-                }
-            }
+            set: { wordOfTheDayPeriodicity = $0 }
         )
     }
     
@@ -86,7 +79,6 @@ struct CockpitView: View {
                         ProPromoSection(
                             isPremiumActive: isPremiumForUI,
                             hasUsedTrial: subscriptionManager.hasUsedTrial,
-                            hasActiveSubscription: subscriptionManager.hasActiveSubscription,
                             onStartFreeTrial: {
                                 HapticManager.shared.mediumImpact()
                                 showPaywall = true
@@ -97,7 +89,7 @@ struct CockpitView: View {
                     
                     // MARK: Word of the Day - Friendly Card
                     CockpitCard(
-                        titleIcon: isPremiumForUI ? "calendar" : "p.square.fill",
+                        titleIcon: "calendar",
                         title: Localizable.string(Localizable.wordOfTheDay),
                         subtitle: Text(Localizable.string(Localizable.wordOfTheDayDescription))
                     ) {
@@ -119,9 +111,7 @@ struct CockpitView: View {
                                 Menu {
                                     Button {
                                         wordOfTheDayPeriodicityBinding.wrappedValue = "12_hours"
-                                        if isPremiumForUI {
-                                            HapticManager.shared.selection()
-                                        }
+                                        HapticManager.shared.selection()
                                     } label: {
                                         HStack {
                                             Text(Localizable.string(Localizable.hours12))
@@ -135,9 +125,7 @@ struct CockpitView: View {
                                     }
                                     Button {
                                         wordOfTheDayPeriodicityBinding.wrappedValue = "24_hours"
-                                        if isPremiumForUI {
-                                            HapticManager.shared.selection()
-                                        }
+                                        HapticManager.shared.selection()
                                     } label: {
                                         HStack {
                                             Text(Localizable.string(Localizable.hours24))
@@ -235,13 +223,12 @@ struct CockpitView: View {
                     
                     // MARK: Progress - Statistics Wheel
                     CockpitCard(
-                        titleIcon: isPremiumForUI ? "chart.line.uptrend.xyaxis" : "p.square.fill",
+                        titleIcon: "chart.line.uptrend.xyaxis",
                         title: Localizable.string(Localizable.progress),
                         subtitle: Text(String(format: Localizable.string(Localizable.progressDescription), dataService.getAllWordIds().count))
                     ) {
                         ProgressStatisticsView(
                             dataService: dataService,
-                            isPremiumActive: isPremiumForUI,
                             statisticsPreviewPreset: isPremiumPreviewOverride == true ? .p67 : nil
                         )
                             .padding(.top, 2)
@@ -275,7 +262,7 @@ struct CockpitView: View {
     }
 }
 
-// MARK: - Cockpit Card
+// MARK: - Cockpit Card (Word of the Day + Progress — 20pt continuous corners, same as promo banner)
 private struct CockpitCard<Content: View>: View {
     let titleIcon: String
     let title: String
@@ -461,92 +448,6 @@ private struct CockpitPeriodicityRowView: View {
         .padding()
         .background(Color("AppGreenExtraLight"))
         .cornerRadius(12)
-    }
-}
-
-// MARK: - Pro promo section
-private struct ProPromoSection: View {
-    let isPremiumActive: Bool
-    let hasUsedTrial: Bool
-    let hasActiveSubscription: Bool
-    let onStartFreeTrial: () -> Void
-    
-    // Determine if user was previously subscribed but is now unsubscribed
-    private var wasSubscribed: Bool {
-        // User was subscribed if they used trial (which means they either used trial or subscribed) but now don't have premium
-        return hasUsedTrial && !isPremiumActive
-    }
-    
-    private var title: String {
-        if isPremiumActive {
-            return Localizable.string(Localizable.enjoyHeroPremium)
-        } else if wasSubscribed {
-            return Localizable.string(Localizable.getPremiumFeaturesBack)
-        } else {
-            return Localizable.string(Localizable.unlockHeroPremium)
-        }
-    }
-    
-    private var subtitle: String {
-        if isPremiumActive {
-            return Localizable.string(Localizable.premiumActiveSubtitle)
-        } else if wasSubscribed {
-            return Localizable.string(Localizable.premiumFeaturesBackSubtitle)
-        } else {
-            return Localizable.string(Localizable.premiumPromoSubtitle)
-        }
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top, spacing: 12) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(title)
-                        .font(.system(.headline, design: .default).weight(.bold))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Text(subtitle)
-                        .font(.system(.subheadline, design: .default))
-                        .foregroundColor(.white.opacity(0.9))
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
-                ProShieldBadge(label: "PRO", color: .white, showShimmer: true)
-            }
-            
-            if !isPremiumActive {
-                Button(action: onStartFreeTrial) {
-                    Text(hasUsedTrial ? Localizable.string(Localizable.upgradeToPremium) : Localizable.string(Localizable.startFreeTrial))
-                        .font(.system(.subheadline, design: .default).weight(.semibold))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(
-                            Capsule()
-                                .fill(Color.white.opacity(0.25))
-                        )
-                }
-            }
-        }
-        .padding(.vertical, 12)
-        .padding(.horizontal, 16)
-        .background(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            Color("AppGreen"),
-                            Color("AppBlue")
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-        )
     }
 }
 

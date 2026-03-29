@@ -24,7 +24,11 @@ struct WordOfTheDayListView: View {
     }
     
     private func canSelectSection(_ sectionId: String) -> Bool {
-        subscriptionManager.isPremiumActive || isFreeSection(sectionId)
+        if subscriptionManager.isPremiumActive { return true }
+        if isFreeSection(sectionId) { return true }
+        if sectionId == DataService.VerbenFreeTier.unlockedSectionId { return true }
+        if sectionId == DataService.AdjektiveFreeTier.unlockedSectionId { return true }
+        return false
     }
     
     /// Card-header index in a circle. Fixed font size so badges stay on-grid when Dynamic Type is large (titles still scale).
@@ -107,6 +111,15 @@ struct WordOfTheDayListView: View {
                                     Text(lection.title)
                                         .font(.title2.weight(.semibold)) // match VERBEN title
                                         .foregroundColor(.primary)
+
+                                    if !subscriptionManager.isPremiumActive && lection.id != DataService.GeneralWordsFreeTier.unlockedLectionId {
+                                        ProShieldBadge(
+                                            label: "PRO",
+                                            color: Color.primary.opacity(0.72),
+                                            showShimmer: false,
+                                            style: .compact
+                                        )
+                                    }
                                     
                                     Spacer()
                                     
@@ -118,9 +131,8 @@ struct WordOfTheDayListView: View {
                                 .contentShape(Rectangle())
                                 .onTapGesture {
                                     HapticManager.shared.lightImpact()
-                                    // Check if all sections in lection are free or user has premium
-                                    let allFree = lection.sections.allSatisfy { isFreeSection($0.id) }
-                                    if subscriptionManager.isPremiumActive || allFree {
+                                    if subscriptionManager.isPremiumActive
+                                        || lection.id == DataService.GeneralWordsFreeTier.unlockedLectionId {
                                         withAnimation(Self.selectionSpring) {
                                             toggleLectionSelection(lection: lection)
                                         }
@@ -207,13 +219,8 @@ struct WordOfTheDayListView: View {
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 HapticManager.shared.lightImpact()
-                                if subscriptionManager.isPremiumActive {
-                                    withAnimation(Self.selectionSpring) {
-                                        toggleAllVerbenSelection()
-                                    }
-                                } else {
-                                    HapticManager.shared.heavyImpact()
-                                    showPaywall = true
+                                withAnimation(Self.selectionSpring) {
+                                    toggleAllVerbenSelection()
                                 }
                             }
                         } content: {
@@ -288,13 +295,8 @@ struct WordOfTheDayListView: View {
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 HapticManager.shared.lightImpact()
-                                if subscriptionManager.isPremiumActive {
-                                    withAnimation(Self.selectionSpring) {
-                                        toggleAllAdjektiveSelection()
-                                    }
-                                } else {
-                                    HapticManager.shared.heavyImpact()
-                                    showPaywall = true
+                                withAnimation(Self.selectionSpring) {
+                                    toggleAllAdjektiveSelection()
                                 }
                             }
                         } content: {
@@ -512,14 +514,26 @@ struct WordOfTheDayListView: View {
     }
     
     private func isVerbenFullySelected() -> Bool {
-        verbenIdsSet.isSubset(of: selectedSectionIds)
+        if subscriptionManager.isPremiumActive {
+            return verbenIdsSet.isSubset(of: selectedSectionIds)
+        }
+        return selectedSectionIds.contains(DataService.VerbenFreeTier.unlockedSectionId)
     }
     
     private func toggleAllVerbenSelection() {
-        if isVerbenFullySelected() {
-            selectedSectionIds.subtract(verbenIdsSet)
+        if subscriptionManager.isPremiumActive {
+            if verbenIdsSet.isSubset(of: selectedSectionIds) {
+                selectedSectionIds.subtract(verbenIdsSet)
+            } else {
+                selectedSectionIds.formUnion(verbenIdsSet)
+            }
         } else {
-            selectedSectionIds.formUnion(verbenIdsSet)
+            let an = DataService.VerbenFreeTier.unlockedSectionId
+            if selectedSectionIds.contains(an) {
+                selectedSectionIds.remove(an)
+            } else {
+                selectedSectionIds.insert(an)
+            }
         }
     }
     
@@ -547,14 +561,26 @@ struct WordOfTheDayListView: View {
     }
     
     private func isAdjektiveFullySelected() -> Bool {
-        adjektiveIdsSet.isSubset(of: selectedSectionIds)
+        if subscriptionManager.isPremiumActive {
+            return adjektiveIdsSet.isSubset(of: selectedSectionIds)
+        }
+        return selectedSectionIds.contains(DataService.AdjektiveFreeTier.unlockedSectionId)
     }
     
     private func toggleAllAdjektiveSelection() {
-        if isAdjektiveFullySelected() {
-            selectedSectionIds.subtract(adjektiveIdsSet)
+        if subscriptionManager.isPremiumActive {
+            if adjektiveIdsSet.isSubset(of: selectedSectionIds) {
+                selectedSectionIds.subtract(adjektiveIdsSet)
+            } else {
+                selectedSectionIds.formUnion(adjektiveIdsSet)
+            }
         } else {
-            selectedSectionIds.formUnion(adjektiveIdsSet)
+            let an = DataService.AdjektiveFreeTier.unlockedSectionId
+            if selectedSectionIds.contains(an) {
+                selectedSectionIds.remove(an)
+            } else {
+                selectedSectionIds.insert(an)
+            }
         }
     }
     

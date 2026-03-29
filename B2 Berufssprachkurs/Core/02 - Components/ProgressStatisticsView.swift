@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ProgressStatisticsView: View {
     @ObservedObject var dataService: DataService
-    let isPremiumActive: Bool
     /// When set, shows the same distribution/readiness as the matching debug preset without touching saved study data (e.g. canvas previews).
     var statisticsPreviewPreset: SpacedRepetitionService.DebugProgressPreset? = nil
     @ObservedObject private var languageManager = LanguageManager.shared
@@ -18,20 +17,14 @@ struct ProgressStatisticsView: View {
     @State private var readinessPercentage: Int = 0
     
     private func updateStatistics() {
-        if isPremiumActive {
-            let allWordIds = dataService.getAllWordIds()
-            if let preset = statisticsPreviewPreset {
-                let stats = SpacedRepetitionService.shared.previewStatistics(for: preset, allWordIds: allWordIds)
-                progress = (stats.wrong, stats.familiar, stats.reinforced, stats.mastered, stats.total)
-                readinessPercentage = stats.readinessPercentage
-            } else {
-                progress = SpacedRepetitionService.shared.getProgressByLevel(allWordIds: allWordIds)
-                readinessPercentage = SpacedRepetitionService.shared.getReadinessPercentage(allWordIds: allWordIds)
-            }
+        let allWordIds = dataService.getAllWordIds()
+        if let preset = statisticsPreviewPreset {
+            let stats = SpacedRepetitionService.shared.previewStatistics(for: preset, allWordIds: allWordIds)
+            progress = (stats.wrong, stats.familiar, stats.reinforced, stats.mastered, stats.total)
+            readinessPercentage = stats.readinessPercentage
         } else {
-            // In basis mode, everything stays 0
-            progress = (0, 0, 0, 0, 0)
-            readinessPercentage = 0
+            progress = SpacedRepetitionService.shared.getProgressByLevel(allWordIds: allWordIds)
+            readinessPercentage = SpacedRepetitionService.shared.getReadinessPercentage(allWordIds: allWordIds)
         }
         refreshID = UUID()
     }

@@ -98,9 +98,9 @@ struct PaywallView: View {
                 await subscriptionManager.loadProducts()
             }
             
-            // Default selection depends on the 7-day lifetime promo window
+            // Free trial (e.g. “Teste jetzt kostenlos”) is tied to the quarterly product only — always preselect it.
             isLaunchOfferActive = LaunchOfferService.isLaunchOfferActive
-            selectedProductID = isLaunchOfferActive ? LaunchOfferService.promoProductId : "hero.premium.quarterly"
+            selectedProductID = "hero.premium.quarterly"
             countdownString = isLaunchOfferActive ? LaunchOfferService.countdownString : ""
             
             // Set selected package based on selected product ID

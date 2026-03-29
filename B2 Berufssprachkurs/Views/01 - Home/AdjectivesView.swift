@@ -9,10 +9,11 @@ import SwiftUI
 
 struct AdjectivesView: View {
     @EnvironmentObject private var dataService: DataService
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var navigateToStudy = false
     
     var hasAnySelection: Bool {
-        dataService.hasAnyAdjektiveCompleted()
+        dataService.hasAnyAdjektivePracticeSelection(isPremium: subscriptionManager.isPremiumActive)
     }
     
     var body: some View {
@@ -41,7 +42,7 @@ struct AdjectivesView: View {
             StudyView(
                 dataService: dataService,
                 filterBySectionId: nil,
-                studyAllMode: dataService.isAdjektiveCompleted(),
+                studyAllMode: dataService.areAllAdjektiveCompletedForStudy(isPremium: subscriptionManager.isPremiumActive),
                 categoryFilter: "ADJEKTIVE_"
             )
             .environmentObject(dataService)

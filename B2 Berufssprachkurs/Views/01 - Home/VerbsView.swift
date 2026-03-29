@@ -9,10 +9,11 @@ import SwiftUI
 
 struct VerbsView: View {
     @EnvironmentObject private var dataService: DataService
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var navigateToStudy = false
     
     var hasAnySelection: Bool {
-        dataService.hasAnyVerbenCompleted()
+        dataService.hasAnyVerbenPracticeSelection(isPremium: subscriptionManager.isPremiumActive)
     }
     
     var body: some View {
@@ -41,7 +42,7 @@ struct VerbsView: View {
             StudyView(
                 dataService: dataService,
                 filterBySectionId: nil,
-                studyAllMode: dataService.isVerbenCompleted(),
+                studyAllMode: dataService.areAllVerbenCompletedForStudy(isPremium: subscriptionManager.isPremiumActive),
                 categoryFilter: "VERBEN_"
             )
             .environmentObject(dataService)

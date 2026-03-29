@@ -10,6 +10,8 @@ import SwiftUI
 struct VerbsListView: View {
     @ObservedObject var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    @State private var showPaywall = false
 
     private var verbsScrollBinding: Binding<String?> {
         Binding(
@@ -38,6 +40,16 @@ struct VerbsListView: View {
         Section(id: "VERBEN_vor", title: "vor"),
         Section(id: "VERBEN_zu", title: "zu")
     ]
+
+    private func isVerbenRowLocked(_ section: Section) -> Bool {
+        !subscriptionManager.isPremiumActive
+            && !DataService.VerbenFreeTier.isVerbenSectionUnlockedWithoutPremium(section.id)
+    }
+
+    private func requestPaywall() {
+        HapticManager.shared.heavyImpact()
+        showPaywall = true
+    }
     
     var body: some View {
         FlatIndexedStackListView(
@@ -50,9 +62,20 @@ struct VerbsListView: View {
             selectAllId: "verbs-select-all",
             rowIdPrefix: "verbs-row",
             scrollBinding: verbsScrollBinding,
-            isAllSelected: dataService.isVerbenCompleted(),
-            onToggleAll: dataService.toggleVerbenCompleted
+            isAllSelected: subscriptionManager.isPremiumActive && dataService.isVerbenCompleted(),
+            onToggleAll: {
+                if subscriptionManager.isPremiumActive {
+                    dataService.toggleVerbenCompleted()
+                } else {
+                    requestPaywall()
+                }
+            },
+            isRowLocked: isVerbenRowLocked,
+            onLockedInteraction: requestPaywall
         )
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
+        }
     }
 }
 

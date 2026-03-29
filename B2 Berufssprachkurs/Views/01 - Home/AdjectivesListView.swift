@@ -10,6 +10,8 @@ import SwiftUI
 struct AdjectivesListView: View {
     @ObservedObject var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    @State private var showPaywall = false
 
     private var adjectivesScrollBinding: Binding<String?> {
         Binding(
@@ -34,6 +36,16 @@ struct AdjectivesListView: View {
         Section(id: "ADJEKTIVE_vor", title: "vor"),
         Section(id: "ADJEKTIVE_zu", title: "zu")
     ]
+
+    private func isAdjektiveRowLocked(_ section: Section) -> Bool {
+        !subscriptionManager.isPremiumActive
+            && !DataService.AdjektiveFreeTier.isAdjektiveSectionUnlockedWithoutPremium(section.id)
+    }
+
+    private func requestPaywall() {
+        HapticManager.shared.heavyImpact()
+        showPaywall = true
+    }
     
     var body: some View {
         FlatIndexedStackListView(
@@ -46,9 +58,20 @@ struct AdjectivesListView: View {
             selectAllId: "adjectives-select-all",
             rowIdPrefix: "adjectives-row",
             scrollBinding: adjectivesScrollBinding,
-            isAllSelected: dataService.isAdjektiveCompleted(),
-            onToggleAll: dataService.toggleAdjektiveCompleted
+            isAllSelected: subscriptionManager.isPremiumActive && dataService.isAdjektiveCompleted(),
+            onToggleAll: {
+                if subscriptionManager.isPremiumActive {
+                    dataService.toggleAdjektiveCompleted()
+                } else {
+                    requestPaywall()
+                }
+            },
+            isRowLocked: isAdjektiveRowLocked,
+            onLockedInteraction: requestPaywall
         )
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
+        }
     }
 }
 
@@ -58,4 +81,3 @@ struct AdjectivesListView: View {
             .environmentObject(LearningListsUIState.shared)
     }
 }
-

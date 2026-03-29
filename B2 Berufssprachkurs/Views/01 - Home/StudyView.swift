@@ -208,20 +208,30 @@ struct StudyView: View {
                 // Try regular sections first
                 for lection in dataService.lections {
                     if let section = lection.sections.first(where: { $0.id == sectionId }) {
+                        if !isPremiumActive,
+                           !DataService.GeneralWordsFreeTier.isLectionUnlockedWithoutPremium(lection.id) {
+                            break
+                        }
                         sectionsToProcess.append((section: section, lection: lection))
                         break
                     }
                 }
                 // If not found in regular sections, check VERBEN sections
                 if sectionsToProcess.isEmpty && sectionId.hasPrefix("VERBEN_") {
-                    if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
+                    if !isPremiumActive,
+                       !DataService.VerbenFreeTier.isVerbenSectionUnlockedWithoutPremium(sectionId) {
+                        // Free tier: only **an** is reachable from UI; block other VERBEN deep links.
+                    } else if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
                         let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "VERBEN_", with: ""))
                         sectionsToProcess.append((section: section, lection: nil))
                     }
                 }
                 // Also check ADJEKTIVE sections
                 if sectionsToProcess.isEmpty && sectionId.hasPrefix("ADJEKTIVE_") {
-                    if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
+                    if !isPremiumActive,
+                       !DataService.AdjektiveFreeTier.isAdjektiveSectionUnlockedWithoutPremium(sectionId) {
+                        // Free tier: only **an** is reachable from UI; block other ADJEKTIVE deep links.
+                    } else if let words = dataService.wordsBySection[sectionId], !words.isEmpty {
                         let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "ADJEKTIVE_", with: ""))
                         sectionsToProcess.append((section: section, lection: nil))
                     }
@@ -234,6 +244,16 @@ struct StudyView: View {
                 if categoryFilter == "VERBEN_" || categoryFilter == "ADJEKTIVE_" {
                     // Process only sections with this prefix
                     for (sectionId, words) in dataService.wordsBySection where sectionId.hasPrefix(categoryFilter) {
+                        if categoryFilter == "VERBEN_",
+                           !isPremiumActive,
+                           !DataService.VerbenFreeTier.isVerbenSectionUnlockedWithoutPremium(sectionId) {
+                            continue
+                        }
+                        if categoryFilter == "ADJEKTIVE_",
+                           !isPremiumActive,
+                           !DataService.AdjektiveFreeTier.isAdjektiveSectionUnlockedWithoutPremium(sectionId) {
+                            continue
+                        }
                         if !words.isEmpty {
                             let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: categoryFilter, with: ""))
                             sectionsToProcess.append((section: section, lection: nil))
@@ -244,12 +264,20 @@ struct StudyView: View {
                 // Favorites mode: process all sections (regular + VERBEN + ADJEKTIVE)
                 // Process regular sections from lections
                 for lection in dataService.lections {
+                    if !isPremiumActive,
+                       !DataService.GeneralWordsFreeTier.isLectionUnlockedWithoutPremium(lection.id) {
+                        continue
+                    }
                     for section in lection.sections {
                         sectionsToProcess.append((section: section, lection: lection))
                     }
                 }
                 // Also process VERBEN sections from wordsBySection
                 for (sectionId, words) in dataService.wordsBySection where sectionId.hasPrefix("VERBEN_") {
+                    if !isPremiumActive,
+                       !DataService.VerbenFreeTier.isVerbenSectionUnlockedWithoutPremium(sectionId) {
+                        continue
+                    }
                     if !words.isEmpty {
                         let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "VERBEN_", with: ""))
                         sectionsToProcess.append((section: section, lection: nil))
@@ -257,6 +285,10 @@ struct StudyView: View {
                 }
                 // Also process ADJEKTIVE sections from wordsBySection
                 for (sectionId, words) in dataService.wordsBySection where sectionId.hasPrefix("ADJEKTIVE_") {
+                    if !isPremiumActive,
+                       !DataService.AdjektiveFreeTier.isAdjektiveSectionUnlockedWithoutPremium(sectionId) {
+                        continue
+                    }
                     if !words.isEmpty {
                         let section = Section(id: sectionId, title: sectionId.replacingOccurrences(of: "ADJEKTIVE_", with: ""))
                         sectionsToProcess.append((section: section, lection: nil))
@@ -271,6 +303,10 @@ struct StudyView: View {
             } else {
                 // General words mode: process only regular sections from lections (no VERBEN, no ADJEKTIVE)
                 for lection in dataService.lections {
+                    if !isPremiumActive,
+                       !DataService.GeneralWordsFreeTier.isLectionUnlockedWithoutPremium(lection.id) {
+                        continue
+                    }
                     for section in lection.sections {
                         sectionsToProcess.append((section: section, lection: lection))
                     }
@@ -837,14 +873,18 @@ struct StudyView: View {
             // Stack root (Verben / Adjektive): completion lives in `completedSections`, not in lections.
             if let categoryFilter = categoryFilter {
                 if categoryFilter == "VERBEN_" {
-                    return dataService.hasAnyVerbenCompleted()
+                    return dataService.hasAnyVerbenPracticeSelection(isPremium: isPremiumActive)
                 }
                 if categoryFilter == "ADJEKTIVE_" {
-                    return dataService.hasAnyAdjektiveCompleted()
+                    return dataService.hasAnyAdjektivePracticeSelection(isPremium: isPremiumActive)
                 }
             }
-            // From home view: check if any sections or lections are selected
+            // From home view: check if any sections or lections are selected (non‑Pro: lection 1 only)
             for lection in dataService.lections {
+                if !isPremiumActive,
+                   !DataService.GeneralWordsFreeTier.isLectionUnlockedWithoutPremium(lection.id) {
+                    continue
+                }
                 if dataService.isLectionCompleted(lectionId: lection.id) {
                     return true
                 }
