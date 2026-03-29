@@ -142,11 +142,14 @@ struct WordOfTheDayListView: View {
                                                 .font(.body)
                                                 .foregroundColor(.primary)
                                             
-                                            // Premium badge for non-free sections
+                                            // Pro badge for non-free sections (free tier)
                                             if !canSelectSection(section.id) {
-                                                Image(systemName: "crown.fill")
-                                                    .font(.caption)
-                                                    .foregroundColor(.orange)
+                                                ProShieldBadge(
+                                                    label: "PRO",
+                                                    color: Color.primary.opacity(0.72),
+                                                    showShimmer: false,
+                                                    style: .compact
+                                                )
                                             }
                                             
                                             Spacer()
@@ -221,11 +224,14 @@ struct WordOfTheDayListView: View {
                                             .font(.body)
                                             .foregroundColor(.primary)
                                         
-                                        // Premium badge for non-free sections
+                                        // Pro badge for non-free sections (free tier)
                                         if !canSelectSection(item.id) {
-                                            Image(systemName: "crown.fill")
-                                                .font(.caption)
-                                                .foregroundColor(.orange)
+                                            ProShieldBadge(
+                                                label: "PRO",
+                                                color: Color.primary.opacity(0.72),
+                                                showShimmer: false,
+                                                style: .compact
+                                            )
                                         }
                                         
                                         Spacer()
@@ -299,11 +305,14 @@ struct WordOfTheDayListView: View {
                                             .font(.body)
                                             .foregroundColor(.primary)
                                         
-                                        // Premium badge for non-free sections
+                                        // Pro badge for non-free sections (free tier)
                                         if !canSelectSection(item.id) {
-                                            Image(systemName: "crown.fill")
-                                                .font(.caption)
-                                                .foregroundColor(.orange)
+                                            ProShieldBadge(
+                                                label: "PRO",
+                                                color: Color.primary.opacity(0.72),
+                                                showShimmer: false,
+                                                style: .compact
+                                            )
                                         }
                                         
                                         Spacer()
