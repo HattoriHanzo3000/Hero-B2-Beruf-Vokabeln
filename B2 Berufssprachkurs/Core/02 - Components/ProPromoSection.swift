@@ -90,11 +90,17 @@ struct ProPromoSection: View {
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .fill(
                         LinearGradient(
-                            colors: [
-                                Color("AppOrange"),
-                                Color("AppOrange").opacity(0.94),
-                                Color("AppOrange").opacity(0.88)
-                            ],
+                            colors: isPremiumActive
+                                ? [
+                                    Color("AppGreen"),
+                                    Color("AppGreen").opacity(0.94),
+                                    Color("AppGreenSecond").opacity(0.92)
+                                ]
+                                : [
+                                    Color("AppOrange"),
+                                    Color("AppOrange").opacity(0.94),
+                                    Color("AppOrange").opacity(0.88)
+                                ],
                             startPoint: .top,
                             endPoint: .bottom
                         )
@@ -104,7 +110,7 @@ struct ProPromoSection: View {
                         LinearGradient(
                             colors: [
                                 Color.white.opacity(0.10),
-                                Color.white.opacity(0.03),
+                                Color.white.opacity(0.07),
                                 Color.clear
                             ],
                             startPoint: .top,
