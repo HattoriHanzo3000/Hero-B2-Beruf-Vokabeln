@@ -182,7 +182,7 @@ struct CockpitView: View {
                             
                             // Source sections button - accessible to all users
                             NavigationLink {
-                                SectionSelectionView(
+                                WordOfTheDayListView(
                                     selectedSections: $wordOfTheDaySelectedSections,
                                     dataService: dataService
                                 )

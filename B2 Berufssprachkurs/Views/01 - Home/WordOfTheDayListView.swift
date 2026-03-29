@@ -1,5 +1,5 @@
 //
-//  SectionSelectionView.swift
+//  WordOfTheDayListView.swift
 //  B2 Berufssprachkurs
 //
 //  Created by Ildar on 18.11.25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SectionSelectionView: View {
+struct WordOfTheDayListView: View {
     @Binding var selectedSections: String
     @ObservedObject var dataService: DataService
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
@@ -27,6 +27,66 @@ struct SectionSelectionView: View {
         subscriptionManager.isPremiumActive || isFreeSection(sectionId)
     }
     
+    /// Card-header index in a circle. Fixed font size so badges stay on-grid when Dynamic Type is large (titles still scale).
+    private enum LectionIndexBadge {
+        static let circleSize: CGFloat = 34
+        /// `Font.system(size:)` does not follow Dynamic Type.
+        static let numberFont = Font.system(size: 22, weight: .semibold, design: .default)
+        
+        static func circle(numberText: String, fillColor: Color) -> some View {
+            ZStack {
+                Circle()
+                    .fill(fillColor)
+                    .frame(width: circleSize, height: circleSize)
+                Text(numberText)
+                    .font(numberFont)
+                    .foregroundStyle(.white)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
+            }
+        }
+    }
+    
+    /// Same interaction as `GeneralWordsListView` / `SectionRowView`: spring + SF Symbol bounce.
+    private static let selectionSpring = Animation.spring(response: 0.3, dampingFraction: 0.7)
+    
+    private struct BouncingSelectionCheckmark: View {
+        let isSelected: Bool
+        /// Card headers (lection / stacks 13–14) use callout; inner rows use subheadline like general words subsections.
+        var isHeaderRow: Bool = false
+        /// Toolbar “select all” uses `checkmark.circle` when off; list rows use plain `circle`.
+        var outlineIsCheckmarkCircle: Bool = false
+        var toolbarStyled: Bool = false
+        
+        private var symbolName: String {
+            if isSelected { return "checkmark.circle.fill" }
+            return outlineIsCheckmarkCircle ? "checkmark.circle" : "circle"
+        }
+        
+        var body: some View {
+            Image(systemName: symbolName)
+                .foregroundStyle(isSelected ? Color.secondary : Color.secondary)
+                .modifier(CheckmarkFontModifier(toolbarStyled: toolbarStyled, isHeaderRow: isHeaderRow))
+                .symbolEffect(.bounce, value: isSelected)
+        }
+        
+        private struct CheckmarkFontModifier: ViewModifier {
+            let toolbarStyled: Bool
+            let isHeaderRow: Bool
+            
+            @ViewBuilder
+            func body(content: Content) -> some View {
+                if toolbarStyled {
+                    content.navigationBarSymbolStyle()
+                } else if isHeaderRow {
+                    content.font(.system(.callout, design: .default).weight(.medium))
+                } else {
+                    content.font(.system(.subheadline, design: .default).weight(.medium))
+                }
+            }
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -39,14 +99,10 @@ struct SectionSelectionView: View {
                             SelectionCard {
                                 // Header - tap to toggle whole lection
                                 HStack(spacing: 12) {
-                                    ZStack {
-                                        Circle()
-                                            .fill(Color("AppGreen"))
-                                            .frame(width: 34, height: 34)
-                                        Text("\(lection.id)")
-                                            .font(.title2.weight(.semibold)) // match title font
-                                            .foregroundColor(.white)
-                                    }
+                                    LectionIndexBadge.circle(
+                                        numberText: "\(lection.id)",
+                                        fillColor: Color("AppGreen")
+                                    )
                                     
                                     Text(lection.title)
                                         .font(.title2.weight(.semibold)) // match VERBEN title
@@ -54,9 +110,10 @@ struct SectionSelectionView: View {
                                     
                                     Spacer()
                                     
-                                    Image(systemName: isLectionFullySelected(lection: lection) ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(isLectionFullySelected(lection: lection) ? .primary : .secondary)
-                                        .fontWeight(.semibold)
+                                    BouncingSelectionCheckmark(
+                                        isSelected: isLectionFullySelected(lection: lection),
+                                        isHeaderRow: true
+                                    )
                                 }
                                 .contentShape(Rectangle())
                                 .onTapGesture {
@@ -64,7 +121,9 @@ struct SectionSelectionView: View {
                                     // Check if all sections in lection are free or user has premium
                                     let allFree = lection.sections.allSatisfy { isFreeSection($0.id) }
                                     if subscriptionManager.isPremiumActive || allFree {
-                                        toggleLectionSelection(lection: lection)
+                                        withAnimation(Self.selectionSpring) {
+                                            toggleLectionSelection(lection: lection)
+                                        }
                                     } else {
                                         HapticManager.shared.heavyImpact()
                                         showPaywall = true
@@ -92,19 +151,21 @@ struct SectionSelectionView: View {
                                             
                                             Spacer()
                                             
-                                            Image(systemName: selectedSectionIds.contains(section.id) ? "checkmark.circle.fill" : "circle")
-                                                .foregroundColor(selectedSectionIds.contains(section.id) ? .primary : .secondary)
-                                                .fontWeight(.semibold)
+                                            BouncingSelectionCheckmark(isSelected: selectedSectionIds.contains(section.id))
                                         }
                                         .padding(.vertical, 8)
                                         .contentShape(Rectangle())
                                         .onTapGesture {
                                             HapticManager.shared.lightImpact()
                                             if selectedSectionIds.contains(section.id) {
-                                                selectedSectionIds.remove(section.id)
+                                                withAnimation(Self.selectionSpring) {
+                                                    _ = selectedSectionIds.remove(section.id)
+                                                }
                                             } else {
                                                 if canSelectSection(section.id) {
-                                                    selectedSectionIds.insert(section.id)
+                                                    withAnimation(Self.selectionSpring) {
+                                                        _ = selectedSectionIds.insert(section.id)
+                                                    }
                                                 } else {
                                                     HapticManager.shared.heavyImpact()
                                                     showPaywall = true
@@ -127,14 +188,10 @@ struct SectionSelectionView: View {
                         SelectionCard {
                             // Header - tap to toggle all VERBEN sections
                             HStack(spacing: 12) {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color("AppGreen"))
-                                        .frame(width: 34, height: 34)
-                                    Text("13")
-                                        .font(.title2.weight(.semibold)) // same as title
-                                        .foregroundColor(.white)
-                                }
+                                LectionIndexBadge.circle(
+                                    numberText: "13",
+                                    fillColor: Color("AppBlue")
+                                )
                                 
                                 Text(Localizable.string(Localizable.verbsWithPrepositions))
                                     .font(.title2.weight(.semibold)) // bigger title
@@ -142,15 +199,15 @@ struct SectionSelectionView: View {
                                 
                                 Spacer()
                                 
-                                Image(systemName: isVerbenFullySelected() ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(isVerbenFullySelected() ? .primary : .secondary)
-                                    .fontWeight(.semibold)
+                                BouncingSelectionCheckmark(isSelected: isVerbenFullySelected(), isHeaderRow: true)
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 HapticManager.shared.lightImpact()
                                 if subscriptionManager.isPremiumActive {
-                                    toggleAllVerbenSelection()
+                                    withAnimation(Self.selectionSpring) {
+                                        toggleAllVerbenSelection()
+                                    }
                                 } else {
                                     HapticManager.shared.heavyImpact()
                                     showPaywall = true
@@ -173,19 +230,21 @@ struct SectionSelectionView: View {
                                         
                                         Spacer()
                                         
-                                        Image(systemName: selectedSectionIds.contains(item.id) ? "checkmark.circle.fill" : "circle")
-                                            .foregroundColor(selectedSectionIds.contains(item.id) ? .primary : .secondary)
-                                            .fontWeight(.semibold)
+                                        BouncingSelectionCheckmark(isSelected: selectedSectionIds.contains(item.id))
                                     }
                                     .padding(.vertical, 8)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         HapticManager.shared.lightImpact()
                                         if selectedSectionIds.contains(item.id) {
-                                            selectedSectionIds.remove(item.id)
+                                            withAnimation(Self.selectionSpring) {
+                                                _ = selectedSectionIds.remove(item.id)
+                                            }
                                         } else {
                                             if canSelectSection(item.id) {
-                                                selectedSectionIds.insert(item.id)
+                                                withAnimation(Self.selectionSpring) {
+                                                    _ = selectedSectionIds.insert(item.id)
+                                                }
                                             } else {
                                                 HapticManager.shared.heavyImpact()
                                                 showPaywall = true
@@ -207,14 +266,10 @@ struct SectionSelectionView: View {
                         SelectionCard {
                             // Header - tap to toggle all ADJEKTIVE sections
                             HStack(spacing: 12) {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color("AppGreen"))
-                                        .frame(width: 34, height: 34)
-                                    Text("14")
-                                        .font(.title2.weight(.semibold)) // same as title
-                                        .foregroundColor(.white)
-                                }
+                                LectionIndexBadge.circle(
+                                    numberText: "14",
+                                    fillColor: Color("AppPurple")
+                                )
                                 
                                 Text(Localizable.string(Localizable.adjectivesWithPrepositions))
                                     .font(.title2.weight(.semibold)) // bigger title
@@ -222,15 +277,15 @@ struct SectionSelectionView: View {
                                 
                                 Spacer()
                                 
-                                Image(systemName: isAdjektiveFullySelected() ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(isAdjektiveFullySelected() ? .primary : .secondary)
-                                    .fontWeight(.semibold)
+                                BouncingSelectionCheckmark(isSelected: isAdjektiveFullySelected(), isHeaderRow: true)
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 HapticManager.shared.lightImpact()
                                 if subscriptionManager.isPremiumActive {
-                                    toggleAllAdjektiveSelection()
+                                    withAnimation(Self.selectionSpring) {
+                                        toggleAllAdjektiveSelection()
+                                    }
                                 } else {
                                     HapticManager.shared.heavyImpact()
                                     showPaywall = true
@@ -253,19 +308,21 @@ struct SectionSelectionView: View {
                                         
                                         Spacer()
                                         
-                                        Image(systemName: selectedSectionIds.contains(item.id) ? "checkmark.circle.fill" : "circle")
-                                            .foregroundColor(selectedSectionIds.contains(item.id) ? .primary : .secondary)
-                                            .fontWeight(.semibold)
+                                        BouncingSelectionCheckmark(isSelected: selectedSectionIds.contains(item.id))
                                     }
                                     .padding(.vertical, 8)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         HapticManager.shared.lightImpact()
                                         if selectedSectionIds.contains(item.id) {
-                                            selectedSectionIds.remove(item.id)
+                                            withAnimation(Self.selectionSpring) {
+                                                _ = selectedSectionIds.remove(item.id)
+                                            }
                                         } else {
                                             if canSelectSection(item.id) {
-                                                selectedSectionIds.insert(item.id)
+                                                withAnimation(Self.selectionSpring) {
+                                                    _ = selectedSectionIds.insert(item.id)
+                                                }
                                             } else {
                                                 HapticManager.shared.heavyImpact()
                                                 showPaywall = true
@@ -294,19 +351,25 @@ struct SectionSelectionView: View {
                     Button {
                         HapticManager.shared.lightImpact()
                         if isAllSelected() {
-                            selectedSectionIds.removeAll()
+                            withAnimation(Self.selectionSpring) {
+                                selectedSectionIds.removeAll()
+                            }
                         } else {
                             if subscriptionManager.isPremiumActive {
-                                selectAllSections()
+                                withAnimation(Self.selectionSpring) {
+                                    selectAllSections()
+                                }
                             } else {
                                 HapticManager.shared.heavyImpact()
                                 showPaywall = true
                             }
                         }
                     } label: {
-                        Image(systemName: isAllSelected() ? "checkmark.circle.fill" : "checkmark.circle")
-                            .navigationBarSymbolStyle()
-                            .foregroundColor(isAllSelected() ? .primary : .secondary)
+                        BouncingSelectionCheckmark(
+                            isSelected: isAllSelected(),
+                            outlineIsCheckmarkCircle: true,
+                            toolbarStyled: true
+                        )
                     }
                     .accessibilityLabel(Text(Localizable.string(Localizable.selectAll)))
                 }
@@ -513,9 +576,8 @@ struct SectionSelectionView: View {
 }
 
 #Preview {
-    SectionSelectionView(
+    WordOfTheDayListView(
         selectedSections: .constant(""),
         dataService: DataService()
     )
 }
-
