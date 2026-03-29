@@ -57,7 +57,6 @@ extension Localizable {
     static let settingsSectionLegal = "settings_section_legal"
     static let settingsSectionData = "settings_section_data"
     static let about = "about"
-    static let update = "update"
     static let premium = "premium"
     static let wordOfTheDay = "word_of_the_day"
     static let periodicity = "periodicity"
@@ -122,15 +121,8 @@ extension Localizable {
     static let hours12Short = "12_hours_short"
     static let hours24Short = "24_hours_short"
     
-    // Update page
-    static let currentVersion = "current_version"
-    static let updateAvailable = "update_available"
-    static let versionUpdates = "version_updates"
-    static let versionUpdatesPlaceholder = "version_updates_placeholder"
-    static let newVersionAvailable = "new_version_available"
-    static let thisUpdateAdds = "this_update_adds"
+    // Update (in-app alert)
     static let updateNow = "update_now"
-    static let updateButtonHint = "update_button_hint"
     static let updateAlertTitle = "update_alert_title"
     static let updateAlertMessage = "update_alert_message"
     static let remindMeLater = "remind_me_later"

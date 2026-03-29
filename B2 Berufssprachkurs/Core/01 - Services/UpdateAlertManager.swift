@@ -36,15 +36,7 @@ class UpdateAlertManager: ObservableObject {
                 // Compare versions
                 if compareVersions(currentVersion, storeVersion) < 0 {
                     availableVersion = storeVersion
-                    
-                    // Get App Store URL (you'll need to replace with your actual App Store ID)
-                    if let trackId = appInfo.trackId {
-                        appStoreURL = "https://apps.apple.com/app/id\(trackId)"
-                    } else {
-                        // Fallback - replace with your actual App Store ID
-                        appStoreURL = "https://apps.apple.com/app/id1234567890" // TODO: Replace with actual App Store ID
-                    }
-                    
+                    appStoreURL = AppStoreService.listingURL(preferredTrackId: appInfo.trackId)
                     showUpdateAlert = true
                     lastUpdateAlertDate = Date().timeIntervalSince1970
                 }

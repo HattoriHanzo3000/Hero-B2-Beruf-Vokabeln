@@ -9,6 +9,22 @@ import Foundation
 
 struct AppStoreService {
     static let shared = AppStoreService()
+
+    /// Numeric App Store ID (App Store Connect → General → Apple ID).
+    static let appStoreNumericID = 6_755_700_752
+
+    /// Canonical listing URL when region should follow the user’s storefront.
+    static var defaultListingURL: String {
+        "https://apps.apple.com/app/id\(appStoreNumericID)"
+    }
+
+    /// Prefer the ID returned by iTunes Lookup (`trackId`); fall back to `defaultListingURL`.
+    static func listingURL(preferredTrackId: Int?) -> String {
+        if let preferredTrackId {
+            return "https://apps.apple.com/app/id\(preferredTrackId)"
+        }
+        return defaultListingURL
+    }
     
     private let bundleId = "com.gizatech.B2-Beruf"
     

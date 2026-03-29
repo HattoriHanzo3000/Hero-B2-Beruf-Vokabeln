@@ -13,14 +13,9 @@ struct ShareView: View {
     @State private var showShareSheet = false
     @Environment(\.colorScheme) private var colorScheme
     
-    // App Store URL - universal format that works across all regions
-    private let appStoreURL = "https://apps.apple.com/app/id6755700752"
-    
-    // App Store URL for opening - uses universal format
-    private var appStoreOpenURL: String {
-        // Universal format without country code - App Store will redirect to user's region
-        return appStoreURL
-    }
+    private var appStoreURL: String { AppStoreService.defaultListingURL }
+
+    private var appStoreOpenURL: String { appStoreURL }
     
     // Share text
     private var shareText: String {

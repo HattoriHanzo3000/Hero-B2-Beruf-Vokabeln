@@ -45,7 +45,6 @@
 "settings_section_legal" = "Legal";
 "settings_section_data" = "Data";
 "about" = "About";
-"update" = "Version";
 "premium" = "Hero Pro";
 "word_of_the_day" = "Word of the Day";
 "periodicity" = "Periodicity";
@@ -111,15 +110,8 @@
 "12_hours_short" = "12h";
 "24_hours_short" = "24h";
 
-// Update page
-"current_version" = "Current Version";
-"update_available" = "Update Available";
-"version_updates" = "You are using the latest version of the app.";
-"version_updates_placeholder" = "A new version is available with improvements and bug fixes.";
-"new_version_available" = "A new version of the app is available";
-"this_update_adds" = "This update adds";
+// Update alert (MainView)
 "update_now" = "Update Now";
-"update_button_hint" = "Opens the App Store to update the app";
 "update_alert_title" = "Update Available";
 "update_alert_message" = "A new version of the app is available";
 "remind_me_later" = "Remind Me Later";
