@@ -217,7 +217,7 @@
 "subscription_terms_yearly_promotional" = "Bei Abonnement wird dein Apple-Konto mit %@ für das erste Jahr belastet. Nach dem ersten Jahr verlängert sich dein Hero Pro-Abonnement automatisch zu %@ pro Jahr, es sei denn, es wird mindestens 24 Stunden vor Ablauf der Laufzeit gekündigt.\n\nDu kannst jederzeit in deinen App Store-Einstellungen kündigen. Weitere Details findest du in unseren Nutzungsbedingungen und unserer Datenschutzerklärung.";
 "subscription_terms_lifetime" = "Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo in den App Store-Kontoeinstellungen verwalten. Mit dem Fortfahren stimmst du unseren Nutzungsbedingungen und der Datenschutzerklärung zu.";
 "launch_offer_expires_in" = "Endet in";
-"launch_offer_badge" = "START-DEAL -54%";
+"launch_offer_badge" = "START-DEAL -50%";
 "paywall_best_value" = "Bester Preis";
 "subscription_title" = "Hero Pro Abonnement";
 "subscription_length" = "1 Monat";
