@@ -26,6 +26,7 @@ struct HomeView: View {
     @ObservedObject private var languageManager = LanguageManager.shared
     private let isPremiumPreviewOverride: Bool?
     @State private var activeStack: LearningStackType?
+    @State private var showPaywall = false
 
     init(isPremiumPreviewOverride: Bool? = nil) {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
@@ -43,7 +44,8 @@ struct HomeView: View {
                 HeaderView(
                     dataService: dataService,
                     isPremiumPreviewOverride: isPremiumPreviewOverride,
-                    embedInScrollContent: false
+                    embedInScrollContent: false,
+                    showPaywall: $showPaywall
                 )
                 .id("header_\(languageManager.currentLanguage)")
 
@@ -144,6 +146,9 @@ struct HomeView: View {
             }
         }
         .toolbar(.hidden, for: .navigationBar)
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
+        }
         .navigationDestination(item: $activeStack) { stack in
             switch stack {
             case .general:

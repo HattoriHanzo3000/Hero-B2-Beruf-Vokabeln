@@ -9,6 +9,21 @@ import SwiftUI
 import SwiftData
 import UIKit
 
+private struct HeroProRowAccessibility: ViewModifier {
+    let useCombinedLabel: Bool
+    let combinedLabel: String
+
+    func body(content: Content) -> some View {
+        if useCombinedLabel {
+            content
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(combinedLabel)
+        } else {
+            content
+        }
+    }
+}
+
 struct HeaderView: View {
     @ObservedObject var dataService: DataService
     @Query(sort: \WordProgress.wordId) private var wordProgressRecords: [WordProgress]
@@ -17,6 +32,8 @@ struct HeaderView: View {
     private let isPremiumPreviewOverride: Bool?
     /// When `true`, only greeting / mascot / word-of-the-day are shown (no pinned gradient shell). Use on Home with a full-screen background gradient.
     private let embedInScrollContent: Bool
+    /// When set (e.g. from `HomeView`), the free-tier “start free trial” label opens the paywall.
+    private let showPaywall: Binding<Bool>?
     @State private var wordOfTheDay: Word? = nil
     @State private var showMascotGif = false
     @State private var gifPlayToken: UUID = UUID()
@@ -30,10 +47,16 @@ struct HeaderView: View {
     private let gifAnimationDuration: Double = 1.1
     private let autoPlayInterval: TimeInterval = 15.0 // Auto-play every 15 seconds
     
-    init(dataService: DataService, isPremiumPreviewOverride: Bool? = nil, embedInScrollContent: Bool = false) {
+    init(
+        dataService: DataService,
+        isPremiumPreviewOverride: Bool? = nil,
+        embedInScrollContent: Bool = false,
+        showPaywall: Binding<Bool>? = nil
+    ) {
         self.dataService = dataService
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
         self.embedInScrollContent = embedInScrollContent
+        self.showPaywall = showPaywall
     }
 
     var body: some View {
@@ -148,6 +171,15 @@ struct HeaderView: View {
         embedInScrollContent ? (colorScheme == .light ? .black : .white) : .white
     }
 
+    /// Same typographic style as `ProShieldBadge` standard labels (caption2 expanded medium).
+    private var heroProSupplementFont: Font {
+        .system(.caption2, weight: .medium).width(.expanded)
+    }
+
+    private var isPremiumUser: Bool {
+        isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
+    }
+
     /// Fixed height for the encouragement text well (matches mascot for a stable top band).
     private var heroEncouragementBoxHeight: CGFloat { mascotSize }
 
@@ -166,13 +198,40 @@ struct HeaderView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 10) {
                 VStack(alignment: .leading, spacing: 8) {
-                    if shouldShowProBadge {
+                    HStack(alignment: .center, spacing: 8) {
                         ProShieldBadge(
                             label: "PRO",
                             color: proBadgeColor,
                             showShimmer: true
                         )
+                        if !isPremiumUser {
+                            if let showPaywall {
+                                Button {
+                                    HapticManager.shared.lightImpact()
+                                    showPaywall.wrappedValue = true
+                                } label: {
+                                    Text(Localizable.string(Localizable.startFreeTrial))
+                                        .font(heroProSupplementFont)
+                                        .foregroundColor(proBadgeColor.opacity(0.92))
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.75)
+                                }
+                                .buttonStyle(.plain)
+                            } else {
+                                Text(Localizable.string(Localizable.startFreeTrial))
+                                    .font(heroProSupplementFont)
+                                    .foregroundColor(proBadgeColor.opacity(0.92))
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.75)
+                            }
+                        }
                     }
+                    .modifier(HeroProRowAccessibility(
+                        useCombinedLabel: isPremiumUser || showPaywall == nil,
+                        combinedLabel: isPremiumUser
+                            ? "PRO"
+                            : "PRO, \(Localizable.string(Localizable.startFreeTrial))"
+                    ))
 
                     GeometryReader { geo in
                         let fontSize = heroEncouragementScaledPointSize(containerWidth: geo.size.width)
@@ -185,9 +244,7 @@ struct HeaderView: View {
                             .frame(
                                 width: geo.size.width,
                                 height: geo.size.height,
-                                alignment: shouldShowProBadge
-                                    ? .topLeading
-                                    : .init(horizontal: .leading, vertical: .center)
+                                alignment: .topLeading
                             )
                             .id("hero_encouragement_\(languageManager.currentLanguage)")
                     }
@@ -309,10 +366,6 @@ struct HeaderView: View {
     }
 
     // MARK: - Mascot View
-    private var shouldShowProBadge: Bool {
-        isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
-    }
-
     private let mascotSize: CGFloat = 100
 
     private var mascotView: some View {
