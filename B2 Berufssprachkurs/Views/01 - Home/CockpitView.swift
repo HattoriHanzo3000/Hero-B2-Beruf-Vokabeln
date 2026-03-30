@@ -100,6 +100,7 @@ struct CockpitView: View {
                         ProPromoSection(
                             isPremiumActive: isPremiumForUI,
                             hasUsedTrial: subscriptionManager.hasUsedTrial,
+                            showFreeTierCallout: subscriptionManager.hasCompletedInitialSubscriptionSync,
                             onStartFreeTrial: {
                                 HapticManager.shared.mediumImpact()
                                 showPaywall = true
@@ -182,12 +183,6 @@ struct CockpitView: View {
                             .frame(maxWidth: .infinity, minHeight: CockpitView.wotdControlMinHeight, alignment: .center)
                             .padding(.horizontal, CockpitView.wotdControlHorizontalPadding)
                             .background(WotdLiquidGlassCapsuleBackground())
-                            .contentShape(Capsule(style: .continuous))
-                            .simultaneousGesture(
-                                TapGesture().onEnded { _ in
-                                    HapticManager.shared.lightImpact()
-                                }
-                            )
                             
                             // Source sections button - accessible to all users
                             NavigationLink {

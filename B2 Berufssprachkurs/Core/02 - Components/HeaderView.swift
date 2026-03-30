@@ -180,6 +180,11 @@ struct HeaderView: View {
         isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
     }
 
+    /// Avoid showing “Start free trial” until the first entitlement refresh; sandbox subscribers otherwise see a one-frame flash.
+    private var showHeroFreeTrialCallout: Bool {
+        subscriptionManager.hasCompletedInitialSubscriptionSync && !isPremiumUser
+    }
+
     /// Fixed height for the encouragement text well (matches mascot for a stable top band).
     private var heroEncouragementBoxHeight: CGFloat { mascotSize }
 
@@ -204,7 +209,7 @@ struct HeaderView: View {
                             color: proBadgeColor,
                             showShimmer: true
                         )
-                        if !isPremiumUser {
+                        if showHeroFreeTrialCallout {
                             if let showPaywall {
                                 Button {
                                     HapticManager.shared.lightImpact()
@@ -251,10 +256,10 @@ struct HeaderView: View {
                         }
                     }
                     .modifier(HeroProRowAccessibility(
-                        useCombinedLabel: isPremiumUser || showPaywall == nil,
+                        useCombinedLabel: isPremiumUser || showPaywall == nil || !showHeroFreeTrialCallout,
                         combinedLabel: isPremiumUser
                             ? "PRO"
-                            : "PRO, \(Localizable.string(Localizable.startFreeTrial))"
+                            : (showHeroFreeTrialCallout ? "PRO, \(Localizable.string(Localizable.startFreeTrial))" : "PRO")
                     ))
 
                     GeometryReader { geo in

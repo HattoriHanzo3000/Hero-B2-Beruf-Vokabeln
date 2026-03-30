@@ -10,6 +10,8 @@ import SwiftUI
 struct ProPromoSection: View {
     let isPremiumActive: Bool
     let hasUsedTrial: Bool
+    /// When `false`, hides the trial / upgrade pill until subscription status has been resolved (avoids flashing for Pro users).
+    var showFreeTierCallout: Bool = true
     let onStartFreeTrial: () -> Void
 
     private var wasSubscribed: Bool {
@@ -33,7 +35,7 @@ struct ProPromoSection: View {
                     // PRO + CTA pill (same corner radius / stroke weight as `ProShieldBadge`, filled AppBlue).
                     HStack(alignment: .top, spacing: 8) {
                         ProShieldBadge(label: "PRO", color: .white, showShimmer: true)
-                        if !isPremiumActive {
+                        if !isPremiumActive && showFreeTierCallout {
                             Button {
                                 HapticManager.shared.lightImpact()
                                 onStartFreeTrial()

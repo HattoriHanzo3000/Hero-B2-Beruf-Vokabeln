@@ -54,6 +54,7 @@ struct SettingsView: View {
             ProPromoSection(
                 isPremiumActive: subscriptionManager.isPremiumActive,
                 hasUsedTrial: subscriptionManager.hasUsedTrial,
+                showFreeTierCallout: subscriptionManager.hasCompletedInitialSubscriptionSync,
                 onStartFreeTrial: {
                     HapticManager.shared.mediumImpact()
                     showPaywall = true

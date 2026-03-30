@@ -105,6 +105,16 @@ final class RevenueCatService: NSObject, ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
+
+    /// Applies RevenueCat’s cached ``CustomerInfo`` synchronously so the first UI frame can show Pro before the first network refresh (when a cache exists).
+    func applyCachedCustomerInfoIfAvailable() {
+        guard isInitialized else { return }
+        guard let cached = Purchases.shared.cachedCustomerInfo else { return }
+        customerInfo = cached
+        let hasPremium = cached.entitlements[premiumEntitlementID]?.isActive == true
+        activeEntitlements = Set(cached.entitlements.active.keys)
+        isPremiumActive = hasPremium
+    }
     
     private func updateCustomerInfo(_ customerInfo: CustomerInfo) async {
         self.customerInfo = customerInfo

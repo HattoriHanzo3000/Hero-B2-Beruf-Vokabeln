@@ -31,6 +31,8 @@ final class SubscriptionManager: ObservableObject {
     @Published var purchaseState: PurchaseState = .idle
     @Published var products: [String: Product] = [:]
     @Published var errorMessage: String?
+    /// Set to `true` after the first ``checkSubscriptionStatus()`` in app launch finishes, so free-tier CTAs don’t flash for subscribers while entitlements are loading.
+    @Published private(set) var hasCompletedInitialSubscriptionSync = false
     
     // RevenueCat service (primary source of truth)
     private let revenueCatService = RevenueCatService.shared
@@ -61,11 +63,16 @@ final class SubscriptionManager: ObservableObject {
         
         // Sync with RevenueCat service
         setupRevenueCatSync()
+
+        // Hydrate from RevenueCat cache + trial before the first async frame so Pro UI doesn’t flash “start trial”.
+        revenueCatService.applyCachedCustomerInfoIfAvailable()
+        applyPremiumFlagsFromRevenueCatAndTrial()
         
-        // Load products and check subscription status
-        Task {
-            await loadProducts()
+        // Resolve entitlements before loading StoreKit products (products are slow; subscribers shouldn’t wait for them).
+        Task { @MainActor in
             await checkSubscriptionStatus()
+            hasCompletedInitialSubscriptionSync = true
+            await loadProducts()
         }
     }
     
@@ -96,17 +103,15 @@ final class SubscriptionManager: ObservableObject {
     
     /// Updates subscription status from RevenueCat
     private func updateFromRevenueCat() async {
-        // Update premium status from RevenueCat (but preserve trial status)
+        applyPremiumFlagsFromRevenueCatAndTrial()
+    }
+
+    /// Combines RevenueCat entitlement state with the local 3-day trial flags (`ObservableObject` updates must run on the main actor).
+    private func applyPremiumFlagsFromRevenueCatAndTrial() {
         let revenueCatPremium = revenueCatService.isPremiumActive
         let trialActive = isTrialActive()
-        
-        // Premium is active if RevenueCat says so OR trial is active
         isPremiumActive = revenueCatPremium || trialActive
-        
-        // Update active subscription status (exclude trial)
         hasActiveSubscription = revenueCatPremium
-        
-        // Update active product ID from RevenueCat
         activeProductID = revenueCatService.activeProductID
     }
     
