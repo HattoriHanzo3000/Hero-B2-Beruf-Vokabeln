@@ -32,7 +32,6 @@ extension Localizable {
 
     // Global vocabulary search
     static let searchVocabularyTitle = "search_vocabulary_title"
-    static let searchVocabularyHint = "search_vocabulary_hint"
     static let searchVocabularyPrompt = "search_vocabulary_prompt"
     /// Short row badge in search results (Verben mit Präpositionen)
     static let searchBadgeVerbs = "search_badge_verbs"

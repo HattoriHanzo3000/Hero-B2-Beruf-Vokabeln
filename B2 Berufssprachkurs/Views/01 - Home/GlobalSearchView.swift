@@ -21,6 +21,9 @@ private struct SearchVocabularyRow: Identifiable {
 }
 
 struct GlobalSearchView: View {
+    /// When true, this tab is selected in `MainView` (used to reopen keyboard when returning to Search).
+    var searchTabIsSelected: Bool = true
+
     @EnvironmentObject private var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
     @Environment(\.colorScheme) private var colorScheme
@@ -29,6 +32,7 @@ struct GlobalSearchView: View {
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
 
     @State private var searchText = ""
+    @FocusState private var isSearchFieldFocused: Bool
 
     private var progressByWordId: [String: String] {
         Dictionary(uniqueKeysWithValues: wordProgressList.map { ($0.wordId, $0.translation) })
@@ -57,15 +61,8 @@ struct GlobalSearchView: View {
                 .ignoresSafeArea()
 
             if trimmedQuery.isEmpty {
-                ContentUnavailableView {
-                    Image(systemName: "magnifyingglass")
-                        .font(.system(size: 40, weight: .medium))
-                        .foregroundStyle(.secondary)
-                        .symbolRenderingMode(.hierarchical)
-                        .accessibilityHidden(true)
-                } description: {
-                    Text(Localizable.string(Localizable.searchVocabularyHint))
-                }
+                Color.clear
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if results.isEmpty {
                 ContentUnavailableView.search(text: trimmedQuery)
             } else {
@@ -83,17 +80,31 @@ struct GlobalSearchView: View {
                 .listStyle(.insetGrouped)
             }
         }
+        // Large title sits **above** the search field (same stacking as Apple Photos). `.automatic` search lets the system attach full-width field + cancel to the search tab / keyboard.
         .navigationTitle(Localizable.string(Localizable.searchVocabularyTitle))
         .navigationBarTitleDisplayMode(.large)
         .searchable(
             text: $searchText,
-            placement: .navigationBarDrawer(displayMode: .always),
-            prompt: Text(verbatim: "")
+            placement: .automatic,
+            prompt: Text(Localizable.string(Localizable.searchVocabularyPrompt))
         )
+        .searchFocused($isSearchFieldFocused)
+        .onAppear { scheduleSearchFieldFocus() }
+        .onChange(of: searchTabIsSelected) { _, isSelected in
+            guard isSelected else { return }
+            scheduleSearchFieldFocus()
+        }
         .navigationDestination(for: SearchListDestination.self) { dest in
             WordsListView(sectionId: dest.sectionId, scrollToWordIdOnAppear: dest.wordId)
                 .environmentObject(dataService)
                 .environmentObject(listUIState)
+        }
+    }
+
+    private func scheduleSearchFieldFocus() {
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 120_000_000)
+            isSearchFieldFocused = true
         }
     }
 

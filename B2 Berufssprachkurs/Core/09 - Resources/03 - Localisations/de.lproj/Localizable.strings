@@ -19,8 +19,7 @@
 
 // Global vocabulary search
 "search_vocabulary_title" = "Suchen";
-"search_vocabulary_hint" = "Finde Wörter anhand deutscher Schreibweise, deiner Übersetzung, Erklärungen oder Beispielen.";
-"search_vocabulary_prompt" = "Wörter, Übersetzungen, Beispiele…";
+"search_vocabulary_prompt" = "Durchsuche deine Bibliothek…";
 "search_badge_verbs" = "Verb";
 "search_badge_adjectives" = "Adj";
 "search_badge_my_words" = "Meine";
