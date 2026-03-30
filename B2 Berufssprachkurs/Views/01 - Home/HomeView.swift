@@ -63,7 +63,7 @@ struct HomeView: View {
                                     LearningStackCard(
                                         title: Localizable.string(Localizable.generalWords),
                                         accent: Color("AppGreen"),
-                                        icon: "square.stack.3d.up.fill"
+                                        icon: "book.fill"
                                     )
                                     .frame(maxWidth: .infinity, minHeight: 76)
                                 }
@@ -111,7 +111,7 @@ struct HomeView: View {
                                     LearningStackCard(
                                         title: Localizable.string(Localizable.myWords),
                                         accent: Color("AppRed"),
-                                        icon: "text.book.closed.fill"
+                                        icon: "person.fill"
                                     )
                                     .frame(maxWidth: .infinity, minHeight: 76)
                                 }

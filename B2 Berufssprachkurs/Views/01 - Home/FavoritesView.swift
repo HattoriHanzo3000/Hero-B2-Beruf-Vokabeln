@@ -69,22 +69,22 @@ struct FavoritesView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if !favoriteWords.isEmpty {
-                ToolbarItem(placement: .principal) {
-                    FloatingPracticeButton(
-                        title: Localizable.string(Localizable.practiceWithCards),
-                        accent: Color("AppYellow"),
-                        isEnabled: true,
-                        compactForToolbar: true
-                    ) {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    }
-                }
                 ToolbarItem(placement: .topBarTrailing) {
                     WordListPrintButton(
                         pdfURL: { generateFavoritesPDF() },
                         jobName: Localizable.string(Localizable.favorites)
                     )
+                }
+            }
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if !favoriteWords.isEmpty {
+                FlashcardsButton.bottomTrailingInset(
+                    isEnabled: true,
+                    accent: Color("AppYellow"),
+                    inactiveTapBehavior: .silent
+                ) {
+                    navigateToStudy = true
                 }
             }
         }
@@ -209,7 +209,7 @@ struct FavoritesView: View {
                 .scrollDismissesKeyboard(.never)
                 .scrollContentBackground(.hidden)
                 .contentMargins(.top, 8, for: .scrollContent)
-                .contentMargins(.bottom, 24, for: .scrollContent)
+                .contentMargins(.bottom, FlashcardsButton.fabSize + 24, for: .scrollContent)
                 .accessibilityLabel("Favorites list")
                 .accessibilityHint("List of favorite German words with translations, explanations, and synonyms")
                 .onChange(of: focusedTranslationWordId) { _, newValue in

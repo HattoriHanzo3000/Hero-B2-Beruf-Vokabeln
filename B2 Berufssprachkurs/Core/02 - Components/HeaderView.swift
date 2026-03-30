@@ -519,15 +519,18 @@ struct HeaderView: View {
     
     private func wordStackIcon(for word: Word) -> String {
         guard let sectionId = findSectionId(for: word) else {
-            return "square.stack.3d.up.fill" // Default to general words
+            return "book.fill"
         }
-        
+
+        if sectionId == DataService.userMyWordsSectionId {
+            return "person.fill"
+        }
         if sectionId.hasPrefix("VERBEN_") {
             return "figure.run"
         } else if sectionId.hasPrefix("ADJEKTIVE_") {
             return "paintbrush.fill"
         } else {
-            return "square.stack.3d.up.fill"
+            return "book.fill"
         }
     }
     

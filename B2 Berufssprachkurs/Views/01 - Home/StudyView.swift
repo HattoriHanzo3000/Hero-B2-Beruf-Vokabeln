@@ -401,9 +401,12 @@ struct StudyView: View {
                     let explanation = word.explanation?.isEmpty == false ? word.explanation : nil
                     let translation = translationForStudy(for: word)
                     let example = word.example?.isEmpty == false ? word.example : nil
+                    let isMyWordsSection = section.id == DataService.userMyWordsSectionId
+                    let hasGerman = !word.german.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                     
-                    // Only include if at least one content type is available
-                    if synonym != nil || explanation != nil || translation != nil {
+                    // My Words: include German-only entries so flashcards can show the empty-state placeholder.
+                    let includeMyWordGermanOnly = isMyWordsSection && hasGerman
+                    if synonym != nil || explanation != nil || translation != nil || includeMyWordGermanOnly {
                         items.append(StudyItem(
                             wordId: word.id,
                             sectionId: section.id,
@@ -789,11 +792,12 @@ struct StudyView: View {
         case .explanation:
             return item.explanation != nil
         case .translation:
-            // Only return true if translation is actually provided (not empty)
-            if let translation = item.translation {
-                return !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            if let translation = item.translation,
+               !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return true
             }
-            return false
+            // My Words: allow Übersetzung mode with empty placeholder on the card.
+            return item.sectionId == DataService.userMyWordsSectionId
         }
     }
     
@@ -809,14 +813,20 @@ struct StudyView: View {
         }
     }
     
-    /// Priority: Erklärung → Übersetzung → Synonym. Falls back to current selection if nothing is available.
+    /// Priority: Erklärung → Übersetzung → Synonym (course sections).
+    /// My Words: Erklärung → Synonym → Übersetzung so German-only entries default to the translation placeholder, not Synonym.
     private func firstAvailableContentType(for item: StudyItem) -> ContentType {
+        if item.sectionId == DataService.userMyWordsSectionId, !item.isVerbenSection {
+            if isContentTypeAvailable(.explanation, for: item) { return .explanation }
+            if isContentTypeAvailable(.synonym, for: item) { return .synonym }
+            return .translation
+        }
         for type in [ContentType.explanation, .translation, .synonym] {
             if isContentTypeAvailable(type, for: item) {
                 return type
             }
         }
-        return currentContentType
+        return .translation
     }
     
     private var liquidGlassCircle: some View {
@@ -1156,8 +1166,23 @@ struct FlashCardView2: View {
             let translation = studyItem.translation ?? ""
             return translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         }
+        if currentContentType == .explanation {
+            let explanation = studyItem.explanation ?? ""
+            return explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
         
         return false
+    }
+    
+    private var flashcardEmptyStateMessage: String {
+        switch currentContentType {
+        case .translation:
+            return Localizable.string(Localizable.flashcardNoTranslationYet)
+        case .explanation:
+            return Localizable.string(Localizable.flashcardNoExplanationYet)
+        case .synonym:
+            return ""
+        }
     }
     
     // Helper function to get button title for content type
@@ -1413,11 +1438,17 @@ struct FlashCardView2: View {
             .overlay {
                 // Main content text
                 if shouldShowPlaceholder {
-                    Text(Localizable.string(Localizable.addTranslationToWord))
-                        .font(.system(.body, design: .default))
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
+                    VStack(spacing: 12) {
+                        Image(systemName: "pencil")
+                            .font(.system(size: 28, weight: .medium))
+                            .foregroundStyle(.secondary)
+                        Text(flashcardEmptyStateMessage)
+                            .font(.system(.body, design: .default))
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .accessibilityHidden(true)
+                    .padding(.horizontal, 32)
                 } else {
                     Text(frontText)
                         .font(.system(.title2, design: .default).weight(.regular))
@@ -1426,7 +1457,7 @@ struct FlashCardView2: View {
                         .padding(.horizontal, 32)
                 }
             }
-            .accessibilityLabel("Card front: \(frontText)")
+            .accessibilityLabel("Card front: \(shouldShowPlaceholder ? flashcardEmptyStateMessage : frontText)")
             .accessibilityHint("Tap to flip card")
             .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
             .frame(height: 400)

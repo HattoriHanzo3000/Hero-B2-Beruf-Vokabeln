@@ -180,18 +180,6 @@ struct MyWordsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .environment(\.editMode, $editMode)
         .toolbar {
-            ToolbarItem(placement: .principal) {
-                FloatingPracticeButton(
-                    title: Localizable.string(Localizable.practiceWithCards),
-                    accent: accent,
-                    isEnabled: !customWordEntries.isEmpty,
-                    compactForToolbar: true,
-                    inactiveTapBehavior: .silent
-                ) {
-                    HapticManager.shared.mediumImpact()
-                    navigateToStudy = true
-                }
-            }
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     myWordsOverflowMenuContent
@@ -240,6 +228,15 @@ struct MyWordsView: View {
             }
         } message: {
             Text(Localizable.string(Localizable.myWordsDeleteAllMessage))
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            FlashcardsButton.bottomTrailingInset(
+                isEnabled: !customWordEntries.isEmpty,
+                accent: accent,
+                inactiveTapBehavior: .silent
+            ) {
+                navigateToStudy = true
+            }
         }
         .hidesBottomBarWhenPushed(true)
     }
@@ -432,7 +429,7 @@ struct MyWordsView: View {
                 } header: {
                     ScrollableStackRootHeader(
                         accent: accent,
-                        icon: "text.book.closed.fill",
+                        icon: "person.fill",
                         title: Localizable.string(Localizable.myWords).replacingOccurrences(of: "\n", with: " "),
                         showsDivider: false
                     )
@@ -512,7 +509,7 @@ struct MyWordsView: View {
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
             .contentMargins(.top, 8, for: .scrollContent)
-            .contentMargins(.bottom, 24, for: .scrollContent)
+            .contentMargins(.bottom, FlashcardsButton.fabSize + 24, for: .scrollContent)
             .accessibilityLabel("My Words list")
             .accessibilityHint("Your personal words; add a word with the button at the bottom of the list")
     }

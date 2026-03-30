@@ -11,7 +11,7 @@
 "practise_with_translation" = "Mit Übersetzung üben";
 
 // Tab Bar
-"home" = "Start";
+"home" = "Karten";
 "words" = "Wörter";
 "verbs" = "Verben";
 "cockpit" = "Cockpit";
@@ -28,8 +28,8 @@
 "practise_with_example" = "Mit Beispiel üben";
 
 // Study view
-"card" = "Karte";
-"cards" = "Karten";
+"card" = "Karteikarte";
+"cards" = "Karteikarten";
 "study" = "Lernen";
 "synonym" = "Synonym";
 "explanation" = "Erklärung";
@@ -38,6 +38,8 @@
 "clear_translation_input" = "Löschen";
 "clear_translation_input_hint" = "Entfernt den gesamten Text in diesem Feld";
 "add_translation_to_word" = "Übersetzung zum Wort hinzufügen";
+"flashcard_no_translation_yet" = "Noch keine Übersetzung";
+"flashcard_no_explanation_yet" = "Noch keine Erklärung";
 
 // Check all button
 "all_selected" = "Alle ausgewählt";
@@ -170,8 +172,8 @@
 
 "practice" = "ÜBEN";
 "practice_with_cards" = "Karteikarten";
-"practice_need_selection_title" = "Kategorien auswählen";
-"practice_need_selection_message" = "Wähle mindestens eine Kategorie mit dem Häkchen aus, um mit Karten zu üben.";
+"practice_need_selection_title" = "Karteikarten auswählen";
+"practice_need_selection_message" = "Wähle mindestens eine Kategorie mit dem Häkchen aus, um mit Karteikarten zu üben.";
 
 // Header Greeting
 "hero_word_of_the_day_encouragement" = "Hey, gib nicht auf! Hier ist dein Wort des Tages.";

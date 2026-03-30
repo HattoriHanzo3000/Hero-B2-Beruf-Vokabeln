@@ -34,17 +34,12 @@ struct VerbsView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                FloatingPracticeButton(
-                    title: Localizable.string(Localizable.practiceWithCards),
-                    accent: Color("AppBlue"),
-                    isEnabled: hasAnySelection,
-                    compactForToolbar: true
-                ) {
-                    HapticManager.shared.mediumImpact()
-                    navigateToStudy = true
-                }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            FlashcardsButton.bottomTrailingInset(
+                isEnabled: hasAnySelection,
+                accent: Color("AppBlue")
+            ) {
+                navigateToStudy = true
             }
         }
         .hidesBottomBarWhenPushed(true)

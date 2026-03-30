@@ -60,7 +60,7 @@ struct FlatIndexedStackListView: View {
                     .id(selectAllId)
                 }
             }
-            .stackRootListChrome(scrollPosition: scrollBinding, bottomMargin: 24)
+            .stackRootListChrome(scrollPosition: scrollBinding, bottomMargin: FlashcardsButton.fabSize + 24)
         }
     }
 }

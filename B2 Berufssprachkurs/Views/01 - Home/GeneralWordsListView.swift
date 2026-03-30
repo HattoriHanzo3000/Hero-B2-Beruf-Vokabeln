@@ -12,6 +12,11 @@ struct GeneralWordsListView: View {
     @EnvironmentObject private var listUIState: LearningListsUIState
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var showPaywall = false
+    @State private var navigateToStudy = false
+
+    private var hasAnyPracticeSelection: Bool {
+        dataService.hasAnyGeneralWordsPracticeSelection(isPremium: subscriptionManager.isPremiumActive)
+    }
 
     private var generalWordsScrollBinding: Binding<String?> {
         Binding(
@@ -38,7 +43,7 @@ struct GeneralWordsListView: View {
                 } header: {
                     ScrollableStackRootHeader(
                         accent: Color("AppGreen"),
-                        icon: "square.stack.3d.up.fill",
+                        icon: "book.fill",
                         title: Localizable.string(Localizable.generalWords)
                     )
                     .id("gw-stack-header")
@@ -94,7 +99,27 @@ struct GeneralWordsListView: View {
                     }
                 }
             }
-            .stackRootListChrome(scrollPosition: generalWordsScrollBinding, bottomMargin: 24)
+            .stackRootListChrome(
+                scrollPosition: generalWordsScrollBinding,
+                bottomMargin: FlashcardsButton.fabSize + 24
+            )
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            FlashcardsButton.bottomTrailingInset(
+                isEnabled: hasAnyPracticeSelection,
+                accent: Color("AppGreen")
+            ) {
+                navigateToStudy = true
+            }
+        }
+        .navigationDestination(isPresented: $navigateToStudy) {
+            StudyView(
+                dataService: dataService,
+                filterBySectionId: nil,
+                studyAllMode: dataService.areAllGeneralWordsCompletedForStudy(isPremium: subscriptionManager.isPremiumActive),
+                categoryFilter: nil
+            )
+            .environmentObject(dataService)
         }
         .sheet(isPresented: $showPaywall) {
             PaywallView()

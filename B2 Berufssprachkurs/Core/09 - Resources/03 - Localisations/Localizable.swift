@@ -54,6 +54,8 @@ extension Localizable {
     static let clearTranslationInput = "clear_translation_input"
     static let clearTranslationInputHint = "clear_translation_input_hint"
     static let addTranslationToWord = "add_translation_to_word"
+    static let flashcardNoTranslationYet = "flashcard_no_translation_yet"
+    static let flashcardNoExplanationYet = "flashcard_no_explanation_yet"
     
     // Check all button
     static let allSelected = "all_selected"

@@ -11,7 +11,7 @@
 "practise_with_translation" = "Practice with Translation";
 
 // Tab Bar
-"home" = "Home";
+"home" = "Cards";
 "words" = "Words";
 "verbs" = "Verbs";
 "cockpit" = "Cockpit";
@@ -28,8 +28,8 @@
 "practise_with_example" = "Practice with Example";
 
 // Study view
-"card" = "card";
-"cards" = "cards";
+"card" = "flashcard";
+"cards" = "flashcards";
 "study" = "Study";
 "synonym" = "Synonym";
 "explanation" = "Explanation";
@@ -38,6 +38,8 @@
 "clear_translation_input" = "Clear";
 "clear_translation_input_hint" = "Removes all text in this field";
 "add_translation_to_word" = "Add translation to the word";
+"flashcard_no_translation_yet" = "No translation yet";
+"flashcard_no_explanation_yet" = "No explanation yet";
 
 // Check all button
 "all_selected" = "All selected";
@@ -170,7 +172,7 @@
 
 "practice" = "PRACTICE";
 "practice_with_cards" = "Flashcards";
-"practice_need_selection_title" = "Select categories";
+"practice_need_selection_title" = "Select flashcard stacks";
 "practice_need_selection_message" = "Check at least one category with the checkmark to study with flashcards.";
 
 // Header Greeting

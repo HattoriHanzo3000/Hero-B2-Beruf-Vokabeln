@@ -34,17 +34,12 @@ struct AdjectivesView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                FloatingPracticeButton(
-                    title: Localizable.string(Localizable.practiceWithCards),
-                    accent: Color("AppPurple"),
-                    isEnabled: hasAnySelection,
-                    compactForToolbar: true
-                ) {
-                    HapticManager.shared.mediumImpact()
-                    navigateToStudy = true
-                }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            FlashcardsButton.bottomTrailingInset(
+                isEnabled: hasAnySelection,
+                accent: Color("AppPurple")
+            ) {
+                navigateToStudy = true
             }
         }
         .hidesBottomBarWhenPushed(true)

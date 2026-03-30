@@ -52,11 +52,11 @@ struct WordsListView: View {
     var isAdjektiveSection: Bool {
         sectionId.hasPrefix("ADJEKTIVE_")
     }
-    
+
     // Determine which stack this belongs to and get appropriate styling
     var stackInfo: (color: Color, icon: String, title: String) {
         if sectionId == DataService.userMyWordsSectionId {
-            return (Color("AppRed"), "text.book.closed.fill", Localizable.string(Localizable.myWords))
+            return (Color("AppRed"), "person.fill", Localizable.string(Localizable.myWords))
         }
         if isVerbenSection {
             return (Color("AppBlue"), "figure.run", Localizable.string(Localizable.verbsWithPrepositions))
@@ -65,7 +65,7 @@ struct WordsListView: View {
             return (Color("AppPurple"), "paintbrush.fill", Localizable.string(Localizable.adjectivesWithPrepositions))
         }
         // For general words sections (default)
-        return (Color("AppGreen"), "square.stack.3d.up.fill", Localizable.string(Localizable.generalWords))
+        return (Color("AppGreen"), "book.fill", Localizable.string(Localizable.generalWords))
     }
     
     // Get preposition title for verben and adjektive sections
@@ -95,12 +95,13 @@ struct WordsListView: View {
         WordListTranslationTextStyle.color(for: listTranslationGroup, colorScheme: colorScheme)
     }
 
-    /// Bottom scroll inset: idle list needs little padding (Üben is in the nav bar); grows while editing with keyboard.
+    /// Bottom scroll inset: leave room for the circular flashcards button, plus keyboard overlap while editing.
     private var wordsListBottomScrollMargin: CGFloat {
+        let fabClearance = FlashcardsButton.fabSize + 24
         if focusedTranslationWordId != nil, keyboardMetrics.bottomOverlap > 1 {
-            return max(120, keyboardMetrics.bottomOverlap * 0.42 + 56)
+            return max(fabClearance, max(120, keyboardMetrics.bottomOverlap * 0.42 + 56))
         }
-        return 28
+        return fabClearance
     }
 
     private var printJobName: String {
@@ -216,23 +217,21 @@ struct WordsListView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .principal) {
-                FloatingPracticeButton(
-                    title: Localizable.string(Localizable.practiceWithCards),
-                    accent: stackInfo.color,
-                    isEnabled: true,
-                    compactForToolbar: true
-                ) {
-                    HapticManager.shared.mediumImpact()
-                    navigateToStudy = true
-                }
-            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 WordListPrintButton(
                     isEnabled: !words.isEmpty,
                     pdfURL: { generatePDF() },
                     jobName: printJobName
                 )
+            }
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            FlashcardsButton.bottomTrailingInset(
+                isEnabled: !words.isEmpty,
+                accent: stackInfo.color,
+                inactiveTapBehavior: .silent
+            ) {
+                navigateToStudy = true
             }
         }
         .environmentObject(keyboardNavBridge)
