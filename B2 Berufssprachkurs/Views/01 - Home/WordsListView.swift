@@ -57,6 +57,9 @@ struct WordsListView: View {
     
     // Determine which stack this belongs to and get appropriate styling
     var stackInfo: (color: Color, icon: String, title: String) {
+        if sectionId == DataService.userMyWordsSectionId {
+            return (Color("AppRed"), "text.book.closed.fill", Localizable.string(Localizable.myWords))
+        }
         if isVerbenSection {
             return (Color("AppBlue"), "figure.run", Localizable.string(Localizable.verbsWithPrepositions))
         }
@@ -94,12 +97,12 @@ struct WordsListView: View {
         WordListTranslationTextStyle.color(for: listTranslationGroup, colorScheme: colorScheme)
     }
 
-    /// Extra scrollable space at the bottom: practice button + ad when idle; keyboard-aware padding while editing so the last word can scroll above the keyboard.
+    /// Bottom scroll inset: idle list needs little padding (Üben is in the nav bar); grows while editing with keyboard.
     private var wordsListBottomScrollMargin: CGFloat {
         if focusedTranslationWordId != nil, keyboardMetrics.bottomOverlap > 1 {
             return max(120, keyboardMetrics.bottomOverlap * 0.42 + 56)
         }
-        return 150
+        return 28
     }
 
     var body: some View {
@@ -107,9 +110,7 @@ struct WordsListView: View {
             stackInfo.color.opacity(0.08)
                 .ignoresSafeArea()
             
-            // List respects keyboard inset; Üben is offset down by the same overlap so it stays on the screen bottom.
-            ZStack(alignment: .bottom) {
-                ScrollViewReader { proxy in
+            ScrollViewReader { proxy in
                     List {
                     // Header matching GeneralWordsView style (now scrollable)
                     if isVerbenSection || isAdjektiveSection {
@@ -190,30 +191,6 @@ struct WordsListView: View {
                         deepLinkScrollTask?.cancel()
                         deepLinkScrollTask = nil
                     }
-                }
-
-                // Üben — SwiftUI still lays out above the keyboard; counter with measured overlap (see WordListKeyboardMetrics).
-                VStack(spacing: 0) {
-                    Button {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    } label: {
-                        Text(Localizable.string(Localizable.practice))
-                            .font(.system(.headline, design: .default, weight: .bold))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(
-                                Capsule(style: .continuous)
-                                    .fill(stackInfo.color)
-                            )
-                            .shadow(color: stackInfo.color.opacity(0.3), radius: 8, x: 0, y: 4)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 8)
-                }
-                .offset(y: keyboardMetrics.bottomOverlap)
-                .animation(.easeOut(duration: 0.22), value: keyboardMetrics.bottomOverlap)
             }
         }
         .hidesBottomBarWhenPushed(true)
@@ -233,6 +210,17 @@ struct WordsListView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                FloatingPracticeButton(
+                    title: Localizable.string(Localizable.practiceWithCards),
+                    accent: stackInfo.color,
+                    isEnabled: true,
+                    compactForToolbar: true
+                ) {
+                    HapticManager.shared.mediumImpact()
+                    navigateToStudy = true
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
             }

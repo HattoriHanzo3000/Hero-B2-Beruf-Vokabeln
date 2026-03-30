@@ -27,6 +27,7 @@ struct SettingsView: View {
     @State private var presentingLegalURL: URL? = nil
     @State private var showPaywall = false
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    @Environment(\.settingsSubscriptionPreview) private var settingsSubscriptionPreview
     
     // Sync with language manager
     private var languageBinding: Binding<String> {
@@ -52,9 +53,10 @@ struct SettingsView: View {
         List {
             // Pro promo section with gradient
             ProPromoSection(
-                isPremiumActive: subscriptionManager.isPremiumActive,
-                hasUsedTrial: subscriptionManager.hasUsedTrial,
-                showFreeTierCallout: subscriptionManager.hasCompletedInitialSubscriptionSync,
+                isPremiumActive: settingsSubscriptionPreview?.proPromoIsPremium ?? subscriptionManager.isPremiumActive,
+                hasUsedTrial: settingsSubscriptionPreview?.proPromoHasUsedTrial ?? subscriptionManager.hasUsedTrial,
+                showFreeTierCallout: settingsSubscriptionPreview?.proPromoShowFreeTierCallout ?? subscriptionManager.hasCompletedInitialSubscriptionSync,
+                showPaywallEntryWhenSubscribed: true,
                 onStartFreeTrial: {
                     HapticManager.shared.mediumImpact()
                     showPaywall = true
@@ -62,6 +64,19 @@ struct SettingsView: View {
             )
             .listRowInsets(EdgeInsets())
             .listRowBackground(Color.clear)
+            
+            SwiftUI.Section {
+                NavigationIconRow(
+                    icon: "creditcard.fill",
+                    iconColor: Color("AppBlue"),
+                    title: Localizable.string(Localizable.yourPlan),
+                    subtitle: settingsSubscriptionPreview?.planStatusLine ?? subscriptionManager.localizedPlanStatusLine
+                ) {
+                    YourPlanView()
+                }
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionHeroPro))
+            }
             
             SwiftUI.Section {
                 NavigationIconRow(
@@ -542,10 +557,34 @@ private extension SettingsView {
     
 }
 
-#Preview {
+#Preview("Settings — live") {
     NavigationStack {
         SettingsView()
             .environmentObject(DataService())
+    }
+}
+
+#Preview("Settings — free trial") {
+    NavigationStack {
+        SettingsView()
+            .environmentObject(DataService())
+            .environment(\.settingsSubscriptionPreview, .freeTrial)
+    }
+}
+
+#Preview("Settings — monthly") {
+    NavigationStack {
+        SettingsView()
+            .environmentObject(DataService())
+            .environment(\.settingsSubscriptionPreview, .monthlySubscription)
+    }
+}
+
+#Preview("Settings — lifetime") {
+    NavigationStack {
+        SettingsView()
+            .environmentObject(DataService())
+            .environment(\.settingsSubscriptionPreview, .lifetime)
     }
 }
 

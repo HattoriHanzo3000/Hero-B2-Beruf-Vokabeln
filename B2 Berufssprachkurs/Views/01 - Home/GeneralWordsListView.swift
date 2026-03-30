@@ -94,7 +94,7 @@ struct GeneralWordsListView: View {
                     }
                 }
             }
-            .stackRootListChrome(scrollPosition: generalWordsScrollBinding)
+            .stackRootListChrome(scrollPosition: generalWordsScrollBinding, bottomMargin: 24)
         }
         .sheet(isPresented: $showPaywall) {
             PaywallView()

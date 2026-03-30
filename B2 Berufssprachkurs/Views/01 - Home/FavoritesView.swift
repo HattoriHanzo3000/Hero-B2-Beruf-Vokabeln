@@ -18,7 +18,6 @@ struct FavoritesView: View {
     @State private var showPaywall = false
     @State private var focusedTranslationWordId: String?
     @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
-    @StateObject private var keyboardMetrics = WordListKeyboardMetrics()
 
     private var progressByWordId: [String: WordProgress] {
         Dictionary(uniqueKeysWithValues: wordProgressList.map { ($0.wordId, $0) })
@@ -73,6 +72,17 @@ struct FavoritesView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if !favoriteWords.isEmpty {
+                ToolbarItem(placement: .principal) {
+                    FloatingPracticeButton(
+                        title: Localizable.string(Localizable.practiceWithCards),
+                        accent: Color("AppYellow"),
+                        isEnabled: true,
+                        compactForToolbar: true
+                    ) {
+                        HapticManager.shared.mediumImpact()
+                        navigateToStudy = true
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
                 }
@@ -177,8 +187,7 @@ struct FavoritesView: View {
     }
 
     private var favoritesListView: some View {
-        ZStack(alignment: .bottom) {
-            ScrollViewReader { proxy in
+        ScrollViewReader { proxy in
                 List {
                     // Header + word rows — same list style as WordsListView for spacing under the header divider
                     SwiftUI.Section {
@@ -241,7 +250,7 @@ struct FavoritesView: View {
                 .scrollDismissesKeyboard(.never)
                 .scrollContentBackground(.hidden)
                 .contentMargins(.top, 8, for: .scrollContent)
-                .contentMargins(.bottom, 90, for: .scrollContent)
+                .contentMargins(.bottom, 24, for: .scrollContent)
                 .accessibilityLabel("Favorites list")
                 .accessibilityHint("List of favorite German words with translations, explanations, and synonyms")
                 .onChange(of: focusedTranslationWordId) { _, newValue in
@@ -256,29 +265,6 @@ struct FavoritesView: View {
                 .onChange(of: favoriteWords.count) { _, _ in
                     syncTranslationKeyboardNavBridge()
                 }
-            }
-
-            VStack(spacing: 0) {
-                Button {
-                    HapticManager.shared.mediumImpact()
-                    navigateToStudy = true
-                } label: {
-                    Text(Localizable.string(Localizable.practice))
-                        .font(.system(.headline, design: .default, weight: .bold))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(
-                            Capsule(style: .continuous)
-                                .fill(Color("AppYellow"))
-                        )
-                        .shadow(color: Color("AppYellow").opacity(0.3), radius: 8, x: 0, y: 4)
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 8)
-            }
-            .offset(y: keyboardMetrics.bottomOverlap)
-            .animation(.easeOut(duration: 0.22), value: keyboardMetrics.bottomOverlap)
         }
     }
 }

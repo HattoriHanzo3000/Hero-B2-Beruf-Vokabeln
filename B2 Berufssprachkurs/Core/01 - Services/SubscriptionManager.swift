@@ -44,6 +44,26 @@ final class SubscriptionManager: ObservableObject {
     var hasLifetimeSubscription: Bool {
         return activeProductID == "hero.premium.lifetime" || activeProductID == "hero.premium.lifetime.promo"
     }
+
+    /// True while the in-app 3-day trial is active (no store subscription required).
+    var isLocalTrialActive: Bool {
+        isTrialActive()
+    }
+
+    /// End date of the in-app trial, when ``isLocalTrialActive`` is `true`.
+    var localTrialEndsAt: Date? {
+        let userDefaults = UserDefaults.standard
+        guard userDefaults.bool(forKey: trialActivatedKey),
+              let ts = userDefaults.object(forKey: firstLaunchDateKey) as? TimeInterval else {
+            return nil
+        }
+        return Date(timeIntervalSince1970: ts).addingTimeInterval(trialPeriodDays)
+    }
+
+    /// Premium entitlement expiration from RevenueCat (typically `nil` for lifetime).
+    var premiumExpirationDate: Date? {
+        revenueCatService.premiumExpirationDate
+    }
     
     // Convenience property for backward compatibility (defaults to monthly)
     var product: Product? {
@@ -512,6 +532,37 @@ final class SubscriptionManager: ObservableObject {
 }
 
 // MARK: - Subscription Errors
+
+// MARK: - Settings plan label
+
+extension SubscriptionManager {
+    /// One-line localized plan label for Settings and Your Plan.
+    var localizedPlanStatusLine: String {
+        if !hasCompletedInitialSubscriptionSync {
+            return Localizable.string(Localizable.planStatusLoading)
+        }
+        if !isPremiumActive {
+            return Localizable.string(Localizable.planStatusFree)
+        }
+        if hasLifetimeSubscription {
+            return Localizable.string(Localizable.planStatusLifetime)
+        }
+        if hasActiveSubscription {
+            switch activeProductID {
+            case "hero.premium.monthly":
+                return Localizable.string(Localizable.planStatusMonthly)
+            case "hero.premium.quarterly":
+                return Localizable.string(Localizable.planStatusQuarterly)
+            default:
+                return Localizable.string(Localizable.planStatusHeroProActive)
+            }
+        }
+        if isLocalTrialActive {
+            return Localizable.string(Localizable.planStatusTrial)
+        }
+        return Localizable.string(Localizable.planStatusHeroProActive)
+    }
+}
 
 enum SubscriptionError: LocalizedError {
     case productNotLoaded

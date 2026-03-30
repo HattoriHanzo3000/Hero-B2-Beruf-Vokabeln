@@ -390,10 +390,20 @@ struct UbenGroupButtonStyle: ButtonStyle {
 }
 
 // MARK: - Floating “Üben” on stack root screens
+enum FloatingPracticeInactiveTapBehavior: Equatable {
+    /// Explains category checkmarks (stack roots).
+    case showNeedSelectionAlert
+    /// Heavy haptic only (e.g. My Words empty list).
+    case silent
+}
+
 struct FloatingPracticeButton: View {
     let title: String
     let accent: Color
     let isEnabled: Bool
+    /// When `true`, sizes for `ToolbarItem(placement: .principal)` (center nav bar).
+    var compactForToolbar: Bool = false
+    var inactiveTapBehavior: FloatingPracticeInactiveTapBehavior = .showNeedSelectionAlert
     let action: () -> Void
 
     @Environment(\.colorScheme) private var colorScheme
@@ -418,24 +428,46 @@ struct FloatingPracticeButton: View {
                 action()
             } else {
                 HapticManager.shared.heavyImpact()
-                showNeedSelectionAlert = true
+                if inactiveTapBehavior == .showNeedSelectionAlert {
+                    showNeedSelectionAlert = true
+                }
             }
         } label: {
-            Text(title)
-                .font(.system(.headline, design: .default, weight: .bold))
-                .foregroundStyle(Color.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .background {
-                    Capsule(style: .continuous)
-                        .fill(isEnabled ? accent : inactiveFill)
+            Group {
+                if compactForToolbar {
+                    Text(title)
+                        .font(.system(.subheadline, design: .default, weight: .bold).width(.expanded))
+                        .foregroundStyle(Color.white)
+                        .padding(.horizontal, 18)
+                        .frame(height: 36)
+                        .background {
+                            Capsule(style: .continuous)
+                                .fill(isEnabled ? accent : inactiveFill)
+                        }
+                        .shadow(
+                            color: isEnabled ? accent.opacity(0.22) : Color.black.opacity(0.12),
+                            radius: 4,
+                            x: 0,
+                            y: 2
+                        )
+                } else {
+                    Text(title)
+                        .font(.system(.headline, design: .default, weight: .bold).width(.expanded))
+                        .foregroundStyle(Color.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background {
+                            Capsule(style: .continuous)
+                                .fill(isEnabled ? accent : inactiveFill)
+                        }
+                        .shadow(
+                            color: isEnabled ? accent.opacity(0.35) : Color.black.opacity(0.12),
+                            radius: 8,
+                            x: 0,
+                            y: 4
+                        )
                 }
-                .shadow(
-                    color: isEnabled ? accent.opacity(0.35) : Color.black.opacity(0.12),
-                    radius: 8,
-                    x: 0,
-                    y: 4
-                )
+            }
         }
         .buttonStyle(.plain)
         .compositingGroup()

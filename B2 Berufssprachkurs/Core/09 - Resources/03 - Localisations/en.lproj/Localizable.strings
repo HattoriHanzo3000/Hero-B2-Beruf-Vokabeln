@@ -160,6 +160,7 @@
 "my_words_add_word_a11y_hint_locked" = "Upgrade to Pro to add more than five words";
 
 "practice" = "PRACTICE";
+"practice_with_cards" = "Flashcards";
 "practice_need_selection_title" = "Select categories";
 "practice_need_selection_message" = "Check at least one category with the checkmark to study with flashcards.";
 
@@ -183,14 +184,14 @@
 
 // Pro subscription
 "paywall_title_future_germany" = "Unlock your future in Germany with confidence in professional language";
-"pro_benefits_description" = "Pro gives you full access to all study materials, progress tracking and ad-free experience. All plans can be shared with your iCloud Family";
+"pro_benefits_description" = "Pro gives you full access to all study materials, flashcards and practice modes, progress tracking, and an ad-free experience. All plans can be shared with your iCloud Family";
 "unlock_hero_premium" = "Unlock Hero Pro";
-"premium_promo_subtitle" = "Get full access to all words, detailed progress, favorite words, practice modes, word of the day, and more";
+"premium_promo_subtitle" = "Get full access to all words, flashcards and practice modes, detailed progress, favorite words, word of the day, and more";
 "enjoy_hero_premium" = "Enjoy Hero Pro";
 "enjoy_full_hero_experience" = "Enjoy the full learning experience with Hero Pro";
-"premium_active_subtitle" = "You have full access to all study materials, progress tracking and more";
+"premium_active_subtitle" = "You have full access to all study materials, flashcards and practice modes, progress tracking, and more";
 "get_premium_features_back" = "Get All Pro Features Back";
-"premium_features_back_subtitle" = "Resubscribe to regain access to all study materials, progress tracking and more";
+"premium_features_back_subtitle" = "Resubscribe to regain access to all study materials, flashcards and practice modes, progress tracking, and more";
 "monthly_subscription" = "Pro Monthly";
 "per_month" = "month";
 "month" = "month";
@@ -220,6 +221,26 @@
 "start_free_trial" = "Start Free Trial";
 "upgrade_to_premium" = "Upgrade to Pro";
 "change_plan" = "Change Plan";
+"view_pro_plans" = "View Pro plans";
+"settings_section_hero_pro" = "Hero Pro";
+"your_plan" = "Your plan";
+"plan_status_loading" = "Checking…";
+"plan_status_free" = "Free";
+"plan_status_trial" = "Trial";
+"plan_status_monthly" = "Monthly";
+"plan_status_quarterly" = "3 months";
+"plan_status_lifetime" = "Lifetime";
+"plan_status_hero_pro_active" = "Hero Pro";
+"plan_detail_free_body" = "You’re on the free tier. Upgrade to Hero Pro for full vocabulary access, flashcards, practice modes, and more.";
+"plan_detail_trial_body" = "You’re using a free trial of Hero Pro. Subscribe anytime to keep full access after the trial ends.";
+"plan_detail_trial_ends_format" = "Trial ends on %@";
+"plan_detail_subscription_body" = "Your Hero Pro subscription is active. You can change or cancel your plan in subscription management.";
+"plan_detail_renews_format" = "Renews or expires on %@";
+"plan_detail_lifetime_body" = "You have lifetime access to Hero Pro. No renewal needed — you’ll keep Pro with future app updates.";
+"plan_detail_lifetime_thanks" = "Thank you for supporting Hero.";
+"manage_subscription" = "Manage subscription";
+"manage_subscription_failed_title" = "Unable to open";
+"manage_subscription_failed" = "Couldn’t open subscription management. Try again later, or use the App Store app → your account → Subscriptions.";
 "continue_button" = "Continue";
 "subscription_terms" = "Upon subscribing, your Apple account will be charged 1,99€. Your Hero Pro subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
 "subscription_terms_monthly" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";

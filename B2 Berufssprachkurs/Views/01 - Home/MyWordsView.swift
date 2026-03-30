@@ -129,6 +129,18 @@ struct MyWordsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .environment(\.editMode, $editMode)
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                FloatingPracticeButton(
+                    title: Localizable.string(Localizable.practiceWithCards),
+                    accent: accent,
+                    isEnabled: !customWordEntries.isEmpty,
+                    compactForToolbar: true,
+                    inactiveTapBehavior: .silent
+                ) {
+                    HapticManager.shared.mediumImpact()
+                    navigateToStudy = true
+                }
+            }
             // Trailing order: edit (inner), delete-all when editing (middle), share (outermost).
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -240,8 +252,7 @@ struct MyWordsView: View {
     }
 
     private var myWordsListView: some View {
-        ZStack(alignment: .bottom) {
-            List {
+        List {
                 SwiftUI.Section {
                     EmptyView()
                 } header: {
@@ -340,31 +351,9 @@ struct MyWordsView: View {
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
             .contentMargins(.top, 8, for: .scrollContent)
-            .contentMargins(.bottom, 90, for: .scrollContent)
+            .contentMargins(.bottom, 24, for: .scrollContent)
             .accessibilityLabel("My Words list")
             .accessibilityHint("Your personal words; add a word with the button at the bottom of the list")
-
-            VStack(spacing: 0) {
-                Button {
-                    HapticManager.shared.mediumImpact()
-                    navigateToStudy = true
-                } label: {
-                    Text(Localizable.string(Localizable.practice))
-                        .font(.system(.headline, design: .default, weight: .bold))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(
-                            Capsule(style: .continuous)
-                                .fill(accent)
-                        )
-                        .shadow(color: accent.opacity(0.3), radius: 8, x: 0, y: 4)
-                }
-                .disabled(customWordEntries.isEmpty)
-                .padding(.horizontal, 20)
-                .padding(.bottom, 8)
-            }
-        }
     }
 
     @ViewBuilder

@@ -195,6 +195,8 @@ extension Localizable {
 
     // Practice button
     static let practice = "practice"
+    /// Toolbar label: single word per language (flashcards / Karteikarten).
+    static let practiceWithCards = "practice_with_cards"
     static let practiceNeedSelectionTitle = "practice_need_selection_title"
     static let practiceNeedSelectionMessage = "practice_need_selection_message"
     
@@ -240,6 +242,30 @@ extension Localizable {
     static let unlockPremium = "unlock_premium"
     static let startFreeTrial = "start_free_trial"
     static let changePlan = "change_plan"
+    /// Settings Pro banner — opens paywall for subscribers (plans, renewals, restore).
+    static let viewProPlans = "view_pro_plans"
+    /// Settings — section header above plan row.
+    static let settingsSectionHeroPro = "settings_section_hero_pro"
+    /// Settings — navigation title & row title.
+    static let yourPlan = "your_plan"
+    static let planStatusLoading = "plan_status_loading"
+    static let planStatusFree = "plan_status_free"
+    static let planStatusTrial = "plan_status_trial"
+    static let planStatusMonthly = "plan_status_monthly"
+    static let planStatusQuarterly = "plan_status_quarterly"
+    static let planStatusLifetime = "plan_status_lifetime"
+    /// Active Pro subscription when product id is unknown (e.g. future products).
+    static let planStatusHeroProActive = "plan_status_hero_pro_active"
+    static let planDetailFreeBody = "plan_detail_free_body"
+    static let planDetailTrialBody = "plan_detail_trial_body"
+    static let planDetailTrialEndsFormat = "plan_detail_trial_ends_format"
+    static let planDetailSubscriptionBody = "plan_detail_subscription_body"
+    static let planDetailRenewsFormat = "plan_detail_renews_format"
+    static let planDetailLifetimeBody = "plan_detail_lifetime_body"
+    static let planDetailLifetimeThanks = "plan_detail_lifetime_thanks"
+    static let manageSubscription = "manage_subscription"
+    static let manageSubscriptionFailedTitle = "manage_subscription_failed_title"
+    static let manageSubscriptionFailed = "manage_subscription_failed"
     static let continueButton = "continue_button"
     static let subscriptionTerms = "subscription_terms"
     static let subscriptionTermsMonthly = "subscription_terms_monthly"

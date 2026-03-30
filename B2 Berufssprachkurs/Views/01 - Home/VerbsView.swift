@@ -20,23 +20,8 @@ struct VerbsView: View {
         ZStack {
             Color("AppBlue").opacity(0.08)
                 .ignoresSafeArea()
-            
-            ZStack(alignment: .bottom) {
-                VerbsListView(dataService: dataService)
-                
-                VStack(spacing: 0) {
-                    FloatingPracticeButton(
-                        title: Localizable.string(Localizable.practice),
-                        accent: Color("AppBlue"),
-                        isEnabled: hasAnySelection
-                    ) {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 8)
-                }
-            }
+
+            VerbsListView(dataService: dataService)
         }
         .navigationDestination(isPresented: $navigateToStudy) {
             StudyView(
@@ -49,6 +34,19 @@ struct VerbsView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                FloatingPracticeButton(
+                    title: Localizable.string(Localizable.practiceWithCards),
+                    accent: Color("AppBlue"),
+                    isEnabled: hasAnySelection,
+                    compactForToolbar: true
+                ) {
+                    HapticManager.shared.mediumImpact()
+                    navigateToStudy = true
+                }
+            }
+        }
         .hidesBottomBarWhenPushed(true)
     }
 }

@@ -20,23 +20,8 @@ struct AdjectivesView: View {
         ZStack {
             Color("AppPurple").opacity(0.08)
                 .ignoresSafeArea()
-            
-            ZStack(alignment: .bottom) {
-                AdjectivesListView(dataService: dataService)
-                
-                VStack(spacing: 0) {
-                    FloatingPracticeButton(
-                        title: Localizable.string(Localizable.practice),
-                        accent: Color("AppPurple"),
-                        isEnabled: hasAnySelection
-                    ) {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 8)
-                }
-            }
+
+            AdjectivesListView(dataService: dataService)
         }
         .navigationDestination(isPresented: $navigateToStudy) {
             StudyView(
@@ -49,6 +34,19 @@ struct AdjectivesView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                FloatingPracticeButton(
+                    title: Localizable.string(Localizable.practiceWithCards),
+                    accent: Color("AppPurple"),
+                    isEnabled: hasAnySelection,
+                    compactForToolbar: true
+                ) {
+                    HapticManager.shared.mediumImpact()
+                    navigateToStudy = true
+                }
+            }
+        }
         .hidesBottomBarWhenPushed(true)
     }
 }

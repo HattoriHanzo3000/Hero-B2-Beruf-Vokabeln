@@ -67,19 +67,24 @@ struct StackListSelectAllHeader: View {
 
 private struct StackRootListChromeModifier: ViewModifier {
     @Binding var scrollPosition: String?
+    /// Extra scrollable space below list content (e.g. clear room for a floating Üben pill = 90).
+    var bottomMargin: CGFloat
 
     func body(content: Content) -> some View {
         content
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .contentMargins(.top, 8, for: .scrollContent)
-            .contentMargins(.bottom, 90, for: .scrollContent)
+            .contentMargins(.bottom, bottomMargin, for: .scrollContent)
             .scrollPosition(id: $scrollPosition, anchor: .center)
     }
 }
 
 extension View {
-    func stackRootListChrome(scrollPosition: Binding<String?>) -> some View {
-        modifier(StackRootListChromeModifier(scrollPosition: scrollPosition))
+    func stackRootListChrome(
+        scrollPosition: Binding<String?>,
+        bottomMargin: CGFloat = 90
+    ) -> some View {
+        modifier(StackRootListChromeModifier(scrollPosition: scrollPosition, bottomMargin: bottomMargin))
     }
 }

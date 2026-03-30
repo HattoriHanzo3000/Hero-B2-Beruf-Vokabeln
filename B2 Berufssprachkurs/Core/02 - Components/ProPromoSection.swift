@@ -12,10 +12,30 @@ struct ProPromoSection: View {
     let hasUsedTrial: Bool
     /// When `false`, hides the trial / upgrade pill until subscription status has been resolved (avoids flashing for Pro users).
     var showFreeTierCallout: Bool = true
+    /// When `true` (e.g. Settings), shows a pill to open the paywall even if the user already has Pro — for plans, restore, and subscription management.
+    var showPaywallEntryWhenSubscribed: Bool = false
     let onStartFreeTrial: () -> Void
 
     private var wasSubscribed: Bool {
         hasUsedTrial && !isPremiumActive
+    }
+
+    private var showPaywallPill: Bool {
+        if isPremiumActive {
+            showPaywallEntryWhenSubscribed
+        } else {
+            showFreeTierCallout
+        }
+    }
+
+    private var paywallPillTitle: String {
+        if isPremiumActive {
+            Localizable.string(Localizable.viewProPlans)
+        } else if hasUsedTrial {
+            Localizable.string(Localizable.upgradeToPremium)
+        } else {
+            Localizable.string(Localizable.startFreeTrial)
+        }
     }
 
     private var subtitle: String {
@@ -35,20 +55,16 @@ struct ProPromoSection: View {
                     // PRO + CTA pill (same corner radius / stroke weight as `ProShieldBadge`, filled AppBlue).
                     HStack(alignment: .top, spacing: 8) {
                         ProShieldBadge(label: "PRO", color: .white, showShimmer: true)
-                        if !isPremiumActive && showFreeTierCallout {
+                        if showPaywallPill {
                             Button {
                                 HapticManager.shared.lightImpact()
                                 onStartFreeTrial()
                             } label: {
-                                Text(
-                                    hasUsedTrial
-                                        ? Localizable.string(Localizable.upgradeToPremium)
-                                        : Localizable.string(Localizable.startFreeTrial)
-                                )
+                                Text(paywallPillTitle)
                                 .font(.system(.caption2, weight: .medium).width(.expanded))
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.leading)
-                                .lineLimit(hasUsedTrial ? 2 : 1)
+                                .lineLimit((!isPremiumActive && hasUsedTrial) ? 2 : 1)
                                 .minimumScaleFactor(0.75)
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 3)

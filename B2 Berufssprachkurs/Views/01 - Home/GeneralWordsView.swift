@@ -20,23 +20,8 @@ struct GeneralWordsView: View {
         ZStack {
             Color("AppGreen").opacity(0.08)
                 .ignoresSafeArea()
-            
-            ZStack(alignment: .bottom) {
-                GeneralWordsListView(dataService: dataService)
-                
-                VStack(spacing: 0) {
-                    FloatingPracticeButton(
-                        title: Localizable.string(Localizable.practice),
-                        accent: Color("AppGreen"),
-                        isEnabled: hasAnySelection
-                    ) {
-                        HapticManager.shared.mediumImpact()
-                        navigateToStudy = true
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 8)
-                }
-            }
+
+            GeneralWordsListView(dataService: dataService)
         }
         .navigationDestination(isPresented: $navigateToStudy) {
             StudyView(
@@ -49,6 +34,19 @@ struct GeneralWordsView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                FloatingPracticeButton(
+                    title: Localizable.string(Localizable.practiceWithCards),
+                    accent: Color("AppGreen"),
+                    isEnabled: hasAnySelection,
+                    compactForToolbar: true
+                ) {
+                    HapticManager.shared.mediumImpact()
+                    navigateToStudy = true
+                }
+            }
+        }
         .hidesBottomBarWhenPushed(true)
     }
 }
