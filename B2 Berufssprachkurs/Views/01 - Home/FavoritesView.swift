@@ -10,12 +10,9 @@ import SwiftData
 
 struct FavoritesView: View {
     @EnvironmentObject private var dataService: DataService
-    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
 
     @State private var navigateToStudy = false
-    @State private var showShareSheet = false
-    @State private var showPaywall = false
     @State private var focusedTranslationWordId: String?
     @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
 
@@ -84,16 +81,13 @@ struct FavoritesView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
+                    WordListPrintButton(
+                        pdfURL: { generateFavoritesPDF() },
+                        jobName: Localizable.string(Localizable.favorites)
+                    )
                 }
             }
         }
-        .wordListPremiumShareSheets(
-            showShareSheet: $showShareSheet,
-            showPaywall: $showPaywall,
-            shareText: { generateFavoritesShareText() },
-            pdfURL: { generateFavoritesPDF() }
-        )
         .hidesBottomBarWhenPushed(true)
         .environmentObject(keyboardNavBridge)
         .onAppear {
@@ -132,14 +126,6 @@ struct FavoritesView: View {
         focusedTranslationWordId = favoriteWords[idx + 1].id
     }
 
-    private func generateFavoritesShareText() -> String {
-        WordListShareManager.shareText(
-            words: favoriteWords,
-            header: "\(Localizable.string(Localizable.favorites))\n\n",
-            translationProvider: { userTranslation(for: $0.id) }
-        )
-    }
-
     private func generateFavoritesPDF() -> URL {
         let wordData = WordListShareManager.wordDataForPDF(
             words: favoriteWords,
@@ -152,7 +138,8 @@ struct FavoritesView: View {
             sectionLetter: nil,
             headerColor: Color("AppYellow"),
             words: wordData,
-            fileName: "Favorites"
+            fileName: "Favorites",
+            showsLectionSectionIndexing: false
         )
         return PDFGenerationService.generateWordsListPDF(info: pdfInfo)
     }
@@ -209,40 +196,12 @@ struct FavoritesView: View {
                                 dataService: dataService,
                                 focusedTranslationWordId: $focusedTranslationWordId,
                                 onFavoriteToggle: {
-                                    if dataService.toggleFavorite(wordId: word.id) {
-                                        HapticManager.shared.lightImpact()
-                                    } else {
-                                        HapticManager.shared.heavyImpact()
-                                        showPaywall = true
-                                    }
+                                    _ = dataService.toggleFavorite(wordId: word.id)
+                                    HapticManager.shared.lightImpact()
                                 }
                             )
                             .id(word.id)
                             .listRowBackground(Color.clear)
-                        }
-
-                        if !subscriptionManager.isPremiumActive {
-                            Text(
-                                String(
-                                    format: Localizable.string(Localizable.favoritesFreePlanFooter),
-                                    dataService.favoritesCount,
-                                    DataService.FavoriteFreeTier.maxFavorites
-                                )
-                            )
-                            .font(.system(.caption, design: .rounded))
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 4)
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden, edges: .bottom)
-                            .accessibilityLabel(
-                                String(
-                                    format: Localizable.string(Localizable.favoritesFreePlanFooter),
-                                    dataService.favoritesCount,
-                                    DataService.FavoriteFreeTier.maxFavorites
-                                )
-                            )
                         }
                     }
                 }

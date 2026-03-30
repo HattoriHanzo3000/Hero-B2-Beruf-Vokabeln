@@ -173,7 +173,6 @@ extension Localizable {
     static let adjectivesWithPrepositions = "adjectives_with_prepositions"
     static let favorites = "favorites"
     static let favoritesWordsTitle = "favorites_words_title"
-    static let favoritesFreePlanFooter = "favorites_free_plan_footer"
     static let myWords = "my_words"
     static let myWordsAddWord = "my_words_add_word"
     static let myWordsWordOrPhrase = "my_words_word_or_phrase"
@@ -192,6 +191,17 @@ extension Localizable {
     static let myWordsDeleteAllToolbarLabel = "my_words_delete_all_toolbar_label"
     static let myWordsAddWordA11yHint = "my_words_add_word_a11y_hint"
     static let myWordsAddWordA11yHintLocked = "my_words_add_word_a11y_hint_locked"
+    /// Toolbar overflow menu (My Words).
+    static let myWordsMoreOptionsA11y = "my_words_more_options_a11y"
+    static let myWordsSortBy = "my_words_sort_by"
+    static let myWordsSortTitle = "my_words_sort_title"
+    static let myWordsSortCreationDate = "my_words_sort_creation_date"
+    static let myWordsSortManual = "my_words_sort_manual"
+    static let myWordsSortAscending = "my_words_sort_ascending"
+    static let myWordsSortDescending = "my_words_sort_descending"
+    static let myWordsSortDateOldestFirst = "my_words_sort_date_oldest_first"
+    static let myWordsSortDateNewestFirst = "my_words_sort_date_newest_first"
+    static let myWordsPrint = "my_words_print"
 
     // Practice button
     static let practice = "practice"
@@ -303,9 +313,7 @@ extension Localizable {
     // Pro Lock
     static let premiumRequired = "premium_required"
     static let unlockPremiumToUseFeature = "unlock_premium_to_use_feature"
-    static let wordListShareA11yHint = "word_list_share_a11y_hint"
-    static let wordListShareA11yHintFreeOnce = "word_list_share_a11y_hint_free_once"
-    static let wordListShareA11yHintProRequired = "word_list_share_a11y_hint_pro_required"
+    static let wordListPrintA11yHint = "word_list_print_a11y_hint"
     
     // Rating Prompt
     static let ratingTitle = "rating_title"

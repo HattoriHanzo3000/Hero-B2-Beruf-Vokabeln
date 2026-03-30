@@ -139,7 +139,6 @@
 "adjectives_with_prepositions" = "Adjectives with Prepositions";
 "favorites" = "Favorites";
 "favorites_words_title" = "Favorite\nWords";
-"favorites_free_plan_footer" = "Free plan: %d of %d favorite words.";
 "my_words" = "My\nWords";
 "my_words_add_word" = "Add word";
 "my_words_word_or_phrase" = "Word or phrase";
@@ -158,6 +157,16 @@
 "my_words_delete_all_toolbar_label" = "Delete all words";
 "my_words_add_word_a11y_hint" = "Adds a new word to your list";
 "my_words_add_word_a11y_hint_locked" = "Upgrade to Pro to add more than five words";
+"my_words_more_options_a11y" = "More options";
+"my_words_sort_by" = "Sort by";
+"my_words_sort_title" = "Title";
+"my_words_sort_creation_date" = "Creation date";
+"my_words_sort_manual" = "Manual";
+"my_words_sort_ascending" = "Ascending";
+"my_words_sort_descending" = "Descending";
+"my_words_sort_date_oldest_first" = "Oldest first";
+"my_words_sort_date_newest_first" = "Newest first";
+"my_words_print" = "Print";
 
 "practice" = "PRACTICE";
 "practice_with_cards" = "Flashcards";
@@ -278,9 +287,7 @@
 "unlock_premium_to_use_feature" = "Unlock Pro to use this function";
 
 // Word list share (accessibility)
-"word_list_share_a11y_hint" = "Share the words list as text and PDF";
-"word_list_share_a11y_hint_free_once" = "Share once for free, then Pro is required";
-"word_list_share_a11y_hint_pro_required" = "Pro subscription required to share";
+"word_list_print_a11y_hint" = "Prints the word list as a PDF";
 
 // About — debug (hidden sheet)
 "about_debug_restore_normal_subscription" = "Regular mode (sync from store)";

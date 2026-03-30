@@ -28,8 +28,6 @@ struct WordsListView: View {
     }
     @State private var navigateToStudy = false
     @State private var navigateToSettings = false
-    @State private var showShareSheet = false
-    @State private var showPaywall = false
     @State private var focusedTranslationWordId: String?
     @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
     @StateObject private var keyboardMetrics = WordListKeyboardMetrics()
@@ -105,6 +103,18 @@ struct WordsListView: View {
         return 28
     }
 
+    private var printJobName: String {
+        if let info = headerInfo {
+            let lection = info.lectionTitle.replacingOccurrences(of: "\n", with: " ")
+            let section = info.sectionTitle.replacingOccurrences(of: "\n", with: " ")
+            return "\(lection) – \(section)"
+        }
+        if isVerbenSection || isAdjektiveSection {
+            return "\(stackInfo.title) – \(prepositionTitle)"
+        }
+        return stackInfo.title.replacingOccurrences(of: "\n", with: " ")
+    }
+
     var body: some View {
         ZStack {
             stackInfo.color.opacity(0.08)
@@ -152,12 +162,8 @@ struct WordsListView: View {
                             translationTextColor: listTranslationTextColor,
                             focusedTranslationWordId: $focusedTranslationWordId,
                             onFavoriteToggle: {
-                                if dataService.toggleFavorite(wordId: word.id) {
-                                    HapticManager.shared.lightImpact()
-                                } else {
-                                    HapticManager.shared.heavyImpact()
-                                    showPaywall = true
-                                }
+                                _ = dataService.toggleFavorite(wordId: word.id)
+                                HapticManager.shared.lightImpact()
                             }
                         )
                         .id(word.id)
@@ -222,15 +228,13 @@ struct WordsListView: View {
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
+                WordListPrintButton(
+                    isEnabled: !words.isEmpty,
+                    pdfURL: { generatePDF() },
+                    jobName: printJobName
+                )
             }
         }
-        .wordListPremiumShareSheets(
-            showShareSheet: $showShareSheet,
-            showPaywall: $showPaywall,
-            shareText: { generateShareText() },
-            pdfURL: { generatePDF() }
-        )
         .environmentObject(keyboardNavBridge)
         .onAppear {
             keyboardNavBridge.attachHandlers(
@@ -323,20 +327,6 @@ struct WordsListView: View {
         focusedTranslationWordId = words[idx + 1].id
     }
 
-    private func generateShareText() -> String {
-        var header = ""
-        if let info = headerInfo {
-            header = "\(info.lectionTitle) - \(info.sectionTitle)\n\n"
-        } else if isVerbenSection || isAdjektiveSection {
-            header = "\(prepositionTitle)\n\n"
-        }
-        return WordListShareManager.shareText(
-            words: words,
-            header: header,
-            translationProvider: { userTranslation(for: $0.id) }
-        )
-    }
-    
     private func generatePDF() -> URL {
         let lectionTitle: String
         let lectionNumber: String?
@@ -365,6 +355,7 @@ struct WordsListView: View {
             translationProvider: { userTranslation(for: $0.id) }
         )
         
+        let showsLectionSectionIndexing = headerInfo != nil && !isVerbenSection && !isAdjektiveSection
         let pdfInfo = PDFGenerationService.PDFInfo(
             lectionTitle: lectionTitle,
             lectionNumber: lectionNumber,
@@ -372,7 +363,8 @@ struct WordsListView: View {
             sectionLetter: sectionLetter,
             headerColor: stackInfo.color,
             words: wordData,
-            fileName: "WordsList_\(sectionId)"
+            fileName: "WordsList_\(sectionId)",
+            showsLectionSectionIndexing: showsLectionSectionIndexing
         )
         
         return PDFGenerationService.generateWordsListPDF(info: pdfInfo)

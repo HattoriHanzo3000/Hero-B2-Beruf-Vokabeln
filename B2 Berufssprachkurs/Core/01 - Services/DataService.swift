@@ -22,11 +22,6 @@ class DataService: ObservableObject {
     /// Synthetic section for user-created entries (`CustomWordEntry`); not in bundle JSON.
     static let userMyWordsSectionId = "USER_MY_WORDS"
 
-    /// Non‑premium users may favorite up to this many words across the app; premium is unlimited.
-    enum FavoriteFreeTier {
-        static let maxFavorites = 5
-    }
-
     /// General Words lections from `lections.json` (IDs 1…12). Without Pro, only lection `1` is selectable for practice.
     enum GeneralWordsFreeTier {
         static let unlockedLectionId = 1
@@ -595,21 +590,13 @@ class DataService: ObservableObject {
 
     var favoritesCount: Int { favoriteWords.count }
 
-    /// Whether another word can be favorited on the free plan (premium ignores the cap).
-    func canAddMoreFavorites(isPremiumActive: Bool) -> Bool {
-        isPremiumActive || favoriteWords.count < FavoriteFreeTier.maxFavorites
-    }
-
-    /// Removes or adds a favorite. Returns `false` if adding was blocked by the free-tier limit.
+    /// Removes or adds a favorite (no cap for free or Pro users).
     @discardableResult
     func toggleFavorite(wordId: String) -> Bool {
         if favoriteWords.contains(wordId) {
             favoriteWords.remove(wordId)
             saveFavoriteWords()
             return true
-        }
-        if !SubscriptionManager.shared.isPremiumActive && favoriteWords.count >= FavoriteFreeTier.maxFavorites {
-            return false
         }
         favoriteWords.insert(wordId)
         saveFavoriteWords()

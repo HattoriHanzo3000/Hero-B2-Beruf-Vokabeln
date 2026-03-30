@@ -94,6 +94,30 @@ private struct MyWordFormFields: View {
     }
 }
 
+private enum MyWordsListSortMode: String, CaseIterable, Identifiable {
+    case manual
+    case nameAscending
+    case nameDescending
+    case dateAscending
+    case dateDescending
+
+    var id: String { rawValue }
+
+    static let appStorageKey = "myWordsListSortModeRaw"
+
+    /// Handles legacy single-option values saved before direction submenus existed.
+    static func resolved(from stored: String) -> MyWordsListSortMode {
+        switch stored {
+        case MyWordsListSortMode.manual.rawValue: return .manual
+        case MyWordsListSortMode.nameAscending.rawValue, "name": return .nameAscending
+        case MyWordsListSortMode.nameDescending.rawValue: return .nameDescending
+        case MyWordsListSortMode.dateAscending.rawValue: return .dateAscending
+        case MyWordsListSortMode.dateDescending.rawValue, "dateAdded": return .dateDescending
+        default: return .manual
+        }
+    }
+}
+
 struct MyWordsView: View {
     @EnvironmentObject private var dataService: DataService
     @Environment(\.modelContext) private var modelContext
@@ -103,15 +127,42 @@ struct MyWordsView: View {
         SortDescriptor(\CustomWordEntry.createdAt, order: .forward)
     ]) private var customWordEntries: [CustomWordEntry]
 
+    @AppStorage(MyWordsListSortMode.appStorageKey) private var myWordsSortModeRaw: String = MyWordsListSortMode.manual.rawValue
+
     @State private var showAddWordSheet = false
     @State private var navigateToStudy = false
     @State private var editMode: EditMode = .inactive
     @State private var editingEntry: CustomWordEntry?
-    @State private var showShareSheet = false
     @State private var showPaywall = false
     @State private var showDeleteAllConfirmation = false
 
     private var accent: Color { Color("AppRed") }
+
+    private var myWordsListSortMode: MyWordsListSortMode {
+        MyWordsListSortMode.resolved(from: myWordsSortModeRaw)
+    }
+
+    /// Rows in the order the user chose (custom / name / date); also used for share/PDF.
+    private var displayedMyWordEntries: [CustomWordEntry] {
+        switch myWordsListSortMode {
+        case .manual:
+            return customWordEntries
+        case .nameAscending:
+            return customWordEntries.sorted {
+                $0.german.trimmingCharacters(in: .whitespacesAndNewlines)
+                    .localizedCaseInsensitiveCompare($1.german.trimmingCharacters(in: .whitespacesAndNewlines)) == .orderedAscending
+            }
+        case .nameDescending:
+            return customWordEntries.sorted {
+                $0.german.trimmingCharacters(in: .whitespacesAndNewlines)
+                    .localizedCaseInsensitiveCompare($1.german.trimmingCharacters(in: .whitespacesAndNewlines)) == .orderedDescending
+            }
+        case .dateAscending:
+            return customWordEntries.sorted { $0.createdAt < $1.createdAt }
+        case .dateDescending:
+            return customWordEntries.sorted { $0.createdAt > $1.createdAt }
+        }
+    }
 
     /// Free users may add up to `CustomWordEntry.FreeTier.maxWords` entries; premium is unlimited.
     private var canAddMoreMyWords: Bool {
@@ -141,46 +192,20 @@ struct MyWordsView: View {
                     navigateToStudy = true
                 }
             }
-            // Trailing order: edit (inner), delete-all when editing (middle), share (outermost).
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    HapticManager.shared.lightImpact()
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        editMode = editMode == .active ? .inactive : .active
-                    }
+                Menu {
+                    myWordsOverflowMenuContent
                 } label: {
-                    Image(systemName: editMode == .active ? "checkmark" : "pencil")
+                    Image(systemName: "ellipsis")
                         .navigationBarSymbolStyle()
                         .foregroundStyle(.primary)
                 }
-                .accessibilityLabel(
-                    Localizable.string(editMode == .active ? Localizable.myWordsDoneEditing : Localizable.myWordsEdit)
-                )
-            }
-            if editMode == .active, !customWordEntries.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        HapticManager.shared.heavyImpact()
-                        showDeleteAllConfirmation = true
-                    } label: {
-                        Image(systemName: "trash")
-                            .navigationBarSymbolStyle()
-                            .foregroundColor(.primary)
-                    }
-                    .accessibilityLabel(Localizable.string(Localizable.myWordsDeleteAllToolbarLabel))
-                    .accessibilityHint(Localizable.string(Localizable.myWordsDeleteAllToolbarHint))
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                WordListShareButton(showShareSheet: $showShareSheet, showPaywall: $showPaywall)
+                .accessibilityLabel(Localizable.string(Localizable.myWordsMoreOptionsA11y))
             }
         }
-        .wordListPremiumShareSheets(
-            showShareSheet: $showShareSheet,
-            showPaywall: $showPaywall,
-            shareText: { generateShareText() },
-            pdfURL: { generateMyWordsPDF() }
-        )
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
+        }
         .sheet(isPresented: $showAddWordSheet) {
             AddMyWordSheet(
                 onLimitReached: {
@@ -202,6 +227,7 @@ struct MyWordsView: View {
             .environmentObject(dataService)
         }
         .onAppear {
+            migrateMyWordsSortAppStorageIfNeeded()
             CustomWordEntry.renumberSortOrderIfNeeded(in: modelContext)
         }
         .alert(
@@ -218,20 +244,8 @@ struct MyWordsView: View {
         .hidesBottomBarWhenPushed(true)
     }
 
-    private func generateShareText() -> String {
-        let title = Localizable.string(Localizable.myWords).replacingOccurrences(of: "\n", with: " ")
-        let words = customWordEntries.map { $0.asWord() }
-        return WordListShareManager.shareText(
-            words: words,
-            header: "\(title)\n\n",
-            translationProvider: { word in
-                word.translation.trimmingCharacters(in: .whitespacesAndNewlines)
-            }
-        )
-    }
-
     private func generateMyWordsPDF() -> URL {
-        let words = customWordEntries.map { $0.asWord() }
+        let words = displayedMyWordEntries.map { $0.asWord() }
         let wordData = WordListShareManager.wordDataForPDF(
             words: words,
             translationProvider: { word in
@@ -246,9 +260,169 @@ struct MyWordsView: View {
             sectionLetter: nil,
             headerColor: Color("AppRed"),
             words: wordData,
-            fileName: "MyWords"
+            fileName: "MyWords",
+            showsLectionSectionIndexing: false
         )
         return PDFGenerationService.generateWordsListPDF(info: pdfInfo)
+    }
+
+    /// Rewrites legacy `name` / `dateAdded` tokens to explicit `nameAsc` / `dateDesc` storage values.
+    private func migrateMyWordsSortAppStorageIfNeeded() {
+        switch myWordsSortModeRaw {
+        case "name":
+            myWordsSortModeRaw = MyWordsListSortMode.nameAscending.rawValue
+        case "dateAdded":
+            myWordsSortModeRaw = MyWordsListSortMode.dateDescending.rawValue
+        default:
+            break
+        }
+    }
+
+    /// Subtitle under “Sort by” in the overflow menu (current sort selection).
+    private var myWordsSortSelectionSubtitle: String {
+        switch myWordsListSortMode {
+        case .manual:
+            Localizable.string(Localizable.myWordsSortManual)
+        case .nameAscending:
+            "\(Localizable.string(Localizable.myWordsSortTitle)) · \(Localizable.string(Localizable.myWordsSortAscending))"
+        case .nameDescending:
+            "\(Localizable.string(Localizable.myWordsSortTitle)) · \(Localizable.string(Localizable.myWordsSortDescending))"
+        case .dateAscending:
+            "\(Localizable.string(Localizable.myWordsSortCreationDate)) · \(Localizable.string(Localizable.myWordsSortDateOldestFirst))"
+        case .dateDescending:
+            "\(Localizable.string(Localizable.myWordsSortCreationDate)) · \(Localizable.string(Localizable.myWordsSortDateNewestFirst))"
+        }
+    }
+
+    private func performMyWordsPrintAction() {
+        guard !customWordEntries.isEmpty else { return }
+        HapticManager.shared.lightImpact()
+        presentMyWordsPrint()
+    }
+
+    private var myWordsPrintMenuItemAccessibilityHint: String {
+        Localizable.string(Localizable.wordListPrintA11yHint)
+    }
+
+    private func presentMyWordsPrint() {
+        let pdfURL = generateMyWordsPDF()
+        let job = Localizable.string(Localizable.myWords).replacingOccurrences(of: "\n", with: " ")
+        WordListPrintPresenter.present(pdfURL: pdfURL, jobName: job)
+    }
+
+    private var editToolbarMenuTitle: String {
+        Localizable.string(editMode == .active ? Localizable.myWordsDoneEditing : Localizable.myWordsEdit)
+    }
+
+    private var editToolbarMenuSymbol: String {
+        editMode == .active ? "checkmark" : "pencil"
+    }
+
+    @ViewBuilder
+    private var myWordsOverflowMenuContent: some View {
+        Button {
+            HapticManager.shared.lightImpact()
+            withAnimation(.easeInOut(duration: 0.2)) {
+                editMode = editMode == .active ? .inactive : .active
+            }
+        } label: {
+            Label(editToolbarMenuTitle, systemImage: editToolbarMenuSymbol)
+        }
+
+        Menu {
+            Menu {
+                Button {
+                    myWordsSortModeRaw = MyWordsListSortMode.nameAscending.rawValue
+                    HapticManager.shared.selection()
+                } label: {
+                    myWordsSortMenuRow(title: Localizable.myWordsSortAscending, isSelected: myWordsListSortMode == .nameAscending)
+                }
+                Button {
+                    myWordsSortModeRaw = MyWordsListSortMode.nameDescending.rawValue
+                    HapticManager.shared.selection()
+                } label: {
+                    myWordsSortMenuRow(title: Localizable.myWordsSortDescending, isSelected: myWordsListSortMode == .nameDescending)
+                }
+            } label: {
+                Text(Localizable.string(Localizable.myWordsSortTitle))
+            }
+
+            Menu {
+                Button {
+                    myWordsSortModeRaw = MyWordsListSortMode.dateAscending.rawValue
+                    HapticManager.shared.selection()
+                } label: {
+                    myWordsSortMenuRow(
+                        title: Localizable.myWordsSortDateOldestFirst,
+                        isSelected: myWordsListSortMode == .dateAscending
+                    )
+                }
+                Button {
+                    myWordsSortModeRaw = MyWordsListSortMode.dateDescending.rawValue
+                    HapticManager.shared.selection()
+                } label: {
+                    myWordsSortMenuRow(
+                        title: Localizable.myWordsSortDateNewestFirst,
+                        isSelected: myWordsListSortMode == .dateDescending
+                    )
+                }
+            } label: {
+                Text(Localizable.string(Localizable.myWordsSortCreationDate))
+            }
+
+            Button {
+                myWordsSortModeRaw = MyWordsListSortMode.manual.rawValue
+                HapticManager.shared.selection()
+            } label: {
+                myWordsSortMenuRow(title: Localizable.myWordsSortManual, isSelected: myWordsListSortMode == .manual)
+            }
+        } label: {
+            Label {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(Localizable.string(Localizable.myWordsSortBy))
+                    Text(myWordsSortSelectionSubtitle)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            } icon: {
+                Image(systemName: "arrow.up.arrow.down")
+            }
+        }
+
+        Button {
+            performMyWordsPrintAction()
+        } label: {
+            Label(
+                Localizable.string(Localizable.myWordsPrint),
+                systemImage: "printer"
+            )
+        }
+        .disabled(customWordEntries.isEmpty)
+        .accessibilityHint(myWordsPrintMenuItemAccessibilityHint)
+
+        if !customWordEntries.isEmpty {
+            Divider()
+            Button(role: .destructive) {
+                HapticManager.shared.heavyImpact()
+                showDeleteAllConfirmation = true
+            } label: {
+                Label(
+                    Localizable.string(Localizable.myWordsDeleteAllToolbarLabel),
+                    systemImage: "trash"
+                )
+            }
+            .accessibilityHint(Localizable.string(Localizable.myWordsDeleteAllToolbarHint))
+        }
+    }
+
+    private func myWordsSortMenuRow(title: String, isSelected: Bool) -> some View {
+        HStack {
+            Text(Localizable.string(title))
+            Spacer(minLength: 8)
+            if isSelected {
+                Image(systemName: "checkmark")
+            }
+        }
     }
 
     private var myWordsListView: some View {
@@ -265,31 +439,18 @@ struct MyWordsView: View {
                 }
 
                 SwiftUI.Section {
-                    ForEach(customWordEntries) { entry in
-                        let word = entry.asWord()
-                        Group {
-                            if editMode == .active {
-                                myWordEditModeRow(entry: entry, word: word)
-                            } else {
-                                MyWordRow(
-                                    word: word,
-                                    isFavorite: dataService.isFavorite(wordId: word.id),
-                                    onEditTranslation: { editingEntry = entry },
-                                    onFavoriteToggle: {
-                                        if dataService.toggleFavorite(wordId: word.id) {
-                                            HapticManager.shared.lightImpact()
-                                        } else {
-                                            HapticManager.shared.heavyImpact()
-                                            showPaywall = true
-                                        }
-                                    }
-                                )
+                    Group {
+                        if myWordsListSortMode == .manual {
+                            ForEach(displayedMyWordEntries) { entry in
+                                myWordListRow(for: entry)
+                            }
+                            .onMove(perform: applyMove)
+                        } else {
+                            ForEach(displayedMyWordEntries) { entry in
+                                myWordListRow(for: entry)
                             }
                         }
-                        .id(entry.id)
-                        .listRowBackground(Color.clear)
                     }
-                    .onMove(perform: applyMove)
 
                     if editMode == .inactive {
                         if !subscriptionManager.isPremiumActive {
@@ -423,13 +584,36 @@ struct MyWordsView: View {
     }
 
     private func applyMove(from source: IndexSet, to destination: Int) {
-        var ordered = customWordEntries
+        guard myWordsListSortMode == .manual else { return }
+        var ordered = displayedMyWordEntries
         ordered.move(fromOffsets: source, toOffset: destination)
         for (i, entry) in ordered.enumerated() {
             entry.sortIndex = i
         }
         try? modelContext.save()
         HapticManager.shared.lightImpact()
+    }
+
+    @ViewBuilder
+    private func myWordListRow(for entry: CustomWordEntry) -> some View {
+        let word = entry.asWord()
+        Group {
+            if editMode == .active {
+                myWordEditModeRow(entry: entry, word: word)
+            } else {
+                MyWordRow(
+                    word: word,
+                    isFavorite: dataService.isFavorite(wordId: word.id),
+                    onEditTranslation: { editingEntry = entry },
+                    onFavoriteToggle: {
+                        _ = dataService.toggleFavorite(wordId: word.id)
+                        HapticManager.shared.lightImpact()
+                    }
+                )
+            }
+        }
+        .id(entry.id)
+        .listRowBackground(Color.clear)
     }
 }
 
@@ -762,6 +946,11 @@ struct MyWordRow: View {
         return hasErkl || hasBeisp || hasSyn
     }
 
+    /// Edit mode: match system reorder control (``line.3.horizontal``) vertical centering.
+    private var rowStackAlignment: VerticalAlignment {
+        onDelete != nil ? .center : .top
+    }
+
     @ViewBuilder
     private var translationColumn: some View {
         if trimmedTranslation.isEmpty {
@@ -824,7 +1013,7 @@ struct MyWordRow: View {
     }
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: rowStackAlignment, spacing: 12) {
             leadingAccessory
 
             VStack(alignment: .leading, spacing: 8) {

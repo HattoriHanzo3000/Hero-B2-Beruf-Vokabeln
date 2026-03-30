@@ -8,29 +8,6 @@
 import SwiftUI
 import UIKit
 
-// MARK: - Free tier (PDF share)
-
-/// Users without Pro get one successful PDF/text share; after that the paywall is shown.
-enum WordListShareFreeTier {
-    private static let countKey = "wordListFreePdfShareCount"
-    private static let maxFreeShares = 1
-
-    static var freeSharesUsed: Int {
-        UserDefaults.standard.integer(forKey: countKey)
-    }
-
-    static var canShareFree: Bool {
-        freeSharesUsed < maxFreeShares
-    }
-
-    /// Called when the system reports a completed share activity (Save, AirDrop, Messages, etc.).
-    static func consumeFreeShareIfEligible() {
-        guard !SubscriptionManager.shared.isPremiumActive else { return }
-        guard freeSharesUsed < maxFreeShares else { return }
-        UserDefaults.standard.set(freeSharesUsed + 1, forKey: countKey)
-    }
-}
-
 // MARK: - Share sheet
 
 struct ShareSheet: UIViewControllerRepresentable {
@@ -97,63 +74,77 @@ enum WordListShareManager {
     }
 }
 
-// MARK: - Pro share toolbar control
+// MARK: - Print (PDF)
 
-struct WordListShareButton: View {
-    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
-    @Binding var showShareSheet: Bool
-    @Binding var showPaywall: Bool
+enum WordListPrintPresenter {
+    static func present(pdfURL: URL, jobName: String) {
+        guard FileManager.default.fileExists(atPath: pdfURL.path) else { return }
+        let printController = UIPrintInteractionController.shared
+        printController.printPageRenderer = nil
+        printController.printFormatter = nil
+        printController.printingItems = nil
 
-    var body: some View {
-        Button {
-            if subscriptionManager.isPremiumActive {
-                HapticManager.shared.lightImpact()
-                showShareSheet = true
-            } else if WordListShareFreeTier.canShareFree {
-                HapticManager.shared.lightImpact()
-                showShareSheet = true
-            } else {
-                HapticManager.shared.heavyImpact()
-                showPaywall = true
+        let printInfo = UIPrintInfo.printInfo()
+        printInfo.jobName = jobName
+        printInfo.outputType = .general
+        printInfo.duplex = .none
+        printInfo.orientation = .portrait
+
+        printController.printInfo = printInfo
+        printController.printingItem = pdfURL
+        printController.showsPaperOrientation = true
+        printController.showsNumberOfCopies = true
+        printController.showsPaperSelectionForLoadedPapers = true
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = scene.windows.first(where: \.isKeyWindow) ?? scene.windows.first,
+                  let rootVC = window.rootViewController else {
+                printController.present(animated: true, completionHandler: nil)
+                return
             }
-        } label: {
-            Image(systemName: "square.and.arrow.up")
-                .navigationBarSymbolStyle()
-                .foregroundColor(.primary)
+            let host = topMostViewController(from: rootVC)
+            let rect = CGRect(x: host.view.bounds.midX, y: host.view.bounds.midY, width: 1, height: 1)
+            printController.present(from: rect, in: host.view, animated: true, completionHandler: nil)
+        } else {
+            printController.present(animated: true, completionHandler: nil)
         }
-        .accessibilityLabel(Localizable.string(Localizable.share))
-        .accessibilityHint(accessibilityHintText)
     }
 
-    private var accessibilityHintText: String {
-        if subscriptionManager.isPremiumActive {
-            return Localizable.string(Localizable.wordListShareA11yHint)
+    private static func topMostViewController(from root: UIViewController) -> UIViewController {
+        if let presented = root.presentedViewController {
+            return topMostViewController(from: presented)
         }
-        if WordListShareFreeTier.canShareFree {
-            return Localizable.string(Localizable.wordListShareA11yHintFreeOnce)
+        if let nav = root as? UINavigationController, let visible = nav.visibleViewController {
+            return topMostViewController(from: visible)
         }
-        return Localizable.string(Localizable.wordListShareA11yHintProRequired)
+        if let tab = root as? UITabBarController, let selected = tab.selectedViewController {
+            return topMostViewController(from: selected)
+        }
+        return root
     }
 }
 
-// MARK: - Sheets
+/// Toolbar control: opens the system print panel with a generated PDF (available for all users).
+struct WordListPrintButton: View {
+    var isEnabled: Bool = true
+    var pdfURL: () -> URL
+    var jobName: String
 
-extension View {
-    /// Share sheet (text + PDF URL) and paywall for users without Pro.
-    func wordListPremiumShareSheets(
-        showShareSheet: Binding<Bool>,
-        showPaywall: Binding<Bool>,
-        shareText: @escaping () -> String,
-        pdfURL: @escaping () -> URL
-    ) -> some View {
-        self
-            .sheet(isPresented: showShareSheet) {
-                ShareSheet(activityItems: [shareText(), pdfURL()]) {
-                    WordListShareFreeTier.consumeFreeShareIfEligible()
-                }
-            }
-            .sheet(isPresented: showPaywall) {
-                PaywallView()
-            }
+    var body: some View {
+        Button {
+            guard isEnabled else { return }
+            let url = pdfURL()
+            guard FileManager.default.fileExists(atPath: url.path) else { return }
+            HapticManager.shared.lightImpact()
+            WordListPrintPresenter.present(pdfURL: url, jobName: jobName)
+        } label: {
+            Image(systemName: "printer")
+                .navigationBarSymbolStyle()
+                .foregroundColor(.primary)
+        }
+        .disabled(!isEnabled)
+        .accessibilityLabel(Localizable.string(Localizable.myWordsPrint))
+        .accessibilityHint(Localizable.string(Localizable.wordListPrintA11yHint))
     }
 }

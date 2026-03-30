@@ -25,6 +25,8 @@ struct PDFGenerationService {
         let headerColor: Color
         let words: [WordData]
         let fileName: String
+        /// General curriculum lists: lection index + section letter (e.g. footer `1A:`). Verbs, adjectives, My Words, and Favorites use titles only.
+        let showsLectionSectionIndexing: Bool
     }
     
     private static let margin: CGFloat = 50
@@ -201,7 +203,7 @@ struct PDFGenerationService {
                     
                     var headerY: CGFloat = 35
                     let lectionText: String
-                    if let number = info.lectionNumber, !number.isEmpty {
+                    if info.showsLectionSectionIndexing, let number = info.lectionNumber, !number.isEmpty {
                         lectionText = "\(number) \(info.lectionTitle)"
                     } else {
                         lectionText = info.lectionTitle
@@ -218,7 +220,7 @@ struct PDFGenerationService {
                     
                     if !info.sectionTitle.isEmpty {
                         let sectionText: String
-                        if let letter = info.sectionLetter, !letter.isEmpty {
+                        if info.showsLectionSectionIndexing, let letter = info.sectionLetter, !letter.isEmpty {
                             sectionText = "\(letter.uppercased()) \(info.sectionTitle)"
                         } else {
                             sectionText = info.sectionTitle
@@ -288,7 +290,8 @@ struct PDFGenerationService {
                     pageNumber: pageIndex + 1,
                     totalPages: totalPages,
                     lectionNumber: info.lectionNumber,
-                    sectionLetter: info.sectionLetter
+                    sectionLetter: info.sectionLetter,
+                    showsLectionSectionIndexing: info.showsLectionSectionIndexing
                 )
             }
         }
@@ -298,7 +301,7 @@ struct PDFGenerationService {
         return tempURL
     }
     
-    /// Running footer (folio): `1A: …` (left, **lection** index + section letter, then title) · “Seite X von Y” (right).
+    /// Running footer: general lists use `1A: …`; other lists use the document title only (no page-number prefix).
     private static func drawRunningFooter(
         pageWidth: CGFloat,
         pageHeight: CGFloat,
@@ -306,21 +309,27 @@ struct PDFGenerationService {
         pageNumber: Int,
         totalPages: Int,
         lectionNumber: String?,
-        sectionLetter: String?
+        sectionLetter: String?,
+        showsLectionSectionIndexing: Bool
     ) {
-        let num = lectionNumber?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let letter = sectionLetter?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() ?? ""
-        let refPrefix: String
-        if !num.isEmpty, !letter.isEmpty {
-            refPrefix = "\(num)\(letter)"
-        } else if !num.isEmpty {
-            refPrefix = num
-        } else if !letter.isEmpty {
-            refPrefix = letter
+        let leftFooterText: String
+        if showsLectionSectionIndexing {
+            let num = lectionNumber?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            let letter = sectionLetter?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() ?? ""
+            let refPrefix: String
+            if !num.isEmpty, !letter.isEmpty {
+                refPrefix = "\(num)\(letter)"
+            } else if !num.isEmpty {
+                refPrefix = num
+            } else if !letter.isEmpty {
+                refPrefix = letter
+            } else {
+                refPrefix = "\(pageNumber)"
+            }
+            leftFooterText = "\(refPrefix): \(documentTitle)"
         } else {
-            refPrefix = "\(pageNumber)"
+            leftFooterText = documentTitle
         }
-        let leftFooterText = "\(refPrefix): \(documentTitle)"
         
         let footerY = pageHeight - footerBottomInset
         let pageLabel = "Seite \(pageNumber) von \(totalPages)"

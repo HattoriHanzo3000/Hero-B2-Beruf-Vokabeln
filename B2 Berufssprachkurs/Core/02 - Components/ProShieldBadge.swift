@@ -9,7 +9,7 @@ private struct ShimmerOverlay: View {
     var body: some View {
         GeometryReader { geo in
             LinearGradient(
-                colors: [.clear, .white.opacity(0.5), .clear],
+                colors: [.clear, .white.opacity(0.62), .clear],
                 startPoint: .leading,
                 endPoint: .trailing
             )
@@ -92,6 +92,7 @@ struct ProShieldBadge: View {
                     .stroke(color, lineWidth: strokeLineWidth)
             )
             .overlay(shimmerOverlay)
+            .compositingGroup()
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
             .accessibilityHidden(true)
     }

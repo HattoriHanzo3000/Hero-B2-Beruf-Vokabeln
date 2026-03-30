@@ -2,7 +2,7 @@
 //  NavigationBarSymbolStyle.swift
 //  B2 Berufssprachkurs
 //
-//  Shared SF Symbol metrics for navigation bars and toolbars (aligned with `WordListShareButton`).
+//  Shared SF Symbol metrics for navigation bars and toolbars (aligned with list export toolbar buttons).
 //
 
 import SwiftUI
