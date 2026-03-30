@@ -21,8 +21,9 @@ private struct SearchVocabularyRow: Identifiable {
 }
 
 struct GlobalSearchView: View {
-    /// When true, this tab is selected in `MainView` (used to reopen keyboard when returning to Search).
-    var searchTabIsSelected: Bool = true
+    @Binding var selectedSection: MainViewSection
+    /// Tab stored by `MainView` when opening Search; used when the user taps system Cancel / X.
+    var sectionBeforeSearch: MainViewSection
 
     @EnvironmentObject private var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
@@ -32,7 +33,10 @@ struct GlobalSearchView: View {
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
 
     @State private var searchText = ""
+    @State private var isSearchPresented = true
     @FocusState private var isSearchFieldFocused: Bool
+
+    private var searchTabIsSelected: Bool { selectedSection == .search }
 
     private var progressByWordId: [String: String] {
         Dictionary(uniqueKeysWithValues: wordProgressList.map { ($0.wordId, $0.translation) })
@@ -85,14 +89,25 @@ struct GlobalSearchView: View {
         .navigationBarTitleDisplayMode(.large)
         .searchable(
             text: $searchText,
+            isPresented: $isSearchPresented,
             placement: .automatic,
             prompt: Text(Localizable.string(Localizable.searchVocabularyPrompt))
         )
         .searchFocused($isSearchFieldFocused)
         .onAppear { scheduleSearchFieldFocus() }
+        .onChange(of: isSearchPresented) { _, presented in
+            guard !presented, selectedSection == .search else { return }
+            searchText = ""
+            isSearchFieldFocused = false
+            selectedSection = sectionBeforeSearch
+        }
         .onChange(of: searchTabIsSelected) { _, isSelected in
-            guard isSelected else { return }
-            scheduleSearchFieldFocus()
+            if isSelected {
+                isSearchPresented = true
+                scheduleSearchFieldFocus()
+            } else {
+                isSearchPresented = true
+            }
         }
         .navigationDestination(for: SearchListDestination.self) { dest in
             WordsListView(sectionId: dest.sectionId, scrollToWordIdOnAppear: dest.wordId)
@@ -252,7 +267,7 @@ enum VocabularySearchEngine {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: WordProgress.self, configurations: config)
     NavigationStack {
-        GlobalSearchView()
+        GlobalSearchView(selectedSection: .constant(.search), sectionBeforeSearch: .home)
     }
     .environmentObject(DataService())
     .environmentObject(LearningListsUIState.shared)

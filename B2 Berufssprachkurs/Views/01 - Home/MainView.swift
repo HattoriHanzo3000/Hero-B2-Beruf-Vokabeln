@@ -52,6 +52,8 @@ struct MainView: View {
     @StateObject private var updateAlertManager: UpdateAlertManager
     @StateObject private var ratingManager: RatingManager
     @State private var selectedSection: MainViewSection = .home
+    /// Tab to restore when the user dismisses search (system Cancel / X).
+    @State private var sectionBeforeSearch: MainViewSection = .home
 
     /// - Parameter isPremiumPreviewOverride: Pass `true` / `false` for canvas previews only; `nil` uses live subscription state.
     init(isPremiumPreviewOverride: Bool? = nil) {
@@ -83,7 +85,10 @@ struct MainView: View {
 
             Tab(value: MainViewSection.search, role: .search) {
                 NavigationStack {
-                    GlobalSearchView()
+                    GlobalSearchView(
+                        selectedSection: $selectedSection,
+                        sectionBeforeSearch: sectionBeforeSearch
+                    )
                 }
             }
 
@@ -98,6 +103,11 @@ struct MainView: View {
         }
         .environmentObject(dataService)
         .environmentObject(LearningListsUIState.shared)
+        .onChange(of: selectedSection) { oldValue, newValue in
+            if newValue == .search, oldValue != .search {
+                sectionBeforeSearch = oldValue
+            }
+        }
         .onAppear {
             CustomWordEntry.renumberSortOrderIfNeeded(in: modelContext)
             dataService.updateUserCustomWords(from: customWordEntries)
