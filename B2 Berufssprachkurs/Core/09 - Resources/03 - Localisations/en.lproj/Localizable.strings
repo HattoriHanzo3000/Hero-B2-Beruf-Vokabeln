@@ -172,7 +172,7 @@
 
 "practice" = "PRACTICE";
 "practice_with_cards" = "Flashcards";
-"practice_need_selection_title" = "Select flashcard stacks";
+"practice_need_selection_title" = "Select categories";
 "practice_need_selection_message" = "Check at least one category with the checkmark to study with flashcards.";
 
 // Header Greeting
@@ -300,8 +300,8 @@
 "about_debug_pro_mode_enabled" = "Pro mode enabled";
 
 // Rating Prompt
-"rating_title" = "Do you like Hero?";
-"rating_subtitle" = "A quick rating helps us improve the app!";
+"rating_title" = "What do you think of Hero?";
+"rating_subtitle" = "Your star rating on the App Store helps us improve Hero and helps others discover it. Thank you!";
 "rating_rate_button" = "Rate";
 "rating_later_button" = "Later";
 "rating_no_thanks_button" = "No Thanks";
