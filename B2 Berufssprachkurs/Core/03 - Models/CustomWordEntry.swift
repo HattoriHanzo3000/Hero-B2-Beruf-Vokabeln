@@ -20,6 +20,7 @@ final class CustomWordEntry {
     var translation: String = ""
     var example: String?
     var explanation: String?
+    var synonym: String?
     /// Display order within “My Words”; lower values appear first.
     var sortIndex: Int = 0
     var createdAt: Date = Date()
@@ -30,6 +31,7 @@ final class CustomWordEntry {
         translation: String = "",
         example: String? = nil,
         explanation: String? = nil,
+        synonym: String? = nil,
         sortIndex: Int = 0,
         createdAt: Date = Date()
     ) {
@@ -38,6 +40,7 @@ final class CustomWordEntry {
         self.translation = translation
         self.example = example
         self.explanation = explanation
+        self.synonym = synonym
         self.sortIndex = sortIndex
         self.createdAt = createdAt
     }
@@ -64,11 +67,20 @@ final class CustomWordEntry {
     func asWord() -> Word {
         let ex = example?.trimmingCharacters(in: .whitespacesAndNewlines)
         let exp = explanation?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let syn = synonym?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let parsedSynonyms: [String]? = {
+            guard let syn, !syn.isEmpty else { return nil }
+            let parts = syn
+                .split(whereSeparator: { $0 == "," || $0 == ";" })
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+            return parts.isEmpty ? [syn] : parts
+        }()
         return Word(
             id: id,
             german: german.trimmingCharacters(in: .whitespacesAndNewlines),
             translation: translation.trimmingCharacters(in: .whitespacesAndNewlines),
-            synonyms: nil,
+            synonyms: parsedSynonyms,
             explanation: (exp?.isEmpty == false) ? exp : nil,
             example: (ex?.isEmpty == false) ? ex : nil,
             quiz: nil

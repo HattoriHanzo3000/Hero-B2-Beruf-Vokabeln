@@ -40,6 +40,7 @@
 "add_translation_to_word" = "Übersetzung zum Wort hinzufügen";
 "flashcard_no_translation_yet" = "Noch keine Übersetzung";
 "flashcard_no_explanation_yet" = "Noch keine Erklärung";
+"flashcard_no_synonym_yet" = "Noch kein Synonym";
 
 // Check all button
 "all_selected" = "Alle ausgewählt";
@@ -78,8 +79,7 @@
 "xx_large" = "XX groß";
 "xxx_large" = "XXX groß";
 "share" = "Teilen";
-"scan_qr_code" = "QR-Code scannen";
-"scan_to_download" = "Scannen, um die App herunterzuladen";
+"share_screen_footer" = "Scanne diesen QR-Code, um die App aus dem App Store herunterzuladen - oder tippe auf Teilen, um ihn an Freunde zu senden.";
 "open_in_app_store" = "Im App Store öffnen";
 "faq" = "FAQ";
 "faq_description" = "Häufig gestellte Fragen\n\nWenn Sie Fragen zur Verwendung der App haben, lesen Sie bitte Folgendes:\n\n• Wort des Tages: Sie können diese Funktion aktivieren/deaktivieren und anpassen, welche Abschnitte einbezogen werden sollen.\n• Lernmodi: Üben Sie mit Übersetzungen, Synonymen oder Erklärungen.\n• Einstellungen: Passen Sie Erscheinungsbild, Textgröße, Sprache und mehr an.\n\nFür zusätzlichen Support verwenden Sie bitte die Option Kontakt.";
@@ -106,7 +106,11 @@
 
 // About page
 "about_this_app" = "Hero - Deutsch B2 Beruf";
-"about_app_description" = "Diese App hilft Ihnen, den deutschen Wortschatz auf B2-Niveau für Alltag und Beruf zu beherrschen und unterstützt Ihre Vorbereitung auf die telc B2 Berufssprachkurs-Prüfung. Sie bietet eine interaktive Möglichkeit, Wörter durch Karteikarten und kumulative Wiederholung zu lernen und zu üben.";
+"about_app_desc_lead" = "Hero - Deutsch B2 Beruf hilft Ihnen, praxisnahen deutschen Wortschatz für Alltag und Beruf aufzubauen und unterstützt Ihre Vorbereitung auf den ";
+"about_official_test_name" = "telc Deutsch-Test für den Beruf B2";
+"about_app_desc_mid" = ". Der Wortschatz basiert auf dem Buch \"";
+"about_official_book_title" = "Fokus Deutsch. Erfolgreich in Alltag und Beruf. B2 Kurs- und Übungsbuch";
+"about_app_desc_tail" = "\", und Sie lernen ihn mit Karteikarten und kumulativer Wiederholung.";
 "device_information" = "Geräteinformationen";
 "name" = "Name";
 "version" = "Version";
@@ -253,13 +257,13 @@
 "plan_detail_subscription_body" = "Dein Hero-Pro-Abonnement ist aktiv. Du kannst deinen Tarif in der Abonnementverwaltung ändern oder kündigen.";
 "plan_detail_renews_format" = "Verlängert oder endet am %@";
 "plan_detail_lifetime_body" = "Du hast lebenslangen Zugang zu Hero Pro. Keine Verlängerung nötig — du behältst Pro bei zukünftigen Updates.";
-"plan_detail_lifetime_thanks" = "Danke, dass du Hero unterstützt.";
+"plan_detail_lifetime_thanks" = "Danke, dass du Hero unterstützt!";
 "manage_subscription" = "Abonnement verwalten";
 "manage_subscription_failed_title" = "Kann nicht geöffnet werden";
 "manage_subscription_failed" = "Abonnementverwaltung konnte nicht geöffnet werden. Bitte später erneut versuchen oder in der App „App Store“ → Account → Abonnements verwalten.";
 "continue_button" = "Weiter";
-"subscription_terms" = "Die Zahlung erfolgt bei Kaufbestätigung über Ihr iTunes-Konto. Ein etwaiger ungenutzter Teil eines kostenlosen Testzeitraums, sofern angeboten, verfällt beim Kauf eines Abonnements. Das Abonnement verlängert sich automatisch, sofern die automatische Verlängerung nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums deaktiviert wird. Ihr Konto wird innerhalb von 24 Stunden vor Ende des Zeitraums belastet. Sie können Ihr Abonnement in den iTunes-Kontoeinstellungen verwalten und die automatische Verlängerung deaktivieren. Eine Kündigung des laufenden Abonnements während des aktiven Zeitraums ist nicht möglich.";
-"subscription_terms_lifetime" = "Dies ist ein einmaliger Kauf, der dauerhaften Zugriff auf alle Hero Pro-Funktionen gewährt. Es fallen keine wiederkehrenden Gebühren oder Abonnements an. Die Zahlung erfolgt bei Kaufbestätigung über Ihr iTunes-Konto. Aufgrund der Beschaffenheit digitaler Inhalte ist der Kauf nach der Freischaltung endgültig.";
+"subscription_terms" = "Die Zahlung erfolgt bei Kaufbestätigung über Ihren Apple-Account. Ein etwaiger ungenutzter Teil eines kostenlosen Testzeitraums, sofern angeboten, verfällt beim Kauf eines Abonnements. Das Abonnement verlängert sich automatisch, sofern die automatische Verlängerung nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums deaktiviert wird. Ihr Account wird innerhalb von 24 Stunden vor Ende des Zeitraums belastet. Sie können Ihr Abonnement in Ihren App Store-Accounteinstellungen verwalten und die automatische Verlängerung deaktivieren. Eine Kündigung des laufenden Abonnements während des aktiven Zeitraums ist nicht möglich.";
+"subscription_terms_lifetime" = "Dies ist ein einmaliger Kauf, der dauerhaften Zugriff auf alle Hero Pro-Funktionen gewährt. Es fallen keine wiederkehrenden Gebühren oder Abonnements an. Die Zahlung erfolgt bei Kaufbestätigung über Ihren Apple-Account. Aufgrund der Beschaffenheit digitaler Inhalte ist der Kauf nach der Freischaltung endgültig.";
 "subscription_terms_agreement_line" = "Durch die Fortsetzung stimmen Sie unseren [Nutzungsbedingungen](hero://terms) und unserer [Datenschutzerklärung](hero://privacy) zu.";
 "launch_offer_expires_in" = "Endet in";
 "launch_offer_badge" = "START-DEAL";

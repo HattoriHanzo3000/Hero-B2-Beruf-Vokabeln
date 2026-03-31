@@ -39,6 +39,7 @@ private enum MyWordSheetField: Int, CaseIterable {
     case translation
     case example
     case explanation
+    case synonym
 
     var previous: Self? {
         guard rawValue > 0 else { return nil }
@@ -55,6 +56,7 @@ private struct MyWordFormFields: View {
     @Binding var translation: String
     @Binding var example: String
     @Binding var explanation: String
+    @Binding var synonym: String
     let focusedField: FocusState<MyWordSheetField?>.Binding
 
     var body: some View {
@@ -88,6 +90,14 @@ private struct MyWordFormFields: View {
                 text: $explanation,
                 focusedField: focusedField,
                 field: .explanation,
+                autocapitalize: .never
+            )
+
+            MyWordFormFieldHelpers.multilineField(
+                Localizable.string(Localizable.synonym),
+                text: $synonym,
+                focusedField: focusedField,
+                field: .synonym,
                 autocapitalize: .never
             )
         }
@@ -630,6 +640,7 @@ private struct AddMyWordSheet: View {
     @State private var translation = ""
     @State private var example = ""
     @State private var explanation = ""
+    @State private var synonym = ""
 
     private var canSave: Bool {
         !german.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -643,6 +654,7 @@ private struct AddMyWordSheet: View {
                     translation: $translation,
                     example: $example,
                     explanation: $explanation,
+                    synonym: $synonym,
                     focusedField: $focusedField
                 )
             }
@@ -722,12 +734,14 @@ private struct AddMyWordSheet: View {
 
         let ex = example.trimmingCharacters(in: .whitespacesAndNewlines)
         let exp = explanation.trimmingCharacters(in: .whitespacesAndNewlines)
+        let syn = synonym.trimmingCharacters(in: .whitespacesAndNewlines)
 
         let entry = CustomWordEntry(
             german: g,
             translation: translation.trimmingCharacters(in: .whitespacesAndNewlines),
             example: ex.isEmpty ? nil : ex,
             explanation: exp.isEmpty ? nil : exp,
+            synonym: syn.isEmpty ? nil : syn,
             sortIndex: nextSortIndex()
         )
         modelContext.insert(entry)
@@ -766,6 +780,7 @@ private struct EditMyWordSheet: View {
     @State private var translation = ""
     @State private var example = ""
     @State private var explanation = ""
+    @State private var synonym = ""
 
     private var canSave: Bool {
         !german.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -779,6 +794,7 @@ private struct EditMyWordSheet: View {
                     translation: $translation,
                     example: $example,
                     explanation: $explanation,
+                    synonym: $synonym,
                     focusedField: $focusedField
                 )
             }
@@ -833,6 +849,7 @@ private struct EditMyWordSheet: View {
             translation = entry.translation
             example = entry.example ?? ""
             explanation = entry.explanation ?? ""
+            synonym = entry.synonym ?? ""
             syncKeyboardNavBridge()
         }
         .onChange(of: focusedField) { _, _ in
@@ -846,11 +863,13 @@ private struct EditMyWordSheet: View {
 
         let ex = example.trimmingCharacters(in: .whitespacesAndNewlines)
         let exp = explanation.trimmingCharacters(in: .whitespacesAndNewlines)
+        let syn = synonym.trimmingCharacters(in: .whitespacesAndNewlines)
 
         entry.german = g
         entry.translation = translation.trimmingCharacters(in: .whitespacesAndNewlines)
         entry.example = ex.isEmpty ? nil : ex
         entry.explanation = exp.isEmpty ? nil : exp
+        entry.synonym = syn.isEmpty ? nil : syn
 
         try? modelContext.save()
         HapticManager.shared.lightImpact()
@@ -1065,8 +1084,8 @@ struct MyWordRow: View {
                                 attributedText(
                                     label: "syn: ",
                                     value: synonymsText,
-                                    labelFont: WordListRowDetailTextStyle.labelFont,
-                                    valueFont: WordListRowDetailTextStyle.valueFont,
+                                    labelFont: WordListRowDetailTextStyle.explanationLabelFont,
+                                    valueFont: WordListRowDetailTextStyle.explanationValueFont,
                                     labelColor: .secondary,
                                     valueColor: .primary
                                 )

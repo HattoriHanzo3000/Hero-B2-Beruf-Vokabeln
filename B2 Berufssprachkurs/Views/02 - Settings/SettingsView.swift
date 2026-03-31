@@ -52,19 +52,6 @@ struct SettingsView: View {
         List {
             SwiftUI.Section {
                 NavigationIconRow(
-                    icon: "creditcard.fill",
-                    iconColor: Color("AppBlue"),
-                    title: Localizable.string(Localizable.yourPlan),
-                    subtitle: settingsSubscriptionPreview?.planStatusLine ?? subscriptionManager.localizedPlanStatusLine
-                ) {
-                    YourPlanView()
-                }
-            } header: {
-                Text(Localizable.string(Localizable.settingsSectionHeroPro))
-            }
-            
-            SwiftUI.Section {
-                NavigationIconRow(
                     icon: "info.circle.fill",
                     iconColor: .gray,
                     title: Localizable.string(Localizable.about)
@@ -82,6 +69,19 @@ struct SettingsView: View {
                 }
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionAbout))
+            }
+
+            SwiftUI.Section {
+                NavigationIconRow(
+                    icon: "creditcard.fill",
+                    iconColor: Color("AppBlue"),
+                    title: Localizable.string(Localizable.yourPlan),
+                    subtitle: settingsSubscriptionPreview?.planStatusLine ?? subscriptionManager.localizedPlanStatusLine
+                ) {
+                    YourPlanView()
+                }
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionHeroPro))
             }
             
             SwiftUI.Section {

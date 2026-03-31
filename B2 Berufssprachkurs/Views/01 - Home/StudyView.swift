@@ -39,7 +39,6 @@ struct StudyView: View {
     @State private var flashColor: Color? = nil // Track flash color for screen flash
     @State private var cardsAnswered = 0 // Track number of cards answered in this session
     @State private var currentContentType: ContentType = .translation // Current content type shown on card
-    @State private var autoMode = true // When ON, every new card resets to first available content type
     @State private var showTranslationMissingAlert = false
     @State private var buttonFeedback: ButtonFeedback? = nil // Track button press feedback for color indication
     @State private var studySessionMetricsRecorded = false
@@ -57,9 +56,9 @@ struct StudyView: View {
         case translation
         case synonym
         
-        // Custom order for display: Erklärung, Übersetzung, Synonym
+        // Study mode order: Übersetzung, Erklärung, Synonym
         static var displayOrder: [ContentType] {
-            return [.explanation, .translation, .synonym]
+            return [.translation, .explanation, .synonym]
         }
     }
     
@@ -626,32 +625,13 @@ struct StudyView: View {
         .onChange(of: currentIndex) { _, _ in
             if currentIndex < studyItems.count {
                 let item = studyItems[currentIndex]
-                if autoMode {
-                    currentContentType = firstAvailableContentType(for: item)
-                } else if !isContentTypeAvailable(currentContentType, for: item) {
+                if !isContentTypeAvailable(currentContentType, for: item) {
                     currentContentType = firstAvailableContentType(for: item)
                 }
             }
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
             loadStudyItems()
-            // Update current content type if translation becomes available
-            if currentIndex < studyItems.count {
-                let item = studyItems[currentIndex]
-                if !item.isVerbenSection && currentContentType == .translation {
-                    // If we're in translation mode, check if translation is now available
-                    if let translation = item.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        // Translation is available, keep it
-                    } else {
-                        // Translation not available, switch to first available
-                        if item.explanation != nil {
-                            currentContentType = .explanation
-                        } else if item.synonym != nil {
-                            currentContentType = .synonym
-                        }
-                    }
-                }
-            }
         }
         .onChange(of: languageManager.currentLanguage) { _, _ in
             // Reload study items when language changes
@@ -699,8 +679,12 @@ struct StudyView: View {
                     isContentTypeAvailable(type, for: item)
                 }
                 
-                // Always show badges: available types + translation (even if unavailable)
+                // Meine Wörter: always show Erklärung, Übersetzung, Synonym (empty fields use card placeholder).
+                // Course sections: same Übersetzung chip behavior — always tappable; empty → card placeholder (no alert).
                 let displayTypes: [ContentType] = {
+                    if item.sectionId == DataService.userMyWordsSectionId, !item.isVerbenSection {
+                        return ContentType.displayOrder
+                    }
                     var types = availableTypes
                     if !types.contains(.translation) {
                         types.append(.translation)
@@ -710,27 +694,6 @@ struct StudyView: View {
                 
                 if !displayTypes.isEmpty {
                     HStack(spacing: 8) {
-                        Button(action: {
-                            HapticManager.shared.lightImpact()
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                autoMode.toggle()
-                            }
-                        }) {
-                            Text(Localizable.string(Localizable.auto))
-                                .font(.system(.caption, design: .default).weight(.regular).width(.expanded))
-                                .foregroundColor(autoMode ? .white : .primary)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                        .fill(autoMode ? currentCardColor : Color(.systemGray5))
-                                )
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        .accessibilityLabel("Auto mode")
-                        .accessibilityValue(autoMode ? "On" : "Off")
-                        .accessibilityHint("Automatically resets to explanation for each new card")
-                        
                         ForEach(displayTypes, id: \.self) { type in
                             let isSelected = currentContentType == type
                             let isAvailable = isContentTypeAvailable(type, for: item)
@@ -770,15 +733,12 @@ struct StudyView: View {
         .padding(.horizontal, 20)
     }
     
-    // Helper function to check if a content type is available for a study item
+    /// User can always choose Übersetzung; empty text shows the flashcard placeholder (course words + Meine Wörter).
     private func isContentTypeAvailable(_ type: ContentType, for item: StudyItem) -> Bool {
         if item.isVerbenSection {
             switch type {
             case .translation:
-                if let translation = item.translation {
-                    return !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                }
-                return false
+                return true
             case .explanation:
                 if let explanation = item.explanation {
                     return !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -790,16 +750,44 @@ struct StudyView: View {
         }
         switch type {
         case .synonym:
-            return item.synonym != nil
-        case .explanation:
-            return item.explanation != nil
-        case .translation:
-            if let translation = item.translation,
-               !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            if item.sectionId == DataService.userMyWordsSectionId {
                 return true
             }
-            // My Words: allow Übersetzung mode with empty placeholder on the card.
-            return item.sectionId == DataService.userMyWordsSectionId
+            return item.synonym != nil
+        case .explanation:
+            if item.sectionId == DataService.userMyWordsSectionId {
+                return true
+            }
+            return item.explanation != nil
+        case .translation:
+            return true
+        }
+    }
+    
+    /// First mode that actually has text (for Auto and sensible defaults). Übersetzung can still be chosen when empty.
+    private func hasNonEmptyStudyContent(_ type: ContentType, for item: StudyItem) -> Bool {
+        if item.isVerbenSection {
+            switch type {
+            case .translation:
+                guard let translation = item.translation else { return false }
+                return !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            case .explanation:
+                guard let explanation = item.explanation else { return false }
+                return !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            case .synonym:
+                return false
+            }
+        }
+        switch type {
+        case .synonym:
+            guard let s = item.synonym else { return false }
+            return !s.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        case .explanation:
+            guard let e = item.explanation else { return false }
+            return !e.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        case .translation:
+            guard let t = item.translation else { return false }
+            return !t.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         }
     }
     
@@ -816,15 +804,21 @@ struct StudyView: View {
     }
     
     /// Priority: Erklärung → Übersetzung → Synonym (course sections).
-    /// My Words: Erklärung → Synonym → Übersetzung so German-only entries default to the translation placeholder, not Synonym.
+    /// My Words: first mode with non-empty text, else Übersetzung — so German-only entries default to the translation placeholder.
     private func firstAvailableContentType(for item: StudyItem) -> ContentType {
         if item.sectionId == DataService.userMyWordsSectionId, !item.isVerbenSection {
-            if isContentTypeAvailable(.explanation, for: item) { return .explanation }
-            if isContentTypeAvailable(.synonym, for: item) { return .synonym }
+            if let explanation = item.explanation,
+               !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return .explanation
+            }
+            if let syn = item.synonym,
+               !syn.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return .synonym
+            }
             return .translation
         }
         for type in [ContentType.explanation, .translation, .synonym] {
-            if isContentTypeAvailable(type, for: item) {
+            if hasNonEmptyStudyContent(type, for: item) {
                 return type
             }
         }
@@ -1132,12 +1126,18 @@ struct FlashCardView2: View {
     // Computed properties for front text and card color
     private var frontText: String {
         if studyItem.isVerbenSection {
-            // Translation → user translation; Erklärung → bundled meaning; else cloze/quiz when present; else example
-            if currentContentType == .translation, let translation = studyItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                return translation
+            // Translation / Erklärung respect chip mode; empty → placeholder on card (same as other stacks).
+            if currentContentType == .translation {
+                if let translation = studyItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    return translation
+                }
+                return ""
             }
-            if currentContentType == .explanation, let explanation = studyItem.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                return explanation
+            if currentContentType == .explanation {
+                if let explanation = studyItem.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    return explanation
+                }
+                return ""
             }
             if let quiz = studyItem.quiz, !quiz.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 return quiz
@@ -1161,6 +1161,14 @@ struct FlashCardView2: View {
     // Check if we should show the placeholder message
     private var shouldShowPlaceholder: Bool {
         if studyItem.isVerbenSection {
+            if currentContentType == .translation {
+                let translation = studyItem.translation ?? ""
+                return translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            }
+            if currentContentType == .explanation {
+                let explanation = studyItem.explanation ?? ""
+                return explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            }
             return false
         }
         
@@ -1171,6 +1179,10 @@ struct FlashCardView2: View {
         if currentContentType == .explanation {
             let explanation = studyItem.explanation ?? ""
             return explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+        if currentContentType == .synonym {
+            let synonym = studyItem.synonym ?? ""
+            return synonym.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         }
         
         return false
@@ -1183,7 +1195,7 @@ struct FlashCardView2: View {
         case .explanation:
             return Localizable.string(Localizable.flashcardNoExplanationYet)
         case .synonym:
-            return ""
+            return Localizable.string(Localizable.flashcardNoSynonymYet)
         }
     }
     
@@ -1338,14 +1350,7 @@ struct FlashCardView2: View {
             // Keep the user's selected content type when card changes
             // Only switch if current type is not available for the new card
             if studyItem.isVerbenSection {
-                if currentContentType == .translation {
-                    let translation = studyItem.translation ?? ""
-                    if translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                       let explanation = studyItem.explanation,
-                       !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        currentContentType = .explanation
-                    }
-                } else if currentContentType == .explanation {
+                if currentContentType == .explanation {
                     let explanation = studyItem.explanation ?? ""
                     if explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
                        let translation = studyItem.translation,

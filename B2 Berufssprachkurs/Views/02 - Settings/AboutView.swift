@@ -17,55 +17,57 @@ struct AboutView: View {
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
-    
+
+    private var aboutDescriptionText: Text {
+        Text(Localizable.string(Localizable.aboutAppDescLead))
+            + Text(Localizable.string(Localizable.aboutOfficialTestName))
+                .fontWeight(.bold)
+            + Text(Localizable.string(Localizable.aboutAppDescMid))
+            + Text(Localizable.string(Localizable.aboutOfficialBookTitle))
+                .fontWeight(.bold)
+            + Text(Localizable.string(Localizable.aboutAppDescTail))
+    }
+
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                // Mascot launch image
-                Image("MascotLaunch")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 200, maxHeight: 200)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 8)
-                
-                // App description block with rounded corners
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(Localizable.string(Localizable.aboutThisApp))
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                    
-                    Text(Localizable.string(Localizable.aboutAppDescription))
+        ZStack {
+            PaywallBackground()
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Image("MascotLaunch")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: 200, maxHeight: 200)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+
+                    aboutDescriptionText
                         .font(.body)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.white)
                         .fixedSize(horizontal: false, vertical: true)
-                }
-                .padding(16)
-                .background(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(Color(.secondarySystemGroupedBackground))
-                )
-                
-                Spacer()
-                
-                // Version info at bottom
-                Text("\(Localizable.string(Localizable.version)) \(appVersion)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .padding(16)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        versionTapCount += 1
-                        if versionTapCount >= 7 {
-                            versionTapCount = 0
-                            HapticManager.shared.mediumImpact()
-                            showDebugSheet = true
+
+                    Spacer()
+
+                    Text("\(Localizable.string(Localizable.version)) \(appVersion)")
+                        .font(.subheadline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 8)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            versionTapCount += 1
+                            if versionTapCount >= 7 {
+                                versionTapCount = 0
+                                HapticManager.shared.mediumImpact()
+                                showDebugSheet = true
+                            }
                         }
-                    }
+                }
+                .padding(.horizontal)
+                .padding(.top, 8)
+                .padding(.bottom, 24)
             }
-            .padding(.horizontal)
-            .padding(.top, 8)
-            .padding(.bottom, 24)
+            .background(Color.clear)
         }
         .navigationTitle(Localizable.string(Localizable.about))
         .navigationBarTitleDisplayMode(.inline)

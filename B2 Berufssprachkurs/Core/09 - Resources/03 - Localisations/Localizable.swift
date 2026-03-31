@@ -56,6 +56,7 @@ extension Localizable {
     static let addTranslationToWord = "add_translation_to_word"
     static let flashcardNoTranslationYet = "flashcard_no_translation_yet"
     static let flashcardNoExplanationYet = "flashcard_no_explanation_yet"
+    static let flashcardNoSynonymYet = "flashcard_no_synonym_yet"
     
     // Check all button
     static let allSelected = "all_selected"
@@ -118,7 +119,12 @@ extension Localizable {
     
     // About page
     static let aboutThisApp = "about_this_app"
-    static let aboutAppDescription = "about_app_description"
+    /// About body segments: lead + official test + mid + official book + tail (composed in `AboutView`).
+    static let aboutAppDescLead = "about_app_desc_lead"
+    static let aboutOfficialTestName = "about_official_test_name"
+    static let aboutAppDescMid = "about_app_desc_mid"
+    static let aboutOfficialBookTitle = "about_official_book_title"
+    static let aboutAppDescTail = "about_app_desc_tail"
     static let deviceInformation = "device_information"
     static let name = "name"
     static let version = "version"
@@ -331,8 +337,7 @@ extension Localizable {
     
     // Share
     static let share = "share"
-    static let scanQRCode = "scan_qr_code"
-    static let scanToDownload = "scan_to_download"
+    static let shareScreenFooter = "share_screen_footer"
     static let openInAppStore = "open_in_app_store"
     
     // Holiday Seasonal Banner

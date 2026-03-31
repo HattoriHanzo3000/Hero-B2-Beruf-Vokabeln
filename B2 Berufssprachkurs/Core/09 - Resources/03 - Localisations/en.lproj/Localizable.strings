@@ -40,6 +40,7 @@
 "add_translation_to_word" = "Add translation to the word";
 "flashcard_no_translation_yet" = "No translation yet";
 "flashcard_no_explanation_yet" = "No explanation yet";
+"flashcard_no_synonym_yet" = "No synonym yet";
 
 // Check all button
 "all_selected" = "All selected";
@@ -78,8 +79,7 @@
 "xx_large" = "XX Large";
 "xxx_large" = "XXX Large";
 "share" = "Share";
-"scan_qr_code" = "Scan QR Code";
-"scan_to_download" = "Scan to download the app";
+"share_screen_footer" = "Scan this QR code to download the app from the App Store—or tap Share to send it to friends.";
 "open_in_app_store" = "Open in App Store";
 "faq" = "FAQ";
 "faq_description" = "Frequently Asked Questions\n\nIf you have questions about using the app, please check the following:\n\n• Word of the Day: You can enable/disable this feature and customize which sections to include.\n• Study Modes: Practice with translations, synonyms, or explanations.\n• Settings: Customize appearance, text size, language, and more.\n\nFor additional support, please use the Contact Us option.";
@@ -106,7 +106,11 @@
 
 // About page
 "about_this_app" = "Hero - Deutsch B2 Beruf";
-"about_app_description" = "This app helps you master German vocabulary at the B2 level for everyday and professional contexts and supports your preparation for the telc B2 Berufssprachkurs exam. It provides an interactive way to study and practice words through flashcards and spaced repetition.";
+"about_app_desc_lead" = "Hero - Deutsch B2 Beruf helps you build practical German vocabulary for everyday life and work and supports your preparation for the ";
+"about_official_test_name" = "telc Deutsch-Test für den Beruf B2";
+"about_app_desc_mid" = ". The vocabulary is based on the book \"";
+"about_official_book_title" = "Fokus Deutsch. Erfolgreich in Alltag und Beruf. B2 Kurs- und Übungsbuch";
+"about_app_desc_tail" = "\", and you can study with flashcards and spaced repetition.";
 "device_information" = "Device Information";
 "name" = "Name";
 "version" = "Version";
@@ -253,13 +257,13 @@
 "plan_detail_subscription_body" = "Your Hero Pro subscription is active. You can change or cancel your plan in subscription management.";
 "plan_detail_renews_format" = "Renews or expires on %@";
 "plan_detail_lifetime_body" = "You have lifetime access to Hero Pro. No renewal needed — you’ll keep Pro with future app updates.";
-"plan_detail_lifetime_thanks" = "Thank you for supporting Hero.";
+"plan_detail_lifetime_thanks" = "Thank you for supporting Hero!";
 "manage_subscription" = "Manage subscription";
 "manage_subscription_failed_title" = "Unable to open";
 "manage_subscription_failed" = "Couldn’t open subscription management. Try again later, or use the App Store app → your account → Subscriptions.";
 "continue_button" = "Continue";
-"subscription_terms" = "Payment will be charged to your iTunes Account at confirmation of purchase. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription. Your subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage your subscription and turn off auto-renewal in your iTunes Account Settings. No cancellation of the current subscription is allowed during the active period.";
-"subscription_terms_lifetime" = "This is a one-time purchase that provides permanent access to all Hero Pro features. There are no recurring charges or subscriptions. Payment will be charged to your iTunes Account at confirmation of purchase. Due to the nature of digital content, once the content is unlocked, the purchase is final.";
+"subscription_terms" = "Payment will be charged to your Apple Account at confirmation of purchase. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription. Your subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. No cancellation of the current subscription is allowed during the active period.";
+"subscription_terms_lifetime" = "This is a one-time purchase that provides permanent access to all Hero Pro features. There are no recurring charges or subscriptions. Payment will be charged to your Apple Account at confirmation of purchase. Due to the nature of digital content, once the content is unlocked, the purchase is final.";
 "subscription_terms_agreement_line" = "By continuing, you agree to our [Terms of Service](hero://terms) and [Privacy Policy](hero://privacy).";
 "launch_offer_expires_in" = "Ends in";
 "launch_offer_badge" = "LAUNCH OFFER";

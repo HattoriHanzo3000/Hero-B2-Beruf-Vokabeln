@@ -9,14 +9,10 @@ import SwiftUI
 import CoreImage.CIFilterBuiltins
 
 struct ShareView: View {
-    @ObservedObject private var languageManager = LanguageManager.shared
     @State private var showShareSheet = false
-    @Environment(\.colorScheme) private var colorScheme
-    
+
     private var appStoreURL: String { AppStoreService.defaultListingURL }
 
-    private var appStoreOpenURL: String { appStoreURL }
-    
     // Share text
     private var shareText: String {
         let appName = "Hero - Deutsch B2 Beruf"
@@ -24,15 +20,11 @@ struct ShareView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                // QR Code Section
-                VStack(spacing: 16) {
-                    Text(Localizable.string(Localizable.scanQRCode))
-                        .font(.system(.headline, design: .rounded).weight(.semibold))
-                        .foregroundColor(.primary)
-                    
-                    // QR Code
+        ZStack {
+            PaywallBackground()
+
+            ScrollView {
+                VStack(spacing: 24) {
                     QRCodeView(url: appStoreURL)
                         .frame(width: 280, height: 280)
                         .padding()
@@ -41,43 +33,23 @@ struct ShareView: View {
                                 .fill(Color(.systemBackground))
                         )
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                    
-                    Text(Localizable.string(Localizable.scanToDownload))
-                        .font(.system(.subheadline, design: .rounded))
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                }
-                .padding(.top, 20)
-                
-                // Open in App Store Button
-                Button {
-                    HapticManager.shared.lightImpact()
-                    if let url = URL(string: appStoreOpenURL) {
-                        UIApplication.shared.open(url)
-                    }
-                } label: {
-                    Text(Localizable.string(Localizable.openInAppStore))
-                        .font(.system(.body, design: .rounded).weight(.semibold))
+                        .padding(.top, 20)
+
+                    Text(Localizable.string(Localizable.shareScreenFooter))
+                        .font(.system(.body, design: .default, weight: .regular))
                         .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .fill(
-                                    LinearGradient(
-                                        colors: [Color("AppGreen"), Color("AppBlue")],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
-                                )
-                        )
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+
+                    Spacer(minLength: 24)
                 }
-                .padding(.horizontal)
+                .padding(.vertical, 20)
+                .padding(.bottom, 24)
             }
-            .padding(.vertical, 20)
-            .padding(.bottom, 24)
+            .background(Color.clear)
         }
-        .navigationTitle(Localizable.string(Localizable.share))
+        .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
