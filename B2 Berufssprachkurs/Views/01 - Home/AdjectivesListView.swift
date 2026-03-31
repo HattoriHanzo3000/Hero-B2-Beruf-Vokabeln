@@ -11,7 +11,7 @@ struct AdjectivesListView: View {
     @ObservedObject var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var showPaywall = false
+    @State private var showProFeatureAlert = false
 
     private var adjectivesScrollBinding: Binding<String?> {
         Binding(
@@ -42,9 +42,9 @@ struct AdjectivesListView: View {
             && !DataService.AdjektiveFreeTier.isAdjektiveSectionUnlockedWithoutPremium(section.id)
     }
 
-    private func requestPaywall() {
+    private func showLockedFeatureAlert() {
         HapticManager.shared.heavyImpact()
-        showPaywall = true
+        showProFeatureAlert = true
     }
     
     var body: some View {
@@ -58,19 +58,20 @@ struct AdjectivesListView: View {
             selectAllId: "adjectives-select-all",
             rowIdPrefix: "adjectives-row",
             scrollBinding: adjectivesScrollBinding,
-            isAllSelected: subscriptionManager.isPremiumActive && dataService.isAdjektiveCompleted(),
+            isAllSelected: dataService.areAllAdjektiveCompletedForStudy(isPremium: subscriptionManager.isPremiumActive),
             onToggleAll: {
-                if subscriptionManager.isPremiumActive {
-                    dataService.toggleAdjektiveCompleted()
-                } else {
-                    requestPaywall()
-                }
+                dataService.toggleAdjektiveCompletedForStudy(isPremium: subscriptionManager.isPremiumActive)
             },
             isRowLocked: isAdjektiveRowLocked,
-            onLockedInteraction: requestPaywall
+            onLockedInteraction: showLockedFeatureAlert
         )
-        .sheet(isPresented: $showPaywall) {
-            PaywallView()
+        .alert(
+            Localizable.string(Localizable.proFeatureTitle),
+            isPresented: $showProFeatureAlert
+        ) {
+            Button(Localizable.string(Localizable.ok), role: .cancel) {}
+        } message: {
+            Text(Localizable.string(Localizable.proFeatureOnlyMessage))
         }
     }
 }

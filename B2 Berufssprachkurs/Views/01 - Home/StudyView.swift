@@ -166,7 +166,9 @@ struct StudyView: View {
     }
 
     private var progressTranslationById: [String: String] {
-        Dictionary(uniqueKeysWithValues: wordProgressRecords.map { ($0.wordId, $0.translation) })
+        wordProgressRecords.reduce(into: [String: String]()) { partialResult, record in
+            partialResult[record.wordId] = record.translation
+        }
     }
 
     private var wordProgressSyncFingerprint: String {

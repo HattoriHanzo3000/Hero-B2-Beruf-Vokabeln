@@ -11,7 +11,7 @@ struct GeneralWordsListView: View {
     @ObservedObject var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var showPaywall = false
+    @State private var showProFeatureAlert = false
     @State private var navigateToStudy = false
 
     private var hasAnyPracticeSelection: Bool {
@@ -30,9 +30,9 @@ struct GeneralWordsListView: View {
             && !DataService.GeneralWordsFreeTier.isLectionUnlockedWithoutPremium(lectionId)
     }
 
-    private func requestPaywallForLocked() {
+    private func showLockedFeatureAlert() {
         HapticManager.shared.heavyImpact()
-        showPaywall = true
+        showProFeatureAlert = true
     }
 
     var body: some View {
@@ -54,15 +54,10 @@ struct GeneralWordsListView: View {
                     EmptyView()
                 } header: {
                     StackListSelectAllHeader(
-                        isSelected: subscriptionManager.isPremiumActive
-                            && dataService.areAllGeneralWordsCompletedForStudy(isPremium: true),
+                        isSelected: dataService.areAllGeneralWordsCompletedForStudy(isPremium: subscriptionManager.isPremiumActive),
                         fontDesign: .default,
                         action: {
-                            if subscriptionManager.isPremiumActive {
-                                dataService.toggleAllLections()
-                            } else {
-                                requestPaywallForLocked()
-                            }
+                            dataService.toggleAllGeneralWordsForStudy(isPremium: subscriptionManager.isPremiumActive)
                         }
                     )
                     .id("gw-select-all")
@@ -78,7 +73,7 @@ struct GeneralWordsListView: View {
                                     lection: lection,
                                     dataService: dataService,
                                     isLocked: isLectionLocked(lection.id),
-                                    onPaywall: requestPaywallForLocked
+                                    onPaywall: showLockedFeatureAlert
                                 )
                                     .listRowBackground(Color.clear)
                                     .id("gw-section-\(section.id)")
@@ -93,7 +88,7 @@ struct GeneralWordsListView: View {
                             },
                             dataService: dataService,
                             isLocked: isLectionLocked(lection.id),
-                            onPaywall: requestPaywallForLocked
+                            onPaywall: showLockedFeatureAlert
                         )
                         .id("gw-lection-\(lection.id)")
                     }
@@ -121,8 +116,19 @@ struct GeneralWordsListView: View {
             )
             .environmentObject(dataService)
         }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView()
+        .alert(
+            Localizable.string(Localizable.proFeatureTitle),
+            isPresented: $showProFeatureAlert
+        ) {
+            Button(Localizable.string(Localizable.ok), role: .cancel) {}
+        } message: {
+            Text(Localizable.string(Localizable.proFeatureOnlyMessage))
+        }
+        .onAppear {
+            dataService.sanitizeCompletedSelectionsForCurrentTier(isPremium: subscriptionManager.isPremiumActive)
+        }
+        .onChange(of: subscriptionManager.isPremiumActive) { _, isPremium in
+            dataService.sanitizeCompletedSelectionsForCurrentTier(isPremium: isPremium)
         }
     }
 }

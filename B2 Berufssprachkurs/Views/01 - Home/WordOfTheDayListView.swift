@@ -14,21 +14,26 @@ struct WordOfTheDayListView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var selectedSectionIds: Set<String> = []
-    @State private var showPaywall = false
+    @State private var showProFeatureAlert = false
     
-    // Free sections: 1A, 1B, 1C, 1D, 1E
-    private let freeSections: Set<String> = ["1A", "1B", "1C", "1D", "1E"]
+    // Free mode (Word of the Day) allows all 5 sections from lection 1.
+    private var freeSelectableSectionIds: Set<String> {
+        [
+            "1A",
+            "1B",
+            "1C",
+            "1D",
+            "1E"
+        ]
+    }
     
     private func isFreeSection(_ sectionId: String) -> Bool {
-        freeSections.contains(sectionId)
+        freeSelectableSectionIds.contains(sectionId)
     }
     
     private func canSelectSection(_ sectionId: String) -> Bool {
         if subscriptionManager.isPremiumActive { return true }
-        if isFreeSection(sectionId) { return true }
-        if sectionId == DataService.VerbenFreeTier.unlockedSectionId { return true }
-        if sectionId == DataService.AdjektiveFreeTier.unlockedSectionId { return true }
-        return false
+        return isFreeSection(sectionId)
     }
     
     /// Card-header index in a circle. Fixed font size so badges stay on-grid when Dynamic Type is large (titles still scale).
@@ -138,7 +143,7 @@ struct WordOfTheDayListView: View {
                                         }
                                     } else {
                                         HapticManager.shared.heavyImpact()
-                                        showPaywall = true
+                                        showProFeatureAlert = true
                                     }
                                 }
                             } content: {
@@ -183,7 +188,7 @@ struct WordOfTheDayListView: View {
                                                     }
                                                 } else {
                                                     HapticManager.shared.heavyImpact()
-                                                    showPaywall = true
+                                                    showProFeatureAlert = true
                                                 }
                                             }
                                         }
@@ -260,7 +265,7 @@ struct WordOfTheDayListView: View {
                                                 }
                                             } else {
                                                 HapticManager.shared.heavyImpact()
-                                                showPaywall = true
+                                                showProFeatureAlert = true
                                             }
                                         }
                                     }
@@ -336,7 +341,7 @@ struct WordOfTheDayListView: View {
                                                 }
                                             } else {
                                                 HapticManager.shared.heavyImpact()
-                                                showPaywall = true
+                                                showProFeatureAlert = true
                                             }
                                         }
                                     }
@@ -366,13 +371,8 @@ struct WordOfTheDayListView: View {
                                 selectedSectionIds.removeAll()
                             }
                         } else {
-                            if subscriptionManager.isPremiumActive {
-                                withAnimation(Self.selectionSpring) {
-                                    selectAllSections()
-                                }
-                            } else {
-                                HapticManager.shared.heavyImpact()
-                                showPaywall = true
+                            withAnimation(Self.selectionSpring) {
+                                selectAllSections()
                             }
                         }
                     } label: {
@@ -388,12 +388,24 @@ struct WordOfTheDayListView: View {
         }
         .onAppear {
             loadSelection()
+            if !subscriptionManager.isPremiumActive {
+                sanitizeSelectionForCurrentTier(applyDefaultIfEmpty: true)
+            }
+        }
+        .onChange(of: subscriptionManager.isPremiumActive) { _, _ in
+            // On plan switch, keep only previously-selected free rows in WOTD.
+            sanitizeSelectionForCurrentTier(applyDefaultIfEmpty: false)
         }
         .onDisappear {
             saveSelection()
         }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView()
+        .alert(
+            Localizable.string(Localizable.proFeatureTitle),
+            isPresented: $showProFeatureAlert
+        ) {
+            Button(Localizable.string(Localizable.ok), role: .cancel) {}
+        } message: {
+            Text(Localizable.string(Localizable.proFeatureOnlyMessage))
         }
     }
     
@@ -460,7 +472,15 @@ struct WordOfTheDayListView: View {
     private func saveSelection() {
         // Always save the actual selection list
         // Empty string means "default/not set" (which is 1A), so we never save as empty
-        selectedSections = selectedSectionIds.joined(separator: ",")
+        selectedSections = selectedSectionIds.sorted().joined(separator: ",")
+    }
+
+    private func sanitizeSelectionForCurrentTier(applyDefaultIfEmpty: Bool) {
+        selectedSectionIds = selectedSectionIds.intersection(freeSelectableSectionIds)
+        if applyDefaultIfEmpty && selectedSectionIds.isEmpty {
+            selectedSectionIds = ["1A"]
+        }
+        selectedSections = selectedSectionIds.sorted().joined(separator: ",")
     }
     
     private func isLectionFullySelected(lection: Lection) -> Bool {
@@ -590,7 +610,7 @@ struct WordOfTheDayListView: View {
             selectedSectionIds = allRegularSectionIds.union(verbenIdsSet).union(adjektiveIdsSet)
         } else {
             // Only select free sections
-            selectedSectionIds = freeSections
+            selectedSectionIds = freeSelectableSectionIds
         }
     }
     
@@ -600,7 +620,10 @@ struct WordOfTheDayListView: View {
     }
     
     private func isAllSelected() -> Bool {
-        allSectionIds.isSubset(of: selectedSectionIds)
+        if subscriptionManager.isPremiumActive {
+            return allSectionIds.isSubset(of: selectedSectionIds)
+        }
+        return freeSelectableSectionIds.isSubset(of: selectedSectionIds)
     }
     
     private func getSectionLetter(sectionId: String) -> String {

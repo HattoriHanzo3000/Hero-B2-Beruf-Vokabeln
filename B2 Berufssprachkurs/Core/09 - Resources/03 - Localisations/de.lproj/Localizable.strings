@@ -159,6 +159,8 @@
 "my_words_delete_all_toolbar_label" = "Alle Wörter löschen";
 "my_words_add_word_a11y_hint" = "Fügt ein neues Wort zu deiner Liste hinzu";
 "my_words_add_word_a11y_hint_locked" = "Schalte Pro frei, um mehr als fünf Wörter hinzuzufügen";
+"my_words_pro_locked_title" = "Pro-Funktion";
+"my_words_pro_locked_message" = "„Meine Wörter“ ist für Pro-Nutzer verfügbar. Upgrade jederzeit, um deine persönliche Wörtersammlung freizuschalten.";
 "my_words_more_options_a11y" = "Weitere Optionen";
 "my_words_sort_by" = "Sortieren nach";
 "my_words_sort_title" = "Titel";
@@ -287,6 +289,8 @@
 // Pro Lock
 "premium_required" = "Pro erforderlich";
 "unlock_premium_to_use_feature" = "Schalte Pro frei, um diese Funktion zu nutzen";
+"pro_feature_title" = "Pro-Funktion";
+"pro_feature_only_message" = "Diese Funktion ist für Pro-Nutzer. Upgrade jederzeit, um Zugriff auf alle Wörter freizuschalten.";
 
 // Word list share (accessibility)
 "word_list_print_a11y_hint" = "Druckt die Wörterliste als PDF";

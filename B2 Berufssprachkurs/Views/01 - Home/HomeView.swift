@@ -24,12 +24,18 @@ private struct HomeStackButtonStyle: ButtonStyle {
 struct HomeView: View {
     @EnvironmentObject private var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     private let isPremiumPreviewOverride: Bool?
     @State private var activeStack: LearningStackType?
     @State private var showPaywall = false
+    @State private var showMyWordsProAlert = false
 
     init(isPremiumPreviewOverride: Bool? = nil) {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
+    }
+
+    private var isPremiumForUI: Bool {
+        isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
     }
     
     var body: some View {
@@ -103,15 +109,21 @@ struct HomeView: View {
                                 .id("adjectives_\(languageManager.currentLanguage)")
 
                                 Button {
-                                    HapticManager.shared.lightImpact()
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                        activeStack = .myWords
+                                    if isPremiumForUI {
+                                        HapticManager.shared.lightImpact()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            activeStack = .myWords
+                                        }
+                                    } else {
+                                        HapticManager.shared.heavyImpact()
+                                        showMyWordsProAlert = true
                                     }
                                 } label: {
                                     LearningStackCard(
                                         title: Localizable.string(Localizable.myWords),
                                         accent: Color("AppRed"),
-                                        icon: "person.fill"
+                                        icon: "person.fill",
+                                        isLocked: !isPremiumForUI
                                     )
                                     .frame(maxWidth: .infinity, minHeight: 76)
                                 }
@@ -148,6 +160,14 @@ struct HomeView: View {
         .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showPaywall) {
             PaywallView()
+        }
+        .alert(
+            Localizable.string(Localizable.myWordsProLockedTitle),
+            isPresented: $showMyWordsProAlert
+        ) {
+            Button(Localizable.string(Localizable.ok), role: .cancel) {}
+        } message: {
+            Text(Localizable.string(Localizable.myWordsProLockedMessage))
         }
         .navigationDestination(item: $activeStack) { stack in
             switch stack {
@@ -279,9 +299,12 @@ struct LearningStackCard: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
 
                         if isLocked {
-                            Image(systemName: "lock.fill")
-                                .font(.subheadline.weight(.bold))
-                                .foregroundColor(accent)
+                            ProShieldBadge(
+                                label: "PRO",
+                                color: accent.opacity(0.86),
+                                showShimmer: false,
+                                style: .compact
+                            )
                         }
                     }
                 }

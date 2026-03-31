@@ -159,6 +159,8 @@
 "my_words_delete_all_toolbar_label" = "Delete all words";
 "my_words_add_word_a11y_hint" = "Adds a new word to your list";
 "my_words_add_word_a11y_hint_locked" = "Upgrade to Pro to add more than five words";
+"my_words_pro_locked_title" = "Pro Feature";
+"my_words_pro_locked_message" = "My Words is available for Pro users. Upgrade anytime to unlock your personal vocabulary collection.";
 "my_words_more_options_a11y" = "More options";
 "my_words_sort_by" = "Sort by";
 "my_words_sort_title" = "Title";
@@ -287,6 +289,8 @@
 // Pro Lock
 "premium_required" = "Pro Required";
 "unlock_premium_to_use_feature" = "Unlock Pro to use this function";
+"pro_feature_title" = "Pro Feature";
+"pro_feature_only_message" = "This feature is for Pro users. Upgrade anytime to unlock access to all words.";
 
 // Word list share (accessibility)
 "word_list_print_a11y_hint" = "Prints the word list as a PDF";

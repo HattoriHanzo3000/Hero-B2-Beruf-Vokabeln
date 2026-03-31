@@ -193,6 +193,8 @@ extension Localizable {
     static let myWordsDeleteAllToolbarLabel = "my_words_delete_all_toolbar_label"
     static let myWordsAddWordA11yHint = "my_words_add_word_a11y_hint"
     static let myWordsAddWordA11yHintLocked = "my_words_add_word_a11y_hint_locked"
+    static let myWordsProLockedTitle = "my_words_pro_locked_title"
+    static let myWordsProLockedMessage = "my_words_pro_locked_message"
     /// Toolbar overflow menu (My Words).
     static let myWordsMoreOptionsA11y = "my_words_more_options_a11y"
     static let myWordsSortBy = "my_words_sort_by"
@@ -315,6 +317,8 @@ extension Localizable {
     // Pro Lock
     static let premiumRequired = "premium_required"
     static let unlockPremiumToUseFeature = "unlock_premium_to_use_feature"
+    static let proFeatureTitle = "pro_feature_title"
+    static let proFeatureOnlyMessage = "pro_feature_only_message"
     static let wordListPrintA11yHint = "word_list_print_a11y_hint"
     
     // Rating Prompt

@@ -339,6 +339,27 @@ class DataService: ObservableObject {
         reconcileLectionCompletionMetadataWithSectionState()
         saveCompletedStates()
     }
+
+    /// Toggles “all available” checkmark state for General Words based on tier.
+    /// Premium: all lections. Free: only lection 1 sections.
+    func toggleAllGeneralWordsForStudy(isPremium: Bool) {
+        if isPremium {
+            toggleAllLections()
+            return
+        }
+        guard let lection1 = lections.first(where: { $0.id == GeneralWordsFreeTier.unlockedLectionId }) else {
+            return
+        }
+        let freeSectionIds = Set(lection1.sections.map(\.id))
+        let isFullySelected = isEverySectionCompleted(in: lection1)
+        if isFullySelected {
+            completedSections.subtract(freeSectionIds)
+        } else {
+            completedSections.formUnion(freeSectionIds)
+        }
+        reconcileLectionCompletionMetadataWithSectionState()
+        saveCompletedStates()
+    }
     
     /// True when every subsection in every lection is marked (General Words stack “select all”).
     func areAllLectionsCompleted() -> Bool {
@@ -369,6 +390,22 @@ class DataService: ObservableObject {
             for sectionId in verbenSectionIds {
                 completedSections.insert(sectionId)
             }
+        }
+        saveCompletedStates()
+    }
+
+    /// Toggles “all available” checkmark state for Verben based on tier.
+    /// Premium: all VERBEN rows. Free: only VERBEN_an.
+    func toggleVerbenCompletedForStudy(isPremium: Bool) {
+        if isPremium {
+            toggleVerbenCompleted()
+            return
+        }
+        let an = VerbenFreeTier.unlockedSectionId
+        if completedSections.contains(an) {
+            completedSections.remove(an)
+        } else {
+            completedSections.insert(an)
         }
         saveCompletedStates()
     }
@@ -405,6 +442,25 @@ class DataService: ObservableObject {
             return false
         }
         return isEverySectionCompleted(in: lection1)
+    }
+
+    /// When user is on free tier, keep completion checkmarks only for unlocked sections
+    /// (General Words lection 1 + Verben `an` + Adjektive `an`).
+    func sanitizeCompletedSelectionsForCurrentTier(isPremium: Bool) {
+        guard !isPremium else { return }
+
+        let unlockedGeneralSectionIds = Set(
+            lections
+                .first(where: { $0.id == GeneralWordsFreeTier.unlockedLectionId })?
+                .sections
+                .map(\.id) ?? []
+        )
+        let allowedSectionIds = unlockedGeneralSectionIds
+            .union([VerbenFreeTier.unlockedSectionId, AdjektiveFreeTier.unlockedSectionId])
+
+        completedSections = completedSections.intersection(allowedSectionIds)
+        reconcileLectionCompletionMetadataWithSectionState()
+        saveCompletedStates()
     }
     
     func hasAnyVerbenCompleted() -> Bool {
@@ -453,6 +509,22 @@ class DataService: ObservableObject {
             for sectionId in adjektiveSectionIds {
                 completedSections.insert(sectionId)
             }
+        }
+        saveCompletedStates()
+    }
+
+    /// Toggles “all available” checkmark state for Adjektive based on tier.
+    /// Premium: all ADJEKTIVE rows. Free: only ADJEKTIVE_an.
+    func toggleAdjektiveCompletedForStudy(isPremium: Bool) {
+        if isPremium {
+            toggleAdjektiveCompleted()
+            return
+        }
+        let an = AdjektiveFreeTier.unlockedSectionId
+        if completedSections.contains(an) {
+            completedSections.remove(an)
+        } else {
+            completedSections.insert(an)
         }
         saveCompletedStates()
     }

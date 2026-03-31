@@ -17,7 +17,9 @@ struct FavoritesView: View {
     @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
 
     private var progressByWordId: [String: WordProgress] {
-        Dictionary(uniqueKeysWithValues: wordProgressList.map { ($0.wordId, $0) })
+        wordProgressList.reduce(into: [String: WordProgress]()) { partialResult, record in
+            partialResult[record.wordId] = record
+        }
     }
 
     private func userTranslation(for wordId: String) -> String {

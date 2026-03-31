@@ -296,6 +296,13 @@ struct CockpitView: View {
             if wordOfTheDaySelectedSections.isEmpty {
                 wordOfTheDaySelectedSections = "1A"
             }
+            if !subscriptionManager.isPremiumActive {
+                sanitizeWordOfDaySelectionForCurrentTier(applyDefaultIfEmpty: true)
+            }
+        }
+        .onChange(of: subscriptionManager.isPremiumActive) { _, _ in
+            // On plan switch, keep only previously-selected free rows in WOTD.
+            sanitizeWordOfDaySelectionForCurrentTier(applyDefaultIfEmpty: false)
         }
     }
     
@@ -304,6 +311,22 @@ struct CockpitView: View {
             return 1 // Default is 1A
         }
         return wordOfTheDaySelectedSections.split(separator: ",").count
+    }
+
+    private func sanitizeWordOfDaySelectionForCurrentTier(applyDefaultIfEmpty: Bool) {
+        let allowedFreeSections: Set<String> = [
+            "1A",
+            "1B",
+            "1C",
+            "1D",
+            "1E"
+        ]
+        let currentSelection = Set(wordOfTheDaySelectedSections.split(separator: ",").map(String.init))
+        var sanitized = currentSelection.intersection(allowedFreeSections)
+        if applyDefaultIfEmpty && sanitized.isEmpty {
+            sanitized = ["1A"]
+        }
+        wordOfTheDaySelectedSections = sanitized.sorted().joined(separator: ",")
     }
 }
 

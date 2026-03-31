@@ -25,7 +25,6 @@ struct SettingsView: View {
     @State private var showMailUnavailableAlert = false
     @State private var showResetAlert = false
     @State private var presentingLegalURL: URL? = nil
-    @State private var showPaywall = false
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Environment(\.settingsSubscriptionPreview) private var settingsSubscriptionPreview
     
@@ -51,20 +50,6 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            // Pro promo section with gradient
-            ProPromoSection(
-                isPremiumActive: settingsSubscriptionPreview?.proPromoIsPremium ?? subscriptionManager.isPremiumActive,
-                hasUsedTrial: settingsSubscriptionPreview?.proPromoHasUsedTrial ?? subscriptionManager.hasUsedTrial,
-                showFreeTierCallout: settingsSubscriptionPreview?.proPromoShowFreeTierCallout ?? subscriptionManager.hasCompletedInitialSubscriptionSync,
-                showPaywallEntryWhenSubscribed: true,
-                onStartFreeTrial: {
-                    HapticManager.shared.mediumImpact()
-                    showPaywall = true
-                }
-            )
-            .listRowInsets(EdgeInsets())
-            .listRowBackground(Color.clear)
-            
             SwiftUI.Section {
                 NavigationIconRow(
                     icon: "creditcard.fill",
@@ -304,9 +289,6 @@ struct SettingsView: View {
             }
         } message: {
             Text(Localizable.string(Localizable.resetAppMessage))
-        }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView()
         }
         .sheet(item: Binding(
             get: { presentingLegalURL.map { LegalDocument(url: $0) } },

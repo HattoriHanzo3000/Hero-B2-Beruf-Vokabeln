@@ -39,7 +39,9 @@ struct GlobalSearchView: View {
     private var searchTabIsSelected: Bool { selectedSection == .search }
 
     private var progressByWordId: [String: String] {
-        Dictionary(uniqueKeysWithValues: wordProgressList.map { ($0.wordId, $0.translation) })
+        wordProgressList.reduce(into: [String: String]()) { partialResult, record in
+            partialResult[record.wordId] = record.translation
+        }
     }
 
     private var trimmedQuery: String {
