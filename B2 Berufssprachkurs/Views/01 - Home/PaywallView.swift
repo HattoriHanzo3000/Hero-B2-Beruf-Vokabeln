@@ -14,7 +14,7 @@ struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var revenueCatService = RevenueCatService.shared
     @StateObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var selectedProductID: String = "hero.premium.quarterly"
+    @State private var selectedProductID: String = "hero.premium.yearly"
     @State private var selectedPackage: Package?
     @State private var isLoadingPackages = false
     
@@ -28,10 +28,8 @@ struct PaywallView: View {
     private var dynamicSubscriptionTerms: String {
         if selectedProductID == "hero.premium.lifetime" || selectedProductID == "hero.premium.lifetime.promo" {
             return Localizable.string(Localizable.subscriptionTermsLifetime)
-        } else if selectedProductID == "hero.premium.quarterly" {
-            return Localizable.string(Localizable.subscriptionTermsQuarterly)
         } else {
-            return Localizable.string(Localizable.subscriptionTermsMonthly)
+            return Localizable.string(Localizable.subscriptionTerms)
         }
     }
     @State private var showingError = false
@@ -53,8 +51,6 @@ struct PaywallView: View {
                         footerActionsSection
                             .padding(.top, -12)
                         termsSection
-                            .padding(.top, -12)
-                        legalActionsRow
                             .padding(.top, -12)
                         
                         Spacer(minLength: 20)
@@ -98,9 +94,9 @@ struct PaywallView: View {
                 await subscriptionManager.loadProducts()
             }
             
-            // Free trial (e.g. “Teste jetzt kostenlos”) is tied to the quarterly product only — always preselect it.
+            // Free trial (e.g. "Teste jetzt kostenlos") is tied to the yearly product only - always preselect it.
             isLaunchOfferActive = LaunchOfferService.isLaunchOfferActive
-            selectedProductID = "hero.premium.quarterly"
+            selectedProductID = "hero.premium.yearly"
             countdownString = isLaunchOfferActive ? LaunchOfferService.countdownString : ""
             
             // Set selected package based on selected product ID
@@ -111,8 +107,8 @@ struct PaywallView: View {
             if activeNow != isLaunchOfferActive {
                 isLaunchOfferActive = activeNow
                 if !activeNow && selectedProductID == LaunchOfferService.promoProductId {
-                    // Promo expired while paywall is open; fall back to quarterly (Hero default).
-                    selectedProductID = "hero.premium.quarterly"
+                    // Promo expired while paywall is open; fall back to yearly (Hero default).
+                    selectedProductID = "hero.premium.yearly"
                 }
             }
             countdownString = activeNow ? LaunchOfferService.countdownString : ""
@@ -171,7 +167,7 @@ struct PaywallView: View {
                 .padding(.horizontal, 24)
 
             // The paywall always uses the light mascot for consistent brand presentation.
-            Image("Mascot")
+            Image("MascotLaunch")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 130, height: 130)
@@ -179,7 +175,7 @@ struct PaywallView: View {
 
             // Subtitle copy (separate from the title)
             Text(Localizable.string(Localizable.premiumPromoSubtitle))
-                .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                .font(.system(.subheadline, design: .default).weight(.regular))
                 .foregroundColor(.white.opacity(0.95))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
@@ -208,13 +204,13 @@ struct PaywallView: View {
                 }
             )
             
-            // Quarterly subscription button
+            // Yearly subscription button
             PaywallPlanRow(
-                title: Localizable.string(Localizable.months3),
-                explanation: Localizable.string(Localizable.quarterlyExplanation),
-                productID: "hero.premium.quarterly",
+                title: Localizable.string(Localizable.yearly),
+                explanation: Localizable.string(Localizable.yearlyExplanation),
+                productID: "hero.premium.yearly",
                 fallbackPrice: "",
-                isSelected: selectedProductID == "hero.premium.quarterly",
+                isSelected: selectedProductID == "hero.premium.yearly",
                 showSeasonalOffer: false,
                 showBestValueBadge: !isLaunchOfferActive,
                 countdownText: nil,
@@ -222,7 +218,7 @@ struct PaywallView: View {
                 revenueCatService: revenueCatService,
                 onSelect: {
                     HapticManager.shared.lightImpact()
-                    selectedProductID = "hero.premium.quarterly"
+                    selectedProductID = "hero.premium.yearly"
                 }
             )
             
@@ -272,7 +268,7 @@ struct PaywallView: View {
     
     private var iCloudFamilySharingLine: some View {
         Text(Localizable.string(Localizable.iCloudFamilySharing))
-            .font(.system(.caption2, design: .rounded).weight(.medium))
+            .font(.system(.caption2, design: .default).weight(.medium))
             .foregroundColor(.white.opacity(0.9))
             .multilineTextAlignment(.center)
             .padding(.horizontal, 24)
@@ -340,20 +336,44 @@ struct PaywallView: View {
     }
     
     private var footerActionsSection: some View {
-        VStack(spacing: 8) {
-            Button(action: {
-                Task {
-                    await handleRestorePurchases()
-                }
-            }) {
-                Text(Localizable.string(Localizable.restorePurchase))
-                    .font(.system(.footnote, design: .rounded).weight(.medium))
+        VStack(spacing: 14) {
+            VStack(spacing: 4) {
+                Text(Localizable.string(Localizable.paywallFooterAlreadySubscribed))
+                    .font(.system(.footnote, design: .default).weight(.medium))
                     .foregroundColor(.white.opacity(0.9))
+                    .multilineTextAlignment(.center)
+
+                Button(action: {
+                    Task {
+                        await handleRestorePurchases()
+                    }
+                }) {
+                    Text(Localizable.string(Localizable.restorePurchase))
+                        .font(.system(.footnote, design: .default).weight(.semibold))
+                        .foregroundColor(Color("AppBlue"))
+                }
+                .disabled(subscriptionManager.isLoading)
             }
-            .disabled(subscriptionManager.isLoading)
             .padding(.horizontal, 24)
-            .padding(.top, 0)
+
+            VStack(spacing: 4) {
+                Text(Localizable.string(Localizable.paywallFooterGotCode))
+                    .font(.system(.footnote, design: .default).weight(.medium))
+                    .foregroundColor(.white.opacity(0.9))
+                    .multilineTextAlignment(.center)
+
+                Button(action: {
+                    HapticManager.shared.lightImpact()
+                    showOfferCodeRedemption = true
+                }) {
+                    Text(Localizable.string(Localizable.redeem))
+                        .font(.system(.footnote, design: .default).weight(.semibold))
+                        .foregroundColor(Color("AppBlue"))
+                }
+            }
+            .padding(.horizontal, 24)
         }
+        .fontDesign(.default)
         .padding(.top, 4)
     }
     
@@ -361,55 +381,62 @@ struct PaywallView: View {
         VStack(spacing: 12) {
             VStack(spacing: 8) {
                 Text(dynamicSubscriptionTerms)
-                    .font(.system(.caption2, design: .rounded))
+                    .font(.system(.caption2, design: .default))
                     .foregroundColor(.white.opacity(0.85))
                     .multilineTextAlignment(.center)
+
+                Text(legalAgreementAttributedText)
+                    .fontDesign(.default)
+                    .multilineTextAlignment(.center)
+                    .environment(\.openURL, OpenURLAction { url in
+                        handleLegalAgreementURL(url)
+                    })
             }
+            .fontDesign(.default)
             .padding(.horizontal, 32)
             .padding(.top, 16)
         }
     }
-    
-    private var legalActionsRow: some View {
-        HStack(spacing: 8) {
-            Button(action: {
-                HapticManager.shared.lightImpact()
-                presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
-            }) {
-                Text(Localizable.string(Localizable.termsOfUse))
-                    .font(.system(.caption, design: .rounded).weight(.medium))
-                    .foregroundColor(.white.opacity(0.9))
-            }
-            
-            Text("·")
-                .font(.system(.caption, design: .rounded))
-                .foregroundColor(.white.opacity(0.6))
-            
-            Button(action: {
-                HapticManager.shared.lightImpact()
-                presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
-            }) {
-                Text(Localizable.string(Localizable.privacyPolicy))
-                    .font(.system(.caption, design: .rounded).weight(.medium))
-                    .foregroundColor(.white.opacity(0.9))
-            }
 
-            Text("·")
-                .font(.system(.caption, design: .rounded))
-                .foregroundColor(.white.opacity(0.6))
-            
-            Button(action: {
-                HapticManager.shared.lightImpact()
-                showOfferCodeRedemption = true
-            }) {
-                Text(Localizable.string(Localizable.redeem))
-                    .font(.system(.caption, design: .rounded).weight(.medium))
-                    .foregroundColor(.white.opacity(0.9))
+    private var legalAgreementAttributedText: AttributedString {
+        let source = Localizable.string(Localizable.subscriptionTermsAgreementLine)
+        let baseFont = Font.system(.caption2, design: .default).weight(.regular)
+        let linkFont = Font.system(.caption2, design: .default).weight(.semibold)
+        let baseColor = Color.white.opacity(0.85)
+
+        guard var attributed = try? AttributedString(markdown: source) else {
+            var plain = AttributedString(source)
+            plain.font = baseFont
+            plain.foregroundColor = baseColor
+            return plain
+        }
+
+        attributed.font = baseFont
+        attributed.foregroundColor = baseColor
+
+        for run in attributed.runs {
+            if run.link != nil {
+                attributed[run.range].font = linkFont
+                attributed[run.range].foregroundColor = baseColor
             }
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 8)
-        .buttonStyle(.plain)
+
+        return attributed
+    }
+
+    private func handleLegalAgreementURL(_ url: URL) -> OpenURLAction.Result {
+        HapticManager.shared.lightImpact()
+
+        switch url.absoluteString {
+        case "hero://terms":
+            presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
+            return .handled
+        case "hero://privacy":
+            presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
+            return .handled
+        default:
+            return .systemAction(url)
+        }
     }
     
     // MARK: - Computed Properties

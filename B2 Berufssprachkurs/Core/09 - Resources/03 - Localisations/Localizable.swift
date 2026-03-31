@@ -240,6 +240,8 @@ extension Localizable {
     static let lifetimeExplanationLine2 = "lifetime_explanation_line2"
     static let freeTrial = "free_trial"
     static let iCloudFamilySharing = "icloud_family_sharing"
+    static let paywallFooterAlreadySubscribed = "paywall_footer_already_subscribed"
+    static let paywallFooterGotCode = "paywall_footer_got_code"
     static let restorePurchase = "restore_purchase"
     static let upgradeToPremium = "upgrade_to_premium"
     static let premiumMonthly = "premium_monthly"
@@ -266,6 +268,7 @@ extension Localizable {
     static let planStatusFree = "plan_status_free"
     static let planStatusTrial = "plan_status_trial"
     static let planStatusMonthly = "plan_status_monthly"
+    static let planStatusYearly = "plan_status_yearly"
     static let planStatusQuarterly = "plan_status_quarterly"
     static let planStatusLifetime = "plan_status_lifetime"
     /// Active Pro subscription when product id is unknown (e.g. future products).
@@ -282,10 +285,8 @@ extension Localizable {
     static let manageSubscriptionFailed = "manage_subscription_failed"
     static let continueButton = "continue_button"
     static let subscriptionTerms = "subscription_terms"
-    static let subscriptionTermsMonthly = "subscription_terms_monthly"
-    static let subscriptionTermsQuarterly = "subscription_terms_quarterly"
-    static let subscriptionTermsYearly = "subscription_terms_yearly"
     static let subscriptionTermsLifetime = "subscription_terms_lifetime"
+    static let subscriptionTermsAgreementLine = "subscription_terms_agreement_line"
     static let subscriptionTitle = "subscription_title"
     static let subscriptionLength = "subscription_length"
     static let quarterlyExplanation = "quarterly_explanation"
@@ -341,7 +342,5 @@ extension Localizable {
     static let regularPrice = "regular_price"
     static let sale = "sale"
     
-    // Subscription Terms - Promotional
-    static let subscriptionTermsYearlyPromotional = "subscription_terms_yearly_promotional"
 }
 

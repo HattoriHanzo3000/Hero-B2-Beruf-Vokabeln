@@ -199,7 +199,7 @@
 "paywall_title_future_germany" = "Unlock your future in Germany with confidence in professional language";
 "pro_benefits_description" = "Pro gives you full access to all study materials, flashcards and practice modes, progress tracking, and an ad-free experience. All plans can be shared with your iCloud Family";
 "unlock_hero_premium" = "Unlock Hero Pro";
-"premium_promo_subtitle" = "Get full access to all words, flashcards and practice modes, detailed progress, favorite words, word of the day, and more";
+"premium_promo_subtitle" = "Unlock full access to all words, flashcards, your own word list, practice modes, detailed progress, and much more with Hero Pro.";
 "enjoy_hero_premium" = "Enjoy Hero Pro";
 "enjoy_full_hero_experience" = "Enjoy the full learning experience with Hero Pro";
 "premium_active_subtitle" = "You have full access to all study materials, flashcards and practice modes, progress tracking, and more";
@@ -211,13 +211,15 @@
 "monthly" = "Monthly";
 "yearly" = "Yearly";
 "lifetime" = "Lifetime";
-"monthly_explanation" = "Perfect to start. Cancel anytime";
+"monthly_explanation" = "Start easily. Cancel anytime.";
 "quarterly_explanation" = "3 days free trial";
 "yearly_explanation" = "Save more. 3-day free trial";
 "lifetime_explanation" = "Pay once, own forever";
 "lifetime_explanation_line2" = "No hidden fees. No recurring charges.";
 "free_trial" = "Free Trial";
 "icloud_family_sharing" = "All plans can be shared with your iCloud Family";
+"paywall_footer_already_subscribed" = "Already subscribed?";
+"paywall_footer_got_code" = "Got a code?";
 "restore_purchase" = "Restore Purchase";
 "premium_monthly" = "Pro Monthly";
 "premium_3_months" = "Pro 3 Months";
@@ -241,6 +243,7 @@
 "plan_status_free" = "Free";
 "plan_status_trial" = "Trial";
 "plan_status_monthly" = "Monthly";
+"plan_status_yearly" = "Yearly";
 "plan_status_quarterly" = "3 months";
 "plan_status_lifetime" = "Lifetime";
 "plan_status_hero_pro_active" = "Hero Pro";
@@ -255,15 +258,12 @@
 "manage_subscription_failed_title" = "Unable to open";
 "manage_subscription_failed" = "Couldn’t open subscription management. Try again later, or use the App Store app → your account → Subscriptions.";
 "continue_button" = "Continue";
-"subscription_terms" = "Upon subscribing, your Apple account will be charged 1,99€. Your Hero Pro subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
-"subscription_terms_monthly" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";
-"subscription_terms_quarterly" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";
-"subscription_terms_yearly" = "Upon subscribing, your Apple account will be charged %@. Your Hero Pro subscription will automatically renew at the same price at the end of your current subscription period unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
-"subscription_terms_yearly_promotional" = "Upon subscribing, your Apple account will be charged %@ for the first year. After the first year, your Hero Pro subscription will automatically renew at %@ per year unless cancelled at least 24 hours before the end of the period.\n\nYou can cancel anytime in your App Store settings. View our Terms of Use and Privacy Policy for more details.";
-"subscription_terms_lifetime" = "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your App Store Account Settings. By continuing, you agree to our Terms of Use and Privacy Policy.";
+"subscription_terms" = "Payment will be charged to your iTunes Account at confirmation of purchase. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription. Your subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage your subscription and turn off auto-renewal in your iTunes Account Settings. No cancellation of the current subscription is allowed during the active period.";
+"subscription_terms_lifetime" = "This is a one-time purchase that provides permanent access to all Hero Pro features. There are no recurring charges or subscriptions. Payment will be charged to your iTunes Account at confirmation of purchase. Due to the nature of digital content, once the content is unlocked, the purchase is final.";
+"subscription_terms_agreement_line" = "By continuing, you agree to our [Terms of Service](hero://terms) and [Privacy Policy](hero://privacy).";
 "launch_offer_expires_in" = "Ends in";
-"launch_offer_badge" = "LAUNCH OFFER -50%";
-"paywall_best_value" = "Best value";
+"launch_offer_badge" = "LAUNCH OFFER";
+"paywall_best_value" = "Try Pro for free";
 "subscription_title" = "Hero Pro Subscription";
 "subscription_length" = "1 month";
 

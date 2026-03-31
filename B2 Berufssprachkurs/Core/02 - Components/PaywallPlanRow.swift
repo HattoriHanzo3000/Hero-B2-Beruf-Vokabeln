@@ -29,6 +29,8 @@ struct PaywallPlanRow: View {
 
     private var contentForeground: Color { isSelected ? .white : .white.opacity(0.7) }
     private var secondaryForeground: Color { isSelected ? .white.opacity(0.9) : .white.opacity(0.6) }
+    private var rowOpacity: Double { isSelected ? 1.0 : 0.72 }
+    private var rowSaturation: Double { isSelected ? 1.0 : 0.45 }
 
     private var basePriceText: String {
         getPriceString(for: productID)
@@ -63,8 +65,8 @@ struct PaywallPlanRow: View {
         switch productID {
         case "hero.premium.monthly":
             return "/mo"
-        case "hero.premium.quarterly":
-            return "/3mo"
+        case "hero.premium.yearly":
+            return "/yr"
         default:
             return nil
         }
@@ -76,7 +78,7 @@ struct PaywallPlanRow: View {
             .fill(
                 LinearGradient(
                     colors: showSeasonalOffer
-                        ? [Color("AppOrange"), Color("AppOrange").opacity(0.82)]
+                        ? [Color("AppYellow"), Color("AppYellow").opacity(0.82)]
                         : [Color("AppBlue"), Color("AppBlueThird")],
                     startPoint: .leading,
                     endPoint: .trailing
@@ -160,6 +162,8 @@ struct PaywallPlanRow: View {
                 }
                 .padding(16)
                 .background(buttonBackgroundFill)
+                .saturation(rowSaturation)
+                .opacity(rowOpacity)
 
                 if showSeasonalOffer {
                     PaywallPromoDealBadge()
@@ -180,6 +184,8 @@ struct PaywallPlanRow: View {
 // MARK: - Badges
 
 struct PaywallPromoDealBadge: View {
+    @State private var isPulsing = false
+
     var body: some View {
         Text(Localizable.string(Localizable.launchOfferBadge))
             .font(.system(.caption2, weight: .semibold).italic())
@@ -189,6 +195,14 @@ struct PaywallPromoDealBadge: View {
             .background(Color.red)
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .shadow(color: .black.opacity(0.16), radius: 2, y: 1)
+            .scaleEffect(isPulsing ? 1.05 : 0.97)
+            .animation(
+                .easeInOut(duration: 1.2).repeatForever(autoreverses: true),
+                value: isPulsing
+            )
+            .onAppear {
+                isPulsing = true
+            }
     }
 }
 

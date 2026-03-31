@@ -15,7 +15,7 @@ struct HolidaySeasonalBanner: View {
     
     // Computed properties for prices
     private var promotionalPrice: String {
-        guard let product = subscriptionManager.products["hero.premium.quarterly"],
+        guard let product = subscriptionManager.products["hero.premium.yearly"],
               let subscription = product.subscription else {
             // Return empty string if product not loaded (will be handled by UI)
             return ""
@@ -36,7 +36,7 @@ struct HolidaySeasonalBanner: View {
     
     private var regularPrice: String {
         // Get the base price from the yearly product
-        guard let product = subscriptionManager.products["hero.premium.quarterly"] else {
+        guard let product = subscriptionManager.products["hero.premium.yearly"] else {
             // Return empty string if product not loaded (will be handled by UI)
             return ""
         }

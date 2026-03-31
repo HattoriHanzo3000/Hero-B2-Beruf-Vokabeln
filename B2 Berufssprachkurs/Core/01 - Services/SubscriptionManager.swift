@@ -18,7 +18,7 @@ final class SubscriptionManager: ObservableObject {
     // Product IDs from App Store Connect
     private let productIDs = [
         "hero.premium.monthly",
-        "hero.premium.quarterly",
+        "hero.premium.yearly",
         "hero.premium.lifetime.promo",
         "hero.premium.lifetime"
     ]
@@ -551,8 +551,8 @@ extension SubscriptionManager {
             switch activeProductID {
             case "hero.premium.monthly":
                 return Localizable.string(Localizable.planStatusMonthly)
-            case "hero.premium.quarterly":
-                return Localizable.string(Localizable.planStatusQuarterly)
+            case "hero.premium.yearly":
+                return Localizable.string(Localizable.planStatusYearly)
             default:
                 return Localizable.string(Localizable.planStatusHeroProActive)
             }
