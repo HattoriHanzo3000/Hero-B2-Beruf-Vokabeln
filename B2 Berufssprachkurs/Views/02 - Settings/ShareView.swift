@@ -49,7 +49,7 @@ struct ShareView: View {
             }
             .background(Color.clear)
         }
-        .navigationTitle("")
+        .navigationTitle(Localizable.string(Localizable.share))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

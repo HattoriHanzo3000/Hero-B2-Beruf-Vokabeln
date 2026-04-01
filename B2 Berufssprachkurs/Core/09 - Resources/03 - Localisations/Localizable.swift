@@ -164,6 +164,8 @@ extension Localizable {
     static let progressWordScopeMine = "progress_word_scope_mine"
     static let progressUnderConstruction = "progress_under_construction"
     static let progressComingSoon = "progress_coming_soon"
+    static let cockpitMoreFromHeroSubtitle = "cockpit_more_from_hero_subtitle"
+    static let cockpitMoreFromHeroBody = "cockpit_more_from_hero_body"
     
     // Statistics
     static let statisticsWrongTitle = "statistics_wrong_title"

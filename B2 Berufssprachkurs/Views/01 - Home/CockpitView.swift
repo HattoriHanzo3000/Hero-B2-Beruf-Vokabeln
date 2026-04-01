@@ -26,12 +26,13 @@ struct CockpitView: View {
     @EnvironmentObject private var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var showPaywall = false
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
     @AppStorage("cockpitProgressWordScope") private var progressWordScopeRaw = DataService.ProgressWordScope.app.rawValue
+
+    @State private var showMoreFromHeroSheet = false
 
     private static let wotdControlFontSize: CGFloat = 17
     private static let wotdControlChevronSize: CGFloat = 13
@@ -42,10 +43,6 @@ struct CockpitView: View {
     /// Pass `true` / `false` for canvas previews only; `nil` uses live subscription state.
     init(isPremiumPreviewOverride: Bool? = nil) {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
-    }
-
-    private var isPremiumForUI: Bool {
-        isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
     }
 
     private var wordOfTheDayPeriodicityBinding: Binding<String> {
@@ -95,20 +92,6 @@ struct CockpitView: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    // MARK: Pro promo section — only in Basis mode
-                    if !isPremiumForUI {
-                        ProPromoSection(
-                            isPremiumActive: isPremiumForUI,
-                            hasUsedTrial: subscriptionManager.hasUsedTrial,
-                            showFreeTierCallout: subscriptionManager.hasCompletedInitialSubscriptionSync,
-                            onStartFreeTrial: {
-                                HapticManager.shared.mediumImpact()
-                                showPaywall = true
-                            }
-                        )
-                        .padding(.horizontal, 16)
-                    }
-                    
                     // MARK: Word of the Day - Friendly Card
                     CockpitCard(
                         titleIcon: "calendar",
@@ -281,15 +264,48 @@ struct CockpitView: View {
                     }
                     .padding(.horizontal)
                     
-                    // Add more content sections here as needed
+                    // MARK: More from Hero (same chrome as WOTD + Progress)
+                    Button {
+                        HapticManager.shared.lightImpact()
+                        showMoreFromHeroSheet = true
+                    } label: {
+                        CockpitCard(
+                            titleIcon: "sparkles",
+                            title: Localizable.string(Localizable.cockpitMoreFromHeroSubtitle),
+                            subtitle: nil
+                        ) {
+                            HStack(alignment: .top, spacing: 12) {
+                                Image("MascotLaunch")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 72, height: 72, alignment: .top)
+                                    .accessibilityHidden(true)
+
+                                Text(Localizable.string(Localizable.cockpitMoreFromHeroBody))
+                                    .font(.system(.subheadline, design: .default))
+                                    .italic()
+                                    .foregroundStyle(Color("AppGreen"))
+                                    .multilineTextAlignment(.leading)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .padding(.top, 2)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityLabel(
+                        "\(Localizable.string(Localizable.cockpitMoreFromHeroSubtitle)). \(Localizable.string(Localizable.cockpitMoreFromHeroBody))"
+                    )
+                    .padding(.horizontal)
                 }
                 .padding(.vertical)
                 .padding(.bottom, 16)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $showPaywall) {
-            PaywallView()
+        .sheet(isPresented: $showMoreFromHeroSheet) {
+            AdvertisementView()
         }
         .onAppear {
             // Initialize to 1A if empty (first time use)

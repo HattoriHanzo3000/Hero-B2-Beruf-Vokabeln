@@ -140,6 +140,8 @@
 "progress_word_scope_app" = "App";
 "progress_word_scope_mine" = "Mine";
 "cockpit_wotd_intro" = "Make your daily learning fit your rhythm and topics you care about.";
+"cockpit_more_from_hero_subtitle" = "More from Hero";
+"cockpit_more_from_hero_body" = "Your journey to success in Germany continues. Explore more from Hero.";
 
 "general_words" = "General Words";
 "adjectives_with_prepositions" = "Adjectives with Prepositions";

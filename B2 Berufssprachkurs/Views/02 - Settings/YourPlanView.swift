@@ -297,7 +297,12 @@ struct YourPlanView: View {
         if let preview = settingsSubscriptionPreview {
             return preview.yourPlanSupplementalDateLine
         }
-        if subscriptionManager.isLocalTrialActive, let end = subscriptionManager.localTrialEndsAt {
+        // Local 3-day trial end date only when there is no store entitlement yet.
+        // Otherwise lifetime / subscriptions still overlap the local trial window in UserDefaults and would show a misleading line.
+        if subscriptionManager.isLocalTrialActive,
+           let end = subscriptionManager.localTrialEndsAt,
+           !subscriptionManager.hasLifetimeSubscription,
+           !subscriptionManager.hasActiveSubscription {
             return String(format: Localizable.string(Localizable.planDetailTrialEndsFormat), formattedPlanDate(end))
         }
         if subscriptionManager.hasActiveSubscription,
