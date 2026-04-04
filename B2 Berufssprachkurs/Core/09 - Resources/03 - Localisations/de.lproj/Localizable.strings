@@ -38,6 +38,25 @@
 "clear_translation_input" = "Löschen";
 "clear_translation_input_hint" = "Entfernt den gesamten Text in diesem Feld";
 "add_translation_to_word" = "Übersetzung zum Wort hinzufügen";
+
+"words_list_a11y_label" = "Wörterliste";
+"words_list_a11y_hint" = "Liste deutscher Wörter mit Übersetzungen, Erklärungen und Synonymen";
+"word_row_favorite_add_a11y" = "Zu Favoriten hinzufügen";
+"word_row_favorite_remove_a11y" = "Aus Favoriten entfernen";
+"word_row_favorite_value_favorited_a11y" = "Als Favorit markiert";
+"word_row_favorite_value_not_favorited_a11y" = "Nicht favorisiert";
+"word_row_favorite_hint_format" = "Favorit für %@ umschalten";
+"word_row_translation_open_keyboard_hint_a11y" = "Öffnet die Tastatur zur Eingabe Ihrer Übersetzung";
+"word_row_translation_display_a11y" = "Übersetzung: %@";
+"word_row_translation_edit_hint_a11y" = "Doppeltippen zum Bearbeiten der Übersetzung";
+"word_row_detail_explanation_a11y" = "Erklärung: %@";
+"word_row_detail_example_a11y" = "Beispiel: %@";
+"word_row_detail_synonyms_a11y" = "Synonyme: %@";
+"word_row_a11y_summary_editing" = "%@. Übersetzung wird bearbeitet";
+"word_row_a11y_summary_prompt_translation" = "%1$@. %2$@";
+"word_row_a11y_summary_with_translation" = "%1$@. %2$@: %3$@";
+"word_row_container_a11y" = "Zeile für Wort %@";
+
 "flashcard_no_translation_yet" = "Noch keine Übersetzung";
 "flashcard_no_explanation_yet" = "Noch keine Erklärung";
 "flashcard_no_synonym_yet" = "Noch kein Synonym";

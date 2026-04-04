@@ -54,6 +54,32 @@ extension Localizable {
     static let clearTranslationInput = "clear_translation_input"
     static let clearTranslationInputHint = "clear_translation_input_hint"
     static let addTranslationToWord = "add_translation_to_word"
+
+    // Words list (section word list + rows)
+    static let wordsListA11yLabel = "words_list_a11y_label"
+    static let wordsListA11yHint = "words_list_a11y_hint"
+    static let wordRowFavoriteAddA11y = "word_row_favorite_add_a11y"
+    static let wordRowFavoriteRemoveA11y = "word_row_favorite_remove_a11y"
+    static let wordRowFavoriteValueFavoritedA11y = "word_row_favorite_value_favorited_a11y"
+    static let wordRowFavoriteValueNotFavoritedA11y = "word_row_favorite_value_not_favorited_a11y"
+    /// Format: German lemma (VoiceOver hint for star).
+    static let wordRowFavoriteHintFormat = "word_row_favorite_hint_format"
+    static let wordRowTranslationOpenKeyboardHintA11y = "word_row_translation_open_keyboard_hint_a11y"
+    /// Format: translation text.
+    static let wordRowTranslationDisplayA11y = "word_row_translation_display_a11y"
+    static let wordRowTranslationEditHintA11y = "word_row_translation_edit_hint_a11y"
+    static let wordRowDetailExplanationA11y = "word_row_detail_explanation_a11y"
+    static let wordRowDetailExampleA11y = "word_row_detail_example_a11y"
+    static let wordRowDetailSynonymsA11y = "word_row_detail_synonyms_a11y"
+    /// Format: German lemma.
+    static let wordRowA11ySummaryEditing = "word_row_a11y_summary_editing"
+    /// Format: German lemma, localized “add translation” phrase.
+    static let wordRowA11ySummaryPromptTranslation = "word_row_a11y_summary_prompt_translation"
+    /// Format: German lemma, translation text.
+    static let wordRowA11ySummaryWithTranslation = "word_row_a11y_summary_with_translation"
+    /// Format: German lemma.
+    static let wordRowContainerA11y = "word_row_container_a11y"
+
     static let flashcardNoTranslationYet = "flashcard_no_translation_yet"
     static let flashcardNoExplanationYet = "flashcard_no_explanation_yet"
     static let flashcardNoSynonymYet = "flashcard_no_synonym_yet"

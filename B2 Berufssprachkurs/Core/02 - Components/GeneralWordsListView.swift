@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-private enum GeneralWordsListMetrics {
-    /// Lections shown in the general words stack (aligned with catalog / free-tier scope).
-    static let visibleLectionCount = 12
-}
-
 struct GeneralWordsListView: View {
     @ObservedObject var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
@@ -62,7 +57,7 @@ struct GeneralWordsListView: View {
                     .id("gw-select-all")
                 }
 
-                ForEach(Array(dataService.lections.prefix(GeneralWordsListMetrics.visibleLectionCount))) { lection in
+                ForEach(Array(dataService.lections.prefix(GeneralWordsListCatalog.visibleLectionCount))) { lection in
                     SwiftUI.Section {
                         if listUIState.generalWordsExpandedLectionIds.contains(lection.id) {
                             ForEach(lection.sections) { section in

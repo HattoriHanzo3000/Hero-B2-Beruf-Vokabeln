@@ -38,6 +38,25 @@
 "clear_translation_input" = "Clear";
 "clear_translation_input_hint" = "Removes all text in this field";
 "add_translation_to_word" = "Add translation to the word";
+
+"words_list_a11y_label" = "Words list";
+"words_list_a11y_hint" = "List of German words with translations, explanations, and synonyms";
+"word_row_favorite_add_a11y" = "Add to favorites";
+"word_row_favorite_remove_a11y" = "Remove from favorites";
+"word_row_favorite_value_favorited_a11y" = "Favorited";
+"word_row_favorite_value_not_favorited_a11y" = "Not favorited";
+"word_row_favorite_hint_format" = "Toggle favorite for %@";
+"word_row_translation_open_keyboard_hint_a11y" = "Opens the keyboard to type your translation";
+"word_row_translation_display_a11y" = "Translation: %@";
+"word_row_translation_edit_hint_a11y" = "Double tap to edit translation";
+"word_row_detail_explanation_a11y" = "Explanation: %@";
+"word_row_detail_example_a11y" = "Example: %@";
+"word_row_detail_synonyms_a11y" = "Synonyms: %@";
+"word_row_a11y_summary_editing" = "%@. Editing translation";
+"word_row_a11y_summary_prompt_translation" = "%1$@. %2$@";
+"word_row_a11y_summary_with_translation" = "%1$@. %2$@: %3$@";
+"word_row_container_a11y" = "Word row for %@";
+
 "flashcard_no_translation_yet" = "No translation yet";
 "flashcard_no_explanation_yet" = "No explanation yet";
 "flashcard_no_synonym_yet" = "No synonym yet";
