@@ -5,39 +5,8 @@
 //  Created by Ildar on 18.11.25.
 //
 
-import SwiftUI
 import SwiftData
-import UIKit
-
-/// Identifies which root area is selected in the main `TabView`. Most raw values match `Localizable` keys; `search` uses the system search tab role (icon-only).
-enum MainViewSection: String, CaseIterable {
-    case home = "home"
-    case cockpit = "cockpit"
-    case search = "search"
-    case settings = "settings"
-
-    var icon: String {
-        switch self {
-        case .home:
-            return "square.stack.3d.up.fill"
-        case .cockpit:
-            return "gauge"
-        case .search:
-            return "magnifyingglass"
-        case .settings:
-            return "gear"
-        }
-    }
-
-    var localizedTitle: String {
-        switch self {
-        case .search:
-            return Localizable.string(Localizable.tabSearchAccessibility)
-        default:
-            return Localizable.string(self.rawValue)
-        }
-    }
-}
+import SwiftUI
 
 struct MainView: View {
     private let isPremiumPreviewOverride: Bool?
@@ -111,7 +80,7 @@ struct MainView: View {
         .onAppear {
             CustomWordEntry.renumberSortOrderIfNeeded(in: modelContext)
             dataService.updateUserCustomWords(from: customWordEntries)
-            setupLiquidGlassTabBar()
+            AppTabBarAppearance.applyLiquidGlassAppStyle()
             ratingManager.trackAppLaunch()
             Task {
                 await updateAlertManager.checkForUpdateAlert()
@@ -131,46 +100,8 @@ struct MainView: View {
             Text(Localizable.string(Localizable.updateAlertMessage))
         }
         .overlay {
-            if ratingManager.showRatingPrompt {
-                ZStack {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            ratingManager.remindLater()
-                        }
-
-                    RatingPromptView()
-                }
-                .transition(.opacity)
-                .animation(.easeInOut(duration: 0.3), value: ratingManager.showRatingPrompt)
-            }
+            RatingPromptOverlay(ratingManager: ratingManager)
         }
-    }
-
-    private func setupLiquidGlassTabBar() {
-        let appearance = UITabBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-        appearance.shadowColor = .clear
-
-        appearance.stackedLayoutAppearance.normal.iconColor = UIColor.secondaryLabel.withAlphaComponent(0.7)
-        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
-            .foregroundColor: UIColor.secondaryLabel.withAlphaComponent(0.7),
-            .font: UIFont.systemFont(ofSize: 10, weight: .medium)
-        ]
-
-        let accentColor = UIColor(named: "AppGreen") ?? UIColor.systemBlue
-        appearance.stackedLayoutAppearance.selected.iconColor = accentColor
-        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
-            .foregroundColor: accentColor,
-            .font: UIFont.systemFont(ofSize: 10, weight: .semibold)
-        ]
-
-        UITabBar.appearance().standardAppearance = appearance
-        UITabBar.appearance().scrollEdgeAppearance = appearance
-        UITabBar.appearance().isTranslucent = true
-        UITabBar.appearance().backgroundColor = .clear
-        UITabBar.appearance().clipsToBounds = true
     }
 }
 
