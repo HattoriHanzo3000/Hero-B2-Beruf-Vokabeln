@@ -218,6 +218,26 @@ extension Localizable {
     static let myWordsSortDateOldestFirst = "my_words_sort_date_oldest_first"
     static let myWordsSortDateNewestFirst = "my_words_sort_date_newest_first"
     static let myWordsPrint = "my_words_print"
+    /// VoiceOver: My Words list container.
+    static let myWordsListA11yLabel = "my_words_list_a11y_label"
+    static let myWordsListA11yHint = "my_words_list_a11y_hint"
+    /// %@ = translation text.
+    static let myWordsRowTranslationA11yLabel = "my_words_row_translation_a11y_label"
+    static let myWordsRowTranslationEditA11yHint = "my_words_row_translation_edit_a11y_hint"
+    static let myWordsRowFavoriteAddA11y = "my_words_row_favorite_add_a11y"
+    static let myWordsRowFavoriteRemoveA11y = "my_words_row_favorite_remove_a11y"
+    static let myWordsRowFavoriteValueYesA11y = "my_words_row_favorite_value_yes_a11y"
+    static let myWordsRowFavoriteValueNoA11y = "my_words_row_favorite_value_no_a11y"
+    /// %@ = German headword.
+    static let myWordsRowFavoriteHintA11y = "my_words_row_favorite_hint_a11y"
+    /// %@ = explanation text.
+    static let myWordsRowExplanationA11y = "my_words_row_explanation_a11y"
+    /// %@ = example text.
+    static let myWordsRowExampleA11y = "my_words_row_example_a11y"
+    /// %@ = synonyms text.
+    static let myWordsRowSynonymsA11y = "my_words_row_synonyms_a11y"
+    /// %@ = German headword.
+    static let myWordsRowContainerA11y = "my_words_row_container_a11y"
 
     // Practice button
     static let practice = "practice"
