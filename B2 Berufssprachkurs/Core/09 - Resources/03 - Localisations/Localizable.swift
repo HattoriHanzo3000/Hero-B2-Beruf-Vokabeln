@@ -150,7 +150,6 @@ extension Localizable {
     static let mailUnavailable = "mail_unavailable"
     static let mailUnavailableMessage = "mail_unavailable_message"
     static let ok = "ok"
-    static let reportABug = "report_a_bug"
     static let impressum = "impressum"
     static let termsOfUse = "terms_of_use"
     static let privacyPolicy = "privacy_policy"

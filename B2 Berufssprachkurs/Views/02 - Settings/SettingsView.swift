@@ -27,27 +27,23 @@ struct SettingsView: View {
     @State private var presentingLegalURL: URL? = nil
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Environment(\.settingsSubscriptionPreview) private var settingsSubscriptionPreview
-    
-    // Sync with language manager
-    private var languageBinding: Binding<String> {
-        Binding(
-            get: { self.appLanguage },
-            set: { newValue in
-                self.appLanguage = newValue
-                self.languageManager.setLanguage(newValue)
-            }
-        )
-    }
-    
-    // App metadata
+
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
-    
+
     private var buildNumber: String {
         Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
     }
-    
+
+    private var legalWebItems: [(icon: String, title: String, url: URL)] {
+        [
+            ("building.2.fill", Localizable.string(Localizable.impressum), AppExternalLinks.legalImpressum),
+            ("doc.text.fill", Localizable.string(Localizable.termsOfUse), AppExternalLinks.legalTermsOfUse),
+            ("lock.shield.fill", Localizable.string(Localizable.privacyPolicy), AppExternalLinks.legalPrivacyPolicy),
+        ]
+    }
+
     var body: some View {
         List {
             SwiftUI.Section {
@@ -58,8 +54,7 @@ struct SettingsView: View {
                 ) {
                     AboutView()
                 }
-                
-                // Share row
+
                 NavigationIconRow(
                     icon: "square.and.arrow.up",
                     iconColor: .blue,
@@ -79,30 +74,31 @@ struct SettingsView: View {
                     subtitle: settingsSubscriptionPreview?.planStatusLine ?? subscriptionManager.localizedPlanStatusLine
                 ) {
                     YourPlanView()
+                        .environment(\.settingsSubscriptionPreview, settingsSubscriptionPreview)
                 }
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionHeroPro))
             }
-            
+
             SwiftUI.Section {
                 MenuIconRow(
                     icon: "globe",
                     iconColor: .blue,
                     title: Localizable.string(Localizable.appLanguage),
                     options: localizedLanguageOptions,
-                    selection: languageBinding,
+                    selection: $appLanguage,
                     displayMapping: { key in
                         key == "English" ? Localizable.string(Localizable.english) : Localizable.string(Localizable.deutsch)
                     }
                 )
-                
+
                 ToggleIconRow(
                     icon: "hand.tap.fill",
                     iconColor: .purple,
                     title: Localizable.string(Localizable.hapticFeedback),
                     isOn: $hapticFeedbackEnabled
                 )
-                
+
                 MenuIconRow(
                     icon: "paintbrush.fill",
                     iconColor: .pink,
@@ -134,19 +130,17 @@ struct SettingsView: View {
             } footer: {
                 iCloudSyncSectionFooter()
             }
-            
+
             SwiftUI.Section {
-                // FAQ section - temporarily disabled, will be added in next update
-                /*
-                NavigationIconRow(
+                SettingsExternalLinkRow(
                     icon: "questionmark.circle.fill",
                     iconColor: .blue,
                     title: Localizable.string(Localizable.faq)
                 ) {
-                    FAQView()
+                    HapticManager.shared.lightImpact()
+                    presentingLegalURL = AppExternalLinks.faq
                 }
-                */
-                
+
                 Button {
                     HapticManager.shared.lightImpact()
                     if MFMailComposeViewController.canSendMail() {
@@ -161,83 +155,25 @@ struct SettingsView: View {
                         title: Localizable.string(Localizable.contactUs)
                     )
                 }
-                
-                // Report a Bug - temporarily disabled, will be added in next update
-                /*
-                NavigationIconRow(
-                    icon: "flag.fill",
-                    iconColor: .orange,
-                    title: Localizable.string(Localizable.reportABug)
-                ) {
-                    Text(Localizable.string(Localizable.reportABug))
-                        .navigationTitle(Localizable.string(Localizable.reportABug))
-                }
-                */
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionSupport))
             }
-            
+
             SwiftUI.Section {
-                Button {
-                    HapticManager.shared.lightImpact()
-                    presentingLegalURL = AppExternalLinks.legalImpressum
-                } label: {
-                    HStack {
-                        SettingsIconRow(
-                            icon: "building.2.fill",
-                            iconColor: .gray,
-                            title: Localizable.string(Localizable.impressum)
-                        )
-                        Spacer()
-                        Image(systemName: "arrow.up.right")
-                            .font(.system(.caption, design: .rounded))
-                            .foregroundColor(.secondary)
+                ForEach(legalWebItems, id: \.url) { item in
+                    SettingsExternalLinkRow(
+                        icon: item.icon,
+                        iconColor: .gray,
+                        title: item.title
+                    ) {
+                        HapticManager.shared.lightImpact()
+                        presentingLegalURL = item.url
                     }
-                    .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
-                
-                Button {
-                    HapticManager.shared.lightImpact()
-                    presentingLegalURL = AppExternalLinks.legalTermsOfUse
-                } label: {
-                    HStack {
-                        SettingsIconRow(
-                            icon: "doc.text.fill",
-                            iconColor: .gray,
-                            title: Localizable.string(Localizable.termsOfUse)
-                        )
-                        Spacer()
-                        Image(systemName: "arrow.up.right")
-                            .font(.system(.caption, design: .rounded))
-                            .foregroundColor(.secondary)
-                    }
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                
-                Button {
-                    HapticManager.shared.lightImpact()
-                    presentingLegalURL = AppExternalLinks.legalPrivacyPolicy
-                } label: {
-                    HStack {
-                        SettingsIconRow(
-                            icon: "lock.shield.fill",
-                            iconColor: .gray,
-                            title: Localizable.string(Localizable.privacyPolicy)
-                        )
-                        Spacer()
-                        Image(systemName: "arrow.up.right")
-                            .font(.system(.caption, design: .rounded))
-                            .foregroundColor(.secondary)
-                    }
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionLegal))
             }
-            
+
             SwiftUI.Section {
                 DestructiveIconRow(
                     icon: "arrow.counterclockwise",
@@ -246,19 +182,6 @@ struct SettingsView: View {
                     HapticManager.shared.lightImpact()
                     showResetAlert = true
                 }
-                
-                // Debug: Reset to Fresh Install (Testing Only) - Deactivated for production
-                // Button {
-                //     HapticManager.shared.lightImpact()
-                //     subscriptionManager.resetToFreshInstall()
-                // } label: {
-                //     SettingsIconRow(
-                //         icon: "arrow.counterclockwise.circle.fill",
-                //         iconColor: .blue,
-                //         title: "Reset to Fresh Install"
-                //     )
-                // }
-                // .buttonStyle(.plain)
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionData))
             }
@@ -269,8 +192,8 @@ struct SettingsView: View {
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .sheet(isPresented: $showMailComposer) {
             MailComposeView(
-                subject: "Contact - Hero. B2 - Berufsprachkurs",
-                messageBody: getContactEmailBody(),
+                subject: Localizable.string(Localizable.contactUsEmailSubject),
+                messageBody: contactEmailBody(),
                 toRecipients: [AppExternalLinks.supportEmail],
                 onDismiss: {
                     showMailComposer = false
@@ -297,13 +220,12 @@ struct SettingsView: View {
             SettingsLegalWebSheetView(url: document.url)
         }
     }
-    
-    // Legal document identifier for sheet presentation
+
     struct LegalDocument: Identifiable {
         let url: URL
         var id: URL { url }
     }
-    
+
     @ViewBuilder
     private func iCloudSyncSectionFooter() -> some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -324,219 +246,28 @@ struct SettingsView: View {
         try? CustomWordEntry.deleteAll(in: modelContext)
         dataService.resetAllData()
     }
-    
-    private func getContactEmailBody() -> String {
+
+    private func contactEmailBody() -> String {
         let deviceModel = UIDevice.current.model
         let systemVersion = UIDevice.current.systemVersion
-        
-        return """
-        If you need help, please do not remove this info as it will help us to provide fast and quality support:
-        
-        ---
-        
-        App version: \(appVersion) (\(buildNumber))
-        Device: \(deviceModel)
-        iOS Version: \(systemVersion)
-        
-        Please describe your issue below this line.
-        
-        ---
-        
-        
-        """
-    }
-}
-
-// MARK: - Reusable Row Components
-
-private struct SettingsIconRow: View {
-    let icon: String
-    let iconColor: Color
-    let title: String
-    let subtitle: String?
-    
-    init(icon: String, iconColor: Color, title: String, subtitle: String? = nil) {
-        self.icon = icon
-        self.iconColor = iconColor
-        self.title = title
-        self.subtitle = subtitle
-    }
-    
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.body)
-                .fontWeight(.medium)
-                .foregroundColor(.white)
-                .frame(width: 28, height: 28)
-                .background(
-                    RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .fill(iconColor)
-                )
-            
-            if let subtitle = subtitle {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .foregroundColor(.primary)
-                    Text(subtitle)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-            } else {
-                Text(title)
-                    .foregroundColor(.primary)
-            }
-            
-            Spacer()
-        }
-    }
-}
-
-private struct NavigationIconRow<Destination: View>: View {
-    let icon: String
-    let iconColor: Color
-    let title: String
-    let subtitle: String?
-    let showBadge: Bool
-    let destination: () -> Destination
-    
-    init(icon: String, iconColor: Color, title: String, subtitle: String? = nil, showBadge: Bool = false, @ViewBuilder destination: @escaping () -> Destination) {
-        self.icon = icon
-        self.iconColor = iconColor
-        self.title = title
-        self.subtitle = subtitle
-        self.showBadge = showBadge
-        self.destination = destination
-    }
-    
-    var body: some View {
-        NavigationLink(destination: destination()) {
-            HStack(spacing: 12) {
-                SettingsIconRow(icon: icon, iconColor: iconColor, title: title, subtitle: subtitle)
-                Spacer()
-                if showBadge {
-                    Circle()
-                        .fill(Color.red)
-                        .frame(width: 8, height: 8)
-                        .padding(.trailing, 4)
-                }
-            }
-        }
-    }
-}
-
-private struct ToggleIconRow: View {
-    let icon: String
-    let iconColor: Color
-    let title: String
-    @Binding var isOn: Bool
-    var tintColor: Color = .green
-    
-    var body: some View {
-        HStack(spacing: 12) {
-            SettingsIconRow(icon: icon, iconColor: iconColor, title: title)
-            Spacer()
-            Toggle("", isOn: $isOn)
-                .labelsHidden()
-                .tint(tintColor)
-        }
-    }
-}
-
-private struct MenuIconRow: View {
-    let icon: String
-    let iconColor: Color
-    let title: String
-    let options: [String]
-    @Binding var selection: String
-    var displayMapping: ((String) -> String)?
-    
-    init(icon: String, iconColor: Color, title: String, options: [String], selection: Binding<String>, displayMapping: ((String) -> String)? = nil) {
-        self.icon = icon
-        self.iconColor = iconColor
-        self.title = title
-        self.options = options
-        self._selection = selection
-        self.displayMapping = displayMapping
-    }
-    
-    private func displayText(for key: String) -> String {
-        displayMapping?(key) ?? key
-    }
-    
-    var body: some View {
-        HStack(spacing: 12) {
-            SettingsIconRow(icon: icon, iconColor: iconColor, title: title)
-            Spacer()
-            Menu {
-                ForEach(options, id: \.self) { option in
-                    Button {
-                        selection = option
-                    } label: {
-                        HStack {
-                            Text(displayText(for: option))
-                            if selection == option {
-                                Image(systemName: "checkmark")
-                            }
-                        }
-                    }
-                }
-            } label: {
-                HStack(spacing: 4) {
-                    Text(displayText(for: selection))
-                        .foregroundColor(.secondary)
-                    Image(systemName: "chevron.up.chevron.down")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-            }
-        }
-    }
-}
-
-private struct DestructiveIconRow: View {
-    let icon: String
-    let title: String
-    let action: () -> Void
-    
-    var body: some View {
-        Button(role: .destructive, action: action) {
-            SettingsIconRow(icon: icon, iconColor: .red, title: title)
-        }
-    }
-}
-
-private struct AboutRow: View {
-    let title: String
-    let value: String
-    
-    var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(title)
-                .foregroundColor(.primary)
-            Spacer()
-            Text(value)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.trailing)
-        }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(title): \(value)")
+        return String(
+            format: Localizable.string(Localizable.contactUsEmailBody),
+            appVersion,
+            buildNumber,
+            deviceModel,
+            systemVersion
+        )
     }
 }
 
 private extension SettingsView {
     var localizedLanguageOptions: [String] {
-        ["English", "Deutsch"] // Keys
+        ["English", "Deutsch"]
     }
-    
+
     var localizedAppearanceOptions: [String] {
-        ["Light", "Dark", "System"] // Keys
+        ["Light", "Dark", "System"]
     }
-    
-    var localizedPeriodicityOptions: [String] {
-        ["12_hours", "24_hours"] // Keys
-    }
-    
 }
 
 #Preview("Settings — live") {
@@ -569,4 +300,3 @@ private extension SettingsView {
             .environment(\.settingsSubscriptionPreview, .lifetime)
     }
 }
-

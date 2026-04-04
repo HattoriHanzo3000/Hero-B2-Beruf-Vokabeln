@@ -24,6 +24,8 @@ enum AppExternalLinks {
     static let legalImpressum: URL = URL(string: "\(heroB2BerufBaseURLString)/impressum")!
     static let legalTermsOfUse: URL = URL(string: "\(heroB2BerufBaseURLString)/terms-of-use")!
     static let legalPrivacyPolicy: URL = URL(string: "\(heroB2BerufBaseURLString)/privacy-policy")!
+    /// FAQ on gizatech (Settings → Support).
+    static let faq: URL = URL(string: "\(heroB2BerufBaseURLString)/faq")!
 
     // MARK: - Markdown / in-app schemes
 

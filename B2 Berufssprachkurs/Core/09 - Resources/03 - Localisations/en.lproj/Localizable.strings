@@ -130,7 +130,6 @@
 "mail_unavailable" = "Mail Unavailable";
 "mail_unavailable_message" = "Mail services are not available. Please configure a mail account in Settings or send an email to info@gizatech.de";
 "ok" = "OK";
-"report_a_bug" = "Report a Bug";
 "impressum" = "Impressum";
 "terms_of_use" = "Terms of Use";
 "privacy_policy" = "Privacy Policy";

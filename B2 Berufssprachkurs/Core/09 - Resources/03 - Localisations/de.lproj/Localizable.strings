@@ -123,14 +123,13 @@
 "open_in_app_store" = "Im App Store öffnen";
 "faq" = "FAQ";
 "faq_description" = "Häufig gestellte Fragen\n\nWenn Sie Fragen zur Verwendung der App haben, lesen Sie bitte Folgendes:\n\n• Wort des Tages: Sie können diese Funktion aktivieren/deaktivieren und anpassen, welche Abschnitte einbezogen werden sollen.\n• Lernmodi: Üben Sie mit Übersetzungen, Synonymen oder Erklärungen.\n• Einstellungen: Passen Sie Erscheinungsbild, Textgröße, Sprache und mehr an.\n\nFür zusätzlichen Support verwenden Sie bitte die Option Kontakt.";
-"contact_us" = "Kontakt";
+"contact_us" = "Kontaktiere uns";
 "send_email" = "E-Mail senden";
 "contact_us_email_subject" = "B2 Berufssprachkurs - Support-Anfrage";
 "contact_us_email_body" = "Hallo,\n\nIch benötige Hilfe bei der B2 Berufssprachkurs App.\n\nApp-Version: %@ (%@)\nGerät: %@\niOS-Version: %@\n\nBitte beschreiben Sie Ihre Frage oder Ihr Problem:\n\n";
 "mail_unavailable" = "E-Mail nicht verfügbar";
 "mail_unavailable_message" = "E-Mail-Dienste sind nicht verfügbar. Bitte konfigurieren Sie ein E-Mail-Konto in den Einstellungen oder senden Sie eine E-Mail an info@gizatech.de";
 "ok" = "OK";
-"report_a_bug" = "Fehler melden";
 "impressum" = "Impressum";
 "terms_of_use" = "Nutzungsbedingungen";
 "privacy_policy" = "Datenschutzerklärung";

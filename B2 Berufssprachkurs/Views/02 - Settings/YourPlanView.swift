@@ -12,9 +12,11 @@ import UIKit
 struct YourPlanView: View {
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Environment(\.settingsSubscriptionPreview) private var settingsSubscriptionPreview
+    @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
     @State private var showPaywall = false
     @State private var showManageSubscriptionFailed = false
     @State private var showOfferCodeRedemption = false
+    @State private var lifetimeConfettiActive = false
 
     var body: some View {
         ZStack {
@@ -130,6 +132,11 @@ struct YourPlanView: View {
                 .padding(.bottom, 24)
             }
             .background(Color.clear)
+
+            if lifetimeConfettiActive {
+                ConfettiOverlay(isActive: true)
+                    .zIndex(2)
+            }
         }
         .navigationTitle(Localizable.string(Localizable.yourPlan))
         .navigationBarTitleDisplayMode(.inline)
@@ -153,6 +160,27 @@ struct YourPlanView: View {
             case .failure(let error):
                 print("Offer code redemption failed: \(error.localizedDescription)")
             }
+        }
+        .onAppear {
+            triggerConfettiIfNeeded()
+        }
+    }
+
+    /// True for real StoreKit lifetime or Settings canvas preview (`.lifetime`).
+    private var isLifetimePlanContext: Bool {
+        if let preview = settingsSubscriptionPreview, case .lifetime = preview {
+            return true
+        }
+        return subscriptionManager.hasLifetimeSubscription
+    }
+
+    private func triggerConfettiIfNeeded() {
+        guard isLifetimePlanContext else { return }
+        guard !accessibilityReduceMotion else { return }
+        lifetimeConfettiActive = true
+        HapticManager.shared.success()
+        DispatchQueue.main.asyncAfter(deadline: .now() + ConfettiOverlay.overlayRemovalDelay) {
+            lifetimeConfettiActive = false
         }
     }
 
