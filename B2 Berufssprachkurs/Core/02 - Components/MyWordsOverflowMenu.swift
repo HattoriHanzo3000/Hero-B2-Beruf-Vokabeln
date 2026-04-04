@@ -1,0 +1,138 @@
+//
+//  MyWordsOverflowMenu.swift
+//  B2 Berufssprachkurs
+//
+//  Toolbar overflow: edit mode, sort, print, delete all.
+//
+
+import SwiftUI
+
+struct MyWordsOverflowMenu: View {
+    @Binding var editMode: EditMode
+    @Binding var myWordsSortModeRaw: String
+
+    let listSortMode: MyWordsListSortMode
+    let hasEntries: Bool
+    let onPrint: () -> Void
+    let onRequestDeleteAll: () -> Void
+
+    private var editToolbarMenuTitle: String {
+        Localizable.string(editMode == .active ? Localizable.myWordsDoneEditing : Localizable.myWordsEdit)
+    }
+
+    private var editToolbarMenuSymbol: String {
+        editMode == .active ? "checkmark" : "pencil"
+    }
+
+    private var printMenuItemAccessibilityHint: String {
+        Localizable.string(Localizable.wordListPrintA11yHint)
+    }
+
+    var body: some View {
+        Button {
+            HapticManager.shared.lightImpact()
+            withAnimation(.easeInOut(duration: 0.2)) {
+                editMode = editMode == .active ? .inactive : .active
+            }
+        } label: {
+            Label(editToolbarMenuTitle, systemImage: editToolbarMenuSymbol)
+        }
+
+        Menu {
+            Menu {
+                Button {
+                    myWordsSortModeRaw = MyWordsListSortMode.nameAscending.rawValue
+                    HapticManager.shared.selection()
+                } label: {
+                    sortMenuRow(titleKey: Localizable.myWordsSortAscending, isSelected: listSortMode == .nameAscending)
+                }
+                Button {
+                    myWordsSortModeRaw = MyWordsListSortMode.nameDescending.rawValue
+                    HapticManager.shared.selection()
+                } label: {
+                    sortMenuRow(titleKey: Localizable.myWordsSortDescending, isSelected: listSortMode == .nameDescending)
+                }
+            } label: {
+                Text(Localizable.string(Localizable.myWordsSortTitle))
+            }
+
+            Menu {
+                Button {
+                    myWordsSortModeRaw = MyWordsListSortMode.dateAscending.rawValue
+                    HapticManager.shared.selection()
+                } label: {
+                    sortMenuRow(
+                        titleKey: Localizable.myWordsSortDateOldestFirst,
+                        isSelected: listSortMode == .dateAscending
+                    )
+                }
+                Button {
+                    myWordsSortModeRaw = MyWordsListSortMode.dateDescending.rawValue
+                    HapticManager.shared.selection()
+                } label: {
+                    sortMenuRow(
+                        titleKey: Localizable.myWordsSortDateNewestFirst,
+                        isSelected: listSortMode == .dateDescending
+                    )
+                }
+            } label: {
+                Text(Localizable.string(Localizable.myWordsSortCreationDate))
+            }
+
+            Button {
+                myWordsSortModeRaw = MyWordsListSortMode.manual.rawValue
+                HapticManager.shared.selection()
+            } label: {
+                sortMenuRow(titleKey: Localizable.myWordsSortManual, isSelected: listSortMode == .manual)
+            }
+        } label: {
+            Label {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(Localizable.string(Localizable.myWordsSortBy))
+                    Text(listSortMode.sortOverflowMenuSubtitle)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            } icon: {
+                Image(systemName: "arrow.up.arrow.down")
+            }
+        }
+
+        Button {
+            guard hasEntries else { return }
+            HapticManager.shared.lightImpact()
+            onPrint()
+        } label: {
+            Label(
+                Localizable.string(Localizable.myWordsPrint),
+                systemImage: "printer"
+            )
+        }
+        .disabled(!hasEntries)
+        .accessibilityHint(printMenuItemAccessibilityHint)
+
+        if hasEntries {
+            Divider()
+            Button(role: .destructive) {
+                HapticManager.shared.heavyImpact()
+                onRequestDeleteAll()
+            } label: {
+                Label(
+                    Localizable.string(Localizable.myWordsDeleteAllToolbarLabel),
+                    systemImage: "trash"
+                )
+            }
+            .accessibilityHint(Localizable.string(Localizable.myWordsDeleteAllToolbarHint))
+        }
+    }
+
+    private func sortMenuRow(titleKey: String, isSelected: Bool) -> some View {
+        HStack {
+            Text(Localizable.string(titleKey))
+            Spacer(minLength: 8)
+            if isSelected {
+                Image(systemName: "checkmark")
+            }
+        }
+    }
+}
