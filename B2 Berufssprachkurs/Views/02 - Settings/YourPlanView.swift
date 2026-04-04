@@ -5,9 +5,9 @@
 //  Settings: current plan, tailored copy, manage subscription / paywall / restore.
 //
 
-import SwiftUI
+import os
 import StoreKit
-import UIKit
+import SwiftUI
 
 struct YourPlanView: View {
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
@@ -18,112 +18,33 @@ struct YourPlanView: View {
     @State private var showOfferCodeRedemption = false
     @State private var lifetimeConfettiActive = false
 
+    private var plan: YourPlanPresentation {
+        YourPlanPresentation(preview: settingsSubscriptionPreview, subscriptionManager: subscriptionManager)
+    }
+
     var body: some View {
         ZStack {
             PaywallBackground()
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Image("MascotLaunch")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 200, maxHeight: 200)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-
-                    if showsProBadgeAboveTitle {
-                        ProShieldBadge(
-                            label: Localizable.string(Localizable.premium),
-                            showShimmer: true
+                    YourPlanHeroSection(
+                        plan: plan,
+                        statusLine: plan.effectivePlanStatusLine(subscriptionManager: subscriptionManager),
+                        detailBody: plan.detailBodyText { Localizable.string($0) },
+                        supplementalDateLine: plan.supplementalDateLine(
+                            language: LanguageManager.shared.currentLanguage,
+                            localizedString: { Localizable.string($0) }
                         )
-                        .frame(maxWidth: .infinity)
-                    }
+                    )
 
-                    Text(effectivePlanStatusLine)
-                        .font(.title.weight(.semibold))
-                        .italic()
-                        .foregroundStyle(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .fixedSize(horizontal: false, vertical: true)
-
-                    Text(detailBody)
-                        .font(.body)
-                        .foregroundStyle(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .fixedSize(horizontal: false, vertical: true)
-
-                    if let extra = supplementalDateLine {
-                        Text(extra)
-                            .font(.subheadline.weight(.medium))
-                            .foregroundStyle(.white.opacity(0.92))
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-
-                    if showsLifetimeThanks {
-                        Text(Localizable.string(Localizable.planDetailLifetimeThanks))
-                            .font(.subheadline)
-                            .foregroundStyle(.white.opacity(0.9))
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.top, 4)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-
-                    VStack(spacing: 0) {
-                        if showsManageSubscription {
-                            Button {
-                                HapticManager.shared.lightImpact()
-                                openManageSubscriptions()
-                            } label: {
-                                Text(Localizable.string(Localizable.manageSubscription))
-                                    .font(.system(.footnote, design: .default).weight(.semibold))
-                                    .foregroundStyle(.white)
-                            }
-                            .buttonStyle(.plain)
-                            .frame(maxWidth: .infinity)
-                            .padding(.top, 10)
-                            .padding(.bottom, 4)
-                        }
-
-                        if showsViewProPlans {
-                            paywallStyleViewProPlansButton()
-                                .padding(.horizontal, 8)
-                                .padding(.top, showsManageSubscription ? 20 : 10)
-                                .padding(.bottom, 18)
-                        }
-
-                        VStack(spacing: 14) {
-                            if showsRestoreFooter {
-                                paywallStyleFooterBlock(
-                                    caption: Localizable.string(Localizable.paywallFooterAlreadySubscribed),
-                                    actionTitle: Localizable.string(Localizable.restorePurchase),
-                                    isActionDisabled: subscriptionManager.isLoading
-                                ) {
-                                    HapticManager.shared.lightImpact()
-                                    Task {
-                                        await subscriptionManager.restorePurchases()
-                                    }
-                                }
-                            }
-
-                            if showsRedeemFooter {
-                                paywallStyleFooterBlock(
-                                    caption: Localizable.string(Localizable.paywallFooterGotCode),
-                                    actionTitle: Localizable.string(Localizable.redeem)
-                                ) {
-                                    HapticManager.shared.lightImpact()
-                                    showOfferCodeRedemption = true
-                                }
-                            }
-                        }
-                        .padding(.top, showsRestoreOrRedeemFooter ? 28 : 0)
-                        .frame(maxWidth: .infinity)
-                    }
-                    .frame(maxWidth: .infinity)
+                    YourPlanActionsSection(
+                        plan: plan,
+                        subscriptionManager: subscriptionManager,
+                        showPaywall: $showPaywall,
+                        showOfferCodeRedemption: $showOfferCodeRedemption,
+                        openManageSubscriptions: openManageSubscriptions
+                    )
 
                     Spacer(minLength: 24)
                 }
@@ -158,7 +79,7 @@ struct YourPlanView: View {
                     await subscriptionManager.checkSubscriptionStatus()
                 }
             case .failure(let error):
-                print("Offer code redemption failed: \(error.localizedDescription)")
+                AppLog.subscription.error("Offer code redemption failed: \(error.localizedDescription, privacy: .public)")
             }
         }
         .onAppear {
@@ -166,12 +87,13 @@ struct YourPlanView: View {
         }
     }
 
-    /// True for real StoreKit lifetime or Settings canvas preview (`.lifetime`).
-    private var isLifetimePlanContext: Bool {
-        if let preview = settingsSubscriptionPreview, case .lifetime = preview {
-            return true
+    private func openManageSubscriptions() {
+        Task { @MainActor in
+            let ok = await ManageSubscriptionsPresenter.presentSystemManageSubscriptions()
+            if !ok {
+                showManageSubscriptionFailed = true
+            }
         }
-        return subscriptionManager.hasLifetimeSubscription
     }
 
     private func triggerConfettiIfNeeded() {
@@ -184,188 +106,147 @@ struct YourPlanView: View {
         }
     }
 
-    /// Matches paywall primary CTA (`subscribeButtonSection`): blue gradient capsule, uppercase headline.
-    private func paywallStyleViewProPlansButton() -> some View {
-        Button {
-            HapticManager.shared.lightImpact()
-            showPaywall = true
-        } label: {
-            let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
-            HStack {
-                Spacer()
-                Text(Localizable.string(Localizable.viewProPlans).uppercased())
-                    .font(.system(.headline, weight: .bold))
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.center)
-                    .minimumScaleFactor(0.85)
-                    .allowsTightening(true)
-                Spacer()
-            }
-            .padding(.vertical, 18)
-            .frame(maxWidth: .infinity)
-            .background(
-                shape
-                    .fill(
-                        LinearGradient(
-                            colors: [Color("AppBlue"), Color("AppBlueThird")],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .overlay(
-                        shape
-                            .stroke(Color.white.opacity(0.12), lineWidth: 0.4)
-                            .blendMode(.plusLighter)
-                    )
-                    .overlay(
-                        shape
-                            .stroke(Color.white.opacity(0.18), lineWidth: 1)
-                    )
-            )
-            .clipShape(shape)
-            .shadow(color: .black.opacity(0.16), radius: 22, x: 0, y: 10)
+    private var isLifetimePlanContext: Bool {
+        if let preview = settingsSubscriptionPreview, case .lifetime = preview {
+            return true
         }
-        .buttonStyle(.plain)
+        return subscriptionManager.hasLifetimeSubscription
     }
+}
 
-    private func paywallStyleFooterBlock(
-        caption: String,
-        actionTitle: String,
-        isActionDisabled: Bool = false,
-        action: @escaping () -> Void
-    ) -> some View {
-        VStack(spacing: 4) {
-            Text(caption)
-                .font(.system(.footnote, design: .default).weight(.medium))
-                .foregroundStyle(.white.opacity(0.9))
-                .multilineTextAlignment(.center)
+// MARK: - Hero
 
-            Button(action: action) {
-                Text(actionTitle)
-                    .font(.system(.footnote, design: .default).weight(.semibold))
-                    .foregroundStyle(Color("AppBlue"))
+private struct YourPlanHeroSection: View {
+    let plan: YourPlanPresentation
+    let statusLine: String
+    let detailBody: String
+    let supplementalDateLine: String?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Image("MascotLaunch")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: 200, maxHeight: 200)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+
+            if plan.showsProBadgeAboveTitle {
+                ProShieldBadge(
+                    label: Localizable.string(Localizable.premium),
+                    showShimmer: true
+                )
+                .frame(maxWidth: .infinity)
             }
-            .disabled(isActionDisabled)
+
+            Text(statusLine)
+                .font(.title.weight(.semibold))
+                .italic()
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Text(detailBody)
+                .font(.body)
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .fixedSize(horizontal: false, vertical: true)
+
+            if let extra = supplementalDateLine {
+                Text(extra)
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.white.opacity(0.92))
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            if plan.showsLifetimeThanks {
+                Text(Localizable.string(Localizable.planDetailLifetimeThanks))
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.9))
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 4)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, 8)
-        .fontDesign(.default)
     }
+}
 
-    // MARK: - Visibility (product rules)
+// MARK: - Actions
 
-    private var showsProBadgeAboveTitle: Bool {
-        if settingsSubscriptionPreview != nil {
-            return true
-        }
-        return subscriptionManager.isPremiumActive
-    }
+private struct YourPlanActionsSection: View {
+    let plan: YourPlanPresentation
+    @ObservedObject var subscriptionManager: SubscriptionManager
+    @Binding var showPaywall: Bool
+    @Binding var showOfferCodeRedemption: Bool
+    let openManageSubscriptions: () -> Void
 
-    private var showsRestoreFooter: Bool {
-        if settingsSubscriptionPreview != nil {
-            return false
-        }
-        return !subscriptionManager.isPremiumActive
-    }
-
-    private var showsRedeemFooter: Bool {
-        if let preview = settingsSubscriptionPreview {
-            if case .lifetime = preview { return false }
-            return true
-        }
-        return !subscriptionManager.hasLifetimeSubscription
-    }
-
-    private var showsRestoreOrRedeemFooter: Bool {
-        showsRestoreFooter || showsRedeemFooter
-    }
-
-    private var effectivePlanStatusLine: String {
-        settingsSubscriptionPreview?.planStatusLine ?? subscriptionManager.localizedPlanStatusLine
-    }
-
-    private var showsLifetimeThanks: Bool {
-        settingsSubscriptionPreview?.yourPlanShowsLifetimeThanks ?? subscriptionManager.hasLifetimeSubscription
-    }
-
-    private var showsManageSubscription: Bool {
-        if let preview = settingsSubscriptionPreview {
-            return preview.yourPlanShowsManageSubscription
-        }
-        return subscriptionManager.hasActiveSubscription && !subscriptionManager.hasLifetimeSubscription
-    }
-
-    private var showsViewProPlans: Bool {
-        if let preview = settingsSubscriptionPreview {
-            return preview.yourPlanShowsViewProPlans
-        }
-        return !subscriptionManager.hasLifetimeSubscription
-    }
-
-    private var detailBody: String {
-        if let preview = settingsSubscriptionPreview {
-            return preview.yourPlanDetailBody
-        }
-        if !subscriptionManager.isPremiumActive {
-            return Localizable.string(Localizable.planDetailFreeBody)
-        }
-        if subscriptionManager.hasLifetimeSubscription {
-            return Localizable.string(Localizable.planDetailLifetimeBody)
-        }
-        if subscriptionManager.hasActiveSubscription {
-            return Localizable.string(Localizable.planDetailSubscriptionBody)
-        }
-        if subscriptionManager.isLocalTrialActive {
-            return Localizable.string(Localizable.planDetailTrialBody)
-        }
-        return Localizable.string(Localizable.planDetailSubscriptionBody)
-    }
-
-    private var supplementalDateLine: String? {
-        if let preview = settingsSubscriptionPreview {
-            return preview.yourPlanSupplementalDateLine
-        }
-        // Local 3-day trial end date only when there is no store entitlement yet.
-        // Otherwise lifetime / subscriptions still overlap the local trial window in UserDefaults and would show a misleading line.
-        if subscriptionManager.isLocalTrialActive,
-           let end = subscriptionManager.localTrialEndsAt,
-           !subscriptionManager.hasLifetimeSubscription,
-           !subscriptionManager.hasActiveSubscription {
-            return String(format: Localizable.string(Localizable.planDetailTrialEndsFormat), formattedPlanDate(end))
-        }
-        if subscriptionManager.hasActiveSubscription,
-           !subscriptionManager.hasLifetimeSubscription,
-           let exp = subscriptionManager.premiumExpirationDate {
-            return String(format: Localizable.string(Localizable.planDetailRenewsFormat), formattedPlanDate(exp))
-        }
-        return nil
-    }
-
-    private func formattedPlanDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        switch LanguageManager.shared.currentLanguage {
-        case "Deutsch":
-            formatter.locale = Locale(identifier: "de_DE")
-        default:
-            formatter.locale = Locale(identifier: "en_US")
-        }
-        return formatter.string(from: date)
-    }
-
-    private func openManageSubscriptions() {
-        Task { @MainActor in
-            guard let scene = UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }).first else {
-                showManageSubscriptionFailed = true
-                return
+    var body: some View {
+        VStack(spacing: 0) {
+            if plan.showsManageSubscription {
+                Button {
+                    HapticManager.shared.lightImpact()
+                    openManageSubscriptions()
+                } label: {
+                    Text(Localizable.string(Localizable.manageSubscription))
+                        .font(.system(.footnote, design: .default).weight(.semibold))
+                        .foregroundStyle(.white)
+                }
+                .buttonStyle(.plain)
+                .frame(maxWidth: .infinity)
+                .padding(.top, 10)
+                .padding(.bottom, 4)
             }
-            do {
-                try await AppStore.showManageSubscriptions(in: scene)
-            } catch {
-                showManageSubscriptionFailed = true
+
+            if plan.showsViewProPlans {
+                PaywallPrimaryButton(
+                    title: Localizable.string(Localizable.viewProPlans),
+                    isLoading: false,
+                    isEnabled: true,
+                    horizontalPadding: 8
+                ) {
+                    HapticManager.shared.lightImpact()
+                    showPaywall = true
+                }
+                .padding(.top, plan.showsManageSubscription ? 20 : 10)
+                .padding(.bottom, 18)
             }
+
+            VStack(spacing: 14) {
+                if plan.showsRestoreFooter {
+                    PaywallFooterLinkBlock(
+                        caption: Localizable.string(Localizable.paywallFooterAlreadySubscribed),
+                        actionTitle: Localizable.string(Localizable.restorePurchase),
+                        isActionDisabled: subscriptionManager.isLoading,
+                        horizontalPadding: 8
+                    ) {
+                        HapticManager.shared.lightImpact()
+                        Task {
+                            await subscriptionManager.restorePurchases()
+                        }
+                    }
+                }
+
+                if plan.showsRedeemFooter {
+                    PaywallFooterLinkBlock(
+                        caption: Localizable.string(Localizable.paywallFooterGotCode),
+                        actionTitle: Localizable.string(Localizable.redeem),
+                        horizontalPadding: 8
+                    ) {
+                        HapticManager.shared.lightImpact()
+                        showOfferCodeRedemption = true
+                    }
+                }
+            }
+            .padding(.top, plan.showsRestoreOrRedeemFooter ? 28 : 0)
+            .frame(maxWidth: .infinity)
         }
+        .frame(maxWidth: .infinity)
     }
 }
 

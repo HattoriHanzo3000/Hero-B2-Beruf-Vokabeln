@@ -11,6 +11,8 @@ struct PaywallPrimaryButton: View {
     let title: String
     let isLoading: Bool
     let isEnabled: Bool
+    /// Outer horizontal inset for the capsule (paywall uses 24; Your Plan uses 8).
+    var horizontalPadding: CGFloat = 24
     let action: () -> Void
 
     var body: some View {
@@ -61,7 +63,7 @@ struct PaywallPrimaryButton: View {
                 .animation(.spring(response: 0.45, dampingFraction: 0.82), value: isEnabled)
             }
             .disabled(!isEnabled)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, horizontalPadding)
             .padding(.top, 10)
             .padding(.bottom, 18)
             .background(Color.clear)

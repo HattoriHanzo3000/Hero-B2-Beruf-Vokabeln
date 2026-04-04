@@ -5,6 +5,7 @@
 //  Created by Ildar on 18.11.25.
 //
 
+import os
 import RevenueCat
 import StoreKit
 import SwiftUI
@@ -104,7 +105,7 @@ struct PaywallView: View {
                     await subscriptionManager.checkSubscriptionStatus()
                 }
             case .failure(let error):
-                print("Offer code redemption failed: \(error.localizedDescription)")
+                AppLog.subscription.error("Offer code redemption failed: \(error.localizedDescription, privacy: .public)")
             }
         }
         .onChange(of: paywallPremiumState) { _, newValue in
@@ -181,41 +182,24 @@ struct PaywallView: View {
 
     private var footerActionsSection: some View {
         VStack(spacing: 14) {
-            VStack(spacing: 4) {
-                Text(Localizable.string(Localizable.paywallFooterAlreadySubscribed))
-                    .font(.system(.footnote, design: .default).weight(.medium))
-                    .foregroundColor(.white.opacity(0.9))
-                    .multilineTextAlignment(.center)
-
-                Button(action: {
-                    Task { await viewModel.restorePurchases() }
-                }) {
-                    Text(Localizable.string(Localizable.restorePurchase))
-                        .font(.system(.footnote, design: .default).weight(.semibold))
-                        .foregroundColor(Color("AppBlue"))
-                }
-                .disabled(subscriptionManager.isLoading)
+            PaywallFooterLinkBlock(
+                caption: Localizable.string(Localizable.paywallFooterAlreadySubscribed),
+                actionTitle: Localizable.string(Localizable.restorePurchase),
+                isActionDisabled: subscriptionManager.isLoading,
+                horizontalPadding: 24
+            ) {
+                Task { await viewModel.restorePurchases() }
             }
-            .padding(.horizontal, 24)
 
-            VStack(spacing: 4) {
-                Text(Localizable.string(Localizable.paywallFooterGotCode))
-                    .font(.system(.footnote, design: .default).weight(.medium))
-                    .foregroundColor(.white.opacity(0.9))
-                    .multilineTextAlignment(.center)
-
-                Button(action: {
-                    HapticManager.shared.lightImpact()
-                    showOfferCodeRedemption = true
-                }) {
-                    Text(Localizable.string(Localizable.redeem))
-                        .font(.system(.footnote, design: .default).weight(.semibold))
-                        .foregroundColor(Color("AppBlue"))
-                }
+            PaywallFooterLinkBlock(
+                caption: Localizable.string(Localizable.paywallFooterGotCode),
+                actionTitle: Localizable.string(Localizable.redeem),
+                horizontalPadding: 24
+            ) {
+                HapticManager.shared.lightImpact()
+                showOfferCodeRedemption = true
             }
-            .padding(.horizontal, 24)
         }
-        .fontDesign(.default)
         .padding(.top, 4)
     }
 }
