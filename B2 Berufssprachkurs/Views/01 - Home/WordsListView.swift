@@ -415,20 +415,7 @@ struct WordRow: View {
         localTranslation = savedTranslation
         focusedTranslationWordId = word.id
     }
-    
-    private func attributedText(label: String, value: String, labelFont: Font = .system(.caption, design: .rounded).weight(.semibold), valueFont: Font = .system(.caption, design: .rounded), labelColor: Color = .secondary, valueColor: Color = .primary) -> AttributedString {
-        var fullText = AttributedString("\(label)\(value)")
-        if let labelRange = fullText.range(of: label) {
-            fullText[labelRange].font = labelFont
-            fullText[labelRange].foregroundColor = labelColor
-        }
-        if let valueRange = fullText.range(of: value) {
-            fullText[valueRange].font = valueFont
-            fullText[valueRange].foregroundColor = valueColor
-        }
-        return fullText
-    }
-    
+
     private var hasWordDetailLines: Bool {
         let hasErkl = word.explanation?.isEmpty == false
         let hasBeisp = word.example?.isEmpty == false
@@ -527,7 +514,7 @@ struct WordRow: View {
                     VStack(alignment: .leading, spacing: 6) {
                         if let explanation = word.explanation, !explanation.isEmpty {
                             Text(
-                                attributedText(
+                                AttributedString.b2_wordListDetailLine(
                                     label: "erkl: ",
                                     value: explanation,
                                     labelFont: WordListRowDetailTextStyle.explanationLabelFont,
@@ -543,7 +530,7 @@ struct WordRow: View {
 
                         if let example = word.example, !example.isEmpty {
                             Text(
-                                attributedText(
+                                AttributedString.b2_wordListDetailLine(
                                     label: "beisp: ",
                                     value: example,
                                     labelFont: WordListRowDetailTextStyle.explanationLabelFont,
@@ -560,7 +547,7 @@ struct WordRow: View {
                         if let synonyms = word.synonyms, !synonyms.isEmpty {
                             let synonymsText = synonyms.joined(separator: ", ")
                             Text(
-                                attributedText(
+                                AttributedString.b2_wordListDetailLine(
                                     label: "syn: ",
                                     value: synonymsText,
                                     labelFont: WordListRowDetailTextStyle.labelFont,
