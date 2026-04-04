@@ -13,6 +13,8 @@ struct WordsListView: View {
     let sectionId: String
     /// When set (e.g. opening from global search), scroll this row to the **vertical center** of the list after layout.
     var scrollToWordIdOnAppear: String? = nil
+    /// Hidden when opened from global search — practice for this section is started from stack screens; search is for lookup.
+    var showsPracticeButton: Bool = true
     @EnvironmentObject var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
     @Environment(\.colorScheme) private var colorScheme
@@ -97,13 +99,13 @@ struct WordsListView: View {
         WordListTranslationTextStyle.color(for: listTranslationGroup, colorScheme: colorScheme)
     }
 
-    /// Bottom scroll inset: leave room for the circular flashcards button, plus keyboard overlap while editing.
+    /// Bottom scroll inset: leave room for the flashcards FAB when shown, plus keyboard overlap while editing.
     private var wordsListBottomScrollMargin: CGFloat {
-        let fabClearance = FlashcardsButton.fabSize + 24
+        let bottomBase: CGFloat = showsPracticeButton ? FlashcardsButton.fabSize + 24 : 24
         if focusedTranslationWordId != nil, keyboardMetrics.bottomOverlap > 1 {
-            return max(fabClearance, max(120, keyboardMetrics.bottomOverlap * 0.42 + 56))
+            return max(bottomBase, max(120, keyboardMetrics.bottomOverlap * 0.42 + 56))
         }
-        return fabClearance
+        return bottomBase
     }
 
     private var printJobName: String {
@@ -206,8 +208,8 @@ struct WordsListView: View {
         .navigationDestination(isPresented: $navigateToStudy) {
             StudyView(
                 dataService: dataService,
-                filterBySectionId: sectionId, // From section view: only this section
-                studyAllMode: true // Always study all words in section
+                filterBySectionId: sectionId,
+                studyAllMode: true
             )
             .environmentObject(dataService)
         }
@@ -228,12 +230,14 @@ struct WordsListView: View {
             }
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            FlashcardsButton.bottomTrailingInset(
-                isEnabled: !words.isEmpty,
-                accent: stackInfo.color,
-                inactiveTapBehavior: .silent
-            ) {
-                navigateToStudy = true
+            if showsPracticeButton {
+                FlashcardsButton.bottomTrailingInset(
+                    isEnabled: !words.isEmpty,
+                    accent: stackInfo.color,
+                    inactiveTapBehavior: .silent
+                ) {
+                    navigateToStudy = true
+                }
             }
         }
         .environmentObject(keyboardNavBridge)
