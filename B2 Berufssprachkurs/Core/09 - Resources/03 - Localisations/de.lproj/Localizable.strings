@@ -119,6 +119,7 @@
 "xx_large" = "XX groß";
 "xxx_large" = "XXX groß";
 "share" = "Teilen";
+"share_toolbar_a11y_hint" = "Öffnet das Teilen-Menü, um einen Link zur App zu senden.";
 "share_screen_footer" = "Scanne diesen QR-Code, um die App aus dem App Store herunterzuladen - oder tippe auf Teilen, um ihn an Freunde zu senden.";
 "open_in_app_store" = "Im App Store öffnen";
 "faq" = "FAQ";

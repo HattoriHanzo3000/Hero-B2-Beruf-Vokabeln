@@ -6,19 +6,17 @@
 //
 
 import SwiftUI
-import CoreImage.CIFilterBuiltins
 
 struct ShareView: View {
     @State private var showShareSheet = false
 
     private var appStoreURL: String { AppStoreService.defaultListingURL }
 
-    // Share text
     private var shareText: String {
-        let appName = "Hero - Deutsch B2 Beruf"
+        let appName = Localizable.string(Localizable.aboutThisApp)
         return "\(appName)\n\(appStoreURL)"
     }
-    
+
     var body: some View {
         ZStack {
             PaywallBackground()
@@ -61,8 +59,8 @@ struct ShareView: View {
                         .navigationBarSymbolStyle()
                         .foregroundColor(.primary)
                 }
-                .accessibilityLabel("Share")
-                .accessibilityHint("Share the app")
+                .accessibilityLabel(Text(Localizable.string(Localizable.share)))
+                .accessibilityHint(Text(Localizable.string(Localizable.shareToolbarA11yHint)))
             }
         }
         .sheet(isPresented: $showShareSheet) {
@@ -72,50 +70,6 @@ struct ShareView: View {
                 ShareSheet(activityItems: [shareText])
             }
         }
-    }
-}
-
-// MARK: - QR Code View
-struct QRCodeView: View {
-    let url: String
-    
-    var body: some View {
-        if let qrCodeImage = generateQRCode(from: url) {
-            Image(uiImage: qrCodeImage)
-                .interpolation(.none)
-                .resizable()
-                .scaledToFit()
-        } else {
-            Image(systemName: "qrcode")
-                .font(.system(size: 60))
-                .foregroundColor(.secondary)
-        }
-    }
-    
-    private func generateQRCode(from string: String) -> UIImage? {
-        let context = CIContext()
-        let filter = CIFilter.qrCodeGenerator()
-        
-        // Set the input message for QR code
-        filter.setValue(Data(string.utf8), forKey: "inputMessage")
-        
-        // Set correction level for better error tolerance
-        filter.setValue("M", forKey: "inputCorrectionLevel")
-        
-        guard let outputImage = filter.outputImage else {
-            return nil
-        }
-        
-        // Scale up the image for better quality
-        let transform = CGAffineTransform(scaleX: 10, y: 10)
-        let scaledImage = outputImage.transformed(by: transform)
-        
-        // Create CGImage from CIImage
-        guard let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) else {
-            return nil
-        }
-        
-        return UIImage(cgImage: cgImage)
     }
 }
 

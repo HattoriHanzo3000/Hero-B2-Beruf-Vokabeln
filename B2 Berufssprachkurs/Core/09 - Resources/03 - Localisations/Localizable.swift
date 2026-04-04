@@ -424,6 +424,7 @@ extension Localizable {
     
     // Share
     static let share = "share"
+    static let shareToolbarA11yHint = "share_toolbar_a11y_hint"
     static let shareScreenFooter = "share_screen_footer"
     static let openInAppStore = "open_in_app_store"
     

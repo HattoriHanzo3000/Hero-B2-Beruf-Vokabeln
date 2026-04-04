@@ -8,32 +8,6 @@
 import SwiftUI
 import UIKit
 
-// MARK: - Share sheet
-
-struct ShareSheet: UIViewControllerRepresentable {
-    let activityItems: [Any]
-    /// Invoked when the user finishes a share action successfully (`completed == true` in UIKit).
-    var onShareCompleted: (() -> Void)?
-
-    init(activityItems: [Any], onShareCompleted: (() -> Void)? = nil) {
-        self.activityItems = activityItems
-        self.onShareCompleted = onShareCompleted
-    }
-
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        controller.completionWithItemsHandler = { _, completed, _, _ in
-            guard completed else { return }
-            Task { @MainActor in
-                onShareCompleted?()
-            }
-        }
-        return controller
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
-}
-
 // MARK: - Text & PDF rows
 
 enum WordListShareManager {
