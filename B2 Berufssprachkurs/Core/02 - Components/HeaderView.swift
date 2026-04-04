@@ -528,7 +528,7 @@ struct HeaderView: View {
         if sectionId.hasPrefix("VERBEN_") {
             return "figure.run"
         } else if sectionId.hasPrefix("ADJEKTIVE_") {
-            return "paintbrush.fill"
+            return "paintpalette.fill"
         } else {
             return "book.fill"
         }

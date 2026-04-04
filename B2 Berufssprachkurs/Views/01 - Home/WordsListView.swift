@@ -66,7 +66,7 @@ struct WordsListView: View {
             return (Color("AppBlue"), "figure.run", Localizable.string(Localizable.verbsWithPrepositions))
         }
         if isAdjektiveSection {
-            return (Color("AppPurple"), "paintbrush.fill", Localizable.string(Localizable.adjectivesWithPrepositions))
+            return (Color("AppPurple"), "paintpalette.fill", Localizable.string(Localizable.adjectivesWithPrepositions))
         }
         // For general words sections (default)
         return (Color("AppGreen"), "book.fill", Localizable.string(Localizable.generalWords))

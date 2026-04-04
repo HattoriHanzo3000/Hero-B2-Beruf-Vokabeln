@@ -51,7 +51,7 @@ struct AdjectivesListView: View {
         FlatIndexedStackListView(
             dataService: dataService,
             accent: Color("AppPurple"),
-            icon: "paintbrush.fill",
+            icon: "paintpalette.fill",
             title: Localizable.string(Localizable.adjectivesWithPrepositions),
             rows: adjektivePrepositions,
             stackHeaderId: "adjectives-stack-header",
