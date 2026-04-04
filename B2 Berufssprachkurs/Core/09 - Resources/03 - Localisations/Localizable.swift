@@ -166,6 +166,10 @@ extension Localizable {
     static let progressComingSoon = "progress_coming_soon"
     static let cockpitMoreFromHeroSubtitle = "cockpit_more_from_hero_subtitle"
     static let cockpitMoreFromHeroBody = "cockpit_more_from_hero_body"
+    static let advertisementHeroLeadTitle = "advertisement_hero_lead_title"
+    static let advertisementHeroLeadSubtitle = "advertisement_hero_lead_subtitle"
+    static let advertisementEinburgerungAppTitle = "advertisement_einburgerung_app_title"
+    static let advertisementEinburgerungAppSubtitle = "advertisement_einburgerung_app_subtitle"
     
     // Statistics
     static let statisticsWrongTitle = "statistics_wrong_title"
