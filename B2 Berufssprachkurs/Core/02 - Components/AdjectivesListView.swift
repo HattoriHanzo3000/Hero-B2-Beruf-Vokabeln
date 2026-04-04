@@ -20,23 +20,6 @@ struct AdjectivesListView: View {
         )
     }
 
-    // Prepositions for Adjektive mit Präpositionen
-    private let adjektivePrepositions: [Section] = [
-        Section(id: "ADJEKTIVE_an", title: "an"),
-        Section(id: "ADJEKTIVE_auf", title: "auf"),
-        Section(id: "ADJEKTIVE_bei", title: "bei"),
-        Section(id: "ADJEKTIVE_für", title: "für"),
-        Section(id: "ADJEKTIVE_gegenüber", title: "gegenüber"),
-        Section(id: "ADJEKTIVE_in", title: "in"),
-        Section(id: "ADJEKTIVE_mit", title: "mit"),
-        Section(id: "ADJEKTIVE_nach", title: "nach"),
-        Section(id: "ADJEKTIVE_über", title: "über"),
-        Section(id: "ADJEKTIVE_um", title: "um"),
-        Section(id: "ADJEKTIVE_von", title: "von"),
-        Section(id: "ADJEKTIVE_vor", title: "vor"),
-        Section(id: "ADJEKTIVE_zu", title: "zu")
-    ]
-
     private func isAdjektiveRowLocked(_ section: Section) -> Bool {
         !subscriptionManager.isPremiumActive
             && !DataService.AdjektiveFreeTier.isAdjektiveSectionUnlockedWithoutPremium(section.id)
@@ -53,7 +36,7 @@ struct AdjectivesListView: View {
             accent: Color("AppPurple"),
             icon: "paintpalette.fill",
             title: Localizable.string(Localizable.adjectivesWithPrepositions),
-            rows: adjektivePrepositions,
+            rows: PrepositionStackCatalog.adjektiveWithPrepositions,
             stackHeaderId: "adjectives-stack-header",
             selectAllId: "adjectives-select-all",
             rowIdPrefix: "adjectives-row",
