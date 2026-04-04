@@ -148,7 +148,7 @@
 
 // About page
 "about_this_app" = "Hero - Deutsch B2 Beruf";
-"about_app_desc_lead" = "Hero - Deutsch B2 Beruf hilft Ihnen, praxisnahen deutschen Wortschatz für Alltag und Beruf aufzubauen und unterstützt Ihre Vorbereitung auf den ";
+"about_app_desc_lead" = " hilft Ihnen, praxisnahen deutschen Wortschatz für Alltag und Beruf aufzubauen und unterstützt Ihre Vorbereitung auf den ";
 "about_official_test_name" = "telc Deutsch-Test für den Beruf B2";
 "about_app_desc_mid" = ". Der Wortschatz basiert auf dem Buch \"";
 "about_official_book_title" = "Fokus Deutsch. Erfolgreich in Alltag und Beruf. B2 Kurs- und Übungsbuch";
@@ -367,6 +367,14 @@
 "about_debug_progress_preset_footer" = "Die Presets nutzen ungleiche Kategorien für einen natürlichen Mix. Beim ersten Preset wird eine Kopie deiner Lerndaten gespeichert; der reguläre Modus stellt sie wieder her und entfernt die Preset-Daten.";
 "about_debug_set_pro_mode" = "Pro-Modus aktivieren";
 "about_debug_pro_mode_enabled" = "Pro-Modus aktiviert";
+"about_debug_sheet_title" = "Debug-Modus";
+"about_debug_section_subscription" = "Abonnement";
+"about_debug_section_progress_presets" = "Fortschritts-Voreinstellungen";
+"about_debug_section_last_action" = "Letzte Aktion";
+"about_debug_set_free_mode" = "Free-Modus";
+"about_debug_free_mode_enabled" = "Free-Modus aktiviert";
+"about_debug_apply_progress_preset" = "%lld%%-Fortschritt anwenden";
+"about_debug_applied_preset_result" = "Voreinstellung %1$lld%% angewendet (aktueller Stand: %2$lld%%)";
 
 // Rating Prompt
 "rating_title" = "Was denkst du über Hero?";

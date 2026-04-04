@@ -148,7 +148,7 @@
 
 // About page
 "about_this_app" = "Hero - Deutsch B2 Beruf";
-"about_app_desc_lead" = "Hero - Deutsch B2 Beruf helps you build practical German vocabulary for everyday life and work and supports your preparation for the ";
+"about_app_desc_lead" = " helps you build practical German vocabulary for everyday life and work and supports your preparation for the ";
 "about_official_test_name" = "telc Deutsch-Test für den Beruf B2";
 "about_app_desc_mid" = ". The vocabulary is based on the book \"";
 "about_official_book_title" = "Fokus Deutsch. Erfolgreich in Alltag und Beruf. B2 Kurs- und Übungsbuch";
@@ -367,6 +367,14 @@
 "about_debug_progress_preset_footer" = "Presets use uneven category counts for a natural-looking mix. The first preset you apply saves a copy of your study data; Regular mode restores that copy and clears preset progress.";
 "about_debug_set_pro_mode" = "Set Pro Mode";
 "about_debug_pro_mode_enabled" = "Pro mode enabled";
+"about_debug_sheet_title" = "Debug Mode";
+"about_debug_section_subscription" = "Subscription State";
+"about_debug_section_progress_presets" = "Progress Presets";
+"about_debug_section_last_action" = "Last Action";
+"about_debug_set_free_mode" = "Set Free Mode";
+"about_debug_free_mode_enabled" = "Free mode enabled";
+"about_debug_apply_progress_preset" = "Apply %lld%% progress";
+"about_debug_applied_preset_result" = "Applied %1$lld%% preset (current readiness: %2$lld%%)";
 
 // Rating Prompt
 "rating_title" = "What do you think of Hero?";

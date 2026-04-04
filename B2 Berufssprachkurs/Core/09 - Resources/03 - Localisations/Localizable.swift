@@ -171,7 +171,7 @@ extension Localizable {
     
     // About page
     static let aboutThisApp = "about_this_app"
-    /// About body segments: lead + official test + mid + official book + tail (composed in `AboutView`).
+    /// Text after `aboutThisApp` (starts with a space); then test name, mid, book title, tail (composed in `AboutView`).
     static let aboutAppDescLead = "about_app_desc_lead"
     static let aboutOfficialTestName = "about_official_test_name"
     static let aboutAppDescMid = "about_app_desc_mid"
@@ -189,6 +189,16 @@ extension Localizable {
     static let aboutDebugNormalModeRestoredAll = "about_debug_normal_mode_restored_all"
     static let aboutDebugNormalModeClearedStudy = "about_debug_normal_mode_cleared_study"
     static let aboutDebugProgressPresetFooter = "about_debug_progress_preset_footer"
+    static let aboutDebugSheetTitle = "about_debug_sheet_title"
+    static let aboutDebugSectionSubscription = "about_debug_section_subscription"
+    static let aboutDebugSectionProgressPresets = "about_debug_section_progress_presets"
+    static let aboutDebugSectionLastAction = "about_debug_section_last_action"
+    static let aboutDebugSetFreeMode = "about_debug_set_free_mode"
+    static let aboutDebugFreeModeEnabled = "about_debug_free_mode_enabled"
+    /// Format: target percentage (integer).
+    static let aboutDebugApplyProgressPreset = "about_debug_apply_progress_preset"
+    /// Format: preset target %, current readiness %.
+    static let aboutDebugAppliedPresetResult = "about_debug_applied_preset_result"
     
     // Periodicity
     static let hours12 = "12_hours"

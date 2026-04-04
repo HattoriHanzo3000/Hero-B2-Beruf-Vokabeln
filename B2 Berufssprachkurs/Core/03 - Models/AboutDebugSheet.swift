@@ -3,6 +3,8 @@
 //  B2 Berufssprachkurs
 //
 
+#if DEBUG
+
 import SwiftUI
 
 struct AboutDebugSheet: View {
@@ -101,3 +103,5 @@ struct AboutDebugSheet: View {
         }
     }
 }
+
+#endif
