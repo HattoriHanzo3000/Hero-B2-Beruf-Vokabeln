@@ -57,6 +57,28 @@ extension Localizable {
     static let flashcardNoTranslationYet = "flashcard_no_translation_yet"
     static let flashcardNoExplanationYet = "flashcard_no_explanation_yet"
     static let flashcardNoSynonymYet = "flashcard_no_synonym_yet"
+
+    /// VoiceOver: flashcard index in session (format: two integers).
+    static let studyFlashcardPositionA11y = "study_flashcard_position_a11y"
+    static let studyFlashcardHintA11y = "study_flashcard_hint_a11y"
+    static let studyMarkWrongA11y = "study_mark_wrong_a11y"
+    static let studyMarkWrongHintA11y = "study_mark_wrong_hint_a11y"
+    static let studyMarkCorrectA11y = "study_mark_correct_a11y"
+    static let studyMarkCorrectHintA11y = "study_mark_correct_hint_a11y"
+    static let studyFavoriteRemoveA11y = "study_favorite_remove_a11y"
+    static let studyFavoriteAddA11y = "study_favorite_add_a11y"
+    static let studyFavoriteHintA11y = "study_favorite_hint_a11y"
+    static let studyReverseActiveA11y = "study_reverse_active_a11y"
+    static let studyReverseInactiveA11y = "study_reverse_inactive_a11y"
+    static let studyReverseHintA11y = "study_reverse_hint_a11y"
+    static let studyReverseValueActive = "study_reverse_value_active"
+    static let studyReverseValueInactive = "study_reverse_value_inactive"
+    static let studyFlashcardSideFrontA11y = "study_flashcard_side_front_a11y"
+    static let studyFlashcardSideBackA11y = "study_flashcard_side_back_a11y"
+    static let studyFlashcardFlipHintA11y = "study_flashcard_flip_hint_a11y"
+    static let studyFlashcardFrontA11y = "study_flashcard_front_a11y"
+    static let studyFlashcardBackWithExampleA11y = "study_flashcard_back_with_example_a11y"
+    static let studyFlashcardBackWordOnlyA11y = "study_flashcard_back_word_only_a11y"
     
     // Check all button
     static let allSelected = "all_selected"

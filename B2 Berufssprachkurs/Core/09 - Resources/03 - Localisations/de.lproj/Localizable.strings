@@ -42,6 +42,27 @@
 "flashcard_no_explanation_yet" = "Noch keine Erklärung";
 "flashcard_no_synonym_yet" = "Noch kein Synonym";
 
+"study_flashcard_position_a11y" = "Karte %1$lld von %2$lld";
+"study_flashcard_hint_a11y" = "Tippen zum Umdrehen, nach links wischen für falsch, nach rechts für richtig";
+"study_mark_wrong_a11y" = "Als falsch markieren";
+"study_mark_wrong_hint_a11y" = "Nach links wischen oder tippen, um die Antwort als falsch zu markieren";
+"study_mark_correct_a11y" = "Als richtig markieren";
+"study_mark_correct_hint_a11y" = "Nach rechts wischen oder tippen, um die Antwort als richtig zu markieren";
+"study_favorite_remove_a11y" = "Aus Favoriten entfernen";
+"study_favorite_add_a11y" = "Zu Favoriten hinzufügen";
+"study_favorite_hint_a11y" = "Favorit für dieses Wort umschalten";
+"study_reverse_active_a11y" = "Umkehrmodus aktiv";
+"study_reverse_inactive_a11y" = "Umkehrmodus inaktiv";
+"study_reverse_hint_a11y" = "Wort vorne oder hinten auf der Karte anzeigen";
+"study_reverse_value_active" = "Aktiv";
+"study_reverse_value_inactive" = "Inaktiv";
+"study_flashcard_side_front_a11y" = "Vorderseite";
+"study_flashcard_side_back_a11y" = "Rückseite";
+"study_flashcard_flip_hint_a11y" = "Tippen, um die Karte umzudrehen";
+"study_flashcard_front_a11y" = "Kartenvorderseite: %@";
+"study_flashcard_back_with_example_a11y" = "Kartenrückseite: %@. Beispiel: %@";
+"study_flashcard_back_word_only_a11y" = "Kartenrückseite: %@";
+
 // Check all button
 "all_selected" = "Alle ausgewählt";
 "select_all" = "Alle auswählen";
