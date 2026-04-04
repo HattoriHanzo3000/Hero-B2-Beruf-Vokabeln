@@ -24,6 +24,6 @@ struct SettingsLegalWebSheetView: UIViewControllerRepresentable {
 }
 
 #Preview("Legal Web Sheet") {
-    SettingsLegalWebSheetView(url: URL(string: "https://www.gizatech.de")!)
+    SettingsLegalWebSheetView(url: AppExternalLinks.companyWebsite)
 }
 

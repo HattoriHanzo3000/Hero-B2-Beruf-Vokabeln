@@ -9,9 +9,9 @@ import StoreKit
 import UIKit
 
 enum HeroEinburgerungAppStore {
-    /// App Store ID for “Hero – Einbürgerungstest” (https://apps.apple.com/app/id6752272685)
-    static let productID = NSNumber(value: 6_752_272_685)
-    static let iTunesLookupAppID = 6_752_272_685
+    /// App Store ID for “Hero – Einbürgerungstest” (`AppExternalLinks.CrossPromo.einburgerungAppStoreURL`).
+    static let productID = NSNumber(value: AppExternalLinks.CrossPromo.einburgerungAppStoreNumericID)
+    static let iTunesLookupAppID = AppExternalLinks.CrossPromo.einburgerungAppStoreNumericID
 }
 
 // MARK: - SKStoreProductViewController (single UIKit modal from topmost VC — no SwiftUI fullScreenCover)

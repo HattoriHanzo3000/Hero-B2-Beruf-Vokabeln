@@ -99,6 +99,8 @@
 "reset_app_message" = "This will reset all your progress, including checked words, translations, and spaced repetition data. This action cannot be undone.";
 "reset" = "Reset";
 "cancel" = "Cancel";
+"error_alert_title" = "Error";
+"close_paywall_a11y" = "Close";
 "icloud_sync" = "iCloud";
 "icloud_sync_footer" = "When this is on, your word translations can sync across your Apple devices via iCloud. Your device must be signed in to iCloud in Settings.";
 "icloud_account_signed_in" = "iCloud is active on this device.";

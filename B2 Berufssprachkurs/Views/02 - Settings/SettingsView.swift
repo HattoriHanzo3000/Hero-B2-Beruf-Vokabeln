@@ -180,7 +180,7 @@ struct SettingsView: View {
             SwiftUI.Section {
                 Button {
                     HapticManager.shared.lightImpact()
-                    presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/impressum")
+                    presentingLegalURL = AppExternalLinks.legalImpressum
                 } label: {
                     HStack {
                         SettingsIconRow(
@@ -199,7 +199,7 @@ struct SettingsView: View {
                 
                 Button {
                     HapticManager.shared.lightImpact()
-                    presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
+                    presentingLegalURL = AppExternalLinks.legalTermsOfUse
                 } label: {
                     HStack {
                         SettingsIconRow(
@@ -218,7 +218,7 @@ struct SettingsView: View {
                 
                 Button {
                     HapticManager.shared.lightImpact()
-                    presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
+                    presentingLegalURL = AppExternalLinks.legalPrivacyPolicy
                 } label: {
                     HStack {
                         SettingsIconRow(
@@ -271,7 +271,7 @@ struct SettingsView: View {
             MailComposeView(
                 subject: "Contact - Hero. B2 - Berufsprachkurs",
                 messageBody: getContactEmailBody(),
-                toRecipients: ["info@gizatech.de"],
+                toRecipients: [AppExternalLinks.supportEmail],
                 onDismiss: {
                     showMailComposer = false
                 }

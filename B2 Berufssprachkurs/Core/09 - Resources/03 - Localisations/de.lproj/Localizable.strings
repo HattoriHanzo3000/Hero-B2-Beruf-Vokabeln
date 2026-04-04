@@ -99,6 +99,8 @@
 "reset_app_message" = "Dies setzt alle Ihre Fortschritte zurück, einschließlich markierter Wörter, Übersetzungen und kumulativer Wiederholungsdaten. Diese Aktion kann nicht rückgängig gemacht werden.";
 "reset" = "Zurücksetzen";
 "cancel" = "Abbrechen";
+"error_alert_title" = "Fehler";
+"close_paywall_a11y" = "Schließen";
 "icloud_sync" = "iCloud";
 "icloud_sync_footer" = "Wenn eingeschaltet, können Ihre Wort-Übersetzungen über iCloud auf Ihren Apple-Geräten synchronisiert werden. Ihr Gerät muss in den Einstellungen bei iCloud angemeldet sein.";
 "icloud_account_signed_in" = "iCloud ist auf diesem Gerät aktiv.";

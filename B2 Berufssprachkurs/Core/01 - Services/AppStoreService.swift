@@ -26,13 +26,11 @@ struct AppStoreService {
         return defaultListingURL
     }
     
-    private let bundleId = "com.gizatech.B2-Beruf"
-    
     private init() {}
     
     /// Fetches app information including version and release notes from the App Store
     func fetchAppInfo() async throws -> AppStoreApp? {
-        guard let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(bundleId)") else {
+        guard let url = AppExternalLinks.iTunesLookupURL() else {
             return nil
         }
         

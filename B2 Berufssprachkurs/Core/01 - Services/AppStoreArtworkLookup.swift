@@ -10,7 +10,7 @@ import Foundation
 enum AppStoreArtworkLookup {
     /// Public iTunes Search API — returns the same artwork URLs the App Store uses for the listing.
     static func artworkURL(appID: Int, countryCode: String = "de") async -> URL? {
-        var components = URLComponents(string: "https://itunes.apple.com/lookup")!
+        var components = URLComponents(url: AppExternalLinks.iTunesLookupAPIURL, resolvingAgainstBaseURL: false)!
         components.queryItems = [
             URLQueryItem(name: "id", value: String(appID)),
             URLQueryItem(name: "country", value: countryCode)

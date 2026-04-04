@@ -61,5 +61,14 @@ enum LaunchOfferService {
     static var countdownString: String {
         formattedCountdown(from: remainingSeconds)
     }
+
+    /// For SwiftUI previews / tests: control the stored first-launch date (same key as runtime).
+    static func overrideFirstLaunchDateForPreview(_ date: Date?) {
+        if let date {
+            UserDefaults.standard.set(date, forKey: firstLaunchDateKey)
+        } else {
+            UserDefaults.standard.removeObject(forKey: firstLaunchDateKey)
+        }
+    }
 }
 

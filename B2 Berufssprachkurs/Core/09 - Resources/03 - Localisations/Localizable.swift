@@ -111,6 +111,10 @@ extension Localizable {
     static let resetAppMessage = "reset_app_message"
     static let reset = "reset"
     static let cancel = "cancel"
+    /// Generic alert title (e.g. purchase / restore errors).
+    static let errorAlertTitle = "error_alert_title"
+    /// VoiceOver label for paywall dismiss (X) control.
+    static let closePaywallA11y = "close_paywall_a11y"
 
     static let iCloudSync = "icloud_sync"
     static let iCloudSyncFooter = "icloud_sync_footer"

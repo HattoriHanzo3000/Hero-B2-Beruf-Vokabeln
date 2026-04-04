@@ -5,38 +5,29 @@
 //  Created by Ildar on 18.11.25.
 //
 
-import SwiftUI
-import StoreKit
 import RevenueCat
-import Combine
+import StoreKit
+import SwiftUI
 
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var revenueCatService = RevenueCatService.shared
-    @StateObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var selectedProductID: String = "hero.premium.yearly"
-    @State private var selectedPackage: Package?
-    @State private var isLoadingPackages = false
-    
-    @State private var isLaunchOfferActive = LaunchOfferService.isLaunchOfferActive
-    @State private var countdownString = LaunchOfferService.countdownString
-    
-    private var buttonText: String {
-        Localizable.string(Localizable.continueButton)
-    }
-    
-    private var dynamicSubscriptionTerms: String {
-        if selectedProductID == "hero.premium.lifetime" || selectedProductID == "hero.premium.lifetime.promo" {
-            return Localizable.string(Localizable.subscriptionTermsLifetime)
-        } else {
-            return Localizable.string(Localizable.subscriptionTerms)
-        }
-    }
-    @State private var showingError = false
-    @State private var presentingLegalURL: URL? = nil
+    @ObservedObject private var revenueCatService = RevenueCatService.shared
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    @StateObject private var viewModel = PaywallViewModel()
+
     @State private var showOfferCodeRedemption = false
-    @State private var errorMessage: String?
-    
+
+    private var planItems: [PaywallPlanItem] {
+        PaywallPlanItem.rowList(
+            isLaunchOfferActive: viewModel.isLaunchOfferActive,
+            countdownString: viewModel.countdownString
+        )
+    }
+
+    private var primaryButtonLoading: Bool {
+        subscriptionManager.purchaseState == .purchasing || subscriptionManager.purchaseState == .loading
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -45,14 +36,29 @@ struct PaywallView: View {
                 ScrollView {
                     VStack(spacing: 24) {
                         headerSection
-                        subscriptionOptionsSection
+                        PaywallPlansSection(
+                            items: planItems,
+                            selectedProductID: viewModel.selectedProductID,
+                            subscriptionManager: subscriptionManager,
+                            revenueCatService: revenueCatService,
+                            onSelectProduct: { viewModel.selectProduct($0) }
+                        )
                         iCloudFamilySharingLine
-                        subscribeButtonSection
+                        PaywallPrimaryButton(
+                            title: Localizable.string(Localizable.continueButton),
+                            isLoading: primaryButtonLoading,
+                            isEnabled: viewModel.isPrimaryButtonEnabled
+                        ) {
+                            Task { await viewModel.purchase() }
+                        }
                         footerActionsSection
                             .padding(.top, -12)
-                        termsSection
-                            .padding(.top, -12)
-                        
+                        PaywallLegalAgreementSection(
+                            selectedProductId: viewModel.selectedProductID,
+                            presentingLegalURL: bindingForLegalURL
+                        )
+                        .padding(.top, -12)
+
                         Spacer(minLength: 20)
                     }
                 }
@@ -68,112 +74,91 @@ struct PaywallView: View {
                         Image(systemName: "xmark")
                             .navigationBarSymbolStyle()
                     }
-                    .accessibilityLabel("Close")
+                    .accessibilityLabel(Localizable.string(Localizable.closePaywallA11y))
                 }
             }
         }
-        // MARK: Presentation & side effects
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
-        .sheet(item: Binding(
-            get: { presentingLegalURL.map { LegalDocument(url: $0) } },
-            set: { presentingLegalURL = $0?.url }
-        )) { document in
+        .sheet(item: legalSheetBinding) { document in
             SettingsLegalWebSheetView(url: document.url)
         }
         .task {
-            // Load RevenueCat offerings when view appears
-            if revenueCatService.currentOffering == nil {
-                isLoadingPackages = true
-                await revenueCatService.loadOfferings()
-                isLoadingPackages = false
-            }
-            
-            // Also load products for fallback
-            if subscriptionManager.products.isEmpty {
-                await subscriptionManager.loadProducts()
-            }
-            
-            // Free trial (e.g. "Teste jetzt kostenlos") is tied to the yearly product only - always preselect it.
-            isLaunchOfferActive = LaunchOfferService.isLaunchOfferActive
-            selectedProductID = "hero.premium.yearly"
-            countdownString = isLaunchOfferActive ? LaunchOfferService.countdownString : ""
-            
-            // Set selected package based on selected product ID
-            updateSelectedPackage()
+            viewModel.startLaunchOfferTimer()
+            await viewModel.loadOfferingsAndProducts()
         }
-        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
-            let activeNow = LaunchOfferService.isLaunchOfferActive
-            if activeNow != isLaunchOfferActive {
-                isLaunchOfferActive = activeNow
-                if !activeNow && selectedProductID == LaunchOfferService.promoProductId {
-                    // Promo expired while paywall is open; fall back to yearly (Hero default).
-                    selectedProductID = "hero.premium.yearly"
-                }
-            }
-            countdownString = activeNow ? LaunchOfferService.countdownString : ""
+        .onDisappear {
+            viewModel.stopLaunchOfferTimer()
         }
-        .alert("Error", isPresented: $showingError) {
-            Button("OK", role: .cancel) { }
+        .alert(Localizable.string(Localizable.errorAlertTitle), isPresented: $viewModel.showingError) {
+            Button(Localizable.string(Localizable.ok), role: .cancel) {}
         } message: {
-            if let errorMessage = errorMessage ?? revenueCatService.errorMessage ?? subscriptionManager.errorMessage {
-                Text(errorMessage)
+            if let message = alertErrorMessage {
+                Text(message)
             }
         }
         .offerCodeRedemption(isPresented: $showOfferCodeRedemption) { result in
-            // Offer code redemption completed
             switch result {
             case .success:
-                // Refresh subscription status to check if user redeemed a code
                 Task {
                     await subscriptionManager.checkSubscriptionStatus()
                 }
             case .failure(let error):
-                // Handle error if needed
                 print("Offer code redemption failed: \(error.localizedDescription)")
             }
         }
-        .onChange(of: revenueCatService.isPremiumActive) { _, isActive in
-            if isActive {
-                // Subscription successful, dismiss paywall
+        .onChange(of: paywallPremiumState) { _, newValue in
+            if newValue.revenueCatPremium || newValue.subscriptionPremium {
                 HapticManager.shared.success()
                 dismiss()
             }
-        }
-        .onChange(of: subscriptionManager.isPremiumActive) { _, isActive in
-            if isActive {
-                // Subscription successful, dismiss paywall
-                HapticManager.shared.success()
-                dismiss()
-            }
-        }
-        .onChange(of: selectedProductID) { _, _ in
-            updateSelectedPackage()
         }
     }
-    
-    // MARK: - Scroll content (top to bottom)
-    
+
+    private var paywallPremiumState: PaywallPremiumState {
+        PaywallPremiumState(
+            revenueCatPremium: revenueCatService.isPremiumActive,
+            subscriptionPremium: subscriptionManager.isPremiumActive
+        )
+    }
+
+    private var alertErrorMessage: String? {
+        if let m = viewModel.errorMessage { return m }
+        if let m = revenueCatService.errorMessage { return m }
+        if let m = subscriptionManager.errorMessage { return m }
+        return nil
+    }
+
+    private var bindingForLegalURL: Binding<URL?> {
+        Binding(
+            get: { viewModel.presentingLegalURL },
+            set: { viewModel.presentingLegalURL = $0 }
+        )
+    }
+
+    private var legalSheetBinding: Binding<PaywallLegalDocument?> {
+        Binding(
+            get: { viewModel.presentingLegalURL.map { PaywallLegalDocument(url: $0) } },
+            set: { viewModel.presentingLegalURL = $0?.url }
+        )
+    }
+
     private var headerSection: some View {
         VStack(spacing: 12) {
-            // Pro badge (copied design)
             ProShieldBadge(label: Localizable.string(Localizable.premium), showShimmer: true)
 
-            // Title (SF Pro, italic, white)
             Text(Localizable.string(Localizable.paywallTitleFutureGermany))
                 .font(.system(.title2, weight: .heavy).italic())
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
 
-            // The paywall always uses the light mascot for consistent brand presentation.
             Image("MascotLaunch")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 130, height: 130)
                 .accessibilityHidden(true)
 
-            // Subtitle copy (separate from the title)
             Text(Localizable.string(Localizable.premiumPromoSubtitle))
                 .font(.system(.subheadline, design: .default).weight(.regular))
                 .foregroundColor(.white.opacity(0.95))
@@ -183,89 +168,7 @@ struct PaywallView: View {
         .frame(maxWidth: .infinity)
         .padding(.top, 8)
     }
-    
-    private var subscriptionOptionsSection: some View {
-        VStack(spacing: 18) {
-            // Monthly subscription button
-            PaywallPlanRow(
-                title: Localizable.string(Localizable.monthly),
-                explanation: Localizable.string(Localizable.monthlyExplanation),
-                productID: "hero.premium.monthly",
-                fallbackPrice: "",
-                isSelected: selectedProductID == "hero.premium.monthly",
-                showSeasonalOffer: false,
-                showBestValueBadge: false,
-                countdownText: nil,
-                subscriptionManager: subscriptionManager,
-                revenueCatService: revenueCatService,
-                onSelect: {
-                    HapticManager.shared.lightImpact()
-                    selectedProductID = "hero.premium.monthly"
-                }
-            )
-            
-            // Yearly subscription button
-            PaywallPlanRow(
-                title: Localizable.string(Localizable.yearly),
-                explanation: Localizable.string(Localizable.yearlyExplanation),
-                productID: "hero.premium.yearly",
-                fallbackPrice: "",
-                isSelected: selectedProductID == "hero.premium.yearly",
-                showSeasonalOffer: false,
-                showBestValueBadge: !isLaunchOfferActive,
-                countdownText: nil,
-                subscriptionManager: subscriptionManager,
-                revenueCatService: revenueCatService,
-                onSelect: {
-                    HapticManager.shared.lightImpact()
-                    selectedProductID = "hero.premium.yearly"
-                }
-            )
-            
-            // Lifetime subscription button
-            if isLaunchOfferActive {
-                PaywallPlanRow(
-                    title: Localizable.string(Localizable.lifetime),
-                    explanation: Localizable.string(Localizable.lifetimeExplanation),
-                    secondaryExplanation: Localizable.string(Localizable.lifetimeExplanationLine2),
-                    productID: LaunchOfferService.promoProductId,
-                    regularProductID: LaunchOfferService.standardLifetimeProductId,
-                    fallbackPrice: "",
-                    isSelected: selectedProductID == LaunchOfferService.promoProductId,
-                    showSeasonalOffer: true,
-                    showBestValueBadge: false,
-                    countdownText: countdownString,
-                    subscriptionManager: subscriptionManager,
-                    revenueCatService: revenueCatService,
-                    onSelect: {
-                        HapticManager.shared.lightImpact()
-                        selectedProductID = LaunchOfferService.promoProductId
-                    }
-                )
-            } else {
-                PaywallPlanRow(
-                    title: Localizable.string(Localizable.lifetime),
-                    explanation: Localizable.string(Localizable.lifetimeExplanation),
-                    secondaryExplanation: Localizable.string(Localizable.lifetimeExplanationLine2),
-                    productID: LaunchOfferService.standardLifetimeProductId,
-                    fallbackPrice: "",
-                    isSelected: selectedProductID == LaunchOfferService.standardLifetimeProductId,
-                    showSeasonalOffer: false,
-                    showBestValueBadge: false,
-                    countdownText: nil,
-                    subscriptionManager: subscriptionManager,
-                    revenueCatService: revenueCatService,
-                    onSelect: {
-                        HapticManager.shared.lightImpact()
-                        selectedProductID = LaunchOfferService.standardLifetimeProductId
-                    }
-                )
-            }
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 8)
-    }
-    
+
     private var iCloudFamilySharingLine: some View {
         Text(Localizable.string(Localizable.iCloudFamilySharing))
             .font(.system(.caption2, design: .default).weight(.medium))
@@ -275,66 +178,7 @@ struct PaywallView: View {
             .padding(.top, 0)
             .padding(.bottom, -8)
     }
-    
-    private var subscribeButtonSection: some View {
-        VStack(spacing: 0) {
-            Button(action: {
-                Task {
-                    await handlePurchase()
-                }
-            }) {
-                let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
 
-                HStack {
-                    if subscriptionManager.purchaseState == .purchasing || subscriptionManager.purchaseState == .loading {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                    } else {
-                        Spacer()
-                        Text(buttonText.uppercased())
-                            .font(.system(.headline, weight: .bold))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-                            .minimumScaleFactor(0.85)
-                            .allowsTightening(true)
-                        Spacer()
-                    }
-                }
-                .padding(.vertical, 18)
-                .frame(maxWidth: .infinity)
-                .background(
-                    shape
-                        .fill(
-                            LinearGradient(
-                                colors: [Color("AppBlue"), Color("AppBlueThird")],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .opacity(isButtonEnabled ? 1.0 : 0.75)
-                        .overlay(
-                            shape
-                                .stroke(Color.white.opacity(0.12), lineWidth: 0.4)
-                                .blendMode(.plusLighter)
-                        )
-                        .overlay(
-                            shape
-                                .stroke(Color.white.opacity(0.18), lineWidth: 1)
-                        )
-                )
-                .clipShape(shape)
-                .shadow(color: .black.opacity(isButtonEnabled ? 0.16 : 0.08), radius: 22, x: 0, y: 10)
-                .scaleEffect(isButtonEnabled ? 1 : 0.98)
-                .animation(.spring(response: 0.45, dampingFraction: 0.82), value: isButtonEnabled)
-            }
-            .disabled(!isButtonEnabled)
-            .padding(.horizontal, 24)
-            .padding(.top, 10)
-            .padding(.bottom, 18)
-            .background(Color.clear)
-        }
-    }
-    
     private var footerActionsSection: some View {
         VStack(spacing: 14) {
             VStack(spacing: 4) {
@@ -344,9 +188,7 @@ struct PaywallView: View {
                     .multilineTextAlignment(.center)
 
                 Button(action: {
-                    Task {
-                        await handleRestorePurchases()
-                    }
+                    Task { await viewModel.restorePurchases() }
                 }) {
                     Text(Localizable.string(Localizable.restorePurchase))
                         .font(.system(.footnote, design: .default).weight(.semibold))
@@ -376,169 +218,35 @@ struct PaywallView: View {
         .fontDesign(.default)
         .padding(.top, 4)
     }
-    
-    private var termsSection: some View {
-        VStack(spacing: 12) {
-            VStack(spacing: 8) {
-                Text(dynamicSubscriptionTerms)
-                    .font(.system(.caption2, design: .default))
-                    .foregroundColor(.white.opacity(0.85))
-                    .multilineTextAlignment(.center)
+}
 
-                Text(legalAgreementAttributedText)
-                    .fontDesign(.default)
-                    .multilineTextAlignment(.center)
-                    .environment(\.openURL, OpenURLAction { url in
-                        handleLegalAgreementURL(url)
-                    })
-            }
-            .fontDesign(.default)
-            .padding(.horizontal, 32)
-            .padding(.top, 16)
-        }
-    }
+// MARK: - Premium observation
 
-    private var legalAgreementAttributedText: AttributedString {
-        let source = Localizable.string(Localizable.subscriptionTermsAgreementLine)
-        let baseFont = Font.system(.caption2, design: .default).weight(.regular)
-        let linkFont = Font.system(.caption2, design: .default).weight(.semibold)
-        let baseColor = Color.white.opacity(0.85)
+private struct PaywallPremiumState: Equatable {
+    var revenueCatPremium: Bool
+    var subscriptionPremium: Bool
+}
 
-        guard var attributed = try? AttributedString(markdown: source) else {
-            var plain = AttributedString(source)
-            plain.font = baseFont
-            plain.foregroundColor = baseColor
-            return plain
-        }
+// MARK: - Previews
 
-        attributed.font = baseFont
-        attributed.foregroundColor = baseColor
-
-        for run in attributed.runs {
-            if run.link != nil {
-                attributed[run.range].font = linkFont
-                attributed[run.range].foregroundColor = baseColor
-            }
-        }
-
-        return attributed
-    }
-
-    private func handleLegalAgreementURL(_ url: URL) -> OpenURLAction.Result {
-        HapticManager.shared.lightImpact()
-
-        switch url.absoluteString {
-        case "hero://terms":
-            presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/terms-of-use")
-            return .handled
-        case "hero://privacy":
-            presentingLegalURL = URL(string: "https://www.gizatech.de/hero-b2-beruf/privacy-policy")
-            return .handled
-        default:
-            return .systemAction(url)
-        }
-    }
-    
-    // MARK: - Computed Properties
-    
-    private var isButtonEnabled: Bool {
-        // Enable if we have a package from RevenueCat or a product from StoreKit
-        let hasPackage = selectedPackage != nil
-        let hasProduct = subscriptionManager.products[selectedProductID] != nil
-        let isNotLoading = !isLoadingPackages && !subscriptionManager.isLoading
-        let isNotPurchasing = subscriptionManager.purchaseState != .purchasing && subscriptionManager.purchaseState != .loading
-        
-        return isNotLoading && (hasPackage || hasProduct) && isNotPurchasing
-    }
-    
-    // MARK: - Purchase Handling
-    
-    private func handlePurchase() async {
-        HapticManager.shared.mediumImpact()
-        
-        // Try to purchase through RevenueCat first
-        if let package = selectedPackage {
-            do {
-                let (_, userCancelled) = try await revenueCatService.purchase(package: package)
-                if !userCancelled {
-                    // Purchase successful - activate trial if applicable
-                    // No free-trial activation here; premium is granted via RevenueCat.
-                }
-            } catch RevenueCatError.userCancelled {
-                // User cancelled - no error needed
-            } catch {
-                // Fallback to SubscriptionManager if RevenueCat fails
-                do {
-                    try await subscriptionManager.purchaseSubscription(productID: selectedProductID)
-                } catch {
-                    showingError = true
-                    errorMessage = error.localizedDescription
-                    print("Purchase error: \(error.localizedDescription)")
-                }
-            }
+private enum PaywallPreviewSupport {
+    static func applyLaunchOfferForPreview(active: Bool) {
+        if active {
+            LaunchOfferService.overrideFirstLaunchDateForPreview(Date())
         } else {
-            // Fallback to SubscriptionManager if no package found
-            do {
-                try await subscriptionManager.purchaseSubscription(productID: selectedProductID)
-            } catch {
-                showingError = true
-                errorMessage = error.localizedDescription
-                print("Purchase error: \(error.localizedDescription)")
-            }
+            LaunchOfferService.overrideFirstLaunchDateForPreview(
+                Date().addingTimeInterval(-8 * 24 * 60 * 60)
+            )
         }
-    }
-    
-    /// Updates the selected package based on selected product ID
-    private func updateSelectedPackage() {
-        guard let offering = revenueCatService.currentOffering else {
-            selectedPackage = nil
-            return
-        }
-        
-        selectedPackage = offering.availablePackages.first { $0.storeProduct.productIdentifier == selectedProductID }
-    }
-    
-    private func handleRestorePurchases() async {
-        HapticManager.shared.lightImpact()
-        
-        // Try RevenueCat restore first
-        do {
-            try await revenueCatService.restorePurchases()
-            if revenueCatService.isPremiumActive {
-                showingError = false
-                return
-            }
-        } catch {
-            print("RevenueCat restore failed: \(error.localizedDescription)")
-        }
-        
-        // Fallback to SubscriptionManager
-        await subscriptionManager.restorePurchases()
-        
-        if subscriptionManager.isPremiumActive || revenueCatService.isPremiumActive {
-            // Restore successful - dismiss will be handled by onChange
-            showingError = false
-        } else {
-            // Show error if no subscription found
-            showingError = true
-        }
-    }
-    
-    // Legal document identifier for sheet presentation
-    struct LegalDocument: Identifiable {
-        let url: URL
-        var id: URL { url }
     }
 }
 
 #Preview("Launch offer active (within 7 days)") {
-    // Simulate first launch happening "now" so the 7-day promo is active.
-    UserDefaults.standard.set(Date(), forKey: "firstLaunchDate")
+    PaywallPreviewSupport.applyLaunchOfferForPreview(active: true)
     return PaywallView()
 }
 
 #Preview("Launch offer expired (after 7 days)") {
-    // Simulate first launch 8 days ago so the promo is expired.
-    UserDefaults.standard.set(Date().addingTimeInterval(-8 * 24 * 60 * 60), forKey: "firstLaunchDate")
+    PaywallPreviewSupport.applyLaunchOfferForPreview(active: false)
     return PaywallView()
 }
