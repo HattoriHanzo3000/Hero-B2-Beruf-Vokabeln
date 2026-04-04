@@ -9,6 +9,12 @@ import SwiftUI
 
 struct GeneralWordsView: View {
     @EnvironmentObject private var dataService: DataService
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    @State private var navigateToStudy = false
+
+    private var hasAnySelection: Bool {
+        dataService.hasAnyGeneralWordsPracticeSelection(isPremium: subscriptionManager.isPremiumActive)
+    }
 
     var body: some View {
         ZStack {
@@ -17,8 +23,25 @@ struct GeneralWordsView: View {
 
             GeneralWordsListView(dataService: dataService)
         }
+        .navigationDestination(isPresented: $navigateToStudy) {
+            StudyView(
+                dataService: dataService,
+                filterBySectionId: nil,
+                studyAllMode: dataService.areAllGeneralWordsCompletedForStudy(isPremium: subscriptionManager.isPremiumActive),
+                categoryFilter: nil
+            )
+            .environmentObject(dataService)
+        }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            FlashcardsButton.bottomTrailingInset(
+                isEnabled: hasAnySelection,
+                accent: Color("AppGreen")
+            ) {
+                navigateToStudy = true
+            }
+        }
         .hidesBottomBarWhenPushed(true)
     }
 }
