@@ -15,6 +15,7 @@
 /* Begin PBXFileReference section */
 		744F83A22ED60C6600B2F198 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		748EDDE02EDBBD7500763D2E /* B2 Berufssprachkurs/LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "B2 Berufssprachkurs/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		74AFC0012EDF000000000001 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		74D87BDE2ECD0E14004BCC24 /* B2 Berufssprachkurs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "B2 Berufssprachkurs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -48,9 +49,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		74AFC0022EDF000000000002 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				74AFC0012EDF000000000001 /* Shared.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		74D87BD52ECD0E14004BCC24 = {
 			isa = PBXGroup;
 			children = (
+				74AFC0022EDF000000000002 /* Config */,
 				74D87BE02ECD0E14004BCC24 /* B2 Berufssprachkurs */,
 				744F83A12ED60C6500B2F198 /* Frameworks */,
 				74D87BDF2ECD0E14004BCC24 /* Products */,
@@ -287,6 +297,7 @@
 		};
 		74D87BEA2ECD0E15004BCC24 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74AFC0012EDF000000000001 /* Shared.xcconfig */;
 			buildSettings = {
 				APP_INTENTS_METADATA_EXTRACTION = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -332,6 +343,7 @@
 		};
 		74D87BEB2ECD0E15004BCC24 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74AFC0012EDF000000000001 /* Shared.xcconfig */;
 			buildSettings = {
 				APP_INTENTS_METADATA_EXTRACTION = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

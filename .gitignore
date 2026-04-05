@@ -92,3 +92,6 @@ iOSInjectionProject/
 ## MacOS
 .DS_Store
 
+# Optional: local overrides (e.g. second line REVENUECAT_PUBLIC_API_KEY = …); include from Shared.xcconfig if needed.
+Config/LocalSecrets.xcconfig
+
