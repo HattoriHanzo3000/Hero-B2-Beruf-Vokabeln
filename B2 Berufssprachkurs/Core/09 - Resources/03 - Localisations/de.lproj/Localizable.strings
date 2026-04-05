@@ -334,6 +334,7 @@
 "plan_detail_lifetime_body" = "Du hast lebenslangen Zugang zu Hero Pro. Keine Verlängerung nötig — du behältst Pro bei zukünftigen Updates.";
 "plan_detail_lifetime_thanks" = "Danke, dass du Hero unterstützt!";
 "manage_subscription" = "Abonnement verwalten";
+"customer_center_done" = "Fertig";
 "manage_subscription_failed_title" = "Kann nicht geöffnet werden";
 "manage_subscription_failed" = "Abonnementverwaltung konnte nicht geöffnet werden. Bitte später erneut versuchen oder in der App „App Store“ → Account → Abonnements verwalten.";
 "continue_button" = "Weiter";

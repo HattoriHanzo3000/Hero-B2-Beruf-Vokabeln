@@ -72,7 +72,7 @@ struct RevenueCatPaywallView: View {
                 }
             }
             .sheet(isPresented: $showCustomerCenter) {
-                CustomerCenterView()
+                AppCustomerCenterView()
             }
             .alert("Error", isPresented: $showError) {
                 Button("OK", role: .cancel) { }

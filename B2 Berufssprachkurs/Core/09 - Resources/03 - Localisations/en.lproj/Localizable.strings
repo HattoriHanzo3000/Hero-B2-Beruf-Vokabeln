@@ -334,6 +334,7 @@
 "plan_detail_lifetime_body" = "You have lifetime access to Hero Pro. No renewal needed — you’ll keep Pro with future app updates.";
 "plan_detail_lifetime_thanks" = "Thank you for supporting Hero!";
 "manage_subscription" = "Manage subscription";
+"customer_center_done" = "Done";
 "manage_subscription_failed_title" = "Unable to open";
 "manage_subscription_failed" = "Couldn’t open subscription management. Try again later, or use the App Store app → your account → Subscriptions.";
 "continue_button" = "Continue";

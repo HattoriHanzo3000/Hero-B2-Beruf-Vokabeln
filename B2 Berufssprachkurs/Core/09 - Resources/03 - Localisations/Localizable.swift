@@ -398,6 +398,8 @@ extension Localizable {
     static let planDetailLifetimeBody = "plan_detail_lifetime_body"
     static let planDetailLifetimeThanks = "plan_detail_lifetime_thanks"
     static let manageSubscription = "manage_subscription"
+    /// Dismiss button on RevenueCat Customer Center sheet.
+    static let customerCenterDone = "customer_center_done"
     static let manageSubscriptionFailedTitle = "manage_subscription_failed_title"
     static let manageSubscriptionFailed = "manage_subscription_failed"
     static let continueButton = "continue_button"
