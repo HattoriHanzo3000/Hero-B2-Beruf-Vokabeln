@@ -299,6 +299,7 @@
 "paywall_footer_already_subscribed" = "Already subscribed?";
 "paywall_footer_got_code" = "Got a code?";
 "restore_purchase" = "Restore Purchase";
+"restore_failed_no_active_subscription" = "We couldn’t find an active Hero Pro purchase for this Apple ID. If you subscribed before, make sure you’re signed in with the same Apple ID.";
 "premium_monthly" = "Pro Monthly";
 "premium_3_months" = "Pro 3 Months";
 "premium_yearly" = "Pro Yearly";

@@ -12,11 +12,14 @@ import SwiftUI
 
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
     @ObservedObject private var revenueCatService = RevenueCatService.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @StateObject private var viewModel = PaywallViewModel()
 
     @State private var showOfferCodeRedemption = false
+    /// `true` only for the primary Continue purchase flow (full-screen window confetti; restore uses plain dismiss).
+    @State private var expectPurchaseCelebration = false
 
     private var planItems: [PaywallPlanItem] {
         PaywallPlanItem.rowList(
@@ -50,7 +53,13 @@ struct PaywallView: View {
                             isLoading: primaryButtonLoading,
                             isEnabled: viewModel.isPrimaryButtonEnabled
                         ) {
-                            Task { await viewModel.purchase() }
+                            Task {
+                                expectPurchaseCelebration = true
+                                let ok = await viewModel.purchase()
+                                if !ok {
+                                    expectPurchaseCelebration = false
+                                }
+                            }
                         }
                         footerActionsSection
                             .padding(.top, -12)
@@ -109,10 +118,28 @@ struct PaywallView: View {
             }
         }
         .onChange(of: paywallPremiumState) { _, newValue in
-            if newValue.revenueCatPremium || newValue.subscriptionPremium {
+            guard newValue.revenueCatPremium || newValue.subscriptionPremium else { return }
+            if expectPurchaseCelebration {
+                expectPurchaseCelebration = false
+                triggerPurchaseConfettiThenDismiss()
+            } else {
                 HapticManager.shared.success()
                 dismiss()
             }
+        }
+    }
+
+    /// Full-screen confetti (separate window above the sheet) after a successful **purchase**, then dismiss.
+    private func triggerPurchaseConfettiThenDismiss() {
+        if accessibilityReduceMotion {
+            dismiss()
+            return
+        }
+        PaywallWindowConfettiPresenter.show()
+        HapticManager.shared.success()
+        DispatchQueue.main.asyncAfter(deadline: .now() + ConfettiOverlay.overlayRemovalDelay) {
+            PaywallWindowConfettiPresenter.hide()
+            dismiss()
         }
     }
 

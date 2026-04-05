@@ -100,49 +100,73 @@ final class PaywallViewModel: ObservableObject {
         return isNotLoading && (hasPackage || hasProduct) && isNotPurchasing
     }
 
-    func purchase() async {
+    /// Returns `true` if the user has Hero Pro after purchase (RevenueCat or StoreKit path).
+    func purchase() async -> Bool {
         HapticManager.shared.mediumImpact()
 
         if let package = selectedPackage {
             do {
-                let (_, userCancelled) = try await revenueCatService.purchase(package: package)
-                if !userCancelled {}
+                _ = try await revenueCatService.purchase(package: package)
+                await subscriptionManager.checkSubscriptionStatus()
+                return isPremiumNow()
             } catch RevenueCatError.userCancelled {
-                return
+                return false
             } catch {
                 do {
                     try await subscriptionManager.purchaseSubscription(productID: selectedProductID)
+                    await subscriptionManager.checkSubscriptionStatus()
+                    return isPremiumNow()
+                } catch SubscriptionError.userCancelled {
+                    return false
                 } catch {
                     showingError = true
                     errorMessage = error.localizedDescription
+                    return false
                 }
             }
         } else {
             do {
                 try await subscriptionManager.purchaseSubscription(productID: selectedProductID)
+                await subscriptionManager.checkSubscriptionStatus()
+                return isPremiumNow()
+            } catch SubscriptionError.userCancelled {
+                return false
             } catch {
                 showingError = true
                 errorMessage = error.localizedDescription
+                return false
             }
         }
     }
 
     func restorePurchases() async {
         HapticManager.shared.lightImpact()
+        errorMessage = nil
+        showingError = false
+
         do {
             try await revenueCatService.restorePurchases()
-            if revenueCatService.isPremiumActive {
-                showingError = false
+            await subscriptionManager.checkSubscriptionStatus()
+            if revenueCatService.isPremiumActive || subscriptionManager.isPremiumActive {
+                errorMessage = nil
                 return
             }
         } catch {
             // Fall through to SubscriptionManager
         }
+
         await subscriptionManager.restorePurchases()
+
         if subscriptionManager.isPremiumActive || revenueCatService.isPremiumActive {
             showingError = false
+            errorMessage = nil
         } else {
             showingError = true
+            errorMessage = Localizable.string(Localizable.restoreFailedNoActiveSubscription)
         }
+    }
+
+    private func isPremiumNow() -> Bool {
+        subscriptionManager.isPremiumActive || revenueCatService.isPremiumActive
     }
 }

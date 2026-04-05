@@ -358,6 +358,8 @@ extension Localizable {
     static let paywallFooterAlreadySubscribed = "paywall_footer_already_subscribed"
     static let paywallFooterGotCode = "paywall_footer_got_code"
     static let restorePurchase = "restore_purchase"
+    /// Restore completed but no Hero Pro entitlement (same Apple ID as purchase).
+    static let restoreFailedNoActiveSubscription = "restore_failed_no_active_subscription"
     static let upgradeToPremium = "upgrade_to_premium"
     static let premiumMonthly = "premium_monthly"
     static let premium3Months = "premium_3_months"
