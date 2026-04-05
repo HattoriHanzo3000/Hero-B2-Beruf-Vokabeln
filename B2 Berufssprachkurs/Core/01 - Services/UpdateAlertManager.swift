@@ -2,38 +2,37 @@
 //  UpdateAlertManager.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Soft update prompt: compare bundle version to App Store, throttle to at most once per calendar day.
 //
 
-import Foundation
-import SwiftUI
 import Combine
+import Foundation
+import OSLog
+import SwiftUI
+import UIKit
 
 @MainActor
-class UpdateAlertManager: ObservableObject {
+final class UpdateAlertManager: ObservableObject {
     static let shared = UpdateAlertManager()
-    
+
     @Published var showUpdateAlert = false
     @Published var availableVersion: String = ""
     @Published var appStoreURL: String = ""
-    
+
     @AppStorage("lastUpdateAlertDate") private var lastUpdateAlertDate: TimeInterval = 0
-    
+
     private init() {}
-    
-    /// Checks if an update is available and if the alert should be shown
+
     func checkForUpdateAlert() async {
-        // Check if we should show the alert (once per day)
-        guard shouldShowAlert() else {
+        guard shouldOfferUpdatePrompt() else {
             return
         }
-        
+
         do {
             if let appInfo = try await AppStoreService.shared.fetchAppInfo() {
                 let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
                 let storeVersion = appInfo.version
-                
-                // Compare versions
+
                 if compareVersions(currentVersion, storeVersion) < 0 {
                     availableVersion = storeVersion
                     appStoreURL = AppStoreService.listingURL(preferredTrackId: appInfo.trackId)
@@ -42,59 +41,45 @@ class UpdateAlertManager: ObservableObject {
                 }
             }
         } catch {
-            // Silently fail
-            print("Failed to check for update: \(error.localizedDescription)")
+            AppLog.appUpdate.error("Fetch App Store version failed: \(error.localizedDescription)")
         }
     }
-    
-    /// Determines if the alert should be shown (once per day)
-    private func shouldShowAlert() -> Bool {
-        let lastDate = Date(timeIntervalSince1970: lastUpdateAlertDate)
-        let calendar = Calendar.current
-        
-        // Check if last alert was shown today
-        if calendar.isDateInToday(lastDate) {
-            return false
-        }
-        
-        // Check if last alert was shown more than 24 hours ago
-        if let hoursSinceLastAlert = calendar.dateComponents([.hour], from: lastDate, to: Date()).hour {
-            return hoursSinceLastAlert >= 24
-        }
-        
-        return true
+
+    /// At most one update prompt per calendar day (local timezone). `lastUpdateAlertDate == 0` always allows a check.
+    private func shouldOfferUpdatePrompt() -> Bool {
+        guard lastUpdateAlertDate > 0 else { return true }
+        let lastShown = Date(timeIntervalSince1970: lastUpdateAlertDate)
+        return !Calendar.current.isDateInToday(lastShown)
     }
-    
-    /// Compares two version strings
-    /// Returns: -1 if version1 < version2, 0 if equal, 1 if version1 > version2
+
+    /// - Returns: `-1` if `version1` < `version2`, `0` if equal, `1` if greater.
     private func compareVersions(_ version1: String, _ version2: String) -> Int {
         let v1Components = version1.split(separator: ".").compactMap { Int($0) }
         let v2Components = version2.split(separator: ".").compactMap { Int($0) }
-        
+
         let maxLength = max(v1Components.count, v2Components.count)
-        
+
         for i in 0..<maxLength {
             let v1Value = i < v1Components.count ? v1Components[i] : 0
             let v2Value = i < v2Components.count ? v2Components[i] : 0
-            
+
             if v1Value < v2Value {
                 return -1
             } else if v1Value > v2Value {
                 return 1
             }
         }
-        
+
         return 0
     }
-    
+
     func openAppStore() {
-        if let url = URL(string: appStoreURL) {
-            UIApplication.shared.open(url)
-        }
+        guard let url = URL(string: appStoreURL) else { return }
+        UIApplication.shared.open(url)
     }
-    
+
     func remindMeLater() {
         showUpdateAlert = false
-        // Don't update lastUpdateAlertDate so it can show again tomorrow
+        // `lastUpdateAlertDate` stays set so we don’t prompt again until the next calendar day.
     }
 }

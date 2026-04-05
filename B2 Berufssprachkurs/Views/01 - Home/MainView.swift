@@ -18,7 +18,7 @@ struct MainView: View {
     ]) private var customWordEntries: [CustomWordEntry]
     @StateObject private var dataService: DataService
     @ObservedObject private var languageManager: LanguageManager
-    @StateObject private var updateAlertManager: UpdateAlertManager
+    @ObservedObject private var updateAlertManager = UpdateAlertManager.shared
     @StateObject private var ratingManager: RatingManager
     @State private var selectedSection: MainViewSection = .home
     /// Tab to restore when the user dismisses search (system Cancel / X).
@@ -29,7 +29,6 @@ struct MainView: View {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
         _dataService = StateObject(wrappedValue: DataService())
         _languageManager = ObservedObject(wrappedValue: LanguageManager.shared)
-        _updateAlertManager = StateObject(wrappedValue: UpdateAlertManager.shared)
         _ratingManager = StateObject(wrappedValue: RatingManager.shared)
     }
 
