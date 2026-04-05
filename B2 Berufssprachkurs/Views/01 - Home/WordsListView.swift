@@ -168,7 +168,7 @@ struct WordsListView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 WordListPrintButton(
                     isEnabled: !words.isEmpty,
-                    pdfURL: { generatePDF() },
+                    pdfURL: { try generatePDF() },
                     jobName: printJobName
                 )
             }
@@ -284,8 +284,8 @@ struct WordsListView: View {
         focusedTranslationWordId = words[idx + 1].id
     }
 
-    private func generatePDF() -> URL {
-        WordListPDFExport.generateWordsListPDF(
+    private func generatePDF() throws -> URL {
+        try WordListPDFExport.generateWordsListPDF(
             sectionId: sectionId,
             words: words,
             headerInfo: headerInfo,

@@ -6,7 +6,10 @@
 //
 
 import SwiftUI
-import PDFKit
+
+enum PDFGenerationError: Error {
+    case couldNotWritePDF(underlying: Error)
+}
 
 struct PDFGenerationService {
     struct WordData {
@@ -157,7 +160,7 @@ struct PDFGenerationService {
         return pages
     }
     
-    static func generateWordsListPDF(info: PDFInfo) -> URL {
+    static func generateWordsListPDF(info: PDFInfo) throws -> URL {
         let pdfTitle = "\(info.lectionTitle)\(info.sectionTitle.isEmpty ? "" : " - \(info.sectionTitle)")"
         let pdfMetaData = [
             kCGPDFContextCreator: "B2 Berufssprachkurs",
@@ -297,7 +300,11 @@ struct PDFGenerationService {
         }
         
         let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(info.fileName).pdf")
-        try? data.write(to: tempURL)
+        do {
+            try data.write(to: tempURL, options: .atomic)
+        } catch {
+            throw PDFGenerationError.couldNotWritePDF(underlying: error)
+        }
         return tempURL
     }
     

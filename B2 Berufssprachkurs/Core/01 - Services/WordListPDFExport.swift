@@ -34,7 +34,7 @@ enum WordListPDFExport {
         isVerbenSection: Bool,
         isAdjektiveSection: Bool,
         translationProvider: (Word) -> String
-    ) -> URL {
+    ) throws -> URL {
         let lectionTitle: String
         let lectionNumber: String?
         let sectionTitle: String
@@ -74,6 +74,6 @@ enum WordListPDFExport {
             showsLectionSectionIndexing: showsLectionSectionIndexing
         )
 
-        return PDFGenerationService.generateWordsListPDF(info: pdfInfo)
+        return try PDFGenerationService.generateWordsListPDF(info: pdfInfo)
     }
 }

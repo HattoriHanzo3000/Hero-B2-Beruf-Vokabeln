@@ -7,4 +7,5 @@ import OSLog
 
 enum AppLog {
     static let subscription = Logger(subsystem: Bundle.main.bundleIdentifier ?? "B2Berufssprachkurs", category: "subscription")
+    static let pdf = Logger(subsystem: Bundle.main.bundleIdentifier ?? "B2Berufssprachkurs", category: "pdf")
 }

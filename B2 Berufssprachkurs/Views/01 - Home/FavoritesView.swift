@@ -60,7 +60,7 @@ struct FavoritesView: View {
             if !favoriteWords.isEmpty {
                 ToolbarItem(placement: .topBarTrailing) {
                     WordListPrintButton(
-                        pdfURL: { generateFavoritesPDF() },
+                        pdfURL: { try generateFavoritesPDF() },
                         jobName: Localizable.string(Localizable.favorites)
                     )
                 }
@@ -115,7 +115,7 @@ struct FavoritesView: View {
         focusedTranslationWordId = favoriteWords[idx + 1].id
     }
 
-    private func generateFavoritesPDF() -> URL {
+    private func generateFavoritesPDF() throws -> URL {
         let wordData = WordListShareManager.wordDataForPDF(
             words: favoriteWords,
             translationProvider: { userTranslation(for: $0.id) }
@@ -130,7 +130,7 @@ struct FavoritesView: View {
             fileName: "Favorites",
             showsLectionSectionIndexing: false
         )
-        return PDFGenerationService.generateWordsListPDF(info: pdfInfo)
+        return try PDFGenerationService.generateWordsListPDF(info: pdfInfo)
     }
 
     private var favoritesListView: some View {

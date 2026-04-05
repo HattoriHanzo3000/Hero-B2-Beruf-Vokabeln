@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum MyWordsPDFExport {
-    static func generatePDF(displayedEntries: [CustomWordEntry]) -> URL {
+    static func generatePDF(displayedEntries: [CustomWordEntry]) throws -> URL {
         let words = displayedEntries.map { $0.asWord() }
         let wordData = WordListShareManager.wordDataForPDF(
             words: words,
@@ -27,6 +27,6 @@ enum MyWordsPDFExport {
             fileName: "MyWords",
             showsLectionSectionIndexing: false
         )
-        return PDFGenerationService.generateWordsListPDF(info: pdfInfo)
+        return try PDFGenerationService.generateWordsListPDF(info: pdfInfo)
     }
 }

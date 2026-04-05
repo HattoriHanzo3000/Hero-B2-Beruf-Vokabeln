@@ -5,6 +5,7 @@
 //  Shared plain-text + PDF export for word lists (sections, favorites, My Words).
 //
 
+import os
 import SwiftUI
 import UIKit
 
@@ -102,13 +103,19 @@ enum WordListPrintPresenter {
 /// Toolbar control: opens the system print panel with a generated PDF (available for all users).
 struct WordListPrintButton: View {
     var isEnabled: Bool = true
-    var pdfURL: () -> URL
+    var pdfURL: () throws -> URL
     var jobName: String
 
     var body: some View {
         Button {
             guard isEnabled else { return }
-            let url = pdfURL()
+            let url: URL
+            do {
+                url = try pdfURL()
+            } catch {
+                AppLog.pdf.error("Failed to generate PDF: \(error.localizedDescription, privacy: .public)")
+                return
+            }
             guard FileManager.default.fileExists(atPath: url.path) else { return }
             HapticManager.shared.lightImpact()
             WordListPrintPresenter.present(pdfURL: url, jobName: jobName)

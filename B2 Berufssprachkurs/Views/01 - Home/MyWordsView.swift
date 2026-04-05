@@ -5,6 +5,7 @@
 //  Personal vocabulary list; entries are SwiftData + CloudKit (same container as WordProgress).
 //
 
+import os
 import SwiftData
 import SwiftUI
 
@@ -126,7 +127,13 @@ struct MyWordsView: View {
     private func performMyWordsPrintAction() {
         guard !customWordEntries.isEmpty else { return }
         HapticManager.shared.lightImpact()
-        let pdfURL = MyWordsPDFExport.generatePDF(displayedEntries: displayedMyWordEntries)
+        let pdfURL: URL
+        do {
+            pdfURL = try MyWordsPDFExport.generatePDF(displayedEntries: displayedMyWordEntries)
+        } catch {
+            AppLog.pdf.error("Failed to generate My Words PDF: \(error.localizedDescription, privacy: .public)")
+            return
+        }
         let job = Localizable.string(Localizable.myWords).replacingOccurrences(of: "\n", with: " ")
         WordListPrintPresenter.present(pdfURL: pdfURL, jobName: job)
     }
