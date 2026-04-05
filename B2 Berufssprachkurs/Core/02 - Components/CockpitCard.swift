@@ -83,11 +83,11 @@ struct CockpitCard<Content: View>: View {
                         )
                         .background(
                             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                .fill(Color("AppGreenExtraLight"))
+                                .fill(LearningSurfaceColors.generalWords)
                         )
                 } else {
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(Color("AppGreenExtraLight"))
+                        .fill(LearningSurfaceColors.generalWords)
                 }
             }
         )

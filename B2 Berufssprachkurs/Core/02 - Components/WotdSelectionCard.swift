@@ -35,7 +35,7 @@ struct WotdSelectionCard<Header: View, Content: View>: View {
                 )
                 .background(
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(Color("AppGreenExtraLight"))
+                        .fill(LearningSurfaceColors.generalWords)
                 )
         )
         .overlay(
