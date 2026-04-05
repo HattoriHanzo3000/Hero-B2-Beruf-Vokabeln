@@ -14,17 +14,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        // Initialize RevenueCat SDK early
-        // This will configure RevenueCat and start syncing customer info
+        // Configure RevenueCat before any code uses Purchases; then touch SubscriptionManager so its
+        // init schedules entitlement sync + loadProducts (avoid duplicate loadProducts vs that path).
         Task { @MainActor in
             _ = RevenueCatService.shared
+            _ = SubscriptionManager.shared
         }
-        
-        // Initialize SubscriptionManager to check subscription status early
-        Task { @MainActor in
-            await SubscriptionManager.shared.loadProducts()
-        }
-        
         return true
     }
     
