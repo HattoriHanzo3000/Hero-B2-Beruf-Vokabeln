@@ -157,7 +157,7 @@ struct HeaderView: View {
         }
     }
 
-    /// Prefixed labels (`erkl:`, `beisp:`, etc.): bold condensed — heavier than list rows so WOTD stays the focus.
+    /// Prefixed detail labels (localized): bold condensed — heavier than list rows so WOTD stays the focus.
     private var wotdDetailLabelFont: Font {
         .system(.subheadline, design: .default, weight: .bold).width(.condensed)
     }
@@ -299,7 +299,7 @@ struct HeaderView: View {
 
                     if let explanation = word.explanation, !explanation.isEmpty {
                         Text(attributedText(
-                            label: "erkl: ",
+                            label: Localizable.string(Localizable.wordRowDetailLabelExplanation),
                             value: explanation,
                             labelFont: wotdDetailLabelFont,
                             valueFont: wotdDetailValueFont,
@@ -312,7 +312,7 @@ struct HeaderView: View {
 
                     if let example = word.example, !example.isEmpty {
                         Text(attributedText(
-                            label: "beisp: ",
+                            label: Localizable.string(Localizable.wordRowDetailLabelExample),
                             value: example,
                             labelFont: wotdDetailLabelFont,
                             valueFont: wotdDetailValueFont,
@@ -325,7 +325,7 @@ struct HeaderView: View {
 
                     if !displayedTranslation(for: word).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         Text(attributedText(
-                            label: "übers: ",
+                            label: Localizable.string(Localizable.wordRowDetailLabelTranslation),
                             value: displayedTranslation(for: word),
                             labelFont: wotdDetailLabelFont,
                             valueFont: wotdDetailValueFont,
@@ -338,7 +338,7 @@ struct HeaderView: View {
 
                     if let synonyms = word.synonyms, let firstSynonym = synonyms.first {
                         Text(attributedText(
-                            label: "syn: ",
+                            label: Localizable.string(Localizable.wordRowDetailLabelSynonyms),
                             value: firstSynonym,
                             labelFont: wotdDetailLabelFont,
                             valueFont: wotdDetailValueFont,

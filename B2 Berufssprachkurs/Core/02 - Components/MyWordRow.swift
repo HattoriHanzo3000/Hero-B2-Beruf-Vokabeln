@@ -171,7 +171,7 @@ struct MyWordRow: View {
                         if let explanation = word.explanation, !explanation.isEmpty {
                             Text(
                                 attributedText(
-                                    label: "erkl: ",
+                                    label: Localizable.string(Localizable.wordRowDetailLabelExplanation),
                                     value: explanation,
                                     labelFont: WordListRowDetailTextStyle.explanationLabelFont,
                                     valueFont: WordListRowDetailTextStyle.explanationValueFont,
@@ -189,7 +189,7 @@ struct MyWordRow: View {
                         if let example = word.example, !example.isEmpty {
                             Text(
                                 attributedText(
-                                    label: "beisp: ",
+                                    label: Localizable.string(Localizable.wordRowDetailLabelExample),
                                     value: example,
                                     labelFont: WordListRowDetailTextStyle.explanationLabelFont,
                                     valueFont: WordListRowDetailTextStyle.explanationValueFont,
@@ -208,7 +208,7 @@ struct MyWordRow: View {
                             let synonymsText = synonyms.joined(separator: ", ")
                             Text(
                                 attributedText(
-                                    label: "syn: ",
+                                    label: Localizable.string(Localizable.wordRowDetailLabelSynonyms),
                                     value: synonymsText,
                                     labelFont: WordListRowDetailTextStyle.explanationLabelFont,
                                     valueFont: WordListRowDetailTextStyle.explanationValueFont,

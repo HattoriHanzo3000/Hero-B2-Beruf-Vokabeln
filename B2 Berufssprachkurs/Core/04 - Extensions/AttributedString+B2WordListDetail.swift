@@ -2,7 +2,7 @@
 //  AttributedString+B2WordListDetail.swift
 //  B2 Berufssprachkurs
 //
-//  Shared “label: value” typography for word list detail lines (erkl / beisp / syn).
+//  Shared “label: value” typography for word list detail lines (localized prefixes).
 //
 
 import Foundation

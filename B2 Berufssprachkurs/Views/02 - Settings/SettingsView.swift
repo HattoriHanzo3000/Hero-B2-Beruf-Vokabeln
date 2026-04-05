@@ -16,11 +16,8 @@ struct SettingsView: View {
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
     @AppStorage(MigrationManager.iCloudSyncEnabledKey) private var iCloudSyncEnabled = true
     @AppStorage("appearancePreference") private var appearancePreference = "System" // Stores key: "Light" | "Dark" | "System"
-    @AppStorage("appLanguage") private var appLanguage = "Deutsch" { // Stores key: "English" | "Deutsch"
-        didSet {
-            languageManager.setLanguage(appLanguage)
-        }
-    }
+    /// Stored values: `"English"` | `"Deutsch"`. Sync via `onAppear` / `onChange` — `@AppStorage` `didSet` does not run for `Binding` writes (e.g. menu selection).
+    @AppStorage("appLanguage") private var appLanguage = "Deutsch"
     @State private var showMailComposer = false
     @State private var showMailUnavailableAlert = false
     @State private var showResetAlert = false
@@ -189,6 +186,12 @@ struct SettingsView: View {
         .listStyle(.insetGrouped)
         .navigationTitle(Localizable.string(Localizable.settings))
         .navigationBarTitleDisplayMode(.large)
+        .onAppear {
+            languageManager.setLanguage(appLanguage)
+        }
+        .onChange(of: appLanguage) { _, newValue in
+            languageManager.setLanguage(newValue)
+        }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .sheet(isPresented: $showMailComposer) {
             MailComposeView(

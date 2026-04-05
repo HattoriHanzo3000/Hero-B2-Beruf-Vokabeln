@@ -70,6 +70,7 @@ struct MainView: View {
                 Label(MainViewSection.settings.localizedTitle, systemImage: MainViewSection.settings.icon)
             }
         }
+        .id(languageManager.currentLanguage)
         .environmentObject(dataService)
         .environmentObject(LearningListsUIState.shared)
         .onChange(of: selectedSection) { oldValue, newValue in

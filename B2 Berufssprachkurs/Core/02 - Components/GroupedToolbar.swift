@@ -15,10 +15,10 @@ enum ToolbarButtonType {
     
     var message: String {
         switch self {
-        case .explanation: return "Erklärung"
-        case .synonym: return "Synonym"
-        case .translation: return "Übersetzung"
-        case .example: return Localizable.string(Localizable.practiseWithExample)
+        case .explanation: return Localizable.string(Localizable.explanation)
+        case .synonym: return Localizable.string(Localizable.synonym)
+        case .translation: return Localizable.string(Localizable.translation)
+        case .example: return Localizable.string(Localizable.myWordsExampleLabel)
         }
     }
     

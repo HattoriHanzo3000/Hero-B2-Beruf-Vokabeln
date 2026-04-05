@@ -2,7 +2,7 @@
 //  WordListRowDetailTextStyle.swift
 //  B2 Berufssprachkurs
 //
-//  List row detail typography (`erkl:`, `beisp:`, `syn:`). Word-of-the-day in `HeaderView` stays heavier for emphasis.
+//  List row detail typography (localized short prefixes). Word-of-the-day in `HeaderView` stays heavier for emphasis.
 //
 
 import SwiftUI

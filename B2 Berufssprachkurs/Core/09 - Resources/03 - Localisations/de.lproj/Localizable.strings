@@ -32,6 +32,7 @@
 "cards" = "Karteikarten";
 "study" = "Lernen";
 "synonym" = "Synonym";
+"synonyms" = "Synonyme";
 "explanation" = "Erklärung";
 "translation" = "Übersetzung";
 "auto" = "Auto";
@@ -52,6 +53,13 @@
 "word_row_detail_explanation_a11y" = "Erklärung: %@";
 "word_row_detail_example_a11y" = "Beispiel: %@";
 "word_row_detail_synonyms_a11y" = "Synonyme: %@";
+"word_row_detail_label_explanation" = "erkl.: ";
+"word_row_detail_label_example" = "beisp.: ";
+"word_row_detail_label_synonyms" = "syn.: ";
+"word_row_detail_label_translation" = "übers.: ";
+"pdf_row_prefix_explanation" = "erkl.: ";
+"pdf_row_prefix_example" = "beisp.: ";
+"pdf_row_prefix_synonyms" = "syn.: ";
 "word_row_a11y_summary_editing" = "%@. Übersetzung wird bearbeitet";
 "word_row_a11y_summary_prompt_translation" = "%1$@. %2$@";
 "word_row_a11y_summary_with_translation" = "%1$@. %2$@: %3$@";

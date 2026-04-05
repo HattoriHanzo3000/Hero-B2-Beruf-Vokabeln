@@ -156,7 +156,7 @@ struct WordRow: View {
                         if let explanation = word.explanation, !explanation.isEmpty {
                             Text(
                                 AttributedString.b2_wordListDetailLine(
-                                    label: "erkl: ",
+                                    label: Localizable.string(Localizable.wordRowDetailLabelExplanation),
                                     value: explanation,
                                     labelFont: WordListRowDetailTextStyle.explanationLabelFont,
                                     valueFont: WordListRowDetailTextStyle.explanationValueFont,
@@ -174,7 +174,7 @@ struct WordRow: View {
                         if let example = word.example, !example.isEmpty {
                             Text(
                                 AttributedString.b2_wordListDetailLine(
-                                    label: "beisp: ",
+                                    label: Localizable.string(Localizable.wordRowDetailLabelExample),
                                     value: example,
                                     labelFont: WordListRowDetailTextStyle.explanationLabelFont,
                                     valueFont: WordListRowDetailTextStyle.explanationValueFont,
@@ -193,7 +193,7 @@ struct WordRow: View {
                             let synonymsText = synonyms.joined(separator: ", ")
                             Text(
                                 AttributedString.b2_wordListDetailLine(
-                                    label: "syn: ",
+                                    label: Localizable.string(Localizable.wordRowDetailLabelSynonyms),
                                     value: synonymsText,
                                     labelFont: WordListRowDetailTextStyle.labelFont,
                                     valueFont: WordListRowDetailTextStyle.valueFont,

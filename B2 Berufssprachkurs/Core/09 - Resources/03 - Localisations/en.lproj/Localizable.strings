@@ -32,6 +32,7 @@
 "cards" = "flashcards";
 "study" = "Study";
 "synonym" = "Synonym";
+"synonyms" = "Synonyms";
 "explanation" = "Explanation";
 "translation" = "Translation";
 "auto" = "Auto";
@@ -52,6 +53,13 @@
 "word_row_detail_explanation_a11y" = "Explanation: %@";
 "word_row_detail_example_a11y" = "Example: %@";
 "word_row_detail_synonyms_a11y" = "Synonyms: %@";
+"word_row_detail_label_explanation" = "expl.: ";
+"word_row_detail_label_example" = "ex.: ";
+"word_row_detail_label_synonyms" = "syn.: ";
+"word_row_detail_label_translation" = "trans.: ";
+"pdf_row_prefix_explanation" = "expl.: ";
+"pdf_row_prefix_example" = "ex.: ";
+"pdf_row_prefix_synonyms" = "syn.: ";
 "word_row_a11y_summary_editing" = "%@. Editing translation";
 "word_row_a11y_summary_prompt_translation" = "%1$@. %2$@";
 "word_row_a11y_summary_with_translation" = "%1$@. %2$@: %3$@";

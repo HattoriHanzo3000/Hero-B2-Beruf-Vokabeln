@@ -55,13 +55,13 @@ enum StudyMode {
     var title: String {
         switch self {
         case .synonyms:
-            return "Synonyme"
+            return Localizable.string(Localizable.synonyms)
         case .explanation:
-            return "Erklärung"
+            return Localizable.string(Localizable.explanation)
         case .translations:
-            return "Übersetzung"
+            return Localizable.string(Localizable.translation)
         case .example:
-            return Localizable.string(Localizable.practiseWithExample)
+            return Localizable.string(Localizable.myWordsExampleLabel)
         }
     }
 }

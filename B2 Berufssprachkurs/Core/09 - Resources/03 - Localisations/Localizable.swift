@@ -48,6 +48,8 @@ extension Localizable {
     static let cards = "cards"
     static let study = "study"
     static let synonym = "synonym"
+    /// Plural label (e.g. study mode).
+    static let synonyms = "synonyms"
     static let explanation = "explanation"
     static let translation = "translation"
     static let auto = "auto"
@@ -71,6 +73,16 @@ extension Localizable {
     static let wordRowDetailExplanationA11y = "word_row_detail_explanation_a11y"
     static let wordRowDetailExampleA11y = "word_row_detail_example_a11y"
     static let wordRowDetailSynonymsA11y = "word_row_detail_synonyms_a11y"
+    /// Inline list row prefix: `abbr.: ` (period before colon; same pattern as PDF).
+    static let wordRowDetailLabelExplanation = "word_row_detail_label_explanation"
+    static let wordRowDetailLabelExample = "word_row_detail_label_example"
+    static let wordRowDetailLabelSynonyms = "word_row_detail_label_synonyms"
+    /// Word-of-the-day header: same `abbr.: ` style as other row labels.
+    static let wordRowDetailLabelTranslation = "word_row_detail_label_translation"
+    /// PDF labeled row prefix (same `abbr.: ` style as list rows).
+    static let pdfRowPrefixExplanation = "pdf_row_prefix_explanation"
+    static let pdfRowPrefixExample = "pdf_row_prefix_example"
+    static let pdfRowPrefixSynonyms = "pdf_row_prefix_synonyms"
     /// Format: German lemma.
     static let wordRowA11ySummaryEditing = "word_row_a11y_summary_editing"
     /// Format: German lemma, localized “add translation” phrase.
