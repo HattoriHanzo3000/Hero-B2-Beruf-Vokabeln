@@ -8,6 +8,7 @@
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    /// App-wide orientation; change at runtime if a specific flow needs landscape (e.g. fullscreen video).
     static var orientationLock = UIInterfaceOrientationMask.portrait
     
     func application(

@@ -8,22 +8,6 @@
 import SwiftUI
 import SwiftData
 
-// View modifier to lock orientation to portrait
-struct PortraitOrientationModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .onAppear {
-                AppDelegate.orientationLock = .portrait
-            }
-    }
-}
-
-extension View {
-    func portraitOrientation() -> some View {
-        self.modifier(PortraitOrientationModifier())
-    }
-}
-
 @main
 struct B2_BerufssprachkursApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -74,8 +58,7 @@ struct B2_BerufssprachkursApp: App {
             }
             // Apply appearance preference (Light/Dark/System)
             .preferredColorScheme(colorScheme)
-            // Lock orientation to portrait only
-            .portraitOrientation()
+            // Portrait: `AppDelegate.orientationLock` (default `.portrait`) + `supportedInterfaceOrientationsFor`
             .environmentObject(LanguageManager.shared)
             .environmentObject(AppearanceManager.shared)
             .task {
