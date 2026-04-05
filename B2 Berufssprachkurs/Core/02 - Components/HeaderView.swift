@@ -540,7 +540,7 @@ struct HeaderView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: WordProgress.self, configurations: config)
     HeaderView(dataService: DataService())
-        .background(Color("AppGreenLight"))
+        .background(LearningSurfaceColors.generalWords)
         .modelContainer(container)
 }
 

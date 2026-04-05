@@ -22,6 +22,7 @@ struct StudyView: View {
     @Query(sort: \WordProgress.wordId) private var wordProgressRecords: [WordProgress]
 
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    @Environment(\.colorScheme) private var colorScheme
 
     init(
         dataService: DataService,
@@ -75,16 +76,34 @@ struct StudyView: View {
         )
     }
 
+    /// Flashcard + chip accent: per word in favorites-only study; otherwise the stack accent.
+    private func studyChromeAccent(for item: StudyItem) -> Color {
+        favoritesOnly ? item.accentColor : viewModel.stackKind.accentColor
+    }
+
+    /// Light mode: very light gray (`systemGroupedBackground`); dark mode: standard canvas (`systemBackground`).
+    private var studyCanvasBackground: Color {
+        switch colorScheme {
+        case .dark:
+            return Color(.systemBackground)
+        case .light:
+            fallthrough
+        @unknown default:
+            return Color(.systemGroupedBackground)
+        }
+    }
+
     var body: some View {
         ZStack {
-            viewModel.stackKind.backgroundColor
+            studyCanvasBackground
                 .ignoresSafeArea()
 
             if viewModel.studyItems.isEmpty {
                 StudyEmptyStateView(
                     title: emptyStateTitle,
                     message: emptyStateMessage,
-                    iconName: emptyStateIcon
+                    iconName: emptyStateIcon,
+                    backgroundColor: studyCanvasBackground
                 )
             } else if viewModel.currentIndex < viewModel.studyItems.count {
                 ZStack(alignment: .bottomTrailing) {
@@ -99,7 +118,7 @@ struct StudyView: View {
                         StudyFlashCardView(
                             studyItem: currentItem,
                             currentContentType: $viewModel.currentContentType,
-                            cardColor: currentItem.accentColor,
+                            cardColor: studyChromeAccent(for: currentItem),
                             cardId: currentItem.wordId,
                             initialFlipped: viewModel.cardFlipped,
                             dataService: dataService,
@@ -254,6 +273,7 @@ struct StudyView: View {
             if viewModel.currentIndex < viewModel.studyItems.count {
                 StudyContentTypeChipRow(
                     item: viewModel.studyItems[viewModel.currentIndex],
+                    accentColor: studyChromeAccent(for: viewModel.studyItems[viewModel.currentIndex]),
                     currentContentType: $viewModel.currentContentType,
                     showTranslationMissingAlert: $viewModel.showTranslationMissingAlert
                 )

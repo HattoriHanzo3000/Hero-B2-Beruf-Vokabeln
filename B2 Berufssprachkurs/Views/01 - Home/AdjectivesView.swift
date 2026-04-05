@@ -18,7 +18,7 @@ struct AdjectivesView: View {
     
     var body: some View {
         ZStack {
-            Color("AppPurple").opacity(0.08)
+            LearningStackType.adjectives.learningSurfaceBackground
                 .ignoresSafeArea()
 
             AdjectivesListView(dataService: dataService)

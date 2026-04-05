@@ -11,10 +11,12 @@ struct StudyEmptyStateView: View {
     let title: String
     let message: String
     let iconName: String
-    
+    /// Study screen canvas; ``StudyView`` passes the resolved color (light: grouped gray, dark: systemBackground).
+    var backgroundColor: Color = Color(.systemGroupedBackground)
+
     var body: some View {
         ZStack {
-            Color("AppGreenLight")
+            backgroundColor
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {

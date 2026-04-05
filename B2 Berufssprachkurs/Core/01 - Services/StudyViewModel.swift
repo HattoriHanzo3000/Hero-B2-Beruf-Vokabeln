@@ -44,7 +44,8 @@ final class StudyViewModel: ObservableObject {
         StudyStackKind.resolve(
             filterBySectionId: filterBySectionId,
             categoryFilter: categoryFilter,
-            studyItems: studyItems
+            studyItems: studyItems,
+            favoritesOnly: favoritesOnly
         )
     }
 

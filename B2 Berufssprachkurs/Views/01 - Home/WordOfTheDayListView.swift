@@ -23,7 +23,7 @@ struct WordOfTheDayListView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("AppGreenLight")
+                LearningSurfaceColors.generalWords
                     .ignoresSafeArea()
 
                 ScrollView {

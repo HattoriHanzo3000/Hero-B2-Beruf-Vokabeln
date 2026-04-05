@@ -101,7 +101,7 @@ struct WordsListView: View {
 
     var body: some View {
         ZStack {
-            stackPresentation.color.opacity(0.08)
+            LearningSurfaceColors.surface(forSectionId: sectionId)
                 .ignoresSafeArea()
 
             ScrollViewReader { proxy in

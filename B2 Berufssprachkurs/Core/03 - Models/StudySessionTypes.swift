@@ -45,31 +45,37 @@ enum StudyStackKind {
         }
     }
 
+    /// Full-screen wash; uses catalog colors with light/dark appearances (see ``LearningSurfaceColors``).
     var backgroundColor: Color {
         switch self {
         case .generalWords:
-            return Color("AppGreenLight")
+            return LearningSurfaceColors.generalWords
         case .verbs:
-            return Color("AppBlueLight")
+            return LearningSurfaceColors.verbs
         case .adjectives:
-            return Color("AppPurple").opacity(0.08)
+            return LearningSurfaceColors.adjectives
         case .favorites:
-            return Color("AppYellow").opacity(0.08)
+            return LearningSurfaceColors.favorites
         case .myWords:
-            return Color("AppRed").opacity(0.08)
+            return LearningSurfaceColors.myWords
         }
     }
 
     static func resolve(
         filterBySectionId: String?,
         categoryFilter: String?,
-        studyItems: [StudyItem]
+        studyItems: [StudyItem],
+        favoritesOnly: Bool = false
     ) -> StudyStackKind {
         if filterBySectionId == DataService.userMyWordsSectionId {
             return .myWords
         }
         if studyItems.isEmpty {
             return .generalWords
+        }
+
+        if favoritesOnly {
+            return .favorites
         }
 
         if let sectionId = filterBySectionId {

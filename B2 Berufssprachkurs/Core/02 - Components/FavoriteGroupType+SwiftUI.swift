@@ -22,13 +22,13 @@ extension FavoriteGroupType {
     var backgroundColor: Color {
         switch self {
         case .generalWords:
-            Color("AppGreen").opacity(0.08)
+            LearningSurfaceColors.generalWords
         case .verbs:
-            Color("AppBlue").opacity(0.08)
+            LearningSurfaceColors.verbs
         case .adjectives:
-            Color("AppPurple").opacity(0.08)
+            LearningSurfaceColors.adjectives
         case .myWords:
-            Color("AppRed").opacity(0.08)
+            LearningSurfaceColors.myWords
         }
     }
 }

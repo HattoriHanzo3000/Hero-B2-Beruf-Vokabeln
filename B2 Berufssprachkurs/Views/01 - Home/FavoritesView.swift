@@ -36,7 +36,7 @@ struct FavoritesView: View {
 
     var body: some View {
         ZStack {
-            Color("AppYellow").opacity(0.08)
+            LearningStackType.favorites.learningSurfaceBackground
                 .ignoresSafeArea()
 
             if favoriteWords.isEmpty {

@@ -112,5 +112,5 @@ struct GeneralWordsListView: View {
 #Preview {
     GeneralWordsListView(dataService: DataService())
         .environmentObject(LearningListsUIState.shared)
-        .background(Color("AppGreenLight"))
+        .background(LearningSurfaceColors.generalWords)
 }

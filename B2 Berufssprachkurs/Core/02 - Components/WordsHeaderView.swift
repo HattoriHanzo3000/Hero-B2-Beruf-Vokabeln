@@ -143,6 +143,6 @@ struct WordsHeaderView: View {
         lectionNumber: "1",
         sectionLetter: "A"
     )
-    .background(Color("AppGreenLight"))
+    .background(LearningSurfaceColors.generalWords)
 }
 

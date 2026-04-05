@@ -7,11 +7,13 @@ import SwiftUI
 
 struct StudyContentTypeChipRow: View {
     let item: StudyItem
+    /// Learning stack accent (matches ``StudyStackKind.accentColor`` and flashcard chrome).
+    let accentColor: Color
     @Binding var currentContentType: StudyCardContentType
     @Binding var showTranslationMissingAlert: Bool
 
     var body: some View {
-        let currentCardColor = item.accentColor
+        let currentCardColor = accentColor
         let displayTypes = StudyCardContentSupport.displayTypes(for: item)
 
         if !displayTypes.isEmpty {

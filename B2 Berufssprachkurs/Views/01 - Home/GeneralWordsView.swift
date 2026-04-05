@@ -18,7 +18,7 @@ struct GeneralWordsView: View {
 
     var body: some View {
         ZStack {
-            Color("AppGreen").opacity(0.08)
+            LearningStackType.general.learningSurfaceBackground
                 .ignoresSafeArea()
 
             GeneralWordsListView(dataService: dataService)

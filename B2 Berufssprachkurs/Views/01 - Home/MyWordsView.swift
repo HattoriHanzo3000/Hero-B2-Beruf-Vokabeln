@@ -38,7 +38,7 @@ struct MyWordsView: View {
 
     var body: some View {
         ZStack {
-            accent.opacity(0.08)
+            LearningStackType.myWords.learningSurfaceBackground
                 .ignoresSafeArea()
 
             MyWordsListContent(

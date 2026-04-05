@@ -18,7 +18,7 @@ struct VerbsView: View {
     
     var body: some View {
         ZStack {
-            Color("AppBlue").opacity(0.08)
+            LearningStackType.verbs.learningSurfaceBackground
                 .ignoresSafeArea()
 
             VerbsListView(dataService: dataService)
