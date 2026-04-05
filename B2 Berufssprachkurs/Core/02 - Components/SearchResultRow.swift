@@ -12,7 +12,6 @@ struct SearchResultRow: View {
     let sectionId: String
     @ObservedObject var dataService: DataService
     let userTranslation: String
-    let colorScheme: ColorScheme
 
     private var group: FavoriteGroupType {
         dataService.getGroupType(for: sectionId)
@@ -45,15 +44,7 @@ struct SearchResultRow: View {
                     .font(.system(.body, design: .default, weight: .semibold))
                     .foregroundStyle(.primary)
                 Spacer(minLength: 8)
-                Text(contextCaption)
-                    .font(.system(.caption2, design: .rounded, weight: .medium))
-                    .foregroundStyle(accent)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        Capsule(style: .continuous)
-                            .fill(accent.opacity(colorScheme == .dark ? 0.22 : 0.12))
-                    )
+                SectionContextBadge(caption: contextCaption, accentColor: accent)
             }
             Text(subtitle)
                 .font(.system(.subheadline, design: .rounded))

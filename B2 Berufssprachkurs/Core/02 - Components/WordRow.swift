@@ -219,7 +219,6 @@ struct WordRow: View {
         .padding(.horizontal, 10)
         .padding(.vertical, 10)
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(String(format: Localizable.string(Localizable.wordRowContainerA11y), word.german))
         .onAppear {
             localTranslation = savedTranslation
         }

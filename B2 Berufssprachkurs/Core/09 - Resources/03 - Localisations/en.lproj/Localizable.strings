@@ -60,7 +60,6 @@
 "word_row_a11y_summary_editing" = "%@. Editing translation";
 "word_row_a11y_summary_prompt_translation" = "%1$@. %2$@";
 "word_row_a11y_summary_with_translation" = "%1$@. %2$@: %3$@";
-"word_row_container_a11y" = "Word row for %@";
 
 "flashcard_no_translation_yet" = "No translation yet";
 "flashcard_no_explanation_yet" = "No explanation yet";

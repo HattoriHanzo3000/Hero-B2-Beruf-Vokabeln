@@ -90,9 +90,6 @@ extension Localizable {
     static let wordRowA11ySummaryPromptTranslation = "word_row_a11y_summary_prompt_translation"
     /// Format: German lemma, translation text.
     static let wordRowA11ySummaryWithTranslation = "word_row_a11y_summary_with_translation"
-    /// Format: German lemma.
-    static let wordRowContainerA11y = "word_row_container_a11y"
-
     static let flashcardNoTranslationYet = "flashcard_no_translation_yet"
     static let flashcardNoExplanationYet = "flashcard_no_explanation_yet"
     static let flashcardNoSynonymYet = "flashcard_no_synonym_yet"

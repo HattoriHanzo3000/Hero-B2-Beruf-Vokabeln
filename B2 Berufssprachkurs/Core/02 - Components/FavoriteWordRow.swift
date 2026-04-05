@@ -15,21 +15,28 @@ struct FavoriteWordRow: View {
     @Binding var focusedTranslationWordId: String?
     let onFavoriteToggle: () -> Void
 
-    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.modelContext) private var modelContext
     @State private var localTranslation: String = ""
 
     @Query private var progressMatches: [WordProgress]
 
-    private var translationGroup: FavoriteGroupType {
+    /// Stack / section for tint + badge (matches global search).
+    private var favoriteSourceGroup: FavoriteGroupType {
         if let sid = dataService.getSectionId(for: word.id) {
             return dataService.getGroupType(for: sid)
         }
         return .generalWords
     }
 
-    private var translationTextColor: Color {
-        WordListTranslationTextStyle.color(for: translationGroup, colorScheme: colorScheme)
+    private var sectionAccentColor: Color {
+        favoriteSourceGroup.color
+    }
+
+    private var contextCaption: String {
+        if let sid = dataService.getSectionId(for: word.id) {
+            return dataService.searchResultContextLabel(for: sid)
+        }
+        return Localizable.string(Localizable.generalWords)
     }
 
     init(
@@ -89,22 +96,24 @@ struct FavoriteWordRow: View {
     }
 
     private var combinedRowAccessibilityLabel: String {
+        let summary: String
         if focusedTranslationWordId == word.id {
-            return String(format: Localizable.string(Localizable.wordRowA11ySummaryEditing), word.german)
-        }
-        if trimmedTranslation.isEmpty {
-            return String(
+            summary = String(format: Localizable.string(Localizable.wordRowA11ySummaryEditing), word.german)
+        } else if trimmedTranslation.isEmpty {
+            summary = String(
                 format: Localizable.string(Localizable.wordRowA11ySummaryPromptTranslation),
                 word.german,
                 Localizable.string(Localizable.addTranslationToWord)
             )
+        } else {
+            summary = String(
+                format: Localizable.string(Localizable.wordRowA11ySummaryWithTranslation),
+                word.german,
+                Localizable.string(Localizable.translation),
+                trimmedTranslation
+            )
         }
-        return String(
-            format: Localizable.string(Localizable.wordRowA11ySummaryWithTranslation),
-            word.german,
-            Localizable.string(Localizable.translation),
-            trimmedTranslation
-        )
+        return "\(summary). \(contextCaption)"
     }
 
     var body: some View {
@@ -129,7 +138,7 @@ struct FavoriteWordRow: View {
             .accessibilityAddTraits(isFavorite ? .isSelected : [])
 
             VStack(alignment: .leading, spacing: 8) {
-                HStack(alignment: isEditingTranslation ? .firstTextBaseline : .top, spacing: 12) {
+                HStack(alignment: isEditingTranslation ? .firstTextBaseline : .top, spacing: 10) {
                     Text(word.german)
                         .font(.system(.body, design: .default, weight: .regular))
                         .foregroundColor(.primary)
@@ -163,7 +172,8 @@ struct FavoriteWordRow: View {
                                         Image(systemName: "pencil.line")
                                             .font(.system(size: 20, weight: .regular))
                                             .foregroundStyle(.secondary)
-                                            .frame(minWidth: 44, alignment: .trailing)
+                                            .frame(minWidth: 44, alignment: .topTrailing)
+                                            .contentShape(Rectangle())
                                     }
                                     .buttonStyle(.plain)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -173,7 +183,7 @@ struct FavoriteWordRow: View {
                                     Button(action: beginEditingTranslation) {
                                         Text(trimmedTranslation)
                                             .font(.system(.subheadline, design: .default, weight: .medium))
-                                            .foregroundColor(translationTextColor)
+                                            .foregroundColor(.primary)
                                             .multilineTextAlignment(.trailing)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                             .fixedSize(horizontal: false, vertical: true)
@@ -251,6 +261,13 @@ struct FavoriteWordRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityElement(children: .combine)
                 }
+
+                HStack {
+                    Spacer(minLength: 0)
+                    SectionContextBadge(caption: contextCaption, accentColor: sectionAccentColor)
+                        .allowsHitTesting(false)
+                        .accessibilityHidden(true)
+                }
             }
             .accessibilityElement(children: .combine)
             .accessibilityLabel(combinedRowAccessibilityLabel)
@@ -259,7 +276,6 @@ struct FavoriteWordRow: View {
         .padding(.horizontal, 10)
         .padding(.vertical, 10)
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(String(format: Localizable.string(Localizable.wordRowContainerA11y), word.german))
         .onAppear {
             syncLocalTranslationWhenNotEditing()
         }

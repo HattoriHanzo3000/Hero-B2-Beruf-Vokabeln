@@ -27,7 +27,6 @@ struct GlobalSearchView: View {
 
     @EnvironmentObject private var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
-    @Environment(\.colorScheme) private var colorScheme
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
 
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
@@ -85,8 +84,7 @@ struct GlobalSearchView: View {
                             word: item.word,
                             sectionId: item.sectionId,
                             dataService: dataService,
-                            userTranslation: effectiveTranslation(for: item.word),
-                            colorScheme: colorScheme
+                            userTranslation: effectiveTranslation(for: item.word)
                         )
                     }
                 }

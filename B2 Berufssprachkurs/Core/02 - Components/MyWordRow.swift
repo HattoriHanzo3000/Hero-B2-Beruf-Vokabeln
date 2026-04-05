@@ -91,8 +91,8 @@ struct MyWordRow: View {
                 Text(trimmedTranslation)
                     .font(.system(.subheadline, design: .default, weight: .medium))
                     .foregroundColor(translationTextColor)
-                    .multilineTextAlignment(.leading)
-                    .frame(minWidth: 96, maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.trailing)
+                    .frame(minWidth: 96, maxWidth: .infinity, alignment: .trailing)
                     .fixedSize(horizontal: false, vertical: true)
                     .contentShape(Rectangle())
             }
@@ -105,8 +105,8 @@ struct MyWordRow: View {
             Text(trimmedTranslation)
                 .font(.system(.subheadline, design: .default, weight: .medium))
                 .foregroundColor(translationTextColor)
-                .multilineTextAlignment(.leading)
-                .frame(minWidth: 96, maxWidth: .infinity, alignment: .leading)
+                .multilineTextAlignment(.trailing)
+                .frame(minWidth: 96, maxWidth: .infinity, alignment: .trailing)
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityLabel(
                     String(format: Localizable.string(Localizable.myWordsRowTranslationA11yLabel), trimmedTranslation)
