@@ -35,8 +35,14 @@ struct GlobalSearchView: View {
     @State private var searchText = ""
     @State private var isSearchPresented = true
     @FocusState private var isSearchFieldFocused: Bool
+    /// Cached so we don’t rescan the full vocabulary on every `body` evaluation.
+    @State private var searchResultRows: [SearchVocabularyRow] = []
 
     private var searchTabIsSelected: Bool { selectedSection == .search }
+
+    private var trimmedQuery: String {
+        searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     private var progressByWordId: [String: String] {
         wordProgressList.reduce(into: [String: String]()) { partialResult, record in
@@ -44,13 +50,14 @@ struct GlobalSearchView: View {
         }
     }
 
-    private var trimmedQuery: String {
-        searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private var results: [SearchVocabularyRow] {
-        VocabularySearchEngine.matches(
-            query: trimmedQuery,
+    private func rebuildSearchResults() {
+        let q = trimmedQuery
+        guard !q.isEmpty else {
+            searchResultRows = []
+            return
+        }
+        searchResultRows = VocabularySearchEngine.matches(
+            query: q,
             dataService: dataService,
             isPremium: subscriptionManager.isPremiumActive,
             userTranslation: { wordId in
@@ -69,10 +76,10 @@ struct GlobalSearchView: View {
             if trimmedQuery.isEmpty {
                 Color.clear
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if results.isEmpty {
+            } else if searchResultRows.isEmpty {
                 ContentUnavailableView.search(text: trimmedQuery)
             } else {
-                List(results) { item in
+                List(searchResultRows) { item in
                     NavigationLink(value: SearchListDestination(wordId: item.word.id, sectionId: item.sectionId)) {
                         SearchResultRow(
                             word: item.word,
@@ -96,7 +103,14 @@ struct GlobalSearchView: View {
             prompt: Text(Localizable.string(Localizable.searchVocabularyPrompt))
         )
         .searchFocused($isSearchFieldFocused)
-        .onAppear { scheduleSearchFieldFocus() }
+        .onAppear {
+            rebuildSearchResults()
+            scheduleSearchFieldFocus()
+        }
+        .onChange(of: searchText) { _, _ in rebuildSearchResults() }
+        .onChange(of: subscriptionManager.isPremiumActive) { _, _ in rebuildSearchResults() }
+        .onChange(of: wordProgressList) { _, _ in rebuildSearchResults() }
+        .onChange(of: dataService.userCustomWords.count) { _, _ in rebuildSearchResults() }
         .onChange(of: isSearchPresented) { _, presented in
             guard !presented, selectedSection == .search else { return }
             searchText = ""

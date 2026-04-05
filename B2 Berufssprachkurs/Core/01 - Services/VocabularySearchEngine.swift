@@ -19,25 +19,27 @@ enum VocabularySearchEngine {
         let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !q.isEmpty else { return [] }
 
-        var pairs: [(sectionId: String, word: Word)] = []
+        var matches: [(sectionId: String, word: Word)] = []
+        matches.reserveCapacity(64)
+
         for (sectionId, words) in dataService.wordsBySection {
             guard dataService.isSectionIncludedInGlobalSearch(sectionId: sectionId, isPremium: isPremium) else { continue }
             for word in words {
-                pairs.append((sectionId, word))
+                let ut = userTranslation(word.id)
+                if wordMatches(query: q, word: word, userTranslation: ut) {
+                    matches.append((sectionId, word))
+                }
             }
         }
+
         for word in dataService.userCustomWords {
-            pairs.append((DataService.userMyWordsSectionId, word))
+            let ut = userTranslation(word.id)
+            if wordMatches(query: q, word: word, userTranslation: ut) {
+                matches.append((DataService.userMyWordsSectionId, word))
+            }
         }
 
-        let filtered = pairs.filter { pair in
-            haystack(for: pair.word, userTranslation: userTranslation(pair.word.id))
-                .contains { field in
-                    field.range(of: q, options: compareOptions) != nil
-                }
-        }
-
-        return filtered.sorted { lhs, rhs in
+        return matches.sorted { lhs, rhs in
             let o0 = rank(word: lhs.word, query: q)
             let o1 = rank(word: rhs.word, query: q)
             if o0 != o1 { return o0 < o1 }
@@ -48,19 +50,28 @@ enum VocabularySearchEngine {
         }
     }
 
-    private static func haystack(for word: Word, userTranslation: String) -> [String] {
-        var parts: [String] = [
-            word.german,
-            userTranslation,
-            word.translation,
-            word.explanation ?? "",
-            word.example ?? "",
-            word.quiz ?? ""
-        ]
-        if let syn = word.synonyms {
-            parts.append(syn.joined(separator: " "))
+    /// Short-circuits on first hit; avoids building a full “haystack” array per word.
+    private static func wordMatches(query: String, word: Word, userTranslation: String) -> Bool {
+        if textMatches(word.german, query: query) { return true }
+        if textMatches(userTranslation, query: query) { return true }
+        if textMatches(word.translation, query: query) { return true }
+        if let s = word.explanation, textMatches(s, query: query) { return true }
+        if let s = word.example, textMatches(s, query: query) { return true }
+        if let s = word.quiz, textMatches(s, query: query) { return true }
+        if let syn = word.synonyms, !syn.isEmpty {
+            let joined = syn.joined(separator: " ")
+            if textMatches(joined, query: query) { return true }
+            for s in syn where textMatches(s, query: query) {
+                return true
+            }
         }
-        return parts.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty }
+        return false
+    }
+
+    private static func textMatches(_ text: String, query: String) -> Bool {
+        let t = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !t.isEmpty else { return false }
+        return t.range(of: query, options: compareOptions) != nil
     }
 
     /// Lower rank value = earlier in the list (stronger match).
