@@ -16,12 +16,6 @@ enum Localizable {
 
 // Localization keys
 extension Localizable {
-    // Existing
-    static let practiseWithSynonyms = "practise_with_synonyms"
-    static let practiseWithTranslations = "practise_with_translations"
-    static let practiseWithExplanation = "practise_with_explanation"
-    static let practiseWithSynonym = "practise_with_synonym"
-    static let practiseWithTranslation = "practise_with_translation"
     static let selectAll = "select_all"
     
     // Tab Bar
@@ -39,9 +33,6 @@ extension Localizable {
     static let searchBadgeAdjectives = "search_badge_adjectives"
     /// Short row badge in search results (My Words)
     static let searchBadgeMyWords = "search_badge_my_words"
-    
-    // Practice buttons
-    static let practiseWithExample = "practise_with_example"
     
     // Study view
     static let card = "card"

@@ -5,64 +5,9 @@
 //  Created by Ildar on 18.11.25.
 //
 
-import SwiftUI
-
-enum StudyMode {
+/// Spaced-repetition lane per flashcard chip: synonym, explanation, or translation (example sentences are not a separate lane).
+enum StudyMode: CaseIterable {
     case synonyms
     case explanation
     case translations
-    case example // For VERBEN sections with quiz sentences
-    
-    init(from buttonType: ToolbarButtonType) {
-        switch buttonType {
-        case .explanation:
-            self = .explanation
-        case .synonym:
-            self = .synonyms
-        case .translation:
-            self = .translations
-        case .example:
-            self = .example
-        }
-    }
-    
-    var backgroundColor: Color {
-        switch self {
-        case .synonyms:
-            return Color("AppGreenLight")
-        case .explanation:
-            return Color("AppOrangeLight")
-        case .translations:
-            return Color("AppBlueLight")
-        case .example:
-            return Color("AppOrangeLight") // Same as explanation
-        }
-    }
-    
-    var accentColor: Color {
-        switch self {
-        case .synonyms:
-            return Color("AppGreen")
-        case .explanation:
-            return Color("AppOrange")
-        case .translations:
-            return Color("AppBlue")
-        case .example:
-            return Color("AppOrange") // Same as explanation
-        }
-    }
-    
-    var title: String {
-        switch self {
-        case .synonyms:
-            return Localizable.string(Localizable.synonyms)
-        case .explanation:
-            return Localizable.string(Localizable.explanation)
-        case .translations:
-            return Localizable.string(Localizable.translation)
-        case .example:
-            return Localizable.string(Localizable.myWordsExampleLabel)
-        }
-    }
 }
-

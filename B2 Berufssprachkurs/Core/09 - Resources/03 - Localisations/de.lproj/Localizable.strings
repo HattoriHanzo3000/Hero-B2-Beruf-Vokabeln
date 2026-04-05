@@ -5,11 +5,6 @@
   German localization
 */
 
-// Existing strings
-"practise_with_explanation" = "Mit Erklärung üben";
-"practise_with_synonym" = "Mit Synonym üben";
-"practise_with_translation" = "Mit Übersetzung üben";
-
 // Tab Bar
 "home" = "Karten";
 "words" = "Wörter";
@@ -23,9 +18,6 @@
 "search_badge_verbs" = "Verb";
 "search_badge_adjectives" = "Adj";
 "search_badge_my_words" = "Meine";
-
-// Practice buttons
-"practise_with_example" = "Mit Beispiel üben";
 
 // Study view
 "card" = "Karteikarte";

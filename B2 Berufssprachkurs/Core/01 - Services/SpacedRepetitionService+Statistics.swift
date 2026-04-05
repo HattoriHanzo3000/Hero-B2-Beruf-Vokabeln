@@ -19,7 +19,7 @@ extension SpacedRepetitionService {
             var maxRepetitions = 0
             var hasBeenReviewed = false
 
-            for mode in [StudyMode.synonyms, StudyMode.explanation, StudyMode.translations, StudyMode.example] {
+            for mode in StudyMode.allCases {
                 let data = getStudyData(wordId: wordId, mode: mode)
                 if data.lastReviewDate != nil {
                     hasBeenReviewed = true

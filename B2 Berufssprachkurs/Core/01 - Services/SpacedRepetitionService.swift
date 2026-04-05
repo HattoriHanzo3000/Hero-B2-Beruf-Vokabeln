@@ -150,7 +150,6 @@ final class SpacedRepetitionService {
         switch mode {
         case .synonyms: return "synonyms"
         case .explanation: return "explanation"
-        case .example: return "example"
         case .translations: return "translations"
         }
     }
@@ -161,7 +160,14 @@ final class SpacedRepetitionService {
             studyDataCache = [:]
             return
         }
-        studyDataCache = decoded
+        // Drop legacy per-word keys from the old “example” study lane (suffix `_example`).
+        let filtered = decoded.filter { !$0.key.hasSuffix("_example") }
+        if filtered.count != decoded.count {
+            studyDataCache = filtered
+            saveStudyData()
+        } else {
+            studyDataCache = decoded
+        }
     }
 
     func saveStudyData() {

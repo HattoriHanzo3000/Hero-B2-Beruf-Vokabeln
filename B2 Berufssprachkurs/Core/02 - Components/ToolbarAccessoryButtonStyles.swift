@@ -1,54 +1,11 @@
 //
-//  ToolbarButtonType.swift
+//  ToolbarAccessoryButtonStyles.swift
 //  B2 Berufssprachkurs
 //
-//  Toolbar button model, segmented control styles (word list, translation keyboard accessory).
+//  Segmented control styles (translation keyboard accessory, word header).
 //
 
 import SwiftUI
-
-enum ToolbarButtonType {
-    case explanation
-    case synonym
-    case translation
-    case example // For VERBEN sections
-
-    var message: String {
-        switch self {
-        case .explanation: return Localizable.string(Localizable.explanation)
-        case .synonym: return Localizable.string(Localizable.synonym)
-        case .translation: return Localizable.string(Localizable.translation)
-        case .example: return Localizable.string(Localizable.myWordsExampleLabel)
-        }
-    }
-
-    var color: Color {
-        switch self {
-        case .explanation: return Color("AppOrange")
-        case .synonym: return Color("AppGreen")
-        case .translation: return Color("AppBlue")
-        case .example: return Color("AppOrange") // Same as explanation
-        }
-    }
-
-    var buttonText: String {
-        switch self {
-        case .explanation: return Localizable.string(Localizable.practiseWithExplanation)
-        case .synonym: return Localizable.string(Localizable.practiseWithSynonym)
-        case .translation: return Localizable.string(Localizable.practiseWithTranslation)
-        case .example: return Localizable.string(Localizable.practiseWithExample)
-        }
-    }
-
-    var icon: String {
-        switch self {
-        case .explanation: return "info"
-        case .synonym: return "figure.2"
-        case .translation: return "globe"
-        case .example: return "ellipsis"
-        }
-    }
-}
 
 enum GroupedButtonPosition {
     case leading

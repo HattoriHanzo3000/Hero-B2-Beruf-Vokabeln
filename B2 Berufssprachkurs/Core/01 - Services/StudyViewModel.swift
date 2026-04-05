@@ -108,6 +108,7 @@ final class StudyViewModel: ObservableObject {
         }
     }
 
+    /// Maps flashcard chip (``StudyCardContentType``) → spaced-repetition lane.
     private func studyMode(for contentType: StudyCardContentType) -> StudyMode {
         switch contentType {
         case .synonym:

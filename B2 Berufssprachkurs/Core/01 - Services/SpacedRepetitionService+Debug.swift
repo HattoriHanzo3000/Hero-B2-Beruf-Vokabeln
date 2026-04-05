@@ -170,11 +170,10 @@ extension SpacedRepetitionService {
 
     private func writeDebugData(wordId: String, repetitions: Int, seed: Int) {
         let mode: StudyMode
-        switch seed % 4 {
+        switch seed % 3 {
         case 0: mode = .translations
         case 1: mode = .synonyms
-        case 2: mode = .explanation
-        default: mode = .example
+        default: mode = .explanation
         }
 
         let key = makeKey(wordId: wordId, mode: mode)

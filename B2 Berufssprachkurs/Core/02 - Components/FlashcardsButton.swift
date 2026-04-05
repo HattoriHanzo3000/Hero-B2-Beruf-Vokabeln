@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+/// When a floating practice control is disabled, how a tap should behave.
+enum FloatingPracticeInactiveTapBehavior: Equatable {
+    /// Explains category checkmarks (stack roots).
+    case showNeedSelectionAlert
+    /// Heavy haptic only (e.g. My Words empty list).
+    case silent
+}
+
 /// Circular flashcards button used across all practice modes.
 struct FlashcardsButton: View {
     let isEnabled: Bool
