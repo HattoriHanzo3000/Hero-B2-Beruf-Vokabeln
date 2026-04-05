@@ -42,7 +42,7 @@ struct ProgressStatisticsView: View {
         .onAppear {
             updateStatistics()
         }
-        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SpacedRepetitionUpdated"))) { _ in
+        .onReceive(NotificationCenter.default.publisher(for: .spacedRepetitionUpdated)) { _ in
             updateStatistics()
         }
         .onChange(of: wordScope) { _, _ in
