@@ -38,24 +38,10 @@ struct AnimatedGIFView: UIViewRepresentable {
         imageView.setContentHuggingPriority(.required, for: .vertical)
         imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         imageView.setContentCompressionResistancePriority(.required, for: .vertical)
-        
-        // Store imageView in coordinator
+
         context.coordinator.imageView = imageView
-        
-        // Prefer animated UIImage path (more reliable on some iOS versions)
-        if let animated = loadAnimatedUIImage() {
-            imageView.animationImages = nil
-            imageView.image = animated.image
-            context.coordinator.animationConfig = (animated.frames, animated.duration)
-        } else if let config = loadAnimationConfig() {
-            imageView.animationImages = config.images
-            imageView.animationDuration = config.duration
-            imageView.animationRepeatCount = 1
-            imageView.image = config.images.first
-            context.coordinator.animationConfig = config
-        } else {
-            imageView.image = loadAnimatedImageFallback()
-        }
+
+        applyDecodedGif(to: imageView, context: context)
 
         container.addSubview(imageView)
         NSLayoutConstraint.activate([
@@ -65,197 +51,193 @@ struct AnimatedGIFView: UIViewRepresentable {
             imageView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
         ])
 
-        // Start animation if shouldAnimate is true (ensure layout first)
-        if shouldAnimate {
-            DispatchQueue.main.async {
-                imageView.startAnimating()
-            }
-        }
-
         return container
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
         guard let imageView = context.coordinator.imageView else { return }
-        
+
         imageView.contentMode = contentMode
-        
-        // Restart animation when shouldAnimate changes to true
+
+        if context.coordinator.cachedAssetName != gifName {
+            invalidateGifCache(context.coordinator)
+            context.coordinator.lastShouldAnimate = nil
+            applyDecodedGif(to: imageView, context: context)
+        }
+
         if shouldAnimate {
-            // Check if animation is already running by checking if animationImages is set
-            if imageView.animationImages == nil || imageView.animationImages?.isEmpty == true {
-                // Try animated UIImage first
-                if let animated = loadAnimatedUIImage() {
-                    imageView.animationImages = nil
-                    imageView.image = animated.image
-                    context.coordinator.animationConfig = (animated.frames, animated.duration)
-                } else {
-                    // Ensure we have an animation config; reload if missing
-                    if context.coordinator.animationConfig == nil {
-                        context.coordinator.animationConfig = loadAnimationConfig()
-                    }
-                    if let config = context.coordinator.animationConfig {
-                        imageView.animationImages = config.images
-                        imageView.animationDuration = config.duration
-                        imageView.animationRepeatCount = 1
-                        imageView.image = config.images.first
-                    } else {
-                        // Last resort: static first frame
-                        imageView.animationImages = nil
-                        imageView.image = loadAnimatedImageFallback()
-                    }
-                }
-            }
-            // Start animation if not already running
-            if imageView.animationImages != nil && !imageView.animationImages!.isEmpty {
-                imageView.stopAnimating() // Stop any existing animation
-                DispatchQueue.main.async {
-                    imageView.startAnimating()
-                }
-            } else if let animated = imageView.image, animated.images != nil {
-                // Animated UIImage fallback
-                imageView.stopAnimating()
-                DispatchQueue.main.async {
-                    imageView.startAnimating()
-                }
-            } else {
-                // Last resort: CAKeyframeAnimation over layer.contents
-                if let config = loadAnimationConfig() {
-                    let images = config.images
-                    let duration = max(config.duration, 0.1)
-                    let contents = images.compactMap { $0.cgImage }
-                    if !contents.isEmpty {
-                        let animation = CAKeyframeAnimation(keyPath: "contents")
-                        animation.values = contents
-                        // Evenly spaced if we don't have per-frame timing here
-                        let count = contents.count
-                        animation.keyTimes = (0..<count).map { NSNumber(value: Double($0) / Double(max(count - 1, 1))) }
-                        animation.duration = duration
-                        animation.calculationMode = .discrete
-                        animation.repeatCount = 0
-                        animation.isRemovedOnCompletion = true
-                        DispatchQueue.main.async {
-                            imageView.layer.add(animation, forKey: "gif_keyframe_animation")
-                        }
-                    }
-                }
+            if context.coordinator.lastShouldAnimate != true {
+                context.coordinator.lastShouldAnimate = true
+                restartPlayback(imageView, context: context)
             }
         } else {
-            // Stop animation when shouldAnimate is false
-            imageView.stopAnimating()
-            imageView.layer.removeAnimation(forKey: "gif_keyframe_animation")
-        }
-    }
-    
-    // MARK: - Coordinator
-    class Coordinator {
-        var imageView: UIImageView?
-        var animationConfig: (images: [UIImage], duration: Double)?
-    }
-
-    private func loadAnimatedImageFallback() -> UIImage? {
-        guard let url = resolveGifURL() else {
-            return nil
-        }
-        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
-        let frameCount = CGImageSourceGetCount(source)
-        var images: [UIImage] = []
-        var totalDuration: Double = 0
-
-        for index in 0..<frameCount {
-            if let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) {
-                let frameDuration = AnimatedGIFView.frameDuration(at: index, source: source)
-                totalDuration += frameDuration
-                images.append(UIImage(cgImage: cgImage))
+            if context.coordinator.lastShouldAnimate != false {
+                context.coordinator.lastShouldAnimate = false
+                imageView.stopAnimating()
+                imageView.layer.removeAnimation(forKey: "gif_keyframe_animation")
             }
         }
-
-        if images.isEmpty { return nil }
-        if totalDuration <= 0 { totalDuration = Double(images.count) * (1.0 / 24.0) }
-        return UIImage.animatedImage(with: images, duration: totalDuration)
     }
 
-    // Return animated UIImage plus frames and duration for control
-    private func loadAnimatedUIImage() -> (image: UIImage, frames: [UIImage], duration: Double)? {
+    // MARK: - Decode & apply (once per asset per coordinator)
+
+    private func applyDecodedGif(to imageView: UIImageView, context: Context) {
+        guard let d = decodedFrames(for: context) else {
+            imageView.animationImages = nil
+            imageView.image = nil
+            context.coordinator.playbackMode = .caKeyframe
+            return
+        }
+
+        let uniform = Self.delaysAreUniform(d.frameDelays)
+
+        if uniform, let animated = UIImage.animatedImage(with: d.images, duration: d.duration) {
+            imageView.animationImages = nil
+            imageView.image = animated
+            imageView.animationRepeatCount = 1
+            context.coordinator.animationConfig = (d.images, d.duration, d.frameDelays)
+            context.coordinator.playbackMode = .uiImageViewAnimated
+        } else if uniform {
+            imageView.animationImages = d.images
+            imageView.animationDuration = d.duration
+            imageView.animationRepeatCount = 1
+            imageView.image = d.images.first
+            context.coordinator.animationConfig = (d.images, d.duration, d.frameDelays)
+            context.coordinator.playbackMode = .animationImages
+        } else {
+            imageView.animationImages = nil
+            imageView.image = d.images.first
+            context.coordinator.animationConfig = (d.images, d.duration, d.frameDelays)
+            context.coordinator.playbackMode = .caKeyframe
+        }
+    }
+
+    /// Restarts playback using existing `UIImageView` state only (no disk / ImageIO).
+    private func restartPlayback(_ imageView: UIImageView, context: Context) {
+        switch context.coordinator.playbackMode {
+        case .uiImageViewAnimated:
+            guard let img = imageView.image, img.images != nil else { return }
+            imageView.stopAnimating()
+            imageView.startAnimating()
+        case .animationImages:
+            guard let imgs = imageView.animationImages, !imgs.isEmpty else { return }
+            imageView.stopAnimating()
+            imageView.startAnimating()
+        case .caKeyframe:
+            guard let config = context.coordinator.animationConfig else { return }
+            let duration = max(config.duration, 0.1)
+            let contents = config.images.compactMap { $0.cgImage }
+            guard !contents.isEmpty else { return }
+
+            imageView.layer.removeAnimation(forKey: "gif_keyframe_animation")
+            let animation = CAKeyframeAnimation(keyPath: "contents")
+            animation.values = contents
+            animation.keyTimes = Self.normalizedKeyTimes(for: config.frameDelays, totalDuration: duration)
+            animation.duration = duration
+            animation.calculationMode = .discrete
+            animation.repeatCount = 0
+            animation.isRemovedOnCompletion = true
+            imageView.layer.add(animation, forKey: "gif_keyframe_animation")
+        }
+    }
+
+    /// Cumulative start times for each frame (0…1), matching GIF per-frame delays.
+    private static func normalizedKeyTimes(for delays: [Double], totalDuration: Double) -> [NSNumber] {
+        let t = max(totalDuration, 0.0001)
+        var cumulative = 0.0
+        return delays.map { delay in
+            let key = cumulative / t
+            cumulative += delay
+            return NSNumber(value: key)
+        }
+    }
+
+    private static func delaysAreUniform(_ delays: [Double]) -> Bool {
+        guard delays.count > 1 else { return true }
+        let first = delays[0]
+        return delays.dropFirst().allSatisfy { abs($0 - first) < 0.001 }
+    }
+
+    // MARK: - Coordinator
+
+    enum GifPlaybackMode {
+        case uiImageViewAnimated
+        case animationImages
+        case caKeyframe
+    }
+
+    final class Coordinator {
+        var imageView: UIImageView?
+        var animationConfig: (images: [UIImage], duration: Double, frameDelays: [Double])?
+        /// Avoid decoding the same bundle GIF on every SwiftUI update.
+        var cachedAssetName: String?
+        var decodedFrames: (images: [UIImage], duration: Double, frameDelays: [Double])?
+        /// Only restart playback when `shouldAnimate` becomes true (or asset changes), not on every parent re-render.
+        var lastShouldAnimate: Bool?
+        var playbackMode: GifPlaybackMode = .caKeyframe
+    }
+
+    private func invalidateGifCache(_ coordinator: Coordinator) {
+        coordinator.cachedAssetName = nil
+        coordinator.decodedFrames = nil
+        coordinator.animationConfig = nil
+        coordinator.playbackMode = .caKeyframe
+    }
+
+    /// Single ImageIO decode per asset name while the coordinator lives.
+    private func decodedFrames(for context: Context) -> (images: [UIImage], duration: Double, frameDelays: [Double])? {
+        if context.coordinator.cachedAssetName == gifName, let cached = context.coordinator.decodedFrames {
+            return cached
+        }
+        guard let decoded = decodeGifFramesFromBundle() else {
+            context.coordinator.cachedAssetName = gifName
+            context.coordinator.decodedFrames = nil
+            return nil
+        }
+        context.coordinator.cachedAssetName = gifName
+        context.coordinator.decodedFrames = decoded
+        return decoded
+    }
+
+    private func decodeGifFramesFromBundle() -> (images: [UIImage], duration: Double, frameDelays: [Double])? {
         guard let url = resolveGifURL() else { return nil }
         guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
         let frameCount = CGImageSourceGetCount(source)
         var images: [UIImage] = []
-        var totalDuration: Double = 0
-        for index in 0..<frameCount {
-            if let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) {
-                let frameDuration = AnimatedGIFView.frameDuration(at: index, source: source)
-                totalDuration += frameDuration
-                images.append(UIImage(cgImage: cgImage))
-            }
-        }
-        if images.isEmpty { return nil }
-        if totalDuration <= 0 { totalDuration = Double(images.count) * (1.0 / 24.0) }
-        guard let animated = UIImage.animatedImage(with: images, duration: totalDuration) else { return nil }
-        return (animated, images, totalDuration)
-    }
-
-    private func loadAnimationConfig() -> (images: [UIImage], duration: Double)? {
-        guard let url = resolveGifURL() else {
-            return nil
-        }
-        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
-        let frameCount = CGImageSourceGetCount(source)
-        var images: [UIImage] = []
+        var frameDelays: [Double] = []
         var totalDuration: Double = 0
 
         for index in 0..<frameCount {
             if let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) {
-                let frameDuration = AnimatedGIFView.frameDuration(at: index, source: source)
-                totalDuration += frameDuration
+                let delay = GIFBundleLookup.frameDelay(at: index, source: source)
+                frameDelays.append(delay)
+                totalDuration += delay
                 images.append(UIImage(cgImage: cgImage))
             }
         }
+
         if images.isEmpty { return nil }
-        if totalDuration <= 0 { totalDuration = Double(images.count) * (1.0 / 24.0) }
-        return (images, totalDuration)
+        if totalDuration <= 0 {
+            let per = 1.0 / 24.0
+            frameDelays = Array(repeating: per, count: images.count)
+            totalDuration = Double(images.count) * per
+        }
+        return (images, totalDuration, frameDelays)
     }
 
-    // Try multiple bundle locations to support folder references like "Resources/GIFs"
     private func resolveGifURL() -> URL? {
-        // Try name and a dark/light fallback candidate if applicable
-        let baseName: String
         let candidates: [String]
         if gifName.hasSuffix("Dark") {
-            baseName = String(gifName.dropLast(4))
+            let baseName = String(gifName.dropLast(4))
             candidates = [gifName, baseName]
         } else {
-            baseName = gifName
             candidates = [gifName]
         }
-
-        let subdirs = [nil, "02 - Gifs", "GIFs", "Resources/02 - Gifs"]
         for name in candidates {
-            for sub in subdirs {
-                if let url = Bundle.main.url(forResource: name, withExtension: "gif", subdirectory: sub) {
-                    return url
-                }
+            if let url = GIFBundleLookup.url(forResourceName: name) {
+                return url
             }
         }
         return nil
     }
-
-    private static func frameDuration(at index: Int, source: CGImageSource) -> Double {
-        var duration = 0.1
-        guard let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any],
-              let gifProperties = properties[kCGImagePropertyGIFDictionary] as? [CFString: Any] else {
-            return duration
-        }
-
-        if let unclampedDelayTime = gifProperties[kCGImagePropertyGIFUnclampedDelayTime] as? Double, unclampedDelayTime > 0 {
-            duration = unclampedDelayTime
-        } else if let delayTime = gifProperties[kCGImagePropertyGIFDelayTime] as? Double, delayTime > 0 {
-            duration = delayTime
-        }
-
-        // Fallback for very small frame delays
-        if duration < 0.02 { duration = 0.1 }
-        return duration
-    }
 }
-
