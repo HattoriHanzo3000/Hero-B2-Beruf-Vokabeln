@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RatingPromptView: View {
-    @ObservedObject private var ratingManager = RatingManager.shared
+    @ObservedObject var ratingManager: RatingManager
     @ObservedObject private var languageManager = LanguageManager.shared
     @Environment(\.colorScheme) private var colorScheme
 
@@ -120,7 +120,7 @@ private struct RatingPromptPreviewHost: View {
             Color.black.opacity(0.3)
                 .ignoresSafeArea()
 
-            RatingPromptView()
+            RatingPromptView(ratingManager: .shared)
         }
     }
 }

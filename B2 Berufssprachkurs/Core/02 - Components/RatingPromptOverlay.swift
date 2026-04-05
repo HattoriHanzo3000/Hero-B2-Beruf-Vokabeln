@@ -20,7 +20,7 @@ struct RatingPromptOverlay: View {
                             ratingManager.remindLater()
                         }
 
-                    RatingPromptView()
+                    RatingPromptView(ratingManager: ratingManager)
                 }
                 .transition(.opacity)
                 .animation(.easeInOut(duration: 0.3), value: ratingManager.showRatingPrompt)
