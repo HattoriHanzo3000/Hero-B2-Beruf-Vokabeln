@@ -107,7 +107,7 @@ struct RevenueCatExampleView: View {
         }
         .navigationTitle("RevenueCat Integration")
         .sheet(isPresented: $showPaywall) {
-            RevenueCatPaywallView()
+            PaywallView()
         }
         .sheet(isPresented: $showCustomerCenter) {
             AppCustomerCenterView()
