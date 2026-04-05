@@ -80,6 +80,9 @@ extension Localizable {
     /// Word-of-the-day header: same `abbr.: ` style as other row labels.
     static let wordRowDetailLabelTranslation = "word_row_detail_label_translation"
 
+    /// PDF running footer: current page and total page count (two integers).
+    static let pdfPageOfTotalFormat = "pdf_page_of_total_format"
+
     /// Translation field keyboard accessory (prev / next / done).
     static let keyboardNavPreviousWordA11y = "keyboard_nav_previous_word_a11y"
     static let keyboardNavPreviousWordHintA11y = "keyboard_nav_previous_word_hint_a11y"

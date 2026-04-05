@@ -57,6 +57,7 @@
 "word_row_detail_label_example" = "beisp.: ";
 "word_row_detail_label_synonyms" = "syn.: ";
 "word_row_detail_label_translation" = "übers.: ";
+"pdf_page_of_total_format" = "Seite %1$d von %2$d";
 "keyboard_nav_previous_word_a11y" = "Vorheriges Wort";
 "keyboard_nav_previous_word_hint_a11y" = "Zum vorherigen Wort in der Liste springen";
 "keyboard_nav_next_word_a11y" = "Nächstes Wort";

@@ -57,6 +57,7 @@
 "word_row_detail_label_example" = "ex.: ";
 "word_row_detail_label_synonyms" = "syn.: ";
 "word_row_detail_label_translation" = "trans.: ";
+"pdf_page_of_total_format" = "Page %1$d of %2$d";
 "keyboard_nav_previous_word_a11y" = "Previous word";
 "keyboard_nav_previous_word_hint_a11y" = "Navigate to the previous word in the list";
 "keyboard_nav_next_word_a11y" = "Next word";

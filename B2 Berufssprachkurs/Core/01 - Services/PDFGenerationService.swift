@@ -339,7 +339,11 @@ struct PDFGenerationService {
         }
         
         let footerY = pageHeight - footerBottomInset
-        let pageLabel = "Seite \(pageNumber) von \(totalPages)"
+        let pageLabel = String(
+            format: Localizable.string(Localizable.pdfPageOfTotalFormat),
+            pageNumber,
+            totalPages
+        )
         
         let leftSize = leftFooterText.size(withAttributes: footerAttributes)
         let pageSize = pageLabel.size(withAttributes: footerAttributes)
