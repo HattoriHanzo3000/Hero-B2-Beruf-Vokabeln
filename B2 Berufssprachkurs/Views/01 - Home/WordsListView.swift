@@ -72,7 +72,7 @@ struct WordsListView: View {
         )
     }
 
-    private var listTranslationGroup: DataService.FavoriteGroupType {
+    private var listTranslationGroup: FavoriteGroupType {
         dataService.getGroupType(for: sectionId)
     }
 

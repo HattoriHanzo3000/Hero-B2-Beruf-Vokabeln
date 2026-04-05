@@ -14,7 +14,7 @@ struct SearchResultRow: View {
     let userTranslation: String
     let colorScheme: ColorScheme
 
-    private var group: DataService.FavoriteGroupType {
+    private var group: FavoriteGroupType {
         dataService.getGroupType(for: sectionId)
     }
 

@@ -2,146 +2,64 @@
 //  DataService.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Facade: bundled vocabulary + user words, study progress, and favorites.
+//  `StudyProgressStore` / `FavoritesStore` emit changes through this `objectWillChange` forwarder.
 //
 
-import Foundation
 import Combine
-import SwiftUI
+import Foundation
 import SwiftData
+import SwiftUI
 
 @MainActor
 class DataService: ObservableObject {
-    /// Which vocabulary set drives the Cockpit progress ring and statistics.
-    enum ProgressWordScope: String, CaseIterable, Identifiable, Hashable {
-        case app
-        case mine
-        var id: String { rawValue }
-    }
+    typealias ProgressWordScope = VocabularyCatalog.ProgressWordScope
+    typealias GeneralWordsFreeTier = VocabularyCatalog.GeneralWordsFreeTier
+    typealias VerbenFreeTier = VocabularyCatalog.VerbenFreeTier
+    typealias AdjektiveFreeTier = VocabularyCatalog.AdjektiveFreeTier
 
-    /// Synthetic section for user-created entries (`CustomWordEntry`); not in bundle JSON.
-    static let userMyWordsSectionId = "USER_MY_WORDS"
-
-    /// General Words lections from `lections.json` (IDs 1…12). Without Pro, only lection `1` is selectable for practice.
-    enum GeneralWordsFreeTier {
-        static let unlockedLectionId = 1
-        static func isLectionUnlockedWithoutPremium(_ lectionId: Int) -> Bool {
-            lectionId == unlockedLectionId
-        }
-    }
-
-    /// Verben mit Präpositionen: without Pro, only the **an** section is available for practice.
-    enum VerbenFreeTier {
-        static let unlockedSectionId = "VERBEN_an"
-        static func isVerbenSectionUnlockedWithoutPremium(_ sectionId: String) -> Bool {
-            sectionId == unlockedSectionId
-        }
-    }
-
-    /// Adjektive mit Präpositionen: without Pro, only the **an** section is available for practice.
-    enum AdjektiveFreeTier {
-        static let unlockedSectionId = "ADJEKTIVE_an"
-        static func isAdjektiveSectionUnlockedWithoutPremium(_ sectionId: String) -> Bool {
-            sectionId == unlockedSectionId
-        }
-    }
+    static let userMyWordsSectionId = VocabularyCatalog.userMyWordsSectionId
 
     @Published var lections: [Lection] = []
     @Published var wordsBySection: [String: [Word]] = [:]
     /// Populated from SwiftData `CustomWordEntry` (CloudKit when sync is on).
     @Published var userCustomWords: [Word] = []
-    @Published var completedSections: Set<String> = []
-    @Published var completedLections: Set<Int> = []
-    @Published var checkedWords: [String: Set<String>] = [:] // sectionId: Set<wordId>
-    @Published var favoriteWords: Set<String> = [] // Set of wordIds that are favorited
-    
+
+    let studyProgress: StudyProgressStore
+    let favorites: FavoritesStore
+
     private let userDefaults = UserDefaults.standard
-    private let completedLectionsKey = "completedLections"
-    private let completedSectionsKey = "completedSections"
-    private let favoriteWordsKey = "favoriteWords"
-    
+    private var cancellables = Set<AnyCancellable>()
+
+    var completedSections: Set<String> { studyProgress.completedSections }
+    var completedLections: Set<Int> { studyProgress.completedLections }
+    var checkedWords: [String: Set<String>] { studyProgress.checkedWords }
+    /// Word IDs marked as favorites (same meaning as before extraction).
+    var favoriteWords: Set<String> { favorites.favoriteWordIds }
+
     init() {
+        studyProgress = StudyProgressStore(userDefaults: userDefaults)
+        favorites = FavoritesStore(userDefaults: userDefaults)
+
+        studyProgress.objectWillChange.sink { [weak self] _ in
+            self?.objectWillChange.send()
+        }.store(in: &cancellables)
+
+        favorites.objectWillChange.sink { [weak self] _ in
+            self?.objectWillChange.send()
+        }.store(in: &cancellables)
+
         loadData()
-        loadCompletedStates()
-        loadFavoriteWords()
+        studyProgress.reconcileWithGeneralLections(lections)
     }
-    
+
     func loadData() {
-        // Load lections
-        if let url = Bundle.main.url(forResource: "lections", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let lectionsData = try? JSONDecoder().decode(LectionsData.self, from: data) {
-            self.lections = lectionsData.lections
-        }
-        
-        // Load chapter section files (chapter_1_A.json through chapter_12_E.json)
-        for chapter in 1...12 {
-            for letter in ["A", "B", "C", "D", "E"] {
-                let filename = "chapter_\(chapter)_\(letter)"
-                if let url = Bundle.main.url(forResource: filename, withExtension: "json"),
-                   let data = try? Data(contentsOf: url),
-                   let sectionFile = try? JSONDecoder().decode(SectionFile.self, from: data) {
-                    let words = sectionFile.words.map { wordWithoutTranslation -> Word in
-                        return Word(
-                            id: wordWithoutTranslation.id,
-                            german: wordWithoutTranslation.german,
-                            translation: "",
-                            synonyms: wordWithoutTranslation.synonyms,
-                            explanation: wordWithoutTranslation.explanation,
-                            example: wordWithoutTranslation.example,
-                            quiz: wordWithoutTranslation.quiz
-                        )
-                    }
-                    wordsBySection[sectionFile.sectionId] = words
-                }
-            }
-        }
-        
-        // Load Verben mit Präpositionen files
-        let verbenPrepositions = ["an", "auf", "aus", "bei", "bis", "durch", "für", "gegen", "in", "mit", "nach", "über", "um", "unter", "von", "vor", "zu"]
-        for preposition in verbenPrepositions {
-            let filename = "verben_\(preposition)"
-            if let url = Bundle.main.url(forResource: filename, withExtension: "json"),
-               let data = try? Data(contentsOf: url),
-               let sectionFile = try? JSONDecoder().decode(SectionFile.self, from: data) {
-                let words = sectionFile.words.map { wordWithoutTranslation -> Word in
-                    return Word(
-                        id: wordWithoutTranslation.id,
-                        german: wordWithoutTranslation.german,
-                        translation: "",
-                        synonyms: wordWithoutTranslation.synonyms,
-                        explanation: wordWithoutTranslation.explanation,
-                        example: wordWithoutTranslation.example,
-                        quiz: wordWithoutTranslation.quiz
-                    )
-                }
-                wordsBySection[sectionFile.sectionId] = words
-            }
-        }
-        
-        // Load Adjektive mit Präpositionen files
-        let adjektivePrepositions = ["an", "auf", "bei", "für", "gegenüber", "in", "mit", "nach", "über", "um", "von", "vor", "zu"]
-        for preposition in adjektivePrepositions {
-            let filename = "adjektive_\(preposition)"
-            if let url = Bundle.main.url(forResource: filename, withExtension: "json"),
-               let data = try? Data(contentsOf: url),
-               let sectionFile = try? JSONDecoder().decode(SectionFile.self, from: data) {
-                let words = sectionFile.words.map { wordWithoutTranslation -> Word in
-                    return Word(
-                        id: wordWithoutTranslation.id,
-                        german: wordWithoutTranslation.german,
-                        translation: "",
-                        synonyms: wordWithoutTranslation.synonyms,
-                        explanation: wordWithoutTranslation.explanation,
-                        example: wordWithoutTranslation.example,
-                        quiz: wordWithoutTranslation.quiz
-                    )
-                }
-                wordsBySection[sectionFile.sectionId] = words
-            }
-        }
+        let loaded = BundledVocabularyLoader.load()
+        lections = loaded.lections
+        wordsBySection = loaded.wordsBySection
+        studyProgress.reconcileWithGeneralLections(lections)
     }
-    
+
     func getWords(for sectionId: String) -> [Word] {
         if sectionId == Self.userMyWordsSectionId {
             return userCustomWords
@@ -157,8 +75,7 @@ class DataService: ObservableObject {
             }
             .map { $0.asWord() }
     }
-    
-    /// Word IDs from bundled course content only (excludes `userCustomWords`).
+
     func getBundleWordIds() -> [String] {
         wordsBySection.values.flatMap { $0.map(\.id) }
     }
@@ -167,7 +84,6 @@ class DataService: ObservableObject {
         userCustomWords.map(\.id)
     }
 
-    /// Get all word IDs across all sections
     func getAllWordIds() -> [String] {
         getBundleWordIds() + getUserCustomWordIds()
     }
@@ -180,612 +96,163 @@ class DataService: ObservableObject {
             return getUserCustomWordIds()
         }
     }
-    
-    func getLectionAndSection(for sectionId: String) -> (lectionTitle: String, sectionTitle: String, lectionNumber: String, sectionLetter: String)? {
-        // Handle VERBEN sections
-        if sectionId.hasPrefix("VERBEN_") {
-            let preposition = String(sectionId.dropFirst(7)) // Remove "VERBEN_" prefix
-            return (lectionTitle: "Verben mit Präpositionen", sectionTitle: preposition, lectionNumber: "", sectionLetter: "")
-        }
-        
-        // Handle ADJEKTIVE sections
-        if sectionId.hasPrefix("ADJEKTIVE_") {
-            let preposition = String(sectionId.dropFirst(10)) // Remove "ADJEKTIVE_" prefix
-            return (lectionTitle: "Adjektive mit Präpositionen", sectionTitle: preposition, lectionNumber: "", sectionLetter: "")
-        }
-        
-        // Handle regular lection sections
-        for lection in lections {
-            if let section = lection.sections.first(where: { $0.id == sectionId }) {
-                // Extract lection number (first character(s) before letter)
-                let lectionNumber = String(lection.id)
-                
-                // Extract section letter (last character)
-                let sectionLetter = sectionId.last?.uppercased() ?? ""
-                
-                return (lectionTitle: lection.title, sectionTitle: section.title, lectionNumber: lectionNumber, sectionLetter: sectionLetter)
-            }
-        }
-        return nil
-    }
-    
+
+    // MARK: - Study progress (forwards)
+
     func toggleWordChecked(wordId: String, in sectionId: String) {
-        if checkedWords[sectionId] == nil {
-            checkedWords[sectionId] = []
-        }
-        
-        if var checked = checkedWords[sectionId] {
-            if checked.contains(wordId) {
-                checked.remove(wordId)
-            } else {
-                checked.insert(wordId)
-            }
-            checkedWords[sectionId] = checked
-            updateSectionCompletion(sectionId: sectionId)
-        }
-    }
-    
-    func toggleAllWords(in sectionId: String) {
-        let words = getWords(for: sectionId)
-        let allWordIds = Set(words.map { $0.id })
-        let currentChecked = checkedWords[sectionId] ?? Set<String>()
-        
-        if allWordIds.isSubset(of: currentChecked) {
-            // All are selected, unselect all
-            checkedWords[sectionId] = Set<String>()
-        } else {
-            // Select all words
-            checkedWords[sectionId] = allWordIds
-        }
-        updateSectionCompletion(sectionId: sectionId)
-    }
-    
-    func isWordChecked(wordId: String, in sectionId: String) -> Bool {
-        return checkedWords[sectionId]?.contains(wordId) ?? false
-    }
-    
-    func toggleSectionCompleted(sectionId: String) {
-        if completedSections.contains(sectionId) {
-            completedSections.remove(sectionId)
-        } else {
-            completedSections.insert(sectionId)
-        }
-        syncLectionCompletionMetadata(forSectionId: sectionId)
-        saveCompletedStates()
-    }
-    
-    func isSectionCompleted(sectionId: String) -> Bool {
-        return completedSections.contains(sectionId)
-    }
-    
-    func toggleLectionCompleted(lectionId: Int) {
-        // Find the lection
-        guard let lection = lections.first(where: { $0.id == lectionId }) else { return }
-        
-        let sectionIds = Set(lection.sections.map { $0.id })
-        
-        if completedLections.contains(lectionId) {
-            // Unchecking: unselect all sections in this lection
-            completedLections.remove(lectionId)
-            for sectionId in sectionIds {
-                completedSections.remove(sectionId)
-            }
-        } else {
-            // Checking: mark lection and all sections as completed
-            completedLections.insert(lectionId)
-            for sectionId in sectionIds {
-                completedSections.insert(sectionId)
-            }
-        }
-        saveCompletedStates()
-    }
-    
-    /// True when every subsection in this lection is marked complete (source of truth for UI and study gating).
-    func isLectionCompleted(lectionId: Int) -> Bool {
-        guard let lection = lections.first(where: { $0.id == lectionId }) else {
-            return completedLections.contains(lectionId)
-        }
-        return isEverySectionCompleted(in: lection)
+        studyProgress.toggleWordChecked(
+            wordId: wordId,
+            in: sectionId,
+            wordsInSection: getWords(for: sectionId),
+            lections: lections
+        )
     }
 
-    /// Uses `lection.sections` (dynamic count), not a fixed number.
+    func toggleAllWords(in sectionId: String) {
+        studyProgress.toggleAllWords(
+            in: sectionId,
+            wordsInSection: getWords(for: sectionId),
+            lections: lections
+        )
+    }
+
+    func isWordChecked(wordId: String, in sectionId: String) -> Bool {
+        studyProgress.isWordChecked(wordId: wordId, in: sectionId)
+    }
+
+    func toggleSectionCompleted(sectionId: String) {
+        studyProgress.toggleSectionCompleted(sectionId: sectionId, lections: lections)
+    }
+
+    func isSectionCompleted(sectionId: String) -> Bool {
+        studyProgress.isSectionCompleted(sectionId: sectionId)
+    }
+
+    func toggleLectionCompleted(lectionId: Int) {
+        studyProgress.toggleLectionCompleted(lectionId: lectionId, lections: lections)
+    }
+
+    func isLectionCompleted(lectionId: Int) -> Bool {
+        studyProgress.isLectionCompleted(lectionId: lectionId, lections: lections)
+    }
+
     func isEverySectionCompleted(in lection: Lection) -> Bool {
-        let ids = lection.sections.map { $0.id }
-        guard !ids.isEmpty else { return false }
-        return ids.allSatisfy { completedSections.contains($0) }
+        studyProgress.isEverySectionCompleted(in: lection)
     }
 
     func isAnySectionCompleted(in lection: Lection) -> Bool {
-        lection.sections.contains { completedSections.contains($0.id) }
+        studyProgress.isAnySectionCompleted(in: lection)
     }
 
-    private func syncLectionCompletionMetadata(forSectionId sectionId: String) {
-        guard let lection = lections.first(where: { $0.sections.contains { $0.id == sectionId } }) else { return }
-        let sectionIds = Set(lection.sections.map { $0.id })
-        guard !sectionIds.isEmpty else { return }
-        if sectionIds.isSubset(of: completedSections) {
-            completedLections.insert(lection.id)
-        } else {
-            completedLections.remove(lection.id)
-        }
-    }
-
-    private func reconcileLectionCompletionMetadataWithSectionState() {
-        for lection in lections {
-            let sectionIds = Set(lection.sections.map { $0.id })
-            guard !sectionIds.isEmpty else { continue }
-            if sectionIds.isSubset(of: completedSections) {
-                completedLections.insert(lection.id)
-            } else {
-                completedLections.remove(lection.id)
-            }
-        }
-    }
-    
-    /// Toggles “all subsections in all lections” for **General Words only**. Does not change Verben or Adjektive stacks.
     func toggleAllLections() {
-        let allSectionIds = Set(lections.flatMap { $0.sections.map { $0.id } })
-        let allGeneralSelected = lections.allSatisfy { isEverySectionCompleted(in: $0) }
-        
-        if allGeneralSelected {
-            for id in allSectionIds {
-                completedSections.remove(id)
-            }
-        } else {
-            for id in allSectionIds {
-                completedSections.insert(id)
-            }
-        }
-        reconcileLectionCompletionMetadataWithSectionState()
-        saveCompletedStates()
+        studyProgress.toggleAllLections(lections: lections)
     }
 
-    /// Toggles “all available” checkmark state for General Words based on tier.
-    /// Premium: all lections. Free: only lection 1 sections.
     func toggleAllGeneralWordsForStudy(isPremium: Bool) {
-        if isPremium {
-            toggleAllLections()
-            return
-        }
-        guard let lection1 = lections.first(where: { $0.id == GeneralWordsFreeTier.unlockedLectionId }) else {
-            return
-        }
-        let freeSectionIds = Set(lection1.sections.map(\.id))
-        let isFullySelected = isEverySectionCompleted(in: lection1)
-        if isFullySelected {
-            completedSections.subtract(freeSectionIds)
-        } else {
-            completedSections.formUnion(freeSectionIds)
-        }
-        reconcileLectionCompletionMetadataWithSectionState()
-        saveCompletedStates()
+        studyProgress.toggleAllGeneralWordsForStudy(isPremium: isPremium, lections: lections)
     }
-    
-    /// True when every subsection in every lection is marked (General Words stack “select all”).
+
     func areAllLectionsCompleted() -> Bool {
-        guard !lections.isEmpty else { return false }
-        return lections.allSatisfy { isEverySectionCompleted(in: $0) }
+        studyProgress.areAllLectionsCompleted(lections: lections)
     }
-    
-    // VERBEN sections IDs
-    private var verbenSectionIds: Set<String> {
-        return [
-            "VERBEN_an", "VERBEN_auf", "VERBEN_aus", "VERBEN_bei", "VERBEN_bis",
-            "VERBEN_durch", "VERBEN_für", "VERBEN_gegen", "VERBEN_in", "VERBEN_mit",
-            "VERBEN_nach", "VERBEN_über", "VERBEN_um", "VERBEN_unter", "VERBEN_von",
-            "VERBEN_vor", "VERBEN_zu"
-        ]
-    }
-    
+
     func toggleVerbenCompleted() {
-        let allCompleted = verbenSectionIds.isSubset(of: completedSections)
-        
-        if allCompleted {
-            // Unchecking: unselect all VERBEN sections
-            for sectionId in verbenSectionIds {
-                completedSections.remove(sectionId)
-            }
-        } else {
-            // Checking: mark all VERBEN sections as completed
-            for sectionId in verbenSectionIds {
-                completedSections.insert(sectionId)
-            }
-        }
-        saveCompletedStates()
+        studyProgress.toggleVerbenCompleted()
     }
 
-    /// Toggles “all available” checkmark state for Verben based on tier.
-    /// Premium: all VERBEN rows. Free: only VERBEN_an.
     func toggleVerbenCompletedForStudy(isPremium: Bool) {
-        if isPremium {
-            toggleVerbenCompleted()
-            return
-        }
-        let an = VerbenFreeTier.unlockedSectionId
-        if completedSections.contains(an) {
-            completedSections.remove(an)
-        } else {
-            completedSections.insert(an)
-        }
-        saveCompletedStates()
+        studyProgress.toggleVerbenCompletedForStudy(isPremium: isPremium)
     }
-    
+
     func isVerbenCompleted() -> Bool {
-        return verbenSectionIds.isSubset(of: completedSections)
+        studyProgress.isVerbenCompleted()
     }
-    
-    /// Practice / floating button: only lection 1 counts for non‑Pro users.
+
     func hasAnyGeneralWordsPracticeSelection(isPremium: Bool) -> Bool {
-        let relevant: [Lection]
-        if isPremium {
-            relevant = lections
-        } else {
-            relevant = lections.filter { $0.id == GeneralWordsFreeTier.unlockedLectionId }
-        }
-        guard !relevant.isEmpty else { return false }
-        if relevant.contains(where: { isLectionCompleted(lectionId: $0.id) }) { return true }
-        for lection in relevant {
-            for section in lection.sections {
-                if isSectionCompleted(sectionId: section.id) { return true }
-                if let checked = checkedWords[section.id], !checked.isEmpty { return true }
-            }
-        }
-        return false
+        studyProgress.hasAnyGeneralWordsPracticeSelection(isPremium: isPremium, lections: lections)
     }
 
-    /// “Study all” for General Words: all lections when Pro; otherwise all subsections in lection 1 only.
     func areAllGeneralWordsCompletedForStudy(isPremium: Bool) -> Bool {
-        if isPremium {
-            return areAllLectionsCompleted()
-        }
-        guard let lection1 = lections.first(where: { $0.id == GeneralWordsFreeTier.unlockedLectionId }) else {
-            return false
-        }
-        return isEverySectionCompleted(in: lection1)
+        studyProgress.areAllGeneralWordsCompletedForStudy(isPremium: isPremium, lections: lections)
     }
 
-    /// When user is on free tier, keep completion checkmarks only for unlocked sections
-    /// (General Words lection 1 + Verben `an` + Adjektive `an`).
     func sanitizeCompletedSelectionsForCurrentTier(isPremium: Bool) {
-        guard !isPremium else { return }
-
-        let unlockedGeneralSectionIds = Set(
-            lections
-                .first(where: { $0.id == GeneralWordsFreeTier.unlockedLectionId })?
-                .sections
-                .map(\.id) ?? []
-        )
-        let allowedSectionIds = unlockedGeneralSectionIds
-            .union([VerbenFreeTier.unlockedSectionId, AdjektiveFreeTier.unlockedSectionId])
-
-        completedSections = completedSections.intersection(allowedSectionIds)
-        reconcileLectionCompletionMetadataWithSectionState()
-        saveCompletedStates()
+        studyProgress.sanitizeCompletedSelectionsForCurrentTier(isPremium: isPremium, lections: lections)
     }
-    
+
     func hasAnyVerbenCompleted() -> Bool {
-        return verbenSectionIds.contains { completedSections.contains($0) }
+        studyProgress.hasAnyVerbenCompleted()
     }
 
-    /// Practice button on Verbs stack: all VERBEN rows when Pro; otherwise only **an** may count.
     func hasAnyVerbenPracticeSelection(isPremium: Bool) -> Bool {
-        if isPremium {
-            return hasAnyVerbenCompleted()
-        }
-        let an = VerbenFreeTier.unlockedSectionId
-        if isSectionCompleted(sectionId: an) { return true }
-        if let checked = checkedWords[an], !checked.isEmpty { return true }
-        return false
+        studyProgress.hasAnyVerbenPracticeSelection(isPremium: isPremium)
     }
 
-    /// “Study all” for Verbs: every VERBEN subsection when Pro; otherwise only **an** is fully selected.
     func areAllVerbenCompletedForStudy(isPremium: Bool) -> Bool {
-        if isPremium {
-            return isVerbenCompleted()
-        }
-        return isSectionCompleted(sectionId: VerbenFreeTier.unlockedSectionId)
+        studyProgress.areAllVerbenCompletedForStudy(isPremium: isPremium)
     }
-    
-    // ADJEKTIVE sections IDs
-    private var adjektiveSectionIds: Set<String> {
-        return [
-            "ADJEKTIVE_an", "ADJEKTIVE_auf", "ADJEKTIVE_bei", "ADJEKTIVE_für",
-            "ADJEKTIVE_gegenüber", "ADJEKTIVE_in", "ADJEKTIVE_mit", "ADJEKTIVE_nach",
-            "ADJEKTIVE_über", "ADJEKTIVE_um", "ADJEKTIVE_von", "ADJEKTIVE_vor",
-            "ADJEKTIVE_zu"
-        ]
-    }
-    
+
     func toggleAdjektiveCompleted() {
-        let allCompleted = adjektiveSectionIds.isSubset(of: completedSections)
-        
-        if allCompleted {
-            // Unchecking: unselect all ADJEKTIVE sections
-            for sectionId in adjektiveSectionIds {
-                completedSections.remove(sectionId)
-            }
-        } else {
-            // Checking: mark all ADJEKTIVE sections as completed
-            for sectionId in adjektiveSectionIds {
-                completedSections.insert(sectionId)
-            }
-        }
-        saveCompletedStates()
+        studyProgress.toggleAdjektiveCompleted()
     }
 
-    /// Toggles “all available” checkmark state for Adjektive based on tier.
-    /// Premium: all ADJEKTIVE rows. Free: only ADJEKTIVE_an.
     func toggleAdjektiveCompletedForStudy(isPremium: Bool) {
-        if isPremium {
-            toggleAdjektiveCompleted()
-            return
-        }
-        let an = AdjektiveFreeTier.unlockedSectionId
-        if completedSections.contains(an) {
-            completedSections.remove(an)
-        } else {
-            completedSections.insert(an)
-        }
-        saveCompletedStates()
+        studyProgress.toggleAdjektiveCompletedForStudy(isPremium: isPremium)
     }
-    
+
     func isAdjektiveCompleted() -> Bool {
-        return adjektiveSectionIds.isSubset(of: completedSections)
+        studyProgress.isAdjektiveCompleted()
     }
-    
+
     func hasAnyAdjektiveCompleted() -> Bool {
-        return adjektiveSectionIds.contains { completedSections.contains($0) }
+        studyProgress.hasAnyAdjektiveCompleted()
     }
 
-    /// Practice button on Adjectives stack: all ADJEKTIVE rows when Pro; otherwise only **an** may count.
     func hasAnyAdjektivePracticeSelection(isPremium: Bool) -> Bool {
-        if isPremium {
-            return hasAnyAdjektiveCompleted()
-        }
-        let an = AdjektiveFreeTier.unlockedSectionId
-        if isSectionCompleted(sectionId: an) { return true }
-        if let checked = checkedWords[an], !checked.isEmpty { return true }
-        return false
+        studyProgress.hasAnyAdjektivePracticeSelection(isPremium: isPremium)
     }
 
-    /// “Study all” for Adjectives: every ADJEKTIVE subsection when Pro; otherwise only **an** is fully selected.
     func areAllAdjektiveCompletedForStudy(isPremium: Bool) -> Bool {
-        if isPremium {
-            return isAdjektiveCompleted()
-        }
-        return isSectionCompleted(sectionId: AdjektiveFreeTier.unlockedSectionId)
+        studyProgress.areAllAdjektiveCompletedForStudy(isPremium: isPremium)
     }
-    
+
     func getWordOfTheDay() -> Word? {
-        let userDefaults = UserDefaults.standard
-        
-        // Word of the day is always enabled
-        // Get selected sections
-        let selectedSectionsString = userDefaults.string(forKey: "wordOfTheDaySelectedSections") ?? ""
-        let selectedSectionIds: Set<String>
-        
-        if selectedSectionsString.isEmpty {
-            // Empty means default to section 1A
-            selectedSectionIds = Set(["1A"])
-        } else {
-            // Parse comma-separated section IDs
-            selectedSectionIds = Set(selectedSectionsString.split(separator: ",").map { String($0) })
-        }
-        
-        // Filter words from selected sections only
-        var eligibleWords: [Word] = []
-        for (sectionId, words) in wordsBySection {
-            if selectedSectionIds.contains(sectionId) {
-                eligibleWords.append(contentsOf: words)
-            }
-        }
-        
-        guard !eligibleWords.isEmpty else { return nil }
-        
-        // Get periodicity setting
-        let periodicity = userDefaults.string(forKey: "wordOfTheDayPeriodicity") ?? "24_hours"
-        let hoursPerPeriod: Int = periodicity == "12_hours" ? 12 : 24
-        
-        // Calculate period index based on periodicity
-        let calendar = Calendar.current
-        let now = Date()
-        
-        // Calculate hours since start of year
-        let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now)) ?? now
-        let hoursSinceStartOfYear = calendar.dateComponents([.hour], from: startOfYear, to: now).hour ?? 0
-        
-        // Calculate period index (e.g., for 24 hours: period 0 = day 1, period 1 = day 2, etc.)
-        let periodIndex = hoursSinceStartOfYear / hoursPerPeriod
-        
-        // Use period index to select word deterministically
-        let wordIndex = periodIndex % eligibleWords.count
-        
-        return eligibleWords[wordIndex]
+        WordOfTheDayResolver.currentWord(from: wordsBySection, defaults: userDefaults)
     }
-    
-    private func updateSectionCompletion(sectionId: String) {
-        let words = getWords(for: sectionId)
-        let checkedCount = checkedWords[sectionId]?.count ?? 0
-        
-        // Mark as completed if all words are checked
-        if !words.isEmpty && checkedCount == words.count {
-            if !completedSections.contains(sectionId) {
-                completedSections.insert(sectionId)
-                syncLectionCompletionMetadata(forSectionId: sectionId)
-                saveCompletedStates()
-            }
-        } else {
-            // Optionally remove from completed if not all words are checked
-            // Uncomment if you want sections to auto-uncomplete when words are unchecked
-            // completedSections.remove(sectionId)
-        }
-    }
-    
-    // MARK: - Persistence
-    
-    private func saveCompletedStates() {
-        // Convert Sets to Arrays for UserDefaults storage
-        let lectionsArray = Array(completedLections)
-        let sectionsArray = Array(completedSections)
-        
-        userDefaults.set(lectionsArray, forKey: completedLectionsKey)
-        userDefaults.set(sectionsArray, forKey: completedSectionsKey)
-    }
-    
-    private func loadCompletedStates() {
-        // Load lections
-        if let lectionsArray = userDefaults.array(forKey: completedLectionsKey) as? [Int] {
-            completedLections = Set(lectionsArray)
-        }
-        
-        // Load sections
-        if let sectionsArray = userDefaults.array(forKey: completedSectionsKey) as? [String] {
-            completedSections = Set(sectionsArray)
-        }
 
-        reconcileLectionCompletionMetadataWithSectionState()
-        saveCompletedStates()
-    }
-    
-    private func loadFavoriteWords() {
-        if let favoriteWordsArray = userDefaults.array(forKey: favoriteWordsKey) as? [String] {
-            favoriteWords = Set(favoriteWordsArray)
-        }
-    }
-    
-    private func saveFavoriteWords() {
-        let favoriteWordsArray = Array(favoriteWords)
-        userDefaults.set(favoriteWordsArray, forKey: favoriteWordsKey)
-    }
-    
-    // MARK: - Favorites Functions
+    // MARK: - Favorites
 
-    var favoritesCount: Int { favoriteWords.count }
+    var favoritesCount: Int { favorites.count }
 
-    /// Removes or adds a favorite (no cap for free or Pro users).
     @discardableResult
     func toggleFavorite(wordId: String) -> Bool {
-        if favoriteWords.contains(wordId) {
-            favoriteWords.remove(wordId)
-            saveFavoriteWords()
-            return true
-        }
-        favoriteWords.insert(wordId)
-        saveFavoriteWords()
-        return true
+        favorites.toggle(wordId: wordId)
     }
-    
+
     func isFavorite(wordId: String) -> Bool {
-        return favoriteWords.contains(wordId)
+        favorites.contains(wordId: wordId)
     }
-    
+
     func getFavoriteWords() -> [Word] {
-        var favoriteWordsList: [Word] = []
+        var list: [Word] = []
+        let ids = favorites.favoriteWordIds
         for (_, words) in wordsBySection {
-            for word in words {
-                if favoriteWords.contains(word.id) {
-                    favoriteWordsList.append(word)
-                }
+            for word in words where ids.contains(word.id) {
+                list.append(word)
             }
         }
-        for word in userCustomWords where favoriteWords.contains(word.id) {
-            favoriteWordsList.append(word)
+        for word in userCustomWords where ids.contains(word.id) {
+            list.append(word)
         }
-        return favoriteWordsList
+        return list
     }
-    
-    func getSectionId(for wordId: String) -> String? {
-        if userCustomWords.contains(where: { $0.id == wordId }) {
-            return Self.userMyWordsSectionId
-        }
-        for (sectionId, words) in wordsBySection {
-            if words.contains(where: { $0.id == wordId }) {
-                return sectionId
-            }
-        }
-        return nil
-    }
-    
-    func getGroupType(for sectionId: String) -> FavoriteGroupType {
-        if sectionId == Self.userMyWordsSectionId {
-            return .myWords
-        }
-        if sectionId.hasPrefix("VERBEN_") {
-            return .verbs
-        }
-        if sectionId.hasPrefix("ADJEKTIVE_") {
-            return .adjectives
-        }
-        // Regular lection sections are general words
-        return .generalWords
-    }
-    
-    enum FavoriteGroupType {
-        case generalWords // Green
-        case verbs // Blue
-        case adjectives // Purple
-        case myWords // Red (user vocabulary)
-        
-        var color: Color {
-            switch self {
-            case .generalWords:
-                return Color("AppGreen")
-            case .verbs:
-                return Color("AppBlue")
-            case .adjectives:
-                return Color("AppPurple")
-            case .myWords:
-                return Color("AppRed")
-            }
-        }
-        
-        var backgroundColor: Color {
-            switch self {
-            case .generalWords:
-                return Color("AppGreen").opacity(0.08)
-            case .verbs:
-                return Color("AppBlue").opacity(0.08)
-            case .adjectives:
-                return Color("AppPurple").opacity(0.08)
-            case .myWords:
-                return Color("AppRed").opacity(0.08)
-            }
-        }
-    }
-    
-    func getDominantGroupType(for favoriteWords: [Word]) -> FavoriteGroupType {
-        var groupCounts: [FavoriteGroupType: Int] = [:]
-        
-        for word in favoriteWords {
-            if let sectionId = getSectionId(for: word.id) {
-                let groupType = getGroupType(for: sectionId)
-                groupCounts[groupType, default: 0] += 1
-            }
-        }
-        
-        // Return the most common group type, or default to generalWords
-        if let dominantGroup = groupCounts.max(by: { $0.value < $1.value })?.key {
-            return dominantGroup
-        }
-        
-        return .generalWords
-    }
-    
-    // MARK: - Reset Functions
-    
+
+    // MARK: - Reset
+
     func resetAllData() {
-        // Clear checked words
-        checkedWords.removeAll()
-        
-        // Clear completed sections and lections
-        completedSections.removeAll()
-        completedLections.removeAll()
-        
-        // Clear favorite words
-        favoriteWords.removeAll()
-        saveFavoriteWords()
-        
-        // Clear user translations file in Documents directory
+        studyProgress.resetProgressState()
+        favorites.reset()
+
         if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let fileURL = documentsURL.appendingPathComponent("user_translations.json")
             try? FileManager.default.removeItem(at: fileURL)
@@ -794,24 +261,17 @@ class DataService: ObservableObject {
         }
 
         MigrationManager.resetTranslationsMigrationFlag()
-        
-        // Reload words data to reset translations to original values
+
         wordsBySection.removeAll()
         loadData()
-        
-        // Reset spaced repetition data
+
         SpacedRepetitionService.shared.resetAllStudyData()
-        
-        // Save cleared states
-        saveCompletedStates()
-        
-        // Reset welcome video flag to show welcome screen again
+
         userDefaults.set(false, forKey: "hasSeenWelcomeVideo")
     }
 
     // MARK: - Global search
 
-    /// Whether bundled vocabulary in `sectionId` appears in global search. Without Pro, matches practice unlocks: **Lektion 1** only for General Words, **an** only for Verben and Adjektive. User “My Words” are always included.
     func isSectionIncludedInGlobalSearch(sectionId: String, isPremium: Bool) -> Bool {
         if isPremium { return true }
         if sectionId == Self.userMyWordsSectionId { return true }
@@ -827,19 +287,7 @@ class DataService: ObservableObject {
         return lection1.sections.contains { $0.id == sectionId }
     }
 
-    /// Short label for search result rows (section / stack context).
     func searchResultContextLabel(for sectionId: String) -> String {
-        if sectionId == Self.userMyWordsSectionId {
-            return Localizable.string(Localizable.searchBadgeMyWords)
-        }
-        if sectionId.hasPrefix("VERBEN_") {
-            return Localizable.string(Localizable.searchBadgeVerbs)
-        }
-        if sectionId.hasPrefix("ADJEKTIVE_") {
-            return Localizable.string(Localizable.searchBadgeAdjectives)
-        }
-        // General words: compact code from content (e.g. "1A", "12E"); same as JSON `sectionId`.
-        return sectionId
+        GlobalSearchFormatting.contextLabel(for: sectionId)
     }
 }
-

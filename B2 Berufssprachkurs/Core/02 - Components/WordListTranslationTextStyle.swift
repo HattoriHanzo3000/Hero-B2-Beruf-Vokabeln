@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum WordListTranslationTextStyle {
-    static func color(for group: DataService.FavoriteGroupType, colorScheme: ColorScheme) -> Color {
+    static func color(for group: FavoriteGroupType, colorScheme: ColorScheme) -> Color {
         switch group {
         case .generalWords:
             if colorScheme == .dark {

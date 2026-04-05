@@ -14,8 +14,8 @@ enum WordOfTheDaySelectionPolicy {
     /// All source sections a free user may enable for Word of the Day (lection 1 A–E plus free Verben/Adjektive „an“ stacks).
     static var freeTierWotdSelectableSectionIDs: Set<String> {
         freeTierAllowedSectionIDs.union([
-            DataService.VerbenFreeTier.unlockedSectionId,
-            DataService.AdjektiveFreeTier.unlockedSectionId
+            VocabularyCatalog.VerbenFreeTier.unlockedSectionId,
+            VocabularyCatalog.AdjektiveFreeTier.unlockedSectionId
         ])
     }
 

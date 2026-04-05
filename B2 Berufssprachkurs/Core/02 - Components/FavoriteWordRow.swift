@@ -21,7 +21,7 @@ struct FavoriteWordRow: View {
 
     @Query private var progressMatches: [WordProgress]
 
-    private var translationGroup: DataService.FavoriteGroupType {
+    private var translationGroup: FavoriteGroupType {
         if let sid = dataService.getSectionId(for: word.id) {
             return dataService.getGroupType(for: sid)
         }
