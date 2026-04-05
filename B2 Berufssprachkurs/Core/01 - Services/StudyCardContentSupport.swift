@@ -24,10 +24,7 @@ enum StudyCardContentSupport {
             case .translation:
                 return true
             case .explanation:
-                if let explanation = item.explanation {
-                    return !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                }
-                return false
+                return hasNonWhitespace(item.explanation)
             case .synonym:
                 return false
             }
@@ -52,25 +49,20 @@ enum StudyCardContentSupport {
         if item.isVerbenSection {
             switch type {
             case .translation:
-                guard let translation = item.translation else { return false }
-                return !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                return hasNonWhitespace(item.translation)
             case .explanation:
-                guard let explanation = item.explanation else { return false }
-                return !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                return hasNonWhitespace(item.explanation)
             case .synonym:
                 return false
             }
         }
         switch type {
         case .synonym:
-            guard let s = item.synonym else { return false }
-            return !s.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            return hasNonWhitespace(item.synonym)
         case .explanation:
-            guard let e = item.explanation else { return false }
-            return !e.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            return hasNonWhitespace(item.explanation)
         case .translation:
-            guard let t = item.translation else { return false }
-            return !t.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            return hasNonWhitespace(item.translation)
         }
     }
 
@@ -78,12 +70,10 @@ enum StudyCardContentSupport {
     /// My Words: first mode with non-empty text, else Übersetzung — so German-only entries default to the translation placeholder.
     static func firstAvailableContentType(for item: StudyItem) -> StudyCardContentType {
         if item.sectionId == DataService.userMyWordsSectionId, !item.isVerbenSection {
-            if let explanation = item.explanation,
-               !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            if hasNonWhitespace(item.explanation) {
                 return .explanation
             }
-            if let syn = item.synonym,
-               !syn.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            if hasNonWhitespace(item.synonym) {
                 return .synonym
             }
             return .translation
@@ -96,6 +86,7 @@ enum StudyCardContentSupport {
         return .translation
     }
 
+    /// Chip row order: **My Words** always shows all three modes (user may fill content later). **Course / Verben** shows only available types but always includes Übersetzung so the user can open the keyboard.
     static func displayTypes(for item: StudyItem) -> [StudyCardContentType] {
         let availableTypes = StudyCardContentType.displayOrder.filter { type in
             isContentTypeAvailable(type, for: item)
@@ -109,5 +100,10 @@ enum StudyCardContentSupport {
             types.append(.translation)
         }
         return StudyCardContentType.displayOrder.filter { types.contains($0) }
+    }
+
+    private static func hasNonWhitespace(_ text: String?) -> Bool {
+        guard let text else { return false }
+        return !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }
