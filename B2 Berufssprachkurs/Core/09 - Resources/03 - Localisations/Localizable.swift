@@ -73,16 +73,23 @@ extension Localizable {
     static let wordRowDetailExplanationA11y = "word_row_detail_explanation_a11y"
     static let wordRowDetailExampleA11y = "word_row_detail_example_a11y"
     static let wordRowDetailSynonymsA11y = "word_row_detail_synonyms_a11y"
-    /// Inline list row prefix: `abbr.: ` (period before colon; same pattern as PDF).
+    /// Inline list row / PDF prefix: `abbr.: ` (period before colon; shared so UI and export stay aligned).
     static let wordRowDetailLabelExplanation = "word_row_detail_label_explanation"
     static let wordRowDetailLabelExample = "word_row_detail_label_example"
     static let wordRowDetailLabelSynonyms = "word_row_detail_label_synonyms"
     /// Word-of-the-day header: same `abbr.: ` style as other row labels.
     static let wordRowDetailLabelTranslation = "word_row_detail_label_translation"
-    /// PDF labeled row prefix (same `abbr.: ` style as list rows).
-    static let pdfRowPrefixExplanation = "pdf_row_prefix_explanation"
-    static let pdfRowPrefixExample = "pdf_row_prefix_example"
-    static let pdfRowPrefixSynonyms = "pdf_row_prefix_synonyms"
+
+    /// Translation field keyboard accessory (prev / next / done).
+    static let keyboardNavPreviousWordA11y = "keyboard_nav_previous_word_a11y"
+    static let keyboardNavPreviousWordHintA11y = "keyboard_nav_previous_word_hint_a11y"
+    static let keyboardNavNextWordA11y = "keyboard_nav_next_word_a11y"
+    static let keyboardNavNextWordHintA11y = "keyboard_nav_next_word_hint_a11y"
+    static let keyboardNavDoneHintA11y = "keyboard_nav_done_hint_a11y"
+
+    /// Favorites list (VoiceOver).
+    static let favoritesListA11yLabel = "favorites_list_a11y_label"
+    static let favoritesListA11yHint = "favorites_list_a11y_hint"
     /// Format: German lemma.
     static let wordRowA11ySummaryEditing = "word_row_a11y_summary_editing"
     /// Format: German lemma, localized “add translation” phrase.

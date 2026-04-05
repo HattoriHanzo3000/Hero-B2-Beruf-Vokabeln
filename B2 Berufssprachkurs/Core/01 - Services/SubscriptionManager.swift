@@ -73,6 +73,8 @@ final class SubscriptionManager: ObservableObject {
     // Trial period constants
     private let trialPeriodDays: TimeInterval = 3 * 24 * 60 * 60 // 3 days in seconds
     private let firstLaunchDateKey = "firstLaunchDate"
+    /// First app open for the 7-day launch offer; never overwritten when the user starts the in-app trial (unlike `firstLaunchDate`).
+    private let firstAppOpenForLaunchOfferKey = "firstAppOpenDateForLaunchOffer"
     private let trialActivatedKey = "trialActivated"
     
     // Private initialization
@@ -418,8 +420,17 @@ final class SubscriptionManager: ObservableObject {
         // Just mark first launch date for tracking
         if userDefaults.object(forKey: firstLaunchDateKey) == nil {
             let now = Date()
-            userDefaults.set(now.timeIntervalSince1970, forKey: firstLaunchDateKey)
+            let ts = now.timeIntervalSince1970
+            userDefaults.set(ts, forKey: firstLaunchDateKey)
+            userDefaults.set(ts, forKey: firstAppOpenForLaunchOfferKey)
+        } else if userDefaults.object(forKey: firstAppOpenForLaunchOfferKey) == nil,
+                  !userDefaults.bool(forKey: trialActivatedKey),
+                  let installTs = userDefaults.object(forKey: firstLaunchDateKey) as? TimeInterval {
+            // App upgrade: migrate true install time before trial could overwrite `firstLaunchDate`.
+            userDefaults.set(installTs, forKey: firstAppOpenForLaunchOfferKey)
         }
+        // If the trial was already activated and the launch-offer key is missing, we cannot recover
+        // the original install date (`firstLaunchDate` was replaced by `activateTrial()`).
     }
     
     private func isTrialActive() -> Bool {
@@ -472,7 +483,8 @@ final class SubscriptionManager: ObservableObject {
         let userDefaults = UserDefaults.standard
         userDefaults.removeObject(forKey: trialActivatedKey)
         userDefaults.removeObject(forKey: firstLaunchDateKey)
-        
+        userDefaults.removeObject(forKey: firstAppOpenForLaunchOfferKey)
+
         // Clear subscription status
         isPremiumActive = false
         
@@ -503,6 +515,7 @@ final class SubscriptionManager: ObservableObject {
         let userDefaults = UserDefaults.standard
         userDefaults.removeObject(forKey: trialActivatedKey)
         userDefaults.removeObject(forKey: firstLaunchDateKey)
+        userDefaults.removeObject(forKey: firstAppOpenForLaunchOfferKey)
 
         await checkSubscriptionStatus()
 
@@ -517,6 +530,7 @@ final class SubscriptionManager: ObservableObject {
         // Clear all trial and premium related keys
         userDefaults.removeObject(forKey: trialActivatedKey)
         userDefaults.removeObject(forKey: firstLaunchDateKey)
+        userDefaults.removeObject(forKey: firstAppOpenForLaunchOfferKey)
         // Reset subscription status
         isPremiumActive = false
         hasActiveSubscription = false

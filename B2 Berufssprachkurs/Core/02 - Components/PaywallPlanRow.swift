@@ -101,63 +101,69 @@ struct PaywallPlanRow: View {
     var body: some View {
         Button(action: onSelect) {
             ZStack(alignment: .top) {
-                HStack(spacing: 12) {
-                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                        .font(.system(size: 24, weight: .semibold))
-                        .foregroundStyle(isSelected ? .white : .white.opacity(0.7))
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(alignment: .top, spacing: 12) {
+                        Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundStyle(isSelected ? .white : .white.opacity(0.7))
+                            .frame(width: 24)
 
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(title)
-                            .font(.system(.headline, weight: .bold))
-                            .foregroundStyle(contentForeground)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(title)
+                                .font(.system(.headline, weight: .bold))
+                                .foregroundStyle(contentForeground)
 
-                        Text(explanation)
-                            .font(AppFont.caption1CondensedRegular(dynamicTypeSize: dynamicTypeSize))
-                            .foregroundStyle(secondaryForeground)
-
-                        if let secondaryExplanation, !secondaryExplanation.isEmpty {
-                            Text(secondaryExplanation)
+                            Text(explanation)
                                 .font(AppFont.caption1CondensedRegular(dynamicTypeSize: dynamicTypeSize))
                                 .foregroundStyle(secondaryForeground)
-                        }
 
-                        if let countdownText, !countdownText.isEmpty {
-                            HStack(spacing: 4) {
-                                Text(Localizable.string(Localizable.launchOfferExpiresIn))
-                                    .font(AppFont.caption1ExpandedRegular(dynamicTypeSize: dynamicTypeSize))
-                                Text(countdownText)
-                                    .font(AppFont.caption1ExpandedRegular(dynamicTypeSize: dynamicTypeSize))
-                                    .monospacedDigit()
+                            if let secondaryExplanation, !secondaryExplanation.isEmpty {
+                                Text(secondaryExplanation)
+                                    .font(AppFont.caption1CondensedRegular(dynamicTypeSize: dynamicTypeSize))
+                                    .foregroundStyle(secondaryForeground)
                             }
-                            .foregroundStyle(secondaryForeground)
                         }
-                    }
 
-                    Spacer(minLength: 8)
+                        Spacer(minLength: 8)
 
-                    HStack(alignment: .firstTextBaseline, spacing: 4) {
-                        if !regularPriceText.isEmpty {
-                            VStack(alignment: .trailing, spacing: 2) {
+                        HStack(alignment: .firstTextBaseline, spacing: 4) {
+                            if !regularPriceText.isEmpty {
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text(basePriceText)
+                                        .font(.system(.title3, weight: .bold))
+                                        .foregroundStyle(contentForeground)
+
+                                    Text(regularPriceText)
+                                        .font(.system(.caption2, weight: .medium))
+                                        .strikethrough(color: secondaryForeground)
+                                        .foregroundStyle(secondaryForeground)
+                                }
+                            } else {
                                 Text(basePriceText)
                                     .font(.system(.title3, weight: .bold))
                                     .foregroundStyle(contentForeground)
+                            }
 
-                                Text(regularPriceText)
-                                    .font(.system(.caption2, weight: .medium))
-                                    .strikethrough(color: secondaryForeground)
+                            if let slashPeriodText {
+                                Text(slashPeriodText)
+                                    .font(AppFont.caption1CondensedRegular(dynamicTypeSize: dynamicTypeSize))
                                     .foregroundStyle(secondaryForeground)
                             }
-                        } else {
-                            Text(basePriceText)
-                                .font(.system(.title3, weight: .bold))
-                                .foregroundStyle(contentForeground)
                         }
+                    }
 
-                        if let slashPeriodText {
-                            Text(slashPeriodText)
-                                .font(AppFont.caption1CondensedRegular(dynamicTypeSize: dynamicTypeSize))
-                                .foregroundStyle(secondaryForeground)
-                        }
+                    if let countdownText, !countdownText.isEmpty {
+                        (
+                            Text(Localizable.string(Localizable.launchOfferExpiresIn))
+                                + Text(verbatim: " ")
+                                + Text(countdownText).monospacedDigit()
+                        )
+                        .font(AppFont.caption1ExpandedRegular(dynamicTypeSize: dynamicTypeSize))
+                        .foregroundStyle(secondaryForeground)
+                        // Align with title text (24pt icon column + 12pt spacing); still spans to trailing edge under the price.
+                        .padding(.leading, 36)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
                     }
                 }
                 .padding(16)

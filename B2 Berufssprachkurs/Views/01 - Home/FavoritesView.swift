@@ -169,8 +169,8 @@ struct FavoritesView: View {
             .scrollContentBackground(.hidden)
             .contentMargins(.top, 8, for: .scrollContent)
             .contentMargins(.bottom, FlashcardsButton.fabSize + 24, for: .scrollContent)
-            .accessibilityLabel("Favorites list")
-            .accessibilityHint("List of favorite German words with translations, explanations, and synonyms")
+            .accessibilityLabel(Localizable.string(Localizable.favoritesListA11yLabel))
+            .accessibilityHint(Localizable.string(Localizable.favoritesListA11yHint))
             .onChange(of: focusedTranslationWordId) { _, newValue in
                 syncTranslationKeyboardNavBridge()
                 guard let id = newValue else { return }

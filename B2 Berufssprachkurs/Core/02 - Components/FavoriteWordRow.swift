@@ -88,6 +88,25 @@ struct FavoriteWordRow: View {
         focusedTranslationWordId == word.id
     }
 
+    private var combinedRowAccessibilityLabel: String {
+        if focusedTranslationWordId == word.id {
+            return String(format: Localizable.string(Localizable.wordRowA11ySummaryEditing), word.german)
+        }
+        if trimmedTranslation.isEmpty {
+            return String(
+                format: Localizable.string(Localizable.wordRowA11ySummaryPromptTranslation),
+                word.german,
+                Localizable.string(Localizable.addTranslationToWord)
+            )
+        }
+        return String(
+            format: Localizable.string(Localizable.wordRowA11ySummaryWithTranslation),
+            word.german,
+            Localizable.string(Localizable.translation),
+            trimmedTranslation
+        )
+    }
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Button(action: onFavoriteToggle) {
@@ -98,9 +117,15 @@ struct FavoriteWordRow: View {
                     .frame(width: Self.starColumnWidth)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
-            .accessibilityValue(isFavorite ? "Favorited" : "Not favorited")
-            .accessibilityHint("Toggle favorite for \(word.german)")
+            .accessibilityLabel(
+                Localizable.string(isFavorite ? Localizable.wordRowFavoriteRemoveA11y : Localizable.wordRowFavoriteAddA11y)
+            )
+            .accessibilityValue(
+                Localizable.string(
+                    isFavorite ? Localizable.wordRowFavoriteValueFavoritedA11y : Localizable.wordRowFavoriteValueNotFavoritedA11y
+                )
+            )
+            .accessibilityHint(String(format: Localizable.string(Localizable.wordRowFavoriteHintFormat), word.german))
             .accessibilityAddTraits(isFavorite ? .isSelected : [])
 
             VStack(alignment: .leading, spacing: 8) {
@@ -143,7 +168,7 @@ struct FavoriteWordRow: View {
                                     .buttonStyle(.plain)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                                     .accessibilityLabel(Localizable.string(Localizable.addTranslationToWord))
-                                    .accessibilityHint("Opens the keyboard to type your translation")
+                                    .accessibilityHint(Localizable.string(Localizable.wordRowTranslationOpenKeyboardHintA11y))
                                 } else {
                                     Button(action: beginEditingTranslation) {
                                         Text(trimmedTranslation)
@@ -155,8 +180,10 @@ struct FavoriteWordRow: View {
                                     }
                                     .buttonStyle(.plain)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .accessibilityLabel("Translation: \(trimmedTranslation)")
-                                    .accessibilityHint("Double tap to edit translation")
+                                    .accessibilityLabel(
+                                        String(format: Localizable.string(Localizable.wordRowTranslationDisplayA11y), trimmedTranslation)
+                                    )
+                                    .accessibilityHint(Localizable.string(Localizable.wordRowTranslationEditHintA11y))
                                 }
                             }
                         }
@@ -179,7 +206,9 @@ struct FavoriteWordRow: View {
                             )
                             .fixedSize(horizontal: false, vertical: true)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .accessibilityLabel("Explanation: \(explanation)")
+                            .accessibilityLabel(
+                                String(format: Localizable.string(Localizable.wordRowDetailExplanationA11y), explanation)
+                            )
                         }
 
                         if let example = word.example, !example.isEmpty {
@@ -195,7 +224,9 @@ struct FavoriteWordRow: View {
                             )
                             .fixedSize(horizontal: false, vertical: true)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .accessibilityLabel("Example: \(example)")
+                            .accessibilityLabel(
+                                String(format: Localizable.string(Localizable.wordRowDetailExampleA11y), example)
+                            )
                         }
 
                         if let synonyms = word.synonyms, !synonyms.isEmpty {
@@ -212,7 +243,9 @@ struct FavoriteWordRow: View {
                             )
                             .fixedSize(horizontal: false, vertical: true)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .accessibilityLabel("Synonyms: \(synonymsText)")
+                            .accessibilityLabel(
+                                String(format: Localizable.string(Localizable.wordRowDetailSynonymsA11y), synonymsText)
+                            )
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -220,19 +253,13 @@ struct FavoriteWordRow: View {
                 }
             }
             .accessibilityElement(children: .combine)
-            .accessibilityLabel(
-                focusedTranslationWordId == word.id
-                    ? "\(word.german). Editing translation"
-                    : (trimmedTranslation.isEmpty
-                        ? "\(word.german). \(Localizable.string(Localizable.addTranslationToWord))"
-                        : "\(word.german). Translation: \(trimmedTranslation)")
-            )
+            .accessibilityLabel(combinedRowAccessibilityLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 10)
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("Word row for \(word.german)")
+        .accessibilityLabel(String(format: Localizable.string(Localizable.wordRowContainerA11y), word.german))
         .onAppear {
             syncLocalTranslationWhenNotEditing()
         }

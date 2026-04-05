@@ -103,14 +103,14 @@ struct PDFGenerationService {
         }
         
         if let explanation = word.explanation, !explanation.isEmpty {
-            leftY += labeledRowHeight(prefix: Localizable.string(Localizable.pdfRowPrefixExplanation), body: explanation) + 4
+            leftY += labeledRowHeight(prefix: Localizable.string(Localizable.wordRowDetailLabelExplanation), body: explanation) + 4
         }
         if let synonyms = word.synonyms, !synonyms.isEmpty {
             let synonymsText = synonyms.joined(separator: ", ")
-            leftY += labeledRowHeight(prefix: Localizable.string(Localizable.pdfRowPrefixSynonyms), body: synonymsText) + 4
+            leftY += labeledRowHeight(prefix: Localizable.string(Localizable.wordRowDetailLabelSynonyms), body: synonymsText) + 4
         }
         if let example = word.example, !example.isEmpty {
-            leftY += labeledRowHeight(prefix: Localizable.string(Localizable.pdfRowPrefixExample), body: example) + 4
+            leftY += labeledRowHeight(prefix: Localizable.string(Localizable.wordRowDetailLabelExample), body: example) + 4
         }
         
         let leftSpan = leftY
@@ -268,16 +268,16 @@ struct PDFGenerationService {
                     }
                     
                     if let explanation = word.explanation, !explanation.isEmpty {
-                        let h = drawLabeledRow(prefix: Localizable.string(Localizable.pdfRowPrefixExplanation), body: explanation, at: leftY)
+                        let h = drawLabeledRow(prefix: Localizable.string(Localizable.wordRowDetailLabelExplanation), body: explanation, at: leftY)
                         leftY += h + 4
                     }
                     if let synonyms = word.synonyms, !synonyms.isEmpty {
                         let synonymsText = synonyms.joined(separator: ", ")
-                        let h = drawLabeledRow(prefix: Localizable.string(Localizable.pdfRowPrefixSynonyms), body: synonymsText, at: leftY)
+                        let h = drawLabeledRow(prefix: Localizable.string(Localizable.wordRowDetailLabelSynonyms), body: synonymsText, at: leftY)
                         leftY += h + 4
                     }
                     if let example = word.example, !example.isEmpty {
-                        let h = drawLabeledRow(prefix: Localizable.string(Localizable.pdfRowPrefixExample), body: example, at: leftY)
+                        let h = drawLabeledRow(prefix: Localizable.string(Localizable.wordRowDetailLabelExample), body: example, at: leftY)
                         leftY += h + 4
                     }
                     

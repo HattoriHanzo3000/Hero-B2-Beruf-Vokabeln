@@ -57,9 +57,13 @@
 "word_row_detail_label_example" = "beisp.: ";
 "word_row_detail_label_synonyms" = "syn.: ";
 "word_row_detail_label_translation" = "übers.: ";
-"pdf_row_prefix_explanation" = "erkl.: ";
-"pdf_row_prefix_example" = "beisp.: ";
-"pdf_row_prefix_synonyms" = "syn.: ";
+"keyboard_nav_previous_word_a11y" = "Vorheriges Wort";
+"keyboard_nav_previous_word_hint_a11y" = "Zum vorherigen Wort in der Liste springen";
+"keyboard_nav_next_word_a11y" = "Nächstes Wort";
+"keyboard_nav_next_word_hint_a11y" = "Zum nächsten Wort in der Liste springen";
+"keyboard_nav_done_hint_a11y" = "Tastatur ausblenden und Eingabe beenden";
+"favorites_list_a11y_label" = "Favoritenliste";
+"favorites_list_a11y_hint" = "Liste favorisierter deutscher Wörter mit Übersetzungen, Erklärungen und Synonymen";
 "word_row_a11y_summary_editing" = "%@. Übersetzung wird bearbeitet";
 "word_row_a11y_summary_prompt_translation" = "%1$@. %2$@";
 "word_row_a11y_summary_with_translation" = "%1$@. %2$@: %3$@";

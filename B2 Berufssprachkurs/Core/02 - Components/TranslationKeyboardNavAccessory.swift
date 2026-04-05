@@ -26,8 +26,8 @@ struct TranslationKeyboardNavAccessory: View {
             }
             .buttonStyle(GroupedToolbarButtonStyle(isSelected: false, accentColor: .primary, position: .leading))
             .disabled(!keyboardNav.canGoToPrevious)
-            .accessibilityLabel("Previous word")
-            .accessibilityHint("Navigate to the previous word in the list")
+            .accessibilityLabel(Localizable.string(Localizable.keyboardNavPreviousWordA11y))
+            .accessibilityHint(Localizable.string(Localizable.keyboardNavPreviousWordHintA11y))
 
             Rectangle()
                 .fill(Color.primary.opacity(0.15))
@@ -43,8 +43,8 @@ struct TranslationKeyboardNavAccessory: View {
             }
             .buttonStyle(GroupedToolbarButtonStyle(isSelected: false, accentColor: .primary, position: .middle))
             .disabled(!keyboardNav.canGoToNext)
-            .accessibilityLabel("Next word")
-            .accessibilityHint("Navigate to the next word in the list")
+            .accessibilityLabel(Localizable.string(Localizable.keyboardNavNextWordA11y))
+            .accessibilityHint(Localizable.string(Localizable.keyboardNavNextWordHintA11y))
 
             Rectangle()
                 .fill(Color.primary.opacity(0.15))
@@ -60,7 +60,7 @@ struct TranslationKeyboardNavAccessory: View {
             }
             .buttonStyle(GroupedToolbarButtonStyle(isSelected: false, accentColor: .primary, position: .trailing))
             .accessibilityLabel(Localizable.string(Localizable.myWordsDoneEditing))
-            .accessibilityHint("Hide keyboard and finish input")
+            .accessibilityHint(Localizable.string(Localizable.keyboardNavDoneHintA11y))
         }
         .frame(height: 44)
         .background(Color.clear)
