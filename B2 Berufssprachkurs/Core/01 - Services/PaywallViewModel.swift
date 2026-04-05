@@ -56,7 +56,7 @@ final class PaywallViewModel: ObservableObject {
         let activeNow = LaunchOfferService.isLaunchOfferActive
         if activeNow != isLaunchOfferActive {
             isLaunchOfferActive = activeNow
-            if !activeNow && selectedProductID == LaunchOfferService.promoProductId {
+            if !activeNow && selectedProductID == PaywallProductID.lifetimePromo.rawValue {
                 selectedProductID = PaywallProductID.yearly.rawValue
                 updateSelectedPackage()
             }

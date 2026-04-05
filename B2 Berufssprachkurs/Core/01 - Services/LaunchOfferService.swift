@@ -11,14 +11,8 @@
 import Foundation
 
 enum LaunchOfferService {
-    // App Store Connect product identifier values (matched against `StoreProduct.productIdentifier`)
-    static let promoProductId = "hero.premium.lifetime.promo"
-
-    // RevenueCat package identifier values (matched against `Package.identifier`) - kept for reference.
+    /// RevenueCat package identifier (matched against `Package.identifier`); see RevenueCat dashboard.
     static let promoPackageIdentifier = "$rc_lifetime_promo"
-
-    // App Store Connect product identifiers (matched against `StoreProduct.productIdentifier`)
-    static let standardLifetimeProductId = "hero.premium.lifetime"
 
     /// Written once at first open (and migrated on upgrade); never overwritten by trial activation.
     /// See ``SubscriptionManager`` for trial timing on `firstLaunchDate`.

@@ -15,13 +15,8 @@ import RevenueCat
 final class SubscriptionManager: ObservableObject {
     static let shared = SubscriptionManager()
     
-    // Product IDs from App Store Connect
-    private let productIDs = [
-        "hero.premium.monthly",
-        "hero.premium.yearly",
-        "hero.premium.lifetime.promo",
-        "hero.premium.lifetime"
-    ]
+    // Product IDs from App Store Connect (see ``PaywallProductID``)
+    private let productIDs = PaywallProductID.allProductIDs
     
     // Published properties for UI observation
     @Published var isPremiumActive = false
@@ -42,7 +37,8 @@ final class SubscriptionManager: ObservableObject {
     
     // Check if active subscription is lifetime
     var hasLifetimeSubscription: Bool {
-        return activeProductID == "hero.premium.lifetime" || activeProductID == "hero.premium.lifetime.promo"
+        guard let id = activeProductID else { return false }
+        return PaywallProductID.usesLifetimeTerms(productIdentifier: id)
     }
 
     /// True while the in-app 3-day trial is active (no store subscription required).
@@ -67,7 +63,7 @@ final class SubscriptionManager: ObservableObject {
     
     // Convenience property for backward compatibility (defaults to monthly)
     var product: Product? {
-        products["hero.premium.monthly"]
+        products[PaywallProductID.monthly.rawValue]
     }
     
     // Trial period constants
@@ -247,7 +243,7 @@ final class SubscriptionManager: ObservableObject {
     
     func purchaseSubscription(productID: String? = nil) async throws {
         // Use provided productID or default to monthly
-        let targetProductID = productID ?? "hero.premium.monthly"
+        let targetProductID = productID ?? PaywallProductID.monthly.rawValue
         
         purchaseState = .purchasing
         
@@ -563,9 +559,9 @@ extension SubscriptionManager {
         }
         if hasActiveSubscription {
             switch activeProductID {
-            case "hero.premium.monthly":
+            case PaywallProductID.monthly.rawValue:
                 return Localizable.string(Localizable.planStatusMonthly)
-            case "hero.premium.yearly":
+            case PaywallProductID.yearly.rawValue:
                 return Localizable.string(Localizable.planStatusYearly)
             default:
                 return Localizable.string(Localizable.planStatusHeroProActive)

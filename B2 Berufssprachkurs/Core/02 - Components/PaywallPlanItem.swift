@@ -20,9 +20,9 @@ enum PaywallPlanItem: Identifiable {
         case .yearly:
             return PaywallProductID.yearly.rawValue
         case .lifetimePromo:
-            return LaunchOfferService.promoProductId
+            return PaywallProductID.lifetimePromo.rawValue
         case .lifetimeStandard:
-            return LaunchOfferService.standardLifetimeProductId
+            return PaywallProductID.lifetimeStandard.rawValue
         }
     }
 

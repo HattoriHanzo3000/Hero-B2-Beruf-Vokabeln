@@ -63,9 +63,9 @@ struct PaywallPlanRow: View {
     private var slashPeriodText: String? {
         guard let productID else { return nil }
         switch productID {
-        case "hero.premium.monthly":
+        case PaywallProductID.monthly.rawValue:
             return "/mo"
-        case "hero.premium.yearly":
+        case PaywallProductID.yearly.rawValue:
             return "/yr"
         default:
             return nil

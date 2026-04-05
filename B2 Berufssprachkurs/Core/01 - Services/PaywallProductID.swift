@@ -2,7 +2,7 @@
 //  PaywallProductID.swift
 //  B2 Berufssprachkurs
 //
-//  Store / RevenueCat product identifiers for the Hero paywall.
+//  Single source of truth for App Store / RevenueCat `StoreProduct.productIdentifier` values.
 //
 
 import Foundation
@@ -10,10 +10,17 @@ import Foundation
 enum PaywallProductID: String, CaseIterable {
     case monthly = "hero.premium.monthly"
     case yearly = "hero.premium.yearly"
+    case lifetimePromo = "hero.premium.lifetime.promo"
+    case lifetimeStandard = "hero.premium.lifetime"
 
-    /// Subscription terms line vs one-time lifetime copy.
+    /// All product IDs registered for StoreKit / RevenueCat loading (declaration order).
+    static var allProductIDs: [String] {
+        allCases.map(\.rawValue)
+    }
+
+    /// Subscription terms line vs one-time lifetime copy (legal + footer).
     static func usesLifetimeTerms(productIdentifier: String) -> Bool {
-        productIdentifier == LaunchOfferService.promoProductId
-            || productIdentifier == LaunchOfferService.standardLifetimeProductId
+        productIdentifier == Self.lifetimePromo.rawValue
+            || productIdentifier == Self.lifetimeStandard.rawValue
     }
 }

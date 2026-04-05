@@ -42,14 +42,8 @@ final class RevenueCatService: NSObject, ObservableObject {
     
     // MARK: - Product Identifiers
     
-    /// Product IDs that match your App Store Connect products
-    /// These should match the product IDs in SubscriptionManager
-    private let productIDs = [
-        "hero.premium.monthly",
-        "hero.premium.yearly",
-        "hero.premium.lifetime.promo",
-        "hero.premium.lifetime"
-    ]
+    /// Product IDs that match your App Store Connect products (see ``PaywallProductID``).
+    private let productIDs = PaywallProductID.allProductIDs
     
     /// Entitlement identifier from RevenueCat dashboard
     /// This is the identifier you configure in RevenueCat for premium access

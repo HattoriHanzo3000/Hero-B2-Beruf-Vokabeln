@@ -67,10 +67,10 @@ struct PaywallPlansSection: View {
                 title: Localizable.string(Localizable.lifetime),
                 explanation: Localizable.string(Localizable.lifetimeExplanation),
                 secondaryExplanation: Localizable.string(Localizable.lifetimeExplanationLine2),
-                productID: LaunchOfferService.promoProductId,
-                regularProductID: LaunchOfferService.standardLifetimeProductId,
+                productID: PaywallProductID.lifetimePromo.rawValue,
+                regularProductID: PaywallProductID.lifetimeStandard.rawValue,
                 fallbackPrice: "",
-                isSelected: selectedProductID == LaunchOfferService.promoProductId,
+                isSelected: selectedProductID == PaywallProductID.lifetimePromo.rawValue,
                 showSeasonalOffer: true,
                 showBestValueBadge: false,
                 countdownText: countdown,
@@ -78,7 +78,7 @@ struct PaywallPlansSection: View {
                 revenueCatService: revenueCatService,
                 onSelect: {
                     HapticManager.shared.lightImpact()
-                    onSelectProduct(LaunchOfferService.promoProductId)
+                    onSelectProduct(PaywallProductID.lifetimePromo.rawValue)
                 }
             )
         case .lifetimeStandard:
@@ -86,9 +86,9 @@ struct PaywallPlansSection: View {
                 title: Localizable.string(Localizable.lifetime),
                 explanation: Localizable.string(Localizable.lifetimeExplanation),
                 secondaryExplanation: Localizable.string(Localizable.lifetimeExplanationLine2),
-                productID: LaunchOfferService.standardLifetimeProductId,
+                productID: PaywallProductID.lifetimeStandard.rawValue,
                 fallbackPrice: "",
-                isSelected: selectedProductID == LaunchOfferService.standardLifetimeProductId,
+                isSelected: selectedProductID == PaywallProductID.lifetimeStandard.rawValue,
                 showSeasonalOffer: false,
                 showBestValueBadge: false,
                 countdownText: nil,
@@ -96,7 +96,7 @@ struct PaywallPlansSection: View {
                 revenueCatService: revenueCatService,
                 onSelect: {
                     HapticManager.shared.lightImpact()
-                    onSelectProduct(LaunchOfferService.standardLifetimeProductId)
+                    onSelectProduct(PaywallProductID.lifetimeStandard.rawValue)
                 }
             )
         }
