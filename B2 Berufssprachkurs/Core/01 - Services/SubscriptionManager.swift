@@ -51,8 +51,8 @@ final class SubscriptionManager: ObservableObject {
 
         Task { @MainActor in
             await checkSubscriptionStatus()
-            hasCompletedInitialSubscriptionSync = true
             await loadProducts()
+            hasCompletedInitialSubscriptionSync = true
         }
     }
 

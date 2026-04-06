@@ -37,6 +37,11 @@ struct HomeView: View {
         isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
     }
 
+    /// Prevents short-lived free-tier lock chrome while initial entitlement sync is still running.
+    private var shouldShowHomeLocks: Bool {
+        isPremiumPreviewOverride != nil || subscriptionManager.hasCompletedInitialSubscriptionSync
+    }
+
     var body: some View {
         ZStack {
             Color(uiColor: .systemGroupedBackground)
@@ -67,7 +72,8 @@ struct HomeView: View {
                                             title: stack.localizedTitle,
                                             accent: stack.accentColor,
                                             icon: stack.iconName,
-                                            isLocked: stack.isLockedOnHome(isPremium: isPremiumForUI)
+                                            isLocked: shouldShowHomeLocks
+                                                && stack.isLockedOnHome(isPremium: isPremiumForUI)
                                         )
                                         .frame(maxWidth: .infinity, minHeight: 76)
                                     }
@@ -124,7 +130,7 @@ struct HomeView: View {
     }
 
     private func handleStackTap(_ stack: LearningStackType) {
-        if stack == .myWords && !isPremiumForUI {
+        if shouldShowHomeLocks && stack == .myWords && !isPremiumForUI {
             HapticManager.shared.heavyImpact()
             showMyWordsProAlert = true
             return

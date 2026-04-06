@@ -31,9 +31,10 @@ final class RevenueCatService: NSObject, ObservableObject {
         AppConfig.revenueCatAPIKey
     }
 
-    /// App User ID - RevenueCat will use anonymous ID if not provided
+    /// Stable app user id persisted in Keychain so RevenueCat identity
+    /// stays consistent across launches/rebuilds on the same device.
     private var appUserID: String? {
-        nil
+        RevenueCatStableUserIDStore.getOrCreate()
     }
 
     /// Entitlement identifier from RevenueCat dashboard
