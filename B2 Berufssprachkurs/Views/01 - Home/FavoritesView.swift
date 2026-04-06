@@ -67,7 +67,7 @@ struct FavoritesView: View {
             }
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            if !favoriteWords.isEmpty {
+            if !favoriteWords.isEmpty, focusedTranslationWordId == nil {
                 FlashcardsButton.bottomTrailingInset(
                     isEnabled: true,
                     accent: Color("AppYellow"),

@@ -166,7 +166,7 @@ struct WordsListView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 WordListPrintButton(
                     isEnabled: !words.isEmpty,
                     pdfURL: { try generatePDF() },
@@ -175,7 +175,7 @@ struct WordsListView: View {
             }
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            if showsPracticeButton {
+            if showsPracticeButton && focusedTranslationWordId == nil {
                 FlashcardsButton.bottomTrailingInset(
                     isEnabled: !words.isEmpty,
                     accent: stackPresentation.color,

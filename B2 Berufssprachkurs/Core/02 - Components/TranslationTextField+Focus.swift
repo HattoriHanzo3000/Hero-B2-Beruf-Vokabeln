@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class TranslationFocusRetrier {
     private var session: UInt = 0

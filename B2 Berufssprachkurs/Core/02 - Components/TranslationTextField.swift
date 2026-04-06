@@ -15,6 +15,7 @@ struct TranslationTextField: UIViewRepresentable {
     let placeholder: String
 
     @EnvironmentObject private var keyboardNav: WordListKeyboardNavBridge
+    var keyboardNavBridge: WordListKeyboardNavBridge { keyboardNav }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -115,8 +116,8 @@ struct TranslationTextField: UIViewRepresentable {
         var placeholderTrailingConstraint: NSLayoutConstraint?
         let toolbar = UIToolbar(frame: .zero)
 
-        fileprivate var keyboardAccessoryHost: UIHostingController<TranslationKeyboardNavAccessory>?
-        fileprivate let focusRetrier = TranslationFocusRetrier()
+        var keyboardAccessoryHost: UIHostingController<TranslationKeyboardNavAccessory>?
+        let focusRetrier = TranslationFocusRetrier()
 
         var isApplyingTextFromBinding = false
 

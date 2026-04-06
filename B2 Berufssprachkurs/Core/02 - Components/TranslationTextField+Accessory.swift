@@ -11,21 +11,21 @@ extension TranslationTextField.Coordinator {
         guard keyboardAccessoryHost == nil else { return }
 
         let root = TranslationKeyboardNavAccessory(
-            keyboardNav: parent.keyboardNav,
+            keyboardNav: parent.keyboardNavBridge,
             onPrevious: { [weak self] in
                 guard let self else { return }
                 HapticManager.shared.lightImpact()
-                self.parent.keyboardNav.onPrevious()
+                self.parent.keyboardNavBridge.onPrevious()
             },
             onNext: { [weak self] in
                 guard let self else { return }
                 HapticManager.shared.lightImpact()
-                self.parent.keyboardNav.onNext()
+                self.parent.keyboardNavBridge.onNext()
             },
             onDone: { [weak self] in
                 guard let self else { return }
                 HapticManager.shared.lightImpact()
-                self.parent.keyboardNav.onDismiss()
+                self.parent.keyboardNavBridge.onDismiss()
             }
         )
 
