@@ -24,6 +24,8 @@ final class SubscriptionManager: ObservableObject {
     @Published var purchaseState: PurchaseState = .idle
     @Published var products: [String: Product] = [:]
     @Published var errorMessage: String?
+    /// Latest expiration observed from verified StoreKit entitlement scan.
+    @Published private(set) var storeKitExpirationDate: Date?
     /// After first ``checkSubscriptionStatus()`` at launch so free-tier CTAs don’t flash for subscribers.
     @Published private(set) var hasCompletedInitialSubscriptionSync = false
 
@@ -35,7 +37,7 @@ final class SubscriptionManager: ObservableObject {
     }
 
     var premiumExpirationDate: Date? {
-        revenueCatService.premiumExpirationDate
+        revenueCatService.premiumExpirationDate ?? storeKitExpirationDate
     }
 
     var product: Product? {
@@ -79,7 +81,12 @@ final class SubscriptionManager: ObservableObject {
     }
 
     func updateFromRevenueCat() async {
-        applyPremiumFlagsFromRevenueCatAndTrial()
+        let storeKit = await currentStoreKitEntitlementSnapshot()
+        applyMergedEntitlementState(
+            revenueCatPremium: revenueCatService.isPremiumActive,
+            revenueCatProductID: revenueCatService.activeProductID,
+            storeKit: storeKit
+        )
     }
 
     private func applyPremiumFlagsFromRevenueCatAndTrial() {
@@ -88,6 +95,19 @@ final class SubscriptionManager: ObservableObject {
         isPremiumActive = revenueCatPremium || trialActive
         hasActiveSubscription = revenueCatPremium
         activeProductID = revenueCatService.activeProductID
+    }
+
+    func applyMergedEntitlementState(
+        revenueCatPremium: Bool,
+        revenueCatProductID: String?,
+        storeKit: StoreKitEntitlementSnapshot
+    ) {
+        hasActiveSubscription = revenueCatPremium || storeKit.hasActiveSubscription
+        activeProductID = revenueCatProductID ?? storeKit.activeProductID
+        storeKitExpirationDate = storeKit.expirationDate
+
+        let trialActive = isTrialActive()
+        isPremiumActive = hasActiveSubscription || trialActive
     }
 
     enum PurchaseState: Equatable {

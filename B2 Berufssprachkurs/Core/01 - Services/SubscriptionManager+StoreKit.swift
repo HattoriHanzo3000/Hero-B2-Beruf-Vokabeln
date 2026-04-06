@@ -10,6 +10,12 @@ import RevenueCat
 import StoreKit
 
 extension SubscriptionManager {
+    struct StoreKitEntitlementSnapshot {
+        var hasActiveSubscription: Bool
+        var activeProductID: String?
+        var expirationDate: Date?
+    }
+
     func loadProducts() async {
         isLoading = true
         errorMessage = nil
@@ -61,32 +67,49 @@ extension SubscriptionManager {
 
     func checkSubscriptionStatus() async {
         await revenueCatService.syncCustomerInfo()
-        await updateFromRevenueCat()
+        let storeKit = await currentStoreKitEntitlementSnapshot()
+        applyMergedEntitlementState(
+            revenueCatPremium: revenueCatService.isPremiumActive,
+            revenueCatProductID: revenueCatService.activeProductID,
+            storeKit: storeKit
+        )
+    }
 
+    func currentStoreKitEntitlementSnapshot() async -> StoreKitEntitlementSnapshot {
         var hasStoreKitSubscription = false
         var storeKitProductID: String?
+        var storeKitExpiration: Date?
 
         for await result in Transaction.currentEntitlements {
             do {
                 let transaction = try checkVerified(result)
+                guard productIDs.contains(transaction.productID) else { continue }
 
-                if productIDs.contains(transaction.productID) {
-                    hasStoreKitSubscription = true
+                hasStoreKitSubscription = true
+
+                if storeKitProductID == nil {
                     storeKitProductID = transaction.productID
-                    break
+                }
+
+                if let exp = transaction.expirationDate {
+                    if let current = storeKitExpiration {
+                        if exp > current {
+                            storeKitExpiration = exp
+                        }
+                    } else {
+                        storeKitExpiration = exp
+                    }
                 }
             } catch {
                 print("SubscriptionManager: Error verifying transaction - \(error)")
             }
         }
 
-        if !hasActiveSubscription && hasStoreKitSubscription {
-            hasActiveSubscription = true
-            activeProductID = storeKitProductID
-        }
-
-        let trialActive = isTrialActive()
-        isPremiumActive = hasActiveSubscription || trialActive
+        return StoreKitEntitlementSnapshot(
+            hasActiveSubscription: hasStoreKitSubscription,
+            activeProductID: storeKitProductID,
+            expirationDate: storeKitExpiration
+        )
     }
 
     func purchaseSubscription(productID: String? = nil) async throws {
