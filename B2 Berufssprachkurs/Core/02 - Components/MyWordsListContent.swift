@@ -68,8 +68,9 @@ struct MyWordsListContent<Row: View>: View {
         }
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
-        .contentMargins(.top, 8, for: .scrollContent)
+        .contentMargins(.top, 6, for: .scrollContent)
         .contentMargins(.bottom, FlashcardsButton.fabSize + 24, for: .scrollContent)
+        .contentMargins(.horizontal, 0, for: .scrollContent)
         .accessibilityLabel(Localizable.string(Localizable.myWordsListA11yLabel))
         .accessibilityHint(Localizable.string(Localizable.myWordsListA11yHint))
     }

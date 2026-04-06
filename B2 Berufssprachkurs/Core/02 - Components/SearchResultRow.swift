@@ -38,20 +38,31 @@ struct SearchResultRow: View {
     }
 
     var body: some View {
+        /// Stacks like `WordRow` / `FavoriteWordRow`: lemma + subtitle, then trailing context badge on its own row.
         VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text(word.german)
-                    .font(.system(.body, design: .default, weight: .semibold))
-                    .foregroundStyle(.primary)
-                Spacer(minLength: 8)
-                SectionContextBadge(caption: contextCaption, accentColor: accent)
-            }
+            Text(word.german)
+                .font(.system(.callout, design: .default, weight: .regular))
+                .foregroundStyle(.primary)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .fixedSize(horizontal: false, vertical: true)
+
             Text(subtitle)
-                .font(.system(.subheadline, design: .rounded))
+                .font(.system(.callout, design: .default, weight: .regular))
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.leading)
                 .lineLimit(2)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            HStack {
+                Spacer(minLength: 0)
+                SectionContextBadge(caption: contextCaption, accentColor: accent)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+            }
         }
-        .padding(.vertical, 4)
+        .padding(.horizontal, 6)
+        .padding(.vertical, 10)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(word.german). \(contextCaption). \(subtitle)")
     }

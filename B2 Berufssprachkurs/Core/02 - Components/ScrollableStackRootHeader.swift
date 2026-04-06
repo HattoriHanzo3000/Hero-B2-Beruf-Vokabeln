@@ -39,8 +39,8 @@ struct ScrollableStackRootHeader: View {
 
                 Spacer(minLength: 0)
             }
-            .padding(.horizontal, 10)
-            .padding(.top, 8)
+            .padding(.horizontal, 4)
+            .padding(.top, 6)
             .padding(.bottom, 10)
 
             if showsDivider {

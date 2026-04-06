@@ -65,17 +65,34 @@ struct StackListSelectAllHeader: View {
     }
 }
 
-private struct StackRootListChromeModifier: ViewModifier {
+/// `GeneralWordsListView`: expandable lections — grouped list matches iOS section cards.
+private struct StackRootGroupedListChromeModifier: ViewModifier {
     @Binding var scrollPosition: String?
-    /// Extra scrollable space below list content (e.g. clear room for a floating Üben pill = 90).
     var bottomMargin: CGFloat
 
     func body(content: Content) -> some View {
         content
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
-            .contentMargins(.top, 8, for: .scrollContent)
+            .contentMargins(.top, 6, for: .scrollContent)
             .contentMargins(.bottom, bottomMargin, for: .scrollContent)
+            .contentMargins(.horizontal, 0, for: .scrollContent)
+            .scrollPosition(id: $scrollPosition, anchor: .center)
+    }
+}
+
+/// `FlatIndexedStackListView` (Verben / Adjektive mit Präpositionen): flat index, no expandable lections — plain list.
+private struct StackRootFlatListChromeModifier: ViewModifier {
+    @Binding var scrollPosition: String?
+    var bottomMargin: CGFloat
+
+    func body(content: Content) -> some View {
+        content
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .contentMargins(.top, 6, for: .scrollContent)
+            .contentMargins(.bottom, bottomMargin, for: .scrollContent)
+            .contentMargins(.horizontal, 0, for: .scrollContent)
             .scrollPosition(id: $scrollPosition, anchor: .center)
     }
 }
@@ -85,6 +102,13 @@ extension View {
         scrollPosition: Binding<String?>,
         bottomMargin: CGFloat = 90
     ) -> some View {
-        modifier(StackRootListChromeModifier(scrollPosition: scrollPosition, bottomMargin: bottomMargin))
+        modifier(StackRootGroupedListChromeModifier(scrollPosition: scrollPosition, bottomMargin: bottomMargin))
+    }
+
+    func stackRootFlatListChrome(
+        scrollPosition: Binding<String?>,
+        bottomMargin: CGFloat = 90
+    ) -> some View {
+        modifier(StackRootFlatListChromeModifier(scrollPosition: scrollPosition, bottomMargin: bottomMargin))
     }
 }

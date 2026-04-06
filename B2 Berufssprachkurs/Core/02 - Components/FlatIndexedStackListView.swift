@@ -37,7 +37,7 @@ struct FlatIndexedStackListView: View {
                     .id(stackHeaderId)
                 }
 
-                // Select-all header + rows in one section: keeps vertical gap tight (inset grouped adds extra space between sections).
+                // Select-all header + rows in one section: keeps vertical gap tight (see `stackRootFlatListChrome` — plain list).
                 SwiftUI.Section {
                     ForEach(Array(rows.enumerated()), id: \.element.id) { index, section in
                         FlatIndexedStackRow(
@@ -60,7 +60,7 @@ struct FlatIndexedStackListView: View {
                     .id(selectAllId)
                 }
             }
-            .stackRootListChrome(scrollPosition: scrollBinding, bottomMargin: FlashcardsButton.fabSize + 24)
+            .stackRootFlatListChrome(scrollPosition: scrollBinding, bottomMargin: FlashcardsButton.fabSize + 24)
         }
     }
 }

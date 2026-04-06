@@ -167,8 +167,9 @@ struct FavoritesView: View {
             .listStyle(.plain)
             .scrollDismissesKeyboard(.never)
             .scrollContentBackground(.hidden)
-            .contentMargins(.top, 8, for: .scrollContent)
+            .contentMargins(.top, 6, for: .scrollContent)
             .contentMargins(.bottom, FlashcardsButton.fabSize + 24, for: .scrollContent)
+            .contentMargins(.horizontal, 0, for: .scrollContent)
             .accessibilityLabel(Localizable.string(Localizable.favoritesListA11yLabel))
             .accessibilityHint(Localizable.string(Localizable.favoritesListA11yHint))
             .onChange(of: focusedTranslationWordId) { _, newValue in

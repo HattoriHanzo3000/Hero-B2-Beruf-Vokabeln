@@ -77,6 +77,21 @@ struct MyWordsView: View {
                 }
                 .accessibilityLabel(Localizable.string(Localizable.myWordsMoreOptionsA11y))
             }
+            if editMode == .active {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        HapticManager.shared.lightImpact()
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            editMode = .inactive
+                        }
+                    } label: {
+                        Image(systemName: "checkmark")
+                            .navigationBarSymbolStyle()
+                            .foregroundStyle(.primary)
+                    }
+                    .accessibilityLabel(Localizable.string(Localizable.myWordsDoneEditing))
+                }
+            }
         }
         .sheet(isPresented: $showAddWordSheet) {
             MyWordEditorSheet(mode: .add)

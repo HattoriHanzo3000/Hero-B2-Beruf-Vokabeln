@@ -84,7 +84,7 @@ struct SectionRowView: View {
             Spacer()
         }
         .padding(.vertical, 4)
-        .padding(.leading, 8)
+        .padding(.leading, 6)
         .frame(maxWidth: .infinity, alignment: .leading)
 
         if isLocked {

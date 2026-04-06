@@ -117,30 +117,11 @@ struct FavoriteWordRow: View {
     }
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Button(action: onFavoriteToggle) {
-                Image(systemName: isFavorite ? "star.fill" : "star")
-                    .font(.system(size: 15, weight: .semibold, design: .rounded))
-                    .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
-                    .symbolEffect(.bounce, value: isFavorite)
-                    .frame(width: Self.starColumnWidth)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(
-                Localizable.string(isFavorite ? Localizable.wordRowFavoriteRemoveA11y : Localizable.wordRowFavoriteAddA11y)
-            )
-            .accessibilityValue(
-                Localizable.string(
-                    isFavorite ? Localizable.wordRowFavoriteValueFavoritedA11y : Localizable.wordRowFavoriteValueNotFavoritedA11y
-                )
-            )
-            .accessibilityHint(String(format: Localizable.string(Localizable.wordRowFavoriteHintFormat), word.german))
-            .accessibilityAddTraits(isFavorite ? .isSelected : [])
-
-            VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 6) {
                 HStack(alignment: isEditingTranslation ? .firstTextBaseline : .top, spacing: 10) {
                     Text(word.german)
-                        .font(.system(.body, design: .default, weight: .regular))
+                        .font(.system(.callout, design: .default, weight: .regular))
                         .foregroundColor(.primary)
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -172,7 +153,7 @@ struct FavoriteWordRow: View {
                                         Image(systemName: "pencil.line")
                                             .font(.system(size: 20, weight: .regular))
                                             .foregroundStyle(.secondary)
-                                            .frame(minWidth: 44, alignment: .topTrailing)
+                                            .frame(width: Self.starColumnWidth, alignment: .center)
                                             .contentShape(Rectangle())
                                     }
                                     .buttonStyle(.plain)
@@ -182,7 +163,7 @@ struct FavoriteWordRow: View {
                                 } else {
                                     Button(action: beginEditingTranslation) {
                                         Text(trimmedTranslation)
-                                            .font(.system(.subheadline, design: .default, weight: .medium))
+                                            .font(.system(.callout, design: .default, weight: .regular))
                                             .foregroundColor(.primary)
                                             .multilineTextAlignment(.trailing)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
@@ -261,19 +242,37 @@ struct FavoriteWordRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityElement(children: .combine)
                 }
-
-                HStack {
-                    Spacer(minLength: 0)
-                    SectionContextBadge(caption: contextCaption, accentColor: sectionAccentColor)
-                        .allowsHitTesting(false)
-                        .accessibilityHidden(true)
-                }
             }
             .accessibilityElement(children: .combine)
             .accessibilityLabel(combinedRowAccessibilityLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
+
+            HStack(alignment: .center, spacing: 6) {
+                Spacer(minLength: 0)
+                SectionContextBadge(caption: contextCaption, accentColor: sectionAccentColor)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+                Button(action: onFavoriteToggle) {
+                    Image(systemName: isFavorite ? "star.fill" : "star")
+                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
+                        .symbolEffect(.bounce, value: isFavorite)
+                        .frame(width: Self.starColumnWidth, alignment: .center)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(
+                    Localizable.string(isFavorite ? Localizable.wordRowFavoriteRemoveA11y : Localizable.wordRowFavoriteAddA11y)
+                )
+                .accessibilityValue(
+                    Localizable.string(
+                        isFavorite ? Localizable.wordRowFavoriteValueFavoritedA11y : Localizable.wordRowFavoriteValueNotFavoritedA11y
+                    )
+                )
+                .accessibilityHint(String(format: Localizable.string(Localizable.wordRowFavoriteHintFormat), word.german))
+                .accessibilityAddTraits(isFavorite ? .isSelected : [])
+            }
         }
-        .padding(.horizontal, 10)
+        .padding(.horizontal, 6)
         .padding(.vertical, 10)
         .accessibilityElement(children: .contain)
         .onAppear {

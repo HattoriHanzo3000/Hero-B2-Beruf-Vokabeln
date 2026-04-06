@@ -2,7 +2,7 @@
 //  MyWordsOverflowMenu.swift
 //  B2 Berufssprachkurs
 //
-//  Toolbar overflow: edit mode, sort, print, delete all.
+//  Toolbar overflow: enter edit (when inactive), sort, print, delete all. Done uses the bar checkmark in MyWordsView.
 //
 
 import SwiftUI
@@ -16,26 +16,20 @@ struct MyWordsOverflowMenu: View {
     let onPrint: () -> Void
     let onRequestDeleteAll: () -> Void
 
-    private var editToolbarMenuTitle: String {
-        Localizable.string(editMode == .active ? Localizable.myWordsDoneEditing : Localizable.myWordsEdit)
-    }
-
-    private var editToolbarMenuSymbol: String {
-        editMode == .active ? "checkmark" : "pencil"
-    }
-
     private var printMenuItemAccessibilityHint: String {
         Localizable.string(Localizable.wordListPrintA11yHint)
     }
 
     var body: some View {
-        Button {
-            HapticManager.shared.lightImpact()
-            withAnimation(.easeInOut(duration: 0.2)) {
-                editMode = editMode == .active ? .inactive : .active
+        if editMode == .inactive {
+            Button {
+                HapticManager.shared.lightImpact()
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    editMode = .active
+                }
+            } label: {
+                Label(Localizable.string(Localizable.myWordsEdit), systemImage: "pencil")
             }
-        } label: {
-            Label(editToolbarMenuTitle, systemImage: editToolbarMenuSymbol)
         }
 
         Menu {

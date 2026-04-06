@@ -239,7 +239,6 @@
 "my_words_row_explanation_a11y" = "Explanation: %@";
 "my_words_row_example_a11y" = "Example: %@";
 "my_words_row_synonyms_a11y" = "Synonyms: %@";
-"my_words_row_container_a11y" = "Word row for %@";
 
 "practice" = "PRACTICE";
 "practice_with_cards" = "Flashcards";

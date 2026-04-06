@@ -29,10 +29,10 @@ struct WordsListHeaderView: View {
                     .symbolRenderingMode(.hierarchical)
             }
 
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 6) {
                 if !lectionTitle.isEmpty && !sectionTitle.isEmpty {
                     VStack(alignment: .leading, spacing: 4) {
-                        HStack(spacing: 8) {
+                        HStack(spacing: 6) {
                             if !lectionNumber.isEmpty {
                                 Text(lectionNumber)
                                     .font(.system(.title3, design: .default, weight: .regular))
@@ -43,7 +43,7 @@ struct WordsListHeaderView: View {
                                 .foregroundColor(.primary)
                         }
 
-                        HStack(spacing: 8) {
+                        HStack(spacing: 6) {
                             if !sectionLetter.isEmpty {
                                 Text(sectionLetter.uppercased())
                                     .font(.system(.headline, design: .default, weight: .light))
@@ -63,7 +63,7 @@ struct WordsListHeaderView: View {
 
             Spacer()
         }
-        .padding(.horizontal, 10)
+        .padding(.horizontal, 4)
         .padding(.vertical, 16)
     }
 }

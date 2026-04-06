@@ -10,7 +10,7 @@ import UIKit
 
 private enum TranslationFieldLayout {
     static let insetXCompact: CGFloat = 10
-    /// Equal top/bottom so single-line `.subheadline` sits vertically centered in the field.
+    /// Equal top/bottom so single-line `.callout` sits vertically centered in the field.
     static let insetYTop: CGFloat = 6
     static let insetYBottom: CGFloat = 6
 
@@ -34,7 +34,7 @@ struct TranslationTextField: UIViewRepresentable {
     func makeUIView(context: Context) -> UITextView {
         let tv = UITextView()
         tv.delegate = context.coordinator
-        let font = UIFont.preferredFont(forTextStyle: .subheadline)
+        let font = UIFont.preferredFont(forTextStyle: .callout)
         tv.font = font
         tv.adjustsFontForContentSizeCategory = true
         tv.textColor = .label
@@ -85,8 +85,8 @@ struct TranslationTextField: UIViewRepresentable {
     func updateUIView(_ uiView: UITextView, context: Context) {
         context.coordinator.parent = self
 
-        if uiView.font != UIFont.preferredFont(forTextStyle: .subheadline) {
-            uiView.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        if uiView.font != UIFont.preferredFont(forTextStyle: .callout) {
+            uiView.font = UIFont.preferredFont(forTextStyle: .callout)
         }
         context.coordinator.placeholderLabel?.font = uiView.font
         context.coordinator.placeholderLabel?.text = placeholder
@@ -127,7 +127,7 @@ struct TranslationTextField: UIViewRepresentable {
             return CGSize(width: proposedWidth, height: 1)
         }
 
-        let font = uiView.font ?? UIFont.preferredFont(forTextStyle: .subheadline)
+        let font = uiView.font ?? UIFont.preferredFont(forTextStyle: .callout)
         let horizontalInset = uiView.textContainerInset.left + uiView.textContainerInset.right
         let verticalInset = uiView.textContainerInset.top + uiView.textContainerInset.bottom
         let textWidth = max(1, proposedWidth - horizontalInset)
@@ -265,9 +265,9 @@ struct TranslationTextField: UIViewRepresentable {
 }
 
 extension TranslationTextField {
-    /// For `HStack(alignment: .firstTextBaseline)` beside SwiftUI `.body` lemma: top of view → first baseline of `.subheadline` text in the `UITextView`.
+    /// For `HStack(alignment: .firstTextBaseline)` beside SwiftUI `.callout` lemma: top of view → first baseline of `.callout` text in the `UITextView`.
     static func rowFirstBaselineFromTopForBodyStyle() -> CGFloat {
-        let font = UIFont.preferredFont(forTextStyle: .subheadline)
+        let font = UIFont.preferredFont(forTextStyle: .callout)
         return TranslationFieldLayout.insetYTop + font.lineHeight + font.descender
     }
 }

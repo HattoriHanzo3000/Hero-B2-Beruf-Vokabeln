@@ -307,8 +307,6 @@ extension Localizable {
     static let myWordsRowExampleA11y = "my_words_row_example_a11y"
     /// %@ = synonyms text.
     static let myWordsRowSynonymsA11y = "my_words_row_synonyms_a11y"
-    /// %@ = German headword.
-    static let myWordsRowContainerA11y = "my_words_row_container_a11y"
 
     // Practice button
     static let practice = "practice"

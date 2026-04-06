@@ -89,6 +89,8 @@ struct GlobalSearchView: View {
                     }
                 }
                 .listStyle(.insetGrouped)
+                .scrollContentBackground(.hidden)
+                .contentMargins(.horizontal, 0, for: .scrollContent)
             }
         }
         // Large title sits **above** the search field (same stacking as Apple Photos). `.automatic` search lets the system attach full-width field + cancel to the search tab / keyboard.

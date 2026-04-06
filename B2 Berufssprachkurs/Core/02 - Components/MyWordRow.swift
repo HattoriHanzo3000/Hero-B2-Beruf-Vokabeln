@@ -48,26 +48,6 @@ struct MyWordRow: View {
         WordListTranslationTextStyle.color(for: .myWords, colorScheme: colorScheme)
     }
 
-    private func attributedText(
-        label: String,
-        value: String,
-        labelFont: Font = .system(.caption, design: .rounded).weight(.semibold),
-        valueFont: Font = .system(.caption, design: .rounded),
-        labelColor: Color = .secondary,
-        valueColor: Color = .primary
-    ) -> AttributedString {
-        var fullText = AttributedString("\(label)\(value)")
-        if let labelRange = fullText.range(of: label) {
-            fullText[labelRange].font = labelFont
-            fullText[labelRange].foregroundColor = labelColor
-        }
-        if let valueRange = fullText.range(of: value) {
-            fullText[valueRange].font = valueFont
-            fullText[valueRange].foregroundColor = valueColor
-        }
-        return fullText
-    }
-
     private var hasWordDetailLines: Bool {
         let hasErkl = word.explanation?.isEmpty == false
         let hasBeisp = word.example?.isEmpty == false
@@ -75,21 +55,36 @@ struct MyWordRow: View {
         return hasErkl || hasBeisp || hasSyn
     }
 
-    /// Edit mode: match system reorder control (``line.3.horizontal``) vertical centering.
-    private var rowStackAlignment: VerticalAlignment {
-        onDelete != nil ? .center : .top
-    }
-
     @ViewBuilder
     private var translationColumn: some View {
         if trimmedTranslation.isEmpty {
-            Color.clear
-                .frame(minWidth: 96, maxWidth: .infinity)
-                .accessibilityHidden(true)
+            Group {
+                if translationButtonsEnabled {
+                    Button(action: onEditTranslation) {
+                        Image(systemName: "pencil.line")
+                            .font(.system(size: 20, weight: .regular))
+                            .foregroundStyle(.secondary)
+                            .frame(width: Self.starColumnWidth, alignment: .center)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .accessibilityLabel(Localizable.string(Localizable.addTranslationToWord))
+                    .accessibilityHint(Localizable.string(Localizable.wordRowTranslationOpenKeyboardHintA11y))
+                } else {
+                    Image(systemName: "pencil.line")
+                        .font(.system(size: 20, weight: .regular))
+                        .foregroundStyle(.secondary)
+                        .frame(width: Self.starColumnWidth, alignment: .center)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .accessibilityHidden(true)
+                        .allowsHitTesting(false)
+                }
+            }
         } else if translationButtonsEnabled {
             Button(action: onEditTranslation) {
                 Text(trimmedTranslation)
-                    .font(.system(.subheadline, design: .default, weight: .medium))
+                    .font(.system(.callout, design: .default, weight: .regular))
                     .foregroundColor(translationTextColor)
                     .multilineTextAlignment(.trailing)
                     .frame(minWidth: 96, maxWidth: .infinity, alignment: .trailing)
@@ -103,7 +98,7 @@ struct MyWordRow: View {
             .accessibilityHint(Localizable.string(Localizable.myWordsRowTranslationEditA11yHint))
         } else {
             Text(trimmedTranslation)
-                .font(.system(.subheadline, design: .default, weight: .medium))
+                .font(.system(.callout, design: .default, weight: .regular))
                 .foregroundColor(translationTextColor)
                 .multilineTextAlignment(.trailing)
                 .frame(minWidth: 96, maxWidth: .infinity, alignment: .trailing)
@@ -115,7 +110,7 @@ struct MyWordRow: View {
     }
 
     @ViewBuilder
-    private var leadingAccessory: some View {
+    private var leadingDeleteAccessory: some View {
         if let delete = onDelete {
             Button(role: .destructive, action: delete) {
                 Image(systemName: "minus.circle.fill")
@@ -126,114 +121,139 @@ struct MyWordRow: View {
             .buttonStyle(.plain)
             .accessibilityLabel(Localizable.string(Localizable.myWordsDeleteWord))
             .accessibilityHint(Localizable.string(Localizable.myWordsDeleteWordHint))
-        } else if showsFavoriteControl {
-            Button(action: onFavoriteToggle) {
-                Image(systemName: isFavorite ? "star.fill" : "star")
-                    .font(.system(size: 15, weight: .semibold, design: .rounded))
-                    .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
-                    .symbolEffect(.bounce, value: isFavorite)
-                    .frame(width: Self.starColumnWidth)
+        }
+    }
+
+    /// Matches `WordRow`: star in its own trailing row below the lemma / translation line.
+    @ViewBuilder
+    private var bottomFavoriteStarRow: some View {
+        HStack {
+            Spacer(minLength: 0)
+            if showsFavoriteControl {
+                Button(action: onFavoriteToggle) {
+                    Image(systemName: isFavorite ? "star.fill" : "star")
+                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
+                        .symbolEffect(.bounce, value: isFavorite)
+                        .frame(width: Self.starColumnWidth, alignment: .center)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(
+                    Localizable.string(isFavorite ? Localizable.myWordsRowFavoriteRemoveA11y : Localizable.myWordsRowFavoriteAddA11y)
+                )
+                .accessibilityValue(
+                    Localizable.string(isFavorite ? Localizable.myWordsRowFavoriteValueYesA11y : Localizable.myWordsRowFavoriteValueNoA11y)
+                )
+                .accessibilityHint(
+                    String(format: Localizable.string(Localizable.myWordsRowFavoriteHintA11y), word.german)
+                )
+                .accessibilityAddTraits(isFavorite ? .isSelected : [])
+            } else {
+                Color.clear.frame(width: Self.starColumnWidth, height: 0)
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel(
-                Localizable.string(isFavorite ? Localizable.myWordsRowFavoriteRemoveA11y : Localizable.myWordsRowFavoriteAddA11y)
-            )
-            .accessibilityValue(
-                Localizable.string(isFavorite ? Localizable.myWordsRowFavoriteValueYesA11y : Localizable.myWordsRowFavoriteValueNoA11y)
-            )
-            .accessibilityHint(
-                String(format: Localizable.string(Localizable.myWordsRowFavoriteHintA11y), word.german)
-            )
-            .accessibilityAddTraits(isFavorite ? .isSelected : [])
-        } else {
-            Color.clear.frame(width: Self.starColumnWidth, height: 0)
+        }
+    }
+
+    @ViewBuilder
+    private var lemmaTranslationAndDetails: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .top, spacing: 10) {
+                Text(word.german)
+                    .font(.system(.callout, design: .default, weight: .regular))
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.leading)
+                    .frame(minWidth: 72, maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                translationColumn
+            }
+
+            if hasWordDetailLines {
+                VStack(alignment: .leading, spacing: 6) {
+                    if let explanation = word.explanation, !explanation.isEmpty {
+                        Text(
+                            AttributedString.b2_wordListDetailLine(
+                                label: Localizable.string(Localizable.wordRowDetailLabelExplanation),
+                                value: explanation,
+                                labelFont: WordListRowDetailTextStyle.explanationLabelFont,
+                                valueFont: WordListRowDetailTextStyle.explanationValueFont,
+                                labelColor: .secondary,
+                                valueColor: .primary
+                            )
+                        )
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel(
+                            String(format: Localizable.string(Localizable.myWordsRowExplanationA11y), explanation)
+                        )
+                    }
+
+                    if let example = word.example, !example.isEmpty {
+                        Text(
+                            AttributedString.b2_wordListDetailLine(
+                                label: Localizable.string(Localizable.wordRowDetailLabelExample),
+                                value: example,
+                                labelFont: WordListRowDetailTextStyle.explanationLabelFont,
+                                valueFont: WordListRowDetailTextStyle.explanationValueFont,
+                                labelColor: .secondary,
+                                valueColor: .primary
+                            )
+                        )
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel(
+                            String(format: Localizable.string(Localizable.myWordsRowExampleA11y), example)
+                        )
+                    }
+
+                    if let synonyms = word.synonyms, !synonyms.isEmpty {
+                        let synonymsText = synonyms.joined(separator: ", ")
+                        Text(
+                            AttributedString.b2_wordListDetailLine(
+                                label: Localizable.string(Localizable.wordRowDetailLabelSynonyms),
+                                value: synonymsText,
+                                labelFont: WordListRowDetailTextStyle.labelFont,
+                                valueFont: WordListRowDetailTextStyle.valueFont,
+                                labelColor: .secondary,
+                                valueColor: .primary
+                            )
+                        )
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel(
+                            String(format: Localizable.string(Localizable.myWordsRowSynonymsA11y), synonymsText)
+                        )
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityElement(children: .combine)
+            }
         }
     }
 
     var body: some View {
-        HStack(alignment: rowStackAlignment, spacing: 12) {
-            leadingAccessory
-
-            VStack(alignment: .leading, spacing: 8) {
-                HStack(alignment: .top, spacing: 12) {
-                    Text(word.german)
-                        .font(.system(.body, design: .default, weight: .regular))
-                        .foregroundColor(.primary)
-                        .multilineTextAlignment(.leading)
-                        .frame(minWidth: 72, maxWidth: .infinity, alignment: .leading)
-                        .fixedSize(horizontal: false, vertical: true)
-
-                    translationColumn
+        Group {
+            if onDelete != nil {
+                HStack(alignment: .center, spacing: 6) {
+                    leadingDeleteAccessory
+                    lemmaTranslationAndDetails
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
+                        .myWordEditSheetTap(openEditSheet)
                 }
+            } else {
+                VStack(alignment: .leading, spacing: 6) {
+                    lemmaTranslationAndDetails
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
+                        .myWordEditSheetTap(openEditSheet)
 
-                if hasWordDetailLines {
-                    VStack(alignment: .leading, spacing: 6) {
-                        if let explanation = word.explanation, !explanation.isEmpty {
-                            Text(
-                                attributedText(
-                                    label: Localizable.string(Localizable.wordRowDetailLabelExplanation),
-                                    value: explanation,
-                                    labelFont: WordListRowDetailTextStyle.explanationLabelFont,
-                                    valueFont: WordListRowDetailTextStyle.explanationValueFont,
-                                    labelColor: .secondary,
-                                    valueColor: .primary
-                                )
-                            )
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .accessibilityLabel(
-                                String(format: Localizable.string(Localizable.myWordsRowExplanationA11y), explanation)
-                            )
-                        }
-
-                        if let example = word.example, !example.isEmpty {
-                            Text(
-                                attributedText(
-                                    label: Localizable.string(Localizable.wordRowDetailLabelExample),
-                                    value: example,
-                                    labelFont: WordListRowDetailTextStyle.explanationLabelFont,
-                                    valueFont: WordListRowDetailTextStyle.explanationValueFont,
-                                    labelColor: .secondary,
-                                    valueColor: .primary
-                                )
-                            )
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .accessibilityLabel(
-                                String(format: Localizable.string(Localizable.myWordsRowExampleA11y), example)
-                            )
-                        }
-
-                        if let synonyms = word.synonyms, !synonyms.isEmpty {
-                            let synonymsText = synonyms.joined(separator: ", ")
-                            Text(
-                                attributedText(
-                                    label: Localizable.string(Localizable.wordRowDetailLabelSynonyms),
-                                    value: synonymsText,
-                                    labelFont: WordListRowDetailTextStyle.explanationLabelFont,
-                                    valueFont: WordListRowDetailTextStyle.explanationValueFont,
-                                    labelColor: .secondary,
-                                    valueColor: .primary
-                                )
-                            )
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .accessibilityLabel(
-                                String(format: Localizable.string(Localizable.myWordsRowSynonymsA11y), synonymsText)
-                            )
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .accessibilityElement(children: .combine)
+                    bottomFavoriteStarRow
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .contentShape(Rectangle())
-            .myWordEditSheetTap(openEditSheet)
         }
-        .padding(.horizontal, 10)
+        .padding(.horizontal, 6)
         .padding(.vertical, 10)
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(String(format: Localizable.string(Localizable.myWordsRowContainerA11y), word.german))
     }
 }
