@@ -8,17 +8,6 @@
 import SwiftUI
 import UIKit
 
-private enum TranslationFieldLayout {
-    static let insetXCompact: CGFloat = 10
-    /// Equal top/bottom so single-line `.callout` sits vertically centered in the field.
-    static let insetYTop: CGFloat = 6
-    static let insetYBottom: CGFloat = 6
-
-    static var textContainerInsets: UIEdgeInsets {
-        UIEdgeInsets(top: insetYTop, left: insetXCompact, bottom: insetYBottom, right: insetXCompact)
-    }
-}
-
 struct TranslationTextField: UIViewRepresentable {
     @Binding var text: String
     let wordId: String
@@ -34,36 +23,9 @@ struct TranslationTextField: UIViewRepresentable {
     func makeUIView(context: Context) -> UITextView {
         let tv = UITextView()
         tv.delegate = context.coordinator
-        let font = UIFont.preferredFont(forTextStyle: .callout)
-        tv.font = font
-        tv.adjustsFontForContentSizeCategory = true
-        tv.textColor = .label
-        tv.tintColor = .label
-        tv.autocorrectionType = .yes
-        tv.autocapitalizationType = .none
-        tv.smartDashesType = .yes
-        tv.smartQuotesType = .yes
-        tv.returnKeyType = .default
-        tv.isScrollEnabled = false
-        tv.textAlignment = .natural
-        tv.backgroundColor = UIColor.secondarySystemFill
-        tv.textContainer.lineFragmentPadding = 0
-        tv.textContainerInset = TranslationFieldLayout.textContainerInsets
-        tv.textContainer.widthTracksTextView = true
-        tv.layer.cornerRadius = 8
-        tv.layer.cornerCurve = .continuous
-        tv.layer.borderWidth = 1.0 / UIScreen.main.scale
-        tv.layer.borderColor = UIColor.separator.cgColor
-        tv.clipsToBounds = true
+        TranslationTextFieldStyle.apply(to: tv)
 
-        let ph = UILabel()
-        ph.text = placeholder
-        ph.textColor = UIColor.placeholderText
-        ph.font = font
-        ph.numberOfLines = 0
-        ph.textAlignment = .natural
-        ph.isUserInteractionEnabled = false
-        ph.translatesAutoresizingMaskIntoConstraints = false
+        let ph = TranslationTextFieldStyle.makePlaceholderLabel(text: placeholder, font: TranslationTextFieldStyle.calloutFont)
         tv.addSubview(ph)
         let placeholderTrailing = ph.trailingAnchor.constraint(lessThanOrEqualTo: tv.trailingAnchor, constant: -TranslationFieldLayout.insetXCompact)
         NSLayoutConstraint.activate([
@@ -85,8 +47,8 @@ struct TranslationTextField: UIViewRepresentable {
     func updateUIView(_ uiView: UITextView, context: Context) {
         context.coordinator.parent = self
 
-        if uiView.font != UIFont.preferredFont(forTextStyle: .callout) {
-            uiView.font = UIFont.preferredFont(forTextStyle: .callout)
+        if uiView.font != TranslationTextFieldStyle.calloutFont {
+            uiView.font = TranslationTextFieldStyle.calloutFont
         }
         context.coordinator.placeholderLabel?.font = uiView.font
         context.coordinator.placeholderLabel?.text = placeholder
@@ -153,11 +115,10 @@ struct TranslationTextField: UIViewRepresentable {
         var placeholderTrailingConstraint: NSLayoutConstraint?
         let toolbar = UIToolbar(frame: .zero)
 
-        private var keyboardAccessoryHost: UIHostingController<TranslationKeyboardNavAccessory>?
+        fileprivate var keyboardAccessoryHost: UIHostingController<TranslationKeyboardNavAccessory>?
+        fileprivate let focusRetrier = TranslationFocusRetrier()
 
         var isApplyingTextFromBinding = false
-        private var focusSession: UInt = 0
-        private var scheduledFocusSession: UInt?
 
         init(_ parent: TranslationTextField) {
             self.parent = parent
@@ -175,74 +136,7 @@ struct TranslationTextField: UIViewRepresentable {
         }
 
         func cancelFocusRetries() {
-            focusSession &+= 1
-            scheduledFocusSession = nil
-        }
-
-        func requestFirstResponderIfNeeded() {
-            guard parent.focusedWordId == parent.wordId else { return }
-            if scheduledFocusSession == focusSession { return }
-            scheduledFocusSession = focusSession
-            let session = focusSession
-            let wid = parent.wordId
-            for delay in [0.0, 0.05, 0.2, 0.45] {
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
-                    guard let self else { return }
-                    guard session == self.focusSession else { return }
-                    guard self.parent.focusedWordId == wid else { return }
-                    guard let tv = self.textView, tv.window != nil else { return }
-                    if !tv.isFirstResponder {
-                        tv.becomeFirstResponder()
-                    }
-                }
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                guard let self else { return }
-                guard session == self.focusSession else { return }
-                guard self.parent.focusedWordId == wid else { return }
-                if self.textView?.isFirstResponder != true {
-                    self.scheduledFocusSession = nil
-                }
-            }
-        }
-
-        func installToolbarIfNeeded() {
-            guard keyboardAccessoryHost == nil else { return }
-
-            let root = TranslationKeyboardNavAccessory(
-                keyboardNav: parent.keyboardNav,
-                onPrevious: { [weak self] in
-                    guard let self else { return }
-                    HapticManager.shared.lightImpact()
-                    self.parent.keyboardNav.onPrevious()
-                },
-                onNext: { [weak self] in
-                    guard let self else { return }
-                    HapticManager.shared.lightImpact()
-                    self.parent.keyboardNav.onNext()
-                },
-                onDone: { [weak self] in
-                    guard let self else { return }
-                    HapticManager.shared.lightImpact()
-                    self.parent.keyboardNav.onDismiss()
-                }
-            )
-
-            let host = UIHostingController(rootView: root)
-            host.view.backgroundColor = .clear
-            host.view.translatesAutoresizingMaskIntoConstraints = false
-            host.safeAreaRegions = []
-            if #available(iOS 16.0, *) {
-                host.sizingOptions = [.intrinsicContentSize]
-            }
-            NSLayoutConstraint.activate([
-                host.view.heightAnchor.constraint(equalToConstant: 44),
-            ])
-
-            let group = UIBarButtonItem(customView: host.view)
-            let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-            toolbar.items = [flex, group]
-            keyboardAccessoryHost = host
+            focusRetrier.cancel()
         }
 
         func textViewDidChange(_ textView: UITextView) {
@@ -267,7 +161,7 @@ struct TranslationTextField: UIViewRepresentable {
 extension TranslationTextField {
     /// For `HStack(alignment: .firstTextBaseline)` beside SwiftUI `.callout` lemma: top of view → first baseline of `.callout` text in the `UITextView`.
     static func rowFirstBaselineFromTopForBodyStyle() -> CGFloat {
-        let font = UIFont.preferredFont(forTextStyle: .callout)
+        let font = TranslationTextFieldStyle.calloutFont
         return TranslationFieldLayout.insetYTop + font.lineHeight + font.descender
     }
 }
