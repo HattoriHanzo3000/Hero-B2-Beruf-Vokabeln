@@ -49,76 +49,33 @@ struct StudyFlashCardView: View {
     private let swipeThreshold: CGFloat = 120
 
     private var frontText: String {
-        if studyItem.isVerbenSection {
-            if currentContentType == .translation {
-                if let translation = studyItem.translation, !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    return translation
-                }
-                return ""
-            }
-            if currentContentType == .explanation {
-                if let explanation = studyItem.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    return explanation
-                }
-                return ""
-            }
-            if let quiz = studyItem.quiz, !quiz.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                return quiz
-            }
-            if let explanation = studyItem.explanation, !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                return explanation
-            }
-            return studyItem.example ?? ""
-        }
-
-        switch currentContentType {
-        case .synonym:
-            return studyItem.synonym ?? ""
-        case .explanation:
-            return studyItem.explanation ?? ""
-        case .translation:
-            return studyItem.translation ?? ""
-        }
+        StudyFlashCardContentResolver.frontText(for: studyItem, contentType: currentContentType)
     }
 
     private var shouldShowPlaceholder: Bool {
-        if studyItem.isVerbenSection {
-            if currentContentType == .translation {
-                let translation = studyItem.translation ?? ""
-                return translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            }
-            if currentContentType == .explanation {
-                let explanation = studyItem.explanation ?? ""
-                return explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            }
-            return false
-        }
-
-        if currentContentType == .translation {
-            let translation = studyItem.translation ?? ""
-            return translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        }
-        if currentContentType == .explanation {
-            let explanation = studyItem.explanation ?? ""
-            return explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        }
-        if currentContentType == .synonym {
-            let synonym = studyItem.synonym ?? ""
-            return synonym.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        }
-
-        return false
+        StudyFlashCardContentResolver.shouldShowPlaceholder(for: studyItem, contentType: currentContentType)
     }
 
     private var flashcardEmptyStateMessage: String {
-        switch currentContentType {
-        case .translation:
-            return Localizable.string(Localizable.flashcardNoTranslationYet)
-        case .explanation:
-            return Localizable.string(Localizable.flashcardNoExplanationYet)
-        case .synonym:
-            return Localizable.string(Localizable.flashcardNoSynonymYet)
+        StudyFlashCardContentResolver.emptyStateMessage(for: currentContentType)
+    }
+
+    private var frontAccessibilityText: String {
+        shouldShowPlaceholder ? flashcardEmptyStateMessage : frontText
+    }
+
+    private var backAccessibilityText: String {
+        if let example = studyItem.example, !example.isEmpty {
+            return String(
+                format: Localizable.string(Localizable.studyFlashcardBackWithExampleA11y),
+                studyItem.germanWord,
+                example
+            )
         }
+        return String(
+            format: Localizable.string(Localizable.studyFlashcardBackWordOnlyA11y),
+            studyItem.germanWord
+        )
     }
 
     private func performFlip() {
@@ -139,6 +96,38 @@ struct StudyFlashCardView: View {
         }
     }
 
+    private func resetCardState() {
+        showsFront = !initialFlipped
+        halfAngle = initialFlipped ? 180 : 0
+        dragOffset = .zero
+        dragRotation = 0
+        thresholdReached = false
+    }
+
+    private func syncContentTypeForCurrentItem() {
+        currentContentType = StudyFlashCardContentResolver.resolvedContentTypeOnWordChange(
+            for: studyItem,
+            current: currentContentType
+        )
+    }
+
+    @ViewBuilder
+    private var dragAndFeedbackOverlay: some View {
+        if abs(dragOffset.width) > 50 {
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(
+                    dragOffset.width > 0
+                        ? Color.green.opacity(min(abs(dragOffset.width) / swipeThreshold * 0.3, 0.3))
+                        : Color.red.opacity(min(abs(dragOffset.width) / swipeThreshold * 0.3, 0.3))
+                )
+                .allowsHitTesting(false)
+        } else if let feedback = buttonFeedback {
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(feedback == .correct ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
+                .allowsHitTesting(false)
+        }
+    }
+
     var body: some View {
         ZStack {
             frontCard
@@ -156,25 +145,7 @@ struct StudyFlashCardView: View {
         .offset(dragOffset)
         .rotationEffect(.degrees(reduceMotion ? 0 : dragRotation))
         .opacity(1 - min(abs(dragOffset.width) / 600.0, 0.3))
-        .overlay {
-            if abs(dragOffset.width) > 50 {
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(
-                        dragOffset.width > 0 ?
-                            Color.green.opacity(min(abs(dragOffset.width) / swipeThreshold * 0.3, 0.3)) :
-                            Color.red.opacity(min(abs(dragOffset.width) / swipeThreshold * 0.3, 0.3))
-                    )
-                    .allowsHitTesting(false)
-            } else if let feedback = buttonFeedback {
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(
-                        feedback == .correct ?
-                            Color.green.opacity(0.3) :
-                            Color.red.opacity(0.3)
-                    )
-                    .allowsHitTesting(false)
-            }
-        }
+        .overlay { dragAndFeedbackOverlay }
         .gesture(
             DragGesture(minimumDistance: 10)
                 .onChanged { value in
@@ -231,45 +202,10 @@ struct StudyFlashCardView: View {
                 }
         )
         .onChange(of: cardId) { _, _ in
-            showsFront = !initialFlipped
-            halfAngle = initialFlipped ? 180 : 0
-            dragOffset = .zero
-            dragRotation = 0
-            thresholdReached = false
+            resetCardState()
         }
         .onChange(of: studyItem.wordId) { _, _ in
-            if studyItem.isVerbenSection {
-                if currentContentType == .explanation {
-                    let explanation = studyItem.explanation ?? ""
-                    if explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                       let translation = studyItem.translation,
-                       !translation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        currentContentType = .translation
-                    }
-                }
-            } else {
-                var isAvailable = false
-                switch currentContentType {
-                case .explanation:
-                    isAvailable = studyItem.explanation != nil
-                case .translation:
-                    isAvailable = true
-                case .synonym:
-                    isAvailable = studyItem.synonym != nil
-                }
-
-                if !isAvailable {
-                    if studyItem.explanation != nil {
-                        currentContentType = .explanation
-                    } else if studyItem.translation != nil {
-                        currentContentType = .translation
-                    } else if studyItem.synonym != nil {
-                        currentContentType = .synonym
-                    } else {
-                        currentContentType = .translation
-                    }
-                }
-            }
+            syncContentTypeForCurrentItem()
         }
         .onChange(of: initialFlipped) { _, newValue in
             let target = !newValue
@@ -278,56 +214,15 @@ struct StudyFlashCardView: View {
             }
         }
         .onAppear {
-            showsFront = !initialFlipped
-            halfAngle = initialFlipped ? 180 : 0
+            resetCardState()
+            syncContentTypeForCurrentItem()
         }
         .id(cardId)
     }
 
     private var frontCard: some View {
-        RoundedRectangle(cornerRadius: 24, style: .continuous)
-            .fill(.regularMaterial)
-            .overlay {
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.4),
-                                .white.opacity(0.1)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 0.8
-                    )
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                cardColor.opacity(0.3),
-                                cardColor.opacity(0.15)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.15),
-                                .white.opacity(0.05)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-            .overlay {
+        StudyFlashCardFaceView(tintColor: cardColor) {
+            Group {
                 if shouldShowPlaceholder {
                     VStack(spacing: 12) {
                         Image(systemName: "pencil")
@@ -348,115 +243,33 @@ struct StudyFlashCardView: View {
                         .padding(.horizontal, 32)
                 }
             }
-            .accessibilityLabel(
-                String(
-                    format: Localizable.string(Localizable.studyFlashcardFrontA11y),
-                    shouldShowPlaceholder ? flashcardEmptyStateMessage : frontText
-                )
-            )
+            .accessibilityLabel(String(
+                format: Localizable.string(Localizable.studyFlashcardFrontA11y),
+                frontAccessibilityText
+            ))
             .accessibilityHint(Localizable.string(Localizable.studyFlashcardFlipHintA11y))
-            .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
-            .frame(height: 400)
-            .transaction { transaction in
-                transaction.animation = nil
-            }
+        }
     }
 
     private var backCard: some View {
-        RoundedRectangle(cornerRadius: 24, style: .continuous)
-            .fill(.regularMaterial)
-            .overlay {
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.4),
-                                .white.opacity(0.1)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 0.8
-                    )
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                grayColor.opacity(0.3),
-                                grayColor.opacity(0.15)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.15),
-                                .white.opacity(0.05)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-            .overlay {
-                VStack(spacing: 16) {
-                    if studyItem.isVerbenSection || studyItem.sectionId.hasPrefix("ADJEKTIVE_") {
-                        Text(studyItem.germanWord)
-                            .font(.system(.title2, design: .default).weight(.regular))
-                            .foregroundColor(.primary)
-                            .multilineTextAlignment(.center)
+        StudyFlashCardFaceView(tintColor: grayColor) {
+            VStack(spacing: 16) {
+                Text(studyItem.germanWord)
+                    .font(.system(.title2, design: .default).weight(.regular))
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
 
-                        if let example = studyItem.example, !example.isEmpty {
-                            Text(example)
-                                .font(.body)
-                                .fontWeight(.regular)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.center)
-                        }
-                    } else {
-                        Text(studyItem.germanWord)
-                            .font(.system(.title2, design: .default).weight(.regular))
-                            .foregroundColor(.primary)
-                            .multilineTextAlignment(.center)
-
-                        if let example = studyItem.example, !example.isEmpty {
-                            Text(example)
-                                .font(.body)
-                                .fontWeight(.regular)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.center)
-                        }
-                    }
+                if let example = studyItem.example, !example.isEmpty {
+                    Text(example)
+                        .font(.body)
+                        .fontWeight(.regular)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
                 }
-                .padding(.horizontal, 32)
             }
-            .accessibilityLabel(
-                {
-                    if let example = studyItem.example, !example.isEmpty {
-                        return String(
-                            format: Localizable.string(Localizable.studyFlashcardBackWithExampleA11y),
-                            studyItem.germanWord,
-                            example
-                        )
-                    }
-                    return String(
-                        format: Localizable.string(Localizable.studyFlashcardBackWordOnlyA11y),
-                        studyItem.germanWord
-                    )
-                }()
-            )
+            .padding(.horizontal, 32)
+            .accessibilityLabel(backAccessibilityText)
             .accessibilityHint(Localizable.string(Localizable.studyFlashcardFlipHintA11y))
-            .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
-            .frame(height: 400)
-            .transaction { transaction in
-                transaction.animation = nil
-            }
+        }
     }
 }

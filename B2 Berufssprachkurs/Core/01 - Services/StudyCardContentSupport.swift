@@ -17,31 +17,17 @@ enum StudyCardContentSupport {
         }
     }
 
-    /// User can always choose Übersetzung; empty text shows the flashcard placeholder (course words + Meine Wörter).
+    /// Chip availability policy:
+    /// - My Words: all three chips are available.
+    /// - Course/Favorites cards not from My Words: only Übersetzung + Erklärung.
     static func isContentTypeAvailable(_ type: StudyCardContentType, for item: StudyItem) -> Bool {
-        if item.isVerbenSection {
-            switch type {
-            case .translation:
-                return true
-            case .explanation:
-                return hasNonWhitespace(item.explanation)
-            case .synonym:
-                return false
-            }
-        }
+        let isMyWordsCard = item.sectionId == DataService.userMyWordsSectionId && !item.isVerbenSection
+        if isMyWordsCard { return true }
         switch type {
-        case .synonym:
-            if item.sectionId == DataService.userMyWordsSectionId {
-                return true
-            }
-            return item.synonym != nil
-        case .explanation:
-            if item.sectionId == DataService.userMyWordsSectionId {
-                return true
-            }
-            return item.explanation != nil
-        case .translation:
+        case .translation, .explanation:
             return true
+        case .synonym:
+            return false
         }
     }
 
@@ -66,40 +52,19 @@ enum StudyCardContentSupport {
         }
     }
 
-    /// Priority: Erklärung → Übersetzung → Synonym (course sections).
-    /// My Words: first mode with non-empty text, else Übersetzung — so German-only entries default to the translation placeholder.
+    /// Session default is always Übersetzung.
     static func firstAvailableContentType(for item: StudyItem) -> StudyCardContentType {
-        if item.sectionId == DataService.userMyWordsSectionId, !item.isVerbenSection {
-            if hasNonWhitespace(item.explanation) {
-                return .explanation
-            }
-            if hasNonWhitespace(item.synonym) {
-                return .synonym
-            }
-            return .translation
-        }
-        for type in [StudyCardContentType.explanation, .translation, .synonym] {
-            if hasNonEmptyStudyContent(type, for: item) {
-                return type
-            }
-        }
         return .translation
     }
 
-    /// Chip row order: **My Words** always shows all three modes (user may fill content later). **Course / Verben** shows only available types but always includes Übersetzung so the user can open the keyboard.
+    /// Chip row policy:
+    /// - My Words card: Übersetzung, Erklärung, Synonym.
+    /// - Other cards (General/Verben/Adjektive and matching Favorites cards): Übersetzung, Erklärung.
     static func displayTypes(for item: StudyItem) -> [StudyCardContentType] {
-        let availableTypes = StudyCardContentType.displayOrder.filter { type in
-            isContentTypeAvailable(type, for: item)
-        }
-
         if item.sectionId == DataService.userMyWordsSectionId, !item.isVerbenSection {
             return StudyCardContentType.displayOrder
         }
-        var types = availableTypes
-        if !types.contains(.translation) {
-            types.append(.translation)
-        }
-        return StudyCardContentType.displayOrder.filter { types.contains($0) }
+        return [.translation, .explanation]
     }
 
     private static func hasNonWhitespace(_ text: String?) -> Bool {

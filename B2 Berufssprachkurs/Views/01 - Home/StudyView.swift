@@ -229,11 +229,8 @@ struct StudyView: View {
         .onAppear {
             reloadSessionItems()
             viewModel.cardFlipped = viewModel.isReversed
-            if !viewModel.studyItems.isEmpty {
-                viewModel.currentContentType = StudyCardContentSupport.firstAvailableContentType(
-                    for: viewModel.studyItems[0]
-                )
-            }
+            // Always start each study session on Übersetzung.
+            viewModel.currentContentType = .translation
         }
         .onChange(of: viewModel.currentIndex) { _, _ in
             if viewModel.currentIndex < viewModel.studyItems.count {
