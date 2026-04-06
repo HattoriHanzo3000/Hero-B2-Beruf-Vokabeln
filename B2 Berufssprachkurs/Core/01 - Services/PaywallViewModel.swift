@@ -148,7 +148,8 @@ final class PaywallViewModel: ObservableObject {
             try await revenueCatService.restorePurchases()
             await subscriptionManager.checkSubscriptionStatus()
             if revenueCatService.isPremiumActive || subscriptionManager.isPremiumActive {
-                errorMessage = nil
+                errorMessage = Localizable.string(Localizable.restoreSuccessActiveSubscription)
+                showingError = true
                 return
             }
         } catch {
@@ -158,8 +159,8 @@ final class PaywallViewModel: ObservableObject {
         await subscriptionManager.restorePurchases()
 
         if subscriptionManager.isPremiumActive || revenueCatService.isPremiumActive {
-            showingError = false
-            errorMessage = nil
+            errorMessage = Localizable.string(Localizable.restoreSuccessActiveSubscription)
+            showingError = true
         } else {
             showingError = true
             errorMessage = Localizable.string(Localizable.restoreFailedNoActiveSubscription)

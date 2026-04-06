@@ -291,6 +291,7 @@
 "paywall_footer_got_code" = "Gutscheincode?";
 "restore_purchase" = "Kauf wiederherstellen";
 "restore_failed_no_active_subscription" = "Für diese Apple-ID wurde kein aktiver Hero-Pro-Kauf gefunden. Wenn du bereits abonniert hast, melde dich mit derselben Apple-ID an.";
+"restore_success_active_subscription" = "Dein Hero-Pro-Abonnement ist aktiv.";
 "premium_monthly" = "Pro Monatlich";
 "premium_3_months" = "Pro 3 Monate";
 "premium_yearly" = "Pro Jährlich";

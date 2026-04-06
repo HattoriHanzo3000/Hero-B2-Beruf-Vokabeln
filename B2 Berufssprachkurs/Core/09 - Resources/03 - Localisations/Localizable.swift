@@ -348,6 +348,8 @@ extension Localizable {
     static let restorePurchase = "restore_purchase"
     /// Restore completed but no Hero Pro entitlement (same Apple ID as purchase).
     static let restoreFailedNoActiveSubscription = "restore_failed_no_active_subscription"
+    /// Restore completed and Hero Pro is active.
+    static let restoreSuccessActiveSubscription = "restore_success_active_subscription"
     static let upgradeToPremium = "upgrade_to_premium"
     static let premiumMonthly = "premium_monthly"
     static let premium3Months = "premium_3_months"
