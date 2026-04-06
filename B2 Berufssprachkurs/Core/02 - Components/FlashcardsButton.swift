@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+private struct FabPressScaleStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.93 : 1.0)
+            .animation(.spring(response: 0.24, dampingFraction: 0.68), value: configuration.isPressed)
+    }
+}
+
 /// When a floating practice control is disabled, how a tap should behave.
 enum FloatingPracticeInactiveTapBehavior: Equatable {
     /// Explains category checkmarks (stack roots).
@@ -70,7 +78,7 @@ struct FlashcardsButton: View {
                     y: isEnabled ? 6 : 3
                 )
         }
-        .buttonStyle(.plain)
+        .buttonStyle(FabPressScaleStyle())
         .accessibilityLabel(Localizable.string(Localizable.practiceWithCards))
         .alert(
             Localizable.string(Localizable.practiceNeedSelectionTitle),
