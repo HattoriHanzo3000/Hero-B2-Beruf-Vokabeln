@@ -7,31 +7,43 @@
 
 import SwiftUI
 
-struct AboutView: View {
-    @EnvironmentObject private var dataService: DataService
-    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
-    #if DEBUG
-    @State private var versionTapCount = 0
-    @State private var showDebugSheet = false
-    #endif
+private enum AboutLayout {
+    static let textBlockSpacing: CGFloat = 24
+}
 
-    private var appVersion: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+struct AboutView: View {
+    private var appName: String {
+        if let displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String,
+           !displayName.isEmpty {
+            return displayName
+        }
+        if let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String,
+           !bundleName.isEmpty {
+            return bundleName
+        }
+        return "Hero"
     }
 
     private var aboutDescriptionText: Text {
-        Text(Localizable.string(Localizable.aboutThisApp))
-            .fontWeight(.bold)
-            .italic()
+        Text(appName)
             + Text(Localizable.string(Localizable.aboutAppDescLead))
             + Text(Localizable.string(Localizable.aboutOfficialTestName))
-                .fontWeight(.bold)
+                .fontWeight(.medium)
                 .italic()
+                .foregroundColor(Color("AppGreenThird"))
             + Text(Localizable.string(Localizable.aboutAppDescMid))
             + Text(Localizable.string(Localizable.aboutOfficialBookTitle))
-                .fontWeight(.bold)
+                .fontWeight(.medium)
                 .italic()
+                .foregroundColor(Color("AppGreenThird"))
             + Text(Localizable.string(Localizable.aboutAppDescTail))
+    }
+
+    private var disclaimerText: String {
+        String(
+            format: Localizable.string(Localizable.aboutDisclaimer),
+            appName
+        )
     }
 
     var body: some View {
@@ -47,29 +59,17 @@ struct AboutView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 8)
 
-                    aboutDescriptionText
-                        .font(.body)
-                        .foregroundColor(.white)
-                        .fixedSize(horizontal: false, vertical: true)
+                    VStack(alignment: .leading, spacing: AboutLayout.textBlockSpacing) {
+                        aboutDescriptionText
+                            .font(.body)
+                            .foregroundColor(.white)
+                            .fixedSize(horizontal: false, vertical: true)
 
-                    Spacer()
-
-                    Text("\(Localizable.string(Localizable.version)) \(appVersion)")
-                        .font(.subheadline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.vertical, 8)
-                        .contentShape(Rectangle())
-                        #if DEBUG
-                        .onTapGesture {
-                            versionTapCount += 1
-                            if versionTapCount >= AboutDebugGesture.requiredTapsToRevealSheet {
-                                versionTapCount = 0
-                                HapticManager.shared.mediumImpact()
-                                showDebugSheet = true
-                            }
-                        }
-                        #endif
+                        Text(disclaimerText)
+                            .font(.footnote)
+                            .foregroundStyle(.white.opacity(0.9))
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
                 .padding(.horizontal)
                 .padding(.top, 8)
@@ -79,22 +79,8 @@ struct AboutView: View {
         }
         .navigationTitle(Localizable.string(Localizable.about))
         .navigationBarTitleDisplayMode(.inline)
-        #if DEBUG
-        .sheet(isPresented: $showDebugSheet) {
-            AboutDebugSheet(
-                dataService: dataService,
-                subscriptionManager: subscriptionManager
-            )
-        }
-        #endif
     }
 }
-
-#if DEBUG
-private enum AboutDebugGesture {
-    static let requiredTapsToRevealSheet = 7
-}
-#endif
 
 #Preview {
     NavigationStack {

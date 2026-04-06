@@ -154,9 +154,10 @@
 "about_this_app" = "Hero - Deutsch B2 Beruf";
 "about_app_desc_lead" = " hilft Ihnen, praxisnahen deutschen Wortschatz für Alltag und Beruf aufzubauen und unterstützt Ihre Vorbereitung auf den ";
 "about_official_test_name" = "telc Deutsch-Test für den Beruf B2";
-"about_app_desc_mid" = ". Der Wortschatz basiert auf dem Buch \"";
+"about_app_desc_mid" = ". Der Wortschatz basiert auf dem Buch ";
 "about_official_book_title" = "Fokus Deutsch. Erfolgreich in Alltag und Beruf. B2 Kurs- und Übungsbuch";
-"about_app_desc_tail" = "\", und Sie lernen ihn mit Karteikarten und kumulativer Wiederholung.";
+"about_app_desc_tail" = ", und Sie lernen ihn mit Karteikarten und kumulativer Wiederholung.";
+"about_disclaimer" = "Hinweis: %@ ist eine unabhängige Lern-App von GizaTech. Sie ist weder mit dem Cornelsen Verlag noch mit der telc gGmbH verbunden, von ihnen autorisiert, gesponsert oder empfohlen. Verweise auf Prüfungsbezeichnungen, Buchtitel und Marken dienen ausschließlich der Identifikation. Alle Marken, Produktnamen und Urheberrechte gehören ihren jeweiligen Inhabern.";
 "device_information" = "Geräteinformationen";
 "name" = "Name";
 "version" = "Version";

@@ -20,13 +20,6 @@ struct AdvertisementView: View {
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
-                        Image("MascotLaunch")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxWidth: 200, maxHeight: 200)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 8)
-
                         Button {
                             HeroEinburgerungStorePresentation.present()
                         } label: {
@@ -34,15 +27,24 @@ struct AdvertisementView: View {
                                 Text(Localizable.string(Localizable.advertisementHeroLeadTitle))
                                     .font(.title3)
                                     .fontWeight(.semibold)
+                                    .italic()
                                     .foregroundStyle(.white)
                                     .multilineTextAlignment(.center)
                                     .fixedSize(horizontal: false, vertical: true)
 
+                                Image("MascotLaunch")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(maxWidth: 200, maxHeight: 200)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 8)
+
                                 Text(Localizable.string(Localizable.advertisementHeroLeadSubtitle))
                                     .font(.subheadline)
                                     .foregroundStyle(.white.opacity(0.88))
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                                     .fixedSize(horizontal: false, vertical: true)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             .frame(maxWidth: .infinity, alignment: .center)
                         }

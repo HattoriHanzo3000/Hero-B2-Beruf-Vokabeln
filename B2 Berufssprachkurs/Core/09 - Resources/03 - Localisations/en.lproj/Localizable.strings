@@ -154,9 +154,10 @@
 "about_this_app" = "Hero - Deutsch B2 Beruf";
 "about_app_desc_lead" = " helps you build practical German vocabulary for everyday life and work and supports your preparation for the ";
 "about_official_test_name" = "telc Deutsch-Test für den Beruf B2";
-"about_app_desc_mid" = ". The vocabulary is based on the book \"";
+"about_app_desc_mid" = ". The vocabulary is based on the book ";
 "about_official_book_title" = "Fokus Deutsch. Erfolgreich in Alltag und Beruf. B2 Kurs- und Übungsbuch";
-"about_app_desc_tail" = "\", and you can study with flashcards and spaced repetition.";
+"about_app_desc_tail" = ", and you can study with flashcards and spaced repetition.";
+"about_disclaimer" = "Disclaimer: %@ is an independent educational app developed by GizaTech. It is not affiliated with, authorized by, sponsored by, or endorsed by Cornelsen Verlag or telc gGmbH. References to exam names, book titles, and trademarks are used for identification purposes only. All trademarks, product names, and copyrights are the property of their respective owners.";
 "device_information" = "Device Information";
 "name" = "Name";
 "version" = "Version";

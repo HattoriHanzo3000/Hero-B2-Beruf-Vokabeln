@@ -186,6 +186,8 @@ extension Localizable {
     static let aboutAppDescMid = "about_app_desc_mid"
     static let aboutOfficialBookTitle = "about_official_book_title"
     static let aboutAppDescTail = "about_app_desc_tail"
+    /// Format: app name.
+    static let aboutDisclaimer = "about_disclaimer"
     static let deviceInformation = "device_information"
     static let name = "name"
     static let version = "version"

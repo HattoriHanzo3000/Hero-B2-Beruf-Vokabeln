@@ -22,6 +22,10 @@ struct SettingsView: View {
     @State private var showMailUnavailableAlert = false
     @State private var showResetAlert = false
     @State private var presentingLegalURL: URL? = nil
+    #if DEBUG
+    @State private var versionTapCount = 0
+    @State private var showDebugSheet = false
+    #endif
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Environment(\.settingsSubscriptionPreview) private var settingsSubscriptionPreview
 
@@ -182,6 +186,28 @@ struct SettingsView: View {
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionData))
             }
+
+            SwiftUI.Section {
+                HStack(spacing: 0) {
+                    Spacer(minLength: 0)
+                    Text("\(Localizable.string(Localizable.version)) \(appVersion)")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .contentShape(Rectangle())
+                        #if DEBUG
+                        .onTapGesture {
+                            versionTapCount += 1
+                            if versionTapCount >= AboutDebugGesture.requiredTapsToRevealSheet {
+                                versionTapCount = 0
+                                HapticManager.shared.mediumImpact()
+                                showDebugSheet = true
+                            }
+                        }
+                        #endif
+                    Spacer(minLength: 0)
+                }
+                .listRowBackground(Color.clear)
+            }
         }
         .listStyle(.insetGrouped)
         .navigationTitle(Localizable.string(Localizable.settings))
@@ -222,6 +248,14 @@ struct SettingsView: View {
         )) { document in
             SettingsLegalWebSheetView(url: document.url)
         }
+        #if DEBUG
+        .sheet(isPresented: $showDebugSheet) {
+            AboutDebugSheet(
+                dataService: dataService,
+                subscriptionManager: subscriptionManager
+            )
+        }
+        #endif
     }
 
     struct LegalDocument: Identifiable {
@@ -262,6 +296,12 @@ struct SettingsView: View {
         )
     }
 }
+
+#if DEBUG
+private enum AboutDebugGesture {
+    static let requiredTapsToRevealSheet = 7
+}
+#endif
 
 private extension SettingsView {
     var localizedLanguageOptions: [String] {
