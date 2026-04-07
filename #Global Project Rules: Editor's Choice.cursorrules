@@ -1,0 +1,9 @@
+# Global Project Rules: Editor's Choice Standards
+The ultimate goal of this project is to achieve the App Store "Editor's Choice" badge. 
+
+All Swift code must be written to Apple's highest engineering standards:
+1. Prioritize extreme readability, maintainability, and clean architecture.
+2. NEVER stuff hundreds of lines of code into a single file. Avoid massive 300+ line files.
+3. Modularize logic intelligently. Break down complex Views into smaller, reusable subviews (often in separate files) when it makes logical sense.
+4. Extract services, managers, logic, and data models into distinct files.
+5. Write code exactly as a Senior Apple Engineer would.

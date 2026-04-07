@@ -153,17 +153,13 @@ struct PaywallPlanRow: View {
                     }
 
                     if let countdownText, !countdownText.isEmpty {
-                        (
-                            Text(Localizable.string(Localizable.launchOfferExpiresIn))
-                                + Text(verbatim: " ")
-                                + Text(countdownText).monospacedDigit()
-                        )
-                        .font(AppFont.caption1ExpandedRegular(dynamicTypeSize: dynamicTypeSize))
-                        .foregroundStyle(secondaryForeground)
-                        // Align with title text (24pt icon column + 12pt spacing); still spans to trailing edge under the price.
-                        .padding(.leading, 36)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
+                        Text("\(Localizable.string(Localizable.launchOfferExpiresIn)) \(Text(countdownText).monospacedDigit())")
+                            .font(AppFont.caption1ExpandedRegular(dynamicTypeSize: dynamicTypeSize))
+                            .foregroundStyle(secondaryForeground)
+                            // Align with title text (24pt icon column + 12pt spacing); still spans to trailing edge under the price.
+                            .padding(.leading, 36)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
                     }
                 }
                 .padding(16)

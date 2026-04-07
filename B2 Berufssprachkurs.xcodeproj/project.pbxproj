@@ -7,19 +7,67 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4233D5F42F857A93002B25BD /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4233D5F32F857A93002B25BD /* WidgetKit.framework */; };
+		4233D5F62F857A93002B25BD /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4233D5F52F857A93002B25BD /* SwiftUI.framework */; };
+		4233D6032F857A95002B25BD /* HeroB2WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4233D5F22F857A93002B25BD /* HeroB2WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		744F83A32ED60C6600B2F198 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744F83A22ED60C6600B2F198 /* AppTrackingTransparency.framework */; };
 		74RC00122EDF800000581890 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 74RC00112EDF800000581890 /* RevenueCat */; };
 		74RC00142EDF800000581891 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 74RC00132EDF800000581891 /* RevenueCatUI */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4233D6012F857A95002B25BD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74D87BD62ECD0E14004BCC24 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4233D5F12F857A93002B25BD;
+			remoteInfo = HeroB2WidgetsExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4233D6082F857A95002B25BD /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4233D6032F857A95002B25BD /* HeroB2WidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		4233D5F22F857A93002B25BD /* HeroB2WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HeroB2WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4233D5F32F857A93002B25BD /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		4233D5F52F857A93002B25BD /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		744F83A22ED60C6600B2F198 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		748EDDE02EDBBD7500763D2E /* B2 Berufssprachkurs/LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "B2 Berufssprachkurs/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		74AFC0012EDF000000000001 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		74D87BDE2ECD0E14004BCC24 /* B2 Berufssprachkurs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "B2 Berufssprachkurs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4233D6042F857A95002B25BD /* Exceptions for "HeroB2Widgets" folder in "HeroB2WidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4233D5F12F857A93002B25BD /* HeroB2WidgetsExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		4233D5F72F857A93002B25BD /* HeroB2Widgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4233D6042F857A95002B25BD /* Exceptions for "HeroB2Widgets" folder in "HeroB2WidgetsExtension" target */,
+			);
+			path = HeroB2Widgets;
+			sourceTree = "<group>";
+		};
 		74D87BE02ECD0E14004BCC24 /* B2 Berufssprachkurs */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "B2 Berufssprachkurs";
@@ -28,6 +76,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4233D5EF2F857A93002B25BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4233D5F62F857A93002B25BD /* SwiftUI.framework in Frameworks */,
+				4233D5F42F857A93002B25BD /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		74D87BDB2ECD0E14004BCC24 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -45,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				744F83A22ED60C6600B2F198 /* AppTrackingTransparency.framework */,
+				4233D5F32F857A93002B25BD /* WidgetKit.framework */,
+				4233D5F52F857A93002B25BD /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -62,6 +121,7 @@
 			children = (
 				74AFC0022EDF000000000002 /* Config */,
 				74D87BE02ECD0E14004BCC24 /* B2 Berufssprachkurs */,
+				4233D5F72F857A93002B25BD /* HeroB2Widgets */,
 				744F83A12ED60C6500B2F198 /* Frameworks */,
 				74D87BDF2ECD0E14004BCC24 /* Products */,
 				74E849542EDBC53C00185C86 /* Recovered References */,
@@ -72,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				74D87BDE2ECD0E14004BCC24 /* B2 Berufssprachkurs.app */,
+				4233D5F22F857A93002B25BD /* HeroB2WidgetsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -87,6 +148,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4233D5F12F857A93002B25BD /* HeroB2WidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4233D6052F857A95002B25BD /* Build configuration list for PBXNativeTarget "HeroB2WidgetsExtension" */;
+			buildPhases = (
+				4233D5EE2F857A93002B25BD /* Sources */,
+				4233D5EF2F857A93002B25BD /* Frameworks */,
+				4233D5F02F857A93002B25BD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4233D5F72F857A93002B25BD /* HeroB2Widgets */,
+			);
+			name = HeroB2WidgetsExtension;
+			packageProductDependencies = (
+			);
+			productName = HeroB2WidgetsExtension;
+			productReference = 4233D5F22F857A93002B25BD /* HeroB2WidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		74D87BDD2ECD0E14004BCC24 /* B2 Berufssprachkurs */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 74D87BE92ECD0E15004BCC24 /* Build configuration list for PBXNativeTarget "B2 Berufssprachkurs" */;
@@ -94,10 +177,12 @@
 				74D87BDA2ECD0E14004BCC24 /* Sources */,
 				74D87BDB2ECD0E14004BCC24 /* Frameworks */,
 				74D87BDC2ECD0E14004BCC24 /* Resources */,
+				4233D6082F857A95002B25BD /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4233D6022F857A95002B25BD /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				74D87BE02ECD0E14004BCC24 /* B2 Berufssprachkurs */,
@@ -118,9 +203,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2610;
+				LastSwiftUpdateCheck = 2640;
 				LastUpgradeCheck = 2610;
 				TargetAttributes = {
+					4233D5F12F857A93002B25BD = {
+						CreatedOnToolsVersion = 26.4;
+					};
 					74D87BDD2ECD0E14004BCC24 = {
 						CreatedOnToolsVersion = 26.1.1;
 					};
@@ -145,11 +233,19 @@
 			projectRoot = "";
 			targets = (
 				74D87BDD2ECD0E14004BCC24 /* B2 Berufssprachkurs */,
+				4233D5F12F857A93002B25BD /* HeroB2WidgetsExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4233D5F02F857A93002B25BD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		74D87BDC2ECD0E14004BCC24 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -160,6 +256,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4233D5EE2F857A93002B25BD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		74D87BDA2ECD0E14004BCC24 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -169,7 +272,77 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4233D6022F857A95002B25BD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4233D5F12F857A93002B25BD /* HeroB2WidgetsExtension */;
+			targetProxy = 4233D6012F857A95002B25BD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		4233D6062F857A95002B25BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 14;
+				DEVELOPMENT_TEAM = SZQ626NP5U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HeroB2Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HeroB2Widgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.9;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gizatech.B2-Beruf.HeroB2Widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4233D6072F857A95002B25BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 14;
+				DEVELOPMENT_TEAM = SZQ626NP5U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HeroB2Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HeroB2Widgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.9;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gizatech.B2-Beruf.HeroB2Widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		74D87BE72ECD0E15004BCC24 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -224,7 +397,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -284,7 +457,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -390,6 +563,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4233D6052F857A95002B25BD /* Build configuration list for PBXNativeTarget "HeroB2WidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4233D6062F857A95002B25BD /* Debug */,
+				4233D6072F857A95002B25BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		74D87BD92ECD0E14004BCC24 /* Build configuration list for PBXProject "B2 Berufssprachkurs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

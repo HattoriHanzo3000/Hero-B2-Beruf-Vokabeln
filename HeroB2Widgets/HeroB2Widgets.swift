@@ -2,83 +2,68 @@
 //  HeroB2Widgets.swift
 //  HeroB2Widgets
 //
-//  Created by Illo on 07.04.26.
-//
 
 import WidgetKit
 import SwiftUI
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+    func placeholder(in context: Context) -> WordOfTheDayEntry {
+        mockEntry()
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
-        completion(entry)
+    func getSnapshot(in context: Context, completion: @escaping (WordOfTheDayEntry) -> ()) {
+        completion(mockEntry())
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+    func getTimeline(in context: Context, completion: @escaping (Timeline<WordOfTheDayEntry>) -> ()) {
+        let timeline = Timeline(entries: [mockEntry()], policy: .atEnd)
         completion(timeline)
     }
-
-//    func relevances() async -> WidgetRelevances<Void> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
-}
-
-struct SimpleEntry: TimelineEntry {
-    let date: Date
-    let emoji: String
-}
-
-struct HeroB2WidgetsEntryView : View {
-    var entry: Provider.Entry
-
-    var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.emoji)
-        }
+    
+    private func mockEntry() -> WordOfTheDayEntry {
+        WordOfTheDayEntry(
+            date: Date(),
+            word: "die Herausforderung",
+            translation: "Challenge",
+            explanation: "Eine schwierige Aufgabe, die man bewältigen muss.",
+            exampleSentence: "Das ist eine große Herausforderung für mich.",
+            synonyms: "die Aufgabe, die Hürde",
+            sectionIcon: "book.fill"
+        )
     }
 }
 
-struct HeroB2Widgets: Widget {
-    let kind: String = "HeroB2Widgets"
+struct HeroWordOfTheDayWidget: Widget {
+    let kind: String = "HeroWordOfTheDayWidget"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {
-                HeroB2WidgetsEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
+                HeroWordOfTheDayView(entry: entry)
+                    .containerBackground(for: .widget) {
+                        HeroWidgetBackground()
+                    }
             } else {
-                HeroB2WidgetsEntryView(entry: entry)
-                    .padding()
-                    .background()
+                HeroWordOfTheDayView(entry: entry)
+                    .background(HeroWidgetBackground())
             }
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Word of the Day")
+        .description("Learn a new German word every day.")
+        .supportedFamilies([.systemMedium])
     }
 }
 
-#Preview(as: .systemSmall) {
-    HeroB2Widgets()
+#Preview(as: .systemMedium) {
+    HeroWordOfTheDayWidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+    WordOfTheDayEntry(
+        date: .now,
+        word: "die Herausforderung",
+        translation: "Challenge",
+        explanation: "Eine schwierige Aufgabe, die man bewältigen muss.",
+        exampleSentence: "Das ist eine große Herausforderung für mich.",
+        synonyms: "die Aufgabe, die Hürde",
+        sectionIcon: "book.fill"
+    )
 }

@@ -25,18 +25,17 @@ struct AboutView: View {
     }
 
     private var aboutDescriptionText: Text {
-        Text(appName)
-            + Text(Localizable.string(Localizable.aboutAppDescLead))
-            + Text(Localizable.string(Localizable.aboutOfficialTestName))
-                .fontWeight(.medium)
-                .italic()
-                .foregroundColor(Color("AppGreenThird"))
-            + Text(Localizable.string(Localizable.aboutAppDescMid))
-            + Text(Localizable.string(Localizable.aboutOfficialBookTitle))
-                .fontWeight(.medium)
-                .italic()
-                .foregroundColor(Color("AppGreenThird"))
-            + Text(Localizable.string(Localizable.aboutAppDescTail))
+        let testName = Text(Localizable.string(Localizable.aboutOfficialTestName))
+            .fontWeight(.medium)
+            .italic()
+            .foregroundColor(Color("AppGreenThird"))
+        
+        let bookTitle = Text(Localizable.string(Localizable.aboutOfficialBookTitle))
+            .fontWeight(.medium)
+            .italic()
+            .foregroundColor(Color("AppGreenThird"))
+            
+        return Text("\(Text(appName))\(Text(Localizable.string(Localizable.aboutAppDescLead)))\(testName)\(Text(Localizable.string(Localizable.aboutAppDescMid)))\(bookTitle)\(Text(Localizable.string(Localizable.aboutAppDescTail)))")
     }
 
     private var disclaimerText: String {

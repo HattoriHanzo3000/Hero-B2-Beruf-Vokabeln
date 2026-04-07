@@ -59,28 +59,11 @@ extension HeaderView {
 
             VStack(alignment: .leading, spacing: 8) {
                 if let word = wordOfTheDay {
-                    (Text(Image(systemName: wordStackIcon(for: word)))
-                        .font(.system(.body, design: .default, weight: .heavy))
-                     + Text("  \(word.german)")
-                        .font(.system(.title2, design: .default, weight: .bold))
-                    )
-                    .foregroundColor(wordOfTheDayAccentColor)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(nil)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                    if let explanation = word.explanation, !explanation.isEmpty {
-                        Text(attributedText(
-                            label: Localizable.string(Localizable.wordRowDetailLabelExplanation),
-                            value: explanation,
-                            labelFont: wotdDetailLabelFont,
-                            valueFont: wotdDetailValueFont,
-                            labelColor: .white.opacity(0.7),
-                            valueColor: .white
-                        ))
+                    Text("\(Text(Image(systemName: wordStackIcon(for: word))).font(.system(.body, design: .default, weight: .heavy)))  \(Text(word.german).font(.system(.title2, design: .default, weight: .bold)))")
+                        .foregroundColor(wordOfTheDayAccentColor)
                         .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(nil)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    }
 
                     if let example = word.example, !example.isEmpty {
                         Text(attributedText(
@@ -108,7 +91,20 @@ extension HeaderView {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
-                    if let synonyms = word.synonyms, let firstSynonym = synonyms.first {
+                    if let explanation = word.explanation, !explanation.isEmpty {
+                        Text(attributedText(
+                            label: Localizable.string(Localizable.wordRowDetailLabelExplanation),
+                            value: explanation,
+                            labelFont: wotdDetailLabelFont,
+                            valueFont: wotdDetailValueFont,
+                            labelColor: .white.opacity(0.7),
+                            valueColor: .white
+                        ))
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+
+                    if let synonyms = word.synonyms, let firstSynonym = synonyms.first, !firstSynonym.isEmpty {
                         Text(attributedText(
                             label: Localizable.string(Localizable.wordRowDetailLabelSynonyms),
                             value: firstSynonym,

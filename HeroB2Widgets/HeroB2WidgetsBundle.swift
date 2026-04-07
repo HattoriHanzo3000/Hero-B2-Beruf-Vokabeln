@@ -11,7 +11,7 @@ import SwiftUI
 @main
 struct HeroB2WidgetsBundle: WidgetBundle {
     var body: some Widget {
-        HeroB2Widgets()
+        HeroWordOfTheDayWidget()
         HeroB2WidgetsControl()
     }
 }

@@ -69,7 +69,7 @@ struct B2_BerufssprachkursApp: App {
             }
         }
         .modelContainer(sharedModelContainer)
-        .onChange(of: scenePhase) { newPhase in
+        .onChange(of: scenePhase) { _, newPhase in
             // Supportive Retention System using Local Notifications
             switch newPhase {
             case .active:
