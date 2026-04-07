@@ -119,14 +119,22 @@ extension HeaderView {
     }
 
     var isPremiumUser: Bool {
-        isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
+        if let isPremiumPreviewOverride {
+            return isPremiumPreviewOverride
+        }
+
+        if !subscriptionManager.hasCompletedInitialSubscriptionSync {
+            return UserDefaults.standard.bool(forKey: "lastKnownPremiumState")
+        }
+
+        return subscriptionManager.isPremiumActive
     }
 
     var showHeroFreeTrialCallout: Bool {
-        subscriptionManager.hasCompletedInitialSubscriptionSync && !isPremiumUser
+        !isPremiumUser
     }
 
-    var heroEncouragementBoxHeight: CGFloat { mascotSize }
+    var heroEncouragementBoxHeight: CGFloat { MascotView.defaultSize }
 
     func heroEncouragementScaledPointSize(containerWidth width: CGFloat) -> CGFloat {
         let reference: CGFloat = 235

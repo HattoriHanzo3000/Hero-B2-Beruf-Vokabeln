@@ -1,15 +1,6 @@
-/* 
-  Localizable.strings
-  B2 Berufssprachkurs
-  
-  German localization
-*/
+"select_all" = "Alle auswählen";
 
 // Tab Bar
-"home" = "Karten";
-"words" = "Wörter";
-"verbs" = "Verben";
-"cockpit" = "Cockpit";
 "tab_search_accessibility" = "Suchen";
 
 // Global vocabulary search
@@ -24,14 +15,11 @@
 "cards" = "Karteikarten";
 "study" = "Lernen";
 "synonym" = "Synonym";
-"synonyms" = "Synonyme";
 "explanation" = "Erklärung";
 "translation" = "Übersetzung";
-"auto" = "Auto";
-"clear_translation_input" = "Löschen";
-"clear_translation_input_hint" = "Entfernt den gesamten Text in diesem Feld";
 "add_translation_to_word" = "Übersetzung zum Wort hinzufügen";
 
+// Words list
 "words_list_a11y_label" = "Wörterliste";
 "words_list_a11y_hint" = "Liste deutscher Wörter mit Übersetzungen, Erklärungen und Synonymen";
 "word_row_favorite_add_a11y" = "Zu Favoriten hinzufügen";
@@ -60,11 +48,9 @@
 "word_row_a11y_summary_editing" = "%@. Übersetzung wird bearbeitet";
 "word_row_a11y_summary_prompt_translation" = "%1$@. %2$@";
 "word_row_a11y_summary_with_translation" = "%1$@. %2$@: %3$@";
-
 "flashcard_no_translation_yet" = "Noch keine Übersetzung";
 "flashcard_no_explanation_yet" = "Noch keine Erklärung";
 "flashcard_no_synonym_yet" = "Noch kein Synonym";
-
 "study_flashcard_position_a11y" = "Karte %1$lld von %2$lld";
 "study_flashcard_hint_a11y" = "Tippen zum Umdrehen, nach links wischen für falsch, nach rechts für richtig";
 "study_mark_wrong_a11y" = "Als falsch markieren";
@@ -88,12 +74,10 @@
 
 // Check all button
 "all_selected" = "Alle ausgewählt";
-"select_all" = "Alle auswählen";
 
 // Settings
 "settings" = "Einstellungen";
 "settings_section_about" = "Über";
-"settings_section_access" = "Zugang";
 "settings_section_personalization" = "Personalisierung";
 "settings_section_synchronization" = "Synchronisierung";
 "settings_section_support" = "Support";
@@ -104,7 +88,6 @@
 "word_of_the_day" = "Wort des Tages";
 "periodicity" = "Häufigkeit";
 "source_sections" = "Abschnitte auswählen";
-"all_sections" = "Alle Abschnitte";
 "selected_sections" = "%d ausgewählt";
 "app_language" = "App-Sprache";
 "english" = "Englisch";
@@ -114,22 +97,9 @@
 "light" = "Hell";
 "dark" = "Dunkel";
 "system" = "System";
-"display_and_text_size" = "Anzeige und Textgröße";
-"extra_small" = "Extra klein";
-"small" = "Klein";
-"medium" = "Mittel";
-"large" = "Groß";
-"extra_large" = "Extra groß";
-"xx_large" = "XX groß";
-"xxx_large" = "XXX groß";
-"share" = "Teilen";
-"share_toolbar_a11y_hint" = "Öffnet das Teilen-Menü, um einen Link zur App zu senden.";
-"share_screen_footer" = "Scanne diesen QR-Code, um die App aus dem App Store herunterzuladen - oder tippe auf Teilen, um ihn an Freunde zu senden.";
-"open_in_app_store" = "Im App Store öffnen";
 "faq" = "FAQ";
 "faq_description" = "Häufig gestellte Fragen\n\nWenn Sie Fragen zur Verwendung der App haben, lesen Sie bitte Folgendes:\n\n• Wort des Tages: Sie können diese Funktion aktivieren/deaktivieren und anpassen, welche Abschnitte einbezogen werden sollen.\n• Lernmodi: Üben Sie mit Übersetzungen, Synonymen oder Erklärungen.\n• Einstellungen: Passen Sie Erscheinungsbild, Textgröße, Sprache und mehr an.\n\nFür zusätzlichen Support verwenden Sie bitte die Option Kontakt.";
 "contact_us" = "Kontaktiere uns";
-"send_email" = "E-Mail senden";
 "contact_us_email_subject" = "B2 Berufssprachkurs - Support-Anfrage";
 "contact_us_email_body" = "Hallo,\n\nIch benötige Hilfe bei der B2 Berufssprachkurs App.\n\nApp-Version: %@ (%@)\nGerät: %@\niOS-Version: %@\n\nBitte beschreiben Sie Ihre Frage oder Ihr Problem:\n\n";
 "mail_unavailable" = "E-Mail nicht verfügbar";
@@ -158,35 +128,44 @@
 "about_official_book_title" = "Fokus Deutsch. Erfolgreich in Alltag und Beruf. B2 Kurs- und Übungsbuch";
 "about_app_desc_tail" = ", und Sie lernen ihn mit Karteikarten und kumulativer Wiederholung.";
 "about_disclaimer" = "Hinweis: %@ ist eine unabhängige Lern-App von GizaTech. Sie ist weder mit dem Cornelsen Verlag noch mit der telc gGmbH verbunden, von ihnen autorisiert, gesponsert oder empfohlen. Verweise auf Prüfungsbezeichnungen, Buchtitel und Marken dienen ausschließlich der Identifikation. Alle Marken, Produktnamen und Urheberrechte gehören ihren jeweiligen Inhabern.";
-"device_information" = "Geräteinformationen";
-"name" = "Name";
 "version" = "Version";
-"model" = "Modell";
-"system_version" = "Systemversion";
-"app_version" = "App-Version";
+"about_debug_set_pro_mode" = "Pro-Modus aktivieren";
+"about_debug_pro_mode_enabled" = "Pro-Modus aktiviert";
+"about_debug_restore_normal_subscription" = "Regulärer Modus (mit Store synchronisieren)";
+"about_debug_normal_mode_restored_all" = "Abonnement mit dem Store synchronisiert. Lernfortschritt wurde aus dem Stand vor den Debug-Voreinstellungen wiederhergestellt.";
+"about_debug_normal_mode_cleared_study" = "Abonnement mit dem Store synchronisiert. Kein Snapshot vor den Presets gefunden — Lernfortschritt wurde zurückgesetzt.";
+"about_debug_progress_preset_footer" = "Die Presets nutzen ungleiche Kategorien für einen natürlichen Mix. Beim ersten Preset wird eine Kopie deiner Lerndaten gespeichert; der reguläre Modus stellt sie wieder her und entfernt die Preset-Daten.";
+"about_debug_sheet_title" = "Debug-Modus";
+"about_debug_section_subscription" = "Abonnement";
+"about_debug_section_progress_presets" = "Fortschritts-Voreinstellungen";
+"about_debug_section_last_action" = "Letzte Aktion";
+"about_debug_set_free_mode" = "Free-Modus";
+"about_debug_free_mode_enabled" = "Free-Modus aktiviert";
+"about_debug_apply_progress_preset" = "%lld%%-Fortschritt anwenden";
+"about_debug_applied_preset_result" = "Voreinstellung %1$lld%% angewendet (aktueller Stand: %2$lld%%)";
 
-// Periodicity options
+// Periodicity
 "12_hours" = "12 Stunden";
 "24_hours" = "24 Stunden";
 "12_hours_short" = "12 h";
 "24_hours_short" = "24 h";
 
-// Update alert (MainView)
+// Update
 "update_now" = "Jetzt aktualisieren";
 "update_alert_title" = "Update verfügbar";
 "update_alert_message" = "Eine neue Version der App ist verfügbar";
 "remind_me_later" = "Später erinnern";
 
+// Cockpit / Sections
 "verbs_with_prepositions" = "Verben mit Präpositionen";
 
+// Cockpit
 "progress" = "Fortschritt";
-"progress_subtitle" = "Dein Weg auf einen Blick";
 "word_of_the_day_description" = "Wähle die Themen aus, die in deinem täglichen Wort auf dem Hauptbildschirm erscheinen.";
 "progress_description" = "Verfolge deinen Lernfortschritt über alle %d Wörter in der App hinweg.";
 "progress_description_my_words" = "Verfolge deinen Lernfortschritt über deine %d Wörter in Meine Wörter.";
 "progress_word_scope_app" = "App";
 "progress_word_scope_mine" = "Meine";
-"cockpit_wotd_intro" = "Passe dein tägliches Lernen an deinen Rhythmus und deine Themen an.";
 "cockpit_more_from_hero_subtitle" = "Mehr von Hero";
 "cockpit_more_from_hero_body" = "Dein Weg zum Erfolg in Deutschland geht weiter. Entdecke mehr von Hero.";
 "advertisement_hero_lead_title" = "Hero ist mehr als nur eine App. Es ist dein Begleiter für ein erfolgreiches Leben in Deutschland.";
@@ -194,6 +173,18 @@
 "advertisement_einburgerung_app_title" = "Hero: Einbürgerungstest 2026";
 "advertisement_einburgerung_app_subtitle" = "Leben in Deutschland Test Simulator";
 
+// Statistics
+"statistics_wrong_title" = "Falsch";
+"statistics_familiar_title" = "Bekannt";
+"statistics_reinforced_title" = "Gefestigt";
+"statistics_mastered_title" = "Beherrscht";
+"statistics_wrong_description" = "Falsch beantwortet";
+"statistics_familiar_description" = "1x richtig beantwortet";
+"statistics_reinforced_description" = "2x richtig beantwortet";
+"statistics_mastered_description" = "3x oder öfter richtig beantwortet";
+"statistics_card_flip_hint" = "Tippen zum Umdrehen.";
+
+// Home Cards
 "general_words" = "Allgemeine Wörter";
 "adjectives_with_prepositions" = "Adjektive mit Präpositionen";
 "favorites" = "Favoriten";
@@ -205,7 +196,6 @@
 "my_words_edit" = "Bearbeiten";
 "my_words_done_editing" = "Fertig";
 "my_words_edit_word" = "Wort bearbeiten";
-"my_words_free_plan_footer" = "Kostenloses Kontingent: %d von %d Wörtern.";
 "my_words_delete_word" = "Wort löschen";
 "my_words_delete_word_hint" = "Entfernt dieses Wort aus „Meine Wörter“.";
 "my_words_edit_row_hint" = "Öffnet den Editor für dieses Wort.";
@@ -215,7 +205,6 @@
 "my_words_delete_all_toolbar_hint" = "Alle Einträge unter „Meine Wörter“ löschen";
 "my_words_delete_all_toolbar_label" = "Alle Wörter löschen";
 "my_words_add_word_a11y_hint" = "Fügt ein neues Wort zu deiner Liste hinzu";
-"my_words_add_word_a11y_hint_locked" = "Schalte Pro frei, um mehr als fünf Wörter hinzuzufügen";
 "my_words_pro_locked_title" = "Pro-Funktion";
 "my_words_pro_locked_message" = "„Meine Wörter“ ist für Pro-Nutzer verfügbar. Upgrade jederzeit, um deine persönliche Wörtersammlung freizuschalten.";
 "my_words_more_options_a11y" = "Weitere Optionen";
@@ -241,7 +230,7 @@
 "my_words_row_example_a11y" = "Beispiel: %@";
 "my_words_row_synonyms_a11y" = "Synonyme: %@";
 
-"practice" = "ÜBEN";
+// Practice button
 "practice_with_cards" = "Karteikarten";
 "practice_need_selection_title" = "Kategorien auswählen";
 "practice_need_selection_message" = "Wähle mindestens eine Kategorie mit dem Häkchen aus, um mit Karteikarten zu üben.";
@@ -249,64 +238,26 @@
 // Header Greeting
 "hero_word_of_the_day_encouragement" = "Hey, gib nicht auf! Hier ist dein Wort des Tages.";
 
-// Progress - Under Construction
-"progress_under_construction" = "Dieser Bereich befindet sich im Aufbau";
-"progress_coming_soon" = "Bleib dran, neue Funktionen kommen bald";
-
-// Statistics
-"statistics_wrong_title" = "Falsch";
-"statistics_familiar_title" = "Bekannt";
-"statistics_reinforced_title" = "Gefestigt";
-"statistics_mastered_title" = "Beherrscht";
-"statistics_wrong_description" = "Falsch beantwortet";
-"statistics_familiar_description" = "1x richtig beantwortet";
-"statistics_reinforced_description" = "2x richtig beantwortet";
-"statistics_mastered_description" = "3x oder öfter richtig beantwortet";
-"statistics_card_flip_hint" = "Tippen zum Umdrehen.";
-
 // Pro subscription
-"paywall_title_future_germany" = "Entfalte deine Zukunft in Deutschland mit Sicherheit in beruflicher Sprache";
-"pro_benefits_description" = "Pro gibt dir vollen Zugang zu allen Lernmaterialien, Karteikarten und Übungsmodi, Fortschrittsverfolgung und werbefreier Erfahrung. Alle Pläne können mit deiner iCloud-Familie geteilt werden";
-"unlock_hero_premium" = "Hero Pro freischalten";
 "premium_promo_subtitle" = "Schalte vollen Zugriff auf alle Wörter, Karteikarten, deine eigene Wortliste, Übungsmodi, detaillierten Fortschritt und vieles mehr mit Hero Pro frei.";
-"enjoy_hero_premium" = "Genieße Hero Pro";
-"enjoy_full_hero_experience" = "Genieße die volle Lernerfahrung mit Hero Pro";
+"paywall_title_future_germany" = "Entfalte deine Zukunft in Deutschland mit Sicherheit in beruflicher Sprache";
 "premium_active_subtitle" = "Du hast vollen Zugang zu allen Lernmaterialien, Karteikarten und Übungsmodi, Fortschrittsverfolgung und mehr";
-"get_premium_features_back" = "Hole dir alle Pro-Funktionen zurück";
 "premium_features_back_subtitle" = "Abonniere erneut, um wieder Zugang zu allen Lernmaterialien, Karteikarten und Übungsmodi, Fortschrittsverfolgung und mehr zu erhalten";
-"monthly_subscription" = "Pro Monatlich";
-"per_month" = "Monat";
-"month" = "Monat";
 "monthly" = "Monatlich";
 "yearly" = "Jährlich";
 "lifetime" = "Lebenslang";
 "monthly_explanation" = "Einfach starten. Jederzeit kündbar";
-"quarterly_explanation" = "3 Tage kostenlos testen";
 "yearly_explanation" = "Mehr sparen. 3 Tage kostenlos testen";
 "lifetime_explanation" = "Einmal zahlen, für immer besitzen";
 "lifetime_explanation_line2" = "Keine versteckten Kosten. Keine wiederkehrenden Gebühren.";
-"free_trial" = "kostenlos testen";
 "icloud_family_sharing" = "Alle Pläne können mit deiner iCloud-Familie geteilt werden";
 "paywall_footer_already_subscribed" = "Bereits abonniert?";
 "paywall_footer_got_code" = "Gutscheincode?";
 "restore_purchase" = "Kauf wiederherstellen";
 "restore_failed_no_active_subscription" = "Für diese Apple-ID wurde kein aktiver Hero-Pro-Kauf gefunden. Wenn du bereits abonniert hast, melde dich mit derselben Apple-ID an.";
 "restore_success_active_subscription" = "Dein Hero-Pro-Abonnement ist aktiv.";
-"premium_monthly" = "Pro Monatlich";
-"premium_3_months" = "Pro 3 Monate";
-"premium_yearly" = "Pro Jährlich";
-"months_3" = "3 Monate";
-"year_1" = "Jahr";
-"basic" = "Basis";
-"benefits" = "Vorteile";
-"free" = "Basis";
-"premium_column" = "Pro";
-"no_ads" = "Keine Werbung";
-"subscribe_now" = "Abonnieren";
-"unlock_premium" = "Pro freischalten";
-"start_free_trial" = "Teste jetzt kostenlos";
 "upgrade_to_premium" = "Auf Pro upgraden";
-"change_plan" = "Plan ändern";
+"start_free_trial" = "Teste jetzt kostenlos";
 "view_pro_plans" = "Pro-Pläne anzeigen";
 "settings_section_hero_pro" = "Hero Pro";
 "your_plan" = "Dein Tarif";
@@ -315,7 +266,6 @@
 "plan_status_trial" = "Testphase";
 "plan_status_monthly" = "Monatlich";
 "plan_status_yearly" = "Jährlich";
-"plan_status_quarterly" = "3 Monate";
 "plan_status_lifetime" = "Lebenslang";
 "plan_status_hero_pro_active" = "Hero Pro";
 "plan_detail_free_body" = "Du nutzt die kostenlose Version. Mit Hero Pro erhältst du vollen Wörterzugang, Karteikarten, Übungsmodi und mehr.";
@@ -333,20 +283,14 @@
 "subscription_terms" = "Die Zahlung erfolgt bei Kaufbestätigung über Ihren Apple-Account. Ein etwaiger ungenutzter Teil eines kostenlosen Testzeitraums, sofern angeboten, verfällt beim Kauf eines Abonnements. Das Abonnement verlängert sich automatisch, sofern die automatische Verlängerung nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums deaktiviert wird. Ihr Account wird innerhalb von 24 Stunden vor Ende des Zeitraums belastet. Sie können Ihr Abonnement in Ihren App Store-Accounteinstellungen verwalten und die automatische Verlängerung deaktivieren. Eine Kündigung des laufenden Abonnements während des aktiven Zeitraums ist nicht möglich.";
 "subscription_terms_lifetime" = "Dies ist ein einmaliger Kauf, der dauerhaften Zugriff auf alle Hero Pro-Funktionen gewährt. Es fallen keine wiederkehrenden Gebühren oder Abonnements an. Die Zahlung erfolgt bei Kaufbestätigung über Ihren Apple-Account. Aufgrund der Beschaffenheit digitaler Inhalte ist der Kauf nach der Freischaltung endgültig.";
 "subscription_terms_agreement_line" = "Durch die Fortsetzung stimmen Sie unseren [Nutzungsbedingungen](hero://terms) und unserer [Datenschutzerklärung](hero://privacy) zu.";
-"launch_offer_expires_in" = "Endet in";
-"launch_offer_badge" = "START-DEAL";
 "paywall_best_value" = "Pro kostenlos testen";
-"subscription_title" = "Hero Pro Abonnement";
-"subscription_length" = "1 Monat";
+
+// Launch offer
+"launch_offer_badge" = "START-DEAL";
+"launch_offer_expires_in" = "Endet in";
 
 // Promo Code
-"promo_code" = "Gutscheincode";
-"enter_promo_code" = "Gutscheincode eingeben";
 "redeem" = "Einlösen";
-"redeem_special_offer" = "Sonderangebot einlösen";
-"code" = "Code";
-"promo_code_premium_active" = "Pro aktiv über Gutscheincode. Werbung ist deaktiviert.";
-"promo_code_footer" = "Gib einen Gutscheincode ein, um Werbung dauerhaft zu deaktivieren.";
 
 // Study Empty State
 "no_words_selected" = "Keine Wörter ausgewählt";
@@ -359,29 +303,9 @@
 "no_favorites_found_message" = "Markiere zuerst Wörter als Favoriten mit dem Stern-Symbol";
 
 // Pro Lock
-"premium_required" = "Pro erforderlich";
-"unlock_premium_to_use_feature" = "Schalte Pro frei, um diese Funktion zu nutzen";
 "pro_feature_title" = "Pro-Funktion";
 "pro_feature_only_message" = "Diese Funktion ist für Pro-Nutzer. Upgrade jederzeit, um Zugriff auf alle Wörter freizuschalten.";
-
-// Word list share (accessibility)
 "word_list_print_a11y_hint" = "Druckt die Wörterliste als PDF";
-
-// About — debug (hidden sheet)
-"about_debug_restore_normal_subscription" = "Regulärer Modus (mit Store synchronisieren)";
-"about_debug_normal_mode_restored_all" = "Abonnement mit dem Store synchronisiert. Lernfortschritt wurde aus dem Stand vor den Debug-Voreinstellungen wiederhergestellt.";
-"about_debug_normal_mode_cleared_study" = "Abonnement mit dem Store synchronisiert. Kein Snapshot vor den Presets gefunden — Lernfortschritt wurde zurückgesetzt.";
-"about_debug_progress_preset_footer" = "Die Presets nutzen ungleiche Kategorien für einen natürlichen Mix. Beim ersten Preset wird eine Kopie deiner Lerndaten gespeichert; der reguläre Modus stellt sie wieder her und entfernt die Preset-Daten.";
-"about_debug_set_pro_mode" = "Pro-Modus aktivieren";
-"about_debug_pro_mode_enabled" = "Pro-Modus aktiviert";
-"about_debug_sheet_title" = "Debug-Modus";
-"about_debug_section_subscription" = "Abonnement";
-"about_debug_section_progress_presets" = "Fortschritts-Voreinstellungen";
-"about_debug_section_last_action" = "Letzte Aktion";
-"about_debug_set_free_mode" = "Free-Modus";
-"about_debug_free_mode_enabled" = "Free-Modus aktiviert";
-"about_debug_apply_progress_preset" = "%lld%%-Fortschritt anwenden";
-"about_debug_applied_preset_result" = "Voreinstellung %1$lld%% angewendet (aktueller Stand: %2$lld%%)";
 
 // Rating Prompt
 "rating_title" = "Was denkst du über Hero?";
@@ -390,10 +314,7 @@
 "rating_later_button" = "Später";
 "rating_no_thanks_button" = "Nein, danke";
 
-// Holiday Seasonal Banner
-"holiday_season_sale" = "Weihnachtsangebot";
-"holiday_season_sale_description" = "Jetzt Hero Pro Jahresabo abonnieren und im ersten Jahr den Sonderpreis von %@ erhalten";
-"holiday_season_sale_description_no_price" = "Jetzt abonnieren und im ersten Jahr ein Sonderangebot erhalten";
-"regular_price" = "Regulärer Preis";
-"sale" = "SALE! ";
-
+// Share
+"share" = "Teilen";
+"share_toolbar_a11y_hint" = "Öffnet das Teilen-Menü, um einen Link zur App zu senden.";
+"share_screen_footer" = "Scanne diesen QR-Code, um die App aus dem App Store herunterzuladen - oder tippe auf Teilen, um ihn an Freunde zu senden.";

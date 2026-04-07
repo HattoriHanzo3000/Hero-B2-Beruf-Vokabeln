@@ -26,6 +26,7 @@ extension HeaderView {
                             )
                         }
                     }
+                    .animation(.easeInOut(duration: 0.3), value: showHeroFreeTrialCallout)
                     .modifier(HeroProRowAccessibility(
                         useCombinedLabel: isPremiumUser || showPaywall == nil || !showHeroFreeTrialCallout,
                         combinedLabel: isPremiumUser
@@ -53,7 +54,7 @@ extension HeaderView {
                 .frame(maxWidth: .infinity, alignment: .topLeading)
                 .frame(height: heroEncouragementBoxHeight, alignment: .topLeading)
 
-                mascotView
+                MascotView()
             }
 
             VStack(alignment: .leading, spacing: 8) {

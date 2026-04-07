@@ -171,10 +171,12 @@ extension SubscriptionManager {
     func restorePurchases() async {
         isLoading = true
         errorMessage = nil
+        restoreFeedbackMessage = nil
+        showRestoreFeedbackAlert = false
 
         do {
             try await revenueCatService.restorePurchases()
-            await updateFromRevenueCat()
+            await checkSubscriptionStatus()
         } catch {
             print("SubscriptionManager: RevenueCat restore failed, trying StoreKit - \(error)")
             await checkSubscriptionStatus()
@@ -184,8 +186,12 @@ extension SubscriptionManager {
 
         if isPremiumActive {
             HapticManager.shared.success()
+            restoreFeedbackMessage = Localizable.string(Localizable.restoreSuccessActiveSubscription)
+            showRestoreFeedbackAlert = true
         } else {
-            errorMessage = "No active subscription found"
+            errorMessage = Localizable.string(Localizable.restoreFailedNoActiveSubscription)
+            restoreFeedbackMessage = Localizable.string(Localizable.restoreFailedNoActiveSubscription)
+            showRestoreFeedbackAlert = true
             HapticManager.shared.warning()
         }
     }

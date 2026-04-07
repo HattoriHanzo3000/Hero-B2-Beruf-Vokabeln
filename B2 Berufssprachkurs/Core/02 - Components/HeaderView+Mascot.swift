@@ -6,13 +6,25 @@
 import SwiftUI
 import UIKit
 
-extension HeaderView {
-    var mascotView: some View {
+struct MascotView: View {
+    static let defaultSize: CGFloat = 100
+
+    @State var showMascotGif = false
+    /// Synchronous gate so rapid taps can’t double-enter before `showMascotGif` commits on the next run loop.
+    @State var mascotPlaybackActive = false
+    /// Cancels any pending “hide GIF” work when starting a new play (defensive).
+    @State var mascotGifEndWorkItem: DispatchWorkItem?
+    @State var autoPlayTask: Task<Void, Never>? = nil
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
+
+    let autoPlayInterval: TimeInterval = 30.0
+    var body: some View {
         ZStack {
             Image(staticMascotAssetName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: mascotSize, height: mascotSize)
+                .frame(width: Self.defaultSize, height: Self.defaultSize)
                 .opacity((showMascotGif && !reduceMotion) ? 0 : 1)
 
             AnimatedGIFView(
@@ -21,15 +33,22 @@ extension HeaderView {
                 shouldAnimate: showMascotGif && !reduceMotion
             )
             .id(gifMascotAssetName)
-            .frame(width: mascotSize, height: mascotSize)
+            .frame(width: Self.defaultSize, height: Self.defaultSize)
             .opacity((showMascotGif && !reduceMotion) ? 1 : 0)
             .allowsHitTesting(false)
         }
-        .frame(width: mascotSize, height: mascotSize)
+        .frame(width: Self.defaultSize, height: Self.defaultSize)
         .scaleEffect(x: -1, y: 1)
         .contentShape(Rectangle())
         .onTapGesture {
             playGifOnly()
+        }
+        .onAppear {
+            startAutoPlay()
+        }
+        .onDisappear {
+            autoPlayTask?.cancel()
+            autoPlayTask = nil
         }
     }
 

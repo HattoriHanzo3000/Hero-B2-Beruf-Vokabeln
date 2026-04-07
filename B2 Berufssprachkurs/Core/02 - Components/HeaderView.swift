@@ -19,20 +19,10 @@ struct HeaderView: View {
     /// When set (e.g. from `HomeView`), the free-tier “start free trial” label opens the paywall.
     let showPaywall: Binding<Bool>?
     @State var wordOfTheDay: Word? = nil
-    @State var showMascotGif = false
-    /// Synchronous gate so rapid taps can’t double-enter before `showMascotGif` commits on the next run loop.
-    @State var mascotPlaybackActive = false
-    /// Cancels any pending “hide GIF” work when starting a new play (defensive).
-    @State var mascotGifEndWorkItem: DispatchWorkItem?
-    @State var autoPlayTask: Task<Void, Never>? = nil
     @AppStorage("wordOfTheDayPeriodicity") var wordOfTheDayPeriodicity = "24_hours"
     @AppStorage("wordOfTheDaySelectedSections") var wordOfTheDaySelectedSections = ""
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    @Environment(\.accessibilityReduceMotion) var reduceMotion
-
-    let autoPlayInterval: TimeInterval = 30.0
-    let mascotSize: CGFloat = 100
 
     init(
         dataService: DataService,
@@ -60,7 +50,6 @@ struct HeaderView: View {
         }
         .onAppear {
             updateWordOfTheDay()
-            startAutoPlay()
         }
         .onChange(of: dataService.wordsBySection) { _, _ in
             updateWordOfTheDay()
@@ -70,10 +59,6 @@ struct HeaderView: View {
         }
         .onChange(of: wordOfTheDaySelectedSections) { _, _ in
             updateWordOfTheDay()
-        }
-        .onDisappear {
-            autoPlayTask?.cancel()
-            autoPlayTask = nil
         }
         .dynamicTypeSize(headerDynamicTypeRange)
     }

@@ -107,6 +107,11 @@ struct PaywallView: View {
                 Text(message)
             }
         }
+        .alert(Localizable.string(Localizable.restorePurchase), isPresented: $subscriptionManager.showRestoreFeedbackAlert) {
+            Button(Localizable.string(Localizable.ok), role: .cancel) {}
+        } message: {
+            Text(subscriptionManager.restoreFeedbackMessage ?? "")
+        }
         .offerCodeRedemption(isPresented: $showOfferCodeRedemption) { result in
             switch result {
             case .success:

@@ -141,30 +141,7 @@ final class PaywallViewModel: ObservableObject {
 
     func restorePurchases() async {
         HapticManager.shared.lightImpact()
-        errorMessage = nil
-        showingError = false
-
-        do {
-            try await revenueCatService.restorePurchases()
-            await subscriptionManager.checkSubscriptionStatus()
-            if revenueCatService.isPremiumActive || subscriptionManager.isPremiumActive {
-                errorMessage = Localizable.string(Localizable.restoreSuccessActiveSubscription)
-                showingError = true
-                return
-            }
-        } catch {
-            // Fall through to SubscriptionManager
-        }
-
         await subscriptionManager.restorePurchases()
-
-        if subscriptionManager.isPremiumActive || revenueCatService.isPremiumActive {
-            errorMessage = Localizable.string(Localizable.restoreSuccessActiveSubscription)
-            showingError = true
-        } else {
-            showingError = true
-            errorMessage = Localizable.string(Localizable.restoreFailedNoActiveSubscription)
-        }
     }
 
     private func isPremiumNow() -> Bool {

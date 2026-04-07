@@ -1,9 +1,3 @@
-//
-//  Localizable.swift
-//  B2 Berufssprachkurs
-//
-//  Created by Ildar on 18.11.25.
-//
 
 import Foundation
 
@@ -14,24 +8,17 @@ enum Localizable {
     }
 }
 
-// Localization keys
 extension Localizable {
     static let selectAll = "select_all"
     
     // Tab Bar
-    static let home = "home"
-    static let words = "words"
-    static let verbs = "verbs"
     static let tabSearchAccessibility = "tab_search_accessibility"
 
     // Global vocabulary search
     static let searchVocabularyTitle = "search_vocabulary_title"
     static let searchVocabularyPrompt = "search_vocabulary_prompt"
-    /// Short row badge in search results (Verben mit Präpositionen)
     static let searchBadgeVerbs = "search_badge_verbs"
-    /// Short row badge in search results (Adjektive mit Präpositionen)
     static let searchBadgeAdjectives = "search_badge_adjectives"
-    /// Short row badge in search results (My Words)
     static let searchBadgeMyWords = "search_badge_my_words"
     
     // Study view
@@ -39,62 +26,46 @@ extension Localizable {
     static let cards = "cards"
     static let study = "study"
     static let synonym = "synonym"
-    /// Plural label (e.g. study mode).
-    static let synonyms = "synonyms"
     static let explanation = "explanation"
     static let translation = "translation"
-    static let auto = "auto"
-    static let clearTranslationInput = "clear_translation_input"
-    static let clearTranslationInputHint = "clear_translation_input_hint"
     static let addTranslationToWord = "add_translation_to_word"
 
-    // Words list (section word list + rows)
+    // Words list
     static let wordsListA11yLabel = "words_list_a11y_label"
     static let wordsListA11yHint = "words_list_a11y_hint"
     static let wordRowFavoriteAddA11y = "word_row_favorite_add_a11y"
     static let wordRowFavoriteRemoveA11y = "word_row_favorite_remove_a11y"
     static let wordRowFavoriteValueFavoritedA11y = "word_row_favorite_value_favorited_a11y"
     static let wordRowFavoriteValueNotFavoritedA11y = "word_row_favorite_value_not_favorited_a11y"
-    /// Format: German lemma (VoiceOver hint for star).
     static let wordRowFavoriteHintFormat = "word_row_favorite_hint_format"
     static let wordRowTranslationOpenKeyboardHintA11y = "word_row_translation_open_keyboard_hint_a11y"
-    /// Format: translation text.
     static let wordRowTranslationDisplayA11y = "word_row_translation_display_a11y"
     static let wordRowTranslationEditHintA11y = "word_row_translation_edit_hint_a11y"
     static let wordRowDetailExplanationA11y = "word_row_detail_explanation_a11y"
     static let wordRowDetailExampleA11y = "word_row_detail_example_a11y"
     static let wordRowDetailSynonymsA11y = "word_row_detail_synonyms_a11y"
-    /// Inline list row / PDF prefix: `abbr.: ` (period before colon; shared so UI and export stay aligned).
     static let wordRowDetailLabelExplanation = "word_row_detail_label_explanation"
     static let wordRowDetailLabelExample = "word_row_detail_label_example"
     static let wordRowDetailLabelSynonyms = "word_row_detail_label_synonyms"
-    /// Word-of-the-day header: same `abbr.: ` style as other row labels.
     static let wordRowDetailLabelTranslation = "word_row_detail_label_translation"
 
-    /// PDF running footer: current page and total page count (two integers).
     static let pdfPageOfTotalFormat = "pdf_page_of_total_format"
 
-    /// Translation field keyboard accessory (prev / next / done).
     static let keyboardNavPreviousWordA11y = "keyboard_nav_previous_word_a11y"
     static let keyboardNavPreviousWordHintA11y = "keyboard_nav_previous_word_hint_a11y"
     static let keyboardNavNextWordA11y = "keyboard_nav_next_word_a11y"
     static let keyboardNavNextWordHintA11y = "keyboard_nav_next_word_hint_a11y"
     static let keyboardNavDoneHintA11y = "keyboard_nav_done_hint_a11y"
 
-    /// Favorites list (VoiceOver).
     static let favoritesListA11yLabel = "favorites_list_a11y_label"
     static let favoritesListA11yHint = "favorites_list_a11y_hint"
-    /// Format: German lemma.
     static let wordRowA11ySummaryEditing = "word_row_a11y_summary_editing"
-    /// Format: German lemma, localized “add translation” phrase.
     static let wordRowA11ySummaryPromptTranslation = "word_row_a11y_summary_prompt_translation"
-    /// Format: German lemma, translation text.
     static let wordRowA11ySummaryWithTranslation = "word_row_a11y_summary_with_translation"
     static let flashcardNoTranslationYet = "flashcard_no_translation_yet"
     static let flashcardNoExplanationYet = "flashcard_no_explanation_yet"
     static let flashcardNoSynonymYet = "flashcard_no_synonym_yet"
 
-    /// VoiceOver: flashcard index in session (format: two integers).
     static let studyFlashcardPositionA11y = "study_flashcard_position_a11y"
     static let studyFlashcardHintA11y = "study_flashcard_hint_a11y"
     static let studyMarkWrongA11y = "study_mark_wrong_a11y"
@@ -122,7 +93,6 @@ extension Localizable {
     // Settings
     static let settings = "settings"
     static let settingsSectionAbout = "settings_section_about"
-    static let settingsSectionAccess = "settings_section_access"
     static let settingsSectionPersonalization = "settings_section_personalization"
     static let settingsSectionSynchronization = "settings_section_synchronization"
     static let settingsSectionSupport = "settings_section_support"
@@ -133,7 +103,6 @@ extension Localizable {
     static let wordOfTheDay = "word_of_the_day"
     static let periodicity = "periodicity"
     static let sourceSections = "source_sections"
-    static let allSections = "all_sections"
     static let selectedSections = "selected_sections"
     static let appLanguage = "app_language"
     static let english = "english"
@@ -143,18 +112,9 @@ extension Localizable {
     static let light = "light"
     static let dark = "dark"
     static let system = "system"
-    static let displayAndTextSize = "display_and_text_size"
-    static let extraSmall = "extra_small"
-    static let small = "small"
-    static let medium = "medium"
-    static let large = "large"
-    static let extraLarge = "extra_large"
-    static let xxLarge = "xx_large"
-    static let xxxLarge = "xxx_large"
     static let faq = "faq"
     static let faqDescription = "faq_description"
     static let contactUs = "contact_us"
-    static let sendEmail = "send_email"
     static let contactUsEmailSubject = "contact_us_email_subject"
     static let contactUsEmailBody = "contact_us_email_body"
     static let mailUnavailable = "mail_unavailable"
@@ -168,9 +128,7 @@ extension Localizable {
     static let resetAppMessage = "reset_app_message"
     static let reset = "reset"
     static let cancel = "cancel"
-    /// Generic alert title (e.g. purchase / restore errors).
     static let errorAlertTitle = "error_alert_title"
-    /// VoiceOver label for paywall dismiss (X) control.
     static let closePaywallA11y = "close_paywall_a11y"
 
     static let iCloudSync = "icloud_sync"
@@ -180,20 +138,13 @@ extension Localizable {
     
     // About page
     static let aboutThisApp = "about_this_app"
-    /// Text after `aboutThisApp` (starts with a space); then test name, mid, book title, tail (composed in `AboutView`).
     static let aboutAppDescLead = "about_app_desc_lead"
     static let aboutOfficialTestName = "about_official_test_name"
     static let aboutAppDescMid = "about_app_desc_mid"
     static let aboutOfficialBookTitle = "about_official_book_title"
     static let aboutAppDescTail = "about_app_desc_tail"
-    /// Format: app name.
     static let aboutDisclaimer = "about_disclaimer"
-    static let deviceInformation = "device_information"
-    static let name = "name"
     static let version = "version"
-    static let model = "model"
-    static let systemVersion = "system_version"
-    static let appVersion = "app_version"
     static let aboutDebugSetProMode = "about_debug_set_pro_mode"
     static let aboutDebugProModeEnabled = "about_debug_pro_mode_enabled"
     static let aboutDebugRestoreNormalSubscription = "about_debug_restore_normal_subscription"
@@ -206,9 +157,7 @@ extension Localizable {
     static let aboutDebugSectionLastAction = "about_debug_section_last_action"
     static let aboutDebugSetFreeMode = "about_debug_set_free_mode"
     static let aboutDebugFreeModeEnabled = "about_debug_free_mode_enabled"
-    /// Format: target percentage (integer).
     static let aboutDebugApplyProgressPreset = "about_debug_apply_progress_preset"
-    /// Format: preset target %, current readiness %.
     static let aboutDebugAppliedPresetResult = "about_debug_applied_preset_result"
     
     // Periodicity
@@ -217,7 +166,7 @@ extension Localizable {
     static let hours12Short = "12_hours_short"
     static let hours24Short = "24_hours_short"
     
-    // Update (in-app alert)
+    // Update
     static let updateNow = "update_now"
     static let updateAlertTitle = "update_alert_title"
     static let updateAlertMessage = "update_alert_message"
@@ -228,15 +177,11 @@ extension Localizable {
     
     // Cockpit
     static let progress = "progress"
-    static let progressSubtitle = "progress_subtitle"
-    static let cockpitWotdIntro = "cockpit_wotd_intro"
     static let wordOfTheDayDescription = "word_of_the_day_description"
     static let progressDescription = "progress_description"
     static let progressDescriptionMyWords = "progress_description_my_words"
     static let progressWordScopeApp = "progress_word_scope_app"
     static let progressWordScopeMine = "progress_word_scope_mine"
-    static let progressUnderConstruction = "progress_under_construction"
-    static let progressComingSoon = "progress_coming_soon"
     static let cockpitMoreFromHeroSubtitle = "cockpit_more_from_hero_subtitle"
     static let cockpitMoreFromHeroBody = "cockpit_more_from_hero_body"
     static let advertisementHeroLeadTitle = "advertisement_hero_lead_title"
@@ -267,7 +212,6 @@ extension Localizable {
     static let myWordsEdit = "my_words_edit"
     static let myWordsDoneEditing = "my_words_done_editing"
     static let myWordsEditWord = "my_words_edit_word"
-    static let myWordsFreePlanFooter = "my_words_free_plan_footer"
     static let myWordsDeleteWord = "my_words_delete_word"
     static let myWordsDeleteWordHint = "my_words_delete_word_hint"
     static let myWordsEditRowHint = "my_words_edit_row_hint"
@@ -277,10 +221,8 @@ extension Localizable {
     static let myWordsDeleteAllToolbarHint = "my_words_delete_all_toolbar_hint"
     static let myWordsDeleteAllToolbarLabel = "my_words_delete_all_toolbar_label"
     static let myWordsAddWordA11yHint = "my_words_add_word_a11y_hint"
-    static let myWordsAddWordA11yHintLocked = "my_words_add_word_a11y_hint_locked"
     static let myWordsProLockedTitle = "my_words_pro_locked_title"
     static let myWordsProLockedMessage = "my_words_pro_locked_message"
-    /// Toolbar overflow menu (My Words).
     static let myWordsMoreOptionsA11y = "my_words_more_options_a11y"
     static let myWordsSortBy = "my_words_sort_by"
     static let myWordsSortTitle = "my_words_sort_title"
@@ -291,49 +233,32 @@ extension Localizable {
     static let myWordsSortDateOldestFirst = "my_words_sort_date_oldest_first"
     static let myWordsSortDateNewestFirst = "my_words_sort_date_newest_first"
     static let myWordsPrint = "my_words_print"
-    /// VoiceOver: My Words list container.
     static let myWordsListA11yLabel = "my_words_list_a11y_label"
     static let myWordsListA11yHint = "my_words_list_a11y_hint"
-    /// %@ = translation text.
     static let myWordsRowTranslationA11yLabel = "my_words_row_translation_a11y_label"
     static let myWordsRowTranslationEditA11yHint = "my_words_row_translation_edit_a11y_hint"
     static let myWordsRowFavoriteAddA11y = "my_words_row_favorite_add_a11y"
     static let myWordsRowFavoriteRemoveA11y = "my_words_row_favorite_remove_a11y"
     static let myWordsRowFavoriteValueYesA11y = "my_words_row_favorite_value_yes_a11y"
     static let myWordsRowFavoriteValueNoA11y = "my_words_row_favorite_value_no_a11y"
-    /// %@ = German headword.
     static let myWordsRowFavoriteHintA11y = "my_words_row_favorite_hint_a11y"
-    /// %@ = explanation text.
     static let myWordsRowExplanationA11y = "my_words_row_explanation_a11y"
-    /// %@ = example text.
     static let myWordsRowExampleA11y = "my_words_row_example_a11y"
-    /// %@ = synonyms text.
     static let myWordsRowSynonymsA11y = "my_words_row_synonyms_a11y"
 
     // Practice button
-    static let practice = "practice"
-    /// Toolbar label: single word per language (flashcards / Karteikarten).
     static let practiceWithCards = "practice_with_cards"
     static let practiceNeedSelectionTitle = "practice_need_selection_title"
     static let practiceNeedSelectionMessage = "practice_need_selection_message"
     
     // Header Greeting
-    /// Single home hero encouragement above the word of the day (fixed-size text well).
     static let heroWordOfTheDayEncouragement = "hero_word_of_the_day_encouragement"
     
     // Pro subscription
-    static let proBenefitsDescription = "pro_benefits_description"
-    static let unlockHeroPremium = "unlock_hero_premium"
     static let premiumPromoSubtitle = "premium_promo_subtitle"
     static let paywallTitleFutureGermany = "paywall_title_future_germany"
-    static let enjoyHeroPremium = "enjoy_hero_premium"
-    static let enjoyFullHeroExperience = "enjoy_full_hero_experience"
     static let premiumActiveSubtitle = "premium_active_subtitle"
-    static let getPremiumFeaturesBack = "get_premium_features_back"
     static let premiumFeaturesBackSubtitle = "premium_features_back_subtitle"
-    static let monthlySubscription = "monthly_subscription"
-    static let perMonth = "per_month"
-    static let month = "month"
     static let monthly = "monthly"
     static let yearly = "yearly"
     static let lifetime = "lifetime"
@@ -341,44 +266,23 @@ extension Localizable {
     static let yearlyExplanation = "yearly_explanation"
     static let lifetimeExplanation = "lifetime_explanation"
     static let lifetimeExplanationLine2 = "lifetime_explanation_line2"
-    static let freeTrial = "free_trial"
     static let iCloudFamilySharing = "icloud_family_sharing"
     static let paywallFooterAlreadySubscribed = "paywall_footer_already_subscribed"
     static let paywallFooterGotCode = "paywall_footer_got_code"
     static let restorePurchase = "restore_purchase"
-    /// Restore completed but no Hero Pro entitlement (same Apple ID as purchase).
     static let restoreFailedNoActiveSubscription = "restore_failed_no_active_subscription"
-    /// Restore completed and Hero Pro is active.
     static let restoreSuccessActiveSubscription = "restore_success_active_subscription"
     static let upgradeToPremium = "upgrade_to_premium"
-    static let premiumMonthly = "premium_monthly"
-    static let premium3Months = "premium_3_months"
-    static let premiumYearly = "premium_yearly"
-    static let months3 = "months_3"
-    static let year1 = "year_1"
-    static let basic = "basic"
-    static let benefits = "benefits"
-    static let free = "free"
-    static let premiumColumn = "premium_column"
-    static let noAds = "no_ads"
-    static let subscribeNow = "subscribe_now"
-    static let unlockPremium = "unlock_premium"
     static let startFreeTrial = "start_free_trial"
-    static let changePlan = "change_plan"
-    /// Settings Pro banner — opens paywall for subscribers (plans, renewals, restore).
     static let viewProPlans = "view_pro_plans"
-    /// Settings — section header above plan row.
     static let settingsSectionHeroPro = "settings_section_hero_pro"
-    /// Settings — navigation title & row title.
     static let yourPlan = "your_plan"
     static let planStatusLoading = "plan_status_loading"
     static let planStatusFree = "plan_status_free"
     static let planStatusTrial = "plan_status_trial"
     static let planStatusMonthly = "plan_status_monthly"
     static let planStatusYearly = "plan_status_yearly"
-    static let planStatusQuarterly = "plan_status_quarterly"
     static let planStatusLifetime = "plan_status_lifetime"
-    /// Active Pro subscription when product id is unknown (e.g. future products).
     static let planStatusHeroProActive = "plan_status_hero_pro_active"
     static let planDetailFreeBody = "plan_detail_free_body"
     static let planDetailTrialBody = "plan_detail_trial_body"
@@ -388,7 +292,6 @@ extension Localizable {
     static let planDetailLifetimeBody = "plan_detail_lifetime_body"
     static let planDetailLifetimeThanks = "plan_detail_lifetime_thanks"
     static let manageSubscription = "manage_subscription"
-    /// Dismiss button on RevenueCat Customer Center sheet.
     static let customerCenterDone = "customer_center_done"
     static let manageSubscriptionFailedTitle = "manage_subscription_failed_title"
     static let manageSubscriptionFailed = "manage_subscription_failed"
@@ -396,23 +299,14 @@ extension Localizable {
     static let subscriptionTerms = "subscription_terms"
     static let subscriptionTermsLifetime = "subscription_terms_lifetime"
     static let subscriptionTermsAgreementLine = "subscription_terms_agreement_line"
-    static let subscriptionTitle = "subscription_title"
-    static let subscriptionLength = "subscription_length"
-    static let quarterlyExplanation = "quarterly_explanation"
     static let paywallBestValue = "paywall_best_value"
     
-    // Launch offer (3-day lifetime promo)
+    // Launch offer
     static let launchOfferBadge = "launch_offer_badge"
     static let launchOfferExpiresIn = "launch_offer_expires_in"
     
     // Promo Code
-    static let promoCode = "promo_code"
-    static let enterPromoCode = "enter_promo_code"
     static let redeem = "redeem"
-    static let redeemSpecialOffer = "redeem_special_offer"
-    static let code = "code"
-    static let promoCodePremiumActive = "promo_code_premium_active"
-    static let promoCodeFooter = "promo_code_footer"
     
     // Study Empty State
     static let noWordsSelected = "no_words_selected"
@@ -425,8 +319,6 @@ extension Localizable {
     static let noFavoritesFoundMessage = "no_favorites_found_message"
     
     // Pro Lock
-    static let premiumRequired = "premium_required"
-    static let unlockPremiumToUseFeature = "unlock_premium_to_use_feature"
     static let proFeatureTitle = "pro_feature_title"
     static let proFeatureOnlyMessage = "pro_feature_only_message"
     static let wordListPrintA11yHint = "word_list_print_a11y_hint"
@@ -442,14 +334,6 @@ extension Localizable {
     static let share = "share"
     static let shareToolbarA11yHint = "share_toolbar_a11y_hint"
     static let shareScreenFooter = "share_screen_footer"
-    static let openInAppStore = "open_in_app_store"
-    
-    // Holiday Seasonal Banner
-    static let holidaySeasonSale = "holiday_season_sale"
-    static let holidaySeasonSaleDescription = "holiday_season_sale_description"
-    static let holidaySeasonSaleDescriptionNoPrice = "holiday_season_sale_description_no_price"
-    static let regularPrice = "regular_price"
-    static let sale = "sale"
     
 }
 

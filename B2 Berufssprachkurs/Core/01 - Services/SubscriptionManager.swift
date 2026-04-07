@@ -9,10 +9,13 @@ import Combine
 import Foundation
 import RevenueCat
 import StoreKit
+import SwiftUI
 
 @MainActor
 final class SubscriptionManager: ObservableObject {
     static let shared = SubscriptionManager()
+
+    @AppStorage("lastKnownPremiumState") private var lastKnownPremiumState = false
 
     let productIDs = PaywallProductID.allProductIDs
     let revenueCatService = RevenueCatService.shared
@@ -24,6 +27,9 @@ final class SubscriptionManager: ObservableObject {
     @Published var purchaseState: PurchaseState = .idle
     @Published var products: [String: Product] = [:]
     @Published var errorMessage: String?
+    /// Shared restore feedback for all entry points (Paywall, Your Plan).
+    @Published var showRestoreFeedbackAlert = false
+    @Published var restoreFeedbackMessage: String?
     /// Latest expiration observed from verified StoreKit entitlement scan.
     @Published private(set) var storeKitExpirationDate: Date?
     /// After first ``checkSubscriptionStatus()`` at launch so free-tier CTAs don’t flash for subscribers.
@@ -93,6 +99,7 @@ final class SubscriptionManager: ObservableObject {
         let revenueCatPremium = revenueCatService.isPremiumActive
         let trialActive = isTrialActive()
         isPremiumActive = revenueCatPremium || trialActive
+        lastKnownPremiumState = isPremiumActive
         hasActiveSubscription = revenueCatPremium
         activeProductID = revenueCatService.activeProductID
     }
@@ -108,6 +115,7 @@ final class SubscriptionManager: ObservableObject {
 
         let trialActive = isTrialActive()
         isPremiumActive = hasActiveSubscription || trialActive
+        lastKnownPremiumState = isPremiumActive
     }
 
     enum PurchaseState: Equatable {
