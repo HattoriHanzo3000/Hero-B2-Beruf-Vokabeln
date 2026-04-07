@@ -99,7 +99,11 @@ final class SubscriptionManager: ObservableObject {
         let revenueCatPremium = revenueCatService.isPremiumActive
         let trialActive = isTrialActive()
         isPremiumActive = revenueCatPremium || trialActive
-        lastKnownPremiumState = isPremiumActive
+        // Prevent overwriting a valid 'true' cache with 'false' during cold start
+        // before RevenueCat has fully loaded its data.
+        if hasCompletedInitialSubscriptionSync || isPremiumActive {
+            lastKnownPremiumState = isPremiumActive
+        }
         hasActiveSubscription = revenueCatPremium
         activeProductID = revenueCatService.activeProductID
     }
