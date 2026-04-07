@@ -22,6 +22,26 @@ struct YourPlanView: View {
         YourPlanPresentation(preview: settingsSubscriptionPreview, subscriptionManager: subscriptionManager)
     }
 
+    private func localizePlanText(_ key: String) -> String {
+        switch key {
+        case Localizable.planDetailFreeBody:
+            return Localizable.string(Localizable.planDetailFreeBody)
+        case Localizable.planDetailLifetimeBody:
+            return Localizable.string(Localizable.planDetailLifetimeBody)
+        case Localizable.planDetailSubscriptionBody:
+            return Localizable.string(Localizable.planDetailSubscriptionBody)
+        case Localizable.planDetailTrialBody:
+            return Localizable.string(Localizable.planDetailTrialBody)
+        case Localizable.planDetailTrialEndsFormat:
+            return Localizable.string(Localizable.planDetailTrialEndsFormat)
+        case Localizable.planDetailRenewsFormat:
+            return Localizable.string(Localizable.planDetailRenewsFormat)
+        default:
+            assertionFailure("Unhandled plan localization key: \(key)")
+            return key
+        }
+    }
+
     var body: some View {
         ZStack {
             PaywallBackground()
@@ -31,10 +51,10 @@ struct YourPlanView: View {
                     YourPlanHeroSection(
                         plan: plan,
                         statusLine: plan.effectivePlanStatusLine(subscriptionManager: subscriptionManager),
-                        detailBody: plan.detailBodyText { Localizable.string($0) },
+                        detailBody: plan.detailBodyText(localizable: localizePlanText),
                         supplementalDateLine: plan.supplementalDateLine(
                             language: LanguageManager.shared.currentLanguage,
-                            localizedString: { Localizable.string($0) }
+                            localizedString: localizePlanText
                         )
                     )
 

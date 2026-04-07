@@ -11,6 +11,7 @@ import SwiftData
 @main
 struct B2_BerufssprachkursApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.scenePhase) private var scenePhase
     @AppStorage("appearancePreference") private var appearancePreference: String = "System"
     @AppStorage("hasSeenWelcomeVideo") private var hasSeenWelcomeVideo: Bool = false
 
@@ -68,5 +69,18 @@ struct B2_BerufssprachkursApp: App {
             }
         }
         .modelContainer(sharedModelContainer)
+        .onChange(of: scenePhase) { newPhase in
+            // Supportive Retention System using Local Notifications
+            switch newPhase {
+            case .active:
+                // Cancel pending notifications and clear badge when the user is active
+                NotificationManager.shared.cancelAllNotifications()
+            case .background:
+                // Schedule a gentle reminder for 3 days from now if they don't return
+                NotificationManager.shared.scheduleRetentionNotification()
+            default:
+                break
+            }
+        }
     }
 }

@@ -29,10 +29,14 @@ enum MainViewSection: String, CaseIterable {
 
     var localizedTitle: String {
         switch self {
+        case .home:
+            return Localizable.string(Localizable.home)
+        case .cockpit:
+            return Localizable.string(Localizable.cockpit)
         case .search:
             return Localizable.string(Localizable.tabSearchAccessibility)
-        default:
-            return Localizable.string(self.rawValue)
+        case .settings:
+            return Localizable.string(Localizable.settings)
         }
     }
 }

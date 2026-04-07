@@ -13,9 +13,9 @@ private enum CockpitWotdMetrics {
     static let controlMinHeight: CGFloat = 52
     static let controlHorizontalPadding: CGFloat = 18
 
-    static let periodicityMenuOptions: [(tag: String, titleKey: String)] = [
-        ("12_hours", Localizable.hours12),
-        ("24_hours", Localizable.hours24)
+    static let periodicityMenuOptions: [String] = [
+        "12_hours",
+        "24_hours"
     ]
 }
 
@@ -62,16 +62,16 @@ struct CockpitWordOfTheDaySection: View {
             Spacer()
 
             Menu {
-                ForEach(CockpitWotdMetrics.periodicityMenuOptions, id: \.tag) { option in
+                ForEach(CockpitWotdMetrics.periodicityMenuOptions, id: \.self) { optionTag in
                     Button {
-                        periodicityBinding.wrappedValue = option.tag
+                        periodicityBinding.wrappedValue = optionTag
                         HapticManager.shared.selection()
                     } label: {
                         HStack {
-                            Text(Localizable.string(option.titleKey))
+                            Text(periodicityTitle(for: optionTag))
                                 .font(AppFont.fixedExpanded(size: CockpitWotdMetrics.controlFontSize))
                             Spacer()
-                            if periodicity == option.tag {
+                            if periodicity == optionTag {
                                 Image(systemName: "checkmark")
                                     .font(.system(size: CockpitWotdMetrics.controlFontSize, weight: .regular, design: .default))
                             }
@@ -151,5 +151,16 @@ struct CockpitWordOfTheDaySection: View {
         .accessibilityLabel(
             "\(Localizable.string(Localizable.sourceSections)), \(String(format: Localizable.string(Localizable.selectedSections), WordOfTheDaySelectionPolicy.selectedSectionCount(csv: selectedSectionsCSV)))"
         )
+    }
+
+    private func periodicityTitle(for tag: String) -> String {
+        switch tag {
+        case "12_hours":
+            return Localizable.string(Localizable.hours12)
+        case "24_hours":
+            return Localizable.string(Localizable.hours24)
+        default:
+            return tag
+        }
     }
 }

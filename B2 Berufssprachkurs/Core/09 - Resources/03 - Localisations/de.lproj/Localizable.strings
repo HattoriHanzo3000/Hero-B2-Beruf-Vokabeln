@@ -1,6 +1,8 @@
 "select_all" = "Alle auswählen";
 
 // Tab Bar
+"home" = "Karten";
+"cockpit" = "Cockpit";
 "tab_search_accessibility" = "Suchen";
 
 // Global vocabulary search
@@ -318,3 +320,7 @@
 "share" = "Teilen";
 "share_toolbar_a11y_hint" = "Öffnet das Teilen-Menü, um einen Link zur App zu senden.";
 "share_screen_footer" = "Scanne diesen QR-Code, um die App aus dem App Store herunterzuladen - oder tippe auf Teilen, um ihn an Freunde zu senden.";
+
+// Retention Notification
+"notification_retention_title" = "Du machst das großartig!";
+"notification_retention_body" = "B2 ist nicht einfach, aber Hero glaubt an dich. Ein kleiner Schritt heute reicht völlig aus.";

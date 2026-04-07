@@ -64,8 +64,10 @@ struct StudyView: View {
     }
 
     private func cardCountLabel(count: Int) -> String {
-        let key = count == 1 ? Localizable.card : Localizable.cards
-        return "\(count) \(Localizable.string(key))"
+        if count == 1 {
+            return "\(count) \(Localizable.string(Localizable.card))"
+        }
+        return "\(count) \(Localizable.string(Localizable.cards))"
     }
 
     private func reloadSessionItems() {
@@ -225,6 +227,8 @@ struct StudyView: View {
         .hidesBottomBarWhenPushed(true)
         .onDisappear {
             viewModel.recordStudySessionMetricsIfNeeded()
+            // Request notification permission at the "Aha-moment" after training
+            NotificationManager.shared.requestAuthorization()
         }
         .onAppear {
             reloadSessionItems()

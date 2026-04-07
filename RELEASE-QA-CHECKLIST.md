@@ -114,6 +114,7 @@ Use this checklist before submitting to the App Store.
 
 ## 10) Final release gate (must pass)
 
+- [ ] Run `python3 scripts/verify_localizations.py` (must pass)
 - [ ] No crash found in this test run
 - [ ] No data-loss issue found
 - [ ] Subscription state stable after relaunch

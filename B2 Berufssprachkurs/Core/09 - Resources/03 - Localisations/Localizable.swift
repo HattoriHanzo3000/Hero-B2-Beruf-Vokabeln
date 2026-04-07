@@ -12,6 +12,8 @@ extension Localizable {
     static let selectAll = "select_all"
     
     // Tab Bar
+    static let home = "home"
+    static let cockpit = "cockpit"
     static let tabSearchAccessibility = "tab_search_accessibility"
 
     // Global vocabulary search
@@ -334,6 +336,10 @@ extension Localizable {
     static let share = "share"
     static let shareToolbarA11yHint = "share_toolbar_a11y_hint"
     static let shareScreenFooter = "share_screen_footer"
+    
+    // Retention Notification
+    static let notificationRetentionTitle = "notification_retention_title"
+    static let notificationRetentionBody = "notification_retention_body"
     
 }
 

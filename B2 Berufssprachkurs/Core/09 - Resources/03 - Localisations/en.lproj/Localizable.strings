@@ -1,6 +1,8 @@
 "select_all" = "Select all";
 
 // Tab Bar
+"home" = "Cards";
+"cockpit" = "Cockpit";
 "tab_search_accessibility" = "Search";
 
 // Global vocabulary search
@@ -318,3 +320,7 @@
 "share" = "Share";
 "share_toolbar_a11y_hint" = "Opens the share sheet to send a link to the app.";
 "share_screen_footer" = "Scan this QR code to download the app from the App Store—or tap Share to send it to friends.";
+
+// Retention Notification
+"notification_retention_title" = "You're doing great!";
+"notification_retention_body" = "B2 isn't easy, but Hero believes in you. A small step today is totally enough.";

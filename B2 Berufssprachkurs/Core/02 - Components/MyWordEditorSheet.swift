@@ -31,12 +31,12 @@ struct MyWordEditorSheet: View {
         !german.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
-    private var navigationTitleKey: String {
+    private var navigationTitle: String {
         switch mode {
         case .add:
-            Localizable.myWordsAddWord
+            return Localizable.string(Localizable.myWordsAddWord)
         case .edit:
-            Localizable.myWordsEditWord
+            return Localizable.string(Localizable.myWordsEditWord)
         }
     }
 
@@ -52,7 +52,7 @@ struct MyWordEditorSheet: View {
                     focusedField: $focusedField
                 )
             }
-            .navigationTitle(Localizable.string(navigationTitleKey))
+            .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

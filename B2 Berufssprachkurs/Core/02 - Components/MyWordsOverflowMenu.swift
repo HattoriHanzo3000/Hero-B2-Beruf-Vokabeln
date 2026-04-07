@@ -38,13 +38,13 @@ struct MyWordsOverflowMenu: View {
                     myWordsSortModeRaw = MyWordsListSortMode.nameAscending.rawValue
                     HapticManager.shared.selection()
                 } label: {
-                    sortMenuRow(titleKey: Localizable.myWordsSortAscending, isSelected: listSortMode == .nameAscending)
+                    sortMenuRow(title: Localizable.string(Localizable.myWordsSortAscending), isSelected: listSortMode == .nameAscending)
                 }
                 Button {
                     myWordsSortModeRaw = MyWordsListSortMode.nameDescending.rawValue
                     HapticManager.shared.selection()
                 } label: {
-                    sortMenuRow(titleKey: Localizable.myWordsSortDescending, isSelected: listSortMode == .nameDescending)
+                    sortMenuRow(title: Localizable.string(Localizable.myWordsSortDescending), isSelected: listSortMode == .nameDescending)
                 }
             } label: {
                 Text(Localizable.string(Localizable.myWordsSortTitle))
@@ -56,7 +56,7 @@ struct MyWordsOverflowMenu: View {
                     HapticManager.shared.selection()
                 } label: {
                     sortMenuRow(
-                        titleKey: Localizable.myWordsSortDateOldestFirst,
+                        title: Localizable.string(Localizable.myWordsSortDateOldestFirst),
                         isSelected: listSortMode == .dateAscending
                     )
                 }
@@ -65,7 +65,7 @@ struct MyWordsOverflowMenu: View {
                     HapticManager.shared.selection()
                 } label: {
                     sortMenuRow(
-                        titleKey: Localizable.myWordsSortDateNewestFirst,
+                        title: Localizable.string(Localizable.myWordsSortDateNewestFirst),
                         isSelected: listSortMode == .dateDescending
                     )
                 }
@@ -77,7 +77,7 @@ struct MyWordsOverflowMenu: View {
                 myWordsSortModeRaw = MyWordsListSortMode.manual.rawValue
                 HapticManager.shared.selection()
             } label: {
-                sortMenuRow(titleKey: Localizable.myWordsSortManual, isSelected: listSortMode == .manual)
+                sortMenuRow(title: Localizable.string(Localizable.myWordsSortManual), isSelected: listSortMode == .manual)
             }
         } label: {
             Label {
@@ -120,9 +120,9 @@ struct MyWordsOverflowMenu: View {
         }
     }
 
-    private func sortMenuRow(titleKey: String, isSelected: Bool) -> some View {
+    private func sortMenuRow(title: String, isSelected: Bool) -> some View {
         HStack {
-            Text(Localizable.string(titleKey))
+            Text(title)
             Spacer(minLength: 8)
             if isSelected {
                 Image(systemName: "checkmark")

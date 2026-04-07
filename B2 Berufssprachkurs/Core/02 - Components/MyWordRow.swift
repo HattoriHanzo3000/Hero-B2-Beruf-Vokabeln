@@ -139,10 +139,14 @@ struct MyWordRow: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(
-                    Localizable.string(isFavorite ? Localizable.myWordsRowFavoriteRemoveA11y : Localizable.myWordsRowFavoriteAddA11y)
+                    isFavorite
+                        ? Localizable.string(Localizable.myWordsRowFavoriteRemoveA11y)
+                        : Localizable.string(Localizable.myWordsRowFavoriteAddA11y)
                 )
                 .accessibilityValue(
-                    Localizable.string(isFavorite ? Localizable.myWordsRowFavoriteValueYesA11y : Localizable.myWordsRowFavoriteValueNoA11y)
+                    isFavorite
+                        ? Localizable.string(Localizable.myWordsRowFavoriteValueYesA11y)
+                        : Localizable.string(Localizable.myWordsRowFavoriteValueNoA11y)
                 )
                 .accessibilityHint(
                     String(format: Localizable.string(Localizable.myWordsRowFavoriteHintA11y), word.german)

@@ -209,12 +209,14 @@ struct WordRow: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(
-                    Localizable.string(isFavorite ? Localizable.wordRowFavoriteRemoveA11y : Localizable.wordRowFavoriteAddA11y)
+                    isFavorite
+                        ? Localizable.string(Localizable.wordRowFavoriteRemoveA11y)
+                        : Localizable.string(Localizable.wordRowFavoriteAddA11y)
                 )
                 .accessibilityValue(
-                    Localizable.string(
-                        isFavorite ? Localizable.wordRowFavoriteValueFavoritedA11y : Localizable.wordRowFavoriteValueNotFavoritedA11y
-                    )
+                    isFavorite
+                        ? Localizable.string(Localizable.wordRowFavoriteValueFavoritedA11y)
+                        : Localizable.string(Localizable.wordRowFavoriteValueNotFavoritedA11y)
                 )
                 .accessibilityHint(String(format: Localizable.string(Localizable.wordRowFavoriteHintFormat), word.german))
                 .accessibilityAddTraits(isFavorite ? .isSelected : [])
