@@ -77,7 +77,7 @@ extension HeaderView {
 
         guard let word = wordOfTheDay else {
             defaults.removeObject(forKey: payloadKey)
-            WidgetCenter.shared.reloadTimelines(ofKind: "HeroWordOfTheDayWidget")
+            WidgetCenter.shared.reloadTimelines(ofKind: "WordOfTheDayWidget")
             return
         }
 
@@ -95,6 +95,6 @@ extension HeaderView {
         ]
 
         defaults.set(payload, forKey: payloadKey)
-        WidgetCenter.shared.reloadTimelines(ofKind: "HeroWordOfTheDayWidget")
+        WidgetCenter.shared.reloadTimelines(ofKind: "WordOfTheDayWidget")
     }
 }

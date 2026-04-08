@@ -50,7 +50,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		4233D6042F857A95002B25BD /* Exceptions for "HeroB2Widgets" folder in "HeroB2WidgetsExtension" target */ = {
+		4233D6042F857A95002B25BD /* Exceptions for "B2 Berufssprachkurs Widgets" folder in "HeroB2WidgetsExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -60,12 +60,12 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4233D5F72F857A93002B25BD /* HeroB2Widgets */ = {
+		4233D5F72F857A93002B25BD /* B2 Berufssprachkurs Widgets */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				4233D6042F857A95002B25BD /* Exceptions for "HeroB2Widgets" folder in "HeroB2WidgetsExtension" target */,
+				4233D6042F857A95002B25BD /* Exceptions for "B2 Berufssprachkurs Widgets" folder in "HeroB2WidgetsExtension" target */,
 			);
-			path = HeroB2Widgets;
+			path = "B2 Berufssprachkurs Widgets";
 			sourceTree = "<group>";
 		};
 		74D87BE02ECD0E14004BCC24 /* B2 Berufssprachkurs */ = {
@@ -121,7 +121,7 @@
 			children = (
 				74AFC0022EDF000000000002 /* Config */,
 				74D87BE02ECD0E14004BCC24 /* B2 Berufssprachkurs */,
-				4233D5F72F857A93002B25BD /* HeroB2Widgets */,
+				4233D5F72F857A93002B25BD /* B2 Berufssprachkurs Widgets */,
 				744F83A12ED60C6500B2F198 /* Frameworks */,
 				74D87BDF2ECD0E14004BCC24 /* Products */,
 				74E849542EDBC53C00185C86 /* Recovered References */,
@@ -161,7 +161,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				4233D5F72F857A93002B25BD /* HeroB2Widgets */,
+				4233D5F72F857A93002B25BD /* B2 Berufssprachkurs Widgets */,
 			);
 			name = HeroB2WidgetsExtension;
 			packageProductDependencies = (
@@ -286,12 +286,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HeroB2Widgets/HeroB2Widgets.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "B2 Berufssprachkurs Widgets/Widgets.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = SZQ626NP5U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HeroB2Widgets/Info.plist;
+				INFOPLIST_FILE = "B2 Berufssprachkurs Widgets/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = HeroB2Widgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
@@ -318,12 +318,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HeroB2Widgets/HeroB2Widgets.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "B2 Berufssprachkurs Widgets/Widgets.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = SZQ626NP5U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HeroB2Widgets/Info.plist;
+				INFOPLIST_FILE = "B2 Berufssprachkurs Widgets/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = HeroB2Widgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
