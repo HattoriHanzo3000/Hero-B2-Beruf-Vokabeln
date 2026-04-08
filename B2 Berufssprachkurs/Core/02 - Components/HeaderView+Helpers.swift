@@ -4,10 +4,12 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 extension HeaderView {
     func updateWordOfTheDay() {
         wordOfTheDay = dataService.getWordOfTheDay()
+        persistWordOfTheDayForWidget()
     }
 
     func displayedTranslation(for word: Word) -> String {
@@ -66,5 +68,33 @@ extension HeaderView {
         } else {
             return "book.fill"
         }
+    }
+
+    private func persistWordOfTheDayForWidget() {
+        let appGroupId = "group.com.gizatech.B2-Beruf"
+        let payloadKey = "widget.wordOfTheDay.payload"
+        guard let defaults = UserDefaults(suiteName: appGroupId) else { return }
+
+        guard let word = wordOfTheDay else {
+            defaults.removeObject(forKey: payloadKey)
+            WidgetCenter.shared.reloadTimelines(ofKind: "HeroWordOfTheDayWidget")
+            return
+        }
+
+        let synonym = word.synonyms?
+            .first?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
+        let payload: [String: String] = [
+            "word": word.german,
+            "translation": displayedTranslation(for: word),
+            "explanation": word.explanation ?? "",
+            "exampleSentence": word.example ?? "",
+            "synonyms": synonym ?? "",
+            "sectionIcon": wordStackIcon(for: word)
+        ]
+
+        defaults.set(payload, forKey: payloadKey)
+        WidgetCenter.shared.reloadTimelines(ofKind: "HeroWordOfTheDayWidget")
     }
 }
