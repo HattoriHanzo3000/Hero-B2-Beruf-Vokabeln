@@ -1,7 +1,7 @@
 import SwiftUI
 import WidgetKit
 
-struct HeroWordOfTheDayView: View {
+struct WordOfTheDayView: View {
     var entry: WordOfTheDayEntry
     @Environment(\.widgetFamily) var family
     @Environment(\.colorScheme) var colorScheme

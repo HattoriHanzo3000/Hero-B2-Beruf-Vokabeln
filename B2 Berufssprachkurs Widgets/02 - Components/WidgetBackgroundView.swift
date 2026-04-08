@@ -1,11 +1,6 @@
-//
-//  HeroWidgetBackground.swift
-//  HeroB2Widgets
-//
-
 import SwiftUI
 
-struct HeroWidgetBackground: View {
+struct WidgetBackgroundView: View {
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {

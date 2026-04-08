@@ -1,4 +1,4 @@
- import SwiftUI
+import SwiftUI
 import WidgetKit
 
 struct WordOfTheDayProvider: TimelineProvider {
@@ -30,19 +30,19 @@ struct WordOfTheDayProvider: TimelineProvider {
     }
 }
 
-struct HeroWordOfTheDayWidget: Widget {
-    let kind: String = "HeroWordOfTheDayWidget"
+struct WordOfTheDayWidget: Widget {
+    let kind: String = "WordOfTheDayWidget"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: WordOfTheDayProvider()) { entry in
             if #available(iOS 17.0, *) {
-                HeroWordOfTheDayView(entry: entry)
+                WordOfTheDayView(entry: entry)
                     .containerBackground(for: .widget) {
-                        HeroWidgetBackground()
+                        WidgetBackgroundView()
                     }
             } else {
-                HeroWordOfTheDayView(entry: entry)
-                    .background(HeroWidgetBackground())
+                WordOfTheDayView(entry: entry)
+                    .background(WidgetBackgroundView())
             }
         }
         .configurationDisplayName("Word of the Day")
@@ -52,7 +52,7 @@ struct HeroWordOfTheDayWidget: Widget {
 }
 
 #Preview(as: .systemMedium) {
-    HeroWordOfTheDayWidget()
+    WordOfTheDayWidget()
 } timeline: {
     WordOfTheDayEntry(
         date: .now,
