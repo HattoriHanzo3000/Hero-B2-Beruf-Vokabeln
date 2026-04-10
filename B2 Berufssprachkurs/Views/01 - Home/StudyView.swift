@@ -23,6 +23,8 @@ struct StudyView: View {
 
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Environment(\.colorScheme) private var colorScheme
+    @State private var showNotificationSoftPrompt = false
+    @State private var hasCheckedSoftPromptThisSession = false
 
     init(
         dataService: DataService,
@@ -76,6 +78,20 @@ struct StudyView: View {
             progressTranslationById: progressTranslationById,
             isPremiumActive: isPremiumActive
         )
+    }
+
+    private func evaluateSoftPromptEligibilityIfNeeded() {
+        guard !hasCheckedSoftPromptThisSession else { return }
+        hasCheckedSoftPromptThisSession = true
+
+        NotificationManager.shared.shouldPresentSoftPrompt { shouldPresent in
+            guard shouldPresent else { return }
+            DispatchQueue.main.async {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    showNotificationSoftPrompt = true
+                }
+            }
+        }
     }
 
     /// Flashcard + chip accent: per word in favorites-only study; otherwise the stack accent.
@@ -182,6 +198,35 @@ struct StudyView: View {
                     .accessibilityHint(Localizable.string(Localizable.studyFavoriteHintA11y))
                 }
             }
+
+            if showNotificationSoftPrompt {
+                Color.black.opacity(0.32)
+                    .ignoresSafeArea()
+                    .transition(.opacity)
+
+                NotificationSoftPromptView(
+                    onAllow: {
+                        NotificationManager.shared.handleSoftPromptAllow()
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            showNotificationSoftPrompt = false
+                        }
+                    },
+                    onAskMeLater: {
+                        NotificationManager.shared.handleSoftPromptAskMeLater()
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            showNotificationSoftPrompt = false
+                        }
+                    },
+                    onNoThanks: {
+                        NotificationManager.shared.handleSoftPromptNoThanks()
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            showNotificationSoftPrompt = false
+                        }
+                    }
+                )
+                .transition(.scale(scale: 0.98).combined(with: .opacity))
+                .zIndex(1)
+            }
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -227,14 +272,13 @@ struct StudyView: View {
         .hidesBottomBarWhenPushed(true)
         .onDisappear {
             viewModel.recordStudySessionMetricsIfNeeded()
-            // Request notification permission at the "Aha-moment" after training
-            NotificationManager.shared.requestAuthorization()
         }
         .onAppear {
             reloadSessionItems()
             viewModel.cardFlipped = viewModel.isReversed
             // Always start each study session on Übersetzung.
             viewModel.currentContentType = .translation
+            hasCheckedSoftPromptThisSession = false
         }
         .onChange(of: viewModel.currentIndex) { _, _ in
             if viewModel.currentIndex < viewModel.studyItems.count {
@@ -242,6 +286,9 @@ struct StudyView: View {
                 if !StudyCardContentSupport.isContentTypeAvailable(viewModel.currentContentType, for: item) {
                     viewModel.currentContentType = StudyCardContentSupport.firstAvailableContentType(for: item)
                 }
+            } else if !viewModel.studyItems.isEmpty {
+                // Session finished: this is a natural value moment to ask for reminders.
+                evaluateSoftPromptEligibilityIfNeeded()
             }
         }
         .onChange(of: dataService.wordsBySection) { _, _ in

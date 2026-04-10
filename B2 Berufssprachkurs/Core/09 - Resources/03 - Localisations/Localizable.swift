@@ -341,5 +341,15 @@ extension Localizable {
     static let notificationRetentionTitle = "notification_retention_title"
     static let notificationRetentionBody = "notification_retention_body"
     
+    // Notification soft prompt (pre-permission)
+    static let notificationSoftPromptTitle = "notification_soft_prompt_title"
+    static let notificationSoftPromptMessage = "notification_soft_prompt_message"
+    static let notificationSoftPromptAllow = "notification_soft_prompt_allow"
+    static let notificationSoftPromptAskMeLater = "notification_soft_prompt_ask_me_later"
+    static let notificationSoftPromptNoThanks = "notification_soft_prompt_no_thanks"
+    static let notificationSoftPromptAllowA11yHint = "notification_soft_prompt_allow_a11y_hint"
+    static let notificationSoftPromptAskMeLaterA11yHint = "notification_soft_prompt_ask_me_later_a11y_hint"
+    static let notificationSoftPromptNoThanksA11yHint = "notification_soft_prompt_no_thanks_a11y_hint"
+    
 }
 

@@ -324,3 +324,13 @@
 // Retention Notification
 "notification_retention_title" = "Du machst das großartig!";
 "notification_retention_body" = "B2 ist nicht einfach, aber Hero glaubt an dich. Ein kleiner Schritt heute reicht völlig aus.";
+
+// Notification soft prompt (pre-permission)
+"notification_soft_prompt_title" = "Sanfte Erinnerungen, wenn’s stressig wird";
+"notification_soft_prompt_message" = "Wenn du ein paar Tage nicht dabei warst, kann Hero dich mit einer kurzen, freundlichen Nachricht erinnern";
+"notification_soft_prompt_allow" = "Ja, gern erinnern";
+"notification_soft_prompt_ask_me_later" = "Später fragen";
+"notification_soft_prompt_no_thanks" = "Nein, danke";
+"notification_soft_prompt_allow_a11y_hint" = "Öffnet den Systemdialog, in dem du Benachrichtigungen für Hero erlauben oder ablehnen kannst.";
+"notification_soft_prompt_ask_me_later_a11y_hint" = "Schließt diese Nachricht und fragt später erneut.";
+"notification_soft_prompt_no_thanks_a11y_hint" = "Schließt diese Nachricht und beendet automatische Erinnerungsanfragen.";

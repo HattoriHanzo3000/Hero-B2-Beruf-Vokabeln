@@ -1,29 +1,33 @@
 //
-//  RatingPromptView.swift
+//  NotificationSoftPromptView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Custom in-app “soft ask” before the system notification permission alert.
+//  Not wired into navigation yet — design / review only.
 //
 
 import SwiftUI
 
-struct RatingPromptView: View {
-    @ObservedObject var ratingManager: RatingManager
+/// Card-style prompt shown **before** `UNUserNotificationCenter.requestAuthorization`.
+/// Pair with a dimmed backdrop in the parent when presenting.
+struct NotificationSoftPromptView: View {
+    var onAllow: () -> Void
+    var onAskMeLater: () -> Void
+    var onNoThanks: () -> Void
+
     @ObservedObject private var languageManager = LanguageManager.shared
     @Environment(\.colorScheme) private var colorScheme
-
     var body: some View {
         VStack(spacing: 0) {
-            // Mascot image at the top
             Image("MascotLaunch")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 120, height: 120)
                 .padding(.top, 32)
                 .padding(.bottom, 20)
+                .accessibilityHidden(true)
 
-            // Title
-            Text(Localizable.string(Localizable.ratingTitle))
+            Text(Localizable.string(Localizable.notificationSoftPromptTitle))
                 .font(.system(.title2, design: .default).weight(.bold))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.leading)
@@ -31,8 +35,7 @@ struct RatingPromptView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 8)
 
-            // Subtitle
-            Text(Localizable.string(Localizable.ratingSubtitle))
+            Text(Localizable.string(Localizable.notificationSoftPromptMessage))
                 .font(.system(.body, design: .default))
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.leading)
@@ -41,14 +44,12 @@ struct RatingPromptView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 32)
 
-            // Buttons
             VStack(spacing: 12) {
-                // Rate button (primary)
-                Button(action: {
+                Button {
                     HapticManager.shared.mediumImpact()
-                    ratingManager.requestAppReview()
-                }) {
-                    Text(Localizable.string(Localizable.ratingRateButton))
+                    onAllow()
+                } label: {
+                    Text(Localizable.string(Localizable.notificationSoftPromptAllow))
                         .font(.system(.headline, design: .default).weight(.semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -66,13 +67,13 @@ struct RatingPromptView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                         .shadow(color: Color("AppGreen").opacity(0.3), radius: 8, x: 0, y: 4)
                 }
+                .accessibilityHint(Localizable.string(Localizable.notificationSoftPromptAllowA11yHint))
 
-                // Later button (secondary)
-                Button(action: {
+                Button {
                     HapticManager.shared.lightImpact()
-                    ratingManager.remindLater()
-                }) {
-                    Text(Localizable.string(Localizable.ratingLaterButton))
+                    onAskMeLater()
+                } label: {
+                    Text(Localizable.string(Localizable.notificationSoftPromptAskMeLater))
                         .font(.system(.body, design: .default).weight(.medium))
                         .foregroundColor(.primary)
                         .frame(maxWidth: .infinity)
@@ -82,18 +83,19 @@ struct RatingPromptView: View {
                                 .fill(colorScheme == .light ? Color(.systemGray6) : Color(.systemGray5))
                         )
                 }
+                .accessibilityHint(Localizable.string(Localizable.notificationSoftPromptAskMeLaterA11yHint))
 
-                // No thanks button (tertiary)
-                Button(action: {
+                Button {
                     HapticManager.shared.lightImpact()
-                    ratingManager.disableRatingRequests()
-                }) {
-                    Text(Localizable.string(Localizable.ratingNoThanksButton))
+                    onNoThanks()
+                } label: {
+                    Text(Localizable.string(Localizable.notificationSoftPromptNoThanks))
                         .font(.system(.body, design: .default))
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity)
                         .frame(minHeight: 48)
                 }
+                .accessibilityHint(Localizable.string(Localizable.notificationSoftPromptNoThanksA11yHint))
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 32)
@@ -110,25 +112,32 @@ struct RatingPromptView: View {
 
 // MARK: - Previews
 
-private struct RatingPromptPreviewHost: View {
+private struct NotificationSoftPromptPreviewHost: View {
     init(language: String) {
         LanguageManager.shared.currentLanguage = language
     }
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.3)
+            Color(uiColor: .systemGroupedBackground)
                 .ignoresSafeArea()
 
-            RatingPromptView(ratingManager: .shared)
+            Color.black.opacity(0.32)
+                .ignoresSafeArea()
+
+            NotificationSoftPromptView(
+                onAllow: {},
+                onAskMeLater: {},
+                onNoThanks: {}
+            )
         }
     }
 }
 
 #Preview("English") {
-    RatingPromptPreviewHost(language: "English")
+    NotificationSoftPromptPreviewHost(language: "English")
 }
 
 #Preview("Deutsch") {
-    RatingPromptPreviewHost(language: "Deutsch")
+    NotificationSoftPromptPreviewHost(language: "Deutsch")
 }
