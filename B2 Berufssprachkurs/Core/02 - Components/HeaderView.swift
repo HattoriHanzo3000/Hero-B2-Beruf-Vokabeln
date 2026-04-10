@@ -71,7 +71,14 @@ struct HeaderView: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: WordProgress.self, configurations: config)
+    let container = try! ModelContainer(
+        for: WordProgress.self,
+        CustomWordEntry.self,
+        StudySelectionState.self,
+        FavoriteWord.self,
+        SpacedRepetitionRecord.self,
+        configurations: config
+    )
     HeaderView(dataService: DataService())
         .background(LearningSurfaceColors.generalWords)
         .modelContainer(container)

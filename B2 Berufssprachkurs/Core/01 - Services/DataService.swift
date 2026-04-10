@@ -30,6 +30,7 @@ class DataService: ObservableObject {
 
     private let userDefaults = UserDefaults.standard
     private var cancellables = Set<AnyCancellable>()
+    private var didAttachSwiftData = false
 
     var completedSections: Set<String> { studyProgress.completedSections }
     var completedLections: Set<Int> { studyProgress.completedLections }
@@ -39,7 +40,7 @@ class DataService: ObservableObject {
 
     init() {
         studyProgress = StudyProgressStore(userDefaults: userDefaults)
-        favorites = FavoritesStore(userDefaults: userDefaults)
+        favorites = FavoritesStore()
 
         studyProgress.objectWillChange.sink { [weak self] _ in
             self?.objectWillChange.send()
@@ -50,6 +51,17 @@ class DataService: ObservableObject {
         }.store(in: &cancellables)
 
         loadData()
+        studyProgress.reconcileWithGeneralLections(lections)
+    }
+
+    /// Binds SwiftData-backed stores (study selection, favorites, spaced repetition) and runs one-time `UserDefaults` migration.
+    func attachSwiftDataPersistence(_ context: ModelContext) {
+        guard !didAttachSwiftData else { return }
+        didAttachSwiftData = true
+        MigrationManager.migrateLegacyUserDefaultsProgressToSwiftDataIfNeeded(context: context)
+        studyProgress.bind(modelContext: context)
+        favorites.bind(modelContext: context)
+        SpacedRepetitionService.shared.bind(modelContext: context)
         studyProgress.reconcileWithGeneralLections(lections)
     }
 
@@ -252,6 +264,9 @@ class DataService: ObservableObject {
     func resetAllData() {
         studyProgress.resetProgressState()
         favorites.reset()
+
+        VocabularyUserDefaultsPersistence.removeLegacyProgressKeys(from: userDefaults)
+        MigrationManager.resetProgressMigrationFlags()
 
         if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let fileURL = documentsURL.appendingPathComponent("user_translations.json")

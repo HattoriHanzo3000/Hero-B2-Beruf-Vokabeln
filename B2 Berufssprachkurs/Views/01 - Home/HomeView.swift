@@ -164,7 +164,14 @@ private struct HomeViewCanvasPreview: View {
 
     private static let previewContainer: ModelContainer = {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        return try! ModelContainer(for: WordProgress.self, CustomWordEntry.self, configurations: config)
+        return try! ModelContainer(
+            for: WordProgress.self,
+            CustomWordEntry.self,
+            StudySelectionState.self,
+            FavoriteWord.self,
+            SpacedRepetitionRecord.self,
+            configurations: config
+        )
     }()
 
     var body: some View {

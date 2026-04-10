@@ -116,10 +116,12 @@ extension SpacedRepetitionService {
 
     @discardableResult
     func restoreStudyDataFromBeforeDebugPresets() -> Bool {
-        if let backup = userDefaults.data(forKey: debugStudyDataBackupKey) {
-            userDefaults.set(backup, forKey: studyDataKey)
+        if let backup = userDefaults.data(forKey: debugStudyDataBackupKey),
+           let decoded = try? JSONDecoder().decode([String: StudyCardData].self, from: backup) {
+            let filtered = decoded.filter { !$0.key.hasSuffix("_example") }
+            studyDataCache = filtered
             userDefaults.removeObject(forKey: debugStudyDataBackupKey)
-            loadStudyData()
+            userDefaults.removeObject(forKey: studyDataKey)
             saveStudyData()
             return true
         } else {
@@ -132,7 +134,9 @@ extension SpacedRepetitionService {
 
     private func preserveStudyDataBeforeFirstDebugPresetIfNeeded() {
         guard userDefaults.data(forKey: debugStudyDataBackupKey) == nil else { return }
-        if let data = userDefaults.data(forKey: studyDataKey) {
+        if let encoded = try? JSONEncoder().encode(studyDataCache), !studyDataCache.isEmpty {
+            userDefaults.set(encoded, forKey: debugStudyDataBackupKey)
+        } else if let data = userDefaults.data(forKey: studyDataKey) {
             userDefaults.set(data, forKey: debugStudyDataBackupKey)
         } else {
             let empty: [String: StudyCardData] = [:]
@@ -144,6 +148,9 @@ extension SpacedRepetitionService {
     private func resetAllStudyDataPreservingDebugBackup() {
         studyDataCache.removeAll()
         userDefaults.removeObject(forKey: studyDataKey)
+        if let context = modelContext {
+            try? SpacedRepetitionRecord.deleteAll(in: context)
+        }
     }
 
     private func distributeCounts(total: Int, ratios: [Double]) -> [Int] {

@@ -2,11 +2,13 @@
 //  StudyProgressStore.swift
 //  B2 Berufssprachkurs
 //
-//  Checked words, section/lection completion, and UserDefaults persistence for study selection.
+//  Checked words, section/lection completion. Persisted in SwiftData (`StudySelectionState`) when available;
+//  falls back to UserDefaults for section/lection sets only when unbound (e.g. some previews).
 //
 
 import Combine
 import Foundation
+import SwiftData
 
 @MainActor
 final class StudyProgressStore: ObservableObject {
@@ -15,18 +17,22 @@ final class StudyProgressStore: ObservableObject {
     @Published var completedLections: Set<Int> = []
 
     private let userDefaults: UserDefaults
+    private var modelContext: ModelContext?
 
     init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
-        let state = VocabularyUserDefaultsPersistence.loadCompletedState(from: userDefaults)
-        completedLections = state.lections
-        completedSections = state.sections
+    }
+
+    /// Wire persistence after the shared SwiftData stack exists (``MainView`` / app root).
+    func bind(modelContext: ModelContext) {
+        self.modelContext = modelContext
+        reloadFromStore()
     }
 
     /// Call after bundled `lections` are loaded so lection-level metadata matches section sets.
     func reconcileWithGeneralLections(_ lections: [Lection]) {
         reconcileLectionCompletionMetadataWithSectionState(lections: lections)
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     // MARK: - Checked words
@@ -44,6 +50,7 @@ final class StudyProgressStore: ObservableObject {
             checkedWords[sectionId] = checked
             updateSectionCompletion(sectionId: sectionId, wordsInSection: wordsInSection, lections: lections)
         }
+        persistSnapshot()
     }
 
     func toggleAllWords(in sectionId: String, wordsInSection: [Word], lections: [Lection]) {
@@ -56,6 +63,7 @@ final class StudyProgressStore: ObservableObject {
             checkedWords[sectionId] = allWordIds
         }
         updateSectionCompletion(sectionId: sectionId, wordsInSection: wordsInSection, lections: lections)
+        persistSnapshot()
     }
 
     func isWordChecked(wordId: String, in sectionId: String) -> Bool {
@@ -71,7 +79,7 @@ final class StudyProgressStore: ObservableObject {
             completedSections.insert(sectionId)
         }
         syncLectionCompletionMetadata(forSectionId: sectionId, lections: lections)
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     func isSectionCompleted(sectionId: String) -> Bool {
@@ -94,7 +102,7 @@ final class StudyProgressStore: ObservableObject {
                 completedSections.insert(sectionId)
             }
         }
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     func isLectionCompleted(lectionId: Int, lections: [Lection]) -> Bool {
@@ -128,7 +136,7 @@ final class StudyProgressStore: ObservableObject {
             }
         }
         reconcileLectionCompletionMetadataWithSectionState(lections: lections)
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     func toggleAllGeneralWordsForStudy(isPremium: Bool, lections: [Lection]) {
@@ -147,7 +155,7 @@ final class StudyProgressStore: ObservableObject {
             completedSections.formUnion(freeSectionIds)
         }
         reconcileLectionCompletionMetadataWithSectionState(lections: lections)
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     func areAllLectionsCompleted(lections: [Lection]) -> Bool {
@@ -168,7 +176,7 @@ final class StudyProgressStore: ObservableObject {
                 completedSections.insert(sectionId)
             }
         }
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     func toggleVerbenCompletedForStudy(isPremium: Bool) {
@@ -182,7 +190,7 @@ final class StudyProgressStore: ObservableObject {
         } else {
             completedSections.insert(an)
         }
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     func isVerbenCompleted() -> Bool {
@@ -234,7 +242,7 @@ final class StudyProgressStore: ObservableObject {
 
         completedSections = completedSections.intersection(allowedSectionIds)
         reconcileLectionCompletionMetadataWithSectionState(lections: lections)
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     func hasAnyVerbenCompleted() -> Bool {
@@ -271,7 +279,7 @@ final class StudyProgressStore: ObservableObject {
                 completedSections.insert(sectionId)
             }
         }
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     func toggleAdjektiveCompletedForStudy(isPremium: Bool) {
@@ -285,7 +293,7 @@ final class StudyProgressStore: ObservableObject {
         } else {
             completedSections.insert(an)
         }
-        saveCompletedStates()
+        persistSnapshot()
     }
 
     func isAdjektiveCompleted() -> Bool {
@@ -319,10 +327,46 @@ final class StudyProgressStore: ObservableObject {
         checkedWords.removeAll()
         completedSections.removeAll()
         completedLections.removeAll()
-        saveCompletedStates()
+        if let context = modelContext {
+            try? StudySelectionState.deleteAll(in: context)
+            let fresh = StudySelectionState()
+            context.insert(fresh)
+            try? context.save()
+        } else {
+            VocabularyUserDefaultsPersistence.saveCompletedState(
+                lections: [],
+                sections: [],
+                to: userDefaults
+            )
+        }
     }
 
     // MARK: - Private
+
+    private func reloadFromStore() {
+        guard let context = modelContext else { return }
+        let state = StudySelectionState.fetchOrInsertSingleton(in: context)
+        completedLections = Set(state.completedLectionIds)
+        completedSections = Set(state.completedSectionIds)
+        checkedWords = StudySelectionState.checkedWords(from: state.checkedWordsJSON)
+    }
+
+    private func persistSnapshot() {
+        if let context = modelContext {
+            let state = StudySelectionState.fetchOrInsertSingleton(in: context)
+            state.completedLectionIds = Array(completedLections).sorted()
+            state.completedSectionIds = Array(completedSections).sorted()
+            state.checkedWordsJSON = StudySelectionState.json(from: checkedWords)
+            state.lastUpdated = Date()
+            try? context.save()
+        } else {
+            VocabularyUserDefaultsPersistence.saveCompletedState(
+                lections: completedLections,
+                sections: completedSections,
+                to: userDefaults
+            )
+        }
+    }
 
     private func syncLectionCompletionMetadata(forSectionId sectionId: String, lections: [Lection]) {
         guard let lection = lections.first(where: { $0.sections.contains { $0.id == sectionId } }) else { return }
@@ -356,16 +400,7 @@ final class StudyProgressStore: ObservableObject {
                 if let lections {
                     syncLectionCompletionMetadata(forSectionId: sectionId, lections: lections)
                 }
-                saveCompletedStates()
             }
         }
-    }
-
-    private func saveCompletedStates() {
-        VocabularyUserDefaultsPersistence.saveCompletedState(
-            lections: completedLections,
-            sections: completedSections,
-            to: userDefaults
-        )
     }
 }

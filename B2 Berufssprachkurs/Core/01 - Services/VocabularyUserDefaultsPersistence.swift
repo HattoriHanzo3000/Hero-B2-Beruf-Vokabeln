@@ -45,4 +45,11 @@ enum VocabularyUserDefaultsPersistence {
     static func saveFavoriteWordIds(_ ids: Set<String>, to defaults: UserDefaults = .standard) {
         defaults.set(Array(ids), forKey: Keys.favoriteWords)
     }
+
+    /// Removes pre–SwiftData keys (study selection + favorites) from `UserDefaults`, e.g. on full app reset.
+    static func removeLegacyProgressKeys(from defaults: UserDefaults = .standard) {
+        defaults.removeObject(forKey: Keys.completedLections)
+        defaults.removeObject(forKey: Keys.completedSections)
+        defaults.removeObject(forKey: Keys.favoriteWords)
+    }
 }

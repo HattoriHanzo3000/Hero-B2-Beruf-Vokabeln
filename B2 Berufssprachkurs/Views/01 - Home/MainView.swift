@@ -98,6 +98,7 @@ struct MainView: View {
             }
         }
         .onAppear {
+            dataService.attachSwiftDataPersistence(modelContext)
             CustomWordEntry.renumberSortOrderIfNeeded(in: modelContext)
             dataService.updateUserCustomWords(from: customWordEntries)
             AppTabBarAppearance.applyLiquidGlassAppStyle()

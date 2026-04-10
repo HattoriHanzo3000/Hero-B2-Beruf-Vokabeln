@@ -9,11 +9,11 @@ struct AddMyWordControl: ControlWidget {
             ControlWidgetButton(action: AddMyWordControlIntent()) {
                 Label(
                     NSLocalizedString("my_words_add_word", tableName: "Localizable", comment: ""),
-                    systemImage: "plus"
+                    systemImage: "rectangle.stack.fill.badge.plus"
                 )
             }
         }
-        .displayName("Quick Add")
-        .description("Add a word from the Lock Screen.")
+        .displayName(LocalizedStringResource("widget_add_my_word_control_display_name"))
+        .description(LocalizedStringResource("widget_add_my_word_control_description"))
     }
 }

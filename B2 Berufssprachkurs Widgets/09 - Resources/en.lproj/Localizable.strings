@@ -1,7 +1,9 @@
 "widget_word_example_missing" = "You haven't added an example sentence for this word yet.";
 "my_words_add_word" = "Add word";
+"widget_add_my_word_control_display_name" = "New Word";
+"widget_add_my_word_control_description" = "Add a new word from the Lock Screen.";
 "intent_add_my_word_title" = "Add My Word";
-"intent_add_my_word_description" = "Quick Add from the Lock Screen control.";
+"intent_add_my_word_description" = "Add a new word from the Lock Screen control.";
 "widget_flashcards_lock_display_name" = "Study My Words";
 "widget_flashcards_lock_description" = "Open flashcards for your My Words list.";
 "widget_flashcards_lock_accessibility_label" = "Study My Words";

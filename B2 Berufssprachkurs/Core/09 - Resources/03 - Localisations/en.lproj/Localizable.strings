@@ -118,7 +118,7 @@
 "error_alert_title" = "Error";
 "close_paywall_a11y" = "Close";
 "icloud_sync" = "iCloud";
-"icloud_sync_footer" = "When this is on, your word translations can sync across your Apple devices via iCloud. Your device must be signed in to iCloud in Settings.";
+"icloud_sync_footer" = "When this is on, your word translations and progress can sync across your Apple devices via iCloud. Your device must be signed in to iCloud in Settings.";
 "icloud_account_signed_in" = "iCloud is active on this device.";
 "icloud_account_not_signed_in" = "iCloud is not signed in on this device. To sync, sign in under Settings → Apple ID.";
 

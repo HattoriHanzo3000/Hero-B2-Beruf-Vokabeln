@@ -2,21 +2,24 @@
 //  FavoritesStore.swift
 //  B2 Berufssprachkurs
 //
-//  Favorite word IDs and UserDefaults persistence (`favoriteWords` key).
+//  Favorite word IDs in SwiftData (`FavoriteWord`) when bound; falls back to in-memory only if unbound.
 //
 
 import Combine
 import Foundation
+import SwiftData
 
 @MainActor
 final class FavoritesStore: ObservableObject {
     @Published private(set) var favoriteWordIds: Set<String> = []
 
-    private let userDefaults: UserDefaults
+    private var modelContext: ModelContext?
 
-    init(userDefaults: UserDefaults = .standard) {
-        self.userDefaults = userDefaults
-        favoriteWordIds = VocabularyUserDefaultsPersistence.loadFavoriteWordIds(from: userDefaults)
+    init() {}
+
+    func bind(modelContext: ModelContext) {
+        self.modelContext = modelContext
+        reloadFromStore()
     }
 
     var count: Int { favoriteWordIds.count }
@@ -39,10 +42,29 @@ final class FavoritesStore: ObservableObject {
 
     func reset() {
         favoriteWordIds.removeAll()
-        persist()
+        if let context = modelContext {
+            try? FavoriteWord.deleteAll(in: context)
+        }
+    }
+
+    private func reloadFromStore() {
+        guard let context = modelContext else { return }
+        let descriptor = FetchDescriptor<FavoriteWord>(sortBy: [SortDescriptor(\.addedAt)])
+        let rows = (try? context.fetch(descriptor)) ?? []
+        favoriteWordIds = Set(rows.map(\.wordId))
     }
 
     private func persist() {
-        VocabularyUserDefaultsPersistence.saveFavoriteWordIds(favoriteWordIds, to: userDefaults)
+        guard let context = modelContext else { return }
+        let existing = (try? context.fetch(FetchDescriptor<FavoriteWord>())) ?? []
+        let existingSet = Set(existing.map(\.wordId))
+
+        for row in existing where !favoriteWordIds.contains(row.wordId) {
+            context.delete(row)
+        }
+        for id in favoriteWordIds where !existingSet.contains(id) {
+            context.insert(FavoriteWord(wordId: id))
+        }
+        try? context.save()
     }
 }

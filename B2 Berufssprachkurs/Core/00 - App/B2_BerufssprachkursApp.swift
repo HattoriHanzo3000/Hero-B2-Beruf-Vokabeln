@@ -18,7 +18,13 @@ struct B2_BerufssprachkursApp: App {
     private let sharedModelContainer: ModelContainer
 
     init() {
-        let schema = Schema([WordProgress.self, CustomWordEntry.self])
+        let schema = Schema([
+            WordProgress.self,
+            CustomWordEntry.self,
+            StudySelectionState.self,
+            FavoriteWord.self,
+            SpacedRepetitionRecord.self
+        ])
         let iCloudSyncEnabled =
             UserDefaults.standard.object(forKey: MigrationManager.iCloudSyncEnabledKey) as? Bool ?? true
         let cloudKitDatabase: ModelConfiguration.CloudKitDatabase =
