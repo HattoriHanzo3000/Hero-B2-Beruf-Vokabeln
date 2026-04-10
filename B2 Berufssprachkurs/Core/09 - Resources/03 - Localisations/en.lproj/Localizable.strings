@@ -313,8 +313,8 @@
 "rating_title" = "What do you think of Hero?";
 "rating_subtitle" = "Your star rating on the App Store helps us improve Hero and helps others discover it. Thank you!";
 "rating_rate_button" = "Rate";
-"rating_later_button" = "Later";
-"rating_no_thanks_button" = "No Thanks";
+"rating_later_button" = "Ask me later";
+"rating_no_thanks_button" = "No, thanks";
 
 // Share
 "share" = "Share";
