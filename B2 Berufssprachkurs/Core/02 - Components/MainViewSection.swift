@@ -17,7 +17,7 @@ enum MainViewSection: String, CaseIterable {
     var icon: String {
         switch self {
         case .home:
-            return "square.stack.3d.up.fill"
+            return "rectangle.stack.fill"
         case .cockpit:
             return "gauge"
         case .search:

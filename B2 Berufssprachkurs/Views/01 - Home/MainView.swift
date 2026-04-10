@@ -19,10 +19,18 @@ struct MainView: View {
     @StateObject private var dataService: DataService
     @ObservedObject private var languageManager: LanguageManager
     @ObservedObject private var updateAlertManager = UpdateAlertManager.shared
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
+    @EnvironmentObject private var deepLinkRouter: AppDeepLinkRouter
     @StateObject private var ratingManager: RatingManager
     @State private var selectedSection: MainViewSection = .home
     /// Tab to restore when the user dismisses search (system Cancel / X).
     @State private var sectionBeforeSearch: MainViewSection = .home
+    /// Lock Screen Quick Add: presented from MainView (see `AppDeepLinkRouter.pendingRoute`).
+    @State private var showQuickAddMyWordSheet = false
+    @State private var showQuickAddMyWordProAlert = false
+    @State private var pendingQuickAddAfterEntitlementSync = false
+    @State private var showMyWordsStudy = false
+    @State private var pendingMyWordsStudyAfterEntitlementSync = false
 
     /// - Parameter isPremiumPreviewOverride: Pass `true` / `false` for canvas previews only; `nil` uses live subscription state.
     init(isPremiumPreviewOverride: Bool? = nil) {
@@ -30,6 +38,13 @@ struct MainView: View {
         _dataService = StateObject(wrappedValue: DataService())
         _languageManager = ObservedObject(wrappedValue: LanguageManager.shared)
         _ratingManager = StateObject(wrappedValue: RatingManager.shared)
+    }
+
+    private var isPremiumActionAuthorized: Bool {
+        if let isPremiumPreviewOverride {
+            return isPremiumPreviewOverride
+        }
+        return subscriptionManager.isPremiumAuthorizationGranted
     }
 
     var body: some View {
@@ -75,6 +90,11 @@ struct MainView: View {
         .onChange(of: selectedSection) { oldValue, newValue in
             if newValue == .search, oldValue != .search {
                 sectionBeforeSearch = oldValue
+            } else if newValue != .search {
+                // Keep “return tab” in sync with what the user is actually on. Otherwise: open Search from
+                // Settings, switch to Home without Cancel → `sectionBeforeSearch` stayed `.settings`; when
+                // the system later collapses search on resume (e.g. widget tap), `GlobalSearchView` pops to Settings.
+                sectionBeforeSearch = newValue
             }
         }
         .onAppear {
@@ -89,6 +109,65 @@ struct MainView: View {
         .onChange(of: customWordEntries) { _, newValue in
             dataService.updateUserCustomWords(from: newValue)
         }
+        .onChange(of: subscriptionManager.hasCompletedInitialSubscriptionSync) { _, hasCompleted in
+            guard hasCompleted else { return }
+            if pendingQuickAddAfterEntitlementSync {
+                pendingQuickAddAfterEntitlementSync = false
+                presentQuickAddGateOutcome()
+            }
+            if pendingMyWordsStudyAfterEntitlementSync {
+                pendingMyWordsStudyAfterEntitlementSync = false
+                presentMyWordsStudyGateOutcome()
+            }
+        }
+        .sheet(isPresented: $showQuickAddMyWordSheet) {
+            MyWordEditorSheet(mode: .add, autofocusGermanOnAppear: true)
+        }
+        .sheet(isPresented: $showMyWordsStudy) {
+            NavigationStack {
+                StudyView(
+                    dataService: dataService,
+                    filterBySectionId: DataService.userMyWordsSectionId,
+                    studyAllMode: true,
+                    favoritesOnly: false,
+                    categoryFilter: nil
+                )
+                .environmentObject(dataService)
+            }
+        }
+        .alert(
+            Localizable.string(Localizable.myWordsProLockedTitle),
+            isPresented: $showQuickAddMyWordProAlert
+        ) {
+            Button(Localizable.string(Localizable.ok), role: .cancel) {}
+        } message: {
+            Text(Localizable.string(Localizable.myWordsProLockedMessage))
+        }
+        .onChange(of: deepLinkRouter.pendingRoute, initial: true) { _, route in
+            guard let route else { return }
+            switch route {
+            case .tab(let section):
+                selectedSection = section
+                sectionBeforeSearch = section
+                deepLinkRouter.clearPendingRoute()
+            case .foregroundOnly:
+                deepLinkRouter.clearPendingRoute()
+            case .myWordsComposer:
+                deepLinkRouter.clearPendingRoute()
+                if isPremiumPreviewOverride == nil, !subscriptionManager.hasCompletedInitialSubscriptionSync {
+                    pendingQuickAddAfterEntitlementSync = true
+                    return
+                }
+                presentQuickAddGateOutcome()
+            case .myWordsStudy:
+                deepLinkRouter.clearPendingRoute()
+                if isPremiumPreviewOverride == nil, !subscriptionManager.hasCompletedInitialSubscriptionSync {
+                    pendingMyWordsStudyAfterEntitlementSync = true
+                    return
+                }
+                presentMyWordsStudyGateOutcome()
+            }
+        }
         .alert(Localizable.string(Localizable.updateAlertTitle), isPresented: $updateAlertManager.showUpdateAlert) {
             Button(Localizable.string(Localizable.updateNow)) {
                 updateAlertManager.openAppStore()
@@ -101,6 +180,34 @@ struct MainView: View {
         }
         .overlay {
             RatingPromptOverlay(ratingManager: ratingManager)
+        }
+    }
+
+    private func presentQuickAddGateOutcome() {
+        if !isPremiumActionAuthorized {
+            HapticManager.shared.heavyImpact()
+            showQuickAddMyWordProAlert = true
+            return
+        }
+        HapticManager.shared.lightImpact()
+        DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                showQuickAddMyWordSheet = true
+            }
+        }
+    }
+
+    private func presentMyWordsStudyGateOutcome() {
+        if !isPremiumActionAuthorized {
+            HapticManager.shared.heavyImpact()
+            showQuickAddMyWordProAlert = true
+            return
+        }
+        HapticManager.shared.lightImpact()
+        selectedSection = .home
+        sectionBeforeSearch = .home
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            showMyWordsStudy = true
         }
     }
 }
@@ -125,6 +232,7 @@ private struct MainViewPreviewHost: View {
 
     var body: some View {
         MainView(isPremiumPreviewOverride: isPremiumPreviewOverride)
+            .environmentObject(AppDeepLinkRouter.shared)
     }
 }
 

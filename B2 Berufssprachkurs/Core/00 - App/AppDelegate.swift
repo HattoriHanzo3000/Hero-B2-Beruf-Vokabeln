@@ -23,6 +23,22 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
         return true
     }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        AppGroupQuickAddBridge.consumePendingQuickAddIfNeeded()
+    }
+
+    /// Widget `OpenURLIntent` / Lock Screen taps often arrive here; may also mirror `onOpenURL`. Dedup is in `AppDeepLinkRouter`.
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+    ) -> Bool {
+        DispatchQueue.main.async {
+            AppDeepLinkRouter.shared.handle(url: url)
+        }
+        return true
+    }
     
     func application(
         _ application: UIApplication,

@@ -20,6 +20,10 @@ struct WordOfTheDayListView: View {
         _viewModel = StateObject(wrappedValue: WordOfTheDayListViewModel(dataService: dataService))
     }
 
+    private var isPremiumForVisuals: Bool {
+        subscriptionManager.isPremiumVisualState
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -40,7 +44,7 @@ struct WordOfTheDayListView: View {
                                         .font(.title2.weight(.semibold))
                                         .foregroundColor(.primary)
 
-                                    if !subscriptionManager.isPremiumActive,
+                                    if !isPremiumForVisuals,
                                        lection.id != DataService.GeneralWordsFreeTier.unlockedLectionId {
                                         ProShieldBadge(
                                             label: "PRO",

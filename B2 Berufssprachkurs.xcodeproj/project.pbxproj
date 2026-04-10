@@ -11,6 +11,8 @@
 		4233D5F62F857A93002B25BD /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4233D5F52F857A93002B25BD /* SwiftUI.framework */; };
 		4233D6032F857A95002B25BD /* HeroB2WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4233D5F22F857A93002B25BD /* HeroB2WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		744F83A32ED60C6600B2F198 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744F83A22ED60C6600B2F198 /* AppTrackingTransparency.framework */; };
+		74E8ADD22F857A95002D10A0 /* AddMyWordControlIntentDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E8ADD12F857A95002D10A0 /* AddMyWordControlIntentDefinition.swift */; };
+		74E8ADD42F857A95002D10A1 /* QuickAddDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E8ADD32F857A95002D10A1 /* QuickAddDeepLink.swift */; };
 		74RC00122EDF800000581890 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 74RC00112EDF800000581890 /* RevenueCat */; };
 		74RC00142EDF800000581891 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 74RC00132EDF800000581891 /* RevenueCatUI */; };
 /* End PBXBuildFile section */
@@ -47,6 +49,8 @@
 		748EDDE02EDBBD7500763D2E /* B2 Berufssprachkurs/LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "B2 Berufssprachkurs/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		74AFC0012EDF000000000001 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		74D87BDE2ECD0E14004BCC24 /* B2 Berufssprachkurs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "B2 Berufssprachkurs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		74E8ADD12F857A95002D10A0 /* AddMyWordControlIntentDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyWordControlIntentDefinition.swift; sourceTree = "<group>"; };
+		74E8ADD32F857A95002D10A1 /* QuickAddDeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddDeepLink.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -122,9 +126,10 @@
 				74AFC0022EDF000000000002 /* Config */,
 				74D87BE02ECD0E14004BCC24 /* B2 Berufssprachkurs */,
 				4233D5F72F857A93002B25BD /* B2 Berufssprachkurs Widgets */,
+				74E8ADD52F857A95002D10A2 /* Quick Add (app + extension) */,
+				74E8SUP012F857A95002D10C0 /* Supporting */,
 				744F83A12ED60C6500B2F198 /* Frameworks */,
 				74D87BDF2ECD0E14004BCC24 /* Products */,
-				74E849542EDBC53C00185C86 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,12 +142,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		74E849542EDBC53C00185C86 /* Recovered References */ = {
+		74E8ADD52F857A95002D10A2 /* Quick Add (app + extension) */ = {
+			isa = PBXGroup;
+			children = (
+				74E8ADD12F857A95002D10A0 /* AddMyWordControlIntentDefinition.swift */,
+				74E8ADD32F857A95002D10A1 /* QuickAddDeepLink.swift */,
+			);
+			name = "Quick Add (app + extension)";
+			path = "B2 Berufssprachkurs Widgets/01 - Services";
+			sourceTree = "<group>";
+		};
+		74E8SUP012F857A95002D10C0 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
 				748EDDE02EDBBD7500763D2E /* B2 Berufssprachkurs/LaunchScreen.storyboard */,
 			);
-			name = "Recovered References";
+			name = Supporting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +282,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74E8ADD22F857A95002D10A0 /* AddMyWordControlIntentDefinition.swift in Sources */,
+				74E8ADD42F857A95002D10A1 /* QuickAddDeepLink.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

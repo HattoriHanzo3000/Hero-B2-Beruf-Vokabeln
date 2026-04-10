@@ -1,43 +1,32 @@
 import SwiftUI
 
-struct WidgetBackgroundView: View {
-    @Environment(\.colorScheme) var colorScheme
-    
+// Shared “liquid glass” layers for home-screen (rounded rect) and lock-screen accessories.
+private struct HeroIslandLiquidChrome<S: InsettableShape>: View {
+    let shape: S
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         ZStack {
-            // Liquid Glass island style from HeaderView+Chrome.swift
-            
-            // Material blur
-            RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .fill(.ultraThinMaterial)
-
-            // Green-Blue Tint
-            RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .fill(heroIslandGreenBlueTint)
-
-            // Contrast overlay
-            RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .fill(Color.black.opacity(colorScheme == .dark ? 0.28 : 0.09))
-            
-            // Border stroke
-            RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .strokeBorder(
-                    LinearGradient(
-                        colors: [
-                            Color.white.opacity(colorScheme == .dark ? 0.22 : 0.45),
-                            Color.white.opacity(colorScheme == .dark ? 0.06 : 0.12)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    lineWidth: 1
-                )
+            shape.fill(.ultraThinMaterial)
+            shape.fill(heroIslandGreenBlueTint)
+            shape.fill(Color.black.opacity(colorScheme == .dark ? 0.24 : 0.03))
+            shape.strokeBorder(
+                LinearGradient(
+                    colors: [
+                        Color.white.opacity(colorScheme == .dark ? 0.22 : 0.45),
+                        Color.white.opacity(colorScheme == .dark ? 0.06 : 0.12)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                lineWidth: 1
+            )
         }
     }
-    
+
     private var heroIslandGreenBlueTint: LinearGradient {
         if colorScheme == .dark {
-            return LinearGradient(
+            LinearGradient(
                 colors: [
                     Color("AppGreen").opacity(0.62),
                     Color("AppBlue").opacity(0.55)
@@ -46,14 +35,21 @@ struct WidgetBackgroundView: View {
                 endPoint: .trailing
             )
         } else {
-            return LinearGradient(
+            LinearGradient(
                 colors: [
-                    Color("AppGreen").opacity(0.52),
-                    Color("AppBlue").opacity(0.46)
+                    Color("AppGreen").opacity(0.70),
+                    Color("AppBlue").opacity(0.64)
                 ],
                 startPoint: .leading,
                 endPoint: .trailing
             )
         }
+    }
+}
+
+struct WidgetBackgroundView: View {
+    var body: some View {
+        HeroIslandLiquidChrome(shape: RoundedRectangle(cornerRadius: 28, style: .continuous))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

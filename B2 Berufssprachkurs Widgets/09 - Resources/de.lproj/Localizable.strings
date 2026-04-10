@@ -1,7 +1,10 @@
-"word_row_detail_label_explanation" = "erkl.: ";
-"word_row_detail_label_example" = "beisp.: ";
-"word_row_detail_label_synonyms" = "syn.: ";
-"word_row_detail_label_translation" = "übers.: ";
-"widget_word_tip" = "Wort plus Satz, das ist der Trick - so sprichst du sicher, klar und schick";
 "widget_word_example_missing" = "Du hast fur dieses Wort noch kein Beispiel hinzugefugt.";
 "my_words_add_word" = "Wort hinzufügen";
+"intent_add_my_word_title" = "Mein Wort hinzufügen";
+"intent_add_my_word_description" = "Schnell hinzufügen über das Sperrbildschirm-Steuerelement.";
+"widget_flashcards_lock_display_name" = "Meine Wörter lernen";
+"widget_flashcards_lock_description" = "Öffnet Lernkarten für deine Meine-Wörter-Liste.";
+"widget_flashcards_lock_accessibility_label" = "Meine Wörter lernen";
+"widget_flashcards_lock_accessibility_hint" = "Öffnet Lernkarten für deine Meine-Wörter-Liste.";
+"widget_wotd_display_name" = "Wort des Tages";
+"widget_wotd_description" = "Lerne jeden Tag ein neues deutsches Wort.";

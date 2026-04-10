@@ -62,6 +62,13 @@ struct B2_BerufssprachkursApp: App {
             // Portrait: `AppDelegate.orientationLock` (default `.portrait`) + `supportedInterfaceOrientationsFor`
             .environmentObject(LanguageManager.shared)
             .environmentObject(AppearanceManager.shared)
+            .environmentObject(AppDeepLinkRouter.shared)
+            .onOpenURL { url in
+                AppDeepLinkRouter.shared.handle(url: url)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                AppGroupQuickAddBridge.consumePendingQuickAddIfNeeded()
+            }
             .task {
                 MigrationManager.runTranslationsImportIfNeeded(
                     context: sharedModelContainer.mainContext
@@ -73,6 +80,7 @@ struct B2_BerufssprachkursApp: App {
             // Supportive Retention System using Local Notifications
             switch newPhase {
             case .active:
+                AppGroupQuickAddBridge.consumePendingQuickAddIfNeeded()
                 // Cancel pending notifications and clear badge when the user is active
                 NotificationManager.shared.cancelAllNotifications()
             case .background:

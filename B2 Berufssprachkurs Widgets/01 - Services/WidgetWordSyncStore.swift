@@ -1,10 +1,14 @@
 import Foundation
 
 enum WidgetWordSyncStore {
-    static let appGroupId = "group.com.gizatech.B2-Beruf"
-    private static let payloadKey = "widget.wordOfTheDay.payload"
+    private static let appGroupId = QuickAddDeepLink.appGroupSuiteName
+    private static let payloadKey = QuickAddDeepLink.wordOfTheDayPayloadKey
 
     static func loadEntry(now: Date = Date()) -> WordOfTheDayEntry? {
+        // Avoid touching App Group prefs when the container is not available (previews, misconfigured targets).
+        guard FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupId) != nil else {
+            return nil
+        }
         guard
             let defaults = UserDefaults(suiteName: appGroupId),
             let payload = defaults.dictionary(forKey: payloadKey)
@@ -19,10 +23,7 @@ enum WidgetWordSyncStore {
             date: now,
             word: word,
             translation: translation,
-            explanation: payload["explanation"] as? String,
-            exampleSentence: payload["exampleSentence"] as? String,
-            synonyms: payload["synonyms"] as? String,
-            sectionIcon: payload["sectionIcon"] as? String ?? "book.fill"
+            exampleSentence: payload["exampleSentence"] as? String
         )
     }
 }

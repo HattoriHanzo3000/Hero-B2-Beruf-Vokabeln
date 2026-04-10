@@ -47,10 +47,6 @@ struct MyWordsView: View {
                 listSortMode: myWordsListSortMode,
                 editMode: $editMode,
                 onMove: applyMove,
-                onAddTap: {
-                    HapticManager.shared.lightImpact()
-                    showAddWordSheet = true
-                },
                 row: { entry in
                     myWordListRow(for: entry)
                 }
@@ -76,6 +72,26 @@ struct MyWordsView: View {
                         .foregroundStyle(.primary)
                 }
                 .accessibilityLabel(Localizable.string(Localizable.myWordsMoreOptionsA11y))
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                if editMode != .active {
+                    Button {
+                        HapticManager.shared.lightImpact()
+                        showAddWordSheet = true
+                    } label: {
+                        Image(systemName: "plus")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(.white)
+                            .frame(width: 24, height: 24)
+                            .background(
+                                Circle()
+                                    .fill(Color("AppRed"))
+                            )
+                            .accessibilityHidden(true)
+                    }
+                    .accessibilityLabel(Localizable.string(Localizable.myWordsAddWord))
+                    .accessibilityHint(Localizable.string(Localizable.myWordsAddWordA11yHint))
+                }
             }
             if editMode == .active {
                 ToolbarItem(placement: .topBarTrailing) {

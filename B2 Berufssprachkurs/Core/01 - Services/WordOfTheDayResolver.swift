@@ -15,8 +15,10 @@ enum WordOfTheDayResolver {
         let csv = defaults.string(forKey: selectedSectionsKey) ?? ""
         let selectedSectionIds = WordOfTheDaySelectionPolicy.selectionSetFromCSV(csv)
 
+        let orderedSelectedSectionIds = selectedSectionIds.sorted()
         var eligibleWords: [Word] = []
-        for (sectionId, words) in wordsBySection where selectedSectionIds.contains(sectionId) {
+        for sectionId in orderedSelectedSectionIds {
+            guard let words = wordsBySection[sectionId] else { continue }
             eligibleWords.append(contentsOf: words)
         }
         guard !eligibleWords.isEmpty else { return nil }
@@ -29,7 +31,27 @@ enum WordOfTheDayResolver {
         let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now)) ?? now
         let hoursSinceStartOfYear = calendar.dateComponents([.hour], from: startOfYear, to: now).hour ?? 0
         let periodIndex = hoursSinceStartOfYear / hoursPerPeriod
-        let wordIndex = periodIndex % eligibleWords.count
+        let currentYear = calendar.component(.year, from: now)
+        let seedMaterial = [
+            selectedSectionIds.sorted().joined(separator: ","),
+            String(hoursPerPeriod),
+            String(currentYear),
+            String(periodIndex)
+        ].joined(separator: "|")
+        let randomIndex = Int(fnv1a64(seedMaterial) % UInt64(eligibleWords.count))
+        let wordIndex = randomIndex
         return eligibleWords[wordIndex]
+    }
+
+    /// Stable non-cryptographic hash for deterministic "random" selection across process restarts.
+    private static func fnv1a64(_ input: String) -> UInt64 {
+        let offsetBasis: UInt64 = 14_695_981_039_346_656_037
+        let prime: UInt64 = 1_099_511_628_211
+        var hash = offsetBasis
+        for byte in input.utf8 {
+            hash ^= UInt64(byte)
+            hash = hash &* prime
+        }
+        return hash
     }
 }

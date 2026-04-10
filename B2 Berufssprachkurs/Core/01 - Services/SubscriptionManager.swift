@@ -37,6 +37,18 @@ final class SubscriptionManager: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
+    /// Authorization contract for premium-only actions:
+    /// actions are allowed only after first entitlement sync confirms premium.
+    var isPremiumAuthorizationGranted: Bool {
+        hasCompletedInitialSubscriptionSync && isPremiumActive
+    }
+
+    /// Visual contract for premium badges/locks during cold start:
+    /// use cached value until first sync completes to avoid UI flicker.
+    var isPremiumVisualState: Bool {
+        hasCompletedInitialSubscriptionSync ? isPremiumActive : lastKnownPremiumState
+    }
+
     var hasLifetimeSubscription: Bool {
         guard let id = activeProductID else { return false }
         return PaywallProductID.usesLifetimeTerms(productIdentifier: id)

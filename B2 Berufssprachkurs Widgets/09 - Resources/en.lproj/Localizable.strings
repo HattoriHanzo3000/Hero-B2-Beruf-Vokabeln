@@ -1,7 +1,10 @@
-"word_row_detail_label_explanation" = "expl.: ";
-"word_row_detail_label_example" = "ex.: ";
-"word_row_detail_label_synonyms" = "syn.: ";
-"word_row_detail_label_translation" = "trans.: ";
-"widget_word_tip" = "Word plus sentence, that's the trick - speak with confidence, clear and quick.";
 "widget_word_example_missing" = "You haven't added an example sentence for this word yet.";
 "my_words_add_word" = "Add word";
+"intent_add_my_word_title" = "Add My Word";
+"intent_add_my_word_description" = "Quick Add from the Lock Screen control.";
+"widget_flashcards_lock_display_name" = "Study My Words";
+"widget_flashcards_lock_description" = "Open flashcards for your My Words list.";
+"widget_flashcards_lock_accessibility_label" = "Study My Words";
+"widget_flashcards_lock_accessibility_hint" = "Opens flashcards for your My Words list.";
+"widget_wotd_display_name" = "Word of the Day";
+"widget_wotd_description" = "Learn a new German word every day.";

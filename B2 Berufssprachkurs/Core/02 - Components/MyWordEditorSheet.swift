@@ -20,6 +20,13 @@ struct MyWordEditorSheet: View {
     @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
 
     let mode: Mode
+    /// When `true` (e.g. Lock Screen Quick Add), focuses the German field after the sheet is on-screen so the keyboard appears quickly.
+    private let autofocusGermanOnAppear: Bool
+
+    init(mode: Mode, autofocusGermanOnAppear: Bool = false) {
+        self.mode = mode
+        self.autofocusGermanOnAppear = autofocusGermanOnAppear
+    }
 
     @State private var german = ""
     @State private var translation = ""
@@ -107,6 +114,11 @@ struct MyWordEditorSheet: View {
                 synonym = entry.synonym ?? ""
             }
             syncKeyboardNavBridge()
+            if case .add = mode, autofocusGermanOnAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    focusedField = .german
+                }
+            }
         }
         .onChange(of: focusedField) { _, _ in
             syncKeyboardNavBridge()

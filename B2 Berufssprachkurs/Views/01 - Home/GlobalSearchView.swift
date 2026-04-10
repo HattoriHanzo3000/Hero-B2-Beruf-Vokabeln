@@ -25,6 +25,7 @@ struct GlobalSearchView: View {
     /// Tab stored by `MainView` when opening Search; used when the user taps system Cancel / X.
     var sectionBeforeSearch: MainViewSection
 
+    @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
@@ -113,6 +114,9 @@ struct GlobalSearchView: View {
         .onChange(of: dataService.userCustomWords.count) { _, _ in rebuildSearchResults() }
         .onChange(of: isSearchPresented) { _, presented in
             guard !presented, selectedSection == .search else { return }
+            // System often collapses `.searchable` while the app moves to background/inactive; that is not
+            // the user leaving Search. Popping the tab there yields wrong `selectedSection` after a widget tap.
+            guard scenePhase == .active else { return }
             searchText = ""
             isSearchFieldFocused = false
             selectedSection = sectionBeforeSearch

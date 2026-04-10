@@ -71,8 +71,8 @@ extension HeaderView {
     }
 
     private func persistWordOfTheDayForWidget() {
-        let appGroupId = "group.com.gizatech.B2-Beruf"
-        let payloadKey = "widget.wordOfTheDay.payload"
+        let appGroupId = QuickAddDeepLink.appGroupSuiteName
+        let payloadKey = QuickAddDeepLink.wordOfTheDayPayloadKey
         guard let defaults = UserDefaults(suiteName: appGroupId) else { return }
 
         guard let word = wordOfTheDay else {
@@ -81,17 +81,10 @@ extension HeaderView {
             return
         }
 
-        let synonym = word.synonyms?
-            .first?
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-
         let payload: [String: String] = [
             "word": word.german,
             "translation": displayedTranslation(for: word),
-            "explanation": word.explanation ?? "",
-            "exampleSentence": word.example ?? "",
-            "synonyms": synonym ?? "",
-            "sectionIcon": wordStackIcon(for: word)
+            "exampleSentence": word.example ?? ""
         ]
 
         defaults.set(payload, forKey: payloadKey)

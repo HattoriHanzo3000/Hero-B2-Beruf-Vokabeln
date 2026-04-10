@@ -68,7 +68,7 @@ extension HeaderView {
                 .fill(heroIslandGreenBlueTint)
 
             RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .fill(Color.black.opacity(colorScheme == .dark ? 0.28 : 0.09))
+                .fill(Color.black.opacity(colorScheme == .dark ? 0.24 : 0.03))
         }
     }
 
@@ -85,8 +85,8 @@ extension HeaderView {
         } else {
             LinearGradient(
                 colors: [
-                    Color("AppGreen").opacity(0.52),
-                    Color("AppBlue").opacity(0.46)
+                    Color("AppGreen").opacity(0.70),
+                    Color("AppBlue").opacity(0.64)
                 ],
                 startPoint: .leading,
                 endPoint: .trailing
