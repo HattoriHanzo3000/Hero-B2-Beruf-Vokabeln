@@ -309,7 +309,7 @@
 				DEVELOPMENT_TEAM = SZQ626NP5U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "B2 Berufssprachkurs Widgets/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = HeroB2Widgets;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hero B2 Widgets";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -317,7 +317,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gizatech.B2-Beruf.HeroB2Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -341,7 +341,7 @@
 				DEVELOPMENT_TEAM = SZQ626NP5U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "B2 Berufssprachkurs Widgets/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = HeroB2Widgets;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hero B2 Widgets";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -349,7 +349,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gizatech.B2-Beruf.HeroB2Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -515,7 +515,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gizatech.B2-Beruf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -561,7 +561,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gizatech.B2-Beruf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
