@@ -29,10 +29,13 @@ struct AdvertisementView: View {
                                 .multilineTextAlignment(.center)
                                 .fixedSize(horizontal: false, vertical: true)
 
-                            Image("MascotLaunch")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: 200, maxHeight: 200)
+                            AnimatedGIFView(
+                                gifName: "HeroFlag",
+                                contentMode: .scaleAspectFit,
+                                shouldAnimate: true,
+                                loops: true
+                            )
+                                .frame(width: 200, height: 200)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 8)
 

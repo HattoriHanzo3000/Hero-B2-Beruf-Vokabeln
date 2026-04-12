@@ -21,7 +21,7 @@ struct CockpitMoreFromHeroSection: View {
                 subtitle: nil
             ) {
                 HStack(alignment: .top, spacing: 12) {
-                    Image("MascotLaunch")
+                    Image("HeroSmall")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 72, height: 72, alignment: .top)

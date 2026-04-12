@@ -9,7 +9,14 @@ import Foundation
 import ImageIO
 
 enum GIFBundleLookup {
-    static let searchSubdirectories: [String?] = [nil, "02 - Gifs", "GIFs", "Resources/02 - Gifs"]
+    static let searchSubdirectories: [String?] = [
+        nil,
+        "02 - Gifs",
+        "GIFs",
+        "Resources/02 - Gifs",
+        "09 - Resources/02 - Gifs",
+        "Core/09 - Resources/02 - Gifs"
+    ]
 
     /// First matching `name.gif` in the bundle search order used across the app.
     static func url(forResourceName name: String, extension ext: String = "gif") -> URL? {

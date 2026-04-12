@@ -5,6 +5,17 @@ struct WordOfTheDayView: View {
     var entry: WordOfTheDayEntry
     @Environment(\.colorScheme) var colorScheme
 
+    private var germanWordColor: Color {
+        switch colorScheme {
+        case .dark:
+            return Color("AppGreenSecond")
+        case .light:
+            fallthrough
+        @unknown default:
+            return Color("AppGreenThird")
+        }
+    }
+
     var body: some View {
         HStack(spacing: 12) {
             rightContentPane
@@ -33,7 +44,7 @@ struct WordOfTheDayView: View {
             VStack(alignment: .center, spacing: 2) {
                 Text(entry.word)
                     .font(.system(.headline, design: .default, weight: .medium))
-                    .foregroundStyle(Color("AppGreenThird"))
+                    .foregroundStyle(germanWordColor)
                     .lineLimit(2)
                     .minimumScaleFactor(0.85)
                     .truncationMode(.tail)

@@ -14,11 +14,18 @@ struct AnimatedGIFView: UIViewRepresentable {
     let gifName: String
     let contentMode: UIView.ContentMode
     let shouldAnimate: Bool
+    let loops: Bool
 
-    init(gifName: String, contentMode: UIView.ContentMode = .scaleAspectFit, shouldAnimate: Bool = true) {
+    init(
+        gifName: String,
+        contentMode: UIView.ContentMode = .scaleAspectFit,
+        shouldAnimate: Bool = true,
+        loops: Bool = false
+    ) {
         self.gifName = gifName
         self.contentMode = contentMode
         self.shouldAnimate = shouldAnimate
+        self.loops = loops
     }
 
     func makeCoordinator() -> Coordinator {
@@ -94,13 +101,13 @@ struct AnimatedGIFView: UIViewRepresentable {
         if uniform, let animated = UIImage.animatedImage(with: d.images, duration: d.duration) {
             imageView.animationImages = nil
             imageView.image = animated
-            imageView.animationRepeatCount = 1
+            imageView.animationRepeatCount = loops ? 0 : 1
             context.coordinator.animationConfig = (d.images, d.duration, d.frameDelays)
             context.coordinator.playbackMode = .uiImageViewAnimated
         } else if uniform {
             imageView.animationImages = d.images
             imageView.animationDuration = d.duration
-            imageView.animationRepeatCount = 1
+            imageView.animationRepeatCount = loops ? 0 : 1
             imageView.image = d.images.first
             context.coordinator.animationConfig = (d.images, d.duration, d.frameDelays)
             context.coordinator.playbackMode = .animationImages
@@ -135,7 +142,7 @@ struct AnimatedGIFView: UIViewRepresentable {
             animation.keyTimes = Self.normalizedKeyTimes(for: config.frameDelays, totalDuration: duration)
             animation.duration = duration
             animation.calculationMode = .discrete
-            animation.repeatCount = 0
+            animation.repeatCount = loops ? .infinity : 0
             animation.isRemovedOnCompletion = true
             imageView.layer.add(animation, forKey: "gif_keyframe_animation")
         }
