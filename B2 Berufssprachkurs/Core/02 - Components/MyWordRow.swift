@@ -234,8 +234,8 @@ struct MyWordRow: View {
                             AttributedString.b2_wordListDetailLine(
                                 label: Localizable.string(Localizable.wordRowDetailLabelSynonyms),
                                 value: synonymsText,
-                                labelFont: WordListRowDetailTextStyle.labelFont,
-                                valueFont: WordListRowDetailTextStyle.valueFont,
+                                labelFont: WordListRowDetailTextStyle.explanationLabelFont,
+                                valueFont: WordListRowDetailTextStyle.explanationValueFont,
                                 labelColor: .secondary,
                                 valueColor: .primary
                             )

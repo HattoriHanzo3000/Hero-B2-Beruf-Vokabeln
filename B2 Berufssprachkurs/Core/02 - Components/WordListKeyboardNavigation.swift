@@ -37,14 +37,21 @@ final class WordListKeyboardMetrics: ObservableObject {
             guard let self,
                   let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
             else { return }
-            self.bottomOverlap = wordListKeyboardOverlapHeight(frameEnd: frame)
+            
+            // Defer update to avoid "Publishing changes from within view updates is not allowed"
+            DispatchQueue.main.async {
+                self.bottomOverlap = wordListKeyboardOverlapHeight(frameEnd: frame)
+            }
         })
         observationTokens.append(center.addObserver(
             forName: UIResponder.keyboardWillHideNotification,
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.bottomOverlap = 0
+            // Defer update to avoid "Publishing changes from within view updates is not allowed"
+            DispatchQueue.main.async {
+                self?.bottomOverlap = 0
+            }
         })
     }
 

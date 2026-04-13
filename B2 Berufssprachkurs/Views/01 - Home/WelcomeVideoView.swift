@@ -74,7 +74,10 @@ struct WelcomeVideoView: View {
             object: playerItem,
             queue: .main
         ) { _ in
-            binding.wrappedValue = true
+            // Defer update to avoid "Publishing changes from within view updates is not allowed"
+            DispatchQueue.main.async {
+                binding.wrappedValue = true
+            }
         }
         
         self.player = player
