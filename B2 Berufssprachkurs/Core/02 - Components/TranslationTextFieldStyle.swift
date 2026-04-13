@@ -25,7 +25,6 @@ enum TranslationTextFieldStyle {
         textView.font = calloutFont
         textView.adjustsFontForContentSizeCategory = true
         textView.textColor = .label
-        textView.tintColor = .label
         textView.autocorrectionType = .yes
         textView.autocapitalizationType = .none
         textView.smartDashesType = .yes
