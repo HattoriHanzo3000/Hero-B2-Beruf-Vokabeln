@@ -156,7 +156,6 @@ struct FavoritesView: View {
                             focusedTranslationWordId: $focusedTranslationWordId,
                             onFavoriteToggle: {
                                 _ = dataService.toggleFavorite(wordId: word.id)
-                                HapticManager.shared.lightImpact()
                             }
                         )
                         .id(word.id)

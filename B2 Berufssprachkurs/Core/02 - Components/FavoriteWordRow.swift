@@ -17,6 +17,8 @@ struct FavoriteWordRow: View {
 
     @Environment(\.modelContext) private var modelContext
     @State private var localTranslation: String = ""
+    @State private var visualIsFavorite: Bool
+    @State private var favoriteRemovalInFlight = false
 
     @Query private var progressMatches: [WordProgress]
 
@@ -51,6 +53,7 @@ struct FavoriteWordRow: View {
         self.dataService = dataService
         self._focusedTranslationWordId = focusedTranslationWordId
         self.onFavoriteToggle = onFavoriteToggle
+        self._visualIsFavorite = State(initialValue: isFavorite)
         let id = word.id
         _progressMatches = Query(filter: #Predicate<WordProgress> { $0.wordId == id })
     }
@@ -114,6 +117,28 @@ struct FavoriteWordRow: View {
             )
         }
         return "\(summary). \(contextCaption)"
+    }
+
+    private func handleFavoriteButtonTap() {
+        guard !favoriteRemovalInFlight else { return }
+
+        if visualIsFavorite {
+            favoriteRemovalInFlight = true
+            withAnimation(.spring(response: 0.26, dampingFraction: 0.75)) {
+                visualIsFavorite = false
+            }
+            HapticManager.shared.lightImpact()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.28) {
+                onFavoriteToggle()
+                favoriteRemovalInFlight = false
+            }
+        } else {
+            withAnimation(.spring(response: 0.26, dampingFraction: 0.75)) {
+                visualIsFavorite = true
+            }
+            onFavoriteToggle()
+            HapticManager.shared.lightImpact()
+        }
     }
 
     var body: some View {
@@ -252,26 +277,27 @@ struct FavoriteWordRow: View {
                 SectionContextBadge(caption: contextCaption, accentColor: sectionAccentColor)
                     .allowsHitTesting(false)
                     .accessibilityHidden(true)
-                Button(action: onFavoriteToggle) {
-                    Image(systemName: isFavorite ? "star.fill" : "star")
+                Button(action: handleFavoriteButtonTap) {
+                    Image(systemName: visualIsFavorite ? "star.fill" : "star")
                         .font(.system(size: 15, weight: .semibold, design: .rounded))
-                        .foregroundColor(isFavorite ? Color("AppYellow") : .secondary)
-                        .symbolEffect(.bounce, value: isFavorite)
+                        .foregroundColor(visualIsFavorite ? Color("AppYellow") : .secondary)
+                        .symbolEffect(.bounce, value: visualIsFavorite)
                         .frame(width: Self.starColumnWidth, alignment: .center)
                 }
                 .buttonStyle(.plain)
+                .disabled(favoriteRemovalInFlight)
                 .accessibilityLabel(
-                    isFavorite
+                    visualIsFavorite
                         ? Localizable.string(Localizable.wordRowFavoriteRemoveA11y)
                         : Localizable.string(Localizable.wordRowFavoriteAddA11y)
                 )
                 .accessibilityValue(
-                    isFavorite
+                    visualIsFavorite
                         ? Localizable.string(Localizable.wordRowFavoriteValueFavoritedA11y)
                         : Localizable.string(Localizable.wordRowFavoriteValueNotFavoritedA11y)
                 )
                 .accessibilityHint(String(format: Localizable.string(Localizable.wordRowFavoriteHintFormat), word.german))
-                .accessibilityAddTraits(isFavorite ? .isSelected : [])
+                .accessibilityAddTraits(visualIsFavorite ? .isSelected : [])
             }
         }
         .padding(.horizontal, 6)
@@ -279,6 +305,12 @@ struct FavoriteWordRow: View {
         .accessibilityElement(children: .contain)
         .onAppear {
             syncLocalTranslationWhenNotEditing()
+            visualIsFavorite = isFavorite
+        }
+        .onChange(of: isFavorite) { _, newValue in
+            if !favoriteRemovalInFlight {
+                visualIsFavorite = newValue
+            }
         }
         .onChange(of: savedTranslation) { _, _ in
             syncLocalTranslationWhenNotEditing()
