@@ -221,6 +221,7 @@ struct MyWordsView: View {
     @ViewBuilder
     private func myWordListRow(for entry: CustomWordEntry) -> some View {
         let word = entry.asWord()
+        let isEditing = editMode == .active
         Group {
             if editMode == .active {
                 myWordEditModeRow(entry: entry, word: word)
@@ -234,6 +235,17 @@ struct MyWordsView: View {
                         HapticManager.shared.lightImpact()
                     }
                 )
+            }
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            if !isEditing {
+                Button(role: .destructive) {
+                    deleteEntry(entry)
+                } label: {
+                    Label(Localizable.string(Localizable.myWordsDeleteWord), systemImage: "trash")
+                }
+                .accessibilityLabel(Localizable.string(Localizable.myWordsDeleteWord))
+                .accessibilityHint(Localizable.string(Localizable.myWordsDeleteWordHint))
             }
         }
         .id(entry.id)
