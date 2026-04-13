@@ -47,18 +47,41 @@ struct MyWordEditorSheet: View {
         }
     }
 
+    private var showsFloatingAccessory: Bool {
+        focusedField != nil
+    }
+
     var body: some View {
         NavigationStack {
-            List {
-                MyWordFormFields(
-                    german: $german,
-                    translation: $translation,
-                    example: $example,
-                    explanation: $explanation,
-                    synonym: $synonym,
-                    focusedField: $focusedField
-                )
+            ZStack {
+                List {
+                    MyWordFormFields(
+                        german: $german,
+                        translation: $translation,
+                        example: $example,
+                        explanation: $explanation,
+                        synonym: $synonym,
+                        focusedField: $focusedField
+                    )
+                }
             }
+            .floatingKeyboardAccessory(
+                isVisible: showsFloatingAccessory,
+                canGoPrevious: keyboardNavBridge.canGoToPrevious,
+                canGoNext: keyboardNavBridge.canGoToNext,
+                onPrevious: {
+                    HapticManager.shared.lightImpact()
+                    focusPreviousField()
+                },
+                onNext: {
+                    HapticManager.shared.lightImpact()
+                    focusNextField()
+                },
+                onDone: {
+                    HapticManager.shared.lightImpact()
+                    focusedField = nil
+                }
+            )
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -82,24 +105,6 @@ struct MyWordEditorSheet: View {
                     }
                     .disabled(!canSave)
                     .accessibilityLabel(Localizable.string(Localizable.ok))
-                }
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    TranslationKeyboardNavAccessory(
-                        keyboardNav: keyboardNavBridge,
-                        onPrevious: {
-                            HapticManager.shared.lightImpact()
-                            focusPreviousField()
-                        },
-                        onNext: {
-                            HapticManager.shared.lightImpact()
-                            focusNextField()
-                        },
-                        onDone: {
-                            HapticManager.shared.lightImpact()
-                            focusedField = nil
-                        }
-                    )
                 }
             }
         }

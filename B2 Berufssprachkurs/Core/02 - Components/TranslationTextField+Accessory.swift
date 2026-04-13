@@ -10,7 +10,7 @@ extension TranslationTextField.Coordinator {
     func installToolbarIfNeeded() {
         guard keyboardAccessoryHost == nil else { return }
 
-        let root = TranslationKeyboardNavAccessory(
+        let root = FloatingKeyboardAccessoryHostView(
             keyboardNav: parent.keyboardNavBridge,
             onPrevious: { [weak self] in
                 guard let self else { return }
@@ -36,7 +36,7 @@ extension TranslationTextField.Coordinator {
         keyboardAccessoryHost = host
     }
 
-    private func makeKeyboardAccessoryHost(root: TranslationKeyboardNavAccessory) -> UIHostingController<TranslationKeyboardNavAccessory> {
+    private func makeKeyboardAccessoryHost(root: FloatingKeyboardAccessoryHostView) -> UIHostingController<FloatingKeyboardAccessoryHostView> {
         let host = UIHostingController(rootView: root)
         host.view.backgroundColor = .clear
         host.view.translatesAutoresizingMaskIntoConstraints = false

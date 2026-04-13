@@ -13,6 +13,7 @@ struct WordRow: View {
     let translationTextColor: Color
     @Binding var focusedTranslationWordId: String?
     let onFavoriteToggle: () -> Void
+    var usesFloatingKeyboardAccessory: Bool = false
 
     @Environment(\.modelContext) private var modelContext
     @State private var localTranslation: String = ""
@@ -25,7 +26,8 @@ struct WordRow: View {
         dataService: DataService,
         translationTextColor: Color,
         focusedTranslationWordId: Binding<String?>,
-        onFavoriteToggle: @escaping () -> Void
+        onFavoriteToggle: @escaping () -> Void,
+        usesFloatingKeyboardAccessory: Bool = false
     ) {
         self.word = word
         self.isFavorite = isFavorite
@@ -33,6 +35,7 @@ struct WordRow: View {
         self.translationTextColor = translationTextColor
         self._focusedTranslationWordId = focusedTranslationWordId
         self.onFavoriteToggle = onFavoriteToggle
+        self.usesFloatingKeyboardAccessory = usesFloatingKeyboardAccessory
         let id = word.id
         _progressMatches = Query(filter: #Predicate<WordProgress> { $0.wordId == id })
     }
@@ -84,7 +87,8 @@ struct WordRow: View {
                             text: $localTranslation,
                             wordId: word.id,
                             focusedWordId: $focusedTranslationWordId,
-                            placeholder: Localizable.string(Localizable.translation)
+                            placeholder: Localizable.string(Localizable.translation),
+                            showsKeyboardAccessory: !usesFloatingKeyboardAccessory
                         )
                         .opacity(isEditingTranslation ? 1 : 0)
                         .allowsHitTesting(isEditingTranslation)

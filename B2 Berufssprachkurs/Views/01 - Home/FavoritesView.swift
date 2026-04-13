@@ -45,6 +45,14 @@ struct FavoritesView: View {
                 favoritesListView
             }
         }
+        .floatingKeyboardAccessory(
+            isVisible: focusedTranslationWordId != nil,
+            canGoPrevious: keyboardNavBridge.canGoToPrevious,
+            canGoNext: keyboardNavBridge.canGoToNext,
+            onPrevious: navigateToPreviousTranslationField,
+            onNext: navigateToNextTranslationField,
+            onDone: { focusedTranslationWordId = nil }
+        )
         .navigationDestination(isPresented: $navigateToStudy) {
             StudyView(
                 dataService: dataService,
@@ -156,7 +164,8 @@ struct FavoritesView: View {
                             focusedTranslationWordId: $focusedTranslationWordId,
                             onFavoriteToggle: {
                                 _ = dataService.toggleFavorite(wordId: word.id)
-                            }
+                            },
+                            usesFloatingKeyboardAccessory: true
                         )
                         .id(word.id)
                         .listRowBackground(Color.clear)

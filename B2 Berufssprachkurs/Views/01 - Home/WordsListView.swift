@@ -149,6 +149,23 @@ struct WordsListView: View {
                 }
             }
         }
+        .floatingKeyboardAccessory(
+            isVisible: focusedTranslationWordId != nil,
+            canGoPrevious: keyboardNavBridge.canGoToPrevious,
+            canGoNext: keyboardNavBridge.canGoToNext,
+            onPrevious: {
+                HapticManager.shared.lightImpact()
+                navigateToPreviousTranslationField()
+            },
+            onNext: {
+                HapticManager.shared.lightImpact()
+                navigateToNextTranslationField()
+            },
+            onDone: {
+                HapticManager.shared.lightImpact()
+                focusedTranslationWordId = nil
+            }
+        )
         .hidesBottomBarWhenPushed(true)
         .navigationDestination(isPresented: $navigateToStudy) {
             StudyView(
@@ -240,7 +257,8 @@ struct WordsListView: View {
                 onFavoriteToggle: {
                     _ = dataService.toggleFavorite(wordId: word.id)
                     HapticManager.shared.lightImpact()
-                }
+                },
+                usesFloatingKeyboardAccessory: true
             )
             .id(word.id)
             .listRowBackground(Color.clear)

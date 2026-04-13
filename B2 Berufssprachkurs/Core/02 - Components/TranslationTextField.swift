@@ -13,9 +13,24 @@ struct TranslationTextField: UIViewRepresentable {
     let wordId: String
     @Binding var focusedWordId: String?
     let placeholder: String
+    let showsKeyboardAccessory: Bool
 
     @EnvironmentObject private var keyboardNav: WordListKeyboardNavBridge
     var keyboardNavBridge: WordListKeyboardNavBridge { keyboardNav }
+
+    init(
+        text: Binding<String>,
+        wordId: String,
+        focusedWordId: Binding<String?>,
+        placeholder: String,
+        showsKeyboardAccessory: Bool = true
+    ) {
+        self._text = text
+        self.wordId = wordId
+        self._focusedWordId = focusedWordId
+        self.placeholder = placeholder
+        self.showsKeyboardAccessory = showsKeyboardAccessory
+    }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -38,8 +53,10 @@ struct TranslationTextField: UIViewRepresentable {
         context.coordinator.placeholderTrailingConstraint = placeholderTrailing
 
         context.coordinator.textView = tv
-        context.coordinator.installToolbarIfNeeded()
-        tv.inputAccessoryView = context.coordinator.toolbar
+        if showsKeyboardAccessory {
+            context.coordinator.installToolbarIfNeeded()
+        }
+        tv.inputAccessoryView = showsKeyboardAccessory ? context.coordinator.toolbar : nil
         context.coordinator.applyTextContainerInsets()
 
         return tv
@@ -63,8 +80,15 @@ struct TranslationTextField: UIViewRepresentable {
         context.coordinator.applyTextContainerInsets()
         if let phView = context.coordinator.placeholderLabel { uiView.bringSubviewToFront(phView) }
 
-        if uiView.inputAccessoryView !== context.coordinator.toolbar {
-            uiView.inputAccessoryView = context.coordinator.toolbar
+        if showsKeyboardAccessory {
+            context.coordinator.installToolbarIfNeeded()
+        }
+        let expectedAccessory: UIView? = showsKeyboardAccessory ? context.coordinator.toolbar : nil
+        if uiView.inputAccessoryView !== expectedAccessory {
+            uiView.inputAccessoryView = expectedAccessory
+            if uiView.isFirstResponder {
+                uiView.reloadInputViews()
+            }
         }
 
         if focusedWordId == wordId {
@@ -116,7 +140,7 @@ struct TranslationTextField: UIViewRepresentable {
         var placeholderTrailingConstraint: NSLayoutConstraint?
         let toolbar = UIToolbar(frame: .zero)
 
-        var keyboardAccessoryHost: UIHostingController<TranslationKeyboardNavAccessory>?
+        var keyboardAccessoryHost: UIHostingController<FloatingKeyboardAccessoryHostView>?
         let focusRetrier = TranslationFocusRetrier()
 
         var isApplyingTextFromBinding = false
