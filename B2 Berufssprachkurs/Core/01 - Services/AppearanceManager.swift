@@ -2,11 +2,14 @@
 //  AppearanceManager.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Manages and publishes app-wide light, dark, or system appearance preference.
+//  Created: 24.11.25.
 //
 
 import SwiftUI
 import Combine
+
+// MARK: - Manager
 
 @MainActor
 class AppearanceManager: ObservableObject {
@@ -17,6 +20,8 @@ class AppearanceManager: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let userDefaults = UserDefaults.standard
     
+    // MARK: Lifecycle
+
     private init() {
         updateColorScheme()
         
@@ -28,6 +33,8 @@ class AppearanceManager: ObservableObject {
             .store(in: &cancellables)
     }
     
+    // MARK: Helpers
+
     private func updateColorScheme() {
         let preference = userDefaults.string(forKey: "appearancePreference") ?? "System"
         

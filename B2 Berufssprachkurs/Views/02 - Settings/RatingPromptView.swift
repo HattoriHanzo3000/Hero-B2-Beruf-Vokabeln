@@ -2,19 +2,25 @@
 //  RatingPromptView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  In-app rating prompt card with primary and secondary actions.
+//  Created: 09.12.25.
 //
 
 import SwiftUI
 
+// MARK: - Component
+
 struct RatingPromptView: View {
+    // MARK: State & Environment
+
     @ObservedObject var ratingManager: RatingManager
     @ObservedObject private var languageManager = LanguageManager.shared
     @Environment(\.colorScheme) private var colorScheme
 
+    // MARK: View Layout
+
     var body: some View {
         VStack(spacing: 0) {
-            // Mascot image at the top
             Image("MascotLaunch")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -22,7 +28,6 @@ struct RatingPromptView: View {
                 .padding(.top, 32)
                 .padding(.bottom, 20)
 
-            // Title
             Text(Localizable.string(Localizable.ratingTitle))
                 .font(.system(.title2, design: .default).weight(.bold))
                 .foregroundColor(.primary)
@@ -31,7 +36,6 @@ struct RatingPromptView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 8)
 
-            // Subtitle
             Text(Localizable.string(Localizable.ratingSubtitle))
                 .font(.system(.body, design: .default))
                 .foregroundColor(.secondary)
@@ -41,9 +45,7 @@ struct RatingPromptView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 32)
 
-            // Buttons
             VStack(spacing: 12) {
-                // Rate button (primary)
                 Button(action: {
                     HapticManager.shared.mediumImpact()
                     ratingManager.requestAppReview()
@@ -67,7 +69,6 @@ struct RatingPromptView: View {
                         .shadow(color: Color("AppGreen").opacity(0.3), radius: 8, x: 0, y: 4)
                 }
 
-                // Later button (secondary)
                 Button(action: {
                     HapticManager.shared.lightImpact()
                     ratingManager.remindLater()
@@ -83,7 +84,6 @@ struct RatingPromptView: View {
                         )
                 }
 
-                // No thanks button (tertiary)
                 Button(action: {
                     HapticManager.shared.lightImpact()
                     ratingManager.disableRatingRequests()

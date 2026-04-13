@@ -2,10 +2,13 @@
 //  GlobalSearchFormatting.swift
 //  B2 Berufssprachkurs
 //
-//  Localized short labels for global search result rows.
+//  Formats localized context labels for global search result badges.
+//  Created: 05.04.26.
 //
 
 import Foundation
+
+// MARK: - Formatting
 
 enum GlobalSearchFormatting {
     static func contextLabel(for sectionId: String) -> String {

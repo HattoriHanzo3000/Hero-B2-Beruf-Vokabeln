@@ -2,13 +2,20 @@
 //  CockpitView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Dashboard screen for Word of the Day, progress, and Hero extras.
+//  Created: 26.11.25.
 //
 
 import SwiftUI
 
+// MARK: - Screen
+
 struct CockpitView: View {
+    // MARK: Configuration
+
     private let isPremiumPreviewOverride: Bool?
+
+    // MARK: State & Environment
 
     @EnvironmentObject private var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
@@ -24,6 +31,8 @@ struct CockpitView: View {
     init(isPremiumPreviewOverride: Bool? = nil) {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -79,7 +88,7 @@ struct CockpitView: View {
     }
 }
 
-// MARK: - Previews (Canvas uses German strings — matches `LanguageManager` “Deutsch” option.)
+// MARK: - Previews
 
 private struct CockpitViewPreviewHost: View {
     let isPremiumPreviewOverride: Bool?

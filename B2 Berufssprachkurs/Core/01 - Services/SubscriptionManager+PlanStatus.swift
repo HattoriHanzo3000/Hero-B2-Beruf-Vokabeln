@@ -2,8 +2,13 @@
 //  SubscriptionManager+PlanStatus.swift
 //  B2 Berufssprachkurs
 //
+//  Derived plan status strings and subscription presentation helpers.
+//  Created: 06.04.26.
+//
 
 import Foundation
+
+// MARK: - SubscriptionManager
 
 extension SubscriptionManager {
     /// One-line localized plan label for Settings and Your Plan.

@@ -7,3 +7,22 @@ All Swift code must be written to Apple's highest engineering standards:
 3. Modularize logic intelligently. Break down complex Views into smaller, reusable subviews (often in separate files) when it makes logical sense.
 4. Extract services, managers, logic, and data models into distinct files.
 5. Write code exactly as a Senior Apple Engineer would.
+6. Comment style is standardized across all Swift files:
+   - Keep the file header minimal and neutral:
+     //
+     //  FileName.swift
+     //  B2 Berufssprachkurs
+     //
+     //  Short purpose description of this file.
+     //  Created: dd.mm.yy.
+     //
+   - Never include author names in headers.
+   - Always include one short header description line that explains the file purpose.
+   - Use only clear section comments for structure (for example: // MARK: - State, // MARK: - View Layout, // MARK: - Helpers, // MARK: - Preview).
+   - Remove noisy, overly specific, or narrative comments when editing existing files.
+   - Prefer brief intent comments ("why") over line-by-line implementation comments ("what").
+7. For every newly created Swift file, always include the Created line in the exact format:
+   //  Created: dd.mm.yy.
+8. When editing an existing Swift file:
+   - Preserve or add the same Created line format.
+   - Keep comments aligned with this rule set (minimal header + logical MARK blocks).

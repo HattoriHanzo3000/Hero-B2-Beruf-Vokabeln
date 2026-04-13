@@ -2,10 +2,13 @@
 //  WordOfTheDayResolver.swift
 //  B2 Berufssprachkurs
 //
-//  Deterministic word-of-the-day from UserDefaults scope + periodicity (same keys as before).
+//  Resolves the current Word of the Day from selected sources.
+//  Created: 05.04.26.
 //
 
 import Foundation
+
+// MARK: - WordOfTheDayResolver
 
 enum WordOfTheDayResolver {
     private static let selectedSectionsKey = "wordOfTheDaySelectedSections"

@@ -2,10 +2,13 @@
 //  PDFGenerationFooterDrawing.swift
 //  B2 Berufssprachkurs
 //
-//  Running footer for word-list PDFs.
+//  Draws reusable footer content for generated PDF pages.
+//  Created: 05.04.26.
 //
 
 import UIKit
+
+// MARK: - Footer Drawing
 
 extension PDFGenerationService {
     /// Running footer: general lists use `1A: …`; other lists use the document title only (no page-number prefix).

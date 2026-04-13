@@ -2,7 +2,8 @@
 //  AdjectivesListView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Adjectives list with premium gating and study selection handling.
+//  Created: 24.03.26.
 //
 
 import SwiftUI

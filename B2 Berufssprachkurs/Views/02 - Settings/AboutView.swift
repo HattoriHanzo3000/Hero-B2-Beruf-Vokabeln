@@ -2,16 +2,23 @@
 //  AboutView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  About screen describing app purpose and disclaimer information.
+//  Created: 24.11.25.
 //
 
 import SwiftUI
+
+// MARK: - Layout
 
 private enum AboutLayout {
     static let textBlockSpacing: CGFloat = 24
 }
 
+// MARK: - Screen
+
 struct AboutView: View {
+    // MARK: Derived Data
+
     private var appName: String {
         if let displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String,
            !displayName.isEmpty {
@@ -44,6 +51,8 @@ struct AboutView: View {
             appName
         )
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -80,6 +89,8 @@ struct AboutView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     NavigationStack {

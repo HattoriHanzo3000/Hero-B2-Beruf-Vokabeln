@@ -2,16 +2,23 @@
 //  AppCustomerCenterView.swift
 //  B2 Berufssprachkurs
 //
-//  SwiftUI shell around RevenueCat Customer Center (use inside `.sheet`).
+//  Wrapper view for presenting RevenueCat Customer Center in-app.
+//  Created: 05.04.26.
 //
 
 import RevenueCat
 import RevenueCatUI
 import SwiftUI
 
+// MARK: - View
+
 /// App wrapper for `RevenueCatUI.CustomerCenterView`: navigation chrome, localized title, dismiss.
 struct AppCustomerCenterView: View {
+    // MARK: State
+
     @Environment(\.dismiss) private var dismiss
+
+    // MARK: View Layout
 
     var body: some View {
         NavigationStack {

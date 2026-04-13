@@ -2,10 +2,13 @@
 //  RevenueCatTypes.swift
 //  B2 Berufssprachkurs
 //
-//  Shared types for RevenueCat integration.
+//  Shared RevenueCat-related types used across purchase flows.
+//  Created: 05.04.26.
 //
 
 import Foundation
+
+// MARK: - SubscriptionStatus
 
 enum SubscriptionStatus {
     case none

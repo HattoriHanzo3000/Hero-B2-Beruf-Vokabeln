@@ -2,10 +2,13 @@
 //  SpacedRepetitionService+Debug.swift
 //  B2 Berufssprachkurs
 //
-//  Debug presets and restore snapshot (About → Debug).
+//  Debug helpers and diagnostics for spaced-repetition data.
+//  Created: 05.04.26.
 //
 
 import Foundation
+
+// MARK: - SpacedRepetitionService
 
 extension SpacedRepetitionService {
     enum DebugProgressPreset: String, CaseIterable, Identifiable {

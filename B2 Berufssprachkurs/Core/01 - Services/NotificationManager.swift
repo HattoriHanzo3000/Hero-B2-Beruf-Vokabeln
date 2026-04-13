@@ -2,7 +2,8 @@
 //  NotificationManager.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 07.04.26.
+//  Schedules, cancels, and handles local notification permission flows.
+//  Created: 07.04.26.
 //
 
 import Foundation
@@ -11,6 +12,8 @@ import SwiftUI
 
 /// Manages local notifications to encourage user engagement.
 /// Aligns with Apple's HIG by providing gentle, supportive reminders.
+// MARK: - Manager
+
 class NotificationManager {
     static let shared = NotificationManager()
     
@@ -24,8 +27,12 @@ class NotificationManager {
     private let notificationId = "retention_notification"
     private let dayInSeconds: TimeInterval = 24 * 3600
     
+    // MARK: Lifecycle
+
     private init() {}
     
+    // MARK: Permission Flow
+
     /// Requests user permission to show local notifications.
     /// Only presents the system alert if it hasn't been shown before.
     func requestAuthorization() {
@@ -99,6 +106,8 @@ class NotificationManager {
         softPromptNextEligibleAt = 0
     }
     
+    // MARK: Scheduling
+
     /// Schedules a supportive notification for 72 hours (3 days) in the future.
     /// This helps maintain retention without being intrusive.
     func scheduleRetentionNotification() {

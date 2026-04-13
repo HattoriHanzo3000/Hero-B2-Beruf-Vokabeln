@@ -2,8 +2,8 @@
 //  StudyProgressStore.swift
 //  B2 Berufssprachkurs
 //
-//  Checked words, section/lection completion. Persisted in SwiftData (`StudySelectionState`) when available;
-//  falls back to UserDefaults for section/lection sets only when unbound (e.g. some previews).
+//  Persists and computes vocabulary study progress state.
+//  Created: 05.04.26.
 //
 
 import Combine

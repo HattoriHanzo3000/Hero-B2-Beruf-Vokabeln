@@ -2,14 +2,15 @@
 //  HomeView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Main home screen presenting learning stacks and navigation entry points.
+//  Created: 26.11.25.
 //
 
 import SwiftData
 import SwiftUI
 
 // MARK: - Home stack row press style
-/// Subtle scale and opacity on press, similar to system list rows and tappable cards.
+/// Adds a subtle pressed-state response for stack cards.
 private struct HomeStackButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -21,6 +22,8 @@ private struct HomeStackButtonStyle: ButtonStyle {
 
 // MARK: - Home
 struct HomeView: View {
+    // MARK: State & Environment
+
     @EnvironmentObject private var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
@@ -29,9 +32,13 @@ struct HomeView: View {
     @State private var showPaywall = false
     @State private var showMyWordsProAlert = false
 
+    // MARK: Initialization
+
     init(isPremiumPreviewOverride: Bool? = nil) {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
     }
+
+    // MARK: Derived Data
 
     private var isPremiumForVisuals: Bool {
         isPremiumPreviewOverride ?? subscriptionManager.isPremiumVisualState
@@ -43,6 +50,8 @@ struct HomeView: View {
         }
         return subscriptionManager.isPremiumAuthorizationGranted
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -130,6 +139,8 @@ struct HomeView: View {
         }
     }
 
+    // MARK: User Actions
+
     private func handleStackTap(_ stack: LearningStackType) {
         if stack == .myWords && !isPremiumActionAuthorized {
             HapticManager.shared.heavyImpact()
@@ -143,7 +154,9 @@ struct HomeView: View {
     }
 }
 
-/// Ensures canvas previews use German strings (matches `LanguageManager` “Deutsch” option).
+// MARK: - Previews
+
+/// Keeps preview language aligned with the app's German option.
 private struct HomeViewPreviewHost: View {
     let isPremiumPreviewOverride: Bool?
 
@@ -157,8 +170,7 @@ private struct HomeViewPreviewHost: View {
     }
 }
 
-/// Previews must attach `environmentObject` and `modelContainer` to `NavigationStack`, not only to `HomeView`.
-/// Otherwise `navigationDestination` pushes (e.g. `GeneralWordsView` → lists using `LearningListsUIState`, `HeaderView` / `WordsListView` `@Query`) run without required environment and crash.
+/// Hosts previews with required environment objects and model container.
 private struct HomeViewCanvasPreview: View {
     let isPremiumPreviewOverride: Bool?
 

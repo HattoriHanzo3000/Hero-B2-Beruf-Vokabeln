@@ -2,9 +2,14 @@
 //  ManageSubscriptionsPresenter.swift
 //  B2 Berufssprachkurs
 //
+//  Presents the system manage-subscriptions flow and reports success.
+//  Created: 05.04.26.
+//
 
 import StoreKit
 import UIKit
+
+// MARK: - ManageSubscriptionsPresenter
 
 enum ManageSubscriptionsPresenter {
     /// Presents the system subscription management UI. Returns `false` if no window scene or StoreKit fails.

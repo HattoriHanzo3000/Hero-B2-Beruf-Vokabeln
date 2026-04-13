@@ -2,11 +2,14 @@
 //  LearningListsUIState.swift
 //  B2 Berufssprachkurs
 //
-//  Preserves list expansion and scroll anchors across push/pop (e.g. general words → section list).
+//  Stores shared UI state for learning list navigation and scrolling.
+//  Created: 27.03.26.
 //
 
 import Combine
 import SwiftUI
+
+// MARK: - LearningListsUIState
 
 @MainActor
 final class LearningListsUIState: ObservableObject {

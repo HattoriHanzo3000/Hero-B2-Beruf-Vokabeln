@@ -2,16 +2,24 @@
 //  FlashCardView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Reusable flip-card UI component for study content.
+//  Created: 24.03.26.
 //
 
 import SwiftUI
 
+// MARK: - Component
+
 struct FlashCardView: View {
+    // MARK: Inputs
+
     let frontText: String
     let backText: String
     let cardColor: Color
     let cardId: String?
+
+    // MARK: State
+
     @State private var isFlipped = false
     
     init(frontText: String, backText: String, cardColor: Color, cardId: String? = nil) {
@@ -23,6 +31,8 @@ struct FlashCardView: View {
     
     private let grayColor = Color(.systemGray5)
     
+    // MARK: View Layout
+
     var body: some View {
         ZStack {
             frontCard
@@ -46,6 +56,8 @@ struct FlashCardView: View {
         .id(cardId)
     }
     
+    // MARK: Card Faces
+
     private var frontCard: some View {
         RoundedRectangle(cornerRadius: 24, style: .continuous)
             .fill(.regularMaterial)
@@ -160,6 +172,8 @@ struct FlashCardView: View {
             }
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     VStack {

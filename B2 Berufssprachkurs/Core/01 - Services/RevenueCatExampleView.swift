@@ -2,7 +2,8 @@
 //  RevenueCatExampleView.swift
 //  B2 Berufssprachkurs
 //
-//  Example usage of RevenueCat integration
+//  Demo view showcasing RevenueCat integration behavior.
+//  Created: 17.12.25.
 //
 
 import SwiftUI

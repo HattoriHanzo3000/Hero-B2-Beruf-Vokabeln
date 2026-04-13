@@ -2,10 +2,13 @@
 //  MyWordsPDFExport.swift
 //  B2 Berufssprachkurs
 //
-//  PDF generation for the “My Words” list (print / share).
+//  Builds PDF exports for the user's My Words list.
+//  Created: 04.04.26.
 //
 
 import SwiftUI
+
+// MARK: - MyWordsPDFExport
 
 enum MyWordsPDFExport {
     static func generatePDF(displayedEntries: [CustomWordEntry]) throws -> URL {

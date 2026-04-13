@@ -2,17 +2,24 @@
 //  WordOfTheDayListView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Selection screen defining sections used for Word of the Day.
+//  Created: 23.11.25.
 //
 
 import SwiftUI
 
+// MARK: - Screen
+
 struct WordOfTheDayListView: View {
+    // MARK: Inputs & State
+
     @Binding var selectedSections: String
     @ObservedObject var dataService: DataService
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
 
     @StateObject private var viewModel: WordOfTheDayListViewModel
+
+    // MARK: Initialization
 
     init(selectedSections: Binding<String>, dataService: DataService) {
         self._selectedSections = selectedSections
@@ -20,9 +27,13 @@ struct WordOfTheDayListView: View {
         _viewModel = StateObject(wrappedValue: WordOfTheDayListViewModel(dataService: dataService))
     }
 
+    // MARK: Derived Data
+
     private var isPremiumForVisuals: Bool {
         subscriptionManager.isPremiumVisualState
     }
+
+    // MARK: View Layout
 
     var body: some View {
         NavigationStack {
@@ -158,6 +169,8 @@ struct WordOfTheDayListView: View {
         }
     }
 
+    // MARK: Components
+
     private var verbenCard: some View {
         let rows = PrepositionStackCatalog.verbenWithPrepositions
         return WotdSelectionCard {
@@ -250,6 +263,8 @@ struct WordOfTheDayListView: View {
         .padding(.horizontal)
     }
 
+    // MARK: User Actions
+
     private func togglePrepositionRow(_ sectionId: String) {
         if viewModel.selectedSectionIds.contains(sectionId) {
             HapticManager.shared.lightImpact()
@@ -267,6 +282,8 @@ struct WordOfTheDayListView: View {
         }
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     WordOfTheDayListView(

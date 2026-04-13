@@ -2,10 +2,13 @@
 //  AppStoreService.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Fetches and formats App Store metadata for update and sharing flows.
+//  Created: 09.12.25.
 //
 
 import Foundation
+
+// MARK: - Service
 
 struct AppStoreService {
     static let shared = AppStoreService()

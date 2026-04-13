@@ -2,14 +2,21 @@
 //  MainView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Root tab container coordinating app-wide navigation and deep links.
+//  Created: 24.11.25.
 //
 
 import SwiftData
 import SwiftUI
 
+// MARK: - Root Screen
+
 struct MainView: View {
+    // MARK: Configuration
+
     private let isPremiumPreviewOverride: Bool?
+
+    // MARK: State & Environment
 
     @Environment(\.modelContext) private var modelContext
     @Query(sort: [
@@ -23,16 +30,18 @@ struct MainView: View {
     @EnvironmentObject private var deepLinkRouter: AppDeepLinkRouter
     @StateObject private var ratingManager: RatingManager
     @State private var selectedSection: MainViewSection = .home
-    /// Tab to restore when the user dismisses search (system Cancel / X).
+    /// Tracks where Search should return after system dismiss.
     @State private var sectionBeforeSearch: MainViewSection = .home
-    /// Lock Screen Quick Add: presented from MainView (see `AppDeepLinkRouter.pendingRoute`).
+    /// Controls deep-link quick add presentation.
     @State private var showQuickAddMyWordSheet = false
     @State private var showQuickAddMyWordProAlert = false
     @State private var pendingQuickAddAfterEntitlementSync = false
     @State private var showMyWordsStudy = false
     @State private var pendingMyWordsStudyAfterEntitlementSync = false
 
-    /// - Parameter isPremiumPreviewOverride: Pass `true` / `false` for canvas previews only; `nil` uses live subscription state.
+    // MARK: Initialization
+
+    /// Pass `true` or `false` for previews; `nil` uses live subscription state.
     init(isPremiumPreviewOverride: Bool? = nil) {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
         _dataService = StateObject(wrappedValue: DataService())
@@ -40,12 +49,16 @@ struct MainView: View {
         _ratingManager = StateObject(wrappedValue: RatingManager.shared)
     }
 
+    // MARK: Derived Data
+
     private var isPremiumActionAuthorized: Bool {
         if let isPremiumPreviewOverride {
             return isPremiumPreviewOverride
         }
         return subscriptionManager.isPremiumAuthorizationGranted
     }
+
+    // MARK: View Layout
 
     var body: some View {
         TabView(selection: $selectedSection) {
@@ -91,9 +104,7 @@ struct MainView: View {
             if newValue == .search, oldValue != .search {
                 sectionBeforeSearch = oldValue
             } else if newValue != .search {
-                // Keep “return tab” in sync with what the user is actually on. Otherwise: open Search from
-                // Settings, switch to Home without Cancel → `sectionBeforeSearch` stayed `.settings`; when
-                // the system later collapses search on resume (e.g. widget tap), `GlobalSearchView` pops to Settings.
+                // Keeps Search return behavior consistent with the current tab.
                 sectionBeforeSearch = newValue
             }
         }
@@ -184,6 +195,8 @@ struct MainView: View {
         }
     }
 
+    // MARK: Deep Link Actions
+
     private func presentQuickAddGateOutcome() {
         if !isPremiumActionAuthorized {
             HapticManager.shared.heavyImpact()
@@ -213,9 +226,11 @@ struct MainView: View {
     }
 }
 
+// MARK: - Previews
+
 private struct MainViewPreviewHost: View {
     let isPremiumPreviewOverride: Bool
-    /// `""` restores default Word of the Day (section **1A**). A single id (e.g. `VERBEN_mit`) limits WOTD to that section for previews.
+    /// `""` keeps default Word of the Day preview selection.
     let wordOfTheDaySelectedSectionIds: String
 
     init(

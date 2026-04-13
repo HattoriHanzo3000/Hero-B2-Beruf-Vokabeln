@@ -2,16 +2,22 @@
 //  AdvertisementView.swift
 //  B2 Berufssprachkurs
 //
-//  Sheet for cockpit “More from Hero” — paywall-style green gradient. The Einbürgerungstest app icon is
-//  loaded from the App Store (iTunes Lookup + AsyncImage), not from a bundled catalog image.
+//  Promotional sheet showcasing other Hero app offerings.
+//  Created: 01.04.26.
 //
 
 import SwiftUI
 
+// MARK: - Screen
+
 struct AdvertisementView: View {
+    // MARK: State
+
     @Environment(\.dismiss) private var dismiss
     @State private var einburgerungArtworkURL: URL?
     @State private var einburgerungArtworkLookupFinished = false
+
+    // MARK: View Layout
 
     var body: some View {
         NavigationStack {
@@ -81,6 +87,8 @@ struct AdvertisementView: View {
         }
     }
 
+    // MARK: Components
+
     private var einburgerungAppRow: some View {
         Button {
             HeroEinburgerungStorePresentation.present()
@@ -122,6 +130,8 @@ struct AdvertisementView: View {
         )
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     AdvertisementView()

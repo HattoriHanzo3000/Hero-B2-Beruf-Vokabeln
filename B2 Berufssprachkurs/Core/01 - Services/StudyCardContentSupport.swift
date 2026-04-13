@@ -2,8 +2,13 @@
 //  StudyCardContentSupport.swift
 //  B2 Berufssprachkurs
 //
+//  Determines available flashcard content types for study items.
+//  Created: 04.04.26.
+//
 
 import Foundation
+
+// MARK: - StudyCardContentSupport
 
 enum StudyCardContentSupport {
     static func typeButtonTitle(for type: StudyCardContentType) -> String {

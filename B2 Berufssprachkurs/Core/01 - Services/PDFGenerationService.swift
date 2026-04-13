@@ -2,17 +2,24 @@
 //  PDFGenerationService.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Public service entry point for building words-list PDFs.
+//  Created: 30.11.25.
 //
 
 import SwiftUI
 import UIKit
 
+// MARK: - PDFGenerationError
+
 enum PDFGenerationError: Error {
     case couldNotWritePDF(underlying: Error)
 }
 
+// MARK: - Service
+
 struct PDFGenerationService {
+    // MARK: Models
+
     struct WordData {
         let german: String
         let example: String?
@@ -32,6 +39,8 @@ struct PDFGenerationService {
         /// General curriculum lists: lection index + section letter (e.g. footer `1A:`). Verbs, adjectives, My Words, and Favorites use titles only.
         let showsLectionSectionIndexing: Bool
     }
+
+    // MARK: Public API
 
     static func generateWordsListPDF(info: PDFInfo) throws -> URL {
         let pdfTitle = "\(info.lectionTitle)\(info.sectionTitle.isEmpty ? "" : " - \(info.sectionTitle)")"

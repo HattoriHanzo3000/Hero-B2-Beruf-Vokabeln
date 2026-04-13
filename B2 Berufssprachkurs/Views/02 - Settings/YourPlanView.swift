@@ -2,14 +2,19 @@
 //  YourPlanView.swift
 //  B2 Berufssprachkurs
 //
-//  Settings: current plan, tailored copy, manage subscription / paywall / restore.
+//  Plan status screen for subscription details and billing actions.
+//  Created: 30.03.26.
 //
 
 import os
 import StoreKit
 import SwiftUI
 
+// MARK: - Screen
+
 struct YourPlanView: View {
+    // MARK: State & Environment
+
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Environment(\.settingsSubscriptionPreview) private var settingsSubscriptionPreview
     @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
@@ -17,6 +22,8 @@ struct YourPlanView: View {
     @State private var showManageSubscriptionFailed = false
     @State private var showOfferCodeRedemption = false
     @State private var lifetimeConfettiActive = false
+
+    // MARK: Derived Data
 
     private var plan: YourPlanPresentation {
         YourPlanPresentation(preview: settingsSubscriptionPreview, subscriptionManager: subscriptionManager)
@@ -41,6 +48,8 @@ struct YourPlanView: View {
             return key
         }
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -111,6 +120,8 @@ struct YourPlanView: View {
             triggerConfettiIfNeeded()
         }
     }
+
+    // MARK: User Actions
 
     private func openManageSubscriptions() {
         Task { @MainActor in

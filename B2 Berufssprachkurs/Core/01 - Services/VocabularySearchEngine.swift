@@ -2,10 +2,13 @@
 //  VocabularySearchEngine.swift
 //  B2 Berufssprachkurs
 //
-//  Full-text matching across bundled vocabulary and user words (German, translations, hints, synonyms).
+//  Search engine matching query terms against vocabulary content.
+//  Created: 04.04.26.
 //
 
 import Foundation
+
+// MARK: - VocabularySearchEngine
 
 enum VocabularySearchEngine {
     private static let compareOptions: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive]

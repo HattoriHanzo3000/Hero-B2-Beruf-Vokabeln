@@ -2,8 +2,8 @@
 //  AppExternalLinks.swift
 //  B2 Berufssprachkurs
 //
-//  Central place for web URLs, in-app link schemes, iTunes API roots, and support email.
-//  Canonical App Store *listing* strings for **this** app remain in `AppStoreService` (avoids circular refs).
+//  Central registry for external URLs, schemes, and App Store lookup endpoints.
+//  Created: 04.04.26.
 //
 
 import Foundation

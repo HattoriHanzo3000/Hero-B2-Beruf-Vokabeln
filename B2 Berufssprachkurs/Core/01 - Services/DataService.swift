@@ -2,8 +2,8 @@
 //  DataService.swift
 //  B2 Berufssprachkurs
 //
-//  Facade: bundled vocabulary + user words, study progress, and favorites.
-//  `StudyProgressStore` / `FavoritesStore` emit changes through this `objectWillChange` forwarder.
+//  Main data facade for vocabulary, progress, favorites, and app-wide study state.
+//  Created: 19.11.25.
 //
 
 import Combine

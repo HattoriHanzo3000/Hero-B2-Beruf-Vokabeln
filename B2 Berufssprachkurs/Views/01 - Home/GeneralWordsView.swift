@@ -2,19 +2,28 @@
 //  GeneralWordsView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Home stack screen for general vocabulary and practice launch.
+//  Created: 26.11.25.
 //
 
 import SwiftUI
 
+// MARK: - Screen
+
 struct GeneralWordsView: View {
+    // MARK: State
+
     @EnvironmentObject private var dataService: DataService
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var navigateToStudy = false
 
+    // MARK: Derived Data
+
     private var hasAnySelection: Bool {
         dataService.hasAnyGeneralWordsPracticeSelection(isPremium: subscriptionManager.isPremiumActive)
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -45,6 +54,8 @@ struct GeneralWordsView: View {
         .hidesBottomBarWhenPushed(true)
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     NavigationStack {

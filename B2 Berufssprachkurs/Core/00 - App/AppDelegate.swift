@@ -2,21 +2,26 @@
 //  AppDelegate.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  UIKit lifecycle bridge for startup, deep links, and orientation policy.
+//  Created: 24.03.26.
 //
 
 import UIKit
 
+// MARK: - App Delegate
+
 class AppDelegate: NSObject, UIApplicationDelegate {
-    /// App-wide orientation; change at runtime if a specific flow needs landscape (e.g. fullscreen video).
+    // MARK: Orientation
+
+    /// App-wide orientation lock.
     static var orientationLock = UIInterfaceOrientationMask.portrait
     
+    // MARK: App Lifecycle
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        // Configure RevenueCat before any code uses Purchases; then touch SubscriptionManager so its
-        // init schedules entitlement sync + loadProducts (avoid duplicate loadProducts vs that path).
         Task { @MainActor in
             _ = RevenueCatService.shared
             _ = SubscriptionManager.shared
@@ -28,7 +33,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         AppGroupQuickAddBridge.consumePendingQuickAddIfNeeded()
     }
 
-    /// Widget `OpenURLIntent` / Lock Screen taps often arrive here; may also mirror `onOpenURL`. Dedup is in `AppDeepLinkRouter`.
+    // MARK: Deep Links
+
+    /// Handles incoming deep links and forwards routing to `AppDeepLinkRouter`.
     func application(
         _ app: UIApplication,
         open url: URL,
@@ -40,6 +47,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
+    // MARK: Interface Orientation
+
     func application(
         _ application: UIApplication,
         supportedInterfaceOrientationsFor window: UIWindow?

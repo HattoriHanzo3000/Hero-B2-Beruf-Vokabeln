@@ -2,11 +2,14 @@
 //  PDFGenerationWordLayout.swift
 //  B2 Berufssprachkurs
 //
-//  Word-row measurement and pagination (must stay aligned with PDF drawing).
+//  Computes word row layout and text wrapping for PDFs.
+//  Created: 05.04.26.
 //
 
 import Foundation
 import UIKit
+
+// MARK: - Word Layout
 
 extension PDFGenerationService {
     /// Single layout pass for one word row: shared by pagination and live drawing.

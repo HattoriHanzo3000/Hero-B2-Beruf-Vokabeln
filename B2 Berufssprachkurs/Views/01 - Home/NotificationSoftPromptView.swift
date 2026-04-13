@@ -2,21 +2,27 @@
 //  NotificationSoftPromptView.swift
 //  B2 Berufssprachkurs
 //
-//  Custom in-app “soft ask” before the system notification permission alert.
-//  Not wired into navigation yet — design / review only.
+//  Pre-permission notification prompt component shown before system dialog.
+//  Created: 09.12.25.
 //
 
 import SwiftUI
 
-/// Card-style prompt shown **before** `UNUserNotificationCenter.requestAuthorization`.
-/// Pair with a dimmed backdrop in the parent when presenting.
+// MARK: - Component
+
+/// In-app prompt shown before requesting system notification permission.
 struct NotificationSoftPromptView: View {
+    // MARK: Callbacks
+
     var onAllow: () -> Void
     var onAskMeLater: () -> Void
     var onNoThanks: () -> Void
 
     @ObservedObject private var languageManager = LanguageManager.shared
     @Environment(\.colorScheme) private var colorScheme
+
+    // MARK: View Layout
+
     var body: some View {
         VStack(spacing: 0) {
             Image("MascotLaunch")

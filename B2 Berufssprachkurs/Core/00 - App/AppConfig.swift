@@ -2,18 +2,23 @@
 //  AppConfig.swift
 //  B2 Berufssprachkurs
 //
-//  RevenueCat public API key: `Config/Shared.xcconfig` → `REVENUECAT_PUBLIC_API_KEY` → Info.plist
-//  `RevenueCatAPIKey`. Fallback: env `REVENUECAT_API_KEY` (e.g. CI). Key is public client-side; committing
-//  Shared.xcconfig keeps clones buildable without extra setup.
+//  App-wide configuration helpers and environment-based key resolution.
+//  Created: 24.03.26.
 //
 
 import Foundation
 
+// MARK: - App Configuration
+
 enum AppConfig {
+    // MARK: Keys
+
     private static let revenueCatInfoPlistKey = "RevenueCatAPIKey"
     private static let revenueCatEnvKey = "REVENUECAT_API_KEY"
 
-    /// RevenueCat **public** (App Store) API key — client-visible by design; still keep per-environment keys in build settings or CI.
+    // MARK: RevenueCat
+
+    /// Resolves the public RevenueCat key from Info.plist first, then environment.
     static var revenueCatAPIKey: String {
         if let key = Bundle.main.object(forInfoDictionaryKey: revenueCatInfoPlistKey) as? String {
             let trimmed = key.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -30,6 +35,8 @@ enum AppConfig {
         return ""
     }
 
+    // MARK: Validation
+
     static func validateConfiguration() -> (isValid: Bool, errors: [String]) {
         var errors: [String] = []
         let key = revenueCatAPIKey
@@ -38,6 +45,8 @@ enum AppConfig {
         }
         return (errors.isEmpty, errors)
     }
+
+    // MARK: Diagnostics
 
     static func configurationSource() -> [String: String] {
         if let raw = Bundle.main.object(forInfoDictionaryKey: revenueCatInfoPlistKey) as? String {

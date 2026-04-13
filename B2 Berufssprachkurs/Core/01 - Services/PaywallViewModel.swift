@@ -2,12 +2,15 @@
 //  PaywallViewModel.swift
 //  B2 Berufssprachkurs
 //
-//  Paywall state, RevenueCat + StoreKit purchase/restore, and launch-offer countdown tick.
+//  View model driving paywall products, selection, and purchase actions.
+//  Created: 04.04.26.
 //
 
 import Combine
 import Foundation
 import RevenueCat
+
+// MARK: - PaywallViewModel
 
 @MainActor
 final class PaywallViewModel: ObservableObject {

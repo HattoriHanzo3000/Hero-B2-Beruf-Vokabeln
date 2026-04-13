@@ -2,8 +2,13 @@
 //  SpacedRepetitionService+Statistics.swift
 //  B2 Berufssprachkurs
 //
+//  Aggregates spaced-repetition statistics for cockpit and insights.
+//  Created: 05.04.26.
+//
 
 import Foundation
+
+// MARK: - SpacedRepetitionService
 
 extension SpacedRepetitionService {
     /// Progress buckets by word (max repetitions across modes).

@@ -2,7 +2,8 @@
 //  SpacedRepetitionService.swift
 //  B2 Berufssprachkurs
 //
-//  SM-2 spaced repetition, persistence, and scheduling.
+//  Core spaced-repetition engine for scheduling and review updates.
+//  Created: 19.11.25.
 //
 
 import Foundation

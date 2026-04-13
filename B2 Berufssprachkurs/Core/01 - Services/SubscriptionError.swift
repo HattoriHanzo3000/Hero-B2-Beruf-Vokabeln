@@ -2,8 +2,13 @@
 //  SubscriptionError.swift
 //  B2 Berufssprachkurs
 //
+//  Typed subscription and purchase errors with user-facing mapping.
+//  Created: 06.04.26.
+//
 
 import Foundation
+
+// MARK: - SubscriptionError
 
 enum SubscriptionError: LocalizedError {
     case productNotLoaded

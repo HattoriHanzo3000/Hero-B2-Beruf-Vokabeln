@@ -2,7 +2,8 @@
 //  PaywallView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Premium subscription paywall with purchase, restore, and legal flows.
+//  Created: 29.03.26.
 //
 
 import os
@@ -10,7 +11,11 @@ import RevenueCat
 import StoreKit
 import SwiftUI
 
+// MARK: - Screen
+
 struct PaywallView: View {
+    // MARK: State & Environment
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
     @ObservedObject private var revenueCatService = RevenueCatService.shared
@@ -18,8 +23,10 @@ struct PaywallView: View {
     @StateObject private var viewModel = PaywallViewModel()
 
     @State private var showOfferCodeRedemption = false
-    /// `true` only for the primary Continue purchase flow (full-screen window confetti; restore uses plain dismiss).
+    /// Tracks whether a successful purchase should trigger celebration.
     @State private var expectPurchaseCelebration = false
+
+    // MARK: Derived Data
 
     private var planItems: [PaywallPlanItem] {
         PaywallPlanItem.rowList(
@@ -31,6 +38,8 @@ struct PaywallView: View {
     private var primaryButtonLoading: Bool {
         subscriptionManager.purchaseState == .purchasing || subscriptionManager.purchaseState == .loading
     }
+
+    // MARK: View Layout
 
     var body: some View {
         NavigationStack {
@@ -134,7 +143,9 @@ struct PaywallView: View {
         }
     }
 
-    /// Full-screen confetti (separate window above the sheet) after a successful **purchase**, then dismiss.
+    // MARK: Purchase Feedback
+
+    /// Shows purchase celebration, then dismisses the paywall.
     private func triggerPurchaseConfettiThenDismiss() {
         if accessibilityReduceMotion {
             dismiss()
@@ -147,6 +158,8 @@ struct PaywallView: View {
             dismiss()
         }
     }
+
+    // MARK: Bindings & Helpers
 
     private var paywallPremiumState: PaywallPremiumState {
         PaywallPremiumState(
@@ -175,6 +188,8 @@ struct PaywallView: View {
             set: { viewModel.presentingLegalURL = $0?.url }
         )
     }
+
+    // MARK: Components
 
     private var headerSection: some View {
         VStack(spacing: 12) {

@@ -2,13 +2,18 @@
 //  StudyView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Flashcard study session screen with answer handling and progression.
+//  Created: 19.11.25.
 //
 
 import SwiftData
 import SwiftUI
 
+// MARK: - Screen
+
 struct StudyView: View {
+    // MARK: Inputs
+
     @ObservedObject var dataService: DataService
     @ObservedObject private var languageManager = LanguageManager.shared
 
@@ -16,6 +21,8 @@ struct StudyView: View {
     let studyAllMode: Bool
     let favoritesOnly: Bool
     let categoryFilter: String?
+
+    // MARK: State & Environment
 
     @StateObject private var viewModel: StudyViewModel
 
@@ -25,6 +32,8 @@ struct StudyView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var showNotificationSoftPrompt = false
     @State private var hasCheckedSoftPromptThisSession = false
+
+    // MARK: Initialization
 
     init(
         dataService: DataService,
@@ -48,6 +57,8 @@ struct StudyView: View {
         )
     }
 
+    // MARK: Derived Data
+
     private var isPremiumActive: Bool {
         subscriptionManager.isPremiumActive
     }
@@ -64,6 +75,8 @@ struct StudyView: View {
             .map { "\($0.wordId)|\($0.translation)|\($0.lastUpdated.timeIntervalSince1970)" }
             .joined(separator: "#")
     }
+
+    // MARK: Helpers
 
     private func cardCountLabel(count: Int) -> String {
         if count == 1 {
@@ -94,12 +107,14 @@ struct StudyView: View {
         }
     }
 
-    /// Flashcard + chip accent: per word in favorites-only study; otherwise the stack accent.
+    // MARK: Visual Style
+
+    /// Uses item accent in favorites mode; otherwise uses stack accent.
     private func studyChromeAccent(for item: StudyItem) -> Color {
         favoritesOnly ? item.accentColor : viewModel.stackKind.accentColor
     }
 
-    /// Light mode: very light gray (`systemGroupedBackground`); dark mode: standard canvas (`systemBackground`).
+    /// Uses a calm canvas tone for each color scheme.
     private var studyCanvasBackground: Color {
         switch colorScheme {
         case .dark:
@@ -110,6 +125,8 @@ struct StudyView: View {
             return Color(.systemGroupedBackground)
         }
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -276,7 +293,7 @@ struct StudyView: View {
         .onAppear {
             reloadSessionItems()
             viewModel.cardFlipped = viewModel.isReversed
-            // Always start each study session on Übersetzung.
+            // Start each session on translation.
             viewModel.currentContentType = .translation
             hasCheckedSoftPromptThisSession = false
         }
@@ -287,7 +304,7 @@ struct StudyView: View {
                     viewModel.currentContentType = StudyCardContentSupport.firstAvailableContentType(for: item)
                 }
             } else if !viewModel.studyItems.isEmpty {
-                // Session finished: this is a natural value moment to ask for reminders.
+                // Show reminder prompt after a completed session.
                 evaluateSoftPromptEligibilityIfNeeded()
             }
         }
@@ -316,6 +333,8 @@ struct StudyView: View {
         }
     }
 
+    // MARK: Components
+
     private var headerView: some View {
         VStack(spacing: 8) {
             if viewModel.currentIndex < viewModel.studyItems.count {
@@ -329,6 +348,8 @@ struct StudyView: View {
         }
         .padding(.horizontal, 20)
     }
+
+    // MARK: Empty State
 
     private var hasSelectedWordsOrSections: Bool {
         if studyAllMode {
@@ -390,6 +411,8 @@ struct StudyView: View {
         return Localizable.string(Localizable.translationNotFoundMessage)
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)

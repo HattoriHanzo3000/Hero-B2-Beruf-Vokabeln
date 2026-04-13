@@ -2,9 +2,14 @@
 //  WordListPDFExport.swift
 //  B2 Berufssprachkurs
 //
+//  Exports section word lists to print-ready PDF files.
+//  Created: 05.04.26.
+//
 
 import Foundation
 import SwiftUI
+
+// MARK: - WordListPDFExport
 
 enum WordListPDFExport {
     static func printJobName(

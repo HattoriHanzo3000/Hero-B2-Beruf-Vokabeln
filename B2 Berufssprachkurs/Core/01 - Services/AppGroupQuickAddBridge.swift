@@ -1,5 +1,15 @@
+//
+//  AppGroupQuickAddBridge.swift
+//  B2 Berufssprachkurs
+//
+//  Bridges App Group quick-add payloads into in-app deep-link handling.
+//  Created: 10.04.26.
+//
+
 import Foundation
 import OSLog
+
+// MARK: - Bridge
 
 /// Drains quick-add URL stashed by `AddMyWordControlIntent` (App Group). Control + custom schemes are unreliable for `onOpenURL`.
 enum AppGroupQuickAddBridge {
@@ -8,6 +18,8 @@ enum AppGroupQuickAddBridge {
     private static let pendingURLKey = QuickAddDeepLink.appGroupPendingURLStringKey
     private static let markerFileName = QuickAddDeepLink.pendingQuickAddMarkerFileName
     private static let allowedSchemes: Set<String> = ["b2beruf", "heroapp"]
+
+    // MARK: Public API
 
     static func consumePendingQuickAddIfNeeded() {
         var raw: String?
@@ -34,6 +46,8 @@ enum AppGroupQuickAddBridge {
             AppDeepLinkRouter.shared.handle(url: url)
         }
     }
+
+    // MARK: File Helpers
 
     private static func readPendingMarkerFile() -> String? {
         guard let dir = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: suiteName) else {

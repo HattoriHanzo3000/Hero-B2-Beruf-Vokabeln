@@ -1,7 +1,15 @@
+//
+//  AppDeepLinkRouter.swift
+//  B2 Berufssprachkurs
+//
+//  Central deep-link router that translates URLs into app navigation routes.
+//  Created: 10.04.26.
+//
+
 import Combine
 import Foundation
 
-// MARK: - Deep link routing (widgets, App Intents `OpenURLIntent`, custom URL schemes)
+// MARK: - Deep Link Routing
 
 @MainActor
 final class AppDeepLinkRouter: ObservableObject {

@@ -2,10 +2,13 @@
 //  DataService+VocabularyLookup.swift
 //  B2 Berufssprachkurs
 //
-//  Section metadata and favorite grouping derived from bundled + user vocabulary.
+//  DataService extension for section metadata and vocabulary grouping lookups.
+//  Created: 05.04.26.
 //
 
 import Foundation
+
+// MARK: - Vocabulary Lookup
 
 extension DataService {
     func getLectionAndSection(for sectionId: String) -> (lectionTitle: String, sectionTitle: String, lectionNumber: String, sectionLetter: String)? {

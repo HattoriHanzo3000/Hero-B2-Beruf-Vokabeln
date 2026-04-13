@@ -2,9 +2,14 @@
 //  WordOfTheDayListViewModel.swift
 //  B2 Berufssprachkurs
 //
+//  View model for Word of the Day source selection state.
+//  Created: 04.04.26.
+//
 
 import Combine
 import SwiftUI
+
+// MARK: - WordOfTheDayListViewModel
 
 @MainActor
 final class WordOfTheDayListViewModel: ObservableObject {

@@ -2,10 +2,13 @@
 //  SubscriptionManager+LocalTrial.swift
 //  B2 Berufssprachkurs
 //
-//  In-app 3-day trial (UserDefaults). Distinct from App Store introductory offers.
+//  Local trial support and trial-state computations.
+//  Created: 06.04.26.
 //
 
 import Foundation
+
+// MARK: - TrialKeys
 
 enum TrialKeys {
     static let trialPeriodDays: TimeInterval = 3 * 24 * 60 * 60

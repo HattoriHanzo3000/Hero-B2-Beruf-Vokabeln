@@ -2,10 +2,12 @@
 //  StudyMode.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Declares study mode options and related display metadata.
+//  Created: 19.11.25.
 //
 
-/// Spaced-repetition lane per flashcard chip: synonym, explanation, or translation (example sentences are not a separate lane).
+// MARK: - StudyMode
+
 enum StudyMode: CaseIterable {
     case synonyms
     case explanation

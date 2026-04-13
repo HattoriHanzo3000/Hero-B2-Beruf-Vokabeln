@@ -2,7 +2,8 @@
 //  SubscriptionManager.swift
 //  B2 Berufssprachkurs
 //
-//  Premium state: RevenueCat (primary), StoreKit 2 (products / fallback), local 3-day trial.
+//  Central manager for subscription state, purchases, and entitlements.
+//  Created: 02.12.25.
 //
 
 import Combine

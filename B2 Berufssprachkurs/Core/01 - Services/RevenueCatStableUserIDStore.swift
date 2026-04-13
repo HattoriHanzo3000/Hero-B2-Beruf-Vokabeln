@@ -2,12 +2,14 @@
 //  RevenueCatStableUserIDStore.swift
 //  B2 Berufssprachkurs
 //
-//  Persists a stable RevenueCat app user id in Keychain to keep entitlements
-//  consistent across launches and app rebuilds on the same device.
+//  Persists a stable anonymous RevenueCat app user identifier.
+//  Created: 06.04.26.
 //
 
 import Foundation
 import Security
+
+// MARK: - RevenueCatStableUserIDStore
 
 enum RevenueCatStableUserIDStore {
     private static let service = "com.hero.berufssprachkurs.revenuecat"

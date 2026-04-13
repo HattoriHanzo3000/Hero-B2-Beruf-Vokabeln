@@ -2,10 +2,13 @@
 //  SettingsIconRows.swift
 //  B2 Berufssprachkurs
 //
-//  Reusable row components for Settings.
+//  Reusable row components used throughout Settings sections.
+//  Created: 05.04.26.
 //
 
 import SwiftUI
+
+// MARK: - Base Row
 
 struct SettingsIconRow: View {
     let icon: String
@@ -50,6 +53,8 @@ struct SettingsIconRow: View {
     }
 }
 
+// MARK: - Navigation Row
+
 struct NavigationIconRow<Destination: View>: View {
     let icon: String
     let iconColor: Color
@@ -72,6 +77,8 @@ struct NavigationIconRow<Destination: View>: View {
     }
 }
 
+// MARK: - Toggle Row
+
 struct ToggleIconRow: View {
     let icon: String
     let iconColor: Color
@@ -89,6 +96,8 @@ struct ToggleIconRow: View {
         }
     }
 }
+
+// MARK: - Menu Row
 
 struct MenuIconRow: View {
     let icon: String
@@ -141,6 +150,8 @@ struct MenuIconRow: View {
     }
 }
 
+// MARK: - Destructive Row
+
 struct DestructiveIconRow: View {
     let icon: String
     let title: String
@@ -153,7 +164,9 @@ struct DestructiveIconRow: View {
     }
 }
 
-/// Opens a URL in the in-app browser sheet (same affordance as Impressum / legal links).
+// MARK: - External Link Row
+
+/// Opens a link in the in-app legal web sheet flow.
 struct SettingsExternalLinkRow: View {
     let icon: String
     let iconColor: Color

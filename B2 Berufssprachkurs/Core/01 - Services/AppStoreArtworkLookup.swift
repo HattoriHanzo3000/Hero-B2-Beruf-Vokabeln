@@ -2,10 +2,13 @@
 //  AppStoreArtworkLookup.swift
 //  B2 Berufssprachkurs
 //
-//  Fetches App Store listing artwork via the iTunes Lookup API.
+//  Resolves App Store artwork URLs using iTunes Lookup API responses.
+//  Created: 04.04.26.
 //
 
 import Foundation
+
+// MARK: - Artwork Lookup
 
 enum AppStoreArtworkLookup {
     /// Public iTunes Search API — returns the same artwork URLs the App Store uses for the listing.

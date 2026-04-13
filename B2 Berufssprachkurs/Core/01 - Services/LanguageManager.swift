@@ -2,12 +2,15 @@
 //  LanguageManager.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Controls active app language and localized bundle resolution.
+//  Created: 24.11.25.
 //
 
 import Foundation
 import SwiftUI
 import Combine
+
+// MARK: - Manager
 
 class LanguageManager: ObservableObject {
     static let shared = LanguageManager()
@@ -22,12 +25,16 @@ class LanguageManager: ObservableObject {
     
     private var bundle: Bundle = .main
     
+    // MARK: Lifecycle
+
     private init() {
         // Load initial language from UserDefaults; new installs default to German.
         currentLanguage = UserDefaults.standard.string(forKey: appLanguageKey) ?? "Deutsch"
         updateLanguage()
     }
     
+    // MARK: Helpers
+
     private func updateLanguage() {
         // Map app language to locale code
         let localeCode: String
@@ -50,6 +57,8 @@ class LanguageManager: ObservableObject {
         self.bundle = bundle
     }
     
+    // MARK: Public API
+
     func localizedBundle() -> Bundle {
         return bundle
     }

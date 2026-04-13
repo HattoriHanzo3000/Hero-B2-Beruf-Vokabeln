@@ -2,16 +2,20 @@
 //  FAQView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  FAQ screen presenting frequently asked support information.
+//  Created: 24.11.25.
 //
 
 import SwiftUI
 
+// MARK: - Screen
+
 struct FAQView: View {
+    // MARK: View Layout
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // FAQ content block with rounded corners
                 VStack(alignment: .leading, spacing: 12) {
                     Text(Localizable.string(Localizable.faq))
                         .font(.headline)
@@ -36,6 +40,8 @@ struct FAQView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     NavigationStack {

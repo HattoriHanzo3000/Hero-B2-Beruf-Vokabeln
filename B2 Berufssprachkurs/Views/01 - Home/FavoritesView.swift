@@ -2,19 +2,26 @@
 //  FavoritesView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  List and manage favorite words with quick study access.
+//  Created: 26.11.25.
 //
 
 import SwiftData
 import SwiftUI
 
+// MARK: - Screen
+
 struct FavoritesView: View {
+    // MARK: State & Environment
+
     @EnvironmentObject private var dataService: DataService
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
 
     @State private var navigateToStudy = false
     @State private var focusedTranslationWordId: String?
     @StateObject private var keyboardNavBridge = WordListKeyboardNavBridge()
+
+    // MARK: Derived Data
 
     private var progressByWordId: [String: WordProgress] {
         wordProgressList.reduce(into: [String: WordProgress]()) { partialResult, record in
@@ -33,6 +40,8 @@ struct FavoritesView: View {
     var favoriteWords: [Word] {
         dataService.getFavoriteWords()
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -97,6 +106,8 @@ struct FavoritesView: View {
         }
     }
 
+    // MARK: Keyboard Navigation
+
     private func syncTranslationKeyboardNavBridge() {
         guard let fid = focusedTranslationWordId,
               let idx = favoriteWords.firstIndex(where: { $0.id == fid }) else {
@@ -123,6 +134,8 @@ struct FavoritesView: View {
         focusedTranslationWordId = favoriteWords[idx + 1].id
     }
 
+    // MARK: Export
+
     private func generateFavoritesPDF() throws -> URL {
         let wordData = WordListShareManager.wordDataForPDF(
             words: favoriteWords,
@@ -140,6 +153,8 @@ struct FavoritesView: View {
         )
         return try PDFGenerationService.generateWordsListPDF(info: pdfInfo)
     }
+
+    // MARK: Components
 
     private var favoritesListView: some View {
         ScrollViewReader { proxy in
@@ -195,6 +210,8 @@ struct FavoritesView: View {
         }
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)

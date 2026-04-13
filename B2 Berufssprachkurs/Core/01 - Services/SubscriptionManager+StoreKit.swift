@@ -2,12 +2,15 @@
 //  SubscriptionManager+StoreKit.swift
 //  B2 Berufssprachkurs
 //
-//  StoreKit 2 products, entitlement checks, purchase and restore. RevenueCat remains primary.
+//  StoreKit integration helpers used by SubscriptionManager.
+//  Created: 06.04.26.
 //
 
 import Foundation
 import RevenueCat
 import StoreKit
+
+// MARK: - SubscriptionManager
 
 extension SubscriptionManager {
     struct StoreKitEntitlementSnapshot {

@@ -2,8 +2,13 @@
 //  StudySessionBuilder.swift
 //  B2 Berufssprachkurs
 //
+//  Builds ordered study sessions from selected vocabulary sources.
+//  Created: 04.04.26.
+//
 
 import Foundation
+
+// MARK: - StudySessionBuilder
 
 enum StudySessionBuilder {
     static func prioritizeItems(_ items: [StudyItem], spacedRepetition: SpacedRepetitionService) -> [StudyItem] {

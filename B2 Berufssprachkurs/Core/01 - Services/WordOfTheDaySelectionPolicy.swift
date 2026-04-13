@@ -2,10 +2,13 @@
 //  WordOfTheDaySelectionPolicy.swift
 //  B2 Berufssprachkurs
 //
-//  Free-tier allowed WOTD source sections and CSV sanitization for subscription changes.
+//  Rules for validating and sanitizing Word of the Day selections.
+//  Created: 04.04.26.
 //
 
 import Foundation
+
+// MARK: - WordOfTheDaySelectionPolicy
 
 enum WordOfTheDaySelectionPolicy {
     /// Lection 1 subsection IDs available without premium (general words).

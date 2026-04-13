@@ -2,21 +2,26 @@
 //  SettingsView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Main settings screen for preferences, support, legal, and account actions.
+//  Created: 23.11.25.
 //
 
 import SwiftUI
 import SwiftData
 import MessageUI
 
+// MARK: - Screen
+
 struct SettingsView: View {
+    // MARK: State & Environment
+
     @EnvironmentObject var dataService: DataService
     @Environment(\.modelContext) private var modelContext
     @ObservedObject private var languageManager = LanguageManager.shared
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
     @AppStorage(MigrationManager.iCloudSyncEnabledKey) private var iCloudSyncEnabled = true
-    @AppStorage("appearancePreference") private var appearancePreference = "System" // Stores key: "Light" | "Dark" | "System"
-    /// Stored values: `"English"` | `"Deutsch"`. Sync via `onAppear` / `onChange` — `@AppStorage` `didSet` does not run for `Binding` writes (e.g. menu selection).
+    @AppStorage("appearancePreference") private var appearancePreference = "System"
+    /// Stored values: `"English"` and `"Deutsch"`.
     @AppStorage("appLanguage") private var appLanguage = "Deutsch"
     @State private var showMailComposer = false
     @State private var showMailUnavailableAlert = false
@@ -28,6 +33,8 @@ struct SettingsView: View {
     #endif
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @Environment(\.settingsSubscriptionPreview) private var settingsSubscriptionPreview
+
+    // MARK: Derived Data
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -44,6 +51,8 @@ struct SettingsView: View {
             ("lock.shield.fill", Localizable.string(Localizable.privacyPolicy), AppExternalLinks.legalPrivacyPolicy),
         ]
     }
+
+    // MARK: View Layout
 
     var body: some View {
         List {
@@ -258,6 +267,8 @@ struct SettingsView: View {
         #endif
     }
 
+    // MARK: Helpers
+
     struct LegalDocument: Identifiable {
         let url: URL
         var id: URL { url }
@@ -297,11 +308,15 @@ struct SettingsView: View {
     }
 }
 
+// MARK: - Debug Support
+
 #if DEBUG
 private enum AboutDebugGesture {
     static let requiredTapsToRevealSheet = 7
 }
 #endif
+
+// MARK: - Localized Options
 
 private extension SettingsView {
     var localizedLanguageOptions: [String] {
@@ -312,6 +327,8 @@ private extension SettingsView {
         ["Light", "Dark", "System"]
     }
 }
+
+// MARK: - Previews
 
 #Preview("Settings — live") {
     NavigationStack {

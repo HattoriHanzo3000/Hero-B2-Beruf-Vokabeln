@@ -2,10 +2,13 @@
 //  HapticManager.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Central helper for gated haptic feedback across the app.
+//  Created: 19.11.25.
 //
 
 import UIKit
+
+// MARK: - Manager
 
 @MainActor
 class HapticManager {

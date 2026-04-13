@@ -2,10 +2,13 @@
 //  VocabularyUserDefaultsPersistence.swift
 //  B2 Berufssprachkurs
 //
-//  UserDefaults keys and load/save for study completion and favorites (stable across refactors).
+//  Legacy UserDefaults persistence helpers for vocabulary progress.
+//  Created: 05.04.26.
 //
 
 import Foundation
+
+// MARK: - VocabularyUserDefaultsPersistence
 
 enum VocabularyUserDefaultsPersistence {
     enum Keys {

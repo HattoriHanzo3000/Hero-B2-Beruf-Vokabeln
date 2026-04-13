@@ -2,8 +2,13 @@
 //  RevenueCatService+PurchasesDelegate.swift
 //  B2 Berufssprachkurs
 //
+//  RevenueCat purchases delegate handling entitlement updates.
+//  Created: 05.04.26.
+//
 
 import RevenueCat
+
+// MARK: - RevenueCatService
 
 extension RevenueCatService: PurchasesDelegate {
     nonisolated func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {

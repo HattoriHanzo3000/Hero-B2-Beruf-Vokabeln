@@ -2,11 +2,14 @@
 //  PDFGenerationDocumentRenderer.swift
 //  B2 Berufssprachkurs
 //
-//  UIGraphicsPDFRenderer pass for word-list export.
+//  Renders paginated PDF documents for vocabulary export.
+//  Created: 05.04.26.
 //
 
 import SwiftUI
 import UIKit
+
+// MARK: - Document Rendering
 
 extension PDFGenerationService {
     static func pdfDataForWordsList(

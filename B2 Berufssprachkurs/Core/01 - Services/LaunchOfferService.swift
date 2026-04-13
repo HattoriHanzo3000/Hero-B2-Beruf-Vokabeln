@@ -2,13 +2,13 @@
 //  LaunchOfferService.swift
 //  B2 Berufssprachkurs
 //
-//  7-day lifetime promo window (launch offer) based on first app open.
-//
-//  Anchor date is stored separately from ``SubscriptionManager``’s `firstLaunchDate`, which is
-//  overwritten when the user starts the in-app trial (trial end uses that timestamp).
+//  Tracks launch-offer eligibility windows and countdown timing state.
+//  Created: 25.03.26.
 //
 
 import Foundation
+
+// MARK: - LaunchOfferService
 
 enum LaunchOfferService {
     /// RevenueCat package identifier (matched against `Package.identifier`); see RevenueCat dashboard.

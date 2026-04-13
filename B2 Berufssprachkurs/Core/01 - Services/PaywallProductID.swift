@@ -2,10 +2,13 @@
 //  PaywallProductID.swift
 //  B2 Berufssprachkurs
 //
-//  Single source of truth for App Store / RevenueCat `StoreProduct.productIdentifier` values.
+//  Defines canonical product identifiers used by paywall and purchases.
+//  Created: 04.04.26.
 //
 
 import Foundation
+
+// MARK: - PaywallProductID
 
 enum PaywallProductID: String, CaseIterable {
     case monthly = "hero.premium.monthly"

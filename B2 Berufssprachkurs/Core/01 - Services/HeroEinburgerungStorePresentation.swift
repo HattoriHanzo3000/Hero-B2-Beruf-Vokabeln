@@ -2,7 +2,8 @@
 //  HeroEinburgerungStorePresentation.swift
 //  B2 Berufssprachkurs
 //
-//  Presents SKStoreProductViewController for “Hero – Einbürgerungstest” from the topmost UIKit presenter.
+//  Presents the cross-promo App Store product page for Hero Einburgerungstest.
+//  Created: 04.04.26.
 //
 
 import StoreKit

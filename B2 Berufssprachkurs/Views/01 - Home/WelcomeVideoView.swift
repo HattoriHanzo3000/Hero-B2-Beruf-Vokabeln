@@ -2,7 +2,8 @@
 //  WelcomeVideoView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Intro video screen shown before entering the main app.
+//  Created: 24.11.25.
 //
 
 import SwiftUI
@@ -12,13 +13,19 @@ import os.log
 // MARK: - Logger
 private let logger = Logger(subsystem: "com.gizatech.B2-Beruf", category: "WelcomeVideoView")
 
+// MARK: - Screen
+
 struct WelcomeVideoView: View {
+    // MARK: Inputs & State
+
     @Binding var hasSeenWelcomeVideo: Bool
     @State private var player: AVPlayer?
     @State private var endObserver: NSObjectProtocol?
     @State private var didComplete = false
     @State private var timeoutTask: Task<Void, Never>?
     
+    // MARK: View Layout
+
     var body: some View {
         ZStack {
             Color(.systemBackground)
@@ -45,10 +52,10 @@ struct WelcomeVideoView: View {
         }
     }
     
-    // MARK: - Private Methods
-    
+    // MARK: Lifecycle
+
     private func setupVideo() {
-        // Find video file (try mov first, then mp4)
+        // Supports both common bundled formats.
         guard let url = Bundle.main.url(forResource: "welcome_animation", withExtension: "mov")
             ?? Bundle.main.url(forResource: "welcome_animation", withExtension: "mp4") else {
             logger.warning("Welcome video not found - skipping")
@@ -60,15 +67,13 @@ struct WelcomeVideoView: View {
         let player = AVPlayer(playerItem: playerItem)
         player.isMuted = false
         
-        // Setup completion observer
-        // Capture the binding's projected value to update it from the closure
+        // Capture binding for completion callback.
         let binding = $hasSeenWelcomeVideo
         endObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,
             object: playerItem,
             queue: .main
         ) { _ in
-            // Update binding on main thread (we're already on main queue)
             binding.wrappedValue = true
         }
         
@@ -85,7 +90,7 @@ struct WelcomeVideoView: View {
                     completeWelcome()
                 }
             } catch {
-                // Task cancelled - video loaded or view disappeared
+                // Task cancellation is expected on normal teardown.
             }
         }
     }

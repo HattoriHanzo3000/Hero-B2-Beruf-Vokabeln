@@ -2,6 +2,9 @@
 //  MigrationManager.swift
 //  B2 Berufssprachkurs
 //
+//  Coordinates data migrations between legacy and current persistence layers.
+//  Created: 27.03.26.
+//
 
 import Foundation
 import SwiftData

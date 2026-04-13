@@ -2,8 +2,13 @@
 //  WordsListScrollHelpers.swift
 //  B2 Berufssprachkurs
 //
+//  Reusable scrolling helpers for word-list focus and deep links.
+//  Created: 05.04.26.
+//
 
 import SwiftUI
+
+// MARK: - WordsListScrollHelpers
 
 enum WordsListScrollHelpers {
     /// After opening from search, scrolls the target row to the **center** with one animation after a short layout yield.

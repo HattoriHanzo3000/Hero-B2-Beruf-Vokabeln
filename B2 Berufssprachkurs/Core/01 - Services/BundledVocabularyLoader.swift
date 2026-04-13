@@ -2,10 +2,13 @@
 //  BundledVocabularyLoader.swift
 //  B2 Berufssprachkurs
 //
-//  Loads `lections.json`, chapter sections, Verben, and Adjektive from the app bundle.
+//  Loads bundled vocabulary JSON files into lections and section word maps.
+//  Created: 05.04.26.
 //
 
 import Foundation
+
+// MARK: - Loader
 
 enum BundledVocabularyLoader {
     static func load() -> (lections: [Lection], wordsBySection: [String: [Word]]) {
@@ -34,6 +37,8 @@ enum BundledVocabularyLoader {
         return (lections, wordsBySection)
     }
 
+    // MARK: Helpers
+
     private static func loadSectionFile(named filename: String, into dict: inout [String: [Word]]) {
         guard let url = Bundle.main.url(forResource: filename, withExtension: "json"),
               let data = try? Data(contentsOf: url),
@@ -43,6 +48,8 @@ enum BundledVocabularyLoader {
         dict[sectionFile.sectionId] = sectionFile.wordsAsCourseWords()
     }
 }
+
+// MARK: - Mapping
 
 private extension SectionFile {
     func wordsAsCourseWords() -> [Word] {

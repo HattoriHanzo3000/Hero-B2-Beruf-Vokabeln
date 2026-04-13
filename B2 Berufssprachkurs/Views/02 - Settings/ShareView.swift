@@ -2,13 +2,20 @@
 //  ShareView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Share screen with App Store QR code and share sheet action.
+//  Created: 16.12.25.
 //
 
 import SwiftUI
 
+// MARK: - Screen
+
 struct ShareView: View {
+    // MARK: State
+
     @State private var showShareSheet = false
+
+    // MARK: Derived Data
 
     private var appStoreURL: String { AppStoreService.defaultListingURL }
 
@@ -16,6 +23,8 @@ struct ShareView: View {
         let appName = Localizable.string(Localizable.aboutThisApp)
         return "\(appName)\n\(appStoreURL)"
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -72,6 +81,8 @@ struct ShareView: View {
         }
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     NavigationStack {

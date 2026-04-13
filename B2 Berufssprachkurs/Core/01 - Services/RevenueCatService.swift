@@ -2,7 +2,8 @@
 //  RevenueCatService.swift
 //  B2 Berufssprachkurs
 //
-//  RevenueCat integration
+//  Wraps RevenueCat SDK setup, offerings, and customer info access.
+//  Created: 17.12.25.
 //
 
 import Combine

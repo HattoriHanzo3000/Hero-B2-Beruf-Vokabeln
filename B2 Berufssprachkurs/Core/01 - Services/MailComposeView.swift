@@ -2,11 +2,14 @@
 //  MailComposeView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  SwiftUI bridge for presenting MFMailComposeViewController.
+//  Created: 24.11.25.
 //
 
 import SwiftUI
 import MessageUI
+
+// MARK: - MailComposeView
 
 struct MailComposeView: UIViewControllerRepresentable {
     let subject: String
@@ -43,4 +46,3 @@ struct MailComposeView: UIViewControllerRepresentable {
         }
     }
 }
-

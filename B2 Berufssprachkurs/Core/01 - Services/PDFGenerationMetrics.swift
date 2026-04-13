@@ -2,10 +2,13 @@
 //  PDFGenerationMetrics.swift
 //  B2 Berufssprachkurs
 //
-//  Shared layout constants and text styles for word-list PDF export.
+//  Provides shared layout constants for PDF generation.
+//  Created: 05.04.26.
 //
 
 import UIKit
+
+// MARK: - PDFGenerationMetrics
 
 enum PDFGenerationMetrics {
     static let pageWidthPoints: CGFloat = 8.5 * 72.0

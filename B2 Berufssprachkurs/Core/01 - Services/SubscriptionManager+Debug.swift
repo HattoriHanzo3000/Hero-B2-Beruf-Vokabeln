@@ -2,8 +2,13 @@
 //  SubscriptionManager+Debug.swift
 //  B2 Berufssprachkurs
 //
+//  Debug utilities and previews for subscription scenarios.
+//  Created: 06.04.26.
+//
 
 import Foundation
+
+// MARK: - SubscriptionManager
 
 extension SubscriptionManager {
     func deactivatePremiumForTesting() {

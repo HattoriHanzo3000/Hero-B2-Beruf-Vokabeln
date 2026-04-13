@@ -2,7 +2,8 @@
 //  RatingManager.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Controls in-app rating prompt timing, display, and review requests.
+//  Created: 09.12.25.
 //
 
 import Combine

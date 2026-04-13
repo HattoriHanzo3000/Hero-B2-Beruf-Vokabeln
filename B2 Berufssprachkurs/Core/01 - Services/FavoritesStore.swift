@@ -2,12 +2,15 @@
 //  FavoritesStore.swift
 //  B2 Berufssprachkurs
 //
-//  Favorite word IDs in SwiftData (`FavoriteWord`) when bound; falls back to in-memory only if unbound.
+//  Persists and manages favorite word IDs with optional SwiftData binding.
+//  Created: 05.04.26.
 //
 
 import Combine
 import Foundation
 import SwiftData
+
+// MARK: - Store
 
 @MainActor
 final class FavoritesStore: ObservableObject {

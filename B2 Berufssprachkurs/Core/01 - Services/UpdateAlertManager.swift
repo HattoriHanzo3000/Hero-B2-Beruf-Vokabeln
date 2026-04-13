@@ -2,7 +2,8 @@
 //  UpdateAlertManager.swift
 //  B2 Berufssprachkurs
 //
-//  Soft update prompt: compare bundle version to App Store, throttle to at most once per calendar day.
+//  Checks App Store versions and manages update alert presentation.
+//  Created: 09.12.25.
 //
 
 import Combine
@@ -10,6 +11,8 @@ import Foundation
 import OSLog
 import SwiftUI
 import UIKit
+
+// MARK: - UpdateAlertManager
 
 @MainActor
 final class UpdateAlertManager: ObservableObject {

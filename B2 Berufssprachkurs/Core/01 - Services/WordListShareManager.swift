@@ -2,7 +2,8 @@
 //  WordListShareManager.swift
 //  B2 Berufssprachkurs
 //
-//  Shared plain-text + PDF export for word lists (sections, favorites, My Words).
+//  Builds share/export payloads for word lists.
+//  Created: 27.03.26.
 //
 
 import os

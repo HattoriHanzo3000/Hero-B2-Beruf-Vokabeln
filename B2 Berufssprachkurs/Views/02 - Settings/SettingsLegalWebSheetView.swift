@@ -2,11 +2,14 @@
 //  SettingsLegalWebSheetView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Safari-based web sheet for legal and external Settings links.
+//  Created: 24.11.25.
 //
 
 import SafariServices
 import SwiftUI
+
+// MARK: - Component
 
 struct SettingsLegalWebSheetView: UIViewControllerRepresentable {
     let url: URL
@@ -22,6 +25,8 @@ struct SettingsLegalWebSheetView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {}
 }
+
+// MARK: - Preview
 
 #Preview("Legal Web Sheet") {
     SettingsLegalWebSheetView(url: AppExternalLinks.companyWebsite)

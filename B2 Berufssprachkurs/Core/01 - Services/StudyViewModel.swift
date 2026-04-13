@@ -2,9 +2,14 @@
 //  StudyViewModel.swift
 //  B2 Berufssprachkurs
 //
+//  View model for study flow, card state, and answer progression.
+//  Created: 04.04.26.
+//
 
 import Combine
 import SwiftUI
+
+// MARK: - StudyViewModel
 
 @MainActor
 final class StudyViewModel: ObservableObject {

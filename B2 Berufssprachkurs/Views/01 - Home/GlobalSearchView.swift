@@ -2,12 +2,14 @@
 //  GlobalSearchView.swift
 //  B2 Berufssprachkurs
 //
-//  Full-text search across bundled vocabulary and “My Words”; matches German text,
-//  user translations, explanations, examples, quiz hints, and synonyms.
+//  Global vocabulary search with navigation to matching word lists.
+//  Created: 30.03.26.
 //
 
 import SwiftData
 import SwiftUI
+
+// MARK: - Search Models
 
 private struct SearchListDestination: Hashable {
     let wordId: String
@@ -21,9 +23,13 @@ private struct SearchVocabularyRow: Identifiable {
 }
 
 struct GlobalSearchView: View {
+    // MARK: Inputs
+
     @Binding var selectedSection: MainViewSection
-    /// Tab stored by `MainView` when opening Search; used when the user taps system Cancel / X.
+    /// Stores the tab that should be restored when Search is dismissed.
     var sectionBeforeSearch: MainViewSection
+
+    // MARK: State & Environment
 
     @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var dataService: DataService
@@ -35,8 +41,10 @@ struct GlobalSearchView: View {
     @State private var searchText = ""
     @State private var isSearchPresented = true
     @FocusState private var isSearchFieldFocused: Bool
-    /// Cached so we don’t rescan the full vocabulary on every `body` evaluation.
+    /// Cached results keep rendering fast while typing.
     @State private var searchResultRows: [SearchVocabularyRow] = []
+
+    // MARK: Derived Data
 
     private var searchTabIsSelected: Bool { selectedSection == .search }
 
@@ -49,6 +57,8 @@ struct GlobalSearchView: View {
             partialResult[record.wordId] = record.translation
         }
     }
+
+    // MARK: Search Updates
 
     private func rebuildSearchResults() {
         let q = trimmedQuery
@@ -67,6 +77,8 @@ struct GlobalSearchView: View {
         )
         .map { SearchVocabularyRow(sectionId: $0.sectionId, word: $0.word) }
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -94,7 +106,6 @@ struct GlobalSearchView: View {
                 .contentMargins(.horizontal, 0, for: .scrollContent)
             }
         }
-        // Large title sits **above** the search field (same stacking as Apple Photos). `.automatic` search lets the system attach full-width field + cancel to the search tab / keyboard.
         .navigationTitle(Localizable.string(Localizable.searchVocabularyTitle))
         .navigationBarTitleDisplayMode(.large)
         .searchable(
@@ -140,6 +151,8 @@ struct GlobalSearchView: View {
         }
     }
 
+    // MARK: Helpers
+
     private func scheduleSearchFieldFocus() {
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 120_000_000)
@@ -154,6 +167,8 @@ struct GlobalSearchView: View {
         return word.translation
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)

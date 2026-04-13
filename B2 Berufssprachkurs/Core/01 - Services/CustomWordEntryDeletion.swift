@@ -2,11 +2,14 @@
 //  CustomWordEntryDeletion.swift
 //  B2 Berufssprachkurs
 //
-//  Shared cleanup when removing user-created words: favorites + WordProgress + SwiftData entry.
+//  Handles safe deletion of user word entries and linked persisted data.
+//  Created: 04.04.26.
 //
 
 import Foundation
 import SwiftData
+
+// MARK: - Deletion Helpers
 
 enum CustomWordEntryDeletion {
     /// Clears favorite state, deletes matching `WordProgress`, and deletes the entry. Does not save.

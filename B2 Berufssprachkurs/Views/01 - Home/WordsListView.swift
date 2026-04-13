@@ -2,23 +2,33 @@
 //  WordsListView.swift
 //  B2 Berufssprachkurs
 //
-//  Created by Ildar on 18.11.25.
+//  Section word list with translation editing, favorites, and PDF export.
+//  Created: 19.11.25.
 //
 
 import SwiftData
 import SwiftUI
 
+// MARK: - Screen
+
 struct WordsListView: View {
+    // MARK: Inputs
+
     let sectionId: String
-    /// When set (e.g. opening from global search), scroll this row to the **vertical center** of the list after layout.
+    /// Optional deep-link target to center after initial layout.
     var scrollToWordIdOnAppear: String? = nil
-    /// Hidden when opened from global search — practice for this section is started from stack screens; search is for lookup.
+    /// Controls visibility of the section practice button.
     var showsPracticeButton: Bool = true
+
+    // MARK: State & Environment
+
     @EnvironmentObject var dataService: DataService
     @EnvironmentObject private var listUIState: LearningListsUIState
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
     @Query(sort: \WordProgress.wordId) private var wordProgressList: [WordProgress]
+
+    // MARK: Derived Data
 
     private var progressByWordId: [String: WordProgress] {
         wordProgressList.reduce(into: [String: WordProgress]()) { partialResult, record in
@@ -80,7 +90,7 @@ struct WordsListView: View {
         WordListTranslationTextStyle.color(for: listTranslationGroup, colorScheme: colorScheme)
     }
 
-    /// Bottom scroll inset: leave room for the flashcards FAB when shown, plus keyboard overlap while editing.
+    /// Balances list bottom inset for FAB and keyboard editing.
     private var wordsListBottomScrollMargin: CGFloat {
         let bottomBase: CGFloat = showsPracticeButton ? FlashcardsButton.fabSize + 24 : 24
         if focusedTranslationWordId != nil, keyboardMetrics.bottomOverlap > 1 {
@@ -98,6 +108,8 @@ struct WordsListView: View {
             isVerbenOrAdjektive: isVerbenSection || isAdjektiveSection
         )
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -213,6 +225,8 @@ struct WordsListView: View {
         }
     }
 
+    // MARK: Components
+
     @ViewBuilder
     private var listHeaderContent: some View {
         if isVerbenSection || isAdjektiveSection {
@@ -265,6 +279,8 @@ struct WordsListView: View {
         }
     }
 
+    // MARK: Navigation & Scrolling
+
     private func centerListOnDeepLinkIfNeeded(using proxy: ScrollViewProxy) {
         WordsListScrollHelpers.startDeepLinkCenterTask(
             replacing: &deepLinkScrollTask,
@@ -276,6 +292,8 @@ struct WordsListView: View {
             accessibilityReduceMotion: accessibilityReduceMotion
         )
     }
+
+    // MARK: Keyboard Navigation
 
     private func syncTranslationKeyboardNavBridge() {
         guard let fid = focusedTranslationWordId,
@@ -303,6 +321,8 @@ struct WordsListView: View {
         focusedTranslationWordId = words[idx + 1].id
     }
 
+    // MARK: Export
+
     private func generatePDF() throws -> URL {
         try WordListPDFExport.generateWordsListPDF(
             sectionId: sectionId,
@@ -316,6 +336,8 @@ struct WordsListView: View {
         )
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)

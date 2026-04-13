@@ -2,14 +2,19 @@
 //  MyWordsView.swift
 //  B2 Berufssprachkurs
 //
-//  Personal vocabulary list; entries are SwiftData + CloudKit (same container as WordProgress).
+//  User vocabulary screen for custom words, editing, and study actions.
+//  Created: 27.03.26.
 //
 
 import os
 import SwiftData
 import SwiftUI
 
+// MARK: - Screen
+
 struct MyWordsView: View {
+    // MARK: State & Environment
+
     @EnvironmentObject private var dataService: DataService
     @Environment(\.modelContext) private var modelContext
     @Query(sort: [
@@ -27,14 +32,18 @@ struct MyWordsView: View {
 
     private var accent: Color { Color("AppRed") }
 
+    // MARK: Derived Data
+
     private var myWordsListSortMode: MyWordsListSortMode {
         MyWordsListSortMode.resolved(from: myWordsSortModeRaw)
     }
 
-    /// Rows in the order the user chose (custom / name / date); also used for share/PDF.
+    /// Keeps list order aligned with the selected sorting mode.
     private var displayedMyWordEntries: [CustomWordEntry] {
         myWordsListSortMode.sortedEntries(from: customWordEntries)
     }
+
+    // MARK: View Layout
 
     var body: some View {
         ZStack {
@@ -155,6 +164,8 @@ struct MyWordsView: View {
         .hidesBottomBarWhenPushed(true)
     }
 
+    // MARK: User Actions
+
     private func performMyWordsPrintAction() {
         guard !customWordEntries.isEmpty else { return }
         HapticManager.shared.lightImpact()
@@ -168,6 +179,8 @@ struct MyWordsView: View {
         let job = Localizable.string(Localizable.myWords).replacingOccurrences(of: "\n", with: " ")
         WordListPrintPresenter.present(pdfURL: pdfURL, jobName: job)
     }
+
+    // MARK: Row Builders
 
     @ViewBuilder
     private func myWordEditModeRow(entry: CustomWordEntry, word: Word) -> some View {
@@ -185,6 +198,8 @@ struct MyWordsView: View {
         )
         .accessibilityHint(Localizable.string(Localizable.myWordsEditRowHint))
     }
+
+    // MARK: Data Mutations
 
     private func deleteAllMyWords() {
         let entries = Array(customWordEntries)
@@ -217,6 +232,8 @@ struct MyWordsView: View {
         try? modelContext.save()
         HapticManager.shared.lightImpact()
     }
+
+    // MARK: List Row Content
 
     @ViewBuilder
     private func myWordListRow(for entry: CustomWordEntry) -> some View {
@@ -252,6 +269,8 @@ struct MyWordsView: View {
         .listRowBackground(Color.clear)
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
