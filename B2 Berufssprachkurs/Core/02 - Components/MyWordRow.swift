@@ -37,8 +37,13 @@ struct MyWordRow: View {
     var translationButtonsEnabled: Bool = true
 
     @Environment(\.colorScheme) private var colorScheme
+    @State private var deleteInFlight = false
+    @State private var deleteIconScale: CGFloat = 1
+    @State private var deleteIconOpacity = 1.0
 
     private static let starColumnWidth: CGFloat = 32
+    private static let deleteAnimationDuration: Double = 0.18
+    private static let deleteDelayBeforeRemoval: Double = 0.24
 
     private var trimmedTranslation: String {
         word.translation.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -112,13 +117,26 @@ struct MyWordRow: View {
     @ViewBuilder
     private var leadingDeleteAccessory: some View {
         if let delete = onDelete {
-            Button(role: .destructive, action: delete) {
+            Button(role: .destructive, action: {
+                guard !deleteInFlight else { return }
+                deleteInFlight = true
+                withAnimation(.spring(response: Self.deleteAnimationDuration, dampingFraction: 0.72)) {
+                    deleteIconScale = 0.72
+                    deleteIconOpacity = 0.45
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + Self.deleteDelayBeforeRemoval) {
+                    delete()
+                }
+            }) {
                 Image(systemName: "minus.circle.fill")
                     .font(.system(size: 20, weight: .regular, design: .rounded))
                     .foregroundStyle(.red)
+                    .scaleEffect(deleteIconScale)
+                    .opacity(deleteIconOpacity)
                     .frame(width: Self.starColumnWidth, alignment: .center)
             }
             .buttonStyle(.plain)
+            .disabled(deleteInFlight)
             .accessibilityLabel(Localizable.string(Localizable.myWordsDeleteWord))
             .accessibilityHint(Localizable.string(Localizable.myWordsDeleteWordHint))
         }
