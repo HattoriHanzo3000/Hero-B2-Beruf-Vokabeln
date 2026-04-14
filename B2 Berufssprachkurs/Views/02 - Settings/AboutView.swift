@@ -19,7 +19,7 @@ private enum AboutLayout {
 struct AboutView: View {
     // MARK: Derived Data
 
-    private var appName: String {
+    private var appDisplayName: String {
         if let displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String,
            !displayName.isEmpty {
             return displayName
@@ -31,24 +31,27 @@ struct AboutView: View {
         return "Hero"
     }
 
+    private var appAboutName: String {
+        let localized = Localizable.string(Localizable.aboutThisApp)
+        return localized == Localizable.aboutThisApp ? appDisplayName : localized
+    }
+
     private var aboutDescriptionText: Text {
         let testName = Text(Localizable.string(Localizable.aboutOfficialTestName))
             .fontWeight(.medium)
             .italic()
-            .foregroundColor(Color("AppGreenThird"))
         
         let bookTitle = Text(Localizable.string(Localizable.aboutOfficialBookTitle))
             .fontWeight(.medium)
             .italic()
-            .foregroundColor(Color("AppGreenThird"))
             
-        return Text("\(Text(appName))\(Text(Localizable.string(Localizable.aboutAppDescLead)))\(testName)\(Text(Localizable.string(Localizable.aboutAppDescMid)))\(bookTitle)\(Text(Localizable.string(Localizable.aboutAppDescTail)))")
+        return Text("\(Text(appAboutName))\(Text(Localizable.string(Localizable.aboutAppDescLead)))\(testName)\(Text(Localizable.string(Localizable.aboutAppDescMid)))\(bookTitle)\(Text(Localizable.string(Localizable.aboutAppDescTail)))")
     }
 
     private var disclaimerText: String {
         String(
             format: Localizable.string(Localizable.aboutDisclaimer),
-            appName
+            appAboutName
         )
     }
 

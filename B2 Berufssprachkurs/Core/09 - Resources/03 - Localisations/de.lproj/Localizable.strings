@@ -123,13 +123,13 @@
 "icloud_account_not_signed_in" = "Auf diesem Gerät ist keine iCloud-Anmeldung aktiv. Zum Synchronisieren: Einstellungen → Apple-ID.";
 
 // About page
-"about_this_app" = "Hero - Deutsch B2 Beruf";
+"about_this_app" = "Hero: B2 Beruf Vokabeln";
 "about_app_desc_lead" = " hilft Ihnen, praxisnahen deutschen Wortschatz für Alltag und Beruf aufzubauen und unterstützt Ihre Vorbereitung auf den ";
 "about_official_test_name" = "telc Deutsch-Test für den Beruf B2";
 "about_app_desc_mid" = ". Der Wortschatz basiert auf dem Buch ";
 "about_official_book_title" = "Fokus Deutsch. Erfolgreich in Alltag und Beruf. B2 Kurs- und Übungsbuch";
 "about_app_desc_tail" = ", und Sie lernen ihn mit Karteikarten und kumulativer Wiederholung.";
-"about_disclaimer" = "Hinweis: %@ ist eine unabhängige Lern-App von GizaTech. Sie ist weder mit dem Cornelsen Verlag noch mit der telc gGmbH verbunden, von ihnen autorisiert, gesponsert oder empfohlen. Verweise auf Prüfungsbezeichnungen, Buchtitel und Marken dienen ausschließlich der Identifikation. Alle Marken, Produktnamen und Urheberrechte gehören ihren jeweiligen Inhabern.";
+"about_disclaimer" = "Hinweis: %@ ist eine unabhängige Lern-App. Sie ist weder mit dem Cornelsen Verlag noch mit der telc gGmbH verbunden, von ihnen autorisiert, gesponsert oder empfohlen. Verweise auf Prüfungsbezeichnungen, Buchtitel und Marken dienen ausschließlich der Identifikation. Alle Marken, Produktnamen und Urheberrechte gehören ihren jeweiligen Inhabern.";
 "version" = "Version";
 "about_debug_set_pro_mode" = "Pro-Modus aktivieren";
 "about_debug_pro_mode_enabled" = "Pro-Modus aktiviert";
@@ -170,7 +170,7 @@
 "progress_word_scope_mine" = "Meine";
 "cockpit_more_from_hero_subtitle" = "Mehr von Hero";
 "cockpit_more_from_hero_body" = "Dein Weg zum Erfolg in Deutschland geht weiter. Entdecke mehr von Hero.";
-"advertisement_hero_lead_title" = "Hero ist mehr als nur eine App. Es ist dein Begleiter für ein erfolgreiches Leben in Deutschland.";
+"advertisement_hero_lead_title" = "Hero ist mehr als nur eine App. Es ist dein Begleiter für ein erfolgreiches Leben in Deutschland";
 "advertisement_hero_lead_subtitle" = "Entdecke auch unsere anderen Apps von Hero—sie unterstützen dich dabei, deine Ziele zu erreichen.";
 "advertisement_einburgerung_app_title" = "Hero: Einbürgerungstest 2026";
 "advertisement_einburgerung_app_subtitle" = "Leben in Deutschland Test Simulator";

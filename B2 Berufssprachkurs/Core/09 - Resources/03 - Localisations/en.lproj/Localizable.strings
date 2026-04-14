@@ -123,13 +123,13 @@
 "icloud_account_not_signed_in" = "iCloud is not signed in on this device. To sync, sign in under Settings → Apple ID.";
 
 // About page
-"about_this_app" = "Hero - Deutsch B2 Beruf";
+"about_this_app" = "Hero: B2 German Vocabulary";
 "about_app_desc_lead" = " helps you build practical German vocabulary for everyday life and work and supports your preparation for the ";
 "about_official_test_name" = "telc Deutsch-Test für den Beruf B2";
 "about_app_desc_mid" = ". The vocabulary is based on the book ";
 "about_official_book_title" = "Fokus Deutsch. Erfolgreich in Alltag und Beruf. B2 Kurs- und Übungsbuch";
 "about_app_desc_tail" = ", and you can study with flashcards and spaced repetition.";
-"about_disclaimer" = "Disclaimer: %@ is an independent educational app developed by GizaTech. It is not affiliated with, authorized by, sponsored by, or endorsed by Cornelsen Verlag or telc gGmbH. References to exam names, book titles, and trademarks are used for identification purposes only. All trademarks, product names, and copyrights are the property of their respective owners.";
+"about_disclaimer" = "Disclaimer: %@ is an independent educational app. It is not affiliated with, authorized by, sponsored by, or endorsed by Cornelsen Verlag or telc gGmbH. References to exam names, book titles, and trademarks are used for identification purposes only. All trademarks, product names, and copyrights are the property of their respective owners.";
 "version" = "Version";
 "about_debug_set_pro_mode" = "Set Pro Mode";
 "about_debug_pro_mode_enabled" = "Pro mode enabled";
@@ -170,7 +170,7 @@
 "progress_word_scope_mine" = "Mine";
 "cockpit_more_from_hero_subtitle" = "More from Hero";
 "cockpit_more_from_hero_body" = "Your journey to success in Germany continues. Explore more from Hero.";
-"advertisement_hero_lead_title" = "Hero is more than just an app. It is your companion for a successful life in Germany.";
+"advertisement_hero_lead_title" = "Hero is more than just an app. It is your companion for a successful life in Germany";
 "advertisement_hero_lead_subtitle" = "Explore our other Hero apps—they're here to help you reach your goals.";
 "advertisement_einburgerung_app_title" = "Hero: Citizenship Test 2026";
 "advertisement_einburgerung_app_subtitle" = "Life in Germany Test Simulator";
