@@ -15,6 +15,7 @@ extension SpacedRepetitionService {
         case p25
         case p44
         case p67
+        case p84
         case p93
 
         var id: String { rawValue }
@@ -24,6 +25,7 @@ extension SpacedRepetitionService {
             case .p25: return 25
             case .p44: return 44
             case .p67: return 67
+            case .p84: return 84
             case .p93: return 93
             }
         }
@@ -37,6 +39,9 @@ extension SpacedRepetitionService {
                 return (0.29, 0.30, 0.21, 0.20)
             case .p67:
                 return (0.13, 0.17, 0.26, 0.44)
+            case .p84:
+                // Keep wrong low while preserving visible familiar/reinforced arcs.
+                return (0.03, 0.09, 0.23, 0.65)
             case .p93:
                 return (0.04, 0.02, 0.05, 0.89)
             }

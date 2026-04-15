@@ -145,6 +145,13 @@
 "about_debug_free_mode_enabled" = "Free mode enabled";
 "about_debug_apply_progress_preset" = "Apply %lld%% progress";
 "about_debug_applied_preset_result" = "Applied %1$lld%% preset (current readiness: %2$lld%%)";
+"about_debug_section_my_words_mock" = "My Words (mock)";
+"about_debug_my_words_mock_toggle" = "Enable “My Words” mock data";
+"about_debug_my_words_mock_footer" = "Adds or removes five fixed sample entries. Turning this off deletes only those entries (matched by German phrase).";
+"about_debug_my_words_mock_error_format" = "Mock data action failed: %@";
+"about_debug_section_general_words_1a_mock" = "General words (Lektion 1 · 1A)";
+"about_debug_general_words_1a_mock_toggle" = "Fill English translations for section 1A";
+"about_debug_general_words_1a_mock_footer" = "Writes screenshot glosses into the translation field for all words in “Berufliche Einstiege” (1A). Turning this off clears only those entries.";
 
 // Periodicity
 "12_hours" = "12 hours";
@@ -164,9 +171,9 @@
 // Cockpit
 "progress" = "Progress";
 "word_of_the_day_description" = "Customize which topics appear in your daily word on the main screen.";
-"progress_description" = "Track your learning progress across all %d words in the app.";
+"progress_description" = "Track your learning progress across all %d words from the book.";
 "progress_description_my_words" = "Track your learning progress across your %d words in My Words.";
-"progress_word_scope_app" = "App";
+"progress_word_scope_app" = "Book";
 "progress_word_scope_mine" = "Mine";
 "cockpit_more_from_hero_subtitle" = "More from Hero";
 "cockpit_more_from_hero_body" = "Your journey to success in Germany continues. Explore more from Hero.";

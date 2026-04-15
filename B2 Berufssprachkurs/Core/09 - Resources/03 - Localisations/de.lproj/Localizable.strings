@@ -145,6 +145,13 @@
 "about_debug_free_mode_enabled" = "Free-Modus aktiviert";
 "about_debug_apply_progress_preset" = "%lld%%-Fortschritt anwenden";
 "about_debug_applied_preset_result" = "Voreinstellung %1$lld%% angewendet (aktueller Stand: %2$lld%%)";
+"about_debug_section_my_words_mock" = "Meine Wörter (Mock)";
+"about_debug_my_words_mock_toggle" = "Mock-Daten für „Meine Wörter“";
+"about_debug_my_words_mock_footer" = "Fügt fünf feste Beispiele ein oder entfernt sie. Aus schaltet nur diese Einträge (Erkennung über den deutschen Ausdruck).";
+"about_debug_my_words_mock_error_format" = "Mock-Daten fehlgeschlagen: %@";
+"about_debug_section_general_words_1a_mock" = "Allgemeine Wörter (Lektion 1 · 1A)";
+"about_debug_general_words_1a_mock_toggle" = "Englische Übersetzungen für Abschnitt 1A einfügen";
+"about_debug_general_words_1a_mock_footer" = "Schreibt feste englische Glossen in das Übersetzungsfeld für alle Wörter in „Berufliche Einstiege“ (1A). Aus entfernt nur diese Einträge.";
 
 // Periodicity
 "12_hours" = "12 Stunden";
@@ -164,9 +171,9 @@
 // Cockpit
 "progress" = "Fortschritt";
 "word_of_the_day_description" = "Wähle die Themen aus, die in deinem täglichen Wort auf dem Hauptbildschirm erscheinen.";
-"progress_description" = "Verfolge deinen Lernfortschritt über alle %d Wörter in der App hinweg.";
+"progress_description" = "Verfolge deinen Lernfortschritt über alle %d Wörter aus dem Buch.";
 "progress_description_my_words" = "Verfolge deinen Lernfortschritt über deine %d Wörter in Meine Wörter.";
-"progress_word_scope_app" = "App";
+"progress_word_scope_app" = "Buch";
 "progress_word_scope_mine" = "Meine";
 "cockpit_more_from_hero_subtitle" = "Mehr von Hero";
 "cockpit_more_from_hero_body" = "Dein Weg zum Erfolg in Deutschland geht weiter. Entdecke mehr von Hero.";

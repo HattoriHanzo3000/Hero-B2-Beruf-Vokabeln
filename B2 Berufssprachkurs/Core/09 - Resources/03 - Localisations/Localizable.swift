@@ -161,6 +161,13 @@ extension Localizable {
     static let aboutDebugFreeModeEnabled = "about_debug_free_mode_enabled"
     static let aboutDebugApplyProgressPreset = "about_debug_apply_progress_preset"
     static let aboutDebugAppliedPresetResult = "about_debug_applied_preset_result"
+    static let aboutDebugSectionMyWordsMock = "about_debug_section_my_words_mock"
+    static let aboutDebugMyWordsMockToggle = "about_debug_my_words_mock_toggle"
+    static let aboutDebugMyWordsMockFooter = "about_debug_my_words_mock_footer"
+    static let aboutDebugMyWordsMockErrorFormat = "about_debug_my_words_mock_error_format"
+    static let aboutDebugSectionGeneralWords1AMock = "about_debug_section_general_words_1a_mock"
+    static let aboutDebugGeneralWords1AMockToggle = "about_debug_general_words_1a_mock_toggle"
+    static let aboutDebugGeneralWords1AMockFooter = "about_debug_general_words_1a_mock_footer"
     
     // Periodicity
     static let hours12 = "12_hours"
