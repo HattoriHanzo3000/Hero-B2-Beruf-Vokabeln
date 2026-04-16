@@ -1,3 +1,11 @@
+//
+//  WidgetWordSyncStore.swift
+//  B2 Berufssprachkurs
+//
+//  Loads Word of the Day payload from the App Group for the widget extension.
+//  Created: 08.04.26.
+//
+
 import Foundation
 
 enum WidgetWordSyncStore {

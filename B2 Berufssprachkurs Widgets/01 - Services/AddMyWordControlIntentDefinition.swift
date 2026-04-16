@@ -1,3 +1,11 @@
+//
+//  AddMyWordControlIntentDefinition.swift
+//  B2 Berufssprachkurs
+//
+//  App Intent used by the Lock Screen Control to hand off “Add My Word” into the host app.
+//  Created: 10.04.26.
+//
+
 import AppIntents
 import Foundation
 import OSLog

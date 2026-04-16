@@ -1,3 +1,11 @@
+//
+//  QuickAddDeepLink.swift
+//  B2 Berufssprachkurs
+//
+//  Shared deep links used by widgets/controls to open specific in-app destinations.
+//  Created: 10.04.26.
+//
+
 import Foundation
 
 /// Shared Quick Add URL for the Lock Screen widget (`.widgetURL`) and Control handoff. Routed in-app by `AppDeepLinkRouter` (`mywords/add` → resume + sheet / Pro alert).

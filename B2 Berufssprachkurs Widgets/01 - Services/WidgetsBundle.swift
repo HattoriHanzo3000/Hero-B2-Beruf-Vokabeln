@@ -1,3 +1,11 @@
+//
+//  WidgetsBundle.swift
+//  B2 Berufssprachkurs
+//
+//  Widget bundle entry point for the Hero B2 widget extension.
+//  Created: 08.04.26.
+//
+
 import SwiftUI
 import WidgetKit
 

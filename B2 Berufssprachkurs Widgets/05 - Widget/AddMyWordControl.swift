@@ -1,3 +1,11 @@
+//
+//  AddMyWordControl.swift
+//  B2 Berufssprachkurs
+//
+//  Lock Screen Control that opens the host app into “Add My Word”.
+//  Created: 10.04.26.
+//
+
 import AppIntents
 import SwiftUI
 import WidgetKit

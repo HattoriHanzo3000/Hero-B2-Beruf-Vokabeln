@@ -1,6 +1,13 @@
+//
+//  WidgetBackgroundView.swift
+//  B2 Berufssprachkurs
+//
+//  Shared background layers for home-screen widgets and lock-screen accessories.
+//  Created: 07.04.26.
+//
+
 import SwiftUI
 
-// Shared “liquid glass” layers for home-screen (rounded rect) and lock-screen accessories.
 private struct HeroIslandLiquidChrome<S: InsettableShape>: View {
     let shape: S
     @Environment(\.colorScheme) private var colorScheme

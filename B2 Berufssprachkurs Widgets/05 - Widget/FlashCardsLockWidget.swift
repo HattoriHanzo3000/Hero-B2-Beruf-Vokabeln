@@ -1,3 +1,11 @@
+//
+//  FlashCardsLockWidget.swift
+//  B2 Berufssprachkurs
+//
+//  Lock Screen accessory widget that deep-links into studying “My Words”.
+//  Created: 10.04.26.
+//
+
 import SwiftUI
 import WidgetKit
 
