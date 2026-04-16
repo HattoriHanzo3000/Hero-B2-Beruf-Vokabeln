@@ -22,15 +22,8 @@
       "hidden" : false,
       "layers" : [
         {
-          "image-name" : "Book 2.png",
-          "name" : "Book 2",
-          "position" : {
-            "scale" : 0.38,
-            "translation-in-points" : [
-              296.38187500000004,
-              243.41437499999995
-            ]
-          }
+          "image-name" : "Book 3.png",
+          "name" : "Book 3"
         }
       ],
       "lighting" : "individual",
@@ -48,15 +41,8 @@
       "hidden" : false,
       "layers" : [
         {
-          "image-name" : "HeroBaseLight2000.png",
-          "name" : "HeroBaseLight2000",
-          "position" : {
-            "scale" : 0.77,
-            "translation-in-points" : [
-              -99.4140625,
-              264.1875
-            ]
-          }
+          "image-name" : "Hero 2.png",
+          "name" : "Hero 2"
         }
       ],
       "name" : "Group",
