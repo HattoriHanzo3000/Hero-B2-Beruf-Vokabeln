@@ -1,5 +1,15 @@
+//
+//  WordOfTheDayWidget.swift
+//  B2 Berufssprachkurs
+//
+//  Widget configuration and timeline provider for Word of the Day.
+//  Created: 08.04.26.
+//
+
 import SwiftUI
 import WidgetKit
+
+// MARK: - Timeline Provider
 
 struct WordOfTheDayProvider: TimelineProvider {
     func placeholder(in context: Context) -> WordOfTheDayEntry {
@@ -27,6 +37,8 @@ struct WordOfTheDayProvider: TimelineProvider {
     }
 }
 
+// MARK: - Widget
+
 struct WordOfTheDayWidget: Widget {
     let kind: String = "WordOfTheDayWidget"
 
@@ -40,7 +52,7 @@ struct WordOfTheDayWidget: Widget {
         }
         .configurationDisplayName(localizedString("widget_wotd_display_name"))
         .description(localizedString("widget_wotd_description"))
-        .supportedFamilies([.systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 
     private func localizedString(_ key: String) -> String {
@@ -48,7 +60,9 @@ struct WordOfTheDayWidget: Widget {
     }
 }
 
-#Preview(as: .systemMedium) {
+// MARK: - Preview
+
+#Preview("Word of the Day", as: .systemSmall) {
     WordOfTheDayWidget()
 } timeline: {
     WordOfTheDayEntry(
