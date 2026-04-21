@@ -2,13 +2,12 @@
 //  UIApplication+TopMostViewController.swift
 //  B2 Berufssprachkurs
 //
-//  Resolves the topmost view controller for presenting UIKit modals from SwiftUI.
+//  Topmost view controller for presenting UIKit from SwiftUI.
 //
 
 import UIKit
 
 extension UIApplication {
-    /// Foreground window scene → key window → topmost presenter (modals, nav, tab).
     @MainActor
     var b2_topMostViewController: UIViewController? {
         let scenes = connectedScenes.compactMap { $0 as? UIWindowScene }

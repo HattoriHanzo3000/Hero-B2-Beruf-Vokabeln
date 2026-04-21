@@ -2,14 +2,13 @@
 //  AttributedString+B2WordListDetail.swift
 //  B2 Berufssprachkurs
 //
-//  Shared “label: value” typography for word list detail lines (localized prefixes).
+//  Typography for word-list detail lines (label + value).
 //
 
 import Foundation
 import SwiftUI
 
 extension AttributedString {
-    /// Prefix label + value with distinct typography (word list explanation / example / synonym lines).
     static func b2_wordListDetailLine(
         label: String,
         value: String,

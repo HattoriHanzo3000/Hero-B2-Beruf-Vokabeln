@@ -1,28 +1,34 @@
-# Global Project Rules: Editor's Choice Standards
+   # Global Project Rules: Editor's Choice Standards
 The ultimate goal of this project is to achieve the App Store "Editor's Choice" badge. 
 
+# 1. Engineering Standards
 All Swift code must be written to Apple's highest engineering standards:
 1. Prioritize extreme readability, maintainability, and clean architecture.
 2. NEVER stuff hundreds of lines of code into a single file. Avoid massive 300+ line files.
-3. Modularize logic intelligently. Break down complex Views into smaller, reusable subviews (often in separate files) when it makes logical sense.
+3. Modularize logic intelligently. Break down complex Views into smaller, reusable subviews in separate files.
 4. Extract services, managers, logic, and data models into distinct files.
-5. Write code exactly as a Senior Apple Engineer would.
-6. Comment style is standardized across all Swift files:
-   - Keep the file header minimal and neutral:
+5. Write code exactly as a Senior Apple Engineer would: use trailing closures, guard statements for early exits, and avoid force unwrapping (!).
+
+# 2. SwiftUI & UI Excellence
+1. Every SwiftUI View must have a functional #Preview. If the view requires complex dependencies, use mock data.
+2. Use modern SwiftUI features (Observation framework, async/await).
+3. Ensure the UI is responsive and follows Apple’s Human Interface Guidelines.
+
+# 3. Localization & Strings
+1. NEVER hardcode user-facing strings. Use String(localized: "key") or Text("key").
+2. Ensure all new strings are compatible with the existing Localizable.swift structure.
+3. Check JSON content (e.g., chapter files) when modifying features related to lessons or verbs.
+
+# 4. Documentation & Style
+1. Comment style is standardized:
+   - Minimal header:
      //
      //  FileName.swift
      //  B2 Berufssprachkurs
      //
-     //  Short purpose description of this file.
+     //  Short purpose description.
      //  Created: dd.mm.yy.
      //
-   - Never include author names in headers.
-   - Always include one short header description line that explains the file purpose.
-   - Use only clear section comments for structure (for example: // MARK: - State, // MARK: - View Layout, // MARK: - Helpers, // MARK: - Preview).
-   - Remove noisy, overly specific, or narrative comments when editing existing files.
-   - Prefer brief intent comments ("why") over line-by-line implementation comments ("what").
-7. For every newly created Swift file, always include the Created line in the exact format:
-   //  Created: dd.mm.yy.
-8. When editing an existing Swift file:
-   - Preserve or add the same Created line format.
-   - Keep comments aligned with this rule set (minimal header + logical MARK blocks).
+   - Use clear section comments: // MARK: - State, // MARK: - View Layout, // MARK: - Helpers, // MARK: - Preview.
+   - Prefer "why" (intent) comments over "what" (implementation) comments.
+2. For every newly created file, use the exact Created line format: //  Created: dd.mm.yy.

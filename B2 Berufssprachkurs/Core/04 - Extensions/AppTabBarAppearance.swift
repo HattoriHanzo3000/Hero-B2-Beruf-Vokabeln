@@ -2,13 +2,12 @@
 //  AppTabBarAppearance.swift
 //  B2 Berufssprachkurs
 //
-//  Centralized UITabBar styling (liquid glass + App Green selection) applied once at app root.
+//  Global UITabBar appearance (blur, App Green selection).
 //
 
 import UIKit
 
 enum AppTabBarAppearance {
-    /// Blur + transparent tab bar with secondary unselected and App Green selected states.
     static func applyLiquidGlassAppStyle() {
         let appearance = UITabBarAppearance()
         appearance.configureWithTransparentBackground()

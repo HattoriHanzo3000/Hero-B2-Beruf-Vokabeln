@@ -2,7 +2,7 @@
 //  GIFBundleLookup.swift
 //  B2 Berufssprachkurs
 //
-//  Shared bundle search for GIF assets (folder references vs flat resources).
+//  Bundle resolution and frame timing for GIF assets.
 //
 
 import Foundation
@@ -18,21 +18,17 @@ enum GIFBundleLookup {
         "Core/09 - Resources/02 - Gifs"
     ]
 
-    /// First matching `name.gif` in the bundle search order used across the app.
     static func url(forResourceName name: String, extension ext: String = "gif") -> URL? {
-        for sub in searchSubdirectories {
-            if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: sub) {
-                return url
-            }
-        }
-        return nil
+        searchSubdirectories.lazy.compactMap { subdirectory in
+            Bundle.main.url(forResource: name, withExtension: ext, subdirectory: subdirectory)
+        }.first
     }
 
     static func resourceExists(resourceName name: String, extension ext: String = "gif") -> Bool {
         url(forResourceName: name, extension: ext) != nil
     }
 
-    /// Sum of per-frame delays (matches `AnimatedGIFView` decoding). Used to align hide timers with actual GIF length.
+    /// Total display duration; matches `AnimatedGIFView` decoding.
     static func totalAnimationDuration(forResourceName name: String) -> Double? {
         guard let url = url(forResourceName: name) else { return nil }
         guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
@@ -50,7 +46,6 @@ enum GIFBundleLookup {
         return totalDuration
     }
 
-    /// Per-frame display delay (ImageIO GIF dictionary). Shared with `AnimatedGIFView` so timing matches.
     static func frameDelay(at index: Int, source: CGImageSource) -> Double {
         var duration = 0.1
         guard let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any],

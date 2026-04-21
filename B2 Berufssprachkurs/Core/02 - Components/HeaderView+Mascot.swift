@@ -16,8 +16,10 @@ struct MascotView: View {
     /// Cancels any pending “hide media” work when starting a new play (defensive).
     @State var mascotGifEndWorkItem: DispatchWorkItem?
     @State var autoPlayTask: Task<Void, Never>? = nil
+    @State private var playbackDurationTask: Task<Void, Never>? = nil
     @State private var mascotPlayer: AVPlayer?
     @State private var playerAssetName: String?
+    @State private var resolvedPlaybackDuration: TimeInterval = 1.0
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.accessibilityReduceMotion) var reduceMotion
 
@@ -55,14 +57,18 @@ struct MascotView: View {
         }
         .onAppear {
             preparePlayerIfNeeded()
+            refreshPlaybackDuration()
             startAutoPlay()
         }
         .onChange(of: videoMascotAssetName) { _, _ in
             preparePlayerIfNeeded()
+            refreshPlaybackDuration()
         }
         .onDisappear {
             autoPlayTask?.cancel()
             autoPlayTask = nil
+            playbackDurationTask?.cancel()
+            playbackDurationTask = nil
             mascotGifEndWorkItem?.cancel()
             mascotGifEndWorkItem = nil
             mascotPlayer?.pause()
@@ -95,10 +101,23 @@ struct MascotView: View {
 
     /// Matches media duration so static art returns when playback ends.
     private var mascotPlaybackDuration: TimeInterval {
-        if let videoDuration = VideoBundleLookup.duration(forResourceName: videoMascotAssetName) {
-            return videoDuration
+        resolvedPlaybackDuration
+    }
+
+    private func refreshPlaybackDuration() {
+        playbackDurationTask?.cancel()
+        playbackDurationTask = Task {
+            let fallbackDuration = GIFBundleLookup.totalAnimationDuration(forResourceName: gifFallbackAssetName) ?? 1.0
+            let duration: TimeInterval
+            if hasVideoAsset, let videoDuration = await VideoBundleLookup.duration(forResourceName: videoMascotAssetName) {
+                duration = videoDuration
+            } else {
+                duration = fallbackDuration
+            }
+            await MainActor.run {
+                resolvedPlaybackDuration = duration
+            }
         }
-        return GIFBundleLookup.totalAnimationDuration(forResourceName: gifFallbackAssetName) ?? 1.0
     }
 
     private func preparePlayerIfNeeded() {

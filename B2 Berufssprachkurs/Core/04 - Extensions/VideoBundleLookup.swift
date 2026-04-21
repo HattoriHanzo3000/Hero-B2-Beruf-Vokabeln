@@ -2,7 +2,7 @@
 //  VideoBundleLookup.swift
 //  B2 Berufssprachkurs
 //
-//  Shared bundle search and duration lookup for mascot video assets.
+//  Bundle resolution and duration for mascot video assets.
 //  Created: 20.04.26.
 //
 
@@ -20,22 +20,20 @@ enum VideoBundleLookup {
     ]
 
     static func url(forResourceName name: String, extension ext: String = "mov") -> URL? {
-        for subdirectory in searchSubdirectories {
-            if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: subdirectory) {
-                return url
-            }
-        }
-        return nil
+        searchSubdirectories.lazy.compactMap { subdirectory in
+            Bundle.main.url(forResource: name, withExtension: ext, subdirectory: subdirectory)
+        }.first
     }
 
     static func resourceExists(resourceName name: String, extension ext: String = "mov") -> Bool {
         url(forResourceName: name, extension: ext) != nil
     }
 
-    static func duration(forResourceName name: String, extension ext: String = "mov") -> TimeInterval? {
+    static func duration(forResourceName name: String, extension ext: String = "mov") async -> TimeInterval? {
         guard let url = url(forResourceName: name, extension: ext) else { return nil }
         let asset = AVURLAsset(url: url)
-        let seconds = CMTimeGetSeconds(asset.duration)
+        guard let duration = try? await asset.load(.duration) else { return nil }
+        let seconds = CMTimeGetSeconds(duration)
         guard seconds.isFinite, seconds > 0 else { return nil }
         return seconds
     }
