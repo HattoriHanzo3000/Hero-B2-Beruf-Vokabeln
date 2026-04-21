@@ -58,6 +58,7 @@ extension Localizable {
     static let keyboardNavNextWordA11y = "keyboard_nav_next_word_a11y"
     static let keyboardNavNextWordHintA11y = "keyboard_nav_next_word_hint_a11y"
     static let keyboardNavDoneHintA11y = "keyboard_nav_done_hint_a11y"
+    static let keyboardAccessoryPreviewSimulatedKeyboard = "keyboard_accessory_preview_simulated_keyboard"
 
     static let favoritesListA11yLabel = "favorites_list_a11y_label"
     static let favoritesListA11yHint = "favorites_list_a11y_hint"

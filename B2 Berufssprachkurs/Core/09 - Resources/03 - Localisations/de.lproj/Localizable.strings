@@ -45,6 +45,7 @@
 "keyboard_nav_next_word_a11y" = "Nächstes Wort";
 "keyboard_nav_next_word_hint_a11y" = "Zum nächsten Wort in der Liste springen";
 "keyboard_nav_done_hint_a11y" = "Tastatur ausblenden und Eingabe beenden";
+"keyboard_accessory_preview_simulated_keyboard" = "Simulierte Tastatur";
 "favorites_list_a11y_label" = "Favoritenliste";
 "favorites_list_a11y_hint" = "Liste favorisierter deutscher Wörter mit Übersetzungen, Erklärungen und Synonymen";
 "word_row_a11y_summary_editing" = "%@. Übersetzung wird bearbeitet";

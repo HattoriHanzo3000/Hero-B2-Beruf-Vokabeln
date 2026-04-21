@@ -45,6 +45,7 @@
 "keyboard_nav_next_word_a11y" = "Next word";
 "keyboard_nav_next_word_hint_a11y" = "Navigate to the next word in the list";
 "keyboard_nav_done_hint_a11y" = "Hide keyboard and finish input";
+"keyboard_accessory_preview_simulated_keyboard" = "Simulated keyboard";
 "favorites_list_a11y_label" = "Favorites list";
 "favorites_list_a11y_hint" = "List of favorite German words with translations, explanations, and synonyms";
 "word_row_a11y_summary_editing" = "%@. Editing translation";
