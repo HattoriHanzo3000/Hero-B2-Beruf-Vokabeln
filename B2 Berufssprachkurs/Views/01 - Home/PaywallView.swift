@@ -201,7 +201,7 @@ struct PaywallView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
 
-            Image("MascotLaunch")
+            Image("Mascot")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 130, height: 130)

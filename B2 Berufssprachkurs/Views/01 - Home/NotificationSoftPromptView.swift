@@ -25,7 +25,7 @@ struct NotificationSoftPromptView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Image("MascotLaunch")
+            Image("Mascot")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 120, height: 120)

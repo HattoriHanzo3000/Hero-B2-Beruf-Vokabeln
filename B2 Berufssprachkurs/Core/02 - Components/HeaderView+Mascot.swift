@@ -6,6 +6,7 @@
 import SwiftUI
 import UIKit
 import AVFoundation
+import Combine
 
 struct MascotView: View {
     static let defaultSize: CGFloat = 100
@@ -19,6 +20,9 @@ struct MascotView: View {
     @State private var playbackDurationTask: Task<Void, Never>? = nil
     @State private var mascotPlayer: AVPlayer?
     @State private var playerAssetName: String?
+    /// Hides `AlphaVideoPlayerView` until the item is ready so cold launch never shows an empty layer over the static art.
+    @State private var mascotVideoReadyForDisplay = false
+    @State private var videoReadyObserver: AnyCancellable?
     @State private var resolvedPlaybackDuration: TimeInterval = 1.0
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.accessibilityReduceMotion) var reduceMotion
@@ -27,9 +31,17 @@ struct MascotView: View {
     var body: some View {
         ZStack {
             if hasVideoAsset, !reduceMotion, let mascotPlayer {
+                Image(staticMascotAssetName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: Self.defaultSize, height: Self.defaultSize)
+                    .opacity(mascotVideoReadyForDisplay ? 0 : 1)
+                    .allowsHitTesting(false)
+
                 AlphaVideoPlayerView(player: mascotPlayer, videoGravity: .resizeAspect)
                     .id(videoMascotAssetName)
                     .frame(width: Self.defaultSize, height: Self.defaultSize)
+                    .opacity(mascotVideoReadyForDisplay ? 1 : 0)
                     .allowsHitTesting(false)
             } else {
                 Image(staticMascotAssetName)
@@ -71,20 +83,19 @@ struct MascotView: View {
             playbackDurationTask = nil
             mascotGifEndWorkItem?.cancel()
             mascotGifEndWorkItem = nil
+            videoReadyObserver?.cancel()
+            videoReadyObserver = nil
             mascotPlayer?.pause()
         }
     }
 
     private var staticMascotAssetName: String {
-        if colorScheme == .dark, UIImage(named: "MascotDark") != nil {
-            return "MascotDark"
-        }
-        return "Mascot"
+        "MascotHeader"
     }
 
-    /// Dark mode uses `MascotAnimationDark.mov`; light mode uses `MascotAnimationLight.mov`.
+    /// Dark mode uses `MascotHeaderAnimationDark.mov`; light mode uses `MascotHeaderAnimationLight.mov`.
     private var videoMascotAssetName: String {
-        colorScheme == .dark ? "MascotAnimationDark" : "MascotAnimationLight"
+        colorScheme == .dark ? "MascotHeaderAnimationDark" : "MascotHeaderAnimationLight"
     }
 
     private var hasVideoAsset: Bool {
@@ -122,6 +133,9 @@ struct MascotView: View {
 
     private func preparePlayerIfNeeded() {
         guard hasVideoAsset else {
+            videoReadyObserver?.cancel()
+            videoReadyObserver = nil
+            mascotVideoReadyForDisplay = false
             mascotPlayer?.pause()
             mascotPlayer = nil
             playerAssetName = nil
@@ -129,6 +143,11 @@ struct MascotView: View {
         }
         if playerAssetName == videoMascotAssetName, mascotPlayer != nil { return }
         guard let url = VideoBundleLookup.url(forResourceName: videoMascotAssetName) else { return }
+
+        videoReadyObserver?.cancel()
+        videoReadyObserver = nil
+        mascotVideoReadyForDisplay = false
+
         let playerItem = AVPlayerItem(url: url)
         let player = AVPlayer(playerItem: playerItem)
         player.actionAtItemEnd = .pause
@@ -136,6 +155,21 @@ struct MascotView: View {
         mascotPlayer = player
         playerAssetName = videoMascotAssetName
         player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
+
+        observeVideoReadiness(playerItem: playerItem)
+    }
+
+    private func observeVideoReadiness(playerItem: AVPlayerItem) {
+        if playerItem.status == .readyToPlay {
+            mascotVideoReadyForDisplay = true
+            return
+        }
+        videoReadyObserver = playerItem.publisher(for: \.status)
+            .receive(on: DispatchQueue.main)
+            .sink { status in
+                guard status == .readyToPlay else { return }
+                mascotVideoReadyForDisplay = true
+            }
     }
 
     func playAnimationOnly() {

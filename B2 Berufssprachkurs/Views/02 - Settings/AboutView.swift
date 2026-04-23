@@ -63,7 +63,7 @@ struct AboutView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Image("MascotLaunch")
+                    Image("Mascot")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: 200, maxHeight: 200)
