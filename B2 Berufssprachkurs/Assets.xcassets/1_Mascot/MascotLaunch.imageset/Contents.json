@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "HeroB2_512.png",
+      "filename" : "MascotLaunchLight.png",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "HeroB2_512_Dark.png",
+      "filename" : "MascotLaunchDark.png",
       "idiom" : "universal"
     }
   ],
