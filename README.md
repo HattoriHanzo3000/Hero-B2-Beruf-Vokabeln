@@ -1,4 +1,4 @@
-# Hero – Deutsch B2 Beruf
+# Hero: B2 Beruf Vokabeln
 
 ---
 
