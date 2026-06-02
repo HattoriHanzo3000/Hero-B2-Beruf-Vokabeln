@@ -1,4 +1,5 @@
-// Tracked app configuration. `B2-Berufssprachkurs-Info.plist` uses $(REVENUECAT_PUBLIC_API_KEY).
-// Optional: gitignored `LocalSecrets.xcconfig` in this folder can override the line below.
-REVENUECAT_PUBLIC_API_KEY = appl_rcEmwNiUYUgSBkoXePHgjfKFjcI
+// Shared app configuration for build-time values.
+// Keep secrets in the gitignored LocalSecrets.xcconfig file next to this one.
+
+REVENUECAT_PUBLIC_API_KEY = YOUR_REVENUECAT_PUBLIC_API_KEY
 #include? "LocalSecrets.xcconfig"
