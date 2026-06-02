@@ -1,6 +1,3 @@
-# Minimal ignore list — only what this repo actually produces locally.
-# When you add secrets, tooling, or generated folders, add a line here (see .cursor/rules/gitignore-hygiene.mdc).
-
 # Xcode user state
 *.xcuserstate
 xcuserdata/
