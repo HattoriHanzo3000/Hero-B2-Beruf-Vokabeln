@@ -113,7 +113,7 @@
 "privacy_policy" = "Datenschutzerklärung";
 "reset_app" = "App zurücksetzen";
 "reset_app_title" = "App zurücksetzen";
-"reset_app_message" = "Dies setzt alle Ihre Fortschritte zurück, einschließlich markierter Wörter, Übersetzungen und kumulativer Wiederholungsdaten. Diese Aktion kann nicht rückgängig gemacht werden.";
+"reset_app_message" = "Dies setzt alle Ihre Fortschritte zurück, einschließlich markierter Wörter, Übersetzungen und kumulativer Wiederholungsdaten auf diesem Gerät, in iCloud und auf Ihren anderen Apple-Geräten. Diese Aktion kann nicht rückgängig gemacht werden.";
 "reset" = "Zurücksetzen";
 "cancel" = "Abbrechen";
 "error_alert_title" = "Fehler";

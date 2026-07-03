@@ -113,7 +113,7 @@
 "privacy_policy" = "Privacy Policy";
 "reset_app" = "Reset App";
 "reset_app_title" = "Reset App";
-"reset_app_message" = "This will reset all your progress, including checked words, translations, and spaced repetition data. This action cannot be undone.";
+"reset_app_message" = "This will reset all your progress—including checked words, translations, and spaced repetition data—on this device, in iCloud, and on your other Apple devices. This action cannot be undone.";
 "reset" = "Reset";
 "cancel" = "Cancel";
 "error_alert_title" = "Error";
