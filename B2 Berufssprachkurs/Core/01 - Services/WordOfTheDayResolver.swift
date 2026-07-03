@@ -11,10 +11,14 @@ import Foundation
 // MARK: - WordOfTheDayResolver
 
 enum WordOfTheDayResolver {
-    private static let selectedSectionsKey = "wordOfTheDaySelectedSections"
-    private static let periodicityKey = "wordOfTheDayPeriodicity"
+    static let selectedSectionsKey = "wordOfTheDaySelectedSections"
+    static let periodicityKey = "wordOfTheDayPeriodicity"
 
-    static func currentWord(from wordsBySection: [String: [Word]], defaults: UserDefaults = .standard) -> Word? {
+    static func currentWord(
+        from wordsBySection: [String: [Word]],
+        at date: Date = Date(),
+        defaults: UserDefaults = .standard
+    ) -> Word? {
         let csv = defaults.string(forKey: selectedSectionsKey) ?? ""
         let selectedSectionIds = WordOfTheDaySelectionPolicy.selectionSetFromCSV(csv)
 
@@ -27,14 +31,10 @@ enum WordOfTheDayResolver {
         guard !eligibleWords.isEmpty else { return nil }
 
         let periodicity = defaults.string(forKey: periodicityKey) ?? "24_hours"
-        let hoursPerPeriod: Int = periodicity == "12_hours" ? 12 : 24
-
+        let hoursPerPeriod = hoursPerPeriod(from: periodicity)
         let calendar = Calendar.current
-        let now = Date()
-        let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now)) ?? now
-        let hoursSinceStartOfYear = calendar.dateComponents([.hour], from: startOfYear, to: now).hour ?? 0
-        let periodIndex = hoursSinceStartOfYear / hoursPerPeriod
-        let currentYear = calendar.component(.year, from: now)
+        let periodIndex = periodIndex(for: date, calendar: calendar, hoursPerPeriod: hoursPerPeriod)
+        let currentYear = calendar.component(.year, from: date)
         let seedMaterial = [
             selectedSectionIds.sorted().joined(separator: ","),
             String(hoursPerPeriod),
@@ -42,8 +42,43 @@ enum WordOfTheDayResolver {
             String(periodIndex)
         ].joined(separator: "|")
         let randomIndex = Int(fnv1a64(seedMaterial) % UInt64(eligibleWords.count))
-        let wordIndex = randomIndex
-        return eligibleWords[wordIndex]
+        return eligibleWords[randomIndex]
+    }
+
+    static func hoursPerPeriod(from periodicity: String) -> Int {
+        periodicity == "12_hours" ? 12 : 24
+    }
+
+    /// Number of future timeline entries to precompute (~two weeks of coverage).
+    static func timelineLookaheadPeriodCount(hoursPerPeriod: Int) -> Int {
+        hoursPerPeriod == 12 ? 28 : 14
+    }
+
+    static func periodIndex(
+        for date: Date,
+        calendar: Calendar = .current,
+        hoursPerPeriod: Int
+    ) -> Int {
+        let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: date)) ?? date
+        let hoursSinceStartOfYear = calendar.dateComponents([.hour], from: startOfYear, to: date).hour ?? 0
+        return hoursSinceStartOfYear / hoursPerPeriod
+    }
+
+    static func periodStartDate(
+        periodIndex: Int,
+        year: Int,
+        hoursPerPeriod: Int,
+        calendar: Calendar = .current
+    ) -> Date? {
+        var components = DateComponents()
+        components.year = year
+        components.month = 1
+        components.day = 1
+        components.hour = 0
+        components.minute = 0
+        components.second = 0
+        guard let startOfYear = calendar.date(from: components) else { return nil }
+        return calendar.date(byAdding: .hour, value: periodIndex * hoursPerPeriod, to: startOfYear)
     }
 
     /// Stable non-cryptographic hash for deterministic "random" selection across process restarts.

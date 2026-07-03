@@ -97,6 +97,7 @@ struct B2_BerufssprachkursApp: App {
             case .active:
                 AppGroupQuickAddBridge.consumePendingQuickAddIfNeeded()
                 NotificationManager.shared.cancelAllNotifications()
+                WidgetWotdSyncBridge.scheduleSyncOnAppActivation(modelContext: sharedModelContainer.mainContext)
             case .background:
                 NotificationManager.shared.scheduleRetentionNotification()
             default:

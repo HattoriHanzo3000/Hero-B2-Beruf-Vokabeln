@@ -89,6 +89,8 @@ extension Localizable {
     static let studyFlashcardFrontA11y = "study_flashcard_front_a11y"
     static let studyFlashcardBackWithExampleA11y = "study_flashcard_back_with_example_a11y"
     static let studyFlashcardBackWordOnlyA11y = "study_flashcard_back_word_only_a11y"
+    static let studySectionHintShowA11y = "study_section_hint_show_a11y"
+    static let studySectionHintHideA11y = "study_section_hint_hide_a11y"
     
     // Check all button
     static let allSelected = "all_selected"

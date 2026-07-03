@@ -15,6 +15,8 @@
 		74E8ADD42F857A95002D10A1 /* QuickAddDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E8ADD32F857A95002D10A1 /* QuickAddDeepLink.swift */; };
 		74RC00122EDF800000581890 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 74RC00112EDF800000581890 /* RevenueCat */; };
 		74RC00142EDF800000581891 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 74RC00132EDF800000581891 /* RevenueCatUI */; };
+		74WOTD0172F8580000000007 /* WidgetTimelinePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74WOTD0072F8580000000007 /* WidgetTimelinePayload.swift */; };
+		74WOTD0182F8580000000008 /* WidgetPayloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74WOTD0082F8580000000008 /* WidgetPayloadManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,14 @@
 		74D87BDE2ECD0E14004BCC24 /* B2 Berufssprachkurs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "B2 Berufssprachkurs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E8ADD12F857A95002D10A0 /* AddMyWordControlIntentDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyWordControlIntentDefinition.swift; sourceTree = "<group>"; };
 		74E8ADD32F857A95002D10A1 /* QuickAddDeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddDeepLink.swift; sourceTree = "<group>"; };
+		74WOTD0012F8580000000001 /* WordOfTheDayResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WordOfTheDayResolver.swift; path = "B2 Berufssprachkurs/Core/01 - Services/WordOfTheDayResolver.swift"; sourceTree = "<group>"; };
+		74WOTD0022F8580000000002 /* WordOfTheDaySelectionPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WordOfTheDaySelectionPolicy.swift; path = "B2 Berufssprachkurs/Core/01 - Services/WordOfTheDaySelectionPolicy.swift"; sourceTree = "<group>"; };
+		74WOTD0032F8580000000003 /* BundledVocabularyLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BundledVocabularyLoader.swift; path = "B2 Berufssprachkurs/Core/01 - Services/BundledVocabularyLoader.swift"; sourceTree = "<group>"; };
+		74WOTD0042F8580000000004 /* VocabularyCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VocabularyCatalog.swift; path = "B2 Berufssprachkurs/Core/03 - Models/VocabularyCatalog.swift"; sourceTree = "<group>"; };
+		74WOTD0052F8580000000005 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Models.swift; path = "B2 Berufssprachkurs/Core/03 - Models/Models.swift"; sourceTree = "<group>"; };
+		74WOTD0062F8580000000006 /* WidgetTranslationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WidgetTranslationStore.swift; path = "B2 Berufssprachkurs/Core/01 - Services/WidgetTranslationStore.swift"; sourceTree = "<group>"; };
+		74WOTD0072F8580000000007 /* WidgetTimelinePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTimelinePayload.swift; sourceTree = "<group>"; };
+		74WOTD0082F8580000000008 /* WidgetPayloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPayloadManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -127,6 +137,7 @@
 				74D87BE02ECD0E14004BCC24 /* B2 Berufssprachkurs */,
 				4233D5F72F857A93002B25BD /* B2 Berufssprachkurs Widgets */,
 				74E8ADD52F857A95002D10A2 /* Quick Add (app + extension) */,
+				74WOTD0202F8580000000020 /* Word of the Day (app only) */,
 				74E8SUP012F857A95002D10C0 /* Supporting */,
 				744F83A12ED60C6500B2F198 /* Frameworks */,
 				74D87BDF2ECD0E14004BCC24 /* Products */,
@@ -147,6 +158,8 @@
 			children = (
 				74E8ADD12F857A95002D10A0 /* AddMyWordControlIntentDefinition.swift */,
 				74E8ADD32F857A95002D10A1 /* QuickAddDeepLink.swift */,
+				74WOTD0072F8580000000007 /* WidgetTimelinePayload.swift */,
+				74WOTD0082F8580000000008 /* WidgetPayloadManager.swift */,
 			);
 			name = "Quick Add (app + extension)";
 			path = "B2 Berufssprachkurs Widgets/01 - Services";
@@ -158,6 +171,19 @@
 				748EDDE02EDBBD7500763D2E /* B2 Berufssprachkurs/LaunchScreen.storyboard */,
 			);
 			name = Supporting;
+			sourceTree = "<group>";
+		};
+		74WOTD0202F8580000000020 /* Word of the Day (app only) */ = {
+			isa = PBXGroup;
+			children = (
+				74WOTD0012F8580000000001 /* WordOfTheDayResolver.swift */,
+				74WOTD0022F8580000000002 /* WordOfTheDaySelectionPolicy.swift */,
+				74WOTD0032F8580000000003 /* BundledVocabularyLoader.swift */,
+				74WOTD0042F8580000000004 /* VocabularyCatalog.swift */,
+				74WOTD0052F8580000000005 /* Models.swift */,
+				74WOTD0062F8580000000006 /* WidgetTranslationStore.swift */,
+			);
+			name = "Word of the Day (app only)";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +310,8 @@
 			files = (
 				74E8ADD22F857A95002D10A0 /* AddMyWordControlIntentDefinition.swift in Sources */,
 				74E8ADD42F857A95002D10A1 /* QuickAddDeepLink.swift in Sources */,
+				74WOTD0172F8580000000007 /* WidgetTimelinePayload.swift in Sources */,
+				74WOTD0182F8580000000008 /* WidgetPayloadManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

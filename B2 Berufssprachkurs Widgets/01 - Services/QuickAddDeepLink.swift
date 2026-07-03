@@ -24,6 +24,10 @@ enum QuickAddDeepLink {
     nonisolated static let pendingQuickAddMarkerFileName = "pending-quick-add-url.txt"
     /// Shared storage key for the Word of the Day widget payload.
     nonisolated static let wordOfTheDayPayloadKey = "widget.wordOfTheDay.payload"
+    /// App Group JSON file mapping word IDs to user translations for the widget.
+    nonisolated static let wordOfTheDayTranslationsFileName = "widget.wotd.translations.json"
+    /// WidgetKit kind for `WordOfTheDayWidget`.
+    nonisolated static let wordOfTheDayWidgetKind = "WordOfTheDayWidget"
 
     private nonisolated static func makeURL(_ raw: String) -> URL {
         guard let url = URL(string: raw) else {

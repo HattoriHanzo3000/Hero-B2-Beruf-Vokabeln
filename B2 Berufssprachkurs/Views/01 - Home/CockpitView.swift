@@ -6,6 +6,7 @@
 //  Created: 26.11.25.
 //
 
+import SwiftData
 import SwiftUI
 
 // MARK: - Screen
@@ -24,6 +25,7 @@ struct CockpitView: View {
     @AppStorage("wordOfTheDaySelectedSections") private var wordOfTheDaySelectedSections = ""
     @AppStorage("wordOfTheDayPeriodicity") private var wordOfTheDayPeriodicity = "24_hours"
     @AppStorage("cockpitProgressWordScope") private var progressWordScopeRaw = DataService.ProgressWordScope.app.rawValue
+    @Query(sort: \WordProgress.wordId) private var wordProgressRecords: [WordProgress]
 
     @State private var showMoreFromHeroSheet = false
 
@@ -78,13 +80,30 @@ struct CockpitView: View {
                     applyDefaultIfEmpty: true
                 )
             }
+            syncWordOfTheDayWidget()
         }
         .onChange(of: subscriptionManager.isPremiumActive) { _, _ in
             wordOfTheDaySelectedSections = WordOfTheDaySelectionPolicy.sanitizedCSVForFreeTier(
                 wordOfTheDaySelectedSections,
                 applyDefaultIfEmpty: false
             )
+            syncWordOfTheDayWidget()
         }
+        .onChange(of: wordOfTheDaySelectedSections) { _, _ in
+            syncWordOfTheDayWidget()
+        }
+        .onChange(of: wordOfTheDayPeriodicity) { _, _ in
+            syncWordOfTheDayWidget()
+        }
+    }
+
+    private func syncWordOfTheDayWidget() {
+        let isPremium = isPremiumPreviewOverride ?? subscriptionManager.isPremiumActive
+        WidgetWotdSyncBridge.requestSync(
+            wordProgress: wordProgressRecords,
+            wordsBySection: dataService.wordsBySection,
+            isPremiumActive: isPremium
+        )
     }
 }
 
@@ -116,8 +135,10 @@ private struct CockpitViewCanvasPreview: View {
 
 #Preview("Cockpit — Free") {
     CockpitViewCanvasPreview(isPremiumPreviewOverride: false)
+        .modelContainer(for: WordProgress.self, inMemory: true)
 }
 
 #Preview("Cockpit — Pro") {
     CockpitViewCanvasPreview(isPremiumPreviewOverride: true)
+        .modelContainer(for: WordProgress.self, inMemory: true)
 }

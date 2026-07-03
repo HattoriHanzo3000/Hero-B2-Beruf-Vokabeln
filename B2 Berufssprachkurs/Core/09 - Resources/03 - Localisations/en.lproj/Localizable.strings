@@ -74,6 +74,8 @@
 "study_flashcard_front_a11y" = "Card front: %@";
 "study_flashcard_back_with_example_a11y" = "Card back: %@. Example: %@";
 "study_flashcard_back_word_only_a11y" = "Card back: %@";
+"study_section_hint_show_a11y" = "Show section hint";
+"study_section_hint_hide_a11y" = "Hide section hint";
 
 // Check all button
 "all_selected" = "All selected";

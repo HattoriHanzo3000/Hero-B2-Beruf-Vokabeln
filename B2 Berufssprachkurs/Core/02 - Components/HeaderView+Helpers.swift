@@ -4,12 +4,10 @@
 //
 
 import SwiftUI
-import WidgetKit
 
 extension HeaderView {
     func updateWordOfTheDay() {
         wordOfTheDay = dataService.getWordOfTheDay()
-        persistWordOfTheDayForWidget()
     }
 
     func displayedTranslation(for word: Word) -> String {
@@ -70,24 +68,18 @@ extension HeaderView {
         }
     }
 
-    private func persistWordOfTheDayForWidget() {
-        let appGroupId = QuickAddDeepLink.appGroupSuiteName
-        let payloadKey = QuickAddDeepLink.wordOfTheDayPayloadKey
-        guard let defaults = UserDefaults(suiteName: appGroupId) else { return }
-
-        guard let word = wordOfTheDay else {
-            defaults.removeObject(forKey: payloadKey)
-            WidgetCenter.shared.reloadTimelines(ofKind: "WordOfTheDayWidget")
-            return
+    func wordOfTheDayGeneralSectionBadgeCaption(for word: Word) -> String? {
+        guard let sectionId = dataService.getSectionId(for: word.id),
+              dataService.getGroupType(for: sectionId) == .generalWords else {
+            return nil
         }
+        return sectionId
+    }
 
-        let payload: [String: String] = [
-            "word": word.german,
-            "translation": displayedTranslation(for: word),
-            "exampleSentence": word.example ?? ""
-        ]
-
-        defaults.set(payload, forKey: payloadKey)
-        WidgetCenter.shared.reloadTimelines(ofKind: "WordOfTheDayWidget")
+    func wordOfTheDayHeadlineAccessibilityLabel(for word: Word) -> String {
+        if let sectionLabel = wordOfTheDayGeneralSectionBadgeCaption(for: word) {
+            return "\(word.german). \(sectionLabel)"
+        }
+        return word.german
     }
 }

@@ -42,6 +42,7 @@ final class WordProgress {
             context.insert(WordProgress(wordId: wordId, translation: text, lastUpdated: Date()))
         }
         try? context.save()
+        WidgetWotdSyncBridge.updateTranslation(wordId: wordId, text: text)
     }
 
     @MainActor

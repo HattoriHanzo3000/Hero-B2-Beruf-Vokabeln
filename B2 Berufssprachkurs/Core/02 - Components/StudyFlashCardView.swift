@@ -11,7 +11,6 @@ struct StudyFlashCardView: View {
     let cardColor: Color
     let cardId: String?
     let initialFlipped: Bool
-    @ObservedObject var dataService: DataService
     @Binding var buttonFeedback: StudyButtonFeedback?
     let onSwipeCorrect: (() -> Void)?
     let onSwipeWrong: (() -> Void)?
@@ -29,7 +28,6 @@ struct StudyFlashCardView: View {
         cardColor: Color,
         cardId: String? = nil,
         initialFlipped: Bool = false,
-        dataService: DataService,
         buttonFeedback: Binding<StudyButtonFeedback?>,
         onSwipeCorrect: (() -> Void)? = nil,
         onSwipeWrong: (() -> Void)? = nil
@@ -39,7 +37,6 @@ struct StudyFlashCardView: View {
         self.cardColor = cardColor
         self.cardId = cardId
         self.initialFlipped = initialFlipped
-        self.dataService = dataService
         self._buttonFeedback = buttonFeedback
         self.onSwipeCorrect = onSwipeCorrect
         self.onSwipeWrong = onSwipeWrong

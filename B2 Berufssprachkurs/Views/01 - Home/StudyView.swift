@@ -32,6 +32,7 @@ struct StudyView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var showNotificationSoftPrompt = false
     @State private var hasCheckedSoftPromptThisSession = false
+    @State private var showsSectionOriginHint = false
 
     // MARK: Initialization
 
@@ -147,7 +148,7 @@ struct StudyView: View {
                     backgroundColor: studyCanvasBackground
                 )
             } else if viewModel.currentIndex < viewModel.studyItems.count {
-                ZStack(alignment: .bottomTrailing) {
+                ZStack {
                     VStack(spacing: 0) {
                         headerView
                             .padding(.top, 8)
@@ -162,7 +163,6 @@ struct StudyView: View {
                             cardColor: studyChromeAccent(for: currentItem),
                             cardId: currentItem.wordId,
                             initialFlipped: viewModel.cardFlipped,
-                            dataService: dataService,
                             buttonFeedback: $viewModel.buttonFeedback,
                             onSwipeCorrect: {
                                 viewModel.advanceAfterAnswer(quality: 4)
@@ -197,28 +197,43 @@ struct StudyView: View {
                         Spacer()
                     }
 
-                    Button(action: {
-                        let wid = viewModel.studyItems[viewModel.currentIndex].wordId
-                        _ = dataService.toggleFavorite(wordId: wid)
-                        HapticManager.shared.lightImpact()
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {}
-                    }) {
-                        let wid = viewModel.studyItems[viewModel.currentIndex].wordId
-                        let isFav = dataService.isFavorite(wordId: wid)
-                        Image(systemName: isFav ? "star.fill" : "star")
-                            .font(.system(size: 24, weight: .regular, design: .default))
-                            .foregroundColor(isFav ? Color("AppYellow") : .secondary)
-                            .symbolEffect(.bounce, value: isFav)
+                    VStack {
+                        Spacer()
+                        HStack(alignment: .center) {
+                            let currentItem = viewModel.studyItems[viewModel.currentIndex]
+                            StudySectionOriginHintControl(
+                                sectionId: currentItem.sectionId,
+                                germanWord: currentItem.germanWord,
+                                accentColor: studyChromeAccent(for: currentItem),
+                                isRevealed: $showsSectionOriginHint
+                            )
+
+                            Spacer()
+
+                            Button(action: {
+                                let wid = viewModel.studyItems[viewModel.currentIndex].wordId
+                                _ = dataService.toggleFavorite(wordId: wid)
+                                HapticManager.shared.lightImpact()
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {}
+                            }) {
+                                let wid = viewModel.studyItems[viewModel.currentIndex].wordId
+                                let isFav = dataService.isFavorite(wordId: wid)
+                                Image(systemName: isFav ? "star.fill" : "star")
+                                    .font(.system(size: 24, weight: .regular, design: .default))
+                                    .foregroundColor(isFav ? Color("AppYellow") : .secondary)
+                                    .symbolEffect(.bounce, value: isFav)
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel(
+                                dataService.isFavorite(wordId: viewModel.studyItems[viewModel.currentIndex].wordId)
+                                    ? Localizable.string(Localizable.studyFavoriteRemoveA11y)
+                                    : Localizable.string(Localizable.studyFavoriteAddA11y)
+                            )
+                            .accessibilityHint(Localizable.string(Localizable.studyFavoriteHintA11y))
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
                     }
-                    .buttonStyle(.plain)
-                    .padding(.trailing, 20)
-                    .padding(.bottom, 20)
-                    .accessibilityLabel(
-                        dataService.isFavorite(wordId: viewModel.studyItems[viewModel.currentIndex].wordId)
-                            ? Localizable.string(Localizable.studyFavoriteRemoveA11y)
-                            : Localizable.string(Localizable.studyFavoriteAddA11y)
-                    )
-                    .accessibilityHint(Localizable.string(Localizable.studyFavoriteHintA11y))
                 }
             }
 
@@ -307,6 +322,7 @@ struct StudyView: View {
             hasCheckedSoftPromptThisSession = false
         }
         .onChange(of: viewModel.currentIndex) { _, _ in
+            showsSectionOriginHint = false
             if viewModel.currentIndex < viewModel.studyItems.count {
                 let item = viewModel.studyItems[viewModel.currentIndex]
                 if !StudyCardContentSupport.isContentTypeAvailable(viewModel.currentContentType, for: item) {

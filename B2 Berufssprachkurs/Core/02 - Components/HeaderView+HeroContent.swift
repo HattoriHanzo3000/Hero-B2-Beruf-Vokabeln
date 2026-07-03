@@ -59,11 +59,39 @@ extension HeaderView {
 
             VStack(alignment: .leading, spacing: 8) {
                 if let word = wordOfTheDay {
-                    Text("\(Text(Image(systemName: wordStackIcon(for: word))).font(.system(.body, design: .default, weight: .heavy)))  \(Text(word.german).font(.system(.title2, design: .default, weight: .bold)))")
-                        .foregroundColor(wordOfTheDayAccentColor)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .lineLimit(nil)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack(alignment: .lastTextBaseline, spacing: 6) {
+                        Image(systemName: wordStackIcon(for: word))
+                            .font(wotdStackIconFont)
+                            .wotdHeadlineIconBaselineAlignment()
+
+                        Text(word.german)
+                            .font(.system(.title2, design: .default, weight: .bold))
+
+                        if let sectionLabel = wordOfTheDayGeneralSectionBadgeCaption(for: word) {
+                            Text(sectionLabel)
+                                .font(wotdSectionBadgeFont)
+                                .padding(.horizontal, 5)
+                                .padding(.vertical, 2)
+                                .background(
+                                    Capsule(style: .continuous)
+                                        .fill(wordOfTheDayAccentColor.opacity(colorScheme == .dark ? 0.22 : 0.12))
+                                )
+                                .overlay(
+                                    Capsule(style: .continuous)
+                                        .strokeBorder(
+                                            wordOfTheDayAccentColor,
+                                            lineWidth: wotdSectionBadgeStrokeWidth
+                                        )
+                                )
+                                .accessibilityHidden(true)
+                        }
+                    }
+                    .foregroundColor(wordOfTheDayAccentColor)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(nil)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel(wordOfTheDayHeadlineAccessibilityLabel(for: word))
 
                     if let example = word.example, !example.isEmpty {
                         Text(attributedText(

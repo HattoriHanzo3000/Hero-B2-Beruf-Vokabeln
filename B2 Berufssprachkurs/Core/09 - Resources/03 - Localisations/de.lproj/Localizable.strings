@@ -74,6 +74,8 @@
 "study_flashcard_front_a11y" = "Kartenvorderseite: %@";
 "study_flashcard_back_with_example_a11y" = "Kartenrückseite: %@. Beispiel: %@";
 "study_flashcard_back_word_only_a11y" = "Kartenrückseite: %@";
+"study_section_hint_show_a11y" = "Abschnittshinweis anzeigen";
+"study_section_hint_hide_a11y" = "Abschnittshinweis ausblenden";
 
 // Check all button
 "all_selected" = "Alle ausgewählt";

@@ -110,6 +110,17 @@ extension HeaderView {
         .system(.subheadline, design: .default, weight: .medium).width(.condensed)
     }
 
+    var wotdStackIconFont: Font {
+        .system(.body, design: .default, weight: .heavy)
+    }
+
+    /// Section label inside the WOTD headline badge (e.g. `1A`), smaller cap style on the word baseline.
+    var wotdSectionBadgeFont: Font {
+        .system(.callout, design: .default, weight: .bold)
+    }
+
+    var wotdSectionBadgeStrokeWidth: CGFloat { 2 }
+
     var proBadgeColor: Color {
         embedInScrollContent ? (colorScheme == .light ? .black : .white) : .white
     }
@@ -143,5 +154,14 @@ extension HeaderView {
             size *= 1.05
         }
         return min(max(size, 13), 19)
+    }
+}
+
+extension View {
+    /// Aligns an SF Symbol with adjacent text baseline (ignores descenders on letters like g, y).
+    func wotdHeadlineIconBaselineAlignment() -> some View {
+        alignmentGuide(.lastTextBaseline) { dimensions in
+            dimensions[.bottom] - dimensions.height * 0.12
+        }
     }
 }

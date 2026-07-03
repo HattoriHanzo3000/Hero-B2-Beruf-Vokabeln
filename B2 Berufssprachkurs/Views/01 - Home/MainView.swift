@@ -23,6 +23,7 @@ struct MainView: View {
         SortDescriptor(\CustomWordEntry.sortIndex, order: .forward),
         SortDescriptor(\CustomWordEntry.createdAt, order: .forward)
     ]) private var customWordEntries: [CustomWordEntry]
+    @Query(sort: \WordProgress.wordId) private var wordProgressRecords: [WordProgress]
     @StateObject private var dataService: DataService
     @ObservedObject private var languageManager: LanguageManager
     @ObservedObject private var updateAlertManager = UpdateAlertManager.shared
@@ -112,12 +113,16 @@ struct MainView: View {
             dataService.updateUserCustomWords(from: customWordEntries)
             AppTabBarAppearance.applyLiquidGlassAppStyle()
             RatingManager.shared.recordAppLaunch()
+            requestWordOfTheDayWidgetSync()
             Task {
                 await updateAlertManager.checkForUpdateAlert()
             }
         }
         .onChange(of: customWordEntries) { _, newValue in
             dataService.updateUserCustomWords(from: newValue)
+        }
+        .onChange(of: subscriptionManager.isPremiumActive) { _, isPremium in
+            requestWordOfTheDayWidgetSync(isPremiumActive: isPremium)
         }
         .onChange(of: subscriptionManager.hasCompletedInitialSubscriptionSync) { _, hasCompleted in
             guard hasCompleted else { return }
@@ -191,6 +196,14 @@ struct MainView: View {
     }
 
     // MARK: Deep Link Actions
+
+    private func requestWordOfTheDayWidgetSync(isPremiumActive: Bool? = nil) {
+        WidgetWotdSyncBridge.requestSync(
+            wordProgress: wordProgressRecords,
+            wordsBySection: dataService.wordsBySection,
+            isPremiumActive: isPremiumActive ?? subscriptionManager.isPremiumActive
+        )
+    }
 
     private func presentQuickAddGateOutcome() {
         if !isPremiumActionAuthorized {
