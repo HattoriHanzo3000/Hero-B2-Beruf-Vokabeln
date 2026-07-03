@@ -102,6 +102,18 @@ struct SettingsView: View {
             }
 
             SwiftUI.Section {
+                NavigationIconRow(
+                    icon: "icloud.fill",
+                    iconColor: .blue,
+                    title: Localizable.string(Localizable.iCloud)
+                ) {
+                    ICloudView()
+                }
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionSynchronization))
+            }
+
+            SwiftUI.Section {
                 MenuIconRow(
                     icon: "globe",
                     iconColor: .blue,
@@ -136,18 +148,6 @@ struct SettingsView: View {
                 )
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionPersonalization))
-            }
-
-            SwiftUI.Section {
-                NavigationIconRow(
-                    icon: "icloud.fill",
-                    iconColor: .blue,
-                    title: Localizable.string(Localizable.iCloud)
-                ) {
-                    ICloudView()
-                }
-            } header: {
-                Text(Localizable.string(Localizable.settingsSectionSynchronization))
             }
 
             SwiftUI.Section {
