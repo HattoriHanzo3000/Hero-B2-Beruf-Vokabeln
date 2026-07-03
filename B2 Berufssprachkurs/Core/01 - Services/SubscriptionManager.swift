@@ -41,13 +41,23 @@ final class SubscriptionManager: ObservableObject {
     /// Authorization contract for premium-only actions:
     /// actions are allowed only after first entitlement sync confirms premium.
     var isPremiumAuthorizationGranted: Bool {
-        hasCompletedInitialSubscriptionSync && isPremiumActive
+#if DEBUG
+        if let override = DebugOverrides.simulatePro {
+            return override
+        }
+#endif
+        return hasCompletedInitialSubscriptionSync && isPremiumActive
     }
 
     /// Visual contract for premium badges/locks during cold start:
     /// use cached value until first sync completes to avoid UI flicker.
     var isPremiumVisualState: Bool {
-        hasCompletedInitialSubscriptionSync ? isPremiumActive : lastKnownPremiumState
+#if DEBUG
+        if let override = DebugOverrides.simulatePro {
+            return override
+        }
+#endif
+        return hasCompletedInitialSubscriptionSync ? isPremiumActive : lastKnownPremiumState
     }
 
     var hasLifetimeSubscription: Bool {
@@ -69,11 +79,20 @@ final class SubscriptionManager: ObservableObject {
 
         revenueCatService.applyCachedCustomerInfoIfAvailable()
         applyPremiumFlagsFromRevenueCatAndTrial()
+#if DEBUG
+        applyDebugPremiumOverrideIfNeeded()
+        if DebugOverrides.simulatePro != nil {
+            hasCompletedInitialSubscriptionSync = true
+        }
+#endif
 
         Task { @MainActor in
             await checkSubscriptionStatus()
             await loadProducts()
             hasCompletedInitialSubscriptionSync = true
+#if DEBUG
+            applyDebugPremiumOverrideIfNeeded()
+#endif
         }
     }
 
@@ -119,6 +138,9 @@ final class SubscriptionManager: ObservableObject {
         }
         hasActiveSubscription = revenueCatPremium
         activeProductID = revenueCatService.activeProductID
+#if DEBUG
+        applyDebugPremiumOverrideIfNeeded()
+#endif
     }
 
     func applyMergedEntitlementState(
@@ -133,7 +155,18 @@ final class SubscriptionManager: ObservableObject {
         let trialActive = isTrialActive()
         isPremiumActive = hasActiveSubscription || trialActive
         lastKnownPremiumState = isPremiumActive
+#if DEBUG
+        applyDebugPremiumOverrideIfNeeded()
+#endif
     }
+
+#if DEBUG
+    func applyDebugPremiumOverrideIfNeeded() {
+        guard let override = DebugOverrides.simulatePro else { return }
+        isPremiumActive = override
+        lastKnownPremiumState = override
+    }
+#endif
 
     enum PurchaseState: Equatable {
         case idle

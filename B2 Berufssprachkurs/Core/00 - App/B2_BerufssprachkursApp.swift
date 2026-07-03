@@ -27,6 +27,9 @@ struct B2_BerufssprachkursApp: App {
     // MARK: Initialization
 
     init() {
+#if DEBUG
+        LaunchConfiguration.applyIfNeeded()
+#endif
         let schema = Schema([
             WordProgress.self,
             CustomWordEntry.self,

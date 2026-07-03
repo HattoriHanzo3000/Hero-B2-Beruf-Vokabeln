@@ -17,6 +17,7 @@ extension SubscriptionManager {
         userDefaults.removeObject(forKey: TrialKeys.firstLaunchDateKey)
         userDefaults.removeObject(forKey: TrialKeys.firstAppOpenForLaunchOfferKey)
 
+        DebugOverrides.simulatePro = false
         isPremiumActive = false
 
         Task {
@@ -29,9 +30,11 @@ extension SubscriptionManager {
     /// Debug helper to force-enable premium state via trial activation.
     func activatePremiumForTesting() {
         let userDefaults = UserDefaults.standard
-        userDefaults.set(Date().timeIntervalSince1970, forKey: TrialKeys.firstLaunchDateKey)
-        userDefaults.set(true, forKey: TrialKeys.trialActivatedKey)
+        userDefaults.removeObject(forKey: TrialKeys.trialActivatedKey)
+        userDefaults.removeObject(forKey: TrialKeys.firstLaunchDateKey)
+        userDefaults.removeObject(forKey: TrialKeys.firstAppOpenForLaunchOfferKey)
 
+        DebugOverrides.simulatePro = true
         isPremiumActive = true
         hasActiveSubscription = false
         activeProductID = nil
@@ -46,6 +49,7 @@ extension SubscriptionManager {
         userDefaults.removeObject(forKey: TrialKeys.firstLaunchDateKey)
         userDefaults.removeObject(forKey: TrialKeys.firstAppOpenForLaunchOfferKey)
 
+        DebugOverrides.simulatePro = nil
         await checkSubscriptionStatus()
 
         print("SubscriptionManager: Restored normal subscription state (store sync)")
