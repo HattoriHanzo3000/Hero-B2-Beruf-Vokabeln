@@ -305,7 +305,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "B2 Berufssprachkurs Widgets/Widgets.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = SZQ626NP5U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "B2 Berufssprachkurs Widgets/Info.plist";
@@ -317,7 +317,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gizatech.B2-Beruf.HeroB2Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -337,7 +337,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "B2 Berufssprachkurs Widgets/Widgets.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = SZQ626NP5U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "B2 Berufssprachkurs Widgets/Info.plist";
@@ -349,7 +349,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gizatech.B2-Beruf.HeroB2Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
