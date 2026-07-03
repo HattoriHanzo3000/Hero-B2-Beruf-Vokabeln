@@ -179,12 +179,12 @@ struct SettingsExternalLinkRow: View {
             HStack {
                 SettingsIconRow(icon: icon, iconColor: iconColor, title: title)
                 if showsTrailingArrow {
+                    Spacer()
                     Image(systemName: "arrow.up.right")
                         .font(.system(.caption, design: .rounded))
                         .foregroundColor(.secondary)
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
