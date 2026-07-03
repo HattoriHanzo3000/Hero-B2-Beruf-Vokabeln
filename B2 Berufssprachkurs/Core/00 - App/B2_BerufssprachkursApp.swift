@@ -34,14 +34,10 @@ struct B2_BerufssprachkursApp: App {
             FavoriteWord.self,
             SpacedRepetitionRecord.self
         ])
-        let iCloudSyncEnabled =
-            UserDefaults.standard.object(forKey: MigrationManager.iCloudSyncEnabledKey) as? Bool ?? true
-        let cloudKitDatabase: ModelConfiguration.CloudKitDatabase =
-            iCloudSyncEnabled ? .automatic : .none
         let modelConfiguration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            cloudKitDatabase: cloudKitDatabase
+            cloudKitDatabase: .automatic
         )
         do {
             sharedModelContainer = try ModelContainer(for: schema, configurations: [modelConfiguration])

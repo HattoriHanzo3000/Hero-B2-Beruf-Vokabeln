@@ -134,10 +134,10 @@ extension Localizable {
     static let errorAlertTitle = "error_alert_title"
     static let closePaywallA11y = "close_paywall_a11y"
 
-    static let iCloudSync = "icloud_sync"
     static let iCloudSyncFooter = "icloud_sync_footer"
     static let iCloudAccountSignedIn = "icloud_account_signed_in"
-    static let iCloudAccountNotSignedIn = "icloud_account_not_signed_in"
+    static let iCloudSyncUnavailableTitle = "icloud_sync_unavailable_title"
+    static let iCloudSyncUnavailableInstructions = "icloud_sync_unavailable_instructions"
     
     // About page
     static let aboutThisApp = "about_this_app"

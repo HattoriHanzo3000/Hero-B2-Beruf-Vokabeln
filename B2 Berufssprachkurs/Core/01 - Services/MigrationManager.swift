@@ -18,9 +18,6 @@ enum MigrationManager {
     static let favoritesMigrationCompletedKey = "hasMigratedFavoritesToSwiftDataV2"
     static let spacedRepetitionMigrationCompletedKey = "hasMigratedSpacedRepetitionToSwiftDataV2"
 
-    /// When `true` (default), `ModelContainer` uses CloudKit. Set in Settings; takes effect after restarting the app.
-    static let iCloudSyncEnabledKey = "iCloudSyncEnabled"
-
     static func resetTranslationsMigrationFlag() {
         UserDefaults.standard.removeObject(forKey: translationsMigrationCompletedKey)
     }

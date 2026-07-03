@@ -118,10 +118,10 @@
 "cancel" = "Abbrechen";
 "error_alert_title" = "Fehler";
 "close_paywall_a11y" = "Schließen";
-"icloud_sync" = "iCloud";
-"icloud_sync_footer" = "Wenn eingeschaltet, können Ihre Wort-Übersetzungen und Ihr Fortschritt über iCloud auf Ihren Apple-Geräten synchronisiert werden. Ihr Gerät muss in den Einstellungen bei iCloud angemeldet sein.";
+"icloud_sync_footer" = "Wenn iCloud aktiv ist, werden Ihre Wörter und Ihr Lernfortschritt sicher in Ihrem Apple-Konto gespeichert und auf Ihren Geräten synchronisiert.";
 "icloud_account_signed_in" = "iCloud ist auf diesem Gerät aktiv.";
-"icloud_account_not_signed_in" = "Auf diesem Gerät ist keine iCloud-Anmeldung aktiv. Zum Synchronisieren: Einstellungen → Apple-ID.";
+"icloud_sync_unavailable_title" = "iCloud-Synchronisierung ist nicht verfügbar";
+"icloud_sync_unavailable_instructions" = "Um Ihren Fortschritt zu sichern, gehen Sie zu:\nEinstellungen → iCloud → In iCloud gesichert → %@\nund aktivieren Sie den Schalter.";
 
 // About page
 "about_this_app" = "Hero: B2 Beruf Vokabeln";

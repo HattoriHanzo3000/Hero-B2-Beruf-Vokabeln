@@ -166,22 +166,25 @@ struct DestructiveIconRow: View {
 
 // MARK: - External Link Row
 
-/// Opens a link in the in-app legal web sheet flow.
+/// Opens a link in the in-app legal web sheet flow, or runs a custom action (e.g. system Settings).
 struct SettingsExternalLinkRow: View {
     let icon: String
     let iconColor: Color
     let title: String
+    var showsTrailingArrow: Bool = true
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             HStack {
                 SettingsIconRow(icon: icon, iconColor: iconColor, title: title)
-                Spacer()
-                Image(systemName: "arrow.up.right")
-                    .font(.system(.caption, design: .rounded))
-                    .foregroundColor(.secondary)
+                if showsTrailingArrow {
+                    Image(systemName: "arrow.up.right")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(.secondary)
+                }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)

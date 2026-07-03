@@ -118,10 +118,10 @@
 "cancel" = "Cancel";
 "error_alert_title" = "Error";
 "close_paywall_a11y" = "Close";
-"icloud_sync" = "iCloud";
-"icloud_sync_footer" = "When this is on, your word translations and progress can sync across your Apple devices via iCloud. Your device must be signed in to iCloud in Settings.";
+"icloud_sync_footer" = "When iCloud is enabled, your words and learning progress are stored securely in your Apple account and sync across your devices.";
 "icloud_account_signed_in" = "iCloud is active on this device.";
-"icloud_account_not_signed_in" = "iCloud is not signed in on this device. To sync, sign in under Settings → Apple ID.";
+"icloud_sync_unavailable_title" = "iCloud Sync is unavailable";
+"icloud_sync_unavailable_instructions" = "To back up your progress, go to:\nSettings → iCloud → Saved to iCloud → %@\nand turn on the toggle.";
 
 // About page
 "about_this_app" = "Hero: B2 German Vocabulary";
