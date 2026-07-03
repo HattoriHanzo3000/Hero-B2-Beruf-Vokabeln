@@ -107,6 +107,12 @@ struct StudyView: View {
         }
     }
 
+    private func requestReviewAfterStudySessionIfNeeded() async {
+        try? await Task.sleep(for: .seconds(1.5))
+        guard !Task.isCancelled else { return }
+        RatingManager.shared.requestReviewIfEligible()
+    }
+
     // MARK: Visual Style
 
     /// Uses item accent in favorites mode; otherwise uses stack accent.
@@ -288,7 +294,10 @@ struct StudyView: View {
         .toolbar(.hidden, for: .tabBar)
         .hidesBottomBarWhenPushed(true)
         .onDisappear {
-            viewModel.recordStudySessionMetricsIfNeeded()
+            guard viewModel.recordStudySessionMetricsIfNeeded() else { return }
+            Task {
+                await requestReviewAfterStudySessionIfNeeded()
+            }
         }
         .onAppear {
             reloadSessionItems()

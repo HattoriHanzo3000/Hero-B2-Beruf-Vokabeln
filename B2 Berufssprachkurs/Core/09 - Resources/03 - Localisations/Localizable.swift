@@ -96,6 +96,7 @@ extension Localizable {
     // Settings
     static let settings = "settings"
     static let settingsSectionAbout = "settings_section_about"
+    static let settingsRateApp = "settings_rate_app"
     static let settingsSectionPersonalization = "settings_section_personalization"
     static let settingsSectionSynchronization = "settings_section_synchronization"
     static let settingsSectionSupport = "settings_section_support"
@@ -134,6 +135,9 @@ extension Localizable {
     static let errorAlertTitle = "error_alert_title"
     static let closePaywallA11y = "close_paywall_a11y"
 
+    static let iCloud = "icloud"
+    static let iCloudSavedToICloudTitle = "icloud_saved_to_icloud_title"
+    static let iCloudSavedToICloudSubtitle = "icloud_saved_to_icloud_subtitle"
     static let iCloudSyncFooter = "icloud_sync_footer"
     static let iCloudAccountSignedIn = "icloud_account_signed_in"
     static let iCloudSyncUnavailableTitle = "icloud_sync_unavailable_title"
@@ -332,13 +336,6 @@ extension Localizable {
     static let proFeatureTitle = "pro_feature_title"
     static let proFeatureOnlyMessage = "pro_feature_only_message"
     static let wordListPrintA11yHint = "word_list_print_a11y_hint"
-    
-    // Rating Prompt
-    static let ratingTitle = "rating_title"
-    static let ratingSubtitle = "rating_subtitle"
-    static let ratingRateButton = "rating_rate_button"
-    static let ratingLaterButton = "rating_later_button"
-    static let ratingNoThanksButton = "rating_no_thanks_button"
     
     // Share
     static let share = "share"

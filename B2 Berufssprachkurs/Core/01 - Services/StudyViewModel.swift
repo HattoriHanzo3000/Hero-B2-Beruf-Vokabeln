@@ -19,7 +19,6 @@ final class StudyViewModel: ObservableObject {
     let categoryFilter: String?
 
     private let spacedRepetition = SpacedRepetitionService.shared
-    private let ratingManager = RatingManager.shared
 
     @Published var currentIndex = 0
     @Published var studyItems: [StudyItem] = []
@@ -30,8 +29,6 @@ final class StudyViewModel: ObservableObject {
     @Published var showTranslationMissingAlert = false
     @Published var buttonFeedback: StudyButtonFeedback?
     @Published var studySessionMetricsRecorded = false
-
-    @AppStorage("studySessionCount") private var studySessionCount = 0
 
     init(
         filterBySectionId: String? = nil,
@@ -101,17 +98,12 @@ final class StudyViewModel: ObservableObject {
         }
     }
 
-    func recordStudySessionMetricsIfNeeded() {
-        guard !studySessionMetricsRecorded else { return }
+    /// Records session metrics once per visit. Returns whether the session qualifies for a review request (≥3 cards answered).
+    @discardableResult
+    func recordStudySessionMetricsIfNeeded() -> Bool {
+        guard !studySessionMetricsRecorded else { return false }
         studySessionMetricsRecorded = true
-        if cardsAnswered >= 3 {
-            studySessionCount += 1
-            if ratingManager.trackStudySession() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.ratingManager.requestRating()
-                }
-            }
-        }
+        return cardsAnswered >= 3
     }
 
     /// Maps flashcard chip (``StudyCardContentType``) → spaced-repetition lane.

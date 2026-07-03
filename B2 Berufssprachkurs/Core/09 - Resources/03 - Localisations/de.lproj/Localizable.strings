@@ -118,10 +118,13 @@
 "cancel" = "Abbrechen";
 "error_alert_title" = "Fehler";
 "close_paywall_a11y" = "Schließen";
+"icloud" = "iCloud";
+"icloud_saved_to_icloud_title" = "In iCloud gesichert";
+"icloud_saved_to_icloud_subtitle" = "Verwalte, wie Apps und Funktionen auf diesem iPhone mit iCloud synchronisiert werden.";
 "icloud_sync_footer" = "Wenn iCloud aktiv ist, werden Ihre Wörter und Ihr Lernfortschritt sicher in Ihrem Apple-Konto gespeichert und auf Ihren Geräten synchronisiert.";
 "icloud_account_signed_in" = "iCloud ist auf diesem Gerät aktiv.";
 "icloud_sync_unavailable_title" = "iCloud-Synchronisierung ist nicht verfügbar";
-"icloud_sync_unavailable_instructions" = "Um Ihren Fortschritt zu sichern, gehen Sie zu:\nEinstellungen → iCloud → In iCloud gesichert → %@\nund aktivieren Sie den Schalter.";
+"icloud_sync_unavailable_instructions" = "Um die iCloud-Synchronisierung für diese App zu aktivieren oder zu deaktivieren, öffnen Sie auf Ihrem Gerät:\nEinstellungen → iCloud → In iCloud gesichert → %@";
 
 // About page
 "about_this_app" = "Hero: B2 Beruf Vokabeln";
@@ -317,12 +320,7 @@
 "pro_feature_only_message" = "Diese Funktion ist für Pro-Nutzer. Upgrade jederzeit, um Zugriff auf alle Wörter freizuschalten.";
 "word_list_print_a11y_hint" = "Druckt die Wörterliste als PDF";
 
-// Rating Prompt
-"rating_title" = "Was denkst du über Hero?";
-"rating_subtitle" = "Deine Sternebewertung im App Store hilft uns, Hero zu verbessern, und anderen, die App zu entdecken. Danke!";
-"rating_rate_button" = "Bewerten";
-"rating_later_button" = "Später fragen";
-"rating_no_thanks_button" = "Nein, danke";
+"settings_rate_app" = "App bewerten";
 
 // Share
 "share" = "Teilen";

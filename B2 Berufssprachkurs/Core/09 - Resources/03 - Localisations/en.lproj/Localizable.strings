@@ -118,10 +118,13 @@
 "cancel" = "Cancel";
 "error_alert_title" = "Error";
 "close_paywall_a11y" = "Close";
+"icloud" = "iCloud";
+"icloud_saved_to_icloud_title" = "Saved to iCloud";
+"icloud_saved_to_icloud_subtitle" = "Manage how apps and features on this iPhone sync to iCloud.";
 "icloud_sync_footer" = "When iCloud is enabled, your words and learning progress are stored securely in your Apple account and sync across your devices.";
 "icloud_account_signed_in" = "iCloud is active on this device.";
 "icloud_sync_unavailable_title" = "iCloud Sync is unavailable";
-"icloud_sync_unavailable_instructions" = "To back up your progress, go to:\nSettings → iCloud → Saved to iCloud → %@\nand turn on the toggle.";
+"icloud_sync_unavailable_instructions" = "To activate or deactivate iCloud sync for this app, go to your device's:\nSettings → iCloud → Saved to iCloud → %@";
 
 // About page
 "about_this_app" = "Hero: B2 German Vocabulary";
@@ -317,12 +320,7 @@
 "pro_feature_only_message" = "This feature is for Pro users. Upgrade anytime to unlock access to all words.";
 "word_list_print_a11y_hint" = "Prints the word list as a PDF";
 
-// Rating Prompt
-"rating_title" = "What do you think of Hero?";
-"rating_subtitle" = "Your star rating on the App Store helps us improve Hero and helps others discover it. Thank you!";
-"rating_rate_button" = "Rate";
-"rating_later_button" = "Ask me later";
-"rating_no_thanks_button" = "No, thanks";
+"settings_rate_app" = "Rate the app";
 
 // Share
 "share" = "Share";

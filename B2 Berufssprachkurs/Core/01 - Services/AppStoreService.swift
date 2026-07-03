@@ -21,6 +21,11 @@ struct AppStoreService {
         "https://apps.apple.com/app/id\(appStoreNumericID)"
     }
 
+    /// Direct link to the App Store write-review sheet (Settings → Rate the app).
+    static var appStoreWriteReviewURL: URL {
+        URL(string: "https://apps.apple.com/app/id\(appStoreNumericID)?action=write-review")!
+    }
+
     /// Prefer the ID returned by iTunes Lookup (`trackId`); fall back to `defaultListingURL`.
     static func listingURL(preferredTrackId: Int?) -> String {
         if let preferredTrackId {

@@ -28,7 +28,6 @@ struct MainView: View {
     @ObservedObject private var updateAlertManager = UpdateAlertManager.shared
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @EnvironmentObject private var deepLinkRouter: AppDeepLinkRouter
-    @StateObject private var ratingManager: RatingManager
     @State private var selectedSection: MainViewSection = .home
     /// Tracks where Search should return after system dismiss.
     @State private var sectionBeforeSearch: MainViewSection = .home
@@ -46,7 +45,6 @@ struct MainView: View {
         self.isPremiumPreviewOverride = isPremiumPreviewOverride
         _dataService = StateObject(wrappedValue: DataService())
         _languageManager = ObservedObject(wrappedValue: LanguageManager.shared)
-        _ratingManager = StateObject(wrappedValue: RatingManager.shared)
     }
 
     // MARK: Derived Data
@@ -113,7 +111,7 @@ struct MainView: View {
             CustomWordEntry.renumberSortOrderIfNeeded(in: modelContext)
             dataService.updateUserCustomWords(from: customWordEntries)
             AppTabBarAppearance.applyLiquidGlassAppStyle()
-            ratingManager.trackAppLaunch()
+            RatingManager.shared.recordAppLaunch()
             Task {
                 await updateAlertManager.checkForUpdateAlert()
             }
@@ -189,9 +187,6 @@ struct MainView: View {
             }
         } message: {
             Text(Localizable.string(Localizable.updateAlertMessage))
-        }
-        .overlay {
-            RatingPromptOverlay(ratingManager: ratingManager)
         }
     }
 

@@ -71,6 +71,18 @@ struct SettingsView: View {
                 ) {
                     ShareView()
                 }
+
+                Button {
+                    HapticManager.shared.lightImpact()
+                    RatingManager.shared.openAppStoreReviewPage()
+                } label: {
+                    SettingsIconRow(
+                        icon: "star.fill",
+                        iconColor: .orange,
+                        title: Localizable.string(Localizable.settingsRateApp)
+                    )
+                }
+                .buttonStyle(.plain)
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionAbout))
             }
@@ -127,6 +139,18 @@ struct SettingsView: View {
             }
 
             SwiftUI.Section {
+                NavigationIconRow(
+                    icon: "icloud.fill",
+                    iconColor: .blue,
+                    title: Localizable.string(Localizable.iCloud)
+                ) {
+                    ICloudView()
+                }
+            } header: {
+                Text(Localizable.string(Localizable.settingsSectionSynchronization))
+            }
+
+            SwiftUI.Section {
                 SettingsExternalLinkRow(
                     icon: "questionmark.circle.fill",
                     iconColor: .blue,
@@ -167,13 +191,6 @@ struct SettingsView: View {
                 }
             } header: {
                 Text(Localizable.string(Localizable.settingsSectionLegal))
-            }
-
-            SwiftUI.Section {
-            } header: {
-                Text(Localizable.string(Localizable.settingsSectionSynchronization))
-            } footer: {
-                iCloudSyncSectionFooter()
             }
 
             SwiftUI.Section {
@@ -264,35 +281,6 @@ struct SettingsView: View {
     struct LegalDocument: Identifiable {
         let url: URL
         var id: URL { url }
-    }
-
-    private var appDisplayName: String {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
-            ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
-            ?? "Hero B2"
-    }
-
-    @ViewBuilder
-    private func iCloudSyncSectionFooter() -> some View {
-        let isSignedIn = FileManager.default.ubiquityIdentityToken != nil
-        VStack(alignment: .leading, spacing: 8) {
-            Text(Localizable.string(Localizable.iCloudSyncFooter))
-            if isSignedIn {
-                Text(Localizable.string(Localizable.iCloudAccountSignedIn))
-                    .foregroundStyle(.green)
-            } else {
-                Text(Localizable.string(Localizable.iCloudSyncUnavailableTitle))
-                    .foregroundStyle(.red)
-                Text(
-                    String(
-                        format: Localizable.string(Localizable.iCloudSyncUnavailableInstructions),
-                        appDisplayName
-                    )
-                )
-            }
-        }
-        .font(.footnote)
-        .foregroundStyle(.tertiary)
     }
 
     private func resetApp() {
