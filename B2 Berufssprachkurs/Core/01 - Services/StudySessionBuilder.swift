@@ -13,7 +13,7 @@ import Foundation
 enum StudySessionBuilder {
     static func prioritizeItems(_ items: [StudyItem], spacedRepetition: SpacedRepetitionService) -> [StudyItem] {
         let wordIds = items.map(\.wordId)
-        let prioritizedIds = spacedRepetition.getPrioritizedCards(wordIds: wordIds, mode: .translations)
+        let prioritizedIds = spacedRepetition.getPrioritizedCards(wordIds: wordIds)
 
         var prioritizedItems: [StudyItem] = []
         var itemMap: [String: StudyItem] = [:]

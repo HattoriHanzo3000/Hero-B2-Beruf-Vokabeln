@@ -17,6 +17,9 @@ enum MigrationManager {
     static let studySelectionMigrationCompletedKey = "hasMigratedStudySelectionToSwiftDataV2"
     static let favoritesMigrationCompletedKey = "hasMigratedFavoritesToSwiftDataV2"
     static let spacedRepetitionMigrationCompletedKey = "hasMigratedSpacedRepetitionToSwiftDataV2"
+    static let spacedRepetitionSingleTrackConsolidationKey = "hasConsolidatedSpacedRepetitionToSingleTrackV3"
+
+    private static let legacyStudyModeSuffixes = ["translations", "explanation", "synonyms"]
 
     static func resetTranslationsMigrationFlag() {
         UserDefaults.standard.removeObject(forKey: translationsMigrationCompletedKey)
@@ -27,6 +30,7 @@ enum MigrationManager {
         defaults.removeObject(forKey: studySelectionMigrationCompletedKey)
         defaults.removeObject(forKey: favoritesMigrationCompletedKey)
         defaults.removeObject(forKey: spacedRepetitionMigrationCompletedKey)
+        defaults.removeObject(forKey: spacedRepetitionSingleTrackConsolidationKey)
     }
 
     /// Filenames checked in order; `user_translations.json` wins on duplicate keys (current app export), then `translations.json` fills remaining.
@@ -62,6 +66,50 @@ enum MigrationManager {
         migrateStudySelectionFromUserDefaultsIfNeeded(context: context)
         migrateFavoritesFromUserDefaultsIfNeeded(context: context)
         migrateSpacedRepetitionFromUserDefaultsIfNeeded(context: context)
+    }
+
+    /// Merges duplicate per-mode SRS rows into one record per `wordId` (translations lane preferred when mode is known from legacy keys).
+    @MainActor
+    static func consolidateSpacedRepetitionToSingleTrackIfNeeded(context: ModelContext) {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: spacedRepetitionSingleTrackConsolidationKey) else { return }
+
+        let descriptor = FetchDescriptor<SpacedRepetitionRecord>()
+        guard let all = try? context.fetch(descriptor) else { return }
+
+        var grouped: [String: [SpacedRepetitionRecord]] = [:]
+        for row in all {
+            grouped[row.wordId, default: []].append(row)
+        }
+
+        var didChange = false
+        for (_, records) in grouped where records.count > 1 {
+            guard let winner = pickSwiftDataConsolidationWinner(from: records) else { continue }
+            for record in records where record.persistentModelID != winner.persistentModelID {
+                context.delete(record)
+                didChange = true
+            }
+        }
+
+        if didChange {
+            try? context.save()
+        }
+        defaults.set(true, forKey: spacedRepetitionSingleTrackConsolidationKey)
+    }
+
+    // MARK: - Legacy SRS key parsing
+
+    /// Parses legacy cache keys `\(wordId)_\(mode)`; plain `wordId` keys pass through unchanged.
+    static func legacyWordIdAndMode(from storageKey: String) -> (wordId: String, mode: String?)? {
+        for suffix in legacyStudyModeSuffixes {
+            let token = "_\(suffix)"
+            guard storageKey.hasSuffix(token) else { continue }
+            let wordId = String(storageKey.dropLast(token.count))
+            guard !wordId.isEmpty else { return nil }
+            return (wordId, suffix)
+        }
+        guard !storageKey.isEmpty else { return nil }
+        return (storageKey, nil)
     }
 
     // MARK: - Private
@@ -141,14 +189,6 @@ enum MigrationManager {
         }
     }
 
-    private static func modeKeyForStudyMode(_ mode: StudyMode) -> String {
-        switch mode {
-        case .synonyms: return "synonyms"
-        case .explanation: return "explanation"
-        case .translations: return "translations"
-        }
-    }
-
     private static func migrateSpacedRepetitionFromUserDefaultsIfNeeded(context: ModelContext) {
         let defaults = UserDefaults.standard
         guard !defaults.bool(forKey: spacedRepetitionMigrationCompletedKey) else { return }
@@ -161,24 +201,28 @@ enum MigrationManager {
             return
         }
 
+        var grouped: [String: [(mode: String?, card: SpacedRepetitionService.StudyCardData)]] = [:]
         for (storageKey, card) in decoded where !storageKey.hasSuffix("_example") {
-            guard let (wordId, mode) = SpacedRepetitionService.parseStorageKey(storageKey) else { continue }
-            let modeRaw = modeKeyForStudyMode(mode)
+            guard let (wordId, mode) = legacyWordIdAndMode(from: storageKey) else { continue }
+            grouped[wordId, default: []].append((mode: mode, card: card))
+        }
+
+        for (wordId, entries) in grouped {
             let wid = wordId
             var descriptor = FetchDescriptor<SpacedRepetitionRecord>(
-                predicate: #Predicate<SpacedRepetitionRecord> { $0.wordId == wid && $0.studyModeRaw == modeRaw }
+                predicate: #Predicate<SpacedRepetitionRecord> { $0.wordId == wid }
             )
             descriptor.fetchLimit = 1
             if (try? context.fetch(descriptor).first) != nil { continue }
 
+            let winner = pickLegacyConsolidationWinner(from: entries)
             context.insert(SpacedRepetitionRecord(
                 wordId: wordId,
-                studyModeRaw: modeRaw,
-                easeFactor: card.easeFactor,
-                interval: card.interval,
-                repetitions: card.repetitions,
-                lastReviewDate: card.lastReviewDate,
-                nextReviewDate: card.nextReviewDate
+                easeFactor: winner.easeFactor,
+                interval: winner.interval,
+                repetitions: winner.repetitions,
+                lastReviewDate: winner.lastReviewDate,
+                nextReviewDate: winner.nextReviewDate
             ))
         }
 
@@ -188,5 +232,27 @@ enum MigrationManager {
         } catch {
             // Leave flag unset so a future launch can retry.
         }
+    }
+
+    /// SwiftData rows no longer carry mode after V3; prefer highest repetitions, then earliest `nextReviewDate`.
+    private static func pickSwiftDataConsolidationWinner(from records: [SpacedRepetitionRecord]) -> SpacedRepetitionRecord? {
+        records.max(by: { lhs, rhs in
+            if lhs.repetitions != rhs.repetitions {
+                return lhs.repetitions < rhs.repetitions
+            }
+            let lhsNext = lhs.nextReviewDate ?? .distantPast
+            let rhsNext = rhs.nextReviewDate ?? .distantPast
+            return lhsNext > rhsNext
+        })
+    }
+
+    /// Legacy UserDefaults keys still encode mode; translations lane matches historical session ordering.
+    private static func pickLegacyConsolidationWinner(
+        from entries: [(mode: String?, card: SpacedRepetitionService.StudyCardData)]
+    ) -> SpacedRepetitionService.StudyCardData {
+        if let translations = entries.first(where: { $0.mode == "translations" }) {
+            return translations.card
+        }
+        return entries.max(by: { $0.card.repetitions < $1.card.repetitions })!.card
     }
 }

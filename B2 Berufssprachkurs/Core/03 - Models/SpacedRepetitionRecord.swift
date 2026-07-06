@@ -2,7 +2,7 @@
 //  SpacedRepetitionRecord.swift
 //  B2 Berufssprachkurs
 //
-//  SM-2 card state per word and study mode. CloudKit-backed when sync is on.
+//  SM-2 card state per word. CloudKit-backed when sync is on.
 //
 
 import Foundation
@@ -11,8 +11,6 @@ import SwiftData
 @Model
 final class SpacedRepetitionRecord {
     var wordId: String = ""
-    /// Matches ``SpacedRepetitionService.modeKey(_:)`` (synonyms | explanation | translations).
-    var studyModeRaw: String = ""
     var easeFactor: Double = 2.5
     var interval: Int = 0
     var repetitions: Int = 0
@@ -21,7 +19,6 @@ final class SpacedRepetitionRecord {
 
     init(
         wordId: String,
-        studyModeRaw: String,
         easeFactor: Double = 2.5,
         interval: Int = 0,
         repetitions: Int = 0,
@@ -29,7 +26,6 @@ final class SpacedRepetitionRecord {
         nextReviewDate: Date? = nil
     ) {
         self.wordId = wordId
-        self.studyModeRaw = studyModeRaw
         self.easeFactor = easeFactor
         self.interval = interval
         self.repetitions = repetitions

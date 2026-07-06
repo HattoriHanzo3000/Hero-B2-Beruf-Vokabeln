@@ -99,6 +99,7 @@ struct B2_BerufssprachkursApp: App {
                 NotificationManager.shared.cancelAllNotifications()
                 WidgetWotdSyncBridge.scheduleSyncOnAppActivation(modelContext: sharedModelContainer.mainContext)
             case .background:
+                SpacedRepetitionService.shared.saveChanges()
                 NotificationManager.shared.scheduleRetentionNotification()
             default:
                 break

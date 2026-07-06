@@ -9,7 +9,7 @@
 import Foundation
 import SwiftData
 
-/// Spaced repetition using an SM-2–style rule set; tracks study progress per word and ``StudyMode``.
+/// Spaced repetition using an SM-2–style rule set; one scheduling record per word.
 @MainActor
 final class SpacedRepetitionService {
     static let shared = SpacedRepetitionService()
@@ -19,7 +19,7 @@ final class SpacedRepetitionService {
     /// One-shot snapshot taken before the first debug progress preset is applied; restored from About → Debug “Regular mode”.
     let debugStudyDataBackupKey = "spacedRepetitionStudyDataDebugBackup"
 
-    /// In-memory cache (source of truth in-session; persisted to SwiftData when bound).
+    /// In-memory cache (source of truth in-session; persisted to SwiftData when bound). Keys are `wordId`.
     var studyDataCache: [String: StudyCardData] = [:]
 
     /// Set by ``bind(modelContext:)``; readable from extensions (e.g. debug presets).
@@ -53,15 +53,13 @@ final class SpacedRepetitionService {
         loadFromSwiftData()
     }
 
-    func getStudyData(wordId: String, mode: StudyMode) -> StudyCardData {
-        let key = makeKey(wordId: wordId, mode: mode)
-        return studyDataCache[key] ?? StudyCardData()
+    func getStudyData(wordId: String) -> StudyCardData {
+        studyDataCache[wordId] ?? StudyCardData()
     }
 
     /// - Parameter quality: 0–5 (0 = blackout, 5 = perfect).
-    func recordStudyResult(wordId: String, mode: StudyMode, quality: Int) {
-        let key = makeKey(wordId: wordId, mode: mode)
-        var data = studyDataCache[key] ?? StudyCardData()
+    func recordStudyResult(wordId: String, quality: Int) {
+        var data = studyDataCache[wordId] ?? StudyCardData()
 
         if quality >= 3 {
             if data.repetitions == 0 {
@@ -87,32 +85,32 @@ final class SpacedRepetitionService {
         data.lastReviewDate = now
         data.nextReviewDate = Calendar.current.date(byAdding: .day, value: data.interval, to: now)
 
-        studyDataCache[key] = data
-        persistRecord(wordId: wordId, mode: mode, data: data)
+        studyDataCache[wordId] = data
+        persistRecord(wordId: wordId, data: data)
     }
 
-    func isDue(wordId: String, mode: StudyMode) -> Bool {
-        let data = getStudyData(wordId: wordId, mode: mode)
+    func isDue(wordId: String) -> Bool {
+        let data = getStudyData(wordId: wordId)
         guard let nextReviewDate = data.nextReviewDate else {
             return true
         }
         return nextReviewDate <= Date()
     }
 
-    func getDueCards(wordIds: [String], mode: StudyMode) -> [String] {
-        wordIds.filter { isDue(wordId: $0, mode: mode) }
+    func getDueCards(wordIds: [String]) -> [String] {
+        wordIds.filter { isDue(wordId: $0) }
     }
 
-    func getDueCount(wordIds: [String], mode: StudyMode) -> Int {
-        getDueCards(wordIds: wordIds, mode: mode).count
+    func getDueCount(wordIds: [String]) -> Int {
+        getDueCards(wordIds: wordIds).count
     }
 
     /// Due cards first; then by next review date (earlier first). New cards (`nextReviewDate == nil`) sort as most urgent.
-    func getPrioritizedCards(wordIds: [String], mode: StudyMode) -> [String] {
+    func getPrioritizedCards(wordIds: [String]) -> [String] {
         let now = Date()
         return wordIds.sorted { id1, id2 in
-            let d1 = getStudyData(wordId: id1, mode: mode)
-            let d2 = getStudyData(wordId: id2, mode: mode)
+            let d1 = getStudyData(wordId: id1)
+            let d2 = getStudyData(wordId: id2)
 
             let due1: Bool
             if let n = d1.nextReviewDate {
@@ -146,43 +144,28 @@ final class SpacedRepetitionService {
         }
     }
 
-    func resetStudyData(wordId: String, mode: StudyMode) {
-        let key = makeKey(wordId: wordId, mode: mode)
-        studyDataCache.removeValue(forKey: key)
-        deleteRecord(wordId: wordId, mode: mode)
+    func resetStudyData(wordId: String) {
+        studyDataCache.removeValue(forKey: wordId)
+        deleteRecord(wordId: wordId)
     }
 
-    // MARK: - Internal (extensions in other files)
-
-    func makeKey(wordId: String, mode: StudyMode) -> String {
-        "\(wordId)_\(modeKey(mode))"
-    }
-
-    func modeKey(_ mode: StudyMode) -> String {
-        switch mode {
-        case .synonyms: return "synonyms"
-        case .explanation: return "explanation"
-        case .translations: return "translations"
+    /// Normalizes legacy per-mode cache keys (`wordId_translations`, etc.) into one entry per `wordId`.
+    func normalizeLegacyCacheKeys(_ cache: [String: StudyCardData]) -> [String: StudyCardData] {
+        var grouped: [String: [(mode: String?, card: StudyCardData)]] = [:]
+        for (key, card) in cache where !key.hasSuffix("_example") {
+            guard let (wordId, mode) = MigrationManager.legacyWordIdAndMode(from: key) else { continue }
+            grouped[wordId, default: []].append((mode: mode, card: card))
         }
-    }
 
-    /// Parses legacy cache keys: `\(wordId)_\(modeKey)`.
-    static func parseStorageKey(_ key: String) -> (wordId: String, mode: StudyMode)? {
-        for mode in StudyMode.allCases {
-            let suffix = "_" + SpacedRepetitionService.modeKeyStatic(mode)
-            guard key.hasSuffix(suffix) else { continue }
-            let wordId = String(key.dropLast(suffix.count))
-            return (wordId, mode)
+        var normalized: [String: StudyCardData] = [:]
+        for (wordId, entries) in grouped {
+            if let translations = entries.first(where: { $0.mode == "translations" }) {
+                normalized[wordId] = translations.card
+            } else {
+                normalized[wordId] = entries.max(by: { $0.card.repetitions < $1.card.repetitions })!.card
+            }
         }
-        return nil
-    }
-
-    private static func modeKeyStatic(_ mode: StudyMode) -> String {
-        switch mode {
-        case .synonyms: return "synonyms"
-        case .explanation: return "explanation"
-        case .translations: return "translations"
-        }
+        return normalized
     }
 
     /// Full cache sync (debug presets, restore backup).
@@ -193,6 +176,11 @@ final class SpacedRepetitionService {
             userDefaults.set(encoded, forKey: studyDataKey)
         }
         NotificationCenter.default.post(name: .spacedRepetitionUpdated, object: nil)
+    }
+
+    /// Flushes pending SwiftData changes. Call at end of study sessions or when leaving the foreground.
+    func saveChanges() {
+        try? modelContext?.save()
     }
 
     // MARK: - SwiftData
@@ -206,27 +194,24 @@ final class SpacedRepetitionService {
         }
         studyDataCache.removeAll()
         for row in rows {
-            guard let mode = StudyMode(modeKey: row.studyModeRaw) else { continue }
-            let key = makeKey(wordId: row.wordId, mode: mode)
             var d = StudyCardData()
             d.easeFactor = row.easeFactor
             d.interval = row.interval
             d.repetitions = row.repetitions
             d.lastReviewDate = row.lastReviewDate
             d.nextReviewDate = row.nextReviewDate
-            studyDataCache[key] = d
+            studyDataCache[row.wordId] = d
         }
     }
 
-    private func persistRecord(wordId: String, mode: StudyMode, data: StudyCardData) {
+    private func persistRecord(wordId: String, data: StudyCardData) {
         guard let context = modelContext else {
             saveStudyData()
             return
         }
-        let modeRaw = modeKey(mode)
         let wid = wordId
         var descriptor = FetchDescriptor<SpacedRepetitionRecord>(
-            predicate: #Predicate<SpacedRepetitionRecord> { $0.wordId == wid && $0.studyModeRaw == modeRaw }
+            predicate: #Predicate<SpacedRepetitionRecord> { $0.wordId == wid }
         )
         descriptor.fetchLimit = 1
         if let existing = try? context.fetch(descriptor).first {
@@ -238,7 +223,6 @@ final class SpacedRepetitionService {
         } else {
             context.insert(SpacedRepetitionRecord(
                 wordId: wordId,
-                studyModeRaw: modeRaw,
                 easeFactor: data.easeFactor,
                 interval: data.interval,
                 repetitions: data.repetitions,
@@ -246,35 +230,31 @@ final class SpacedRepetitionService {
                 nextReviewDate: data.nextReviewDate
             ))
         }
-        try? context.save()
         NotificationCenter.default.post(name: .spacedRepetitionUpdated, object: nil)
     }
 
-    private func deleteRecord(wordId: String, mode: StudyMode) {
+    private func deleteRecord(wordId: String) {
         guard let context = modelContext else {
             saveStudyData()
             return
         }
-        let modeRaw = modeKey(mode)
         let wid = wordId
         var descriptor = FetchDescriptor<SpacedRepetitionRecord>(
-            predicate: #Predicate<SpacedRepetitionRecord> { $0.wordId == wid && $0.studyModeRaw == modeRaw }
+            predicate: #Predicate<SpacedRepetitionRecord> { $0.wordId == wid }
         )
         descriptor.fetchLimit = 1
         if let existing = try? context.fetch(descriptor).first {
             context.delete(existing)
-            try? context.save()
         }
         NotificationCenter.default.post(name: .spacedRepetitionUpdated, object: nil)
     }
 
     private func replaceAllRecordsInSwiftData(from cache: [String: StudyCardData], context: ModelContext) {
+        let normalized = normalizeLegacyCacheKeys(cache)
         try? SpacedRepetitionRecord.deleteAll(in: context)
-        for (key, data) in cache {
-            guard let (wordId, mode) = Self.parseStorageKey(key) else { continue }
+        for (wordId, data) in normalized {
             let row = SpacedRepetitionRecord(
                 wordId: wordId,
-                studyModeRaw: modeKey(mode),
                 easeFactor: data.easeFactor,
                 interval: data.interval,
                 repetitions: data.repetitions,
@@ -283,6 +263,6 @@ final class SpacedRepetitionService {
             )
             context.insert(row)
         }
-        try? context.save()
+        saveChanges()
     }
 }

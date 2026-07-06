@@ -309,6 +309,7 @@ struct StudyView: View {
         .toolbar(.hidden, for: .tabBar)
         .hidesBottomBarWhenPushed(true)
         .onDisappear {
+            SpacedRepetitionService.shared.saveChanges()
             guard viewModel.recordStudySessionMetricsIfNeeded() else { return }
             Task {
                 await requestReviewAfterStudySessionIfNeeded()

@@ -59,6 +59,7 @@ class DataService: ObservableObject {
         guard !didAttachSwiftData else { return }
         didAttachSwiftData = true
         MigrationManager.migrateLegacyUserDefaultsProgressToSwiftDataIfNeeded(context: context)
+        MigrationManager.consolidateSpacedRepetitionToSingleTrackIfNeeded(context: context)
         studyProgress.bind(modelContext: context)
         favorites.bind(modelContext: context)
         SpacedRepetitionService.shared.bind(modelContext: context)

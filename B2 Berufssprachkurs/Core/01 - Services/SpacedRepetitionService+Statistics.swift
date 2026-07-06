@@ -21,19 +21,9 @@ extension SpacedRepetitionService {
         var wordMaxRepetitions: [String: Int] = [:]
 
         for wordId in allWordIds {
-            var maxRepetitions = 0
-            var hasBeenReviewed = false
-
-            for mode in StudyMode.allCases {
-                let data = getStudyData(wordId: wordId, mode: mode)
-                if data.lastReviewDate != nil {
-                    hasBeenReviewed = true
-                    maxRepetitions = max(maxRepetitions, data.repetitions)
-                }
-            }
-
-            if hasBeenReviewed {
-                wordMaxRepetitions[wordId] = maxRepetitions
+            let data = getStudyData(wordId: wordId)
+            if data.lastReviewDate != nil {
+                wordMaxRepetitions[wordId] = data.repetitions
             }
         }
 

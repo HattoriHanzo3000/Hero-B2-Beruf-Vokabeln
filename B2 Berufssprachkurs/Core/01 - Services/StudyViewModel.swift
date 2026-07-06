@@ -75,8 +75,7 @@ final class StudyViewModel: ObservableObject {
     func advanceAfterAnswer(quality: Int) {
         guard currentIndex < studyItems.count else { return }
         let currentItem = studyItems[currentIndex]
-        let mode = studyMode(for: currentContentType)
-        spacedRepetition.recordStudyResult(wordId: currentItem.wordId, mode: mode, quality: quality)
+        spacedRepetition.recordStudyResult(wordId: currentItem.wordId, quality: quality)
 
         cardsAnswered += 1
 
@@ -104,17 +103,5 @@ final class StudyViewModel: ObservableObject {
         guard !studySessionMetricsRecorded else { return false }
         studySessionMetricsRecorded = true
         return cardsAnswered >= 3
-    }
-
-    /// Maps flashcard chip (``StudyCardContentType``) → spaced-repetition lane.
-    private func studyMode(for contentType: StudyCardContentType) -> StudyMode {
-        switch contentType {
-        case .synonym:
-            return .synonyms
-        case .explanation:
-            return .explanation
-        case .translation:
-            return .translations
-        }
     }
 }

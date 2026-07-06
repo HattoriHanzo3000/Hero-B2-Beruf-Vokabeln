@@ -126,8 +126,7 @@ extension SpacedRepetitionService {
     func restoreStudyDataFromBeforeDebugPresets() -> Bool {
         if let backup = userDefaults.data(forKey: debugStudyDataBackupKey),
            let decoded = try? JSONDecoder().decode([String: StudyCardData].self, from: backup) {
-            let filtered = decoded.filter { !$0.key.hasSuffix("_example") }
-            studyDataCache = filtered
+            studyDataCache = normalizeLegacyCacheKeys(decoded)
             userDefaults.removeObject(forKey: debugStudyDataBackupKey)
             userDefaults.removeObject(forKey: studyDataKey)
             saveStudyData()
@@ -184,14 +183,6 @@ extension SpacedRepetitionService {
     }
 
     private func writeDebugData(wordId: String, repetitions: Int, seed: Int) {
-        let mode: StudyMode
-        switch seed % 3 {
-        case 0: mode = .translations
-        case 1: mode = .synonyms
-        default: mode = .explanation
-        }
-
-        let key = makeKey(wordId: wordId, mode: mode)
         var data = StudyCardData()
         data.repetitions = repetitions
         data.interval = repetitions == 0 ? 0 : (repetitions * 3 + (seed % 2))
@@ -200,6 +191,6 @@ extension SpacedRepetitionService {
         let now = Date()
         data.lastReviewDate = Calendar.current.date(byAdding: .day, value: -(seed % 12), to: now)
         data.nextReviewDate = Calendar.current.date(byAdding: .day, value: max(0, data.interval), to: now)
-        studyDataCache[key] = data
+        studyDataCache[wordId] = data
     }
 }
