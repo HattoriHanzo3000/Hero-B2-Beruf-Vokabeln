@@ -49,9 +49,9 @@ enum WordOfTheDayResolver {
         periodicity == "12_hours" ? 12 : 24
     }
 
-    /// Number of future timeline entries to precompute (~two weeks of coverage).
+    /// Number of future timeline entries to precompute (~two months of coverage).
     static func timelineLookaheadPeriodCount(hoursPerPeriod: Int) -> Int {
-        hoursPerPeriod == 12 ? 28 : 14
+        hoursPerPeriod == 12 ? 120 : 60
     }
 
     static func periodIndex(
