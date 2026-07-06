@@ -15,11 +15,14 @@ enum WidgetWotdSyncBridge {
     private static var cachedWordsBySection: [String: [Word]]?
     private static var pendingSyncTask: Task<Void, Never>?
 
-    /// Defers widget sync until after the current run loop so launch UI is not blocked.
+    /// Defers widget sync until after entitlement sync so premium sections are not clamped to free tier.
     static func scheduleSyncOnAppActivation(modelContext: ModelContext) {
         pendingSyncTask?.cancel()
         pendingSyncTask = Task { @MainActor in
             await Task.yield()
+            guard !Task.isCancelled else { return }
+
+            await SubscriptionManager.shared.waitForInitialSubscriptionSync()
             guard !Task.isCancelled else { return }
 
             let descriptor = FetchDescriptor<WordProgress>()

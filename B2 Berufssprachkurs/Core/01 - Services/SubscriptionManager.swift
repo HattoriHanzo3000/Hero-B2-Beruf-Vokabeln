@@ -96,6 +96,20 @@ final class SubscriptionManager: ObservableObject {
         }
     }
 
+    /// Blocks until the first launch entitlement sync finishes so callers read a settled `isPremiumActive`.
+    func waitForInitialSubscriptionSync() async {
+        guard !hasCompletedInitialSubscriptionSync else { return }
+        await withCheckedContinuation { continuation in
+            var cancellable: AnyCancellable?
+            cancellable = $hasCompletedInitialSubscriptionSync
+                .first(where: { $0 })
+                .sink { _ in
+                    continuation.resume()
+                    cancellable?.cancel()
+                }
+        }
+    }
+
     // MARK: - RevenueCat
 
     private func setupRevenueCatSync() {
