@@ -13,8 +13,6 @@ struct StudySectionOriginHintControl: View {
     let accentColor: Color
     @Binding var isRevealed: Bool
 
-    @Environment(\.colorScheme) private var colorScheme
-
     private static let controlSize: CGFloat = 24
 
     private var badgeCaption: String {
@@ -43,17 +41,7 @@ struct StudySectionOriginHintControl: View {
             .accessibilityValue(isRevealed ? badgeCaption : "")
 
             if isRevealed {
-                Text(badgeCaption)
-                    .font(.system(size: 10, weight: .semibold, design: .rounded))
-                    .foregroundStyle(accentColor)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.65)
-                    .padding(.horizontal, 6)
-                    .frame(height: Self.controlSize)
-                    .background(
-                        Capsule(style: .continuous)
-                            .fill(accentColor.opacity(colorScheme == .dark ? 0.22 : 0.12))
-                    )
+                SectionContextBadge(caption: badgeCaption, accentColor: accentColor)
                     .transition(.opacity.combined(with: .scale(scale: 0.92)))
                     .accessibilityHidden(true)
             }
