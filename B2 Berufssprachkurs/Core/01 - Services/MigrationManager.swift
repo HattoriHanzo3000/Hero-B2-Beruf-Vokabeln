@@ -82,19 +82,22 @@ enum MigrationManager {
             grouped[row.wordId, default: []].append(row)
         }
 
-        var didChange = false
         for (_, records) in grouped where records.count > 1 {
             guard let winner = pickSwiftDataConsolidationWinner(from: records) else { continue }
             for record in records where record.persistentModelID != winner.persistentModelID {
                 context.delete(record)
-                didChange = true
             }
         }
 
-        if didChange {
-            try? context.save()
+        do {
+            if context.hasChanges {
+                try context.save()
+            }
+            defaults.set(true, forKey: spacedRepetitionSingleTrackConsolidationKey)
+        } catch {
+            print("Failed to save SRS consolidation: \(error)")
+            // Do NOT set the flag, so the migration can be retried on the next launch.
         }
-        defaults.set(true, forKey: spacedRepetitionSingleTrackConsolidationKey)
     }
 
     // MARK: - Legacy SRS key parsing

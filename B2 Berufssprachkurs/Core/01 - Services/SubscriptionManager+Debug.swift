@@ -8,6 +8,8 @@
 
 import Foundation
 
+#if DEBUG || LOGGING
+
 // MARK: - SubscriptionManager
 
 extension SubscriptionManager {
@@ -72,3 +74,5 @@ extension SubscriptionManager {
         print("SubscriptionManager: Reset to fresh install state")
     }
 }
+
+#endif
