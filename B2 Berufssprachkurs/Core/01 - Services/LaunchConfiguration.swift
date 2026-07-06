@@ -5,7 +5,7 @@
 //  DEBUG-only launch profiles driven by the HERO_LAUNCH_PROFILE scheme environment variable.
 //
 
-#if DEBUG
+#if DEBUG || LOGGING
 import Foundation
 
 // MARK: - Launch Configuration

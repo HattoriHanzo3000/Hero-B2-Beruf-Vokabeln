@@ -5,7 +5,7 @@
 //  DEBUG-only overrides for subscription state. Used by launch schemes and About → Debug.
 //
 
-#if DEBUG
+#if DEBUG || LOGGING
 import Foundation
 
 enum DebugOverrides {

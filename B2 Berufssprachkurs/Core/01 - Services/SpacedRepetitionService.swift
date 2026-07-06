@@ -25,6 +25,8 @@ final class SpacedRepetitionService {
     /// Set by ``bind(modelContext:)``; readable from extensions (e.g. debug presets).
     private(set) var modelContext: ModelContext?
 
+    private var saveTask: Task<Void, Never>?
+
     private init() {}
 
     // MARK: - Data Model
@@ -180,10 +182,24 @@ final class SpacedRepetitionService {
 
     /// Flushes pending SwiftData changes. Call at end of study sessions or when leaving the foreground.
     func saveChanges() {
+        saveTask?.cancel()
+        saveTask = nil
         try? modelContext?.save()
     }
 
     // MARK: - SwiftData
+
+    private func scheduleSave() {
+        saveTask?.cancel()
+        saveTask = Task {
+            do {
+                try await Task.sleep(for: .seconds(1.5))
+            } catch {
+                return
+            }
+            saveChanges()
+        }
+    }
 
     private func loadFromSwiftData() {
         guard let context = modelContext else { return }
@@ -231,6 +247,7 @@ final class SpacedRepetitionService {
             ))
         }
         NotificationCenter.default.post(name: .spacedRepetitionUpdated, object: nil)
+        scheduleSave()
     }
 
     private func deleteRecord(wordId: String) {
@@ -247,6 +264,7 @@ final class SpacedRepetitionService {
             context.delete(existing)
         }
         NotificationCenter.default.post(name: .spacedRepetitionUpdated, object: nil)
+        scheduleSave()
     }
 
     private func replaceAllRecordsInSwiftData(from cache: [String: StudyCardData], context: ModelContext) {

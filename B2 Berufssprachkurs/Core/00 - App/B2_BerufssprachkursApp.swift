@@ -27,7 +27,7 @@ struct B2_BerufssprachkursApp: App {
     // MARK: Initialization
 
     init() {
-#if DEBUG
+#if DEBUG || LOGGING
         LaunchConfiguration.applyIfNeeded()
 #endif
         let schema = Schema([
@@ -98,10 +98,12 @@ struct B2_BerufssprachkursApp: App {
                 AppGroupQuickAddBridge.consumePendingQuickAddIfNeeded()
                 NotificationManager.shared.cancelAllNotifications()
                 WidgetWotdSyncBridge.scheduleSyncOnAppActivation(modelContext: sharedModelContainer.mainContext)
-            case .background:
+            case .inactive, .background:
                 SpacedRepetitionService.shared.saveChanges()
-                NotificationManager.shared.scheduleRetentionNotification()
-            default:
+                if newPhase == .background {
+                    NotificationManager.shared.scheduleRetentionNotification()
+                }
+            @unknown default:
                 break
             }
         }

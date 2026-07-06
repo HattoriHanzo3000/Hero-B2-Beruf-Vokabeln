@@ -57,6 +57,10 @@ final class RevenueCatService: NSObject, ObservableObject {
             return
         }
 
+        if BuildLogging.isEnabled {
+            Purchases.logLevel = .debug
+        }
+
         Purchases.configure(
             with: Configuration.Builder(withAPIKey: apiKey)
                 .with(storeKitVersion: .storeKit2)
@@ -254,7 +258,7 @@ final class RevenueCatService: NSObject, ObservableObject {
 
     // MARK: - Debug Helpers
 
-    #if DEBUG
+    #if DEBUG || LOGGING
     func printCustomerInfo() {
         guard let customerInfo = customerInfo else {
             print("RevenueCatService: No customer info available")

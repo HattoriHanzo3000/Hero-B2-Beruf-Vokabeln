@@ -1,0 +1,11 @@
+// Release-Logging: Release optimizations with verbose in-app logging enabled.
+// Used by the "Hero Release Logging" scheme for on-device testing with the Xcode console attached.
+//
+// Pair with scheme settings:
+//   Run → Build Configuration: Release-Logging
+//   Run → Debug executable: ON (LLDB attached)
+
+#include "Shared.xcconfig"
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) LOGGING
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) LOGGING=1
